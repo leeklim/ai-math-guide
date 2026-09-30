@@ -19,7 +19,7 @@
 | `01-CURRICULUM.md` | 완료 | 2026-09-30 | 단원 ID와 학습 경로 |
 | `02-STYLE-AND-NOTATION.md` | 완료 | 2026-10-01 | 문체, 수학 표기와 실행 코드 규칙 |
 | `03-PROGRESS.md` | 완료 | 2026-10-01 | 현재 문서 |
-| `04-GLOSSARY.md` | 초안 | 2026-10-01 | 집필과 함께 확장 |
+| `04-GLOSSARY.md` | 완료 | 2026-10-01 | 638개 표준 용어, 중복 표제어 0개 |
 | `05-N05-ARCHITECTURE-BASELINE.md` | 완료 | 2026-10-01 | N05 아키텍처와 자료 선정 기준 |
 | `N05-ENVIRONMENT.md` | 완료 | 2026-10-01 | CPU 환경, 설치와 자원 예산 |
 | `GPU-ENVIRONMENT.md` | 완료 | 2026-10-01 | 분리된 CUDA 환경, Pythia cache·runner와 자원 예산 |
@@ -30,22 +30,22 @@
 
 | 단계 | 범위 | 상태 | 완료/전체 | 다음 작업 |
 |---|---|---|---:|---|
-| M00 | 수식 읽기 | 완료 | 10/10 | M01 완료 |
-| M01 | 변화와 미적분 | 완료 | 13/13 | M02 완료 |
-| M02 | 벡터와 행렬 | 완료 | 15/15 | M03 완료 |
-| M03 | 추상선형대수와 행렬미분 | 완료 | 15/15 | M04 완료 |
-| M04 | 확률·통계·정보이론 | 완료 | 17/17 | N05 선수지식 제공 |
-| N05 | 신경망과 Transformer | 완료 | 28/28 | Phase 3 GPU·Pythia 기반과 I06-01~03 |
-| I06 | 표현 해석 | 완료 | 15/15 | I07 완료 |
-| I07 | 귀인·인과·기계론 | 완료 | 17/17 | I08-01 checkpoint 연구 설계 |
-| I08 | 학습 동역학 | 완료 | 13/13 | A09-GEO-01 집필 |
-| A09-GEO | 미분기하학 | 완료 | 8/8 | A09-DYN-01 집필 |
-| A09-DYN | 동역학계·확률과정 | 완료 | 8/8 | A09-SYM-01 집필 |
-| A09-SYM | 군론·대칭성 | 완료 | 8/8 | A09-LRN-01 집필 |
-| A09-LRN | 통계학습이론 | 완료 | 8/8 | A09-KER-01 집필 |
-| A09-KER | Kernel·함수공간 | 완료 | 8/8 | A09-RMT-01 집필 |
-| A09-RMT | Random matrix | 완료 | 8/8 | A09-CAU-01 집필 |
-| A09-CAU | 고급 인과추론 | 완료 | 8/8 | 전체 통합 감사 |
+| M00 | 수식 읽기 | 완료 | 10/10 | 완료 |
+| M01 | 변화와 미적분 | 완료 | 13/13 | 완료 |
+| M02 | 벡터와 행렬 | 완료 | 15/15 | 완료 |
+| M03 | 추상선형대수와 행렬미분 | 완료 | 15/15 | 완료 |
+| M04 | 확률·통계·정보이론 | 완료 | 17/17 | 완료 |
+| N05 | 신경망과 Transformer | 완료 | 28/28 | 완료 |
+| I06 | 표현 해석 | 완료 | 15/15 | 완료 |
+| I07 | 귀인·인과·기계론 | 완료 | 17/17 | 완료 |
+| I08 | 학습 동역학 | 완료 | 13/13 | 완료 |
+| A09-GEO | 미분기하학 | 완료 | 8/8 | 완료 |
+| A09-DYN | 동역학계·확률과정 | 완료 | 8/8 | 완료 |
+| A09-SYM | 군론·대칭성 | 완료 | 8/8 | 완료 |
+| A09-LRN | 통계학습이론 | 완료 | 8/8 | 완료 |
+| A09-KER | Kernel·함수공간 | 완료 | 8/8 | 완료 |
+| A09-RMT | Random matrix | 완료 | 8/8 | 완료 |
+| A09-CAU | 고급 인과추론 | 완료 | 8/8 | 완료 |
 
 ## 현재 결정
 
@@ -79,6 +79,7 @@
 - A09-RMT는 문제·해설 32쌍으로 고차원 집중, random projection, sample covariance, Marchenko–Pastur bulk, spiked model과 weight·activation·Hessian spectrum을 다룬다. analytic·simulated null, subspace 안정성, task 복원과 intervention을 단계별 증거로 구분한다.
 - A09-CAU는 문제·해설 32쌍으로 SCM, do intervention, confounding·identifiability, mediation·potential outcome, causal abstraction과 내부 개입의 외적 타당성을 다룬다. circuit claim을 graph·unit·intervention·control·estimand·population 계약에 한정한다.
 - 제4부는 순차 교재가 아니라 선택 모듈이다.
+- 전권 199개 단원과 문제·해설 1,154쌍을 완료했다. source·nav·HTML의 ID·제목·개수, 선수지식, Common spoken reading, 수식, 링크, 해설 접기와 공개용 점검표 제거를 통합 검증했다.
 
 ## 미해결 결정
 
@@ -247,3 +248,4 @@
 | 2026-10-01 | A09-CAU-04~06 | natural mediation, potential outcome, causal abstraction과 문제·해설 12쌍 작성 | 외적 타당성·종합 실습 배치 |
 | 2026-10-01 | A09-CAU-07~08 | 내부 개입의 transport와 circuit 수준 인과 주장 분석 계약·문제 해설 8쌍 작성 | A09-CAU 모듈 감사 |
 | 2026-10-01 | A09-CAU 모듈 감사 | 8개 단원, 문제·해설 32쌍, 117개 test, 199개 HTML 페이지, broken link·asset·checklist 노출 0개와 첫·종합 단원 브라우저 검수 통과 | 전체 통합 감사 |
+| 2026-10-01 | 전권 통합 감사 | 199개 source·HTML, 문제·해설 1,154쌍, 용어 638개, 117개 test, CPU 예제 70개, Pythia 실험 10개, broken link·asset·checklist 노출 0개와 단계별·종합 단원 35개 브라우저 검수 통과 | 프로젝트 완료 |

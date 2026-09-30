@@ -77,7 +77,7 @@
 | 스칼라곱 | scalar multiplication | 두 벡터의 내적과 구분 | 벡터의 모든 성분에 같은 scalar를 곱하는 연산 | M02-01 |
 | 덧셈 역원 | additive inverse | 역수와 구분 | 원래 벡터와 더하면 영벡터가 되는 벡터 | M02-01 |
 | 행렬 | matrix | 표와 동일시하지 않음 | 선형사상의 좌표 표현 또는 수의 배열 | M00-09 |
-| shape | shape | dimension과 문맥상 구분 | 배열이나 행렬의 각 축 크기를 순서대로 적은 것 | M00-09 |
+| shape | shape, tensor shape | dimension과 문맥상 구분 | 배열이나 tensor의 각 axis 길이를 순서대로 적은 tuple | M00-09 |
 | dimension | dimension | 벡터의 노름과 구분 | 벡터의 독립 좌표 또는 성분의 수 | M00-09 |
 | 전치 | transpose | 역행렬과 구분 | 행과 열을 맞바꾸는 연산 | M00-09 |
 | 내적 | inner product, dot product | 원소별 곱과 구분 | 같은 dimension의 두 벡터를 스칼라로 보내는 연산 | M00-09 |
@@ -154,7 +154,7 @@
 | second differential | second differential | Hessian 좌표행렬과 구분 | 두 변화벡터를 이차 변화량으로 보내는 bilinear form | M03-12 |
 | 혼합편미분 | mixed partial derivative | 같은 변수의 이차 미분과 구분 | 서로 다른 입력좌표를 차례로 미분한 값 | M03-12 |
 | HVP | Hessian-vector product | 전체 Hessian과 구분 | Hessian을 한 방향벡터에 곱한 결과 | M03-12 |
-| Hessian spectrum | Hessian spectrum | 한 고유값과 구분 | Hessian 고유값들의 모음 | M03-12 |
+| Hessian spectrum | Hessian spectrum | 한 고유값·전역 loss landscape와 구분 | 한 파라미터 지점에서 계산한 Hessian 고유값들의 모음 | M03-12 |
 | JVP | Jacobian-vector product | 전체 Jacobian과 구분 | 입력 tangent를 출력 tangent로 보내는 Jacobian과 vector의 곱 | M03-13 |
 | VJP | vector-Jacobian product | JVP와 방향 구분 | 출력 cotangent를 입력 쪽으로 당기는 transpose Jacobian과 vector의 곱 | M03-13 |
 | tangent | tangent | 원래 입력값과 구분 | 지정한 입력 방향을 따라 전달되는 일차 변화량 | M03-13 |
@@ -292,7 +292,7 @@
 | 재매개화 | reparameterization | 모델 함수 변경과 동일시하지 않음 | 같은 모델족을 다른 파라미터 map으로 표현하는 일 | M03-15 |
 | 모델 대칭성 | model symmetry | 모든 파라미터 변화와 구분 | 파라미터를 바꾸면서 모든 입력에 대한 모델 함수를 보존하는 성질 | M03-15 |
 | symmetry transformation | symmetry transformation | 수동적 좌표변경과 구분 | 모델 함수를 보존하는 능동적 파라미터 변환 | M03-15 |
-| orbit | orbit | optimization trajectory와 구분 | 한 파라미터에 symmetry transformation을 적용해 얻는 동치류 | M03-15 |
+| orbit | orbit | optimization trajectory와 구분 | 한 대상에 허용된 모든 symmetry transformation을 적용해 얻는 집합 | M03-15 |
 | 함수 동치 | functional equivalence | 유한 sample에서 같은 출력과 구분 | 모든 허용 입력에서 두 parameterization의 출력 함수가 같은 관계 | M03-15 |
 | hidden-unit permutation | hidden-unit permutation | unit 하나만 이동하는 변환과 구분 | 인접 layer를 함께 바꿔 hidden unit 순서를 교환하는 symmetry | M03-15 |
 | 양의 scaling symmetry | positive scaling symmetry | 음의 배율과 구분 | ReLU의 양의 동차성을 이용해 들어오고 나가는 weight scale을 상쇄하는 symmetry | M03-15 |
@@ -490,7 +490,6 @@
 | 권장 표기 | 영어 | 피하거나 구분할 표현 | 짧은 뜻 | 최초 단원 |
 |---|---|---|---|---|
 | 축 | axis | vector 성분이나 matrix rank와 구분 | tensor 위치를 지정하는 독립 방향 | N05-01 |
-| shape | tensor shape | 수학적 차원 하나와 구분 | tensor의 각 axis 길이를 순서대로 적은 tuple | N05-01 |
 | dtype | data type | shape와 구분 | tensor 원소의 수치 표현 형식 | N05-01 |
 | device | device | 수학적 공간과 구분 | tensor가 저장되고 연산되는 CPU 또는 accelerator 위치 | N05-01 |
 | broadcasting | broadcasting | 값을 직접 복제하는 연산과 구분 | trailing axis가 호환될 때 tensor를 같은 shape처럼 계산하는 규칙 | N05-09 |
@@ -607,7 +606,6 @@
 | 함수 거리 | function distance | 파라미터 거리와 구분 | 지정 입력분포와 출력 metric에서 두 모델 행동의 차이 | I08-02 |
 | Procrustes 정렬 | orthogonal Procrustes alignment | 임의의 invertible 정렬과 구분 | 회전·반사로 두 representation의 대응 오차를 줄이는 정렬 | I08-03 |
 | gradient flow | gradient flow | finite-step optimizer와 동일하지 않음 | loss의 음의 gradient를 속도로 삼는 연속시간 동역학 | I08-04 |
-| Hessian spectrum | Hessian spectrum | 전역 loss landscape와 구분 | 한 파라미터 지점의 Hessian eigenvalue 모음 | I08-06 |
 | mode connectivity | mode connectivity | 실제 학습 경로와 구분 | 낮은 loss를 유지하는 parameter path로 해들이 연결되는 현상 | I08-07 |
 | influence function | influence function | exact leave-one-out retraining과 구분 | data weight의 미소 변화가 최적점과 prediction에 미치는 국소 근사 | I08-08 |
 | feature emergence | feature emergence | probe score 상승 하나와 동일시하지 않음 | 학습 중 feature의 형성·복원·사용·행동 증거가 나타나는 과정 | I08-09 |
@@ -643,16 +641,12 @@
 | diffusion approximation | diffusion approximation | finite-step optimizer의 정확한 복제와 구분 | 작은 step의 stochastic update를 SDE로 나타내는 근사 | A09-DYN-07 |
 | 군 | group | 임의의 변환 모음과 구분 | 결합법칙·항등원·역원을 갖는 닫힌 연산 구조 | A09-SYM-01 |
 | 군 작용 | group action | group 자체와 구분 | group element가 대상의 변환으로 일관되게 작용하는 규칙 | A09-SYM-01 |
-| orbit | orbit | trajectory와 구분 | 한 대상에 모든 group element를 작용해 얻는 집합 | A09-SYM-02 |
 | stabilizer | stabilizer | orbit와 구분 | 지정 대상을 고정하는 group element의 subgroup | A09-SYM-02 |
-| 불변성 | invariance | equivariance와 구분 | input action 뒤에도 output이 변하지 않는 성질 | A09-SYM-03 |
-| equivariance | equivariance | invariance와 구분 | input action이 대응하는 output action으로 옮겨지는 성질 | A09-SYM-03 |
 | gauge freedom | gauge freedom | 기능 차이와 구분 | observable을 바꾸지 않는 redundant coordinate freedom | A09-SYM-05 |
 | 선형 표현 | linear representation | hidden representation과 구분 | group multiplication을 invertible linear map의 합성으로 보존하는 map | A09-SYM-06 |
 | irreducible representation | irreducible representation | 1차원 component와 동일하지 않음 | nonzero proper invariant subspace가 없는 linear representation | A09-SYM-06 |
 | symmetry-aligned distance | symmetry-aligned distance | raw coordinate distance와 구분 | 허용 symmetry transformation에 대해 최소화한 두 대상의 거리 | A09-SYM-07 |
 | hypothesis class | hypothesis class | learning algorithm과 구분 | 학습 algorithm이 선택할 수 있는 predictor의 집합 | A09-LRN-01 |
-| population risk | population risk | empirical risk와 구분 | target distribution에서의 expected loss | A09-LRN-01 |
 | generalization gap | generalization gap | distribution shift와 구분 | population risk와 training empirical risk의 차이 | A09-LRN-03 |
 | shattering | shattering | training set fitting 하나와 구분 | finite point set의 모든 binary labeling을 class가 실현하는 성질 | A09-LRN-04 |
 | VC dimension | Vapnik–Chervonenkis dimension | parameter 수와 동일하지 않음 | class가 shatter할 수 있는 최대 point 수 | A09-LRN-04 |

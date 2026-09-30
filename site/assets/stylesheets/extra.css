@@ -1,0 +1,76 @@
+:root {
+  --mmi-reading-width: 78rem;
+}
+
+.md-grid {
+  max-width: var(--mmi-reading-width);
+}
+
+.md-typeset {
+  font-family: Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  line-height: 1.75;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 {
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+.md-typeset h1 {
+  margin-bottom: 1.25rem;
+}
+
+.md-typeset table:not([class]) {
+  font-size: 0.78rem;
+}
+
+.md-typeset__table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.md-typeset .arithmatex {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.md-typeset details {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.35rem;
+  padding: 0.2rem 0.85rem 0.75rem;
+}
+
+.md-typeset details > summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.55rem 0;
+}
+
+.search-alias {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media screen and (max-width: 44.984375em) {
+  .md-typeset {
+    line-height: 1.68;
+    word-break: normal;
+  }
+
+  .md-typeset table:not([class]) {
+    font-size: 0.72rem;
+  }
+}

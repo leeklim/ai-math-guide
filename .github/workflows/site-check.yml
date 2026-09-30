@@ -1,0 +1,36 @@
+name: Private review site build check
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install pinned dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Audit canonical Markdown
+        run: python scripts/site.py audit
+
+      - name: Prepare generated source
+        run: python scripts/site.py prepare
+
+      - name: Build production HTML
+        run: python -m mkdocs build --strict --clean --config-file .build/mkdocs.yml
+
+      - name: Validate generated site
+        run: python scripts/site.py validate

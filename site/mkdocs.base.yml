@@ -1,0 +1,55 @@
+site_name: 모델 해석을 위한 수학과 방법론
+site_description: AI 논문 독해와 모델 해석 실험을 위한 수학 교육과정
+site_url: https://leeklim.github.io/ai-math-guide/
+strict: true
+use_directory_urls: true
+
+theme:
+  name: material
+  language: ko
+  features:
+    - navigation.sections
+    - navigation.path
+    - navigation.footer
+    - navigation.top
+    - navigation.tracking
+    - toc.follow
+    - search.suggest
+    - search.highlight
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: 어두운 화면으로 전환
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: 밝은 화면으로 전환
+
+plugins:
+  - search
+
+markdown_extensions:
+  - meta
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.details
+  - pymdownx.superfences
+
+extra_css:
+  - assets/stylesheets/extra.css
+
+extra_javascript:
+  - assets/javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js

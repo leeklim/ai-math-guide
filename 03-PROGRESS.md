@@ -39,7 +39,7 @@
 | I06 | 표현 해석 | 완료 | 15/15 | I07 완료 |
 | I07 | 귀인·인과·기계론 | 완료 | 17/17 | I08-01 checkpoint 연구 설계 |
 | I08 | 학습 동역학 | 완료 | 13/13 | A09-GEO-01 집필 |
-| A09-GEO | 미분기하학 | 계획 | 0/8 | 선택 |
+| A09-GEO | 미분기하학 | 완료 | 8/8 | A09-DYN-01 집필 |
 | A09-DYN | 동역학계·확률과정 | 계획 | 0/8 | 선택 |
 | A09-SYM | 군론·대칭성 | 계획 | 0/8 | 선택 |
 | A09-LRN | 통계학습이론 | 계획 | 0/8 | 선택 |
@@ -71,6 +71,7 @@
 - I07 실제 모델 gate는 Pythia-160M layer 5 MLP 마지막-token activation patch 하나이며, France/Germany 대비에서 Paris–Berlin logit recovery 0.0625를 원시 결과 그대로 보고한다.
 - I08은 문제·해설 78쌍과 CPU 예제 13개로 checkpoint 계약, 파라미터·함수 거리, alignment, optimizer dynamics, Hessian, loss path, influence, feature emergence와 데이터 귀인을 재현한다.
 - I08 실제 모델 gate는 Pythia-160M의 `step0`, `step1000`, `step10000`, `step50000`, `step100000`, `step143000`을 한 번에 하나씩 적재한다. 고정 8개 prompt에서 target first-token NLL은 10.91에서 2.74로 낮아졌지만 condition probe는 step0부터 1.0이고 zero-ablation margin effect는 비단조이므로 세 지표를 하나의 feature emergence로 합치지 않는다.
+- A09-GEO는 문제·해설 32쌍으로 manifold, tangent·cotangent, metric, pullback, geodesic, curvature와 activation point-cloud 분석의 한계를 다룬다. projection의 시각적 굽음과 intrinsic curvature를 구분하고, metric·neighborhood·null control을 분석 계약에 포함한다.
 - 제4부는 순차 교재가 아니라 선택 모듈이다.
 
 ## 미해결 결정
@@ -212,3 +213,7 @@
 | 2026-10-01 | I08-10~11 | grokking transition의 측정 한계, paired seed·data-order 설계 설명·CPU 예제 2개·문제 해설 12쌍 작성 | 데이터 귀인·종합 실습 배치 |
 | 2026-10-01 | I08-12~13 | TracIn 데이터 귀인과 feature 생애 보고서·CPU 예제 2개·Pythia-160M 여섯 checkpoint·문제 해설 12쌍 작성 | I08 단계 감사 |
 | 2026-10-01 | I08 단계 감사 | 13개 단원, 문제·해설 78쌍, CPU 예제 13개, Pythia-160M 여섯 checkpoint manifest, 117개 test, 143개 HTML 페이지와 broken link·checklist 노출 0개 검증 | A09-GEO-01 집필 |
+| 2026-10-01 | A09-GEO-01~03 | manifold·local coordinate, tangent·cotangent space, Riemannian metric·curve length 설명과 문제·해설 12쌍 작성 | pullback·geodesic 배치 |
+| 2026-10-01 | A09-GEO-04~06 | Jacobian pullback metric, connection·geodesic, intrinsic·extrinsic curvature 설명과 문제·해설 12쌍 작성 | 분석 함정·종합 실습 배치 |
+| 2026-10-01 | A09-GEO-07~08 | activation manifold 추정의 함정과 국소 표현 기하 분석 계약·문제 해설 8쌍 작성 | A09-GEO 모듈 감사 |
+| 2026-10-01 | A09-GEO 모듈 감사 | 8개 단원, 문제·해설 32쌍, 117개 test, 151개 HTML 페이지, broken link·asset·checklist 노출 0개와 첫·수식·종합 단원 브라우저 검수 통과 | A09-DYN-01 집필 |

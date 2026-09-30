@@ -43,6 +43,13 @@ STAGE_TITLES = {
     "I06": "I06 표현 해석",
     "I07": "I07 귀인·인과·기계론",
     "I08": "I08 학습 동역학",
+    "A09-GEO": "A09-GEO 미분기하학과 표현공간",
+    "A09-DYN": "A09-DYN 동역학계와 확률과정",
+    "A09-SYM": "A09-SYM 군론·대칭성과 표현 정렬",
+    "A09-LRN": "A09-LRN 통계학습이론",
+    "A09-KER": "A09-KER Kernel·함수공간·operator",
+    "A09-RMT": "A09-RMT Random matrix·고차원 통계",
+    "A09-CAU": "A09-CAU 고급 인과추론",
 }
 
 N05_PLANNED_COUNT = 28
@@ -51,6 +58,13 @@ POST_N05_STAGE_SPECS = {
     "I06": {"part": 3, "planned_count": 15, "directory": "part-3-interpretability/I06"},
     "I07": {"part": 3, "planned_count": 17, "directory": "part-3-interpretability/I07"},
     "I08": {"part": 3, "planned_count": 13, "directory": "part-3-interpretability/I08"},
+    "A09-GEO": {"part": 4, "planned_count": 8, "directory": "part-4-advanced/A09-GEO"},
+    "A09-DYN": {"part": 4, "planned_count": 8, "directory": "part-4-advanced/A09-DYN"},
+    "A09-SYM": {"part": 4, "planned_count": 8, "directory": "part-4-advanced/A09-SYM"},
+    "A09-LRN": {"part": 4, "planned_count": 8, "directory": "part-4-advanced/A09-LRN"},
+    "A09-KER": {"part": 4, "planned_count": 8, "directory": "part-4-advanced/A09-KER"},
+    "A09-RMT": {"part": 4, "planned_count": 8, "directory": "part-4-advanced/A09-RMT"},
+    "A09-CAU": {"part": 4, "planned_count": 8, "directory": "part-4-advanced/A09-CAU"},
 }
 GPU_EXPERIMENT_REGISTRY_PATH = ROOT / "labs" / "real_models" / "experiments.json"
 GPU_MODEL_REGISTRY_PATH = ROOT / "labs" / "real_models" / "models.json"
@@ -237,6 +251,10 @@ def lint_english_readings(
             (path, read_text(path))
             for path in sorted(ROOT.glob("part-3-interpretability/I??/I??-*.md"))
         ]
+        post_n05_sources.extend(
+            (path, read_text(path))
+            for path in sorted(ROOT.glob("part-4-advanced/A09-*/A09-*-*.md"))
+        )
         sources = foundation_sources + n05_sources + post_n05_sources
 
     issues: list[str] = []
@@ -1124,7 +1142,12 @@ def validate() -> None:
             f"expected={len(n05_lessons)}"
         )
     post_nav_paths = [
-        path for path in nav_paths if re.match(r"part-3-interpretability/I0[6-8]/I0[6-8]-", path)
+        path
+        for path in nav_paths
+        if any(
+            path.startswith(f"{spec['directory']}/{stage}-")
+            for stage, spec in POST_N05_STAGE_SPECS.items()
+        )
     ]
     if len(post_nav_paths) != len(post_n05_lessons) or len(set(post_nav_paths)) != len(post_n05_lessons):
         issues.append(

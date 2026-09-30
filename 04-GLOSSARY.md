@@ -615,3 +615,19 @@
 | 데이터 귀인 | data attribution | 입력 feature 귀인과 구분 | prediction과 관련된 training example의 학습 영향도를 추정하는 분석 | I08-12 |
 | TracIn | TracIn | removal retraining의 정답과 구분 | 여러 checkpoint의 training·test gradient 정렬을 합하는 데이터 귀인 방법 | I08-12 |
 | 식별가능성 | identifiability | 재현성과 구분 | 관찰 가능한 함수나 분포로부터 파라미터를 유일하게 정할 수 있는 성질 | M03-15 |
+
+## 고급 이론
+
+| 권장 표기 | 영어 | 피하거나 구분할 표현 | 짧은 뜻 | 최초 단원 |
+|---|---|---|---|---|
+| 다양체 | manifold | 유한한 point cloud 자체와 동일시하지 않음 | 각 점 근처가 Euclidean space처럼 보이는 위상공간 | A09-GEO-01 |
+| 좌표 chart | coordinate chart | manifold 자체와 구분 | manifold의 열린 영역을 Euclidean coordinate로 나타내는 map | A09-GEO-01 |
+| tangent space | tangent space | ambient space 전체와 구분 | 한 점에서 가능한 curve velocity가 이루는 vector space | A09-GEO-02 |
+| cotangent space | cotangent space | tangent space와 동일시하지 않음 | tangent vector를 scalar로 보내는 linear functional의 공간 | A09-GEO-02 |
+| Riemannian metric | Riemannian metric | 점 사이의 거리 함수만을 뜻하지 않음 | 각 tangent space에 smooth한 inner product를 배정한 구조 | A09-GEO-03 |
+| pullback metric | pullback metric | 입력공간의 유일한 metric이 아님 | map의 출력 변화량을 입력 tangent vector의 길이로 옮긴 metric | A09-GEO-04 |
+| connection | connection | 좌표별 단순 뺄셈과 구분 | 서로 다른 점의 tangent vector 변화와 이동을 비교하는 규칙 | A09-GEO-05 |
+| geodesic | geodesic | 항상 전역 최단 경로인 것은 아님 | covariant acceleration이 0인 curve | A09-GEO-05 |
+| intrinsic curvature | intrinsic curvature | embedding의 시각적 굽음과 구분 | manifold 내부 metric만으로 정해지는 curvature | A09-GEO-06 |
+| extrinsic curvature | extrinsic curvature | intrinsic curvature와 구분 | manifold가 ambient space 안에서 굽는 방식 | A09-GEO-06 |
+| local PCA | local principal component analysis | manifold 증명과 구분 | neighborhood covariance의 leading subspace로 tangent space를 근사하는 방법 | A09-GEO-07 |

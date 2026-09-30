@@ -651,3 +651,11 @@
 | 선형 표현 | linear representation | hidden representation과 구분 | group multiplication을 invertible linear map의 합성으로 보존하는 map | A09-SYM-06 |
 | irreducible representation | irreducible representation | 1차원 component와 동일하지 않음 | nonzero proper invariant subspace가 없는 linear representation | A09-SYM-06 |
 | symmetry-aligned distance | symmetry-aligned distance | raw coordinate distance와 구분 | 허용 symmetry transformation에 대해 최소화한 두 대상의 거리 | A09-SYM-07 |
+| hypothesis class | hypothesis class | learning algorithm과 구분 | 학습 algorithm이 선택할 수 있는 predictor의 집합 | A09-LRN-01 |
+| population risk | population risk | empirical risk와 구분 | target distribution에서의 expected loss | A09-LRN-01 |
+| generalization gap | generalization gap | distribution shift와 구분 | population risk와 training empirical risk의 차이 | A09-LRN-03 |
+| shattering | shattering | training set fitting 하나와 구분 | finite point set의 모든 binary labeling을 class가 실현하는 성질 | A09-LRN-04 |
+| VC dimension | Vapnik–Chervonenkis dimension | parameter 수와 동일하지 않음 | class가 shatter할 수 있는 최대 point 수 | A09-LRN-04 |
+| Rademacher complexity | Rademacher complexity | random-label accuracy와 구분 | sample에서 random sign을 맞추는 function class의 기대 능력 | A09-LRN-05 |
+| PAC learning | probably approximately correct learning | prediction confidence와 구분 | 허용 error와 failure probability로 표현한 distribution-free 학습 보장 | A09-LRN-06 |
+| sample complexity | sample complexity | 실행시간 복잡도와 구분 | 지정 accuracy·confidence guarantee에 필요한 sample 수 | A09-LRN-06 |

@@ -39,14 +39,14 @@ estimated_time: "145~170분"
 
 ## 기호와 용어
 
-| 표기·용어 | 읽는 법 | 의미 | support·조건 |
+| 표기·용어 | Common spoken reading | 의미 | support·조건 |
 |---|---|---|---|
-| $X\sim\operatorname{Bernoulli}(p)$ | 엑스는 파라미터 피의 베르누이 분포를 따른다 | 한 번의 binary 시행 | $X\in\{0,1\}$, $0\le p\le1$ |
-| $Y\sim\operatorname{Categorical}(\boldsymbol\pi)$ | 와이는 파라미터 파이의 범주형 분포를 따른다 | $K$개 범주 중 하나를 고르는 분포 | $Y\in\{1,\ldots,K\}$ |
-| $S\sim\operatorname{Binomial}(n,p)$ | 에스는 이항분포를 따른다 | 독립 Bernoulli 시행 $n$번의 성공 횟수 | $S\in\{0,\ldots,n\}$ |
-| $X\sim\mathcal N(\mu,\sigma^2)$ | 평균 뮤, 분산 시그마 제곱의 정규분포 | 종 모양의 연속분포 | $X\in\mathbb R$, $\sigma>0$ |
-| $\boldsymbol\pi$ | 파이 vector | categorical class 확률 | $\pi_k\ge0$, $\sum_k\pi_k=1$ |
-| $\binom ns$ | 엔 초이스 에스 | $n$개 위치에서 성공 $s$개를 고르는 경우의 수 | $0\le s\le n$ |
+| $X\sim\operatorname{Bernoulli}(p)$ | `X follows a Bernoulli distribution with parameter p` | 한 번의 binary 시행 | $X\in\{0,1\}$, $0\le p\le1$ |
+| $Y\sim\operatorname{Categorical}(\boldsymbol\pi)$ | `Y follows a categorical distribution with parameter pi` | $K$개 범주 중 하나를 고르는 분포 | $Y\in\{1,\ldots,K\}$ |
+| $S\sim\operatorname{Binomial}(n,p)$ | `S follows a binomial distribution with parameters n and p` | 독립 Bernoulli 시행 $n$번의 성공 횟수 | $S\in\{0,\ldots,n\}$ |
+| $X\sim\mathcal N(\mu,\sigma^2)$ | `X is normally distributed with mean mu and variance sigma squared` | 종 모양의 연속분포 | $X\in\mathbb R$, $\sigma>0$ |
+| $\boldsymbol\pi$ | `pi` | categorical class 확률 | $\pi_k\ge0$, $\sum_k\pi_k=1$ |
+| $\binom ns$ | `n choose s` | $n$개 위치에서 성공 $s$개를 고르는 경우의 수 | $0\le s\le n$ |
 
 ## 핵심 개념 1. Bernoulli 분포는 한 번의 binary 결과를 나타낸다
 
@@ -452,3 +452,4 @@ binary 정답 여부에는 $\{0,1\}$을 support로 갖는 Bernoulli 분포를 �
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 선수지식 밖의 내용을 몰래 요구하지 않는다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

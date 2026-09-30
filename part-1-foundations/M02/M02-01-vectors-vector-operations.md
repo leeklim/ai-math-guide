@@ -39,14 +39,14 @@ estimated_time: "90~110분"
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | shape·범위 |
+| 기호·용어 | Common spoken reading | 의미 | shape·범위 |
 |---|---|---|---|
-| $\mathbf v$ | 굵은 브이 | 벡터 | 이 단원에서는 주로 $\mathbf v\in\mathbb R^n$ |
-| $v_i$ | 브이 아래 아이 | $\mathbf v$의 $i$번째 성분 | $v_i\in\mathbb R$ |
-| $n$ | 엔 | 벡터의 dimension | 양의 정수 |
-| $\mathbf 0$ | 영벡터 | 모든 성분이 0인 벡터 | 문맥에 맞는 dimension |
-| $\alpha$ | 알파 | 벡터에 곱하는 스칼라 | $\alpha\in\mathbb R$ |
-| $-\mathbf v$ | 마이너스 굵은 브이 | $\mathbf v$의 덧셈 역원 | $\mathbf v$와 같은 dimension |
+| $\mathbf v$ | `v` | 벡터 | 이 단원에서는 주로 $\mathbf v\in\mathbb R^n$ |
+| $v_i$ | `v sub i` | $\mathbf v$의 $i$번째 성분 | $v_i\in\mathbb R$ |
+| $n$ | `n` | 벡터의 dimension | 양의 정수 |
+| $\mathbf 0$ | `the zero vector` | 모든 성분이 0인 벡터 | 문맥에 맞는 dimension |
+| $\alpha$ | `alpha` | 벡터에 곱하는 스칼라 | $\alpha\in\mathbb R$ |
+| $-\mathbf v$ | `minus v` | $\mathbf v$의 덧셈 역원 | $\mathbf v$와 같은 dimension |
 
 ## 핵심 개념 1. 벡터는 순서가 있는 성분으로 표현한다
 
@@ -535,3 +535,4 @@ $\mathbf h,\mathbf r\in\mathbb R^{768}$이고 $\mathbf h_{\mathrm{new}}=\mathbf 
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 선수지식 밖의 내적과 노름 계산을 요구하지 않는다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

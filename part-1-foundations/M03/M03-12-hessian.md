@@ -44,14 +44,14 @@ gradient, quadratic form이나 Jacobian이 불분명하면 선수 단원을 먼�
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | shape |
+| 기호·용어 | Common spoken reading | 의미 | shape |
 |---|---|---|---|
-| $f:\mathbb R^n\to\mathbb R$ | 에프 | scalar 출력 함수 | loss 등 |
-| $\mathbf H_f(\mathbf x)$ | 엑스에서의 에프 Hessian | $f$의 이차 편미분 행렬 | $n\times n$ |
-| $H_{ij}$ | 에이치 아이 제이 | $\partial^2f/\partial x_i\partial x_j$ | scalar |
-| $d^2f_{\mathbf x}$ | 엑스에서의 이차 differential | 두 변화벡터를 scalar로 보내는 bilinear form | order 2 |
-| $\mathbf v^\top\mathbf H_f\mathbf v$ | 브이 전치 에이치 브이 | $\mathbf v$ 방향의 이차 변화율 | scalar |
-| HVP | 에이치 브이 피 | Hessian-vector product | $\mathbf H_f(\mathbf x)\mathbf v$ |
+| $f:\mathbb R^n\to\mathbb R$ | `f maps R to the n into R` | scalar 출력 함수 | loss 등 |
+| $\mathbf H_f(\mathbf x)$ | `the Hessian of f at x` | $f$의 이차 편미분 행렬 | $n\times n$ |
+| $H_{ij}$ | `H sub i j` | $\partial^2f/\partial x_i\partial x_j$ | scalar |
+| $d^2f_{\mathbf x}$ | `the second differential of f at x` | 두 변화벡터를 scalar로 보내는 bilinear form | order 2 |
+| $\mathbf v^\top\mathbf H_f\mathbf v$ | `v transpose H sub f v` | $\mathbf v$ 방향의 이차 변화율 | scalar |
+| HVP | `H V P` | Hessian-vector product | $\mathbf H_f(\mathbf x)\mathbf v$ |
 
 activation 행렬과 구분해야 할 때 본문에서 $\mathbf H_f$를 Hessian이라고 병기한다.
 
@@ -736,3 +736,4 @@ $r=\mathbf a^\top\boldsymbol\theta-b$라 하면
 - [x] 모델 해석 주장의 강도를 구분했다.
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

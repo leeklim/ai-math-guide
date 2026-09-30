@@ -30,6 +30,7 @@
 - 각 단원은 선수지식, 개념, 예제, 문제, 해설과 통과 기준을 갖는다.
 - 제2부부터 실행 가능한 실습을 추가한다.
 - 용어와 수학 표기는 프로젝트 전체에서 통일한다.
+- `기호와 용어` 표의 Common spoken reading은 실제 영어 학술 발화로 쓰고 자동 검사한다.
 - 새로운 단원을 완료할 때마다 진행표와 용어집을 갱신한다.
 
 ## 현재 상태
@@ -47,7 +48,7 @@ py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-production build와 검증을 실행한다.
+자동 검사 테스트, 원본 감사, production build와 생성물 검증을 한 번에 실행한다.
 
 ```powershell
 .\scripts\build_site.ps1

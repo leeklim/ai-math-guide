@@ -39,17 +39,17 @@ estimated_time: "145~175분"
 
 ## 기호와 용어
 
-| 표기·용어 | 읽는 법 | 의미 | 범위 |
+| 표기·용어 | Common spoken reading | 의미 | 범위 |
 |---|---|---|---|
-| $P$ | 모집단 분포 피 | 추론하려는 대상 집단의 확률분포 | target population |
-| $X_1,\ldots,X_n$ | 확률표본 | 표본을 뽑기 전 random variables | 보통 $X_i\sim P$ |
-| $x_1,\ldots,x_n$ | 관측 sample | 한 번 뽑아 얻은 값 | 고정된 데이터 |
-| $\theta$ | 모수 세타 | 모집단 분포의 고정되지만 모르는 특성 | 예: $\mu$, $\sigma^2$ |
-| $T=t(X_1,\ldots,X_n)$ | 통계량 티 | 확률표본의 함수 | random variable |
-| $t=t(x_1,\ldots,x_n)$ | 관측 통계량 | 관측 sample에서 계산한 수 | 고정값 |
-| $\bar X$ | 엑스 바 | 표본평균 통계량 | $n^{-1}\sum_iX_i$ |
-| $s^2$ | 에스 제곱 | 관측 sample의 표본분산 | $(n-1)^{-1}\sum_i(x_i-\bar x)^2$ |
-| $\operatorname{SE}(T)$ | 티의 표준오차 | 통계량 sampling distribution의 표준편차 | 통계량과 같은 단위 |
+| $P$ | `P` | 추론하려는 대상 집단의 확률분포 | target population |
+| $X_1,\ldots,X_n$ | `X one through X n` | 표본을 뽑기 전 random variables | 보통 $X_i\sim P$ |
+| $x_1,\ldots,x_n$ | `x one through x n` | 한 번 뽑아 얻은 값 | 고정된 데이터 |
+| $\theta$ | `theta` | 모집단 분포의 고정되지만 모르는 특성 | 예: $\mu$, $\sigma^2$ |
+| $T=t(X_1,\ldots,X_n)$ | `T equals t of X one through X n` | 확률표본의 함수 | random variable |
+| $t=t(x_1,\ldots,x_n)$ | `t equals t of x one through x n` | 관측 sample에서 계산한 수 | 고정값 |
+| $\bar X$ | `X bar` | 표본평균 통계량 | $n^{-1}\sum_iX_i$ |
+| $s^2$ | `s squared` | 관측 sample의 표본분산 | $(n-1)^{-1}\sum_i(x_i-\bar x)^2$ |
+| $\operatorname{SE}(T)$ | `the standard error of T` | 통계량 sampling distribution의 표준편차 | 통계량과 같은 단위 |
 
 ## 핵심 개념 1. 모집단은 추론 대상이고 표본은 관측한 일부이다
 
@@ -444,3 +444,4 @@ population standard deviation이 $12$이다. 표본평균의 표준오차를 3 �
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 선수지식 밖의 내용을 몰래 요구하지 않는다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

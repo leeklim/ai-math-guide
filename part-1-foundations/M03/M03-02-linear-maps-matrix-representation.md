@@ -41,14 +41,14 @@ estimated_time: "115~140분"
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | 조건 |
+| 기호·용어 | Common spoken reading | 의미 | 조건 |
 |---|---|---|---|
-| $T:V\to W$ | 티는 브이에서 더블유로 | 정의역 $V$의 벡터를 공역 $W$의 벡터로 보내는 사상 | 이 단원에서는 선형사상 |
-| $\mathcal B=(\mathbf b_1,\ldots,\mathbf b_n)$ | 기저 비 | $V$의 순서 있는 기저 | $\dim V=n$ |
-| $\mathcal C=(\mathbf c_1,\ldots,\mathbf c_m)$ | 기저 시 | $W$의 순서 있는 기저 | $\dim W=m$ |
-| $[T]_{\mathcal C\leftarrow\mathcal B}$ | 비 좌표에서 시 좌표로 가는 티의 행렬 | $T$의 기저별 행렬 표현 | $\mathbb R^{m\times n}$ |
-| $\ker T$ | 티의 커널 | $T(\mathbf v)=\mathbf 0_W$가 되는 입력의 집합 | $V$의 부분공간 |
-| $\operatorname{im}T$ | 티의 이미지 | 가능한 모든 출력의 집합 | $W$의 부분공간 |
+| $T:V\to W$ | `T maps V to W` | 정의역 $V$의 벡터를 공역 $W$의 벡터로 보내는 사상 | 이 단원에서는 선형사상 |
+| $\mathcal B=(\mathbf b_1,\ldots,\mathbf b_n)$ | `the basis B consisting of b one through b n` | $V$의 순서 있는 기저 | $\dim V=n$ |
+| $\mathcal C=(\mathbf c_1,\ldots,\mathbf c_m)$ | `the basis C consisting of c one through c m` | $W$의 순서 있는 기저 | $\dim W=m$ |
+| $[T]_{\mathcal C\leftarrow\mathcal B}$ | `the matrix of T from the basis B to the basis C` | $T$의 기저별 행렬 표현 | $\mathbb R^{m\times n}$ |
+| $\ker T$ | `the kernel of T` | $T(\mathbf v)=\mathbf 0_W$가 되는 입력의 집합 | $V$의 부분공간 |
+| $\operatorname{im}T$ | `the image of T` | 가능한 모든 출력의 집합 | $W$의 부분공간 |
 
 화살표 $\mathcal C\leftarrow\mathcal B$는 입력 좌표가 $\mathcal B$이고 출력 좌표가 $\mathcal C$라는 뜻이다.
 
@@ -590,3 +590,4 @@ $T$가 먼저 적용되므로
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 선수지식 밖의 내용을 몰래 요구하지 않는다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

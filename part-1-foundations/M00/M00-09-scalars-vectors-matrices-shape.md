@@ -47,16 +47,16 @@ $x_i$는 $i$번째 값이고, $a_{ij}$는 두 인덱스로 위치를 구분한�
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | shape |
+| 기호·용어 | Common spoken reading | 의미 | shape |
 |---|---|---|---|
-| $x\in\mathbb R$ | 엑스는 실수 | 스칼라 하나 | 스칼라, 축 없음 |
-| $\mathbf x\in\mathbb R^n$ | 굵은 엑스는 엔차원 실수벡터 | 성분 $n$개인 벡터 | 이론에서 열벡터 $n\times1$ |
-| $\mathbf A\in\mathbb R^{m\times n}$ | 굵은 에이는 엠 행 엔 열 실수행렬 | 행 $m$개, 열 $n$개인 행렬 | $m\times n$ |
-| $a_{ij}$ | 에이 아래 아이 제이 | $\mathbf A$의 $i$행 $j$열 원소 | 스칼라 |
-| $\mathbf A^\top$ | 에이 전치 | 행과 열을 바꾼 행렬 | $n\times m$ |
-| $d$ | 디 | vector 또는 feature dimension | 양의 정수 |
-| $B$ | 비 | batch size | 표본 수 |
-| $T$ | 티 | token 또는 sequence 길이 | 위치 수 |
+| $x\in\mathbb R$ | `x is in R` | 스칼라 하나 | 스칼라, 축 없음 |
+| $\mathbf x\in\mathbb R^n$ | `x is in R to the n` | 성분 $n$개인 벡터 | 이론에서 열벡터 $n\times1$ |
+| $\mathbf A\in\mathbb R^{m\times n}$ | `A is an m by n real matrix` | 행 $m$개, 열 $n$개인 행렬 | $m\times n$ |
+| $a_{ij}$ | `a sub i j` | $\mathbf A$의 $i$행 $j$열 원소 | 스칼라 |
+| $\mathbf A^\top$ | `A transpose` | 행과 열을 바꾼 행렬 | $n\times m$ |
+| $d$ | `d` | vector 또는 feature dimension | 양의 정수 |
+| $B$ | `B` | batch size | 표본 수 |
+| $T$ | `T` | token 또는 sequence 길이 | 위치 수 |
 
 ## 핵심 개념 1. 스칼라, 벡터와 행렬
 
@@ -943,3 +943,4 @@ $\ell$은 layer를 구분하는 인덱스다. $\mathbf H^{(\ell)}$의 위첨자 
 - [x] 구현의 브로드캐스팅과 수학적 표기를 구분했다.
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

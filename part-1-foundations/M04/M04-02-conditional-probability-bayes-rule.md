@@ -37,14 +37,14 @@ Bayes 규칙은 $B$가 주어졌을 때 $A$의 확률을 $A$가 주어졌을 때
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | 조건 |
+| 기호·용어 | Common spoken reading | 의미 | 조건 |
 |---|---|---|---|
-| $P(A\mid B)$ | 비가 주어졌을 때 에이의 확률 | $B$가 일어났다는 조건 아래 $A$가 일어날 확률 | $P(B)>0$ |
-| prior | 사전확률 | 새 증거를 반영하기 전 관심 사건의 확률 | 문맥에 따라 $P(A)$ |
-| likelihood | 가능도 | 원인·가설 $A$ 아래 증거 $B$가 나올 확률 | 사건 표기에서는 $P(B\mid A)$ |
-| posterior | 사후확률 | 증거 $B$를 반영한 뒤 관심 사건 $A$의 확률 | $P(A\mid B)$ |
-| partition | 분할 | 겹치지 않고 합치면 표본공간이 되는 사건들의 모음 | $A_i\cap A_j=\varnothing$ |
-| independence | 독립 | 한 사건을 알아도 다른 사건의 확률이 바뀌지 않는 관계 | $P(A\cap B)=P(A)P(B)$ |
+| $P(A\mid B)$ | `P of A given B` | $B$가 일어났다는 조건 아래 $A$가 일어날 확률 | $P(B)>0$ |
+| prior | `prior` | 새 증거를 반영하기 전 관심 사건의 확률 | 문맥에 따라 $P(A)$ |
+| likelihood | `likelihood` | 원인·가설 $A$ 아래 증거 $B$가 나올 확률 | 사건 표기에서는 $P(B\mid A)$ |
+| posterior | `posterior` | 증거 $B$를 반영한 뒤 관심 사건 $A$의 확률 | $P(A\mid B)$ |
+| partition | `partition` | 겹치지 않고 합치면 표본공간이 되는 사건들의 모음 | $A_i\cap A_j=\varnothing$ |
+| independence | `independence` | 한 사건을 알아도 다른 사건의 확률이 바뀌지 않는 관계 | $P(A\cap B)=P(A)P(B)$ |
 
 ## 핵심 개념 1. 조건부확률은 조건 사건 안에서 비율을 다시 잰다
 
@@ -434,3 +434,4 @@ hidden pattern $H$가 나타났을 때 개념 label $C$일 조건부확률이 �
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 선수지식 밖의 내용을 몰래 요구하지 않는다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

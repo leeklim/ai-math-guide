@@ -43,15 +43,15 @@ Euclidean 좌표에서는 differential과 gradient가 같은 숫자 목록으로
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | 타입 |
+| 기호·용어 | Common spoken reading | 의미 | 타입 |
 |---|---|---|---|
-| $V^*$ | 브이 스타 | $V$ 위의 모든 covector가 이루는 쌍대공간 | 벡터공간 |
-| $\varphi:V\to\mathbb R$ | 파이 | 벡터를 scalar로 보내는 선형함수 | covector |
-| $\mathcal B=(\mathbf b_1,\ldots,\mathbf b_n)$ | 기저 비 | $V$의 순서 있는 기저 | basis |
-| $\mathcal B^*=(\beta^1,\ldots,\beta^n)$ | 쌍대기저 비 스타 | $\beta^i(\mathbf b_j)=\delta_{ij}$를 만족하는 기저 | $V^*$의 basis |
-| $\boldsymbol\omega^\top$ | 오메가 전치 | covector의 좌표 행 | $1\times n$ |
-| $df_{\mathbf x}$ | 엑스에서의 디 에프 | 변화벡터를 함수값의 일차 변화로 보내는 differential | covector |
-| $\nabla f(\mathbf x)$ | 에프의 그래디언트 | 선택한 내적 아래 $df_{\mathbf x}$에 대응하는 벡터 | vector |
+| $V^*$ | `V star` | $V$ 위의 모든 covector가 이루는 쌍대공간 | 벡터공간 |
+| $\varphi:V\to\mathbb R$ | `phi maps V to R` | 벡터를 scalar로 보내는 선형함수 | covector |
+| $\mathcal B=(\mathbf b_1,\ldots,\mathbf b_n)$ | `the basis B consisting of b one through b n` | $V$의 순서 있는 기저 | basis |
+| $\mathcal B^*=(\beta^1,\ldots,\beta^n)$ | `the dual basis B star` | $\beta^i(\mathbf b_j)=\delta_{ij}$를 만족하는 기저 | $V^*$의 basis |
+| $\boldsymbol\omega^\top$ | `omega transpose` | covector의 좌표 행 | $1\times n$ |
+| $df_{\mathbf x}$ | `d f at x` | 변화벡터를 함수값의 일차 변화로 보내는 differential | covector |
+| $\nabla f(\mathbf x)$ | `the gradient of f at x` | 선택한 내적 아래 $df_{\mathbf x}$에 대응하는 벡터 | vector |
 
 ## 핵심 개념 1. covector는 벡터를 측정하는 선형함수다
 
@@ -891,3 +891,4 @@ activation은 표현공간의 벡터다. probe weight는 activation을 score로 
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 선수지식 밖의 내용을 몰래 요구하지 않는다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

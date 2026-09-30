@@ -43,14 +43,14 @@ bilinear form이나 shape 추적이 불분명하면 선수 단원을 먼저 복�
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | 타입·shape |
+| 기호·용어 | Common spoken reading | 의미 | 타입·shape |
 |---|---|---|---|
-| $T:V_1\times\cdots\times V_k\to\mathbb R$ | 티 | 각 입력에 대해 선형인 함수 | $k$-linear map |
-| $\mathcal T$ | 캘리그래픽 티 | 좌표와 구분한 tensor 객체 | 문맥에서 타입 명시 |
-| $T_{i_1\ldots i_k}$ | 티 아래첨자 | 선택한 기저에서의 tensor 성분 | $k$개 인덱스 |
-| $\alpha\otimes\beta$ | 알파 텐서곱 베타 | 두 covector로 만든 order-2 tensor | $(\alpha\otimes\beta)(\mathbf x,\mathbf y)=\alpha(\mathbf x)\beta(\mathbf y)$ |
-| tensor order | 텐서 오더 | tensor가 가진 vector·covector 입력 자리의 수 | 배열 축 수와 문맥상 대응 |
-| contraction | 컨트랙션 | 한 입력을 넣거나 대응 인덱스를 합해 order를 줄이는 연산 | 결과 shape 확인 필요 |
+| $T:V_1\times\cdots\times V_k\to\mathbb R$ | `T maps V one cross through V k to R` | 각 입력에 대해 선형인 함수 | $k$-linear map |
+| $\mathcal T$ | `calligraphic T` | 좌표와 구분한 tensor 객체 | 문맥에서 타입 명시 |
+| $T_{i_1\ldots i_k}$ | `T sub i one through i k` | 선택한 기저에서의 tensor 성분 | $k$개 인덱스 |
+| $\alpha\otimes\beta$ | `alpha tensor beta` | 두 covector로 만든 order-2 tensor | $(\alpha\otimes\beta)(\mathbf x,\mathbf y)=\alpha(\mathbf x)\beta(\mathbf y)$ |
+| tensor order | `tensor order` | tensor가 가진 vector·covector 입력 자리의 수 | 배열 축 수와 문맥상 대응 |
+| contraction | `contraction` | 한 입력을 넣거나 대응 인덱스를 합해 order를 줄이는 연산 | 결과 shape 확인 필요 |
 
 ## 핵심 개념 1. multilinear map은 각 입력 자리에 대해 선형이다
 
@@ -731,3 +731,4 @@ $k$ 인덱스를 합으로 없애고 $i,j$를 남긴다. 따라서 $\mathbf S$�
 - [x] 모델 해석 주장의 강도를 구분했다.
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

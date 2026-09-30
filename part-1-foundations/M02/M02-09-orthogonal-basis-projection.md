@@ -42,14 +42,14 @@ estimated_time: "115~140분"
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | 조건 |
+| 기호·용어 | Common spoken reading | 의미 | 조건 |
 |---|---|---|---|
-| 직교집합 | orthogonal set | 서로 다른 벡터의 내적이 0인 집합 | 영벡터는 기저에 포함하지 않는다. |
-| 정규직교집합 | orthonormal set | 서로 직교하고 각 norm이 1인 집합 | $\mathbf q_i^\top\mathbf q_j=\delta_{ij}$ |
-| $\mathbf Q$ | 큐 | 정규직교 열벡터를 모은 행렬 | $\mathbf Q^\top\mathbf Q=\mathbf I$ |
-| $\mathbf P=\mathbf Q\mathbf Q^\top$ | 피는 큐 큐 전치 | $\operatorname{im}(\mathbf Q)$ 위의 정사영 행렬 | $\mathbf P^\top=\mathbf P$, $\mathbf P^2=\mathbf P$ |
-| $\widehat{\mathbf x}$ | 엑스 햇 | 부분공간 위의 정사영 또는 근삿값 | $\widehat{\mathbf x}=\mathbf P\mathbf x$ |
-| 최소제곱 | least squares | 잔차 norm의 제곱을 최소화하는 문제 | 정확한 해가 없을 때도 정의 가능 |
+| 직교집합 | `orthogonal set` | 서로 다른 벡터의 내적이 0인 집합 | 영벡터는 기저에 포함하지 않는다. |
+| 정규직교집합 | `orthonormal set` | 서로 직교하고 각 norm이 1인 집합 | $\mathbf q_i^\top\mathbf q_j=\delta_{ij}$ |
+| $\mathbf Q$ | `Q` | 정규직교 열벡터를 모은 행렬 | $\mathbf Q^\top\mathbf Q=\mathbf I$ |
+| $\mathbf P=\mathbf Q\mathbf Q^\top$ | `P equals Q Q transpose` | $\operatorname{im}(\mathbf Q)$ 위의 정사영 행렬 | $\mathbf P^\top=\mathbf P$, $\mathbf P^2=\mathbf P$ |
+| $\widehat{\mathbf x}$ | `x hat` | 부분공간 위의 정사영 또는 근삿값 | $\widehat{\mathbf x}=\mathbf P\mathbf x$ |
+| 최소제곱 | `least squares` | 잔차 norm의 제곱을 최소화하는 문제 | 정확한 해가 없을 때도 정의 가능 |
 
 ## 핵심 개념 1. 직교기저는 서로 간섭하지 않는 방향을 사용한다
 
@@ -772,3 +772,4 @@ $V$가 인간이 붙인 개념을 안정적으로 나타내는지, 다른 데이
 - [x] 정사영 크기와 기능적 사용 주장을 구분했다.
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

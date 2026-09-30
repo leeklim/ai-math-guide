@@ -41,14 +41,14 @@ estimated_time: "105~125분"
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | shape·조건 |
+| 기호·용어 | Common spoken reading | 의미 | shape·조건 |
 |---|---|---|---|
-| $f:\mathbb R^2\to\mathbb R$ | 에프는 알 제곱에서 알로 | 실수 입력 두 개를 스칼라 하나로 보내는 함수 | 입력 $(x,y)$, 출력 $f(x,y)$ |
-| $\frac{\partial f}{\partial x}$ | 파셜 에프 파셜 엑스 | $y$를 고정하고 $x$만 바꾼 변화율 | 스칼라 함수다. |
-| $\frac{\partial f}{\partial y}$ | 파셜 에프 파셜 와이 | $x$를 고정하고 $y$만 바꾼 변화율 | 스칼라 함수다. |
-| $f_x,f_y$ | 에프 아래첨자 엑스, 와이 | 두 편도함수의 축약 표기 | 문헌의 정의를 확인한다. |
-| 편미분 | partial differentiation | 다른 입력을 고정하고 한 입력에 대해 미분하는 과정 | 선택한 좌표를 명시한다. |
-| 편도함수 | partial derivative function | 각 점에 한 좌표 방향의 편미분계수를 대응시키는 함수 | 출력은 스칼라다. |
+| $f:\mathbb R^2\to\mathbb R$ | `f maps R squared into R` | 실수 입력 두 개를 스칼라 하나로 보내는 함수 | 입력 $(x,y)$, 출력 $f(x,y)$ |
+| $\frac{\partial f}{\partial x}$ | `partial f over partial x` | $y$를 고정하고 $x$만 바꾼 변화율 | 스칼라 함수다. |
+| $\frac{\partial f}{\partial y}$ | `partial f over partial y` | $x$를 고정하고 $y$만 바꾼 변화율 | 스칼라 함수다. |
+| $f_x,f_y$ | `f sub x and f sub y` | 두 편도함수의 축약 표기 | 문헌의 정의를 확인한다. |
+| 편미분 | `partial differentiation` | 다른 입력을 고정하고 한 입력에 대해 미분하는 과정 | 선택한 좌표를 명시한다. |
+| 편도함수 | `partial derivative function` | 각 점에 한 좌표 방향의 편미분계수를 대응시키는 함수 | 출력은 스칼라다. |
 
 ## 핵심 개념 1. 여러 변수의 함수는 입력점 전체를 받는다
 
@@ -593,3 +593,4 @@ f(x,y)=x^2+y
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 방향미분, 그래디언트와 야코비안을 선수지식으로 요구하지 않았다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

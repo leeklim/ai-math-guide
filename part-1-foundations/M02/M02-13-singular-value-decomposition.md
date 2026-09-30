@@ -42,15 +42,15 @@ rank, 정규직교기저나 스펙트럼 정리가 불분명하면 선수 단원
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | shape·조건 |
+| 기호·용어 | Common spoken reading | 의미 | shape·조건 |
 |---|---|---|---|
-| $\mathbf A=\mathbf U\boldsymbol\Sigma\mathbf V^\top$ | 에이는 유 시그마 브이 전치 | $\mathbf A$의 full SVD | $\mathbf A\in\mathbb R^{m\times n}$ |
-| $\mathbf v_i$ | 브이 아래 아이 | $i$번째 오른쪽 특이벡터 | 입력공간 $\mathbb R^n$의 단위벡터 |
-| $\sigma_i$ | 시그마 아래 아이 | $i$번째 특이값 | $\sigma_1\ge\cdots\ge0$ |
-| $\mathbf u_i$ | 유 아래 아이 | $i$번째 왼쪽 특이벡터 | 출력공간 $\mathbb R^m$의 단위벡터 |
-| $\mathbf A_k$ | 에이 아래 케이 | 상위 $k$개 특이성분으로 만든 rank-$k$ 근사 | $k\le\operatorname{rank}(\mathbf A)$ |
-| $\|\mathbf A\|_2$ | 에이의 이 노름 | 가장 큰 방향별 증폭률 | spectral norm |
-| $\|\mathbf A\|_F$ | 에이의 에프 노름 | 모든 원소 제곱합의 제곱근 | Frobenius norm |
+| $\mathbf A=\mathbf U\boldsymbol\Sigma\mathbf V^\top$ | `A equals U sigma V transpose` | $\mathbf A$의 full SVD | $\mathbf A\in\mathbb R^{m\times n}$ |
+| $\mathbf v_i$ | `v sub i` | $i$번째 오른쪽 특이벡터 | 입력공간 $\mathbb R^n$의 단위벡터 |
+| $\sigma_i$ | `sigma sub i` | $i$번째 특이값 | $\sigma_1\ge\cdots\ge0$ |
+| $\mathbf u_i$ | `u sub i` | $i$번째 왼쪽 특이벡터 | 출력공간 $\mathbb R^m$의 단위벡터 |
+| $\mathbf A_k$ | `A sub k` | 상위 $k$개 특이성분으로 만든 rank-$k$ 근사 | $k\le\operatorname{rank}(\mathbf A)$ |
+| $\|\mathbf A\|_2$ | `the L two norm of A` | 가장 큰 방향별 증폭률 | spectral norm |
+| $\|\mathbf A\|_F$ | `the Frobenius norm of A` | 모든 원소 제곱합의 제곱근 | Frobenius norm |
 
 ## 핵심 개념 1. full SVD는 세 행렬로 분해한다
 
@@ -557,3 +557,4 @@ rank-1 근사는 첫 특이성분을 남기고 3과 1을 버린다.
 - [x] 저랭크 구조와 의미·기능 주장을 구분했다.
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

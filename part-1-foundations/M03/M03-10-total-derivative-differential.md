@@ -43,15 +43,15 @@ estimated_time: "125~150분"
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | 타입·shape |
+| 기호·용어 | Common spoken reading | 의미 | 타입·shape |
 |---|---|---|---|
-| $f:\mathbb R^n\to\mathbb R^m$ | 에프 | vector 입력을 vector 출력으로 보내는 함수 | 입력 $n$, 출력 $m$ |
-| $\mathbf x$ | 엑스 | 선형화 기준점 | $\mathbb R^n$ |
-| $\mathbf h$ | 에이치 | 기준점에 더하는 작은 변화벡터 | $\mathbb R^n$ |
-| $Df(\mathbf x)$ | 엑스에서의 디 에프 | $\mathbf x$에서의 total derivative | $\mathbb R^n\to\mathbb R^m$ 선형사상 |
-| $df_{\mathbf x}$ | 엑스에서의 디 에프 | differential | 이 단원에서는 $Df(\mathbf x)$와 같은 선형근사 |
-| $\mathbf r(\mathbf h)$ | 알 오브 에이치 | 일차근사 뒤에 남는 오차 | $\mathbb R^m$ |
-| $o(\|\mathbf h\|)$ | 리틀 오브 에이치 노름 | $\|\mathbf h\|$보다 빠르게 작아지는 오차 | 비율이 0으로 간다. |
+| $f:\mathbb R^n\to\mathbb R^m$ | `f maps R to the n into R to the m` | vector 입력을 vector 출력으로 보내는 함수 | 입력 $n$, 출력 $m$ |
+| $\mathbf x$ | `x` | 선형화 기준점 | $\mathbb R^n$ |
+| $\mathbf h$ | `h` | 기준점에 더하는 작은 변화벡터 | $\mathbb R^n$ |
+| $Df(\mathbf x)$ | `D f at x` | $\mathbf x$에서의 total derivative | $\mathbb R^n\to\mathbb R^m$ 선형사상 |
+| $df_{\mathbf x}$ | `d f at x` | differential | 이 단원에서는 $Df(\mathbf x)$와 같은 선형근사 |
+| $\mathbf r(\mathbf h)$ | `r of h` | 일차근사 뒤에 남는 오차 | $\mathbb R^m$ |
+| $o(\|\mathbf h\|)$ | `little o of the norm of h` | $\|\mathbf h\|$보다 빠르게 작아지는 오차 | 비율이 0으로 간다. |
 
 ## 핵심 개념 1. total derivative는 가장 잘 맞는 선형근사다
 
@@ -826,3 +826,4 @@ Dg(f(\mathbf x))\circ Df(\mathbf x)
 - [x] 모델 해석 주장의 강도를 구분했다.
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

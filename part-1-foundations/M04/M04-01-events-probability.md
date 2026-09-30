@@ -39,16 +39,16 @@ estimated_time: "120~145분"
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | 범위 |
+| 기호·용어 | Common spoken reading | 의미 | 범위 |
 |---|---|---|---|
-| $\Omega$ | 오메가 | 가능한 결과 전체의 표본공간 | 집합 |
-| $\omega$ | 오메가 소문자 | 한 번의 시행에서 나온 결과 | $\omega\in\Omega$ |
-| $A,B$ | 사건 에이, 비 | 결과들의 부분집합 | $A,B\subseteq\Omega$ |
-| $A^c$ | 에이의 여사건 | $A$가 일어나지 않는 결과들의 집합 | $\Omega\setminus A$ |
-| $A\cup B$ | 에이 합집합 비 | $A$ 또는 $B$가 일어나는 사건 | 사건 |
-| $A\cap B$ | 에이 교집합 비 | $A$와 $B$가 함께 일어나는 사건 | 사건 |
-| $\varnothing$ | 공집합 | 어떤 결과도 포함하지 않는 불가능사건 | 사건 |
-| $P(A)$ | 에이의 확률 | 사건 $A$에 확률이 배정한 수 | $0\le P(A)\le1$ |
+| $\Omega$ | `capital omega` | 가능한 결과 전체의 표본공간 | 집합 |
+| $\omega$ | `omega` | 한 번의 시행에서 나온 결과 | $\omega\in\Omega$ |
+| $A,B$ | `A and B` | 결과들의 부분집합 | $A,B\subseteq\Omega$ |
+| $A^c$ | `A complement` | $A$가 일어나지 않는 결과들의 집합 | $\Omega\setminus A$ |
+| $A\cup B$ | `A union B` | $A$ 또는 $B$가 일어나는 사건 | 사건 |
+| $A\cap B$ | `A intersection B` | $A$와 $B$가 함께 일어나는 사건 | 사건 |
+| $\varnothing$ | `the empty set` | 어떤 결과도 포함하지 않는 불가능사건 | 사건 |
+| $P(A)$ | `P of A` | 사건 $A$에 확률이 배정한 수 | $0\le P(A)\le1$ |
 
 ## 핵심 개념 1. 표본공간은 가능한 결과의 범위를 정한다
 
@@ -424,3 +424,4 @@ class가 세 개라는 사실은 가능한 label의 개수만 알려 준다. 데
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 선수지식 밖의 내용을 몰래 요구하지 않는다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

@@ -44,15 +44,15 @@ Jacobian과 covector가 불분명하면 선수 단원을 먼저 복습한다.
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | shape |
+| 기호·용어 | Common spoken reading | 의미 | shape |
 |---|---|---|---|
-| $\mathbf J_f(\mathbf x)$ | 에프의 Jacobian | $\mathbf x$에서의 total derivative 행렬 | $m\times n$ |
-| $\mathbf v$ | 브이 | 입력공간의 tangent 방향 | $n\times1$ |
-| $\mathbf J_f(\mathbf x)\mathbf v$ | 제이 브이 피 | Jacobian-vector product | $m\times1$ |
-| $\mathbf u$ | 유 | 출력공간에서 scalar 측정을 정하는 covector의 열 표현 | $m\times1$ |
-| $\mathbf J_f(\mathbf x)^\top\mathbf u$ | 브이 제이 피 | vector-Jacobian product의 열 표현 | $n\times1$ |
-| tangent | 탄젠트 | forward mode가 전달하는 일차 변화 | vector |
-| cotangent | 코탄젠트 | reverse mode가 전달하는 covector | 열 좌표로 저장 가능 |
+| $\mathbf J_f(\mathbf x)$ | `the Jacobian of f at x` | $\mathbf x$에서의 total derivative 행렬 | $m\times n$ |
+| $\mathbf v$ | `v` | 입력공간의 tangent 방향 | $n\times1$ |
+| $\mathbf J_f(\mathbf x)\mathbf v$ | `the Jacobian of f at x times v` | Jacobian-vector product | $m\times1$ |
+| $\mathbf u$ | `u` | 출력공간에서 scalar 측정을 정하는 covector의 열 표현 | $m\times1$ |
+| $\mathbf J_f(\mathbf x)^\top\mathbf u$ | `the Jacobian of f at x transpose times u` | vector-Jacobian product의 열 표현 | $n\times1$ |
+| tangent | `tangent` | forward mode가 전달하는 일차 변화 | vector |
+| cotangent | `cotangent` | reverse mode가 전달하는 covector | 열 좌표로 저장 가능 |
 
 일부 프레임워크는 VJP를 행 covector $\mathbf u^\top\mathbf J_f$로 쓴다. 이 교재는 열벡터 표기에 맞춰 그 전치인 $\mathbf J_f^\top\mathbf u$를 사용한다.
 
@@ -750,3 +750,4 @@ JVP는
 - [x] 모델 해석 주장의 강도를 구분했다.
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

@@ -39,14 +39,14 @@ estimated_time: "100~125분"
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | 조건 |
+| 기호·용어 | Common spoken reading | 의미 | 조건 |
 |---|---|---|---|
-| $\langle\mathbf u,\mathbf v\rangle$ | 유와 브이의 내적 | 대응 성분의 곱을 더한 스칼라 | $\mathbf u,\mathbf v\in\mathbb R^n$ |
-| $\mathbf u^\top\mathbf v$ | 유 전치 곱하기 브이 | 표준 Euclidean 내적의 행렬 표기 | 결과는 scalar |
-| $\|\mathbf v\|_2$ | 브이의 이 노름 | 벡터의 Euclidean 길이 | 0 이상 |
-| $d(\mathbf x,\mathbf y)$ | 엑스와 와이 사이의 거리 | $\|\mathbf x-\mathbf y\|_2$ | 같은 dimension |
-| $\theta$ | 세타 | 두 영이 아닌 벡터 사이의 각도 | $0\le\theta\le\pi$ |
-| $\operatorname{proj}_{\mathbf v}\mathbf u$ | 유를 브이 위로 정사영 | $\mathbf u$의 $\mathbf v$ 방향 성분 | $\mathbf v\ne\mathbf 0$ |
+| $\langle\mathbf u,\mathbf v\rangle$ | `the inner product of u and v` | 대응 성분의 곱을 더한 스칼라 | $\mathbf u,\mathbf v\in\mathbb R^n$ |
+| $\mathbf u^\top\mathbf v$ | `u transpose v` | 표준 Euclidean 내적의 행렬 표기 | 결과는 scalar |
+| $\|\mathbf v\|_2$ | `the L two norm of v` | 벡터의 Euclidean 길이 | 0 이상 |
+| $d(\mathbf x,\mathbf y)$ | `the distance between x and y` | $\|\mathbf x-\mathbf y\|_2$ | 같은 dimension |
+| $\theta$ | `theta` | 두 영이 아닌 벡터 사이의 각도 | $0\le\theta\le\pi$ |
+| $\operatorname{proj}_{\mathbf v}\mathbf u$ | `the projection of u onto v` | $\mathbf u$의 $\mathbf v$ 방향 성분 | $\mathbf v\ne\mathbf 0$ |
 
 ## 핵심 개념 1. 내적은 대응 성분의 곱을 더한다
 
@@ -607,3 +607,4 @@ $\mathbf u,\mathbf v$가 영이 아닌 벡터이고 $\alpha,\beta>0$일 때
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 선수지식 밖의 행렬 정사영을 요구하지 않는다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

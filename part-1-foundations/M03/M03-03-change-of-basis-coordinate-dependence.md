@@ -42,14 +42,14 @@ estimated_time: "120~145분"
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | shape |
+| 기호·용어 | Common spoken reading | 의미 | shape |
 |---|---|---|---|
-| $\mathcal B=(\mathbf b_1,\ldots,\mathbf b_n)$ | 기저 비 | $V$의 이전 기저 | 순서 있는 기저 |
-| $\mathcal C=(\mathbf c_1,\ldots,\mathbf c_n)$ | 기저 시 | $V$의 새 기저 | 순서 있는 기저 |
-| $\mathbf P_{\mathcal C\leftarrow\mathcal B}$ | 비 좌표에서 시 좌표로 가는 피 | $\mathcal B$ 좌표를 $\mathcal C$ 좌표로 바꾸는 행렬 | $n\times n$ |
-| $[T]_{\mathcal B}$ | 기저 비에서의 티 행렬 | 정의역과 공역에 모두 $\mathcal B$를 쓴 표현 | $n\times n$ |
-| similarity transformation | 유사변환 | 같은 선형연산자의 기저별 행렬을 연결하는 변환 | $\mathbf P^{-1}\mathbf A\mathbf P$ 꼴 |
-| 좌표 의존성 | coordinate dependence | 기저 선택에 따라 수치 표현이 달라지는 성질 | 좌표값과 행렬 원소 등 |
+| $\mathcal B=(\mathbf b_1,\ldots,\mathbf b_n)$ | `the basis B consisting of b one through b n` | $V$의 이전 기저 | 순서 있는 기저 |
+| $\mathcal C=(\mathbf c_1,\ldots,\mathbf c_n)$ | `the basis C consisting of c one through c n` | $V$의 새 기저 | 순서 있는 기저 |
+| $\mathbf P_{\mathcal C\leftarrow\mathcal B}$ | `the change-of-basis matrix from B coordinates to C coordinates` | $\mathcal B$ 좌표를 $\mathcal C$ 좌표로 바꾸는 행렬 | $n\times n$ |
+| $[T]_{\mathcal B}$ | `the matrix of T in the basis B` | 정의역과 공역에 모두 $\mathcal B$를 쓴 표현 | $n\times n$ |
+| similarity transformation | `similarity transformation` | 같은 선형연산자의 기저별 행렬을 연결하는 변환 | $\mathbf P^{-1}\mathbf A\mathbf P$ 꼴 |
+| 좌표 의존성 | `coordinate dependence` | 기저 선택에 따라 수치 표현이 달라지는 성질 | 좌표값과 행렬 원소 등 |
 
 ## 핵심 개념 1. 좌표변환은 같은 벡터의 숫자 표현을 바꾼다
 
@@ -683,3 +683,4 @@ neuron 하나는 구현 좌표계의 축 하나다. 가역적인 기저혼합을
 - [x] 모델 해석 주장의 강도를 구분했다.
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

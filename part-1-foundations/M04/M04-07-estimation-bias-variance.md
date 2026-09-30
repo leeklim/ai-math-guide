@@ -39,15 +39,15 @@ estimated_time: "145~170분"
 
 ## 기호와 용어
 
-| 표기·용어 | 읽는 법 | 의미 | 역할 |
+| 표기·용어 | Common spoken reading | 의미 | 역할 |
 |---|---|---|---|
-| $\theta$ | 세타 | 추정하려는 모집단 모수 | 고정된 target |
-| $\widehat\theta$ | 세타 햇 | 확률표본의 함수인 추정량 | random variable |
-| $\hat\theta$ | 세타 햇 관측값 | 관측 sample에서 계산한 추정값 | 고정된 수 |
-| $\operatorname{Bias}(\widehat\theta)$ | 추정량의 편향 | 추정량 평균과 target의 차이 | $\mathbb E[\widehat\theta]-\theta$ |
-| $\operatorname{Var}(\widehat\theta)$ | 추정량의 분산 | repeated sampling에서의 흔들림 | sampling variance |
-| $\operatorname{MSE}(\widehat\theta)$ | 평균제곱오차 | target과 추정량 사이 제곱오차의 평균 | variance와 bias를 함께 반영 |
-| consistency | 일치성 | sample size가 커질 때 추정량이 target에 가까워지는 성질 | asymptotic property |
+| $\theta$ | `theta` | 추정하려는 모집단 모수 | 고정된 target |
+| $\widehat\theta$ | `theta hat` | 확률표본의 함수인 추정량 | random variable |
+| $\hat\theta$ | `theta hat` | 관측 sample에서 계산한 추정값 | 고정된 수 |
+| $\operatorname{Bias}(\widehat\theta)$ | `the bias of theta hat` | 추정량 평균과 target의 차이 | $\mathbb E[\widehat\theta]-\theta$ |
+| $\operatorname{Var}(\widehat\theta)$ | `the variance of theta hat` | repeated sampling에서의 흔들림 | sampling variance |
+| $\operatorname{MSE}(\widehat\theta)$ | `the mean squared error of theta hat` | target과 추정량 사이 제곱오차의 평균 | variance와 bias를 함께 반영 |
+| consistency | `consistency` | sample size가 커질 때 추정량이 target에 가까워지는 성질 | asymptotic property |
 
 ## 핵심 개념 1. 추정량은 규칙이고 추정값은 관측 결과이다
 
@@ -514,3 +514,4 @@ test set을 model selection에 반복 사용했으므로 최고 score가 우연�
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 선수지식 밖의 내용을 몰래 요구하지 않는다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

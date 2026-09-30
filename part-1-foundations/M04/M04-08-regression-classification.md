@@ -43,16 +43,16 @@ estimated_time: "150~175분"
 
 ## 기호와 용어
 
-| 표기·용어 | 읽는 법 | 의미 | shape·범위 |
+| 표기·용어 | Common spoken reading | 의미 | shape·범위 |
 |---|---|---|---|
-| $X$ | 입력 확률변수 | predictor 또는 feature | $X\in\mathcal X$ |
-| $Y$ | target 확률변수 | 예측하려는 수치나 class | 회귀: $\mathbb R$, 분류: $\{1,\ldots,K\}$ |
-| $f$ | 예측함수 | 입력을 예측값이나 score로 보내는 함수 | task에 따라 출력이 다름 |
-| $\ell(y,f(x))$ | loss | target과 예측을 비교하는 scalar 함수 | $\ell\ge0$인 경우가 많음 |
-| $R(f)$ | population risk | target population에서의 expected loss | $\mathbb E[\ell(Y,f(X))]$ |
-| $\widehat R_n(f)$ | empirical risk | 관측 sample에서의 평균 loss | $n^{-1}\sum_i\ell(y_i,f(x_i))$ |
-| $\eta_k(x)$ | class $k$의 조건부확률 | $P(Y=k\mid X=x)$ | $\sum_k\eta_k(x)=1$ |
-| residual | 잔차 | 관측 target과 회귀 예측의 차이 | $e_i=y_i-\hat y_i$ |
+| $X$ | `X` | predictor 또는 feature | $X\in\mathcal X$ |
+| $Y$ | `Y` | 예측하려는 수치나 class | 회귀: $\mathbb R$, 분류: $\{1,\ldots,K\}$ |
+| $f$ | `f` | 입력을 예측값이나 score로 보내는 함수 | task에 따라 출력이 다름 |
+| $\ell(y,f(x))$ | `ell of y and f of x` | target과 예측을 비교하는 scalar 함수 | $\ell\ge0$인 경우가 많음 |
+| $R(f)$ | `R of f` | target population에서의 expected loss | $\mathbb E[\ell(Y,f(X))]$ |
+| $\widehat R_n(f)$ | `R hat sub n of f` | 관측 sample에서의 평균 loss | $n^{-1}\sum_i\ell(y_i,f(x_i))$ |
+| $\eta_k(x)$ | `eta sub k of x` | $P(Y=k\mid X=x)$ | $\sum_k\eta_k(x)=1$ |
+| residual | `residual` | 관측 target과 회귀 예측의 차이 | $e_i=y_i-\hat y_i$ |
 
 ## 핵심 개념 1. 회귀와 분류는 target의 값 공간이 다르다
 
@@ -495,3 +495,4 @@ training accuracy는 probe가 training activation과 label을 잘 맞췄다는 �
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 선수지식 밖의 내용을 몰래 요구하지 않는다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

@@ -39,14 +39,14 @@ estimated_time: "105~125분"
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | shape·조건 |
+| 기호·용어 | Common spoken reading | 의미 | shape·조건 |
 |---|---|---|---|
-| $\mathbf x$ | 굵은 엑스 | 여러 입력 좌표를 모은 열벡터 | $\mathbf x\in\mathbb R^n$ |
-| $\mathbf v$ | 굵은 브이 | 입력공간에서 움직일 방향을 나타내는 열벡터 | $\mathbf v\in\mathbb R^n$ |
-| $\|\mathbf v\|_2$ | 브이의 이 노름 | 방향벡터의 유클리드 길이 | 단위방향이면 $\|\mathbf v\|_2=1$ |
-| $D_{\mathbf v}f(\mathbf x)$ | 브이 방향의 에프 방향미분 | 점 $\mathbf x$에서 방향 $\mathbf v$로의 변화율 | 이 단원에서는 주로 단위벡터를 쓴다. |
-| $\nabla_{\mathbf x}f$ | 엑스에 대한 에프의 그래디언트 | 좌표별 편도함수를 모은 열벡터 | $\nabla_{\mathbf x}f\in\mathbb R^n$ |
-| $\nabla f(\mathbf x)^\top\mathbf v$ | 그래디언트 전치 곱하기 브이 | 그래디언트와 방향벡터의 내적 | 결과는 스칼라다. |
+| $\mathbf x$ | `x` | 여러 입력 좌표를 모은 열벡터 | $\mathbf x\in\mathbb R^n$ |
+| $\mathbf v$ | `v` | 입력공간에서 움직일 방향을 나타내는 열벡터 | $\mathbf v\in\mathbb R^n$ |
+| $\|\mathbf v\|_2$ | `the L two norm of v` | 방향벡터의 유클리드 길이 | 단위방향이면 $\|\mathbf v\|_2=1$ |
+| $D_{\mathbf v}f(\mathbf x)$ | `the directional derivative of f at x along v` | 점 $\mathbf x$에서 방향 $\mathbf v$로의 변화율 | 이 단원에서는 주로 단위벡터를 쓴다. |
+| $\nabla_{\mathbf x}f$ | `the gradient of f with respect to x` | 좌표별 편도함수를 모은 열벡터 | $\nabla_{\mathbf x}f\in\mathbb R^n$ |
+| $\nabla f(\mathbf x)^\top\mathbf v$ | `the gradient of f at x transpose times v` | 그래디언트와 방향벡터의 내적 | 결과는 스칼라다. |
 
 ## 핵심 개념 1. 방향벡터는 여러 좌표의 이동 비율을 정한다
 
@@ -621,3 +621,4 @@ $f(x,y)=x^2-y^2$에서 원점의 그래디언트를 구하고 원점이 최솟�
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] Hessian이나 야코비안을 선수지식으로 요구하지 않았다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

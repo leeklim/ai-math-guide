@@ -43,13 +43,13 @@ total derivative나 SVD가 불분명하면 선수 단원을 먼저 복습한다.
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | shape |
+| 기호·용어 | Common spoken reading | 의미 | shape |
 |---|---|---|---|
-| $f:\mathbb R^n\to\mathbb R^m$ | 에프 | $n$차원 입력을 $m$차원 출력으로 보내는 함수 | $f=(f_1,\ldots,f_m)^\top$ |
-| $\mathbf J_f(\mathbf x)$ | 엑스에서의 에프 Jacobian | $Df(\mathbf x)$의 표준기저 행렬 | $m\times n$ |
-| $J_{ij}$ | 제이 아이 제이 | 출력 $f_i$의 입력 $x_j$에 대한 편미분 | scalar |
-| $\mathbf J_f(\mathbf x)\mathbf v$ | 제이 에프 브이 | $\mathbf v$ 방향의 일차 출력 변화 | $m\times1$ |
-| local sensitivity | 국소 민감도 | 기준점 주변의 작은 입력 변화에 대한 출력 변화 | norm과 방향을 밝혀야 한다. |
+| $f:\mathbb R^n\to\mathbb R^m$ | `f maps R to the n into R to the m` | $n$차원 입력을 $m$차원 출력으로 보내는 함수 | $f=(f_1,\ldots,f_m)^\top$ |
+| $\mathbf J_f(\mathbf x)$ | `the Jacobian of f at x` | $Df(\mathbf x)$의 표준기저 행렬 | $m\times n$ |
+| $J_{ij}$ | `J sub i j` | 출력 $f_i$의 입력 $x_j$에 대한 편미분 | scalar |
+| $\mathbf J_f(\mathbf x)\mathbf v$ | `the Jacobian of f at x times v` | $\mathbf v$ 방향의 일차 출력 변화 | $m\times1$ |
+| local sensitivity | `local sensitivity` | 기준점 주변의 작은 입력 변화에 대한 출력 변화 | norm과 방향을 밝혀야 한다. |
 
 ## 핵심 개념 1. Jacobian은 total derivative의 좌표행렬이다
 
@@ -766,3 +766,4 @@ $f:\mathbb R^2\to\mathbb R^4$와 $g:\mathbb R^4\to\mathbb R^3$일 때 $\mathbf J
 - [x] 모델 해석 주장의 강도를 구분했다.
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

@@ -57,6 +57,17 @@ LINK_RE = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
 FRONTMATTER_RE = re.compile(r"\A---\s*\r?\n(.*?)\r?\n---\s*\r?\n", re.DOTALL)
 H1_RE = re.compile(r"^# (.+)$", re.MULTILINE)
 CHECKLIST_HEADING_RE = re.compile(r"^##\s+집필자 점검표\s*$")
+SPOKEN_READING_CHECKLIST = (
+    "Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 "
+    "기계적 직역을 포함하지 않는다."
+)
+HANGUL_RE = re.compile(r"[가-힣ㄱ-ㅎㅏ-ㅣ]")
+MECHANICAL_READING_PATTERNS = (
+    re.compile(r"\b(?:below|under)\s+(?:[a-z]|one|two|three|\d+)\b", re.IGNORECASE),
+    re.compile(r"\bupper\s+(?:[a-z]|one|two|three|\d+)\b", re.IGNORECASE),
+    re.compile(r"\b(?:express|exp(?:\s+of)?)\s+x\b", re.IGNORECASE),
+    re.compile(r"\b(?:open|close)\s+parenthes(?:is|es)\b", re.IGNORECASE),
+)
 
 
 class SiteError(RuntimeError):
@@ -80,6 +91,114 @@ def parse_frontmatter(path: Path, text: str) -> dict[str, object]:
     if not isinstance(data, dict):
         raise SiteError(f"frontmatter 형식이 잘못됐다: {path.relative_to(ROOT)}")
     return data
+
+
+def split_markdown_table_row(line: str) -> list[str]:
+    """Split a pipe table row without treating math or code pipes as separators."""
+    content = line.strip()[1:-1]
+    cells: list[str] = []
+    start = 0
+    in_math = False
+    in_code = False
+    for index, char in enumerate(content):
+        escaped = index > 0 and content[index - 1] == "\\"
+        if char == "`" and not escaped:
+            in_code = not in_code
+        elif char == "$" and not in_code and not escaped:
+            in_math = not in_math
+        elif char == "|" and not in_math and not in_code and not escaped:
+            cells.append(content[start:index].strip())
+            start = index + 1
+    cells.append(content[start:].strip())
+    return cells
+
+
+def lint_english_readings(
+    sources: list[tuple[Path, str]] | None = None,
+) -> tuple[list[str], int, int]:
+    """Validate notation-table readings and return issues, table count, and cell count."""
+    if sources is None:
+        sources = [
+            (path, read_text(path))
+            for path in sorted(ROOT.glob("part-*/M??/M??-*.md"))
+        ]
+
+    issues: list[str] = []
+    entries: dict[str, list[tuple[str, Path, int]]] = {}
+    table_count = 0
+    cell_count = 0
+
+    for path, text in sources:
+        lines = text.splitlines()
+        file_table_count = 0
+        for index, line in enumerate(lines):
+            if not line.startswith("|"):
+                continue
+            header = split_markdown_table_row(line)
+            if not header or header[0] not in {"기호·용어", "표기·용어"}:
+                continue
+
+            file_table_count += 1
+            table_count += 1
+            if len(header) < 2 or header[1] != "Common spoken reading":
+                actual = header[1] if len(header) > 1 else "<missing>"
+                issues.append(
+                    f"{path}:{index + 1}: second header={actual!r}, "
+                    "expected='Common spoken reading'"
+                )
+                continue
+
+            row_index = index + 2
+            while row_index < len(lines) and lines[row_index].startswith("|"):
+                cells = split_markdown_table_row(lines[row_index])
+                location = f"{path}:{row_index + 1}"
+                if len(cells) < 2:
+                    issues.append(f"{location}: Common spoken reading cell is missing")
+                    row_index += 1
+                    continue
+
+                symbol = cells[0]
+                raw_reading = cells[1]
+                cell_count += 1
+                match = re.fullmatch(r"`([^`]+)`", raw_reading)
+                if not match:
+                    issues.append(
+                        f"{location}: Common spoken reading must be nonempty and fully wrapped in backticks"
+                    )
+                    reading = raw_reading.strip("`")
+                else:
+                    reading = match.group(1)
+
+                if HANGUL_RE.search(reading):
+                    issues.append(f"{location}: Common spoken reading contains Hangul: {reading!r}")
+                elif any(char.isalpha() and not char.isascii() for char in reading):
+                    issues.append(
+                        f"{location}: Common spoken reading contains non-English letters: {reading!r}"
+                    )
+                for pattern in MECHANICAL_READING_PATTERNS:
+                    if pattern.search(reading):
+                        issues.append(
+                            f"{location}: mechanical or incorrect reading pattern: {reading!r}"
+                        )
+                        break
+                entries.setdefault(symbol, []).append((reading, path, row_index + 1))
+                row_index += 1
+
+        if file_table_count == 0:
+            issues.append(f"{path}: notation table is missing")
+        if SPOKEN_READING_CHECKLIST not in text:
+            issues.append(f"{path}: Common spoken reading checklist item is missing")
+
+    for symbol, uses in entries.items():
+        readings = {reading for reading, _, _ in uses}
+        if len(readings) <= 1:
+            continue
+        details = "; ".join(
+            f"{path}:{line}={reading!r}" for reading, path, line in uses
+        )
+        issues.append(f"inconsistent Common spoken reading for {symbol}: {details}")
+
+    return issues, table_count, cell_count
 
 
 def discover_lessons() -> list[dict[str, object]]:
@@ -146,6 +265,9 @@ def discover_lessons() -> list[dict[str, object]]:
                     "relative_path": path.relative_to(ROOT).as_posix(),
                 }
             )
+
+    reading_issues, _, _ = lint_english_readings()
+    issues.extend(reading_issues)
 
     if len(lessons) != 70:
         issues.append(f"total lesson count={len(lessons)}, expected=70")
@@ -333,6 +455,7 @@ def resolve_generated_url(page: Path, url: str) -> Path | None:
 def validate() -> None:
     lessons = discover_lessons()
     issues: list[str] = []
+    _, reading_table_count, reading_cell_count = lint_english_readings()
 
     if not CONFIG_PATH.exists() or not SITE_DIR.exists():
         raise SiteError("prepare와 MkDocs build를 먼저 실행해야 한다")
@@ -349,6 +472,11 @@ def validate() -> None:
         issues.append(f"original checklist count={original_checklists}, expected=70")
 
     staged_text = "\n".join(read_text(path) for path in DOCS_DIR.rglob("*.md"))
+    staged_reading_headers = staged_text.count("| Common spoken reading |")
+    if staged_reading_headers != 70:
+        issues.append(
+            f"staged Common spoken reading headers={staged_reading_headers}, expected=70"
+        )
     if "집필자 점검표" in staged_text:
         issues.append("staging에 집필자 점검표가 남았다")
     if "<details>" in staged_text:
@@ -380,6 +508,22 @@ def validate() -> None:
 
     html_paths = sorted(SITE_DIR.rglob("*.html"))
     combined_html = "\n".join(read_text(path) for path in html_paths)
+    html_reading_headers = combined_html.count("<th>Common spoken reading</th>")
+    if html_reading_headers != 70:
+        issues.append(
+            f"HTML Common spoken reading headers={html_reading_headers}, expected=70"
+        )
+    for spoken_reading in (
+        "the exponential of x",
+        "partial f over partial x",
+        "the gradient of f with respect to x",
+        "the Jacobian of f at x",
+        "P of A given B",
+        "the expectation of X",
+        "K L divergence from p to q",
+    ):
+        if f"<code>{spoken_reading}</code>" not in combined_html:
+            issues.append(f"spoken reading missing from HTML: {spoken_reading}")
     if "집필자 점검표" in combined_html:
         issues.append("generated HTML에 집필자 점검표가 남았다")
     for internal in INTERNAL_DOCS:
@@ -428,6 +572,9 @@ def validate() -> None:
         "source_lessons": len(lessons),
         "staged_lessons": len(staged_lessons),
         "generated_lesson_pages": sum(path.exists() for path in lesson_html_paths),
+        "spoken_reading_tables": reading_table_count,
+        "spoken_reading_cells": reading_cell_count,
+        "html_spoken_reading_headers": html_reading_headers,
         "broken_links_or_assets": len(broken_urls),
         "source_details": source_details,
         "generated_details": html_details,
@@ -449,7 +596,12 @@ def main() -> int:
     try:
         if args.command == "audit":
             lessons = discover_lessons()
-            print(f"source audit passed: lessons={len(lessons)}")
+            _, table_count, cell_count = lint_english_readings()
+            print(
+                "source audit passed: "
+                f"lessons={len(lessons)} reading_tables={table_count} "
+                f"reading_cells={cell_count}"
+            )
         elif args.command == "prepare":
             prepare()
         else:

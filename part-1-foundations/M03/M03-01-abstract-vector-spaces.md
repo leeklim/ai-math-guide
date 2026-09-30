@@ -41,14 +41,14 @@ estimated_time: "110~135분"
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | 범위 |
+| 기호·용어 | Common spoken reading | 의미 | 범위 |
 |---|---|---|---|
-| $V$ | 브이 | 벡터들이 속한 집합 | 이 단원에서는 실수 벡터공간 |
-| $\mathbf u,\mathbf v$ | 유, 브이 | $V$의 원소 | 배열일 필요가 없다. |
-| $\alpha,\beta$ | 알파, 베타 | 벡터에 곱하는 scalar | $\alpha,\beta\in\mathbb R$ |
-| $\mathbf 0_V$ | 브이의 영벡터 | $V$에서 덧셈의 항등원 | 공간마다 모양이 다르다. |
-| $\mathcal P_2$ | 피 이 | 차수가 2 이하인 실수계수 다항식의 공간 | $\{a+bt+ct^2:a,b,c\in\mathbb R\}$ |
-| $[\,\mathbf v\,]_{\mathcal B}$ | 기저 비에서의 브이의 좌표 | 기저 $\mathcal B$에 대한 계수 열 | $\mathbb R^n$의 열벡터 |
+| $V$ | `V` | 벡터들이 속한 집합 | 이 단원에서는 실수 벡터공간 |
+| $\mathbf u,\mathbf v$ | `u and v` | $V$의 원소 | 배열일 필요가 없다. |
+| $\alpha,\beta$ | `alpha and beta` | 벡터에 곱하는 scalar | $\alpha,\beta\in\mathbb R$ |
+| $\mathbf 0_V$ | `the zero vector in V` | $V$에서 덧셈의 항등원 | 공간마다 모양이 다르다. |
+| $\mathcal P_2$ | `calligraphic P sub two` | 차수가 2 이하인 실수계수 다항식의 공간 | $\{a+bt+ct^2:a,b,c\in\mathbb R\}$ |
+| $[\,\mathbf v\,]_{\mathcal B}$ | `the coordinates of v in the basis B` | 기저 $\mathcal B$에 대한 계수 열 | $\mathbb R^n$의 열벡터 |
 
 ## 핵심 개념 1. 벡터는 공간이 정한 연산의 대상이다
 
@@ -458,3 +458,4 @@ activation과 가중치를 각각 어떤 공간의 원소로 보는지 먼저 �
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 선수지식 밖의 내용을 몰래 요구하지 않는다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

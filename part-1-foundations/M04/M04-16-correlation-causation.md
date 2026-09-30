@@ -48,16 +48,16 @@ estimated_time: "160~190분"
 
 ## 기호와 용어
 
-| 표기·용어 | 읽는 법 | 의미 | 조건·범위 |
+| 표기·용어 | Common spoken reading | 의미 | 조건·범위 |
 |---|---|---|---|
-| $X\not\!\perp\!\!\!\perp Y$ | 엑스와 와이가 독립이 아님 | $X,Y$ 사이 statistical dependence | 방향을 정하지 않음 |
-| $\operatorname{do}(X=x)$ | 두 엑스를 엑스로 둠 | 외부에서 $X$를 $x$로 정한 intervention | 관찰조건과 구분 |
-| $Y(1),Y(0)$ | 와이 원, 와이 제로 | 같은 unit의 두 treatment 상태에서의 potential outcome | 둘을 동시에 관측할 수 없음 |
-| ATE | 에이티이 | average treatment effect | $\mathbb E[Y(1)-Y(0)]$ |
-| confounder | 교란변수 | treatment와 outcome의 공통원인 | adjustment 후보 |
-| mediator | 매개변수 | treatment effect가 지나가는 중간변수 | total effect 분석 시 주의 |
-| collider | 충돌변수 | 두 화살표가 모이는 공통결과 | conditioning 시 path를 열 수 있음 |
-| exchangeability | 교환가능성 | treatment group이 potential outcome 관점에서 비교 가능한 조건 | 관측연구에서는 가정 |
+| $X\not\!\perp\!\!\!\perp Y$ | `X is not independent of Y` | $X,Y$ 사이 statistical dependence | 방향을 정하지 않음 |
+| $\operatorname{do}(X=x)$ | `do X equals x` | 외부에서 $X$를 $x$로 정한 intervention | 관찰조건과 구분 |
+| $Y(1),Y(0)$ | `Y of one and Y of zero` | 같은 unit의 두 treatment 상태에서의 potential outcome | 둘을 동시에 관측할 수 없음 |
+| ATE | `A T E` | average treatment effect | $\mathbb E[Y(1)-Y(0)]$ |
+| confounder | `confounder` | treatment와 outcome의 공통원인 | adjustment 후보 |
+| mediator | `mediator` | treatment effect가 지나가는 중간변수 | total effect 분석 시 주의 |
+| collider | `collider` | 두 화살표가 모이는 공통결과 | conditioning 시 path를 열 수 있음 |
+| exchangeability | `exchangeability` | treatment group이 potential outcome 관점에서 비교 가능한 조건 | 관측연구에서는 가정 |
 
 ## 핵심 개념 1. association, prediction과 causation은 질문이 다르다
 
@@ -376,3 +376,4 @@ linear probe가 activation에서 sentiment를 높은 accuracy로 분류했다. �
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 선수지식 밖의 내용을 몰래 요구하지 않는다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

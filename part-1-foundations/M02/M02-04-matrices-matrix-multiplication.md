@@ -42,14 +42,14 @@ estimated_time: "110~135분"
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | shape·범위 |
+| 기호·용어 | Common spoken reading | 의미 | shape·범위 |
 |---|---|---|---|
-| $\mathbf A=[a_{ij}]$ | 행렬 에이 | $a_{ij}$를 원소로 갖는 행렬 | $\mathbf A\in\mathbb R^{m\times n}$ |
-| $a_{ij}$ | 에이 아래 아이 제이 | $\mathbf A$의 $i$번째 행, $j$번째 열 원소 | scalar |
-| $\mathbf A_{i:}$ | 에이의 아이 번째 행 | $i$번째 행벡터 | $1\times n$ |
-| $\mathbf A_{:j}$ | 에이의 제이 번째 열 | $j$번째 열벡터 | $m\times1$ |
-| $\mathbf I_n$ | 엔 차 항등행렬 | 대각 원소가 1이고 나머지가 0인 행렬 | $n\times n$ |
-| $\mathbf C=\mathbf A\mathbf B$ | 에이 곱하기 비 | 행과 열의 내적으로 만든 행렬곱 | 안쪽 dimension이 같아야 한다. |
+| $\mathbf A=[a_{ij}]$ | `A equals the matrix with entries a sub i j` | $a_{ij}$를 원소로 갖는 행렬 | $\mathbf A\in\mathbb R^{m\times n}$ |
+| $a_{ij}$ | `a sub i j` | $\mathbf A$의 $i$번째 행, $j$번째 열 원소 | scalar |
+| $\mathbf A_{i:}$ | `row i of A` | $i$번째 행벡터 | $1\times n$ |
+| $\mathbf A_{:j}$ | `column j of A` | $j$번째 열벡터 | $m\times1$ |
+| $\mathbf I_n$ | `I sub n` | 대각 원소가 1이고 나머지가 0인 행렬 | $n\times n$ |
+| $\mathbf C=\mathbf A\mathbf B$ | `C equals A B` | 행과 열의 내적으로 만든 행렬곱 | 안쪽 dimension이 같아야 한다. |
 
 ## 핵심 개념 1. 행렬은 행과 열을 가진 수의 배열이다
 
@@ -664,3 +664,4 @@ shape은 행이 표본이고 열이 출력 feature라는 구조를 알려 준다
 - [x] shape과 의미 해석을 구분했다.
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

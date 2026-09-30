@@ -41,13 +41,13 @@ KL divergence는 maximum likelihood, variational inference, knowledge distillati
 
 ## 기호와 용어
 
-| 표기·용어 | 읽는 법 | 의미 | 조건 |
+| 표기·용어 | Common spoken reading | 의미 | 조건 |
 |---|---|---|---|
-| $D_{\mathrm{KL}}(p\Vert q)$ | 피에서 큐로의 케이엘 발산 | $p$에서 평균한 log density ratio | 방향 있음 |
-| $\log\frac{p(x)}{q(x)}$ | 로그 likelihood ratio | outcome $x$에서 $p$와 $q$의 상대 log-density | $p(x),q(x)>0$ |
-| absolute continuity | 절대연속성 | $p$가 양수인 곳에서 $q$도 양수인 support 조건 | $p\ll q$ |
-| forward KL | forward KL | target $p$를 첫 자리에 둔 $D_{\mathrm{KL}}(p\Vert q)$ | 문맥별 명칭 확인 |
-| reverse KL | reverse KL | approximation $q$를 첫 자리에 둔 $D_{\mathrm{KL}}(q\Vert p)$ | 문맥별 명칭 확인 |
+| $D_{\mathrm{KL}}(p\Vert q)$ | `K L divergence from p to q` | $p$에서 평균한 log density ratio | 방향 있음 |
+| $\log\frac{p(x)}{q(x)}$ | `log of p of x over q of x` | outcome $x$에서 $p$와 $q$의 상대 log-density | $p(x),q(x)>0$ |
+| absolute continuity | `absolute continuity` | $p$가 양수인 곳에서 $q$도 양수인 support 조건 | $p\ll q$ |
+| forward KL | `forward KL` | target $p$를 첫 자리에 둔 $D_{\mathrm{KL}}(p\Vert q)$ | 문맥별 명칭 확인 |
+| reverse KL | `reverse KL` | approximation $q$를 첫 자리에 둔 $D_{\mathrm{KL}}(q\Vert p)$ | 문맥별 명칭 확인 |
 
 ## 핵심 개념 1. KL divergence는 log density ratio의 기대값이다
 
@@ -423,3 +423,4 @@ student의 teacher-output KL이 test set에서 매우 작았다. “student가 t
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 선수지식 밖의 내용을 몰래 요구하지 않는다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

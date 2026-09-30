@@ -42,14 +42,14 @@ kernel, 기저나 determinant가 불분명하면 선수 단원을 먼저 복습�
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | 조건 |
+| 기호·용어 | Common spoken reading | 의미 | 조건 |
 |---|---|---|---|
-| $\lambda$ | 람다 | 고유방향의 확대·축소 계수 | scalar |
-| $\mathbf v$ | 굵은 브이 | 고유값 $\lambda$에 대응하는 고유벡터 | $\mathbf v\ne\mathbf 0$ |
-| $\mathbf A\mathbf v=\lambda\mathbf v$ | 에이 브이는 람다 브이 | 변환 뒤 같은 직선 위에 남는 조건 | $\mathbf A$는 정사각행렬 |
-| $\det(\mathbf A-\lambda\mathbf I)=0$ | 에이 마이너스 람다 아이의 determinant는 0 | 고유값을 찾는 특성방정식 | $\lambda$에 관한 방정식 |
-| $E_\lambda$ | 람다 고유공간 | $\lambda$에 대응하는 고유벡터들과 영벡터의 공간 | $\ker(\mathbf A-\lambda\mathbf I)$ |
-| 대각화 | diagonalization | 고유벡터 기저에서 행렬을 대각행렬로 나타내는 것 | 독립인 고유벡터가 충분해야 한다. |
+| $\lambda$ | `lambda` | 고유방향의 확대·축소 계수 | scalar |
+| $\mathbf v$ | `v` | 고유값 $\lambda$에 대응하는 고유벡터 | $\mathbf v\ne\mathbf 0$ |
+| $\mathbf A\mathbf v=\lambda\mathbf v$ | `A v equals lambda v` | 변환 뒤 같은 직선 위에 남는 조건 | $\mathbf A$는 정사각행렬 |
+| $\det(\mathbf A-\lambda\mathbf I)=0$ | `the determinant of A minus lambda I equals zero` | 고유값을 찾는 특성방정식 | $\lambda$에 관한 방정식 |
+| $E_\lambda$ | `E sub lambda` | $\lambda$에 대응하는 고유벡터들과 영벡터의 공간 | $\ker(\mathbf A-\lambda\mathbf I)$ |
+| 대각화 | `diagonalization` | 고유벡터 기저에서 행렬을 대각행렬로 나타내는 것 | 독립인 고유벡터가 충분해야 한다. |
 
 ## 핵심 개념 1. 고유벡터는 방향이 유지되는 0이 아닌 벡터다
 
@@ -598,3 +598,4 @@ $3\times3$ 행렬이 서로 다른 고유값 세 개를 갖는다고 하자. 대
 - [x] 고유값과 모델 feature 주장의 범위를 구분했다.
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

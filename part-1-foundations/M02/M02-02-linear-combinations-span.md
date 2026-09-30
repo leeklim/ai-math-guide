@@ -37,12 +37,12 @@ span을 이해하면 주어진 방향들이 평면 전체를 만드는지, 한 �
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | 조건 |
+| 기호·용어 | Common spoken reading | 의미 | 조건 |
 |---|---|---|---|
-| $c_i$ | 씨 아래 아이 | $i$번째 벡터에 곱하는 계수 | $c_i\in\mathbb R$ |
-| $\sum_{i=1}^{k}c_i\mathbf v_i$ | 아이는 1부터 케이까지 씨 아이 브이 아이의 합 | $k$개 벡터의 선형결합 | 모든 $\mathbf v_i$의 dimension이 같다. |
-| $\operatorname{span}\{\mathbf v_1,\ldots,\mathbf v_k\}$ | 브이 원부터 브이 케이가 생성하는 공간 | 가능한 모든 선형결합의 집합 | $\mathbf v_i\in\mathbb R^n$ |
-| 생성 벡터 | generating vector | 선형결합의 재료가 되는 벡터 | 같은 벡터공간에 속한다. |
+| $c_i$ | `c sub i` | $i$번째 벡터에 곱하는 계수 | $c_i\in\mathbb R$ |
+| $\sum_{i=1}^{k}c_i\mathbf v_i$ | `sum over i from one to k of c sub i v sub i` | $k$개 벡터의 선형결합 | 모든 $\mathbf v_i$의 dimension이 같다. |
+| $\operatorname{span}\{\mathbf v_1,\ldots,\mathbf v_k\}$ | `the span of v one through v k` | 가능한 모든 선형결합의 집합 | $\mathbf v_i\in\mathbb R^n$ |
+| 생성 벡터 | `generating vector` | 선형결합의 재료가 되는 벡터 | 같은 벡터공간에 속한다. |
 
 ## 핵심 개념 1. 선형결합은 스칼라곱을 더한 것이다
 
@@ -557,3 +557,4 @@ activation $\mathbf h$가 두 방향 $\mathbf f_1,\mathbf f_2$의 span에 속한
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 선수지식 밖의 체계적인 연립방정식 해법을 요구하지 않는다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

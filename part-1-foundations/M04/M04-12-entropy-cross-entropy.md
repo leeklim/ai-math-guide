@@ -43,14 +43,14 @@ estimated_time: "145~175분"
 
 ## 기호와 용어
 
-| 표기·용어 | 읽는 법 | 의미 | 단위·조건 |
+| 표기·용어 | Common spoken reading | 의미 | 단위·조건 |
 |---|---|---|---|
-| $I_p(x)$ | 피에서 엑스의 self-information | 결과 $x$의 surprisal | $-\log p(x)$ |
-| $\mathrm H(p)$ | 피의 entropy | $p$에서 self-information의 기댓값 | 자연로그면 nat |
-| $\mathrm H(p,q)$ | 피와 큐의 cross entropy | $p$의 결과를 $q$의 log-probability로 평가한 평균 | 방향 있음 |
-| $D_{\mathrm{KL}}(p\Vert q)$ | 피에서 큐로의 KL divergence | cross entropy와 entropy의 차이 | M04-13에서 전개 |
-| $q_\theta(y\mid x)$ | 모델 예측분포 | 입력 $x$에서 class $y$에 배정한 probability | 합이 1 |
-| perplexity | perplexity | 평균 NLL을 지수화한 값 | $\exp(\text{mean NLL})$ |
+| $I_p(x)$ | `I sub p of x` | 결과 $x$의 surprisal | $-\log p(x)$ |
+| $\mathrm H(p)$ | `H of p` | $p$에서 self-information의 기댓값 | 자연로그면 nat |
+| $\mathrm H(p,q)$ | `H of p comma q` | $p$의 결과를 $q$의 log-probability로 평가한 평균 | 방향 있음 |
+| $D_{\mathrm{KL}}(p\Vert q)$ | `K L divergence from p to q` | cross entropy와 entropy의 차이 | M04-13에서 전개 |
+| $q_\theta(y\mid x)$ | `q sub theta of y given x` | 입력 $x$에서 class $y$에 배정한 probability | 합이 1 |
+| perplexity | `perplexity` | 평균 NLL을 지수화한 값 | $\exp(\text{mean NLL})$ |
 
 ## 핵심 개념 1. self-information은 확률이 낮을수록 크다
 
@@ -480,3 +480,4 @@ token당 평균 NLL이 2 nats이다. perplexity를 구하라.
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 선수지식 밖의 내용을 몰래 요구하지 않는다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

@@ -159,6 +159,78 @@ h_{\ell+1}=f_\ell(h_\ell)
 - 비례관계는 $\propto$를 쓴다.
 - 모양만 같다는 이유로 등호를 사용하지 않는다.
 
+### 2.4 English mathematical reading
+
+`기호와 용어` 표의 두 번째 열 이름은 `Common spoken reading`으로 통일한다. 이 열은 기호를 영어권 강의나 연구 발표에서 소리 내어 읽을 때 쓸 짧은 대표 발화를 제공한다. 전체 문구를 Markdown 백틱으로 감싸며 영어만 쓴다.
+
+읽기와 뜻은 서로 다른 정보다.
+
+| 항목 | 내용 |
+|---|---|
+| 기호·용어 | 화면에 적힌 수식이나 용어 |
+| Common spoken reading | 실제로 말할 짧은 영어 발화 하나 |
+| 의미 | 수학적 정의, 조건과 문맥을 설명하는 한국어 |
+
+`arg max over x of f of x`는 읽기다. `the argument that maximizes f of x`는 뜻을 설명하는 문장이므로 읽기 열에 넣지 않는다.
+
+#### 2.4.1 구성별 원칙
+
+- 첨자는 `sub`로 읽는다: $w_i$는 `w sub i`, $A_{ij}$는 `A sub i j`이다.
+- 제곱과 세제곱은 `squared`, `cubed`로 읽고 일반 거듭제곱은 `to the n`처럼 읽는다.
+- 함수 적용은 `of`를 쓴다: $f(x)$는 `f of x`, $log(x)$는 `log of x`이다.
+- $exp(x)$의 대표 읽기는 `the exponential of x`이다. $e^x$를 강조하는 문맥에서는 `e to the x`도 가능하다.
+- 일변수 미분은 `d f over d x`, 편미분은 `partial f over partial x`로 읽는다. 변수를 문장으로 강조할 때는 `with respect to x`를 쓸 수 있다.
+- gradient는 `the gradient of f with respect to x`, Jacobian은 `the Jacobian of f at x`처럼 대상과 기준점을 밝힌다.
+- 범위가 있는 합은 `sum over i from one to n of ...`로 읽는다. 적분은 `the integral from a to b of ... d x`로 읽는다.
+- 조건부확률과 조건부분포는 `given`을 쓴다: $P(A\mid B)$는 `P of A given B`이다.
+- 기댓값과 분산은 각각 `the expectation of X`, `the variance of X`로 읽는다.
+- transpose, inverse, determinant, trace와 rank는 해당 영어 연산명을 쓴다.
+- norm은 종류를 밝힌다: $\|x\|_2$는 `the L two norm of x`이다.
+- 최적화 기호는 `arg max over ...`, `arg min over ...`, `max over ...`, `min over ...`로 시작한다.
+- entropy는 `H of p`, KL divergence는 방향을 포함해 `K L divergence from p to q`로 읽는다.
+- 그리스 문자는 `theta`, `lambda`, `sigma`, `epsilon`처럼 영어 이름을 쓴다. 대문자와 소문자를 구분해야 할 때만 `capital`을 붙인다.
+- initialism은 통상적인 글자 이름으로 읽는다. 이 교재에서는 `K L`, `M L E`, `H V P`, `N L L`처럼 공백으로 글자를 구분해 적는다.
+
+#### 2.4.2 대표 표준
+
+| 기호 | Common spoken reading |
+|---|---|
+| $f(x)$ | `f of x` |
+| $w_i$ | `w sub i` |
+| $w_{ij}$ | `w sub i j` |
+| $x^2$ | `x squared` |
+| $x^3$ | `x cubed` |
+| $x^n$ | `x to the n` |
+| $\mathbb R^n$ | `R to the n` |
+| $W^\top$ | `W transpose` |
+| $A^{-1}$ | `A inverse` |
+| $\det(A)$ | `the determinant of A` |
+| $\operatorname{rank}(A)$ | `the rank of A` |
+| $\|x\|_2$ | `the L two norm of x` |
+| $p(y\mid x)$ | `p of y given x` |
+| $\mathbb E[X]$ | `the expectation of X` |
+| $\sum_{i=1}^n x_i$ | `sum over i from one to n of x sub i` |
+| $\frac{df}{dx}$ | `d f over d x` |
+| $\frac{\partial f}{\partial x}$ | `partial f over partial x` |
+| $\nabla_x f$ | `the gradient of f with respect to x` |
+| $\arg\max_x f(x)$ | `arg max over x of f of x` |
+| $\exp(x)$ | `the exponential of x` |
+| $f:\mathbb R^n\to\mathbb R^m$ | `f maps R to the n into R to the m` |
+| $X\sim\mathcal N(\mu,\sigma^2)$ | `X is normally distributed with mean mu and variance sigma squared` |
+| $D_{\mathrm{KL}}(p\Vert q)$ | `K L divergence from p to q` |
+
+#### 2.4.3 허용되는 차이와 금지 사례
+
+한 기호와 같은 문맥에는 위 표의 대표 읽기 하나를 사용한다. 수식이 다른 정보를 강조할 때만 다른 읽기를 허용한다. 예를 들어 $\exp(x)$는 표에서 `the exponential of x`로 통일하지만, 본문에서 $\exp(x)=e^x$를 설명할 때 `e to the x`라고 말할 수 있다. 약어의 발음이 연구 공동체마다 갈리면 이 절에 근거를 기록한 뒤 하나를 선택한다.
+
+다음은 사용하지 않는다.
+
+- `더블유 아래 아이`, `익스프레스 엑스` 같은 한글 음역
+- `x below i`, `x under i`, `x upper two` 같은 위치 직역
+- `open parenthesis`, `close parenthesis`처럼 기호 모양을 순서대로 읽는 표현
+- 정의 전체나 긴 해설을 Common spoken reading에 넣는 방식
+- 같은 기호와 문맥에 서로 다른 대표 읽기를 쓰는 방식
+
 ## 3. 수학 객체의 표기
 
 ### 3.1 기본 표기

@@ -40,13 +40,13 @@ span이나 연립방정식 풀이가 불분명하면 선수 단원을 먼저 복
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | 조건 |
+| 기호·용어 | Common spoken reading | 의미 | 조건 |
 |---|---|---|---|
-| 선형독립 | linear independence | 영벡터를 만드는 선형결합이 자명한 경우뿐인 관계 | 계수가 모두 0이어야 한다. |
-| 선형종속 | linear dependence | 영벡터를 만드는 0이 아닌 계수 조합이 있는 관계 | 벡터 사이에 중복 방향이 있다. |
-| $\mathcal B=(\mathbf b_1,\ldots,\mathbf b_k)$ | 기저 비 | 공간을 생성하는 선형독립 벡터의 순서 있는 목록 | 좌표 순서를 정한다. |
-| $[\mathbf v]_{\mathcal B}$ | 비 기저에서 브이의 좌표 | $\mathbf v$를 기저 벡터로 나타낸 계수 벡터 | $k$차원 열벡터 |
-| $\dim V$ | 브이의 차원 | $V$의 한 기저가 가진 벡터 수 | 유한차원 공간에서 정의 |
+| 선형독립 | `linear independence` | 영벡터를 만드는 선형결합이 자명한 경우뿐인 관계 | 계수가 모두 0이어야 한다. |
+| 선형종속 | `linear dependence` | 영벡터를 만드는 0이 아닌 계수 조합이 있는 관계 | 벡터 사이에 중복 방향이 있다. |
+| $\mathcal B=(\mathbf b_1,\ldots,\mathbf b_k)$ | `the basis B consisting of b one through b k` | 공간을 생성하는 선형독립 벡터의 순서 있는 목록 | 좌표 순서를 정한다. |
+| $[\mathbf v]_{\mathcal B}$ | `the coordinates of v in the basis B` | $\mathbf v$를 기저 벡터로 나타낸 계수 벡터 | $k$차원 열벡터 |
+| $\dim V$ | `the dimension of V` | $V$의 한 기저가 가진 벡터 수 | 유한차원 공간에서 정의 |
 
 ## 핵심 개념 1. 선형독립은 영벡터를 만드는 계수로 정의한다
 
@@ -564,3 +564,4 @@ $\mathbb R^4$에서 벡터 6개가 선형독립일 수 없는 이유를 pivot �
 - [x] 좌표 의존성과 기능적 사용 주장을 구분했다.
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

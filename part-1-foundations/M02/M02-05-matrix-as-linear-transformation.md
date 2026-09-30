@@ -46,13 +46,13 @@ T(\mathbf x)=\mathbf A\mathbf x
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | 조건 |
+| 기호·용어 | Common spoken reading | 의미 | 조건 |
 |---|---|---|---|
-| $T:\mathbb R^n\to\mathbb R^m$ | 티는 알 엔에서 알 엠으로 | 입력 벡터를 출력 벡터에 대응시키는 변환 | 입력 dimension $n$, 출력 dimension $m$ |
-| $T(\mathbf x)=\mathbf A\mathbf x$ | 티 엑스는 에이 엑스 | 행렬 $\mathbf A$로 표현한 선형변환 | $\mathbf A\in\mathbb R^{m\times n}$ |
-| $\mathbf e_j$ | 이 아래 제이 | $j$번째 성분만 1인 표준기저 벡터 | $\mathbf e_j\in\mathbb R^n$ |
-| $S\circ T$ | 에스 합성 티 | $T$를 적용한 뒤 $S$를 적용하는 변환 | 출력과 다음 입력 dimension이 맞아야 한다. |
-| 아핀변환 | affine transformation | 선형변환 뒤 고정 벡터를 더하는 변환 | $\mathbf x\mapsto\mathbf A\mathbf x+\mathbf b$ |
+| $T:\mathbb R^n\to\mathbb R^m$ | `T maps R to the n into R to the m` | 입력 벡터를 출력 벡터에 대응시키는 변환 | 입력 dimension $n$, 출력 dimension $m$ |
+| $T(\mathbf x)=\mathbf A\mathbf x$ | `T of x equals A x` | 행렬 $\mathbf A$로 표현한 선형변환 | $\mathbf A\in\mathbb R^{m\times n}$ |
+| $\mathbf e_j$ | `e sub j` | $j$번째 성분만 1인 표준기저 벡터 | $\mathbf e_j\in\mathbb R^n$ |
+| $S\circ T$ | `S composed with T` | $T$를 적용한 뒤 $S$를 적용하는 변환 | 출력과 다음 입력 dimension이 맞아야 한다. |
+| 아핀변환 | `affine transformation` | 선형변환 뒤 고정 벡터를 더하는 변환 | $\mathbf x\mapsto\mathbf A\mathbf x+\mathbf b$ |
 
 ## 핵심 개념 1. 행렬은 입력 벡터를 출력 벡터로 보낸다
 
@@ -668,3 +668,4 @@ $\mathbf W$의 $j$번째 열은 표준기저 입력 $\mathbf e_j$에 선형 부�
 - [x] 선형 부분과 모델 전체의 인과 주장을 구분했다.
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

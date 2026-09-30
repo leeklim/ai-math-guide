@@ -41,16 +41,16 @@ estimated_time: "130~155분"
 
 ## 기호와 용어
 
-| 표기·용어 | 뜻 |
-|---|---|
-| primal | 원래 프로그램이 계산하는 값 |
-| tangent | 입력 방향에 따른 값의 일차 변화량 |
-| cotangent | scalar 출력의 변화에 대한 역방향 민감도 |
-| $\dot z$ | 변수 $z$의 tangent |
-| $\bar z$ | 변수 $z$에 도착한 cotangent, scalar loss이면 $\partial L/\partial z$ |
-| local derivative | 한 연산의 입력과 출력 사이 미분 |
-| seed | 자동미분 전달을 시작하는 tangent 또는 cotangent |
-| tape | reverse pass에 필요한 연산 순서와 중간값의 기록 |
+| 표기·용어 | Common spoken reading | 의미 |
+|---|---|---|
+| primal | `primal` | 원래 프로그램이 계산하는 값 |
+| tangent | `tangent` | 입력 방향에 따른 값의 일차 변화량 |
+| cotangent | `cotangent` | scalar 출력의 변화에 대한 역방향 민감도 |
+| $\dot z$ | `z dot` | 변수 $z$의 tangent |
+| $\bar z$ | `z bar` | 변수 $z$에 도착한 cotangent, scalar loss이면 $\partial L/\partial z$ |
+| local derivative | `local derivative` | 한 연산의 입력과 출력 사이 미분 |
+| seed | `seed` | 자동미분 전달을 시작하는 tangent 또는 cotangent |
+| tape | `tape` | reverse pass에 필요한 연산 순서와 중간값의 기록 |
 
 ## 핵심 개념 1. 자동미분은 프로그램에 연쇄법칙을 적용한다
 
@@ -398,3 +398,4 @@ reverse pass에 필요한 모든 activation을 저장하지 않고 일부 구간
 - [x] 모델 해석 주장의 강도를 구분했다.
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

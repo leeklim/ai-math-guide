@@ -46,16 +46,16 @@ estimated_time: "170~210분"
 
 ## 기호와 용어
 
-| 표기·용어 | 읽는 법 | 의미 | 조건·범위 |
+| 표기·용어 | Common spoken reading | 의미 | 조건·범위 |
 |---|---|---|---|
-| $i$ | 아이 | experimental unit index | 독립 assignment의 기본 단위 |
-| $T_i$ | 티 아이 | unit $i$의 treatment assignment | binary 또는 여러 arm |
-| $Y_i$ | 와이 아이 | 미리 정한 outcome | 측정시점 포함 |
-| $\Delta$ | 델타 | target treatment contrast | 예: mean difference |
-| holdout set | 홀드아웃 셋 | method 선택에 사용하지 않고 남긴 평가 data | 반복 확인 시 오염 가능 |
-| seed | 시드 | pseudorandom sequence의 초기 상태 | 독립 data와 구분 |
-| preregistration | 사전등록 | hypothesis와 analysis plan을 결과 확인 전에 기록하는 절차 | 탐색을 금지하지 않음 |
-| pseudoreplication | 의사반복 | 의존된 row를 독립 replicate처럼 세는 오류 | standard error 왜곡 |
+| $i$ | `i` | experimental unit index | 독립 assignment의 기본 단위 |
+| $T_i$ | `T sub i` | unit $i$의 treatment assignment | binary 또는 여러 arm |
+| $Y_i$ | `Y sub i` | 미리 정한 outcome | 측정시점 포함 |
+| $\Delta$ | `delta` | target treatment contrast | 예: mean difference |
+| holdout set | `holdout set` | method 선택에 사용하지 않고 남긴 평가 data | 반복 확인 시 오염 가능 |
+| seed | `seed` | pseudorandom sequence의 초기 상태 | 독립 data와 구분 |
+| preregistration | `preregistration` | hypothesis와 analysis plan을 결과 확인 전에 기록하는 절차 | 탐색을 금지하지 않음 |
+| pseudoreplication | `pseudoreplication` | 의존된 row를 독립 replicate처럼 세는 오류 | standard error 왜곡 |
 
 ## 핵심 개념 1. claim을 estimand와 measurement로 바꾼다
 
@@ -386,3 +386,4 @@ analysis plan에는 data·checkpoint version, preprocessing, seed, exclusion rul
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 선수지식 밖의 내용을 몰래 요구하지 않는다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

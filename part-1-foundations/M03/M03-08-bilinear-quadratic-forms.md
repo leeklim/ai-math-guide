@@ -43,14 +43,14 @@ quadratic form이나 기저변환이 불분명하면 선수 단원을 먼저 복
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | 타입 |
+| 기호·용어 | Common spoken reading | 의미 | 타입 |
 |---|---|---|---|
-| $B:V\times W\to\mathbb R$ | 비 | 각 입력에 대해 선형인 함수 | bilinear map |
-| $B:V\times V\to\mathbb R$ | 비 | 같은 벡터공간의 두 벡터를 받는 bilinear map | bilinear form |
-| $\mathbf A$ | 에이 | 기저를 고른 bilinear form의 행렬 | $n\times n$ |
-| $q:V\to\mathbb R$ | 큐 | $q(\mathbf x)=B(\mathbf x,\mathbf x)$인 함수 | quadratic form |
-| $\mathbf A_{\mathrm{sym}}$ | 에이 심 | $\frac12(\mathbf A+\mathbf A^\top)$ | 대칭 부분 |
-| congruence transformation | 합동변환 | bilinear form의 기저별 행렬을 연결하는 변환 | $\mathbf P^\top\mathbf A\mathbf P$ |
+| $B:V\times W\to\mathbb R$ | `B maps V cross W to R` | 각 입력에 대해 선형인 함수 | bilinear map |
+| $B:V\times V\to\mathbb R$ | `B maps V cross V to R` | 같은 벡터공간의 두 벡터를 받는 bilinear map | bilinear form |
+| $\mathbf A$ | `A` | 기저를 고른 bilinear form의 행렬 | $n\times n$ |
+| $q:V\to\mathbb R$ | `q maps V to R` | $q(\mathbf x)=B(\mathbf x,\mathbf x)$인 함수 | quadratic form |
+| $\mathbf A_{\mathrm{sym}}$ | `A sub sym` | $\frac12(\mathbf A+\mathbf A^\top)$ | 대칭 부분 |
+| congruence transformation | `congruence transformation` | bilinear form의 기저별 행렬을 연결하는 변환 | $\mathbf P^\top\mathbf A\mathbf P$ |
 
 ## 핵심 개념 1. bilinear map은 각 입력에 대해 따로 선형이다
 
@@ -873,3 +873,4 @@ query-key score는 두 입력을 각각 고정했을 때 선형인 bilinear 식�
 - [x] 모델 해석 주장의 강도를 구분했다.
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

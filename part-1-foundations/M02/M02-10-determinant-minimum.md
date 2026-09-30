@@ -42,12 +42,12 @@ determinant는 정사각행렬이 부피를 몇 배로 바꾸는지 나타내는
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | 조건 |
+| 기호·용어 | Common spoken reading | 의미 | 조건 |
 |---|---|---|---|
-| $\det(\mathbf A)$ | 에이의 determinant | 정사각행렬의 방향 있는 부피 배율 | scalar |
-| $|\det(\mathbf A)|$ | 에이 determinant의 절댓값 | 부호를 제외한 부피 배율 | 0 이상 |
-| 방향 순서 | orientation | 기저의 축 순서가 오른손·왼손 방식 중 어느 쪽인지 나타내는 성질 | determinant 부호와 연결 |
-| 삼각행렬 | triangular matrix | 대각선 한쪽이 모두 0인 정사각행렬 | determinant는 대각 원소의 곱 |
+| $\det(\mathbf A)$ | `the determinant of A` | 정사각행렬의 방향 있는 부피 배율 | scalar |
+| $|\det(\mathbf A)|$ | `the absolute value of the determinant of A` | 부호를 제외한 부피 배율 | 0 이상 |
+| 방향 순서 | `orientation` | 기저의 축 순서가 오른손·왼손 방식 중 어느 쪽인지 나타내는 성질 | determinant 부호와 연결 |
+| 삼각행렬 | `triangular matrix` | 대각선 한쪽이 모두 0인 정사각행렬 | determinant는 대각 원소의 곱 |
 
 ## 핵심 개념 1. $2\times2$ determinant는 교차곱의 차다
 
@@ -520,3 +520,4 @@ $\det(\mathbf A)=\frac14$인 가역행렬에 대해 $\det(\mathbf A^{-1})$를 �
 - [x] determinant와 모델 기능 주장을 구분했다.
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

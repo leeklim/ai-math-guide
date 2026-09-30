@@ -42,13 +42,13 @@ estimated_time: "115~140분"
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | 조건 |
+| 기호·용어 | Common spoken reading | 의미 | 조건 |
 |---|---|---|---|
-| $\ker(T)$ | 티의 kernel | $T$가 영벡터로 보내는 입력의 집합 | 정의역의 부분공간 |
-| $\operatorname{im}(T)$ | 티의 image | $T$가 실제로 만드는 출력의 집합 | 공역의 부분공간 |
-| $\operatorname{rank}(\mathbf A)$ | 에이의 랭크 | $\mathbf A$의 image 차원 | pivot 수와 같다. |
-| $\operatorname{nullity}(\mathbf A)$ | 에이의 nullity | $\mathbf A$의 kernel 차원 | 자유변수 수와 같다. |
-| 열공간 | column space | 행렬 열벡터들이 생성하는 공간 | $\operatorname{im}(\mathbf A)$와 같다. |
+| $\ker(T)$ | `the kernel of T` | $T$가 영벡터로 보내는 입력의 집합 | 정의역의 부분공간 |
+| $\operatorname{im}(T)$ | `the image of T` | $T$가 실제로 만드는 출력의 집합 | 공역의 부분공간 |
+| $\operatorname{rank}(\mathbf A)$ | `the rank of A` | $\mathbf A$의 image 차원 | pivot 수와 같다. |
+| $\operatorname{nullity}(\mathbf A)$ | `the nullity of A` | $\mathbf A$의 kernel 차원 | 자유변수 수와 같다. |
+| 열공간 | `column space` | 행렬 열벡터들이 생성하는 공간 | $\operatorname{im}(\mathbf A)$와 같다. |
 
 ## 핵심 개념 1. kernel은 영벡터로 사라지는 입력을 모은다
 
@@ -672,3 +672,4 @@ rank 20은 image의 독립 방향 수를 말한다. 각 방향이 인간이 이�
 - [x] rank와 모델 feature 주장의 범위를 구분했다.
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

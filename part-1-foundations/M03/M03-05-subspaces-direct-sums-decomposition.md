@@ -42,14 +42,14 @@ estimated_time: "120~145분"
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | 조건 |
+| 기호·용어 | Common spoken reading | 의미 | 조건 |
 |---|---|---|---|
-| $U,W$ | 유, 더블유 | 벡터공간 $V$의 부분공간 | $U,W\le V$ |
-| $U+W$ | 유 더하기 더블유 | $\mathbf u+\mathbf w$ 꼴 벡터들의 부분공간 | $\mathbf u\in U,\mathbf w\in W$ |
-| $U\cap W$ | 유와 더블유의 교집합 | 두 부분공간에 모두 속하는 벡터들의 공간 | 적어도 영벡터를 포함한다. |
-| $U\oplus W$ | 유와 더블유의 직합 | 교집합이 영공간인 부분공간 합 | 각 벡터의 분해가 유일하다. |
-| $U^\perp$ | 유의 직교여공간 | $U$의 모든 벡터와 직교하는 벡터들의 공간 | 내적이 정해져야 한다. |
-| $\operatorname{proj}_U\mathbf x$ | 유 위로의 엑스 정사영 | $U$에서 $\mathbf x$에 가장 가까운 벡터 | Euclidean 내적 기준 |
+| $U,W$ | `U and W` | 벡터공간 $V$의 부분공간 | $U,W\le V$ |
+| $U+W$ | `U plus W` | $\mathbf u+\mathbf w$ 꼴 벡터들의 부분공간 | $\mathbf u\in U,\mathbf w\in W$ |
+| $U\cap W$ | `U intersection W` | 두 부분공간에 모두 속하는 벡터들의 공간 | 적어도 영벡터를 포함한다. |
+| $U\oplus W$ | `U direct sum W` | 교집합이 영공간인 부분공간 합 | 각 벡터의 분해가 유일하다. |
+| $U^\perp$ | `U perp` | $U$의 모든 벡터와 직교하는 벡터들의 공간 | 내적이 정해져야 한다. |
+| $\operatorname{proj}_U\mathbf x$ | `the projection of x onto U` | $U$에서 $\mathbf x$에 가장 가까운 벡터 | Euclidean 내적 기준 |
 
 ## 핵심 개념 1. 부분공간의 합은 두 공간의 성분을 더해 만든다
 
@@ -666,3 +666,4 @@ probe 결과는 $U$에서 개념 정보를 복원할 수 있다는 증거다. �
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 선수지식 밖의 내용을 몰래 요구하지 않는다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

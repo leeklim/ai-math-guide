@@ -10,6 +10,9 @@ if (-not (Test-Path -LiteralPath $Python)) {
 
 Push-Location $ProjectRoot
 try {
+    & $Python -m unittest discover -s tests -p "test_*.py"
+    if ($LASTEXITCODE -ne 0) { throw "자동 검사 테스트가 실패했습니다." }
+
     & $Python "scripts/site.py" audit
     if ($LASTEXITCODE -ne 0) { throw "원본 감사가 실패했습니다." }
 

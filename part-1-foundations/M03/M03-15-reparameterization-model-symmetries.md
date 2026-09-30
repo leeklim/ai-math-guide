@@ -43,16 +43,16 @@ estimated_time: "145~175분"
 
 ## 기호와 용어
 
-| 표기·용어 | 뜻 |
-|---|---|
-| $f_{\boldsymbol\theta}$ | 파라미터 $\boldsymbol\theta$가 정하는 모델 함수 |
-| $r(\boldsymbol\phi)=\boldsymbol\theta$ | 새 파라미터에서 기존 파라미터로 가는 재매개화 map |
-| $\boldsymbol\theta\sim\boldsymbol\theta'$ | 두 파라미터가 같은 모델 함수를 나타낸다는 동치관계 |
-| symmetry transformation | 모델 함수를 보존하는 파라미터 변환 |
-| orbit | 한 파라미터에 symmetry transformation들을 적용해 얻는 동치 class |
-| identifiability | 관찰 가능한 함수나 분포로부터 파라미터를 유일하게 정할 수 있는 성질 |
-| $\mathbf P$ | hidden unit을 바꾸거나 순열하는 가역행렬 |
-| $\mathbf D$ | 양의 대각 scaling 행렬 |
+| 표기·용어 | Common spoken reading | 의미 |
+|---|---|---|
+| $f_{\boldsymbol\theta}$ | `f sub theta` | 파라미터 $\boldsymbol\theta$가 정하는 모델 함수 |
+| $r(\boldsymbol\phi)=\boldsymbol\theta$ | `r of phi equals theta` | 새 파라미터에서 기존 파라미터로 가는 재매개화 map |
+| $\boldsymbol\theta\sim\boldsymbol\theta'$ | `theta is equivalent to theta prime` | 두 파라미터가 같은 모델 함수를 나타낸다는 동치관계 |
+| symmetry transformation | `symmetry transformation` | 모델 함수를 보존하는 파라미터 변환 |
+| orbit | `orbit` | 한 파라미터에 symmetry transformation들을 적용해 얻는 동치 class |
+| identifiability | `identifiability` | 관찰 가능한 함수나 분포로부터 파라미터를 유일하게 정할 수 있는 성질 |
+| $\mathbf P$ | `P` | hidden unit을 바꾸거나 순열하는 가역행렬 |
+| $\mathbf D$ | `D` | 양의 대각 scaling 행렬 |
 
 ## 핵심 개념 1. 재매개화는 파라미터 표현을 바꾼다
 
@@ -645,3 +645,4 @@ M03 전체를 마쳤다면 다음을 연결해서 설명할 수 있어야 한다
 - [x] 모델 해석 주장의 강도를 구분했다.
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

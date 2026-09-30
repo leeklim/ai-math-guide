@@ -43,14 +43,14 @@ representation과 label 사이 mutual information, layer를 지날 때 정보가
 
 ## 기호와 용어
 
-| 표기·용어 | 읽는 법 | 의미 | 조건·범위 |
+| 표기·용어 | Common spoken reading | 의미 | 조건·범위 |
 |---|---|---|---|
-| $\mathrm H(X,Y)$ | 엑스 와이의 joint entropy | joint distribution의 entropy | discrete variables |
-| $\mathrm H(X\mid Y)$ | 와이가 주어진 엑스의 conditional entropy | $Y$를 관측한 뒤 남는 $X$의 평균 uncertainty | $\ge0$ for discrete variables |
-| $I(X;Y)$ | 엑스와 와이의 mutual information | joint distribution과 marginal product 사이 KL | $\ge0$ |
-| $p_Xp_Y$ | marginal product | $p_X(x)p_Y(y)$ | independence model |
-| pointwise mutual information | 점별 상호정보량 | 한 outcome pair의 log density ratio | 값은 음수일 수 있음 |
-| Markov chain | 마르코프 연쇄 | 중간변수를 알면 양 끝 변수가 조건부독립인 구조 | $X\to Z\to Y$ |
+| $\mathrm H(X,Y)$ | `H of X comma Y` | joint distribution의 entropy | discrete variables |
+| $\mathrm H(X\mid Y)$ | `H of X given Y` | $Y$를 관측한 뒤 남는 $X$의 평균 uncertainty | $\ge0$ for discrete variables |
+| $I(X;Y)$ | `I of X semicolon Y` | joint distribution과 marginal product 사이 KL | $\ge0$ |
+| $p_Xp_Y$ | `p sub X times p sub Y` | $p_X(x)p_Y(y)$ | independence model |
+| pointwise mutual information | `pointwise mutual information` | 한 outcome pair의 log density ratio | 값은 음수일 수 있음 |
+| Markov chain | `Markov chain` | 중간변수를 알면 양 끝 변수가 조건부독립인 구조 | $X\to Z\to Y$ |
 
 ## 핵심 개념 1. joint entropy는 변수 쌍의 uncertainty를 센다
 
@@ -457,3 +457,4 @@ I(Y;H)\le I(Y;X)=0.9
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 선수지식 밖의 내용을 몰래 요구하지 않는다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

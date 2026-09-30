@@ -40,15 +40,15 @@ PCA는 분산과 선형 재구성 오차를 기준으로 방향을 고른다. �
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | shape·조건 |
+| 기호·용어 | Common spoken reading | 의미 | shape·조건 |
 |---|---|---|---|
-| $\mathbf X$ | 엑스 | 표본을 행으로 쌓은 데이터 행렬 | $\mathbf X\in\mathbb R^{N\times d}$ |
-| $\boldsymbol\mu$ | 뮤 | feature별 표본평균 벡터 | $\boldsymbol\mu\in\mathbb R^d$ |
-| $\mathbf X_c$ | 엑스 아래 씨 | 평균을 뺀 중심화 데이터 | $N\times d$ |
-| $\mathbf S$ | 에스 | 표본 공분산행렬 | $\mathbf S=\frac{1}{N-1}\mathbf X_c^\top\mathbf X_c$ |
-| $\mathbf v_i$ | 브이 아래 아이 | $i$번째 주성분 방향 | feature 공간의 단위벡터 |
-| $\lambda_i$ | 람다 아래 아이 | $i$번째 주성분 방향의 표본분산 | $\lambda_1\ge\cdots\ge0$ |
-| $\mathbf Z$ | 제트 | 주성분 점수 행렬 | $\mathbf Z=\mathbf X_c\mathbf V_k$ |
+| $\mathbf X$ | `X` | 표본을 행으로 쌓은 데이터 행렬 | $\mathbf X\in\mathbb R^{N\times d}$ |
+| $\boldsymbol\mu$ | `mu` | feature별 표본평균 벡터 | $\boldsymbol\mu\in\mathbb R^d$ |
+| $\mathbf X_c$ | `X sub c` | 평균을 뺀 중심화 데이터 | $N\times d$ |
+| $\mathbf S$ | `S` | 표본 공분산행렬 | $\mathbf S=\frac{1}{N-1}\mathbf X_c^\top\mathbf X_c$ |
+| $\mathbf v_i$ | `v sub i` | $i$번째 주성분 방향 | feature 공간의 단위벡터 |
+| $\lambda_i$ | `lambda sub i` | $i$번째 주성분 방향의 표본분산 | $\lambda_1\ge\cdots\ge0$ |
+| $\mathbf Z$ | `Z` | 주성분 점수 행렬 | $\mathbf Z=\mathbf X_c\mathbf V_k$ |
 
 ## 핵심 개념 1. PCA는 평균을 뺀 데이터에서 시작한다
 
@@ -661,3 +661,4 @@ $N=101$인 중심화 데이터의 특이값이 $\sigma_1=20$, $\sigma_2=10$이�
 - [x] 데이터·전처리 의존성과 기능 주장 한계를 구분했다.
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

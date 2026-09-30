@@ -42,15 +42,15 @@ condition number는 가역 선형계의 입력 오차가 해에서 얼마나 증
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | 조건 |
+| 기호·용어 | Common spoken reading | 의미 | 조건 |
 |---|---|---|---|
-| $\|\mathbf x\|_1$ | 엑스의 일 노름 | 성분 절댓값의 합 | L1 norm |
-| $\|\mathbf x\|_2$ | 엑스의 이 노름 | 성분 제곱합의 제곱근 | Euclidean norm |
-| $\|\mathbf x\|_\infty$ | 엑스의 무한대 노름 | 성분 절댓값의 최댓값 | maximum norm |
-| $\|\mathbf A\|_F$ | 에이의 에프 노름 | 모든 원소 제곱합의 제곱근 | Frobenius norm |
-| $\|\mathbf A\|_2$ | 에이의 이 노름 | 단위 입력의 최대 증폭률 | spectral norm |
-| $\kappa_2(\mathbf A)$ | 에이의 이 노름 condition number | 최댓값과 최솟값 방향의 증폭률 비 | 이 단원에서는 가역 정사각행렬 |
-| 상대오차 | relative error | 오차 크기를 기준값 크기로 나눈 비 | 기준값이 0이 아니어야 한다. |
+| $\|\mathbf x\|_1$ | `the L one norm of x` | 성분 절댓값의 합 | L1 norm |
+| $\|\mathbf x\|_2$ | `the L two norm of x` | 성분 제곱합의 제곱근 | Euclidean norm |
+| $\|\mathbf x\|_\infty$ | `the L infinity norm of x` | 성분 절댓값의 최댓값 | maximum norm |
+| $\|\mathbf A\|_F$ | `the Frobenius norm of A` | 모든 원소 제곱합의 제곱근 | Frobenius norm |
+| $\|\mathbf A\|_2$ | `the L two norm of A` | 단위 입력의 최대 증폭률 | spectral norm |
+| $\kappa_2(\mathbf A)$ | `the L two condition number of A` | 최댓값과 최솟값 방향의 증폭률 비 | 이 단원에서는 가역 정사각행렬 |
+| 상대오차 | `relative error` | 오차 크기를 기준값 크기로 나눈 비 | 기준값이 0이 아니어야 한다. |
 
 ## 핵심 개념 1. norm은 벡터 크기의 규칙이다
 
@@ -683,3 +683,4 @@ $\mathbf H_c^\top\mathbf H_c$의 고유값은 6과 2이므로 특이값은
 - [x] 수치 민감도와 실제 모델 행동 주장을 구분했다.
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

@@ -40,13 +40,13 @@ estimated_time: "105~130분"
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | 조건 |
+| 기호·용어 | Common spoken reading | 의미 | 조건 |
 |---|---|---|---|
-| $\mathbf A=\mathbf A^\top$ | 에이는 에이 전치와 같다 | 실수 대칭행렬 조건 | $\mathbf A\in\mathbb R^{n\times n}$ |
-| $\mathbf Q$ | 큐 | 정규직교 고유벡터를 열로 모은 행렬 | $\mathbf Q^\top\mathbf Q=\mathbf Q\mathbf Q^\top=\mathbf I_n$ |
-| $\boldsymbol\Lambda$ | 람다 대문자 | 고유값을 대각에 놓은 행렬 | $\boldsymbol\Lambda=\operatorname{diag}(\lambda_1,\ldots,\lambda_n)$ |
-| $\mathbf x^\top\mathbf A\mathbf x$ | 엑스 전치 에이 엑스 | $\mathbf A$의 quadratic form | 결과는 scalar |
-| 양의 준정부호 | positive semidefinite, PSD | 모든 quadratic form 값이 0 이상인 성질 | $\mathbf x^\top\mathbf A\mathbf x\ge0$ |
+| $\mathbf A=\mathbf A^\top$ | `A equals A transpose` | 실수 대칭행렬 조건 | $\mathbf A\in\mathbb R^{n\times n}$ |
+| $\mathbf Q$ | `Q` | 정규직교 고유벡터를 열로 모은 행렬 | $\mathbf Q^\top\mathbf Q=\mathbf Q\mathbf Q^\top=\mathbf I_n$ |
+| $\boldsymbol\Lambda$ | `capital lambda` | 고유값을 대각에 놓은 행렬 | $\boldsymbol\Lambda=\operatorname{diag}(\lambda_1,\ldots,\lambda_n)$ |
+| $\mathbf x^\top\mathbf A\mathbf x$ | `x transpose A x` | $\mathbf A$의 quadratic form | 결과는 scalar |
+| 양의 준정부호 | `positive semidefinite` | 모든 quadratic form 값이 0 이상인 성질 | $\mathbf x^\top\mathbf A\mathbf x\ge0$ |
 
 ## 핵심 개념 1. 대칭행렬은 주대각선을 기준으로 원소가 대응한다
 
@@ -583,3 +583,4 @@ $\mathbf Q^\top\mathbf q_1=\mathbf e_1$이고 $\mathbf Q^\top\mathbf q_2=\mathbf
 - [x] 스펙트럼 구조와 모델 기능 주장을 구분했다.
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

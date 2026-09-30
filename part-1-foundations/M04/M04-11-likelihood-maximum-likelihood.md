@@ -43,14 +43,14 @@ estimated_time: "150~180분"
 
 ## 기호와 용어
 
-| 표기·용어 | 읽는 법 | 의미 | 고정·변화 대상 |
+| 표기·용어 | Common spoken reading | 의미 | 고정·변화 대상 |
 |---|---|---|---|
-| $p_\theta(x)$ | 파라미터 세타의 데이터 확률·밀도 | $\theta$가 정하는 확률모형 | $\theta$ 고정, $x$ 변화 |
-| $L(\theta;x)$ | 세타의 likelihood | 관측 $x$를 고정하고 $p_\theta(x)$를 $\theta$의 함수로 읽은 것 | $x$ 고정, $\theta$ 변화 |
-| $\ell(\theta;x)$ | log-likelihood | likelihood의 자연로그 | $\log L(\theta;x)$ |
-| $\widehat\theta_{\mathrm{MLE}}$ | 최대우도추정량 | likelihood를 최대화하는 파라미터 | argmax |
-| NLL | negative log-likelihood | log-likelihood의 음수 | minimization loss |
-| $\mathcal D$ | 데이터셋 디 | 관측 sample | $\{x_1,\ldots,x_n\}$ |
+| $p_\theta(x)$ | `p sub theta of x` | $\theta$가 정하는 확률모형 | $\theta$ 고정, $x$ 변화 |
+| $L(\theta;x)$ | `L of theta given x` | 관측 $x$를 고정하고 $p_\theta(x)$를 $\theta$의 함수로 읽은 것 | $x$ 고정, $\theta$ 변화 |
+| $\ell(\theta;x)$ | `ell of theta given x` | likelihood의 자연로그 | $\log L(\theta;x)$ |
+| $\widehat\theta_{\mathrm{MLE}}$ | `theta hat sub M L E` | likelihood를 최대화하는 파라미터 | argmax |
+| NLL | `N L L` | log-likelihood의 음수 | minimization loss |
+| $\mathcal D$ | `calligraphic D` | 관측 sample | $\{x_1,\ldots,x_n\}$ |
 
 ## 핵심 개념 1. likelihood는 같은 식을 파라미터 방향으로 읽는다
 
@@ -495,3 +495,4 @@ $\frac12\log(2\pi\sigma^2)$은 prediction mean parameter와 무관한 상수이�
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 선수지식 밖의 내용을 몰래 요구하지 않는다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

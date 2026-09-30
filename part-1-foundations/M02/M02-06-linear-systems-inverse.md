@@ -46,14 +46,14 @@ estimated_time: "110~135분"
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | 조건 |
+| 기호·용어 | Common spoken reading | 의미 | 조건 |
 |---|---|---|---|
-| $\mathbf A\mathbf x=\mathbf b$ | 에이 엑스는 비 | 미지수 벡터에 관한 일차연립방정식 | $\mathbf A\in\mathbb R^{m\times n}$ |
-| $[\mathbf A\mid\mathbf b]$ | 에이와 비의 확대행렬 | 계수행렬과 우변을 나란히 붙인 행렬 | $m\times(n+1)$ |
-| pivot | 피벗 | 행 사다리꼴에서 한 행의 첫 0이 아닌 원소 위치 | 해의 제약을 나타낸다. |
-| 자유변수 | free variable | pivot이 놓이지 않은 열의 미지수 | 값을 자유롭게 정할 수 있다. |
-| $\mathbf A^{-1}$ | 에이 역행렬 | $\mathbf A$의 선형변환을 되돌리는 행렬 | 가역인 정사각행렬에서만 존재 |
-| 특이행렬 | singular matrix | 역행렬이 없는 정사각행렬 | 입력 방향 일부가 겹치거나 사라진다. |
+| $\mathbf A\mathbf x=\mathbf b$ | `A x equals b` | 미지수 벡터에 관한 일차연립방정식 | $\mathbf A\in\mathbb R^{m\times n}$ |
+| $[\mathbf A\mid\mathbf b]$ | `the augmented matrix A bar b` | 계수행렬과 우변을 나란히 붙인 행렬 | $m\times(n+1)$ |
+| pivot | `pivot` | 행 사다리꼴에서 한 행의 첫 0이 아닌 원소 위치 | 해의 제약을 나타낸다. |
+| 자유변수 | `free variable` | pivot이 놓이지 않은 열의 미지수 | 값을 자유롭게 정할 수 있다. |
+| $\mathbf A^{-1}$ | `A inverse` | $\mathbf A$의 선형변환을 되돌리는 행렬 | 가역인 정사각행렬에서만 존재 |
+| 특이행렬 | `singular matrix` | 역행렬이 없는 정사각행렬 | 입력 방향 일부가 겹치거나 사라진다. |
 
 ## 핵심 개념 1. 연립방정식을 행렬식으로 묶는다
 
@@ -677,3 +677,4 @@ $\mathbf W$는 정사각행렬이 아니므로 양쪽 역행렬 $\mathbf W^{-1}$
 - [x] 역복원 가능성과 shape만의 주장을 구분했다.
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

@@ -48,17 +48,17 @@ calibration만으로 probability prediction의 품질이 모두 정해지지는 
 
 ## 기호와 용어
 
-| 표기·용어 | 읽는 법 | 의미 | 조건·범위 |
+| 표기·용어 | Common spoken reading | 의미 | 조건·범위 |
 |---|---|---|---|
-| $\widehat P$ | 피 햇 | model이 출력한 positive-class probability | $0\le\widehat P\le1$ |
-| $\widehat y_i$ | 와이 햇 아이 | sample $i$의 predicted class | multiclass 가능 |
-| $\widehat c_i$ | 씨 햇 아이 | predicted class의 confidence | $\max_k q_i(k)$ |
-| $B_m$ | 비 엠 | confidence가 일정 구간에 든 sample index 집합 | binning에 의존 |
-| reliability diagram | 릴라이어빌리티 다이어그램 | bin별 confidence와 accuracy 비교 | finite-sample estimate |
-| ECE | 이시이 | bin별 calibration gap의 weighted average | binning에 의존 |
-| scoring rule | 스코어링 룰 | probability prediction과 outcome에 loss를 부여하는 규칙 | 여기서는 작을수록 좋음 |
-| Brier score | 브라이어 스코어 | squared error 기반 probability score | binary·multiclass |
-| sharpness | 샤프니스 | prediction distribution이 얼마나 집중되는지 나타내는 성질 | calibration과 별도 |
+| $\widehat P$ | `P hat` | model이 출력한 positive-class probability | $0\le\widehat P\le1$ |
+| $\widehat y_i$ | `y hat sub i` | sample $i$의 predicted class | multiclass 가능 |
+| $\widehat c_i$ | `c hat sub i` | predicted class의 confidence | $\max_k q_i(k)$ |
+| $B_m$ | `B sub m` | confidence가 일정 구간에 든 sample index 집합 | binning에 의존 |
+| reliability diagram | `reliability diagram` | bin별 confidence와 accuracy 비교 | finite-sample estimate |
+| ECE | `E C E` | bin별 calibration gap의 weighted average | binning에 의존 |
+| scoring rule | `scoring rule` | probability prediction과 outcome에 loss를 부여하는 규칙 | 여기서는 작을수록 좋음 |
+| Brier score | `Brier score` | squared error 기반 probability score | binary·multiclass |
+| sharpness | `sharpness` | prediction distribution이 얼마나 집중되는지 나타내는 성질 | calibration과 별도 |
 
 ## 핵심 개념 1. calibration은 probability와 frequency의 일치를 묻는다
 
@@ -461,3 +461,4 @@ ECE는 bin boundary와 sample size에 의존하며 top-label calibration만 요�
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 선수지식 밖의 내용을 몰래 요구하지 않는다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

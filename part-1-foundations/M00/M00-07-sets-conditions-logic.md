@@ -44,21 +44,21 @@ estimated_time: "95~115분"
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | 예 |
+| 기호·용어 | Common spoken reading | 의미 | 예 |
 |---|---|---|---|
-| $x\in A$ | 엑스는 에이의 원소 | $x$가 집합 $A$에 속함 | $2\in\{1,2,3\}$ |
-| $x\notin A$ | 엑스는 에이의 원소가 아님 | $x$가 $A$에 속하지 않음 | $4\notin\{1,2,3\}$ |
-| $A\subseteq B$ | 에이는 비의 부분집합 | $A$의 모든 원소가 $B$에도 속함 | $\{1,2\}\subseteq\{1,2,3\}$ |
-| $\varnothing$ | 공집합 | 원소가 하나도 없는 집합 | $\{x\in\mathbb R:x^2=-1\}=\varnothing$ |
-| $A\cup B$ | 에이 합집합 비 | $A$ 또는 $B$에 속하는 원소의 집합 | 중복은 한 번만 적음 |
-| $A\cap B$ | 에이 교집합 비 | $A$와 $B$에 모두 속하는 원소의 집합 | 공통 원소 |
-| $\neg P$ | 피가 아니다 | 명제 $P$의 부정 | 참과 거짓을 뒤집음 |
-| $P\land Q$ | 피 그리고 큐 | $P,Q$가 모두 참 | 논리곱 |
-| $P\lor Q$ | 피 또는 큐 | 둘 중 적어도 하나가 참 | 논리합 |
-| $P\Rightarrow Q$ | 피이면 큐 | $P$가 참이면 $Q$도 참 | 조건문 |
-| $P\Leftrightarrow Q$ | 피일 필요충분조건은 큐 | 두 방향의 조건문이 모두 성립 | 동치 |
-| $\forall$ | 모든 | 지정한 범위의 각 대상에 대해 | 전칭기호 |
-| $\exists$ | 존재한다 | 조건을 만족하는 대상이 적어도 하나 있음 | 존재기호 |
+| $x\in A$ | `x is in A` | $x$가 집합 $A$에 속함 | $2\in\{1,2,3\}$ |
+| $x\notin A$ | `x is not in A` | $x$가 $A$에 속하지 않음 | $4\notin\{1,2,3\}$ |
+| $A\subseteq B$ | `A is a subset of B` | $A$의 모든 원소가 $B$에도 속함 | $\{1,2\}\subseteq\{1,2,3\}$ |
+| $\varnothing$ | `the empty set` | 원소가 하나도 없는 집합 | $\{x\in\mathbb R:x^2=-1\}=\varnothing$ |
+| $A\cup B$ | `A union B` | $A$ 또는 $B$에 속하는 원소의 집합 | 중복은 한 번만 적음 |
+| $A\cap B$ | `A intersection B` | $A$와 $B$에 모두 속하는 원소의 집합 | 공통 원소 |
+| $\neg P$ | `not P` | 명제 $P$의 부정 | 참과 거짓을 뒤집음 |
+| $P\land Q$ | `P and Q` | $P,Q$가 모두 참 | 논리곱 |
+| $P\lor Q$ | `P or Q` | 둘 중 적어도 하나가 참 | 논리합 |
+| $P\Rightarrow Q$ | `P implies Q` | $P$가 참이면 $Q$도 참 | 조건문 |
+| $P\Leftrightarrow Q$ | `P if and only if Q` | 두 방향의 조건문이 모두 성립 | 동치 |
+| $\forall$ | `for all` | 지정한 범위의 각 대상에 대해 | 전칭기호 |
+| $\exists$ | `there exists` | 조건을 만족하는 대상이 적어도 하나 있음 | 존재기호 |
 
 ## 핵심 개념 1. 집합은 대상을 원소로 모은다
 
@@ -662,3 +662,4 @@ x^2=\frac14<\frac12=x
 - [x] 복원, 사용과 인과의 주장 강도를 구분했다.
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

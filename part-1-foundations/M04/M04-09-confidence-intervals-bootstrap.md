@@ -41,15 +41,15 @@ estimated_time: "150~180분"
 
 ## 기호와 용어
 
-| 표기·용어 | 읽는 법 | 의미 | 범위·역할 |
+| 표기·용어 | Common spoken reading | 의미 | 범위·역할 |
 |---|---|---|---|
-| $1-\alpha$ | 일 마이너스 알파 | confidence level | 예: $0.95$ |
-| $C(X_1,\ldots,X_n)$ | 신뢰구간 절차 | sample에서 두 endpoint를 만드는 random interval | 표집 전 random |
-| $z_{1-\alpha/2}$ | 표준정규 임계값 | 표준정규 CDF가 $1-\alpha/2$가 되는 값 | 95%에서 약 1.96 |
-| $t_{\nu,1-\alpha/2}$ | 티 임계값 | 자유도 $\nu$인 t 분포의 임계값 | 모분산 미지 평균 interval |
-| $B$ | 비 | bootstrap replicate 수 | 양의 정수 |
-| $\widehat\theta^{*(b)}$ | bootstrap 추정값 | $b$번째 bootstrap resample에서 계산한 통계량 | $b=1,\ldots,B$ |
-| $q_p^*$ | bootstrap 분위수 | replicate 중 비율 $p$ 위치의 값 | percentile interval에 사용 |
+| $1-\alpha$ | `one minus alpha` | confidence level | 예: $0.95$ |
+| $C(X_1,\ldots,X_n)$ | `C of X one through X n` | sample에서 두 endpoint를 만드는 random interval | 표집 전 random |
+| $z_{1-\alpha/2}$ | `z sub one minus alpha over two` | 표준정규 CDF가 $1-\alpha/2$가 되는 값 | 95%에서 약 1.96 |
+| $t_{\nu,1-\alpha/2}$ | `t sub nu comma one minus alpha over two` | 자유도 $\nu$인 t 분포의 임계값 | 모분산 미지 평균 interval |
+| $B$ | `B` | bootstrap replicate 수 | 양의 정수 |
+| $\widehat\theta^{*(b)}$ | `theta hat star superscript b` | $b$번째 bootstrap resample에서 계산한 통계량 | $b=1,\ldots,B$ |
+| $q_p^*$ | `q sub p star` | replicate 중 비율 $p$ 위치의 값 | percentile interval에 사용 |
 
 ## 핵심 개념 1. 신뢰구간은 coverage를 가진 random interval 절차이다
 
@@ -444,3 +444,4 @@ token이 prompt 안에 묶여 있으면 row bootstrap은 dependence를 무시해
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 선수지식 밖의 내용을 몰래 요구하지 않는다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

@@ -100,21 +100,21 @@ p_\theta(c\mid\mathbf x_n)
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | shape·범위 |
+| 기호·용어 | Common spoken reading | 의미 | shape·범위 |
 |---|---|---|---|
-| $N$ | 엔 | 표본 수 | 양의 정수 |
-| $C$ | 씨 | class 수 | 양의 정수 |
-| $d$ | 디 | 입력 feature dimension | 양의 정수 |
-| $n$ | 엔 | 표본 인덱스 | $1,\ldots,N$ |
-| $c,j$ | 씨, 제이 | class 인덱스 | $1,\ldots,C$ |
-| $\mathbf x_n$ | 굵은 엑스 아래 엔 | $n$번째 입력 | $\mathbb R^d$ |
-| $y_n$ | 와이 아래 엔 | $n$번째 정답 class 번호 | $\{1,\ldots,C\}$ |
-| $\mathbf W$ | 굵은 더블유 | 가중치 행렬 | $\mathbb R^{C\times d}$ |
-| $\mathbf b$ | 굵은 비 | 편향 벡터 | $\mathbb R^C$ |
-| $\mathbf z_n$ | 굵은 지 아래 엔 | $n$번째 표본의 로짓 벡터 | $\mathbb R^C$ |
-| $z_{n,c}$ | 지 아래 엔 씨 | 표본 $n$의 class $c$ logit | 스칼라 |
-| $p_\theta(c\mid\mathbf x_n)$ | 피 세타 씨 조건 엑스 엔 | class $c$에 부여한 모델 확률 | $0<p_\theta\le1$ |
-| $\mathcal L(\theta)$ | 스크립트 엘 세타 | $N$개 표본의 평균 loss | 스칼라 |
+| $N$ | `N` | 표본 수 | 양의 정수 |
+| $C$ | `C` | class 수 | 양의 정수 |
+| $d$ | `d` | 입력 feature dimension | 양의 정수 |
+| $n$ | `n` | 표본 인덱스 | $1,\ldots,N$ |
+| $c,j$ | `c and j` | class 인덱스 | $1,\ldots,C$ |
+| $\mathbf x_n$ | `x sub n` | $n$번째 입력 | $\mathbb R^d$ |
+| $y_n$ | `y sub n` | $n$번째 정답 class 번호 | $\{1,\ldots,C\}$ |
+| $\mathbf W$ | `W` | 가중치 행렬 | $\mathbb R^{C\times d}$ |
+| $\mathbf b$ | `b` | 편향 벡터 | $\mathbb R^C$ |
+| $\mathbf z_n$ | `z sub n` | $n$번째 표본의 로짓 벡터 | $\mathbb R^C$ |
+| $z_{n,c}$ | `z sub n c` | 표본 $n$의 class $c$ logit | 스칼라 |
+| $p_\theta(c\mid\mathbf x_n)$ | `p sub theta of c given x sub n` | class $c$에 부여한 모델 확률 | $0<p_\theta\le1$ |
+| $\mathcal L(\theta)$ | `L of theta` | $N$개 표본의 평균 loss | 스칼라 |
 
 ## 해독 절차 1. 등호와 정의의 단위를 나눈다
 
@@ -880,3 +880,4 @@ loss가 작다는 결과는 평가한 입력에서 두 출력 분포가 해당 �
 - [x] 블랙박스와 화이트박스 지식증류의 정보 접근 범위를 구분했다.
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

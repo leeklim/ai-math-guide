@@ -41,15 +41,15 @@ activation의 평균과 공분산행렬(covariance matrix), loss의 평균과 �
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | 범위·단위 |
+| 기호·용어 | Common spoken reading | 의미 | 범위·단위 |
 |---|---|---|---|
-| $\mathbb E[X]$ | 엑스의 기댓값 | 분포로 가중한 $X$의 평균 | $X$와 같은 단위 |
-| $\mu_X$ | 뮤 엑스 | $X$의 모평균 | $\mu_X=\mathbb E[X]$ |
-| $\operatorname{Var}(X)$ | 엑스의 분산 | 평균에서 벗어난 거리 제곱의 기댓값 | $X$ 단위의 제곱 |
-| $\sigma_X$ | 시그마 엑스 | $X$의 표준편차 | $\sqrt{\operatorname{Var}(X)}$ |
-| $\operatorname{Cov}(X,Y)$ | 엑스와 와이의 공분산 | 두 중심화 변수가 함께 움직이는 방향과 크기 | $X$ 단위와 $Y$ 단위의 곱 |
-| $\rho_{X,Y}$ | 로 엑스 와이 | 공분산을 표준편차로 나눈 상관계수 | $-1\le\rho_{X,Y}\le1$ |
-| $\mathbf\Sigma$ | 시그마 대문자 | 확률벡터의 공분산행렬 | 대칭 positive semidefinite matrix |
+| $\mathbb E[X]$ | `the expectation of X` | 분포로 가중한 $X$의 평균 | $X$와 같은 단위 |
+| $\mu_X$ | `mu sub X` | $X$의 모평균 | $\mu_X=\mathbb E[X]$ |
+| $\operatorname{Var}(X)$ | `the variance of X` | 평균에서 벗어난 거리 제곱의 기댓값 | $X$ 단위의 제곱 |
+| $\sigma_X$ | `sigma sub X` | $X$의 표준편차 | $\sqrt{\operatorname{Var}(X)}$ |
+| $\operatorname{Cov}(X,Y)$ | `the covariance of X and Y` | 두 중심화 변수가 함께 움직이는 방향과 크기 | $X$ 단위와 $Y$ 단위의 곱 |
+| $\rho_{X,Y}$ | `rho sub X Y` | 공분산을 표준편차로 나눈 상관계수 | $-1\le\rho_{X,Y}\le1$ |
+| $\mathbf\Sigma$ | `capital sigma` | 확률벡터의 공분산행렬 | 대칭 positive semidefinite matrix |
 
 ## 핵심 개념 1. 기댓값은 분포가 정한 가중평균이다
 
@@ -523,3 +523,4 @@ $Y$는 $X$가 정하면 결정되므로 두 변수는 의존한다. 수치로 �
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 선수지식 밖의 내용을 몰래 요구하지 않는다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

@@ -42,14 +42,14 @@ estimated_time: "120~145분"
 
 ## 기호와 용어
 
-| 기호·용어 | 읽는 법 | 의미 | 범위 |
+| 기호·용어 | Common spoken reading | 의미 | 범위 |
 |---|---|---|---|
-| $x\sim y$ | 엑스와 와이는 동치 | 정한 기준에서 두 원소를 같은 것으로 취급한다. | 동치관계가 필요하다. |
-| $[x]$ | 엑스의 동치류 | $x$와 동치인 모든 원소의 집합 | $x$는 대표원이다. |
-| $\mathbf v+U$ | 브이 플러스 유 | $\mathbf v$에 $U$의 모든 벡터를 더한 집합 | $U$의 coset |
-| $V/U$ | 브이 몫 유 | $U$ 방향 차이를 무시한 동치류들의 집합 | quotient space |
-| $\pi:V\to V/U$ | 파이 | 벡터를 자기 동치류로 보내는 quotient map | $\pi(\mathbf v)=\mathbf v+U$ |
-| 대표원 | representative | 동치류를 표시하기 위해 고른 한 원소 | 같은 동치류에 여러 대표원이 있다. |
+| $x\sim y$ | `x is equivalent to y` | 정한 기준에서 두 원소를 같은 것으로 취급한다. | 동치관계가 필요하다. |
+| $[x]$ | `the equivalence class of x` | $x$와 동치인 모든 원소의 집합 | $x$는 대표원이다. |
+| $\mathbf v+U$ | `v plus U` | $\mathbf v$에 $U$의 모든 벡터를 더한 집합 | $U$의 coset |
+| $V/U$ | `V mod U` | $U$ 방향 차이를 무시한 동치류들의 집합 | quotient space |
+| $\pi:V\to V/U$ | `pi maps V to V mod U` | 벡터를 자기 동치류로 보내는 quotient map | $\pi(\mathbf v)=\mathbf v+U$ |
+| 대표원 | `representative` | 동치류를 표시하기 위해 고른 한 원소 | 같은 동치류에 여러 대표원이 있다. |
 
 ## 핵심 개념 1. 동치관계는 같은 것으로 취급할 규칙이다
 
@@ -677,3 +677,4 @@ quotient는 $U$ 방향의 모든 차이를 제거하지만 그 방향이 nuisanc
 - [x] 모델 해석 주장의 강도를 구분했다.
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

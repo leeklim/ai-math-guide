@@ -41,17 +41,17 @@ estimated_time: "155~185분"
 
 ## 기호와 용어
 
-| 표기·용어 | 읽는 법 | 의미 | 범위·역할 |
+| 표기·용어 | Common spoken reading | 의미 | 범위·역할 |
 |---|---|---|---|
-| $H_0$ | 귀무가설 | 검정할 기준 모형이나 효과 없음 가설 | null hypothesis |
-| $H_1$ | 대립가설 | $H_0$와 비교할 효과·차이 가설 | alternative hypothesis |
-| $T$ | 검정통계량 | sample을 극단성의 수로 보내는 통계량 | null distribution을 가짐 |
-| $t_{\mathrm{obs}}$ | 관측 검정통계량 | 현재 sample에서 계산한 $T$의 값 | 고정된 수 |
-| $p$ | p-value | $H_0$ 아래 관측값 이상으로 극단적인 통계량의 확률 | $0\le p\le1$ |
-| $\alpha$ | 유의수준 | Type I error 통제를 위해 미리 정한 기각 기준 | 흔한 예: 0.05 |
-| $\beta$ | Type II error 확률 | 특정 대립가설이 참일 때 $H_0$를 기각하지 못할 확률 | $0\le\beta\le1$ |
-| $1-\beta$ | 검정력 | 특정 효과가 있을 때 이를 검출할 확률 | power |
-| $m$ | 엠 | 동시에 고려한 가설의 수 | positive integer |
+| $H_0$ | `H naught` | 검정할 기준 모형이나 효과 없음 가설 | null hypothesis |
+| $H_1$ | `H one` | $H_0$와 비교할 효과·차이 가설 | alternative hypothesis |
+| $T$ | `T` | sample을 극단성의 수로 보내는 통계량 | null distribution을 가짐 |
+| $t_{\mathrm{obs}}$ | `t sub obs` | 현재 sample에서 계산한 $T$의 값 | 고정된 수 |
+| $p$ | `p` | $H_0$ 아래 관측값 이상으로 극단적인 통계량의 확률 | $0\le p\le1$ |
+| $\alpha$ | `alpha` | Type I error 통제를 위해 미리 정한 기각 기준 | 흔한 예: 0.05 |
+| $\beta$ | `beta` | 특정 대립가설이 참일 때 $H_0$를 기각하지 못할 확률 | $0\le\beta\le1$ |
+| $1-\beta$ | `one minus beta` | 특정 효과가 있을 때 이를 검출할 확률 | power |
+| $m$ | `m` | 동시에 고려한 가설의 수 | positive integer |
 
 ## 핵심 개념 1. 가설검정은 기준 모형과 통계량을 먼저 정한다
 
@@ -407,3 +407,4 @@ $m=3$이므로 thresholds는
 - [x] 용어집과 표기 규칙을 따랐다.
 - [x] 선수지식 밖의 내용을 몰래 요구하지 않는다.
 - [x] 내부 링크와 수식 구분자를 확인했다.
+- [x] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.

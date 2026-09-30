@@ -669,3 +669,12 @@
 | effective dimension | effective dimension | hard rank와 구분 | regularization scale에 따라 eigenvalue 기여를 합한 spectral dimension | A09-KER-05 |
 | neural tangent kernel | neural tangent kernel, NTK | activation similarity kernel과 구분 | input별 parameter gradient의 inner product로 정의한 kernel | A09-KER-06 |
 | kernel drift | kernel drift | function distance와 동일하지 않음 | checkpoint 사이에서 empirical kernel geometry가 변한 정도 | A09-KER-08 |
+| 집중현상 | concentration of measure | 모든 point의 동일성과 구분 | 고차원 random quantity가 평균이나 typical value 근처에 모이는 현상 | A09-RMT-01 |
+| random projection | random projection | PCA와 구분 | data-independent random matrix로 representation dimension을 줄이는 map | A09-RMT-02 |
+| aspect ratio | aspect ratio | sample 수나 dimension 단독과 구분 | random matrix 분석에서 dimension과 sample 수의 비 $d/n$ | A09-RMT-03 |
+| Marchenko–Pastur 법칙 | Marchenko–Pastur law | 모든 covariance spectrum의 보편식이 아님 | iid isotropic noise의 고차원 sample covariance spectral distribution | A09-RMT-04 |
+| spectral bulk | spectral bulk | 개별 outlier와 구분 | random-matrix limit에서 eigenvalue 대부분이 놓이는 연속 범위 | A09-RMT-04 |
+| spiked covariance model | spiked covariance model | 일반 anisotropic covariance와 구분 | isotropic noise covariance에 low-rank signal을 더한 model | A09-RMT-05 |
+| spectral separation | spectral separation | task relevance와 구분 | sample outlier eigenvalue가 noise bulk와 분리되는 현상 | A09-RMT-05 |
+| parallel analysis | parallel analysis | analytic edge 하나와 구분 | simulated null eigenvalue quantile과 observed eigenvalue를 비교하는 절차 | A09-RMT-06 |
+| subspace stability | subspace stability | eigenvector coordinate 일치와 구분 | split·seed 사이에서 leading span이 재현되는 정도 | A09-RMT-06 |

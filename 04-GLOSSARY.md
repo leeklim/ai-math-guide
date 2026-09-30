@@ -572,6 +572,15 @@
 | 데이터 누출 | data leakage | 정상적인 일반화와 구분 | 평가 정보가 학습·선택·전처리 과정에 유입되는 일 | I06-02 |
 | 이상치 | outlier | 자동 오류 판정과 구분 | 정한 기준에서 다른 표본과 크게 떨어진 관측값 | I06-03 |
 | robust statistic | robust statistic | 이상치를 무조건 제거하는 규칙과 구분 | 극단값의 영향이 비교적 작은 통계량 | I06-03 |
+| neuron 단위 분석 | neuron-level analysis | feature와 일대일이라고 가정하지 않음 | 고정 model·module·layer·token의 한 activation 좌표를 분석하는 방법 | I06-04 |
+| linear probe | linear probe | model의 실제 readout과 구분 | 고정 activation에서 label의 선형 복원 가능성을 재는 보조모형 | I06-06 |
+| selectivity | selectivity | task accuracy 하나와 구분 | task probe 성능과 matched control 성능의 차이 | I06-07 |
+| CKA | centered kernel alignment | 모든 선형변환에 불변인 지표가 아님 | centered representation geometry의 정렬 정도 | I06-08 |
+| RSA | representational similarity analysis | raw 좌표 비교와 구분 | 입력 쌍의 유사도·거리 구조를 비교하는 분석 | I06-08 |
+| feature visualization | feature visualization | 인과 귀인과 구분 | feature를 크게 활성화하는 입력과 조건을 찾아 반응 가설을 만드는 방법 | I06-09 |
+| sparse coding | sparse coding | sparse activation 자체와 구분 | dense vector를 적은 dictionary coefficient의 조합으로 근사하는 방법 | I06-11 |
+| dead feature | dead feature | 희귀 feature와 자동 동일시하지 않음 | 정한 평가 구간에서 한 번도 활성화되지 않은 latent | I06-12 |
+| feature 안정성 | feature stability | identifiability 증명과 구분 | 독립 학습 실행에서 비슷한 feature가 다시 나타나는 정도 | I06-13 |
 | 탐침 | probe | 모델이 실제 사용한다는 증거가 아님 | activation에서 정보를 복원하는 보조모형 | I06-06 |
 | 중첩 | superposition | 단순 feature 합과 구분 | 제한된 차원에 더 많은 feature가 겹쳐 표현되는 현상 | I06-10 |
 | 희소 오토인코더 | sparse autoencoder, SAE | feature의 유일성을 보장하지 않음 | 희소 latent로 activation을 재구성하는 모형 | I06-12 |

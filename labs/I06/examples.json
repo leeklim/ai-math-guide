@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "examples": [
+    {"lesson_id": "I06-04", "example_id": "i06_04_neuron_basis", "module": "labs.I06.i06_04_neuron_basis", "source": "labs/I06/i06_04_neuron_basis.py"},
+    {"lesson_id": "I06-05", "example_id": "i06_05_pca_svd", "module": "labs.I06.i06_05_pca_svd", "source": "labs/I06/i06_05_pca_svd.py"},
+    {"lesson_id": "I06-06", "example_id": "i06_06_linear_probe", "module": "labs.I06.i06_06_linear_probe", "source": "labs/I06/i06_06_linear_probe.py"},
+    {"lesson_id": "I06-07", "example_id": "i06_07_probe_control", "module": "labs.I06.i06_07_probe_control", "source": "labs/I06/i06_07_probe_control.py"},
+    {"lesson_id": "I06-08", "example_id": "i06_08_similarity", "module": "labs.I06.i06_08_similarity", "source": "labs/I06/i06_08_similarity.py"},
+    {"lesson_id": "I06-09", "example_id": "i06_09_feature_visualization", "module": "labs.I06.i06_09_feature_visualization", "source": "labs/I06/i06_09_feature_visualization.py"},
+    {"lesson_id": "I06-10", "example_id": "i06_10_superposition", "module": "labs.I06.i06_10_superposition", "source": "labs/I06/i06_10_superposition.py"},
+    {"lesson_id": "I06-11", "example_id": "i06_11_sparse_coding", "module": "labs.I06.i06_11_sparse_coding", "source": "labs/I06/i06_11_sparse_coding.py"},
+    {"lesson_id": "I06-12", "example_id": "i06_12_sparse_autoencoder", "module": "labs.I06.i06_12_sparse_autoencoder", "source": "labs/I06/i06_12_sparse_autoencoder.py"},
+    {"lesson_id": "I06-13", "example_id": "i06_13_feature_stability", "module": "labs.I06.i06_13_feature_stability", "source": "labs/I06/i06_13_feature_stability.py"},
+    {"lesson_id": "I06-14", "example_id": "i06_14_claim_ledger", "module": "labs.I06.i06_14_claim_ledger", "source": "labs/I06/i06_14_claim_ledger.py"},
+    {"lesson_id": "I06-15", "example_id": "i06_15_representation_report", "module": "labs.I06.i06_15_representation_report", "source": "labs/I06/i06_15_representation_report.py"}
+  ]
+}

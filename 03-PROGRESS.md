@@ -36,7 +36,7 @@
 | M03 | 추상선형대수와 행렬미분 | 완료 | 15/15 | M04 완료 |
 | M04 | 확률·통계·정보이론 | 완료 | 17/17 | N05 선수지식 제공 |
 | N05 | 신경망과 Transformer | 완료 | 28/28 | Phase 3 GPU·Pythia 기반과 I06-01~03 |
-| I06 | 표현 해석 | 집필 중 | 3/15 | I06-04 neuron 단위 분석 |
+| I06 | 표현 해석 | 완료 | 15/15 | I07-01 gradient 기반 귀인 |
 | I07 | 귀인·인과·기계론 | 계획 | 0/17 | I06 핵심 단원 완료 후 시작 |
 | I08 | 학습 동역학 | 계획 | 0/13 | N05·I06 완료 후 시작 |
 | A09-GEO | 미분기하학 | 계획 | 0/8 | 선택 |
@@ -65,6 +65,8 @@
 - N05-01~N05-28은 문제·해설 170쌍, 실행 예제 28개와 N05 단위 test 59개를 포함한다.
 - I06 이후 실제 모델 실험은 별도 `.venv-gpu`에서 Pythia 70M·160M·410M deduped의 `step143000`을 사용한다. CPU build는 model cache와 GPU 결과에 의존하지 않는다.
 - 로컬 GPU artifact는 Git에서 제외하고, 추적하는 runner·registry와 manifest schema로 model·revision·hook·입력·자원 상한을 고정한다.
+- I06-04~15는 NumPy·PyTorch CPU 예제 12개로 neuron, PCA·probe·CKA·RSA·sparse coding·SAE와 표현 보고서를 재현한다.
+- I06는 문제·해설 90쌍을 포함하며, probe 복원과 기능적 사용을 분리하고 SAE를 reconstruction·sparsity·dead feature·seed 안정성으로 평가한다.
 - 제4부는 순차 교재가 아니라 선택 모듈이다.
 
 ## 미해결 결정
@@ -188,3 +190,8 @@
 | 2026-10-01 | Phase 3 GPU 기반 | Python 3.12.14, PyTorch 2.13.0+cu132, Transformers 5.17.0 분리 환경과 CUDA 결정성 진단 통과 | Pythia cache·runner 검증 |
 | 2026-10-01 | Pythia 70M·160M·410M gate | immutable revision, hook·선택 activation·최소 gradient, VRAM·artifact·timeout manifest 검증 통과 | I06-01~03 집필 |
 | 2026-10-01 | I06-01~03 | 질문 설계, activation dataset, 분포·기초 통계 설명과 문제·해설 18쌍 작성 | CPU·로컬 GPU site 검증 |
+| 2026-10-01 | I06-04~06 | neuron 기저 의존성, PCA·SVD, linear probe 설명과 CPU 예제 3개·문제 해설 18쌍 작성 | probe control 배치 |
+| 2026-10-01 | I06-07~09 | selectivity, CCA·CKA·RSA, feature visualization 설명과 CPU 예제 3개·문제 해설 18쌍 작성 | superposition 배치 |
+| 2026-10-01 | I06-10~12 | superposition, sparse coding, SAE와 reconstruction·sparsity·dead feature 평가 설명·CPU 예제 3개·문제 해설 18쌍 작성 | 안정성·보고서 배치 |
+| 2026-10-01 | I06-13~15 | feature·subspace 안정성, claim ledger, 종합 표현 보고서와 CPU 예제 3개·문제 해설 18쌍 작성 | I06 단계 감사 |
+| 2026-10-01 | I06 단계 감사 | 15개 단원, 문제·해설 90쌍, CPU 예제 12개, Pythia 3종 GPU manifest, 82개 test, 113개 HTML 페이지와 broken link·checklist 노출 0개 검증 | I07-01 집필 |

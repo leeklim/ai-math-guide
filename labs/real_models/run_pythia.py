@@ -117,7 +117,7 @@ def run_forward_set(
     top_tokens: list[str] = []
     margin_value: float | None = None
     try:
-        prompt_rows = PROMPTS if experiment["model_key"] == "pythia-160m" else PROMPTS[:1]
+        prompt_rows = PROMPTS if experiment["model_key"] in {"pythia-160m", "pythia-410m"} else PROMPTS[:1]
         for index, row in enumerate(prompt_rows):
             encoded = tokenizer(
                 row["text"],
@@ -156,7 +156,8 @@ def run_forward_set(
         handle.remove()
 
     activations = np.stack(selected)
-    conditions = [row["condition"] for row in (PROMPTS if experiment["model_key"] == "pythia-160m" else PROMPTS[:1])]
+    prompt_rows = PROMPTS if experiment["model_key"] in {"pythia-160m", "pythia-410m"} else PROMPTS[:1]
+    conditions = [row["condition"] for row in prompt_rows]
     norms = np.linalg.norm(activations, axis=1)
     summary: dict[str, Any] = {
         "sample_count": int(activations.shape[0]),
@@ -176,6 +177,27 @@ def run_forward_set(
         summary["condition_mean_difference_l2"] = float(np.linalg.norm(place - animal))
     if selected_gradient is not None:
         summary["gradient_l2"] = float(np.linalg.norm(selected_gradient))
+    if experiment["model_key"] == "pythia-410m":
+        reference_path = ACTIVATIONS_DIR / "pythia_160m_activation_dataset" / "selected.npz"
+        if not reference_path.exists():
+            raise RuntimeError("160M activation dataset is required before the 410M comparison")
+        with np.load(reference_path) as reference_file:
+            reference = reference_file["activations"].astype(np.float64)
+        current = activations.astype(np.float64)
+        if reference.shape[0] != current.shape[0]:
+            raise RuntimeError("160M and 410M comparison sample counts differ")
+        reference -= reference.mean(axis=0, keepdims=True)
+        current -= current.mean(axis=0, keepdims=True)
+        numerator = np.linalg.norm(reference.T @ current, ord="fro") ** 2
+        denominator = np.linalg.norm(reference.T @ reference, ord="fro")
+        denominator *= np.linalg.norm(current.T @ current, ord="fro")
+        reference_distances = np.sqrt(np.sum((reference[:, None] - reference[None, :]) ** 2, axis=-1))
+        current_distances = np.sqrt(np.sum((current[:, None] - current[None, :]) ** 2, axis=-1))
+        upper = np.triu_indices(len(reference), k=1)
+        summary["linear_cka_with_160m"] = float(numerator / denominator)
+        summary["rsa_distance_correlation_with_160m"] = float(
+            np.corrcoef(reference_distances[upper], current_distances[upper])[0, 1]
+        )
     return activations, selected_gradient, summary
 
 
@@ -245,7 +267,7 @@ def execute(experiment_id: str) -> dict[str, Any]:
     del model, tokenizer
     torch.cuda.empty_cache()
 
-    input_rows = PROMPTS if experiment["model_key"] == "pythia-160m" else PROMPTS[:1]
+    input_rows = PROMPTS if experiment["model_key"] in {"pythia-160m", "pythia-410m"} else PROMPTS[:1]
     artifact_relative = artifact_path.relative_to(ROOT).as_posix()
     manifest: dict[str, Any] = {
         "schema_version": 1,

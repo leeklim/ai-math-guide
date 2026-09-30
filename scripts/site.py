@@ -55,6 +55,7 @@ POST_N05_STAGE_SPECS = {
 GPU_EXPERIMENT_REGISTRY_PATH = ROOT / "labs" / "real_models" / "experiments.json"
 GPU_MODEL_REGISTRY_PATH = ROOT / "labs" / "real_models" / "models.json"
 GPU_RUNNER_PATH = ROOT / "labs" / "real_models" / "run_pythia.py"
+I06_EXAMPLE_REGISTRY_PATH = ROOT / "labs" / "I06" / "examples.json"
 
 INTERNAL_DOCS = {
     "00-PROJECT-SPEC.md",
@@ -147,6 +148,35 @@ def load_gpu_registries() -> tuple[dict[str, dict[str, object]], dict[str, dict[
             raise SiteError(f"GPU experiment의 model key가 없다: {experiment_id}")
         experiments[experiment_id] = experiment
     return models, experiments
+
+
+def load_i06_example_registry() -> dict[str, dict[str, object]]:
+    data = json.loads(read_text(I06_EXAMPLE_REGISTRY_PATH))
+    if data.get("schema_version") != 1 or not isinstance(data.get("examples"), list):
+        raise SiteError("I06 example registry schema가 잘못됐다")
+    registry: dict[str, dict[str, object]] = {}
+    example_ids: set[str] = set()
+    for entry in data["examples"]:
+        lesson_id = str(entry.get("lesson_id", ""))
+        example_id = str(entry.get("example_id", ""))
+        module = str(entry.get("module", ""))
+        source = str(entry.get("source", ""))
+        if not re.fullmatch(r"I06-\d{2}", lesson_id):
+            raise SiteError(f"I06 registry lesson ID가 잘못됐다: {lesson_id}")
+        if not re.fullmatch(r"i06_\d{2}_[a-z0-9_]+", example_id):
+            raise SiteError(f"I06 registry example ID가 잘못됐다: {example_id}")
+        if lesson_id in registry or example_id in example_ids:
+            raise SiteError(f"I06 registry entry가 중복됐다: {lesson_id}/{example_id}")
+        source_path = (ROOT / source).resolve()
+        if not source_path.is_relative_to(ROOT) or not source_path.exists():
+            raise SiteError(f"I06 registry source가 없거나 안전하지 않다: {source}")
+        registry[lesson_id] = {
+            "example_id": example_id,
+            "module": module,
+            "source_path": source_path,
+        }
+        example_ids.add(example_id)
+    return registry
 
 
 def parse_frontmatter(path: Path, text: str) -> dict[str, object]:
@@ -446,6 +476,7 @@ def discover_post_n05_stage(stage: str) -> list[dict[str, object]]:
     stage_dir = ROOT / str(spec["directory"])
     paths = sorted(stage_dir.glob(f"{stage}-*.md")) if stage_dir.exists() else []
     _, experiments = load_gpu_registries()
+    cpu_registry = load_i06_example_registry() if stage == "I06" else {}
     expected_by_lesson: dict[str, list[str]] = {}
     for experiment_id, experiment in experiments.items():
         lesson_id = str(experiment.get("lesson_id", ""))
@@ -502,6 +533,13 @@ def discover_post_n05_stage(stage: str) -> list[dict[str, object]]:
             issues.append(
                 f"GPU experiment marker mismatch: {lesson_id}={markers}, expected={expected_markers}"
             )
+        cpu_spec = cpu_registry.get(lesson_id)
+        expected_cpu = [str(cpu_spec["example_id"])] if cpu_spec else []
+        cpu_markers = re.findall(r"<!--\s*I06_EXAMPLE:\s*([a-z0-9_]+)\s*-->", text)
+        if cpu_markers != expected_cpu:
+            issues.append(
+                f"I06 example marker mismatch: {lesson_id}={cpu_markers}, expected={expected_cpu}"
+            )
         lessons.append(
             {
                 "id": lesson_id,
@@ -519,6 +557,11 @@ def discover_post_n05_stage(stage: str) -> list[dict[str, object]]:
     if missing_registry_lessons:
         issues.append(
             f"GPU registry points to unwritten {stage} lessons: " + ", ".join(missing_registry_lessons)
+        )
+    missing_cpu_lessons = sorted(set(cpu_registry) - written_ids)
+    if missing_cpu_lessons:
+        issues.append(
+            "I06 registry points to unwritten lessons: " + ", ".join(missing_cpu_lessons)
         )
     sources = [(path, read_text(path)) for path in paths]
     reading_issues, reading_tables, _ = lint_english_readings(sources)
@@ -679,6 +722,62 @@ def expand_n05_example(text: str, lesson_id: str) -> str:
 | parameter | `{resources['parameter_count']}` |
 | 학습 step | `{resources['training_steps']}` |
 | 계산시간 | `{result['compute_seconds']:.6f}`초 |
+| process 시작 포함 | `{result['process_seconds']:.6f}`초 |
+"""
+    return text.replace(marker, generated.rstrip())
+
+
+def expand_i06_example(text: str, lesson_id: str) -> str:
+    example_spec = load_i06_example_registry().get(lesson_id)
+    if example_spec is None:
+        return text
+    example_id = str(example_spec["example_id"])
+    marker = f"<!-- I06_EXAMPLE: {example_id} -->"
+    if text.count(marker) != 1:
+        raise SiteError(f"I06 example marker 수가 1이 아니다: {lesson_id}")
+    source_path = Path(str(example_spec["source_path"]))
+    result_path = BUILD_ROOT / "i06" / "results" / f"{example_id}.json"
+    if not result_path.exists():
+        raise SiteError(
+            f"I06 실행 결과가 없다: {result_path.relative_to(ROOT)}; "
+            "scripts/run_i06_examples.py를 먼저 실행하라"
+        )
+    source = read_text(source_path).rstrip()
+    source_hash = hashlib.sha256(source_path.read_bytes()).hexdigest()
+    result = json.loads(read_text(result_path))
+    if result.get("source_sha256") != source_hash:
+        raise SiteError(f"I06 code와 실행 결과의 source hash가 다르다: {example_id}")
+    required = {
+        "stdout", "output", "command", "python_version", "torch_version",
+        "numpy_version", "device", "process_seconds",
+    }
+    missing = sorted(required - result.keys())
+    if missing:
+        raise SiteError(f"I06 실행 결과 field 누락: {example_id} -> {', '.join(missing)}")
+    generated = f"""<!-- I06_SOURCE_SHA256: {example_id} {source_hash} -->
+
+#### 실제 실행 코드
+
+```python
+{source}
+```
+
+#### 실행 명령
+
+```powershell
+{result['command']}
+```
+
+#### 실제 실행 결과
+
+```text
+{result['stdout']}
+```
+
+| 자동 확인 항목 | 값 |
+|---|---|
+| 환경 | Python `{result['python_version']}`, PyTorch `{result['torch_version']}`, NumPy `{result['numpy_version']}` |
+| device | `{result['device']}` |
 | process 시작 포함 | `{result['process_seconds']:.6f}`초 |
 """
     return text.replace(marker, generated.rstrip())
@@ -855,6 +954,7 @@ def prepare() -> None:
         text = enable_markdown_in_details(text, str(lesson["id"]))
         text = add_search_alias(text, str(lesson["id"]))
         text = expand_n05_example(text, str(lesson["id"]))
+        text = expand_i06_example(text, str(lesson["id"]))
         text = expand_gpu_experiments(text, str(lesson["id"]))
         destination = DOCS_DIR / str(lesson["relative_path"])
         write_text(destination, text)
@@ -936,6 +1036,7 @@ def validate() -> None:
         for lesson in discover_post_n05_stage(stage)
     ]
     n05_registry = load_n05_example_registry()
+    i06_registry = load_i06_example_registry()
     _, gpu_experiments = load_gpu_registries()
     lessons = foundation_lessons + n05_lessons + post_n05_lessons
     issues: list[str] = []
@@ -1032,6 +1133,16 @@ def validate() -> None:
     for lesson in post_n05_lessons:
         lesson_id = str(lesson["id"])
         staged_source = read_text(DOCS_DIR / str(lesson["relative_path"]))
+        example_spec = i06_registry.get(lesson_id)
+        if example_spec is not None:
+            example_id = str(example_spec["example_id"])
+            source_path = Path(str(example_spec["source_path"]))
+            source = read_text(source_path).rstrip()
+            if f"```python\n{source}\n```" not in staged_source:
+                issues.append(f"staged I06 code differs from source: {lesson_id}")
+            result_path = BUILD_ROOT / "i06" / "results" / f"{example_id}.json"
+            if not result_path.exists():
+                issues.append(f"I06 generated result missing: {example_id}")
         for experiment_id, experiment in gpu_experiments.items():
             if experiment.get("lesson_id") != lesson_id:
                 continue
@@ -1101,6 +1212,13 @@ def validate() -> None:
         lesson_id = str(lesson["id"])
         page = output_html_for(str(lesson["relative_path"]))
         page_text = read_text(page) if page.exists() else ""
+        example_spec = i06_registry.get(lesson_id)
+        if example_spec is not None:
+            example_id = str(example_spec["example_id"])
+            source_path = Path(str(example_spec["source_path"]))
+            source_hash = hashlib.sha256(source_path.read_bytes()).hexdigest()
+            if f"I06_SOURCE_SHA256: {example_id} {source_hash}" not in page_text:
+                issues.append(f"I06 source hash marker missing from HTML: {lesson_id}")
         for experiment_id, experiment in gpu_experiments.items():
             if experiment.get("lesson_id") != lesson_id:
                 continue
@@ -1178,6 +1296,15 @@ def validate() -> None:
                 / f"{str(example_spec['example_id'])}.json"
             ).exists()
             for example_spec in n05_registry.values()
+        ),
+        "i06_generated_results": sum(
+            (
+                BUILD_ROOT
+                / "i06"
+                / "results"
+                / f"{str(example_spec['example_id'])}.json"
+            ).exists()
+            for example_spec in i06_registry.values()
         ),
         "gpu_result_mode": include_gpu_results,
         "gpu_registered_experiments": len(gpu_experiments),

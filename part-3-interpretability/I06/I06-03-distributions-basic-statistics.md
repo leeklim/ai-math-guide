@@ -125,15 +125,9 @@ Pythia 160M의 hidden size는 768이고 410M은 1,024다. 두 model의 activatio
 
 규모 비교를 하려면 먼저 비교 가능한 대상을 정한다. norm 분포처럼 scalar summary를 비교할 수는 있지만, model별 scale 차이를 고려해야 한다. 표현 구조를 비교하려면 후속 단원의 CKA, CCA나 RSA처럼 허용할 불변성을 명시한 방법이 필요하다.
 
-## 실제 모델 실습
+## 실제 모델 실습과의 연결
 
-### 410M inference-only scale smoke
-
-410M 실험은 model을 한 번에 하나만 GPU에 올리고 gradient를 만들지 않는다. 선택한 layer 11 MLP update의 마지막 token vector 하나만 저장한다. 이 실험의 목적은 더 큰 hidden size와 module 경로에서 같은 수집 계약이 성립하는지 확인하는 것이다.
-
-<!-- GPU_EXPERIMENT: pythia_410m_scale_smoke -->
-
-표본 하나에서는 분산과 조건 차이를 추정할 수 없다. local result의 norm은 계측값 하나일 뿐이다. 이를 160M의 8개 표본 통계와 나란히 놓더라도 model 규모가 차이를 일으켰다는 인과 결론은 나오지 않는다.
+I06-02의 160M activation dataset은 여덟 입력의 norm 평균·분산과 조건별 평균 차이를 기록한다. 그 값은 고정한 파일럿 표본의 기술통계다. I06-08에서는 같은 여덟 입력을 410M에서도 수집해 CKA와 RSA로 비교한다. hidden size가 다른 raw vector를 직접 빼지 않는다.
 
 ## 권장 기초 보고서
 

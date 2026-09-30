@@ -26,17 +26,23 @@ class CpuSiteGpuIntegrationTests(unittest.TestCase):
 
     def test_i06_prefix_and_gpu_markers(self) -> None:
         lessons = self.site.discover_post_n05_stage("I06")
-        self.assertEqual([lesson["id"] for lesson in lessons], ["I06-01", "I06-02", "I06-03"])
+        self.assertEqual(
+            [lesson["id"] for lesson in lessons],
+            [f"I06-{number:02d}" for number in range(1, 16)],
+        )
 
     def test_cpu_expansion_uses_placeholder_without_results(self) -> None:
         lessons = self.site.discover_post_n05_stage("I06")
+        _, experiments = self.site.load_gpu_registries()
+        experiment_lessons = {str(experiment["lesson_id"]) for experiment in experiments.values()}
         with patch.dict(os.environ, {}, clear=False):
             os.environ.pop("AI_MATH_GPU_RESULTS", None)
             for lesson in lessons:
                 source = Path(lesson["path"]).read_text(encoding="utf-8")
                 expanded = self.site.expand_gpu_experiments(source, str(lesson["id"]))
                 self.assertNotIn("<!-- GPU_EXPERIMENT:", expanded)
-                self.assertIn("로컬 GPU 결과가 삽입되지 않음", expanded)
+                if lesson["id"] in experiment_lessons:
+                    self.assertIn("로컬 GPU 결과가 삽입되지 않음", expanded)
 
     def test_cpu_site_module_has_no_gpu_library_dependency(self) -> None:
         source = (ROOT / "scripts" / "site.py").read_text(encoding="utf-8")

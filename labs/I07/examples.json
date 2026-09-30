@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "examples": [
+    {"lesson_id": "I07-01", "example_id": "i07_01_sensitivity_attribution", "module": "labs.I07.i07_01_sensitivity_attribution", "source": "labs/I07/i07_01_sensitivity_attribution.py"},
+    {"lesson_id": "I07-02", "example_id": "i07_02_gradient_attribution", "module": "labs.I07.i07_02_gradient_attribution", "source": "labs/I07/i07_02_gradient_attribution.py"},
+    {"lesson_id": "I07-03", "example_id": "i07_03_integrated_gradients", "module": "labs.I07.i07_03_integrated_gradients", "source": "labs/I07/i07_03_integrated_gradients.py"},
+    {"lesson_id": "I07-04", "example_id": "i07_04_perturbation_attribution", "module": "labs.I07.i07_04_perturbation_attribution", "source": "labs/I07/i07_04_perturbation_attribution.py"},
+    {"lesson_id": "I07-05", "example_id": "i07_05_observation_intervention", "module": "labs.I07.i07_05_observation_intervention", "source": "labs/I07/i07_05_observation_intervention.py"},
+    {"lesson_id": "I07-06", "example_id": "i07_06_ablation", "module": "labs.I07.i07_06_ablation", "source": "labs/I07/i07_06_ablation.py"},
+    {"lesson_id": "I07-07", "example_id": "i07_07_activation_patching", "module": "labs.I07.i07_07_activation_patching", "source": "labs/I07/i07_07_activation_patching.py"},
+    {"lesson_id": "I07-08", "example_id": "i07_08_causal_tracing", "module": "labs.I07.i07_08_causal_tracing", "source": "labs/I07/i07_08_causal_tracing.py"},
+    {"lesson_id": "I07-09", "example_id": "i07_09_path_patching", "module": "labs.I07.i07_09_path_patching", "source": "labs/I07/i07_09_path_patching.py"},
+    {"lesson_id": "I07-10", "example_id": "i07_10_residual_logit_attribution", "module": "labs.I07.i07_10_residual_logit_attribution", "source": "labs/I07/i07_10_residual_logit_attribution.py"},
+    {"lesson_id": "I07-11", "example_id": "i07_11_circuit_graph", "module": "labs.I07.i07_11_circuit_graph", "source": "labs/I07/i07_11_circuit_graph.py"},
+    {"lesson_id": "I07-12", "example_id": "i07_12_necessity_sufficiency", "module": "labs.I07.i07_12_necessity_sufficiency", "source": "labs/I07/i07_12_necessity_sufficiency.py"},
+    {"lesson_id": "I07-13", "example_id": "i07_13_mediation_counterfactual", "module": "labs.I07.i07_13_mediation_counterfactual", "source": "labs/I07/i07_13_mediation_counterfactual.py"},
+    {"lesson_id": "I07-14", "example_id": "i07_14_off_manifold", "module": "labs.I07.i07_14_off_manifold", "source": "labs/I07/i07_14_off_manifold.py"},
+    {"lesson_id": "I07-15", "example_id": "i07_15_controls_statistics", "module": "labs.I07.i07_15_controls_statistics", "source": "labs/I07/i07_15_controls_statistics.py"},
+    {"lesson_id": "I07-16", "example_id": "i07_16_cot_faithfulness", "module": "labs.I07.i07_16_cot_faithfulness", "source": "labs/I07/i07_16_cot_faithfulness.py"},
+    {"lesson_id": "I07-17", "example_id": "i07_17_circuit_report", "module": "labs.I07.i07_17_circuit_report", "source": "labs/I07/i07_17_circuit_report.py"}
+  ]
+}

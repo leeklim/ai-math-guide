@@ -585,10 +585,22 @@
 | 중첩 | superposition | 단순 feature 합과 구분 | 제한된 차원에 더 많은 feature가 겹쳐 표현되는 현상 | I06-10 |
 | 희소 오토인코더 | sparse autoencoder, SAE | feature의 유일성을 보장하지 않음 | 희소 latent로 activation을 재구성하는 모형 | I06-12 |
 | 귀인 | attribution | 인과 설명과 동일하지 않음 | 출력에 대한 입력·성분의 기여를 배분하는 분석 | I07-01 |
+| 민감도 | sensitivity | 설명 몫·인과 효과와 구분 | 한 점의 작은 입력 변화에 대한 출력의 국소 변화율 | I07-01 |
+| saliency | saliency | signed gradient와 구분 | 입력 gradient의 절댓값 등으로 나타낸 국소 민감도 크기 | I07-02 |
+| integrated gradients | integrated gradients, IG | baseline 독립적인 귀인이 아님 | baseline에서 입력까지 gradient를 경로 적분한 귀인 | I07-03 |
+| perturbation 귀인 | perturbation attribution | 대체값과 무관한 feature 가치가 아님 | 입력 일부를 바꾼 전후의 출력 차이를 이용한 귀인 | I07-04 |
+| 내부 개입 | internal intervention | activation 관찰과 구분 | 계산 중간 node나 edge message를 강제로 바꾸는 실험 | I07-05 |
 | 제거 실험 | ablation | patching과 구분 | component를 제거하거나 무력화하는 개입 | I07-06 |
 | 활성값 패칭 | activation patching | 단순 관찰과 구분 | 한 실행의 activation을 다른 실행에 주입하는 개입 | I07-07 |
+| causal tracing | causal tracing | 지식의 단일 주소 탐색과 구분 | corruption 뒤 layer·token별 clean state 복원 효과를 지도화하는 방법 | I07-08 |
+| path patching | path patching | node 전체 patch와 구분 | sender에서 특정 receiver로 가는 edge·경로 message만 바꾸는 개입 | I07-09 |
+| direct logit attribution | direct logit attribution | ablation effect와 구분 | residual 성분을 unembedding direction에 투영한 직접 logit 기여 | I07-10 |
 | 회로 | circuit | 물리 회로가 아님 | 특정 행동을 만드는 내부 계산 component와 경로 | I07-11 |
 | 필요성 | necessity | 충분성과 구분 | 없애면 기능이 손상되는 성질 | I07-12 |
 | 충분성 | sufficiency | 필요성과 구분 | 해당 구조만으로 기능을 상당 부분 복원하는 성질 | I07-12 |
+| 매개효과 | mediated effect | 단순 상관·total effect와 구분 | treatment 효과 중 지정 mediator 경로를 통해 전달된 부분 | I07-13 |
+| off-manifold 개입 | off-manifold intervention | 큰 효과와 강한 증거를 동일시하지 않음 | 참조 activation 구조에서 벗어난 내부 상태를 만드는 개입 | I07-14 |
+| sign-flip 검정 | sign-flip test | 독립 표본 t 검정과 구분 | paired difference의 부호를 무작위화해 null distribution을 만드는 검정 | I07-15 |
+| rationale dependence | rationale dependence | CoT 전체의 faithfulness와 동일하지 않음 | rationale 개입에 따라 answer가 바뀌는 정도 | I07-16 |
 | 학습 동역학 | training dynamics | 최종 상태 분석과 구분 | 학습 중 파라미터·표현·행동의 시간적 변화 | I08-01 |
 | 식별가능성 | identifiability | 재현성과 구분 | 관찰 가능한 함수나 분포로부터 파라미터를 유일하게 정할 수 있는 성질 | M03-15 |

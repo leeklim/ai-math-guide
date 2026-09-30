@@ -38,7 +38,7 @@ setup은 `.venv-gpu`를 만들고 CUDA matmul·autograd·결정성·peak VRAM을
 .venv-gpu\Scripts\python.exe scripts/run_gpu_experiments.py --all
 ```
 
-실행 순서는 70M smoke, 160M activation·gradient, 410M inference 비교다. 410M은 I06-08에서 고정 prompt 8개의 160M·410M activation을 CKA와 RSA로 비교할 때만 사용한다. 결과는 `.build/gpu/results`, 선택 activation은 `.build/gpu/activations`에만 남는다. weight, cache, 결과와 activation은 Git에 넣지 않는다.
+실행 순서는 70M smoke, 160M activation·gradient, 410M inference 비교, 160M activation patching이다. 410M은 I06-08에서 고정 prompt 8개의 160M·410M activation을 CKA와 RSA로 비교할 때만 사용한다. I07-07 patching은 160M layer 5 MLP의 마지막-token 출력만 바꾸며 모델을 학습하지 않는다. 결과는 `.build/gpu/results`, 선택 activation은 `.build/gpu/activations`에만 남는다. weight, cache, 결과와 activation은 Git에 넣지 않는다.
 
 CPU 사이트는 실제 결과가 없으면 재현 명령과 `로컬 GPU 결과가 삽입되지 않음` 표시를 넣는다. 검증된 로컬 결과를 HTML에 넣을 때만 다음 환경변수를 사용한다.
 

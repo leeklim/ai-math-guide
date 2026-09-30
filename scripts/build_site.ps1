@@ -22,6 +22,9 @@ try {
     & $Python "scripts/run_i06_examples.py"
     if ($LASTEXITCODE -ne 0) { throw "I06 필수 예제 실행이 실패했습니다." }
 
+    & $Python "scripts/run_i07_examples.py"
+    if ($LASTEXITCODE -ne 0) { throw "I07 필수 예제 실행이 실패했습니다." }
+
     & $Python "scripts/site.py" audit
     if ($LASTEXITCODE -ne 0) { throw "원본 감사가 실패했습니다." }
 

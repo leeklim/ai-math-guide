@@ -36,8 +36,8 @@
 | M03 | 추상선형대수와 행렬미분 | 완료 | 15/15 | M04 완료 |
 | M04 | 확률·통계·정보이론 | 완료 | 17/17 | N05 선수지식 제공 |
 | N05 | 신경망과 Transformer | 완료 | 28/28 | Phase 3 GPU·Pythia 기반과 I06-01~03 |
-| I06 | 표현 해석 | 완료 | 15/15 | I07-01 gradient 기반 귀인 |
-| I07 | 귀인·인과·기계론 | 계획 | 0/17 | I06 핵심 단원 완료 후 시작 |
+| I06 | 표현 해석 | 완료 | 15/15 | I07 완료 |
+| I07 | 귀인·인과·기계론 | 완료 | 17/17 | I08-01 checkpoint 연구 설계 |
 | I08 | 학습 동역학 | 계획 | 0/13 | N05·I06 완료 후 시작 |
 | A09-GEO | 미분기하학 | 계획 | 0/8 | 선택 |
 | A09-DYN | 동역학계·확률과정 | 계획 | 0/8 | 선택 |
@@ -67,6 +67,8 @@
 - 로컬 GPU artifact는 Git에서 제외하고, 추적하는 runner·registry와 manifest schema로 model·revision·hook·입력·자원 상한을 고정한다.
 - I06-04~15는 NumPy·PyTorch CPU 예제 12개로 neuron, PCA·probe·CKA·RSA·sparse coding·SAE와 표현 보고서를 재현한다.
 - I06는 문제·해설 90쌍을 포함하며, probe 복원과 기능적 사용을 분리하고 SAE를 reconstruction·sparsity·dead feature·seed 안정성으로 평가한다.
+- I07은 문제·해설 102쌍과 CPU 예제 17개로 gradient·perturbation 귀인, node·edge 개입, necessity·sufficiency와 circuit 보고서를 재현한다.
+- I07 실제 모델 gate는 Pythia-160M layer 5 MLP 마지막-token activation patch 하나이며, France/Germany 대비에서 Paris–Berlin logit recovery 0.0625를 원시 결과 그대로 보고한다.
 - 제4부는 순차 교재가 아니라 선택 모듈이다.
 
 ## 미해결 결정
@@ -195,3 +197,10 @@
 | 2026-10-01 | I06-10~12 | superposition, sparse coding, SAE와 reconstruction·sparsity·dead feature 평가 설명·CPU 예제 3개·문제 해설 18쌍 작성 | 안정성·보고서 배치 |
 | 2026-10-01 | I06-13~15 | feature·subspace 안정성, claim ledger, 종합 표현 보고서와 CPU 예제 3개·문제 해설 18쌍 작성 | I06 단계 감사 |
 | 2026-10-01 | I06 단계 감사 | 15개 단원, 문제·해설 90쌍, CPU 예제 12개, Pythia 3종 GPU manifest, 82개 test, 113개 HTML 페이지와 broken link·checklist 노출 0개 검증 | I07-01 집필 |
+| 2026-10-01 | I07-01~03 | 민감도, gradient·gradient×input, integrated gradients와 baseline 설명·CPU 예제 3개·문제 해설 18쌍 작성 | perturbation·개입 배치 |
+| 2026-10-01 | I07-04~06 | perturbation, 관찰·개입, ablation과 redundancy 설명·CPU 예제 3개·문제 해설 18쌍 작성 | activation patching 배치 |
+| 2026-10-01 | I07-07~09 | activation patching, causal tracing, path patching 설명·CPU 예제 3개·Pythia-160M patch·문제 해설 18쌍 작성 | circuit 표현 배치 |
+| 2026-10-01 | I07-10~12 | direct logit attribution, circuit graph, necessity·sufficiency 설명·CPU 예제 3개·문제 해설 18쌍 작성 | mediation·control 배치 |
+| 2026-10-01 | I07-13~15 | mediation, off-manifold intervention, paired control·통계 검증 설명·CPU 예제 3개·문제 해설 18쌍 작성 | CoT·종합 실습 배치 |
+| 2026-10-01 | I07-16~17 | CoT faithfulness와 작은 circuit 종합 보고서·CPU 예제 2개·문제 해설 12쌍 작성 | I07 단계 감사 |
+| 2026-10-01 | I07 단계 감사 | 17개 단원, 문제·해설 102쌍, CPU 예제 17개, Pythia-160M activation patching, 101개 test, 130개 HTML 페이지와 broken link·checklist 노출 0개 검증 | I08-01 집필 |

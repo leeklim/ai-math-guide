@@ -42,6 +42,11 @@ PROMPTS = [
     {"text": "A sparrow is a kind of", "condition": "animal"},
 ]
 
+PATCHING_PROMPTS = [
+    {"text": "The capital of France is", "condition": "clean", "answer": " Paris"},
+    {"text": "The capital of Germany is", "condition": "corrupt", "answer": " Berlin"},
+]
+
 
 def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
@@ -90,11 +95,107 @@ def hook_module(model: GPTNeoXForCausalLM, layer: int) -> torch.nn.Module:
     return layers[layer].mlp.dense_4h_to_h
 
 
+def input_rows_for_experiment(experiment: dict[str, Any]) -> list[dict[str, str]]:
+    if experiment["mode"] == "activation_patching":
+        return PATCHING_PROMPTS
+    if experiment["model_key"] in {"pythia-160m", "pythia-410m"}:
+        return PROMPTS
+    return PROMPTS[:1]
+
+
+def run_activation_patch(
+    model: GPTNeoXForCausalLM,
+    tokenizer: Any,
+    experiment: dict[str, Any],
+) -> tuple[np.ndarray, None, dict[str, Any]]:
+    captured: dict[str, torch.Tensor] = {}
+    patch_value: torch.Tensor | None = None
+    calls = 0
+
+    def patch_hook(
+        _module: torch.nn.Module,
+        _inputs: tuple[torch.Tensor, ...],
+        output: torch.Tensor,
+    ) -> torch.Tensor | None:
+        nonlocal calls
+        calls += 1
+        if patch_value is None:
+            captured["output"] = output
+            return None
+        patched = output.clone()
+        patched[:, -1, :] = patch_value.to(device=output.device, dtype=output.dtype)
+        captured["output"] = patched
+        return patched
+
+    def forward(text: str) -> tuple[torch.Tensor, torch.Tensor, int]:
+        captured.clear()
+        encoded = tokenizer(
+            text,
+            return_tensors="pt",
+            truncation=True,
+            max_length=int(experiment["sequence_length"]),
+        )
+        input_ids = encoded["input_ids"].to("cuda")
+        attention_mask = encoded.get("attention_mask")
+        if attention_mask is not None:
+            attention_mask = attention_mask.to("cuda")
+        with torch.no_grad():
+            outputs = model(input_ids=input_ids, attention_mask=attention_mask, use_cache=False)
+        observed = captured.get("output")
+        if observed is None or observed.ndim != 3:
+            raise RuntimeError("patching hook did not capture a (batch, token, hidden) tensor")
+        return observed[0, -1].detach(), outputs.logits[0, -1].detach(), int(input_ids.shape[1])
+
+    handle = hook_module(model, int(experiment["layer"])).register_forward_hook(patch_hook)
+    try:
+        clean_activation, clean_logits, clean_length = forward(PATCHING_PROMPTS[0]["text"])
+        corrupt_activation, corrupt_logits, corrupt_length = forward(PATCHING_PROMPTS[1]["text"])
+        target_ids = tokenizer(PATCHING_PROMPTS[0]["answer"], add_special_tokens=False)["input_ids"]
+        foil_ids = tokenizer(PATCHING_PROMPTS[1]["answer"], add_special_tokens=False)["input_ids"]
+        if len(target_ids) != 1 or len(foil_ids) != 1:
+            raise RuntimeError("patching target and foil must each be one token")
+        target_id, foil_id = int(target_ids[0]), int(foil_ids[0])
+
+        def metric(logits: torch.Tensor) -> float:
+            return float((logits[target_id] - logits[foil_id]).float().cpu())
+
+        patch_value = clean_activation
+        patched_activation, patched_logits, patched_length = forward(PATCHING_PROMPTS[1]["text"])
+    finally:
+        handle.remove()
+
+    clean_metric = metric(clean_logits)
+    corrupt_metric = metric(corrupt_logits)
+    patched_metric = metric(patched_logits)
+    denominator = clean_metric - corrupt_metric
+    if abs(denominator) < 1e-8:
+        raise RuntimeError("clean and corrupt contrastive metrics are indistinguishable")
+    activations = torch.stack(
+        [clean_activation, corrupt_activation, patched_activation]
+    ).float().cpu().numpy()
+    summary = {
+        "sample_count": 3,
+        "activation_shape": list(activations.shape),
+        "hook_calls": calls,
+        "sequence_lengths": [clean_length, corrupt_length, patched_length],
+        "target_token": tokenizer.decode([target_id]),
+        "foil_token": tokenizer.decode([foil_id]),
+        "clean_metric": clean_metric,
+        "corrupt_metric": corrupt_metric,
+        "patched_metric": patched_metric,
+        "recovery_fraction": (patched_metric - corrupt_metric) / denominator,
+        "metric_definition": "Paris-minus-Berlin next-token logit",
+    }
+    return activations, None, summary
+
+
 def run_forward_set(
     model: GPTNeoXForCausalLM,
     tokenizer: Any,
     experiment: dict[str, Any],
 ) -> tuple[np.ndarray, np.ndarray | None, dict[str, Any]]:
+    if experiment["mode"] == "activation_patching":
+        return run_activation_patch(model, tokenizer, experiment)
     selected: list[np.ndarray] = []
     selected_gradient: np.ndarray | None = None
     calls = 0
@@ -117,7 +218,7 @@ def run_forward_set(
     top_tokens: list[str] = []
     margin_value: float | None = None
     try:
-        prompt_rows = PROMPTS if experiment["model_key"] in {"pythia-160m", "pythia-410m"} else PROMPTS[:1]
+        prompt_rows = input_rows_for_experiment(experiment)
         for index, row in enumerate(prompt_rows):
             encoded = tokenizer(
                 row["text"],
@@ -156,7 +257,7 @@ def run_forward_set(
         handle.remove()
 
     activations = np.stack(selected)
-    prompt_rows = PROMPTS if experiment["model_key"] in {"pythia-160m", "pythia-410m"} else PROMPTS[:1]
+    prompt_rows = input_rows_for_experiment(experiment)
     conditions = [row["condition"] for row in prompt_rows]
     norms = np.linalg.norm(activations, axis=1)
     summary: dict[str, Any] = {
@@ -267,7 +368,7 @@ def execute(experiment_id: str) -> dict[str, Any]:
     del model, tokenizer
     torch.cuda.empty_cache()
 
-    input_rows = PROMPTS if experiment["model_key"] in {"pythia-160m", "pythia-410m"} else PROMPTS[:1]
+    input_rows = input_rows_for_experiment(experiment)
     artifact_relative = artifact_path.relative_to(ROOT).as_posix()
     manifest: dict[str, Any] = {
         "schema_version": 1,

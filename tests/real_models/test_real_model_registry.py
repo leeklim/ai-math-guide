@@ -9,7 +9,7 @@ class RealModelRegistryTests(unittest.TestCase):
     def test_pinned_model_policy(self) -> None:
         models, experiments, artifact_limit = load_registries()
         self.assertEqual(set(models), {"pythia-70m", "pythia-160m", "pythia-410m"})
-        self.assertEqual(len(experiments), 3)
+        self.assertEqual(len(experiments), 4)
         self.assertLessEqual(artifact_limit, 256 * 1024 * 1024)
         for model in models.values():
             self.assertEqual(model["revision"], "step143000")
@@ -22,6 +22,12 @@ class RealModelRegistryTests(unittest.TestCase):
         scale = experiments["pythia_410m_scale_smoke"]
         self.assertEqual(scale["model_key"], "pythia-410m")
         self.assertEqual(scale["mode"], "inference")
+
+    def test_i07_patching_uses_160m(self) -> None:
+        _, experiments, _ = load_registries()
+        patching = experiments["pythia_160m_activation_patching"]
+        self.assertEqual(patching["model_key"], "pythia-160m")
+        self.assertEqual(patching["mode"], "activation_patching")
 
     def test_manifest_schema_lists_provenance_fields(self) -> None:
         schema = read_json(MANIFEST_SCHEMA)

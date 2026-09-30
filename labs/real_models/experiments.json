@@ -34,6 +34,17 @@
       "component": "mlp.dense_4h_to_h",
       "sequence_length": 48,
       "seed": 20261001
+    },
+    {
+      "experiment_id": "pythia_160m_activation_patching",
+      "lesson_id": "I07-07",
+      "model_key": "pythia-160m",
+      "mode": "activation_patching",
+      "layer": 5,
+      "token": "last",
+      "component": "mlp.dense_4h_to_h",
+      "sequence_length": 64,
+      "seed": 20261001
     }
   ]
 }

@@ -31,8 +31,21 @@ class CpuSiteGpuIntegrationTests(unittest.TestCase):
             [f"I06-{number:02d}" for number in range(1, 16)],
         )
 
+    def test_i07_prefix_and_example_registry(self) -> None:
+        lessons = self.site.discover_post_n05_stage("I07")
+        registry = self.site.load_stage_example_registry("I07")
+        self.assertEqual(
+            [lesson["id"] for lesson in lessons],
+            [f"I07-{number:02d}" for number in range(1, 18)],
+        )
+        self.assertEqual(set(registry), {lesson["id"] for lesson in lessons})
+
     def test_cpu_expansion_uses_placeholder_without_results(self) -> None:
-        lessons = self.site.discover_post_n05_stage("I06")
+        lessons = [
+            lesson
+            for stage in ("I06", "I07")
+            for lesson in self.site.discover_post_n05_stage(stage)
+        ]
         _, experiments = self.site.load_gpu_registries()
         experiment_lessons = {str(experiment["lesson_id"]) for experiment in experiments.values()}
         with patch.dict(os.environ, {}, clear=False):

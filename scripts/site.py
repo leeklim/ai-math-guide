@@ -42,16 +42,7 @@ STAGE_TITLES = {
 }
 
 N05_PLANNED_COUNT = 28
-N05_EXAMPLES = {
-    "N05-01": "n05_01_tensor_graph",
-    "N05-02": "n05_02_single_neuron",
-    "N05-03": "n05_03_mlp_forward",
-}
-N05_LAB_PATHS = {
-    "n05_01_tensor_graph": ROOT / "labs" / "N05" / "n05_01_tensor_graph.py",
-    "n05_02_single_neuron": ROOT / "labs" / "N05" / "n05_02_single_neuron.py",
-    "n05_03_mlp_forward": ROOT / "labs" / "N05" / "n05_03_mlp_forward.py",
-}
+N05_REGISTRY_PATH = ROOT / "labs" / "N05" / "examples.json"
 
 INTERNAL_DOCS = {
     "00-PROJECT-SPEC.md",
@@ -95,6 +86,33 @@ def read_text(path: Path) -> str:
 def write_text(path: Path, text: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text, encoding="utf-8", newline="\n")
+
+
+def load_n05_example_registry() -> dict[str, dict[str, object]]:
+    data = json.loads(read_text(N05_REGISTRY_PATH))
+    if data.get("schema_version") != 1 or not isinstance(data.get("examples"), list):
+        raise SiteError("N05 example registry schema가 잘못됐다")
+
+    registry: dict[str, dict[str, object]] = {}
+    example_ids: set[str] = set()
+    for entry in data["examples"]:
+        if not isinstance(entry, dict):
+            raise SiteError("N05 example registry entry가 object가 아니다")
+        lesson_id = str(entry.get("lesson_id", ""))
+        example_id = str(entry.get("example_id", ""))
+        source = str(entry.get("source", ""))
+        if not re.fullmatch(r"N05-\d{2}", lesson_id):
+            raise SiteError(f"N05 registry lesson ID가 잘못됐다: {lesson_id}")
+        if not re.fullmatch(r"n05_\d{2}_[a-z0-9_]+", example_id):
+            raise SiteError(f"N05 registry example ID가 잘못됐다: {example_id}")
+        if lesson_id in registry or example_id in example_ids:
+            raise SiteError(f"N05 registry entry가 중복됐다: {lesson_id}/{example_id}")
+        source_path = (ROOT / source).resolve()
+        if not source_path.is_relative_to(ROOT) or not source_path.exists():
+            raise SiteError(f"N05 registry source가 없거나 안전하지 않다: {source}")
+        registry[lesson_id] = {"example_id": example_id, "source_path": source_path}
+        example_ids.add(example_id)
+    return registry
 
 
 def parse_frontmatter(path: Path, text: str) -> dict[str, object]:
@@ -306,8 +324,10 @@ def discover_lessons() -> list[dict[str, object]]:
 def discover_n05_lessons() -> list[dict[str, object]]:
     stage_dir = ROOT / "part-2-neural-computation" / "N05"
     paths = sorted(stage_dir.glob("N05-*.md"))
+    registry = load_n05_example_registry()
     issues: list[str] = []
     lessons: list[dict[str, object]] = []
+    written_ids: set[str] = set()
 
     if len(paths) > N05_PLANNED_COUNT:
         issues.append(f"N05 file count={len(paths)}, planned maximum={N05_PLANNED_COUNT}")
@@ -316,6 +336,7 @@ def discover_n05_lessons() -> list[dict[str, object]]:
         text = read_text(path)
         meta = parse_frontmatter(path, text)
         lesson_id = str(meta.get("id", ""))
+        written_ids.add(lesson_id)
         title = str(meta.get("title", ""))
         expected_id = f"N05-{expected_number:02d}"
 
@@ -349,12 +370,15 @@ def discover_n05_lessons() -> list[dict[str, object]]:
             if not target.exists():
                 issues.append(f"broken N05 source link: {lesson_id} -> {href}")
 
-        expected_example = N05_EXAMPLES.get(lesson_id)
+        example_spec = registry.get(lesson_id)
+        expected_example = str(example_spec["example_id"]) if example_spec else None
         markers = re.findall(r"<!--\s*N05_EXAMPLE:\s*([a-z0-9_]+)\s*-->", text)
         if expected_example and markers != [expected_example]:
             issues.append(
                 f"N05 example marker mismatch: {lesson_id}={markers}, expected={[expected_example]}"
             )
+        if not expected_example and markers:
+            issues.append(f"N05 unregistered example marker: {lesson_id}={markers}")
 
         lessons.append(
             {
@@ -367,6 +391,9 @@ def discover_n05_lessons() -> list[dict[str, object]]:
         )
 
     n05_sources = [(path, read_text(path)) for path in paths]
+    unwritten_registry_ids = sorted(set(registry) - written_ids)
+    if unwritten_registry_ids:
+        issues.append("N05 registry points to unwritten lessons: " + ", ".join(unwritten_registry_ids))
     reading_issues, reading_tables, _ = lint_english_readings(n05_sources)
     issues.extend(reading_issues)
     if reading_tables != len(paths):
@@ -444,14 +471,15 @@ def add_search_alias(text: str, lesson_id: str) -> str:
 
 
 def expand_n05_example(text: str, lesson_id: str) -> str:
-    example_id = N05_EXAMPLES.get(lesson_id)
-    if example_id is None:
+    example_spec = load_n05_example_registry().get(lesson_id)
+    if example_spec is None:
         return text
+    example_id = str(example_spec["example_id"])
     marker = f"<!-- N05_EXAMPLE: {example_id} -->"
     if text.count(marker) != 1:
         raise SiteError(f"N05 example marker 수가 1이 아니다: {lesson_id}")
 
-    source_path = N05_LAB_PATHS[example_id]
+    source_path = Path(str(example_spec["source_path"]))
     result_path = BUILD_ROOT / "n05" / "results" / f"{example_id}.json"
     if not source_path.exists():
         raise SiteError(f"N05 code source가 없다: {source_path.relative_to(ROOT)}")
@@ -662,6 +690,7 @@ def resolve_generated_url(page: Path, url: str) -> Path | None:
 def validate() -> None:
     foundation_lessons = discover_lessons()
     n05_lessons = discover_n05_lessons()
+    n05_registry = load_n05_example_registry()
     lessons = foundation_lessons + n05_lessons
     issues: list[str] = []
     _, reading_table_count, reading_cell_count = lint_english_readings()
@@ -722,8 +751,12 @@ def validate() -> None:
 
     for lesson in n05_lessons:
         lesson_id = str(lesson["id"])
-        example_id = N05_EXAMPLES[lesson_id]
-        source = read_text(N05_LAB_PATHS[example_id]).rstrip()
+        example_spec = n05_registry.get(lesson_id)
+        if example_spec is None:
+            continue
+        example_id = str(example_spec["example_id"])
+        source_path = Path(str(example_spec["source_path"]))
+        source = read_text(source_path).rstrip()
         staged_path = DOCS_DIR / str(lesson["relative_path"])
         staged_source = read_text(staged_path)
         if f"```python\n{source}\n```" not in staged_source:
@@ -774,8 +807,12 @@ def validate() -> None:
         issues.append("generated HTML에 집필자 점검표가 남았다")
     for lesson in n05_lessons:
         lesson_id = str(lesson["id"])
-        example_id = N05_EXAMPLES[lesson_id]
-        source_hash = hashlib.sha256(N05_LAB_PATHS[example_id].read_bytes()).hexdigest()
+        example_spec = n05_registry.get(lesson_id)
+        if example_spec is None:
+            continue
+        example_id = str(example_spec["example_id"])
+        source_path = Path(str(example_spec["source_path"]))
+        source_hash = hashlib.sha256(source_path.read_bytes()).hexdigest()
         marker = f"N05_SOURCE_SHA256: {example_id} {source_hash}"
         page = output_html_for(str(lesson["relative_path"]))
         if page.exists() and marker not in read_text(page):
@@ -838,8 +875,13 @@ def validate() -> None:
         "arithmatex_wrappers": arithmatex_count,
         "checklist_exposure": combined_html.count("집필자 점검표"),
         "n05_generated_results": sum(
-            (BUILD_ROOT / "n05" / "results" / f"{example_id}.json").exists()
-            for example_id in N05_EXAMPLES.values()
+            (
+                BUILD_ROOT
+                / "n05"
+                / "results"
+                / f"{str(example_spec['example_id'])}.json"
+            ).exists()
+            for example_spec in n05_registry.values()
         ),
         "search_hits": {term: len(hits) for term, hits in search_hits.items()},
     }

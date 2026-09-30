@@ -111,3 +111,11 @@ N05 단원은 아키텍처 구성요소를 다룰 때 다음 항목을 포함한
 - 근거: 원 논문과 확인한 공개 config 또는 구현
 
 N05 집필자는 N05-10, N05-20과 N05-28을 마친 뒤 이 문서와 구성요소 분류를 다시 검토한다. 새 논문이 나왔다는 이유만으로 완료한 단원을 고치지 않는다. 기존 설명의 오류가 드러나거나 구성요소 등급이 바뀔 근거가 쌓이면 단원과 확인일을 함께 갱신한다.
+
+## 8. N05-10 재검토 기록
+
+- 확인일: 2026-10-01
+- 범위: N05-01~N05-10
+- 결과: tensor, activation, softmax, cross entropy, backpropagation, mini-batch, optimizer state와 automatic differentiation의 `Stable core` 분류를 유지한다.
+- API 확인: local PyTorch 2.13.0+cpu에서 `torch.func.jvp`, `vjp`와 `jacrev`를 실행하고 current stable 공식 문서의 정의와 대조했다.
+- 공개 config: N05-01~N05-10은 model-independent 계산이므로 특정 model config를 근거로 추가하지 않았다. Transformer component를 다루는 N05-11 이후에 공개 config 대조를 시작한다.

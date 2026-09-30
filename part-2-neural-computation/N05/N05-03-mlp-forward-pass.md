@@ -362,7 +362,7 @@ probe가 $\mathbf H$에서 label을 높은 정확도로 복원했다. “MLP 출
 
 ## 다음 단원
 
-후속 계획은 N05-04 activation function과 gating이다. 아직 집필하지 않은 단원에는 깨진 링크를 만들지 않는다.
+- [N05-04 activation function과 gating](N05-04-activation-functions-gating.md)
 
 ## 집필자 점검표
 

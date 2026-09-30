@@ -493,9 +493,14 @@
 | shape | tensor shape | 수학적 차원 하나와 구분 | tensor의 각 axis 길이를 순서대로 적은 tuple | N05-01 |
 | dtype | data type | shape와 구분 | tensor 원소의 수치 표현 형식 | N05-01 |
 | device | device | 수학적 공간과 구분 | tensor가 저장되고 연산되는 CPU 또는 accelerator 위치 | N05-01 |
+| broadcasting | broadcasting | 값을 직접 복제하는 연산과 구분 | trailing axis가 호환될 때 tensor를 같은 shape처럼 계산하는 규칙 | N05-09 |
+| autograd | automatic differentiation | symbolic algebra와 구분 | 실행한 tensor 연산의 derivative rule을 합성해 gradient product를 계산하는 체계 | N05-10 |
 | pre-activation | pre-activation | 활성값과 구분 | activation function을 적용하기 전 affine output | N05-02 |
 | 활성값 | activation | 활성화함수와 구분 | activation function을 적용한 뒤의 중간 계산 결과 | N05-02 |
 | 활성화함수 | activation function | activation과 구분 | 선형결합 뒤 적용하는 비선형함수 | N05-04 |
+| gate | gate | 사건 확률과 구분 | 한 경로의 값으로 다른 경로의 원소별 크기와 부호를 조절하는 계산 | N05-04 |
+| GLU | gated linear unit, GLU | 일반 activation 하나와 구분 | content projection과 sigmoid gate를 원소별로 곱하는 구조 | N05-04 |
+| SwiGLU | SwiGLU | sigmoid GLU와 구분 | 한 projection에 SiLU를 적용한 뒤 다른 projection과 원소별로 곱하는 GLU variant | N05-04 |
 | MLP | multilayer perceptron, MLP | Transformer 전체와 구분 | affine layer와 elementwise nonlinearity를 연결한 feed-forward network | N05-03 |
 | 로짓 | logit | 확률과 구분 | 소프트맥스 전의 class 점수 | M00-10 |
 | 소프트맥스 | softmax | argmax와 구분 | 로짓을 양수이며 합이 1인 class 확률로 바꾸는 함수 | M00-10 |
@@ -505,6 +510,11 @@
 | 화이트박스 증류 | white-box distillation | 출력만 사용하는 증류와 구분 | 교사의 중간 표현이나 attention에 접근하는 증류 | M00-10 |
 | 역전파 | backpropagation | optimizer update와 구분 | scalar loss에서 cotangent를 역순으로 전달해 gradient를 계산하는 과정 | M03-14 |
 | 학습률 | learning rate | 도함숫값과 구분 | 한 번의 파라미터 갱신 크기를 조절하는 양수 | M01-04 |
+| mini-batch | mini-batch | dataset 전체와 구분 | 한 training step의 loss와 gradient를 계산하도록 선택한 sample 묶음 | N05-07 |
+| momentum | momentum | parameter 자체와 구분 | 이전 gradient 방향을 buffer에 누적해 update에 사용하는 방법 | N05-08 |
+| optimizer state | optimizer state | model parameter와 구분 | momentum buffer, moment estimate와 step처럼 update 계산을 위해 저장하는 값 | N05-08 |
+| AdamW | AdamW | Adam의 L2 penalty와 구분 | Adam의 adaptive update와 weight decay를 분리한 optimizer | N05-08 |
+| weight decay | weight decay | loss에 더한 L2 penalty와 항상 같지 않음 | parameter 크기에 비례한 항을 update에 적용하는 규제 방식 | N05-08 |
 | 임베딩 | embedding | 임베딩 공간 전체와 문맥 구분 | 이산 대상을 연속 벡터로 대응시킨 표현 | N05-12 |
 | 잔차 스트림 | residual stream | residual connection 하나와 구분 | Transformer 층 사이에 누적되는 표현 경로 | N05-17 |
 | 어텐션 | attention | 설명 자체로 간주하지 않음 | query-key 점수로 value를 가중합하는 연산 | N05-15 |

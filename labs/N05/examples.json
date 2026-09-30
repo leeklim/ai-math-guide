@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "examples": [
+    {
+      "lesson_id": "N05-01",
+      "example_id": "n05_01_tensor_graph",
+      "source": "labs/N05/n05_01_tensor_graph.py"
+    },
+    {
+      "lesson_id": "N05-02",
+      "example_id": "n05_02_single_neuron",
+      "source": "labs/N05/n05_02_single_neuron.py"
+    },
+    {
+      "lesson_id": "N05-03",
+      "example_id": "n05_03_mlp_forward",
+      "source": "labs/N05/n05_03_mlp_forward.py"
+    },
+    {
+      "lesson_id": "N05-04",
+      "example_id": "n05_04_activation_gating",
+      "source": "labs/N05/n05_04_activation_gating.py"
+    },
+    {
+      "lesson_id": "N05-05",
+      "example_id": "n05_05_softmax_cross_entropy",
+      "source": "labs/N05/n05_05_softmax_cross_entropy.py"
+    },
+    {
+      "lesson_id": "N05-06",
+      "example_id": "n05_06_backpropagation",
+      "source": "labs/N05/n05_06_backpropagation.py"
+    },
+    {
+      "lesson_id": "N05-07",
+      "example_id": "n05_07_minibatch_gradient_descent",
+      "source": "labs/N05/n05_07_minibatch_gradient_descent.py"
+    },
+    {
+      "lesson_id": "N05-08",
+      "example_id": "n05_08_adamw_state",
+      "source": "labs/N05/n05_08_adamw_state.py"
+    },
+    {
+      "lesson_id": "N05-09",
+      "example_id": "n05_09_tensor_shape_dtype",
+      "source": "labs/N05/n05_09_tensor_shape_dtype.py"
+    },
+    {
+      "lesson_id": "N05-10",
+      "example_id": "n05_10_jvp_vjp",
+      "source": "labs/N05/n05_10_jvp_vjp.py"
+    }
+  ]
+}

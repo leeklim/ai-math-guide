@@ -6,6 +6,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -14,18 +15,43 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RESULT_DIR = ROOT / ".build" / "n05" / "results"
+REGISTRY_PATH = ROOT / "labs" / "N05" / "examples.json"
 EXAMPLE_TIMEOUT_SECONDS = 10
 SUITE_TIMEOUT_SECONDS = 120
 SUITE_TARGET_SECONDS = 30
-EXAMPLES = (
-    ("n05_01_tensor_graph", ROOT / "labs" / "N05" / "n05_01_tensor_graph.py"),
-    ("n05_02_single_neuron", ROOT / "labs" / "N05" / "n05_02_single_neuron.py"),
-    ("n05_03_mlp_forward", ROOT / "labs" / "N05" / "n05_03_mlp_forward.py"),
-)
 
 
 def source_sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def load_examples() -> list[tuple[str, Path]]:
+    data = json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
+    if data.get("schema_version") != 1 or not isinstance(data.get("examples"), list):
+        raise RuntimeError("N05 example registry schema is invalid")
+
+    examples: list[tuple[str, Path]] = []
+    lesson_ids: set[str] = set()
+    example_ids: set[str] = set()
+    for entry in data["examples"]:
+        if not isinstance(entry, dict):
+            raise RuntimeError("N05 example registry entry must be an object")
+        lesson_id = str(entry.get("lesson_id", ""))
+        example_id = str(entry.get("example_id", ""))
+        source = str(entry.get("source", ""))
+        if not re.fullmatch(r"N05-\d{2}", lesson_id):
+            raise RuntimeError(f"invalid N05 lesson ID in registry: {lesson_id}")
+        if not re.fullmatch(r"n05_\d{2}_[a-z0-9_]+", example_id):
+            raise RuntimeError(f"invalid N05 example ID in registry: {example_id}")
+        if lesson_id in lesson_ids or example_id in example_ids:
+            raise RuntimeError(f"duplicate N05 registry entry: {lesson_id}/{example_id}")
+        source_path = (ROOT / source).resolve()
+        if not source_path.is_relative_to(ROOT) or not source_path.exists():
+            raise RuntimeError(f"missing or unsafe N05 source path: {source}")
+        lesson_ids.add(lesson_id)
+        example_ids.add(example_id)
+        examples.append((example_id, source_path))
+    return examples
 
 
 def main() -> int:
@@ -50,8 +76,9 @@ def main() -> int:
         }
     )
 
+    examples = load_examples()
     results: list[dict[str, object]] = []
-    for example_id, source_path in EXAMPLES:
+    for example_id, source_path in examples:
         if time.perf_counter() - suite_started >= SUITE_TIMEOUT_SECONDS:
             raise TimeoutError(
                 f"N05 example suite exceeded {SUITE_TIMEOUT_SECONDS} seconds before {example_id}"

@@ -1,4 +1,4 @@
-"""Shared limits and serialization helpers for the three N05 pilot examples."""
+"""Shared limits and serialization helpers for N05 examples."""
 
 from __future__ import annotations
 

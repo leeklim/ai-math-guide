@@ -129,7 +129,7 @@ J_f\mathbf r=(1,3)
 - 예제 ID: `n05_10_jvp_vjp`
 - 코드 원본: `labs/N05/n05_10_jvp_vjp.py`
 - 테스트: `tests/N05/test_n05_10.py`
-- 실행 명령: `.venv\Scripts\python.exe labs/N05/n05_10_jvp_vjp.py`
+- 실행 명령: `.venv\Scripts\python.exe -m labs.N05.n05_10_jvp_vjp`
 
 ### 자원 예산
 
@@ -271,7 +271,7 @@ JVP는 현재 point의 local derivative다. step 크기, curvature와 경로 변
 
 ## 다음 단원
 
-후속 계획은 N05-11 token과 tokenizer다. 아직 집필하지 않은 단원에는 깨진 링크를 만들지 않는다.
+- [N05-11 token과 tokenizer](N05-11-token-tokenizer.md)
 
 ## 집필자 점검표
 

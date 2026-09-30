@@ -112,7 +112,7 @@ $(10^8,1,-10^8)$을 순서대로 더하면 float32 예제는 0을, float64 예�
 - 예제 ID: `n05_09_tensor_shape_dtype`
 - 코드 원본: `labs/N05/n05_09_tensor_shape_dtype.py`
 - 테스트: `tests/N05/test_n05_09.py`
-- 실행 명령: `.venv\Scripts\python.exe labs/N05/n05_09_tensor_shape_dtype.py`
+- 실행 명령: `.venv\Scripts\python.exe -m labs.N05.n05_09_tensor_shape_dtype`
 
 ### 자원 예산
 

@@ -50,6 +50,96 @@
       "lesson_id": "N05-10",
       "example_id": "n05_10_jvp_vjp",
       "source": "labs/N05/n05_10_jvp_vjp.py"
+    },
+    {
+      "lesson_id": "N05-11",
+      "example_id": "n05_11_toy_tokenizer",
+      "source": "labs/N05/n05_11_toy_tokenizer.py"
+    },
+    {
+      "lesson_id": "N05-12",
+      "example_id": "n05_12_embedding_unembedding",
+      "source": "labs/N05/n05_12_embedding_unembedding.py"
+    },
+    {
+      "lesson_id": "N05-13",
+      "example_id": "n05_13_rope",
+      "source": "labs/N05/n05_13_rope.py"
+    },
+    {
+      "lesson_id": "N05-14",
+      "example_id": "n05_14_qkv",
+      "source": "labs/N05/n05_14_qkv.py"
+    },
+    {
+      "lesson_id": "N05-15",
+      "example_id": "n05_15_causal_attention",
+      "source": "labs/N05/n05_15_causal_attention.py"
+    },
+    {
+      "lesson_id": "N05-16",
+      "example_id": "n05_16_attention_head_sharing",
+      "source": "labs/N05/n05_16_attention_head_sharing.py"
+    },
+    {
+      "lesson_id": "N05-17",
+      "example_id": "n05_17_residual_stream",
+      "source": "labs/N05/n05_17_residual_stream.py"
+    },
+    {
+      "lesson_id": "N05-18",
+      "example_id": "n05_18_normalization_order",
+      "source": "labs/N05/n05_18_normalization_order.py"
+    },
+    {
+      "lesson_id": "N05-19",
+      "example_id": "n05_19_mlp_routing",
+      "source": "labs/N05/n05_19_mlp_routing.py"
+    },
+    {
+      "lesson_id": "N05-20",
+      "example_id": "n05_20_decoder_block",
+      "source": "labs/N05/n05_20_decoder_block.py"
+    },
+    {
+      "lesson_id": "N05-21",
+      "example_id": "n05_21_language_model_objective",
+      "source": "labs/N05/n05_21_language_model_objective.py"
+    },
+    {
+      "lesson_id": "N05-22",
+      "example_id": "n05_22_kv_cache",
+      "source": "labs/N05/n05_22_kv_cache.py"
+    },
+    {
+      "lesson_id": "N05-23",
+      "example_id": "n05_23_decoding",
+      "source": "labs/N05/n05_23_decoding.py"
+    },
+    {
+      "lesson_id": "N05-24",
+      "example_id": "n05_24_cot_observation",
+      "source": "labs/N05/n05_24_cot_observation.py"
+    },
+    {
+      "lesson_id": "N05-25",
+      "example_id": "n05_25_activation_hook",
+      "source": "labs/N05/n05_25_activation_hook.py"
+    },
+    {
+      "lesson_id": "N05-26",
+      "example_id": "n05_26_gradient_intervention",
+      "source": "labs/N05/n05_26_gradient_intervention.py"
+    },
+    {
+      "lesson_id": "N05-27",
+      "example_id": "n05_27_checkpoint_state",
+      "source": "labs/N05/n05_27_checkpoint_state.py"
+    },
+    {
+      "lesson_id": "N05-28",
+      "example_id": "n05_28_token_path",
+      "source": "labs/N05/n05_28_token_path.py"
     }
   ]
 }

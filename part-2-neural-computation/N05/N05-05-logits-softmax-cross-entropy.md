@@ -169,7 +169,7 @@ target이 첫 class라면
 - 예제 ID: `n05_05_softmax_cross_entropy`
 - 코드 원본: `labs/N05/n05_05_softmax_cross_entropy.py`
 - 테스트: `tests/N05/test_n05_05.py`
-- 실행 명령: `.venv\Scripts\python.exe labs/N05/n05_05_softmax_cross_entropy.py`
+- 실행 명령: `.venv\Scripts\python.exe -m labs.N05.n05_05_softmax_cross_entropy`
 
 ### 자원 예산
 

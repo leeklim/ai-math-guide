@@ -119,3 +119,21 @@ N05 집필자는 N05-10, N05-20과 N05-28을 마친 뒤 이 문서와 구성요�
 - 결과: tensor, activation, softmax, cross entropy, backpropagation, mini-batch, optimizer state와 automatic differentiation의 `Stable core` 분류를 유지한다.
 - API 확인: local PyTorch 2.13.0+cpu에서 `torch.func.jvp`, `vjp`와 `jacrev`를 실행하고 current stable 공식 문서의 정의와 대조했다.
 - 공개 config: N05-01~N05-10은 model-independent 계산이므로 특정 model config를 근거로 추가하지 않았다. Transformer component를 다루는 N05-11 이후에 공개 config 대조를 시작한다.
+
+## 9. N05-20 재검토 기록
+
+- 확인일: 2026-10-01
+- 범위: N05-11~N05-20
+- 결과: tokenization, embedding, RoPE, causal attention과 residual addition의 분류를 유지한다. RMSNorm·SwiGLU·serial pre-norm block은 교육용 기준 선택이며 실제 모델 공통 전제가 아님을 본문에서 분리했다.
+- 공개 config: Pythia-160M 공식 training config의 12 layers, hidden size 768, 12 attention heads, RoPE 비율 0.25, GPT-J parallel residual, untied output과 FlashAttention 사용을 확인했다.
+- 대조 결론: 교육용 tiny decoder는 full-dimension RoPE, RMSNorm, dense SwiGLU와 serial residual을 사용한다. Pythia는 후속 실제 모델 분석 대상이며 tiny decoder의 축소판으로 기술하지 않는다.
+- 구현 검증: parameter 300개의 CPU tiny decoder에서 embedding, causal MHA, pre-RMSNorm residual, dense SwiGLU, final norm, unembedding과 layer별 KV cache shape를 단위 테스트로 고정했다.
+
+## 10. N05-28 재검토 기록
+
+- 확인일: 2026-10-01
+- 범위: N05-21~N05-28과 N05 전체 누적 실습
+- 결과: next-token cross entropy, causal mask, residual addition과 token-to-logit 경로의 `Stable core` 분류를 유지한다. KV cache는 inference state를 바꾸는 `Common modern variant`, hook·checkpoint API는 framework-specific 구현으로 분리했다.
+- 누적 구현: parameter 300개의 tiny decoder에서 token ID, embedding, full-dimension RoPE causal MHA, serial pre-RMSNorm residual, dense SwiGLU, final norm, untied unembedding, gradient와 K·V cache를 한 경로로 검증했다.
+- 실제 모델 경계: Pythia main suite는 partial RoPE, GPT-J parallel residual, untied output과 FlashAttention config를 사용한다. Phase 3에서는 Pythia module path와 Hugging Face cache API에 맞춘 별도 runner를 만들고 tiny hook 이름을 재사용하지 않는다.
+- Phase 3 입력: tiny decoder의 forward hook, non-leaf activation gradient, strict model-state load와 cached/full logit equivalence가 후속 실제 모델 fixture의 기준 test가 된다.

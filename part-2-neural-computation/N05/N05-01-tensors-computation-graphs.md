@@ -165,7 +165,7 @@ $\mathbf x=(1,2)$와 $\mathbf w=(3,4)$에 대해 $\mathbf p=\mathbf x\odot\mathb
 - 예제 ID: `n05_01_tensor_graph`
 - 코드 원본: `labs/N05/n05_01_tensor_graph.py`
 - 테스트: `tests/N05/test_n05_01.py`
-- 실행 명령: `.venv\Scripts\python.exe labs/N05/n05_01_tensor_graph.py`
+- 실행 명령: `.venv\Scripts\python.exe -m labs.N05.n05_01_tensor_graph`
 
 ### 자원 예산
 

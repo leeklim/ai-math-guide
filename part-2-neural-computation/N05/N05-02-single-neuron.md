@@ -185,7 +185,7 @@ MLP와 attention의 projection은 여러 neuron의 affine transformation을 한 
 - 예제 ID: `n05_02_single_neuron`
 - 코드 원본: `labs/N05/n05_02_single_neuron.py`
 - 테스트: `tests/N05/test_n05_02.py`
-- 실행 명령: `.venv\Scripts\python.exe labs/N05/n05_02_single_neuron.py`
+- 실행 명령: `.venv\Scripts\python.exe -m labs.N05.n05_02_single_neuron`
 
 ### 자원 예산
 

@@ -147,7 +147,7 @@ b_1=0-0.1(-8)=0.8
 - 예제 ID: `n05_07_minibatch_gradient_descent`
 - 코드 원본: `labs/N05/n05_07_minibatch_gradient_descent.py`
 - 테스트: `tests/N05/test_n05_07.py`
-- 실행 명령: `.venv\Scripts\python.exe labs/N05/n05_07_minibatch_gradient_descent.py`
+- 실행 명령: `.venv\Scripts\python.exe -m labs.N05.n05_07_minibatch_gradient_descent`
 
 ### 자원 예산
 

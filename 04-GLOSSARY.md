@@ -515,11 +515,50 @@
 | optimizer state | optimizer state | model parameter와 구분 | momentum buffer, moment estimate와 step처럼 update 계산을 위해 저장하는 값 | N05-08 |
 | AdamW | AdamW | Adam의 L2 penalty와 구분 | Adam의 adaptive update와 weight decay를 분리한 optimizer | N05-08 |
 | weight decay | weight decay | loss에 더한 L2 penalty와 항상 같지 않음 | parameter 크기에 비례한 항을 update에 적용하는 규제 방식 | N05-08 |
+| token | token | 단어나 character와 항상 같지 않음 | tokenizer vocabulary가 입력·출력 단위로 사용하는 문자열 조각 | N05-11 |
+| tokenizer | tokenizer | model weight와 구분 | text와 token ID sequence 사이를 변환하는 규칙과 artifact | N05-11 |
 | 임베딩 | embedding | 임베딩 공간 전체와 문맥 구분 | 이산 대상을 연속 벡터로 대응시킨 표현 | N05-12 |
+| unembedding | unembedding | embedding의 역함수와 구분 | hidden state를 vocabulary logit으로 보내는 linear map | N05-12 |
+| weight tying | weight tying | shape가 같은 별도 parameter와 구분 | input embedding과 output unembedding이 parameter를 공유하는 선택 | N05-12 |
+| RoPE | rotary position embedding, RoPE | absolute position addition과 구분 | query·key feature pair를 position-dependent angle로 회전하는 위치정보 방식 | N05-13 |
+| query | query | 현재 token 자체와 구분 | 어떤 key와 연결할지를 평가하는 attention projection | N05-14 |
+| key | key | 과거 token 자체와 구분 | query와 dot product를 이루어 attention score를 만드는 projection | N05-14 |
+| value | value | attention score와 구분 | attention weight가 가중합하는 content projection | N05-14 |
+| attention score | attention score | attention probability와 구분 | query와 key의 dot product를 scale한 softmax 전 값 | N05-15 |
+| causal mask | causal mask | padding mask와 구분 | 미래 key position을 attention 대상에서 제외하는 mask | N05-15 |
+| MHA | multi-head attention, MHA | 모든 head가 K·V를 공유하는 구조와 구분 | query head마다 별도 key-value head를 쓰는 attention | N05-16 |
+| MQA | multi-query attention, MQA | query head가 하나라는 뜻이 아님 | 모든 query head가 key-value head 하나를 공유하는 attention | N05-16 |
+| GQA | grouped-query attention, GQA | MHA와 MQA의 단순 별칭과 구분 | query head group마다 key-value head 하나를 공유하는 attention | N05-16 |
 | 잔차 스트림 | residual stream | residual connection 하나와 구분 | Transformer 층 사이에 누적되는 표현 경로 | N05-17 |
+| residual update | residual update | 덧셈 뒤 stream 전체와 구분 | attention이나 MLP가 residual stream에 더하는 vector | N05-17 |
+| LayerNorm | layer normalization, LayerNorm | RMSNorm과 구분 | feature mean을 빼고 variance로 scale한 뒤 learned affine map을 적용하는 normalization | N05-18 |
+| RMSNorm | root mean square layer normalization, RMSNorm | mean centering을 하는 것으로 오해하지 않음 | feature root mean square로 scale하는 normalization | N05-18 |
+| pre-norm | pre-norm | post-norm과 구분 | normalization output을 sublayer에 넣은 뒤 원래 residual에 update를 더하는 순서 | N05-18 |
+| post-norm | post-norm | pre-norm과 구분 | residual과 sublayer output을 더한 뒤 normalization하는 순서 | N05-18 |
+| dense MLP | dense MLP | sparse expert layer와 구분 | 모든 token에 같은 feed-forward parameter를 적용하는 MLP | N05-19 |
+| MoE | mixture of experts, MoE | ensemble 전체와 구분 | router가 입력별로 일부 expert subnetwork를 선택하는 구조 | N05-19 |
+| router | router | SwiGLU의 feature gate와 구분 | token을 실행할 expert에 배정하는 계산 | N05-19 |
+| expert | expert | 독립 모델 전체와 항상 같지 않음 | MoE에서 선택적으로 실행되는 feed-forward subnetwork | N05-19 |
+| architecture diff | architecture diff | 성능 순위표와 구분 | 모델의 component·순서·shape·공유·구현 선택을 항목별로 대조한 기록 | N05-20 |
+| teacher forcing | teacher forcing | 미래 attention 허용과 구분 | training에서 ground-truth prefix를 model input으로 사용하는 방식 | N05-21 |
+| label shift | label shift | dataset label noise와 구분 | 현재 position logit을 다음 token label과 맞추는 정렬 | N05-21 |
+| KV cache | key-value cache | 전체 activation dump나 학습된 memory와 구분 | autoregressive inference에서 재사용할 layer별 과거 key와 value | N05-22 |
+| prefill | prefill | tokenwise decode와 구분 | prompt 전체를 처리해 initial KV cache와 마지막 logit을 만드는 inference 단계 | N05-22 |
+| decode step | decode step | decoder block 하나와 구분 | 새 token을 입력해 cache를 갱신하고 다음 logit을 얻는 inference 단계 | N05-22 |
+| greedy decoding | greedy decoding | sampling과 구분 | 각 step에서 최대 logit token을 선택하는 생성 규칙 | N05-23 |
+| temperature | temperature | model weight나 지식량과 구분 | sampling 전 logit scale과 probability 집중도를 조절하는 양수 | N05-23 |
+| top-k | top-k sampling | top-p와 구분 | logit이 큰 고정 개수 후보만 남기는 sampling 절단 | N05-23 |
+| top-p | nucleus sampling, top-p | 고정 후보 수와 구분 | 누적 probability 질량을 기준으로 최소 상위 후보 집합을 남기는 절단 | N05-23 |
+| CoT faithfulness | chain-of-thought faithfulness | 유창성·정확성과 구분 | 생성된 reasoning이 answer를 만든 model process를 반영하는 정도 | N05-24 |
+| forward hook | forward hook | forward pre-hook·backward hook과 구분 | module output 계산 뒤 호출되는 callback | N05-25 |
+| activation provenance | activation provenance | tensor 값만 저장하는 것과 구분 | model·input·module·layer·token·dtype·실행 조건을 잇는 기록 | N05-25 |
+| activation gradient | activation gradient | activation 값 자체와 구분 | scalar target을 중간 activation으로 미분한 local sensitivity | N05-26 |
+| first-order intervention estimate | first-order intervention estimate | 실제 intervention effect와 구분 | activation gradient와 perturbation의 내적으로 근사한 target 변화 | N05-26 |
+| persistent buffer | persistent buffer | 학습 parameter·optimizer state와 구분 | parameter는 아니지만 module `state_dict`에 저장되는 tensor | N05-27 |
+| strict load | strict load | 일부 key를 묵시적으로 무시하는 load와 구분 | expected state key와 loaded key의 정확한 일치를 요구하는 검증 | N05-27 |
 | 어텐션 | attention | 설명 자체로 간주하지 않음 | query-key 점수로 value를 가중합하는 연산 | N05-15 |
-| 체크포인트 | checkpoint | 최종 모델과 구분 | 특정 학습 시점의 저장 상태 | N05-26 |
-| 사고과정 텍스트 | chain-of-thought, CoT | 실제 내부 추론과 동일시하지 않음 | 모델이 생성한 중간 설명 형식의 token sequence | N05-23 |
+| 체크포인트 | checkpoint | 최종 모델과 구분 | 특정 학습 시점의 model·training 상태와 provenance를 묶은 artifact | N05-27 |
+| 사고과정 텍스트 | chain-of-thought, CoT | 실제 내부 추론과 동일시하지 않음 | 모델이 생성한 중간 설명 형식의 token sequence | N05-24 |
 
 ## 모델 해석
 

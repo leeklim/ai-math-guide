@@ -34,7 +34,7 @@
 | M02 | 벡터와 행렬 | 완료 | 15/15 | M03 완료 |
 | M03 | 추상선형대수와 행렬미분 | 완료 | 15/15 | M04 완료 |
 | M04 | 확률·통계·정보이론 | 완료 | 17/17 | N05 선수지식 제공 |
-| N05 | 신경망과 Transformer | 집필 중 | 10/28 | N05-11 집필 |
+| N05 | 신경망과 Transformer | 완료 | 28/28 | Phase 3 GPU·Pythia 기반과 I06-01~03 |
 | I06 | 표현 해석 | 계획 | 0/15 | N05 완료 후 시작 |
 | I07 | 귀인·인과·기계론 | 계획 | 0/17 | I06 핵심 단원 완료 후 시작 |
 | I08 | 학습 동역학 | 계획 | 0/13 | N05·I06 완료 후 시작 |
@@ -61,7 +61,7 @@
 - N05 구성요소를 Stable core, Instructional reference, Common modern variant, Architecture-specific와 Implementation optimization으로 구분한다.
 - N05 필수 실습은 외부 모델 다운로드 없이 실행하며 공개 모델은 config 대조와 후속 해석 실험에 사용한다.
 - N05 필수 실습은 Python 3.12, PyTorch 2.13.0+cpu와 NumPy 2.5.3을 사용한다. 코드 원본은 `labs/N05`에 두고 build가 실제 결과를 HTML에 삽입한다.
-- N05-01~N05-10은 문제·해설 60쌍, 실행 예제 10개와 N05 단위 test 25개를 포함한다. 전체 예제 실행은 2026-10-01 로컬 검증에서 28.51초였다.
+- N05-01~N05-28은 문제·해설 170쌍, 실행 예제 28개와 N05 단위 test 59개를 포함한다.
 - 제4부는 순차 교재가 아니라 선택 모듈이다.
 
 ## 미해결 결정
@@ -177,3 +177,9 @@
 | 2026-10-01 | N05-07~08 | mini-batch mean gradient, gradient descent update, momentum·AdamW와 optimizer state 설명, 문제·해설 12쌍, 실행 예제 2개와 N05 test 4개 추가 | strict build 검증 |
 | 2026-10-01 | N05-09~10 | PyTorch shape·broadcast·dtype, autograd·JVP·VJP 설명, 문제·해설 12쌍, 실행 예제 2개와 N05 test 4개 추가 | N05-01~10 단계 검토 |
 | 2026-10-01 | N05-01~10 단계 검토 | Stable core 분류와 공식 API 근거 재확인, 누적 확인과제·CPU 예산·source audit 통과 | strict build와 브라우저 검수 |
+| 2026-10-01 | N05-11~13 | toy tokenizer, embedding·unembedding, 위치정보·RoPE 설명, 문제·해설 18쌍, 실행 예제 3개와 N05 test 6개 추가 | strict build 검증 |
+| 2026-10-01 | N05-14~16 | Q·K·V projection, causal scaled dot-product attention, MHA·MQA·GQA 설명, 문제·해설 18쌍, 실행 예제 3개와 N05 test 4개 추가 | strict build 검증 |
+| 2026-10-01 | N05-17~19 | residual stream, LayerNorm·RMSNorm과 residual 순서, dense MLP·SwiGLU·expert routing 설명, 문제·해설 18쌍, 실행 예제 3개와 N05 test 6개 추가 | strict build 검증 |
+| 2026-10-01 | N05-20~22 | tiny decoder block, architecture diff, next-token objective, causal inference와 KV cache 설명, 문제·해설 18쌍, 실행 예제 3개와 N05 test 6개 추가 | N05-20 architecture 재검토와 strict build 검증 |
+| 2026-10-01 | N05-23~25 | greedy·temperature·top-k·top-p decoding, CoT의 관찰 지위, forward hook과 최소 activation 수집 설명, 문제·해설 18쌍, 실행 예제 3개와 N05 test 6개 추가 | strict build 검증 |
+| 2026-10-01 | N05-26~28 | activation gradient·intervention, checkpoint state, 한 token의 누적 경로 설명, 문제·해설 20쌍, 실행 예제 3개와 N05 test 6개 추가 | N05 단계 감사와 strict build 검증 |

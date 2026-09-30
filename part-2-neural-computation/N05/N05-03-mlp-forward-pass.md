@@ -224,7 +224,7 @@ shape는 `(2, 2)`에서 `(2, 3)`으로 hidden dimension이 늘었다가 `(2, 1)`
 - 예제 ID: `n05_03_mlp_forward`
 - 코드 원본: `labs/N05/n05_03_mlp_forward.py`
 - 테스트: `tests/N05/test_n05_03.py`
-- 실행 명령: `.venv\Scripts\python.exe labs/N05/n05_03_mlp_forward.py`
+- 실행 명령: `.venv\Scripts\python.exe -m labs.N05.n05_03_mlp_forward`
 
 ### 자원 예산
 

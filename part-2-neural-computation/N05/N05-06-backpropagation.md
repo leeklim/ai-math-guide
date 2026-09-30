@@ -199,7 +199,7 @@ loss에서 시작하면
 - 예제 ID: `n05_06_backpropagation`
 - 코드 원본: `labs/N05/n05_06_backpropagation.py`
 - 테스트: `tests/N05/test_n05_06.py`
-- 실행 명령: `.venv\Scripts\python.exe labs/N05/n05_06_backpropagation.py`
+- 실행 명령: `.venv\Scripts\python.exe -m labs.N05.n05_06_backpropagation`
 
 ### 자원 예산
 

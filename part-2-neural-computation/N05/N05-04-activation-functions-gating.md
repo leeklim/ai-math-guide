@@ -174,7 +174,7 @@ $\mathbf c=(2,-1,0.5)$, $\mathbf g=(-1,0,1)$이라 하자. sigmoid gate는
 - 예제 ID: `n05_04_activation_gating`
 - 코드 원본: `labs/N05/n05_04_activation_gating.py`
 - 테스트: `tests/N05/test_n05_04.py`
-- 실행 명령: `.venv\Scripts\python.exe labs/N05/n05_04_activation_gating.py`
+- 실행 명령: `.venv\Scripts\python.exe -m labs.N05.n05_04_activation_gating`
 
 ### 자원 예산
 

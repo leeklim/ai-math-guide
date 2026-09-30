@@ -146,7 +146,7 @@ v_1=0.001\cdot9=0.009
 - 예제 ID: `n05_08_adamw_state`
 - 코드 원본: `labs/N05/n05_08_adamw_state.py`
 - 테스트: `tests/N05/test_n05_08.py`
-- 실행 명령: `.venv\Scripts\python.exe labs/N05/n05_08_adamw_state.py`
+- 실행 명령: `.venv\Scripts\python.exe -m labs.N05.n05_08_adamw_state`
 
 ### 자원 예산
 

@@ -40,10 +40,19 @@ class CpuSiteGpuIntegrationTests(unittest.TestCase):
         )
         self.assertEqual(set(registry), {lesson["id"] for lesson in lessons})
 
+    def test_i08_prefix_and_example_registry(self) -> None:
+        lessons = self.site.discover_post_n05_stage("I08")
+        registry = self.site.load_stage_example_registry("I08")
+        self.assertEqual(
+            [lesson["id"] for lesson in lessons],
+            [f"I08-{number:02d}" for number in range(1, 14)],
+        )
+        self.assertEqual(set(registry), {lesson["id"] for lesson in lessons})
+
     def test_cpu_expansion_uses_placeholder_without_results(self) -> None:
         lessons = [
             lesson
-            for stage in ("I06", "I07")
+            for stage in ("I06", "I07", "I08")
             for lesson in self.site.discover_post_n05_stage(stage)
         ]
         _, experiments = self.site.load_gpu_registries()

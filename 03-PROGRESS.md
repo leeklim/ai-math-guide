@@ -38,7 +38,7 @@
 | N05 | 신경망과 Transformer | 완료 | 28/28 | Phase 3 GPU·Pythia 기반과 I06-01~03 |
 | I06 | 표현 해석 | 완료 | 15/15 | I07 완료 |
 | I07 | 귀인·인과·기계론 | 완료 | 17/17 | I08-01 checkpoint 연구 설계 |
-| I08 | 학습 동역학 | 계획 | 0/13 | N05·I06 완료 후 시작 |
+| I08 | 학습 동역학 | 완료 | 13/13 | A09-GEO-01 집필 |
 | A09-GEO | 미분기하학 | 계획 | 0/8 | 선택 |
 | A09-DYN | 동역학계·확률과정 | 계획 | 0/8 | 선택 |
 | A09-SYM | 군론·대칭성 | 계획 | 0/8 | 선택 |
@@ -63,12 +63,14 @@
 - N05 필수 실습은 외부 모델 다운로드 없이 실행하며 공개 모델은 config 대조와 후속 해석 실험에 사용한다.
 - N05 필수 실습은 Python 3.12, PyTorch 2.13.0+cpu와 NumPy 2.5.3을 사용한다. 코드 원본은 `labs/N05`에 두고 build가 실제 결과를 HTML에 삽입한다.
 - N05-01~N05-28은 문제·해설 170쌍, 실행 예제 28개와 N05 단위 test 59개를 포함한다.
-- I06 이후 실제 모델 실험은 별도 `.venv-gpu`에서 Pythia 70M·160M·410M deduped의 `step143000`을 사용한다. CPU build는 model cache와 GPU 결과에 의존하지 않는다.
+- I06 이후 실제 모델 실험은 별도 `.venv-gpu`에서 Pythia 70M·160M·410M deduped를 사용한다. I06·I07은 `step143000`, I08 trajectory는 160M의 고정 checkpoint 여섯 개를 쓴다. CPU build는 model cache와 GPU 결과에 의존하지 않는다.
 - 로컬 GPU artifact는 Git에서 제외하고, 추적하는 runner·registry와 manifest schema로 model·revision·hook·입력·자원 상한을 고정한다.
 - I06-04~15는 NumPy·PyTorch CPU 예제 12개로 neuron, PCA·probe·CKA·RSA·sparse coding·SAE와 표현 보고서를 재현한다.
 - I06는 문제·해설 90쌍을 포함하며, probe 복원과 기능적 사용을 분리하고 SAE를 reconstruction·sparsity·dead feature·seed 안정성으로 평가한다.
 - I07은 문제·해설 102쌍과 CPU 예제 17개로 gradient·perturbation 귀인, node·edge 개입, necessity·sufficiency와 circuit 보고서를 재현한다.
 - I07 실제 모델 gate는 Pythia-160M layer 5 MLP 마지막-token activation patch 하나이며, France/Germany 대비에서 Paris–Berlin logit recovery 0.0625를 원시 결과 그대로 보고한다.
+- I08은 문제·해설 78쌍과 CPU 예제 13개로 checkpoint 계약, 파라미터·함수 거리, alignment, optimizer dynamics, Hessian, loss path, influence, feature emergence와 데이터 귀인을 재현한다.
+- I08 실제 모델 gate는 Pythia-160M의 `step0`, `step1000`, `step10000`, `step50000`, `step100000`, `step143000`을 한 번에 하나씩 적재한다. 고정 8개 prompt에서 target first-token NLL은 10.91에서 2.74로 낮아졌지만 condition probe는 step0부터 1.0이고 zero-ablation margin effect는 비단조이므로 세 지표를 하나의 feature emergence로 합치지 않는다.
 - 제4부는 순차 교재가 아니라 선택 모듈이다.
 
 ## 미해결 결정
@@ -204,3 +206,9 @@
 | 2026-10-01 | I07-13~15 | mediation, off-manifold intervention, paired control·통계 검증 설명·CPU 예제 3개·문제 해설 18쌍 작성 | CoT·종합 실습 배치 |
 | 2026-10-01 | I07-16~17 | CoT faithfulness와 작은 circuit 종합 보고서·CPU 예제 2개·문제 해설 12쌍 작성 | I07 단계 감사 |
 | 2026-10-01 | I07 단계 감사 | 17개 단원, 문제·해설 102쌍, CPU 예제 17개, Pythia-160M activation patching, 101개 test, 130개 HTML 페이지와 broken link·checklist 노출 0개 검증 | I08-01 집필 |
+| 2026-10-01 | I08-01~03 | checkpoint 연구 계약, parameter·function distance, Procrustes·CKA alignment 설명·CPU 예제 3개·문제 해설 18쌍 작성 | optimizer dynamics 배치 |
+| 2026-10-01 | I08-04~06 | gradient flow, mini-batch noise·optimizer state, Hessian spectrum·HVP 설명·CPU 예제 3개·문제 해설 18쌍 작성 | loss path·feature 배치 |
+| 2026-10-01 | I08-07~09 | loss path·mode connectivity, influence function, feature emergence의 네 증거 설명·CPU 예제 3개·문제 해설 18쌍 작성 | grokking·seed 배치 |
+| 2026-10-01 | I08-10~11 | grokking transition의 측정 한계, paired seed·data-order 설계 설명·CPU 예제 2개·문제 해설 12쌍 작성 | 데이터 귀인·종합 실습 배치 |
+| 2026-10-01 | I08-12~13 | TracIn 데이터 귀인과 feature 생애 보고서·CPU 예제 2개·Pythia-160M 여섯 checkpoint·문제 해설 12쌍 작성 | I08 단계 감사 |
+| 2026-10-01 | I08 단계 감사 | 13개 단원, 문제·해설 78쌍, CPU 예제 13개, Pythia-160M 여섯 checkpoint manifest, 117개 test, 143개 HTML 페이지와 broken link·checklist 노출 0개 검증 | A09-GEO-01 집필 |

@@ -22,7 +22,7 @@ class GpuManifestTests(unittest.TestCase):
             self.assertEqual(manifest["lesson_id"], experiment["lesson_id"])
             model = models[str(experiment["model_key"])]
             self.assertEqual(manifest["model"]["repository"], model["repository"])
-            self.assertEqual(manifest["model"]["requested_revision"], "step143000")
+            self.assertEqual(manifest["model"]["requested_revision"], model["revision"])
             self.assertTrue(manifest["model"]["resolved_sha"])
             self.assertLessEqual(manifest["resources"]["peak_allocated_bytes"], model["peak_vram_limit_bytes"])
             self.assertLessEqual(manifest["resources"]["artifact_bytes"], artifact_limit)

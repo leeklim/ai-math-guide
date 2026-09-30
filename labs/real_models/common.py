@@ -66,8 +66,16 @@ def load_registries() -> tuple[dict[str, dict[str, Any]], dict[str, dict[str, An
             raise ValueError(f"sequence limit exceeded: {experiment_id}")
         if model["repository"].endswith("-v0") or "7b" in model["repository"].lower():
             raise ValueError(f"forbidden model family: {model['repository']}")
-        if model["revision"] != "step143000":
-            raise ValueError(f"unpinned Pythia revision: {model['repository']}")
+        allowed_trajectory_revisions = {
+            "step0", "step1000", "step10000", "step50000", "step100000", "step143000"
+        }
+        revision = str(model["revision"])
+        is_160m_trajectory = (
+            model["repository"] == "EleutherAI/pythia-160m-deduped"
+            and revision in allowed_trajectory_revisions
+        )
+        if revision != "step143000" and not is_160m_trajectory:
+            raise ValueError(f"unpinned Pythia revision: {model['repository']}@{revision}")
         if model_key == "pythia-410m" and experiment["mode"] != "inference":
             raise ValueError("Pythia 410M must remain inference-only")
 

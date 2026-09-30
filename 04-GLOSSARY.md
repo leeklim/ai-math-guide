@@ -603,4 +603,15 @@
 | sign-flip 검정 | sign-flip test | 독립 표본 t 검정과 구분 | paired difference의 부호를 무작위화해 null distribution을 만드는 검정 | I07-15 |
 | rationale dependence | rationale dependence | CoT 전체의 faithfulness와 동일하지 않음 | rationale 개입에 따라 answer가 바뀌는 정도 | I07-16 |
 | 학습 동역학 | training dynamics | 최종 상태 분석과 구분 | 학습 중 파라미터·표현·행동의 시간적 변화 | I08-01 |
+| 파라미터 거리 | parameter distance | 함수 거리와 구분 | 두 모델 weight 좌표 사이의 거리 | I08-02 |
+| 함수 거리 | function distance | 파라미터 거리와 구분 | 지정 입력분포와 출력 metric에서 두 모델 행동의 차이 | I08-02 |
+| Procrustes 정렬 | orthogonal Procrustes alignment | 임의의 invertible 정렬과 구분 | 회전·반사로 두 representation의 대응 오차를 줄이는 정렬 | I08-03 |
+| gradient flow | gradient flow | finite-step optimizer와 동일하지 않음 | loss의 음의 gradient를 속도로 삼는 연속시간 동역학 | I08-04 |
+| Hessian spectrum | Hessian spectrum | 전역 loss landscape와 구분 | 한 파라미터 지점의 Hessian eigenvalue 모음 | I08-06 |
+| mode connectivity | mode connectivity | 실제 학습 경로와 구분 | 낮은 loss를 유지하는 parameter path로 해들이 연결되는 현상 | I08-07 |
+| influence function | influence function | exact leave-one-out retraining과 구분 | data weight의 미소 변화가 최적점과 prediction에 미치는 국소 근사 | I08-08 |
+| feature emergence | feature emergence | probe score 상승 하나와 동일시하지 않음 | 학습 중 feature의 형성·복원·사용·행동 증거가 나타나는 과정 | I08-09 |
+| grokking | grokking | 모든 delayed generalization과 동일하지 않음 | training fit 뒤 test generalization이 늦게 개선되는 현상 | I08-10 |
+| 데이터 귀인 | data attribution | 입력 feature 귀인과 구분 | prediction과 관련된 training example의 학습 영향도를 추정하는 분석 | I08-12 |
+| TracIn | TracIn | removal retraining의 정답과 구분 | 여러 checkpoint의 training·test gradient 정렬을 합하는 데이터 귀인 방법 | I08-12 |
 | 식별가능성 | identifiability | 재현성과 구분 | 관찰 가능한 함수나 분포로부터 파라미터를 유일하게 정할 수 있는 성질 | M03-15 |

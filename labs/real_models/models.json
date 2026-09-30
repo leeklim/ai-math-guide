@@ -22,6 +22,56 @@
       "timeout_seconds": 180
     },
     {
+      "model_key": "pythia-160m-step0",
+      "repository": "EleutherAI/pythia-160m-deduped",
+      "revision": "step0",
+      "role": "trajectory",
+      "dtype": "float16",
+      "sequence_limit": 128,
+      "peak_vram_limit_bytes": 4294967296,
+      "timeout_seconds": 180
+    },
+    {
+      "model_key": "pythia-160m-step1000",
+      "repository": "EleutherAI/pythia-160m-deduped",
+      "revision": "step1000",
+      "role": "trajectory",
+      "dtype": "float16",
+      "sequence_limit": 128,
+      "peak_vram_limit_bytes": 4294967296,
+      "timeout_seconds": 180
+    },
+    {
+      "model_key": "pythia-160m-step10000",
+      "repository": "EleutherAI/pythia-160m-deduped",
+      "revision": "step10000",
+      "role": "trajectory",
+      "dtype": "float16",
+      "sequence_limit": 128,
+      "peak_vram_limit_bytes": 4294967296,
+      "timeout_seconds": 180
+    },
+    {
+      "model_key": "pythia-160m-step50000",
+      "repository": "EleutherAI/pythia-160m-deduped",
+      "revision": "step50000",
+      "role": "trajectory",
+      "dtype": "float16",
+      "sequence_limit": 128,
+      "peak_vram_limit_bytes": 4294967296,
+      "timeout_seconds": 180
+    },
+    {
+      "model_key": "pythia-160m-step100000",
+      "repository": "EleutherAI/pythia-160m-deduped",
+      "revision": "step100000",
+      "role": "trajectory",
+      "dtype": "float16",
+      "sequence_limit": 128,
+      "peak_vram_limit_bytes": 4294967296,
+      "timeout_seconds": 180
+    },
+    {
       "model_key": "pythia-410m",
       "repository": "EleutherAI/pythia-410m-deduped",
       "revision": "step143000",

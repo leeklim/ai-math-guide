@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "examples": [
+    {"lesson_id": "I08-01", "example_id": "i08_01_checkpoint_design", "module": "labs.I08.i08_01_checkpoint_design", "source": "labs/I08/i08_01_checkpoint_design.py"},
+    {"lesson_id": "I08-02", "example_id": "i08_02_parameter_function_distance", "module": "labs.I08.i08_02_parameter_function_distance", "source": "labs/I08/i08_02_parameter_function_distance.py"},
+    {"lesson_id": "I08-03", "example_id": "i08_03_representation_alignment", "module": "labs.I08.i08_03_representation_alignment", "source": "labs/I08/i08_03_representation_alignment.py"},
+    {"lesson_id": "I08-04", "example_id": "i08_04_sgd_dynamics", "module": "labs.I08.i08_04_sgd_dynamics", "source": "labs/I08/i08_04_sgd_dynamics.py"},
+    {"lesson_id": "I08-05", "example_id": "i08_05_minibatch_optimizer_state", "module": "labs.I08.i08_05_minibatch_optimizer_state", "source": "labs/I08/i08_05_minibatch_optimizer_state.py"},
+    {"lesson_id": "I08-06", "example_id": "i08_06_hessian_spectrum", "module": "labs.I08.i08_06_hessian_spectrum", "source": "labs/I08/i08_06_hessian_spectrum.py"},
+    {"lesson_id": "I08-07", "example_id": "i08_07_loss_path", "module": "labs.I08.i08_07_loss_path", "source": "labs/I08/i08_07_loss_path.py"},
+    {"lesson_id": "I08-08", "example_id": "i08_08_influence_function", "module": "labs.I08.i08_08_influence_function", "source": "labs/I08/i08_08_influence_function.py"},
+    {"lesson_id": "I08-09", "example_id": "i08_09_feature_emergence", "module": "labs.I08.i08_09_feature_emergence", "source": "labs/I08/i08_09_feature_emergence.py"},
+    {"lesson_id": "I08-10", "example_id": "i08_10_grokking_transition", "module": "labs.I08.i08_10_grokking_transition", "source": "labs/I08/i08_10_grokking_transition.py"},
+    {"lesson_id": "I08-11", "example_id": "i08_11_seed_data_order", "module": "labs.I08.i08_11_seed_data_order", "source": "labs/I08/i08_11_seed_data_order.py"},
+    {"lesson_id": "I08-12", "example_id": "i08_12_data_attribution", "module": "labs.I08.i08_12_data_attribution", "source": "labs/I08/i08_12_data_attribution.py"},
+    {"lesson_id": "I08-13", "example_id": "i08_13_feature_lifecycle", "module": "labs.I08.i08_13_feature_lifecycle", "source": "labs/I08/i08_13_feature_lifecycle.py"}
+  ]
+}

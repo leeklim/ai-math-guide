@@ -58,6 +58,7 @@ GPU_RUNNER_PATH = ROOT / "labs" / "real_models" / "run_pythia.py"
 STAGE_EXAMPLE_REGISTRY_PATHS = {
     "I06": ROOT / "labs" / "I06" / "examples.json",
     "I07": ROOT / "labs" / "I07" / "examples.json",
+    "I08": ROOT / "labs" / "I08" / "examples.json",
 }
 
 INTERNAL_DOCS = {
@@ -1326,6 +1327,10 @@ def validate() -> None:
         "i07_generated_results": sum(
             (BUILD_ROOT / "i07" / "results" / f"{str(example_spec['example_id'])}.json").exists()
             for example_spec in stage_registries["I07"].values()
+        ),
+        "i08_generated_results": sum(
+            (BUILD_ROOT / "i08" / "results" / f"{str(example_spec['example_id'])}.json").exists()
+            for example_spec in stage_registries["I08"].values()
         ),
         "gpu_result_mode": include_gpu_results,
         "gpu_registered_experiments": len(gpu_experiments),

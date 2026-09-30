@@ -45,6 +45,72 @@
       "component": "mlp.dense_4h_to_h",
       "sequence_length": 64,
       "seed": 20261001
+    },
+    {
+      "experiment_id": "pythia_160m_step0_feature_lifecycle",
+      "lesson_id": "I08-13",
+      "model_key": "pythia-160m-step0",
+      "mode": "checkpoint_probe",
+      "layer": 5,
+      "token": "last",
+      "component": "mlp.dense_4h_to_h",
+      "sequence_length": 64,
+      "seed": 20261001
+    },
+    {
+      "experiment_id": "pythia_160m_step1000_feature_lifecycle",
+      "lesson_id": "I08-13",
+      "model_key": "pythia-160m-step1000",
+      "mode": "checkpoint_probe",
+      "layer": 5,
+      "token": "last",
+      "component": "mlp.dense_4h_to_h",
+      "sequence_length": 64,
+      "seed": 20261001
+    },
+    {
+      "experiment_id": "pythia_160m_step10000_feature_lifecycle",
+      "lesson_id": "I08-13",
+      "model_key": "pythia-160m-step10000",
+      "mode": "checkpoint_probe",
+      "layer": 5,
+      "token": "last",
+      "component": "mlp.dense_4h_to_h",
+      "sequence_length": 64,
+      "seed": 20261001
+    },
+    {
+      "experiment_id": "pythia_160m_step50000_feature_lifecycle",
+      "lesson_id": "I08-13",
+      "model_key": "pythia-160m-step50000",
+      "mode": "checkpoint_probe",
+      "layer": 5,
+      "token": "last",
+      "component": "mlp.dense_4h_to_h",
+      "sequence_length": 64,
+      "seed": 20261001
+    },
+    {
+      "experiment_id": "pythia_160m_step100000_feature_lifecycle",
+      "lesson_id": "I08-13",
+      "model_key": "pythia-160m-step100000",
+      "mode": "checkpoint_probe",
+      "layer": 5,
+      "token": "last",
+      "component": "mlp.dense_4h_to_h",
+      "sequence_length": 64,
+      "seed": 20261001
+    },
+    {
+      "experiment_id": "pythia_160m_step143000_feature_lifecycle",
+      "lesson_id": "I08-13",
+      "model_key": "pythia-160m",
+      "mode": "checkpoint_probe",
+      "layer": 5,
+      "token": "last",
+      "component": "mlp.dense_4h_to_h",
+      "sequence_length": 64,
+      "seed": 20261001
     }
   ]
 }

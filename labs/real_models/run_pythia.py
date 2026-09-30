@@ -32,14 +32,14 @@ from labs.real_models.common import (
 
 
 PROMPTS = [
-    {"text": "Paris is the capital city of", "condition": "place"},
-    {"text": "Berlin is the capital city of", "condition": "place"},
-    {"text": "Rome is the capital city of", "condition": "place"},
-    {"text": "Madrid is the capital city of", "condition": "place"},
-    {"text": "A robin is a kind of", "condition": "animal"},
-    {"text": "A salmon is a kind of", "condition": "animal"},
-    {"text": "A tiger is a kind of", "condition": "animal"},
-    {"text": "A sparrow is a kind of", "condition": "animal"},
+    {"text": "Paris is the capital city of", "condition": "place", "answer": " France"},
+    {"text": "Berlin is the capital city of", "condition": "place", "answer": " Germany"},
+    {"text": "Rome is the capital city of", "condition": "place", "answer": " Italy"},
+    {"text": "Madrid is the capital city of", "condition": "place", "answer": " Spain"},
+    {"text": "A robin is a kind of", "condition": "animal", "answer": " bird"},
+    {"text": "A salmon is a kind of", "condition": "animal", "answer": " fish"},
+    {"text": "A tiger is a kind of", "condition": "animal", "answer": " animal"},
+    {"text": "A sparrow is a kind of", "condition": "animal", "answer": " bird"},
 ]
 
 PATCHING_PROMPTS = [
@@ -98,6 +98,8 @@ def hook_module(model: GPTNeoXForCausalLM, layer: int) -> torch.nn.Module:
 def input_rows_for_experiment(experiment: dict[str, Any]) -> list[dict[str, str]]:
     if experiment["mode"] == "activation_patching":
         return PATCHING_PROMPTS
+    if experiment["mode"] == "checkpoint_probe":
+        return PROMPTS
     if experiment["model_key"] in {"pythia-160m", "pythia-410m"}:
         return PROMPTS
     return PROMPTS[:1]
@@ -201,10 +203,16 @@ def run_forward_set(
     calls = 0
     captured: dict[str, torch.Tensor] = {}
     gradient_mode = False
+    zero_ablation = False
 
     def capture(_module: torch.nn.Module, _inputs: tuple[torch.Tensor, ...], output: torch.Tensor) -> torch.Tensor | None:
         nonlocal calls
         calls += 1
+        if zero_ablation:
+            ablated = output.clone()
+            ablated[:, -1, :] = 0
+            captured["output"] = ablated
+            return ablated
         if gradient_mode:
             observed = output.detach().requires_grad_(True)
             captured["output"] = observed
@@ -216,6 +224,10 @@ def run_forward_set(
     handle = module.register_forward_hook(capture)
     sequence_lengths: list[int] = []
     top_tokens: list[str] = []
+    target_first_token_nll: list[float] = []
+    baseline_top_ids: list[int] | None = None
+    baseline_top_margin: float | None = None
+    ablated_top_margin: float | None = None
     margin_value: float | None = None
     try:
         prompt_rows = input_rows_for_experiment(experiment)
@@ -246,6 +258,15 @@ def run_forward_set(
                 last_logits = outputs.logits[0, token_index]
                 top = torch.topk(last_logits, k=2)
                 top_tokens.append(tokenizer.decode([int(top.indices[0])]))
+                if experiment["mode"] == "checkpoint_probe":
+                    target_ids = tokenizer(row["answer"], add_special_tokens=False)["input_ids"]
+                    if not target_ids:
+                        raise RuntimeError("checkpoint target must contain at least one token")
+                    log_probs = torch.log_softmax(last_logits.float(), dim=-1)
+                    target_first_token_nll.append(float(-log_probs[int(target_ids[0])].detach().cpu()))
+                    if index == 0:
+                        baseline_top_ids = [int(top.indices[0]), int(top.indices[1])]
+                        baseline_top_margin = float((top.values[0] - top.values[1]).detach().float().cpu())
                 if gradient_mode:
                     margin = top.values[0] - top.values[1]
                     margin_value = float(margin.detach().cpu())
@@ -253,6 +274,22 @@ def run_forward_set(
                     if observed.grad is None:
                         raise RuntimeError("selected activation gradient was not retained")
                     selected_gradient = observed.grad[0, token_index].detach().float().cpu().numpy()
+        if experiment["mode"] == "checkpoint_probe":
+            if baseline_top_ids is None or baseline_top_margin is None:
+                raise RuntimeError("checkpoint probe did not record a baseline margin")
+            row = prompt_rows[0]
+            encoded = tokenizer(row["text"], return_tensors="pt", truncation=True, max_length=int(experiment["sequence_length"]))
+            input_ids = encoded["input_ids"].to("cuda")
+            attention_mask = encoded.get("attention_mask")
+            if attention_mask is not None:
+                attention_mask = attention_mask.to("cuda")
+            zero_ablation = True
+            captured.clear()
+            with torch.no_grad():
+                outputs = model(input_ids=input_ids, attention_mask=attention_mask, use_cache=False)
+            logits = outputs.logits[0, -1]
+            ablated_top_margin = float((logits[baseline_top_ids[0]] - logits[baseline_top_ids[1]]).float().cpu())
+            zero_ablation = False
     finally:
         handle.remove()
 
@@ -276,6 +313,28 @@ def run_forward_set(
         place = activations[np.array(conditions) == "place"].mean(axis=0)
         animal = activations[np.array(conditions) == "animal"].mean(axis=0)
         summary["condition_mean_difference_l2"] = float(np.linalg.norm(place - animal))
+    if experiment["mode"] == "checkpoint_probe":
+        labels = np.array(conditions)
+        predictions: list[str] = []
+        for index, activation in enumerate(activations):
+            keep = np.arange(len(activations)) != index
+            place_mean = activations[keep & (labels == "place")].mean(axis=0)
+            animal_mean = activations[keep & (labels == "animal")].mean(axis=0)
+            place_distance = np.linalg.norm(activation - place_mean)
+            animal_distance = np.linalg.norm(activation - animal_mean)
+            predictions.append("place" if place_distance < animal_distance else "animal")
+        summary["condition_probe_leave_one_out_accuracy"] = float(np.mean(np.array(predictions) == labels))
+        summary["target_first_token_nll_mean"] = float(np.mean(target_first_token_nll))
+        summary["target_first_token_nll"] = target_first_token_nll
+        summary["baseline_top_two_margin"] = baseline_top_margin
+        summary["zero_ablation_top_two_margin"] = ablated_top_margin
+        summary["zero_ablation_margin_change"] = float(baseline_top_margin - ablated_top_margin)
+        summary["metric_contract"] = {
+            "formation": "place-minus-animal condition mean L2",
+            "recoverability": "leave-one-out nearest-centroid accuracy",
+            "use_proxy": "baseline minus layer-5 MLP zero-ablation top-two margin",
+            "behavior": "fixed target first-token negative log probability",
+        }
     if selected_gradient is not None:
         summary["gradient_l2"] = float(np.linalg.norm(selected_gradient))
     if experiment["model_key"] == "pythia-410m":

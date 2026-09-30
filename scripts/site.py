@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 import shutil
 import sys
@@ -39,10 +40,21 @@ STAGE_TITLES = {
     "M03": "M03 추상선형대수와 행렬미분",
     "M04": "M04 확률·통계·정보이론",
     "N05": "N05 신경망 계산",
+    "I06": "I06 표현 해석",
+    "I07": "I07 귀인·인과·기계론",
+    "I08": "I08 학습 동역학",
 }
 
 N05_PLANNED_COUNT = 28
 N05_REGISTRY_PATH = ROOT / "labs" / "N05" / "examples.json"
+POST_N05_STAGE_SPECS = {
+    "I06": {"part": 3, "planned_count": 15, "directory": "part-3-interpretability/I06"},
+    "I07": {"part": 3, "planned_count": 17, "directory": "part-3-interpretability/I07"},
+    "I08": {"part": 3, "planned_count": 13, "directory": "part-3-interpretability/I08"},
+}
+GPU_EXPERIMENT_REGISTRY_PATH = ROOT / "labs" / "real_models" / "experiments.json"
+GPU_MODEL_REGISTRY_PATH = ROOT / "labs" / "real_models" / "models.json"
+GPU_RUNNER_PATH = ROOT / "labs" / "real_models" / "run_pythia.py"
 
 INTERNAL_DOCS = {
     "00-PROJECT-SPEC.md",
@@ -115,6 +127,28 @@ def load_n05_example_registry() -> dict[str, dict[str, object]]:
     return registry
 
 
+def load_gpu_registries() -> tuple[dict[str, dict[str, object]], dict[str, dict[str, object]]]:
+    experiment_data = json.loads(read_text(GPU_EXPERIMENT_REGISTRY_PATH))
+    model_data = json.loads(read_text(GPU_MODEL_REGISTRY_PATH))
+    if experiment_data.get("schema_version") != 1 or model_data.get("schema_version") != 1:
+        raise SiteError("GPU registry schema가 잘못됐다")
+    experiments: dict[str, dict[str, object]] = {}
+    models: dict[str, dict[str, object]] = {}
+    for model in model_data.get("models", []):
+        model_key = str(model.get("model_key", ""))
+        if not model_key or model_key in models:
+            raise SiteError(f"GPU model registry key가 없거나 중복됐다: {model_key}")
+        models[model_key] = model
+    for experiment in experiment_data.get("experiments", []):
+        experiment_id = str(experiment.get("experiment_id", ""))
+        if not re.fullmatch(r"[a-z0-9_]+", experiment_id) or experiment_id in experiments:
+            raise SiteError(f"GPU experiment ID가 잘못됐거나 중복됐다: {experiment_id}")
+        if str(experiment.get("model_key", "")) not in models:
+            raise SiteError(f"GPU experiment의 model key가 없다: {experiment_id}")
+        experiments[experiment_id] = experiment
+    return models, experiments
+
+
 def parse_frontmatter(path: Path, text: str) -> dict[str, object]:
     match = FRONTMATTER_RE.match(text)
     if not match:
@@ -158,7 +192,11 @@ def lint_english_readings(
             (path, read_text(path))
             for path in sorted(ROOT.glob("part-2-neural-computation/N05/N05-*.md"))
         ]
-        sources = foundation_sources + n05_sources
+        post_n05_sources = [
+            (path, read_text(path))
+            for path in sorted(ROOT.glob("part-3-interpretability/I??/I??-*.md"))
+        ]
+        sources = foundation_sources + n05_sources + post_n05_sources
 
     issues: list[str] = []
     entries: dict[str, list[tuple[str, Path, int]]] = {}
@@ -403,8 +441,100 @@ def discover_n05_lessons() -> list[dict[str, object]]:
     return lessons
 
 
+def discover_post_n05_stage(stage: str) -> list[dict[str, object]]:
+    spec = POST_N05_STAGE_SPECS[stage]
+    stage_dir = ROOT / str(spec["directory"])
+    paths = sorted(stage_dir.glob(f"{stage}-*.md")) if stage_dir.exists() else []
+    _, experiments = load_gpu_registries()
+    expected_by_lesson: dict[str, list[str]] = {}
+    for experiment_id, experiment in experiments.items():
+        lesson_id = str(experiment.get("lesson_id", ""))
+        expected_by_lesson.setdefault(lesson_id, []).append(experiment_id)
+
+    issues: list[str] = []
+    lessons: list[dict[str, object]] = []
+    written_ids: set[str] = set()
+    if len(paths) > int(spec["planned_count"]):
+        issues.append(
+            f"{stage} file count={len(paths)}, planned maximum={spec['planned_count']}"
+        )
+
+    for expected_number, path in enumerate(paths, start=1):
+        text = read_text(path)
+        meta = parse_frontmatter(path, text)
+        lesson_id = str(meta.get("id", ""))
+        title = str(meta.get("title", ""))
+        expected_id = f"{stage}-{expected_number:02d}"
+        written_ids.add(lesson_id)
+
+        if lesson_id != expected_id:
+            issues.append(
+                f"{stage} prefix gap or ID order mismatch: {path.name} -> {lesson_id}, expected={expected_id}"
+            )
+        if meta.get("part") != spec["part"] or meta.get("stage") != stage:
+            issues.append(f"{stage} frontmatter part/stage mismatch: {path.name}")
+        if path.stem != lesson_id and not path.stem.startswith(f"{lesson_id}-"):
+            issues.append(f"{stage} filename/ID mismatch: {path.name} -> {lesson_id}")
+        if H1_RE.findall(text) != [f"{lesson_id}. {title}"]:
+            issues.append(f"{stage} H1 mismatch: {lesson_id}")
+        if len(re.findall(r"^##\s+집필자 점검표\s*$", text, flags=re.MULTILINE)) != 1:
+            issues.append(f"{stage} checklist count is not one: {lesson_id}")
+
+        display_open = len(re.findall(r"^\\\[$", text, flags=re.MULTILINE))
+        display_close = len(re.findall(r"^\\\]$", text, flags=re.MULTILINE))
+        if display_open != display_close:
+            issues.append(f"{stage} display math mismatch: {lesson_id}={display_open}/{display_close}")
+        for line_number, line in enumerate(text.splitlines(), start=1):
+            if len(re.findall(r"(?<!\\)\$", line)) % 2:
+                issues.append(f"{stage} inline math mismatch: {lesson_id}:{line_number}")
+                break
+        for href in LINK_RE.findall(text):
+            local_path = href.split("#", 1)[0]
+            if not local_path or urlsplit(local_path).scheme:
+                continue
+            target = (path.parent / unquote(local_path)).resolve()
+            if not target.exists():
+                issues.append(f"broken {stage} source link: {lesson_id} -> {href}")
+
+        markers = re.findall(r"<!--\s*GPU_EXPERIMENT:\s*([a-z0-9_]+)\s*-->", text)
+        expected_markers = expected_by_lesson.get(lesson_id, [])
+        if markers != expected_markers:
+            issues.append(
+                f"GPU experiment marker mismatch: {lesson_id}={markers}, expected={expected_markers}"
+            )
+        lessons.append(
+            {
+                "id": lesson_id,
+                "title": title,
+                "stage": stage,
+                "path": path,
+                "relative_path": path.relative_to(ROOT).as_posix(),
+            }
+        )
+
+    registry_ids = {
+        lesson_id for lesson_id in expected_by_lesson if lesson_id.startswith(f"{stage}-")
+    }
+    missing_registry_lessons = sorted(registry_ids - written_ids)
+    if missing_registry_lessons:
+        issues.append(
+            f"GPU registry points to unwritten {stage} lessons: " + ", ".join(missing_registry_lessons)
+        )
+    sources = [(path, read_text(path)) for path in paths]
+    reading_issues, reading_tables, _ = lint_english_readings(sources)
+    issues.extend(reading_issues)
+    if reading_tables != len(paths):
+        issues.append(f"{stage} reading table count={reading_tables}, lesson count={len(paths)}")
+    if issues:
+        raise SiteError(f"{stage} source audit 실패:\n- " + "\n- ".join(issues))
+    return lessons
+
+
 def discover_all_lessons() -> list[dict[str, object]]:
-    return discover_lessons() + discover_n05_lessons()
+    lessons = discover_lessons() + discover_n05_lessons()
+    for stage in POST_N05_STAGE_SPECS:
+        lessons.extend(discover_post_n05_stage(stage))
+    return lessons
 
 
 def remove_h2_sections(text: str, section_names: set[str], *, required: bool = False) -> str:
@@ -554,12 +684,111 @@ def expand_n05_example(text: str, lesson_id: str) -> str:
     return text.replace(marker, generated.rstrip())
 
 
+def expand_gpu_experiments(text: str, lesson_id: str) -> str:
+    models, experiments = load_gpu_registries()
+    lesson_experiments = [
+        (experiment_id, experiment)
+        for experiment_id, experiment in experiments.items()
+        if experiment.get("lesson_id") == lesson_id
+    ]
+    include_results = os.environ.get("AI_MATH_GPU_RESULTS") == "1"
+    for experiment_id, experiment in lesson_experiments:
+        marker = f"<!-- GPU_EXPERIMENT: {experiment_id} -->"
+        if text.count(marker) != 1:
+            raise SiteError(f"GPU experiment marker 수가 1이 아니다: {lesson_id}/{experiment_id}")
+        model = models[str(experiment["model_key"])]
+        command = (
+            ".venv-gpu\\Scripts\\python.exe -m "
+            f"labs.real_models.run_pythia {experiment_id}"
+        )
+        source_hash = hashlib.sha256(GPU_RUNNER_PATH.read_bytes()).hexdigest()
+        generated = f"""<!-- GPU_SOURCE_SHA256: {experiment_id} {source_hash} -->
+
+#### 실제 모델 실험 계약
+
+| 항목 | 값 |
+|---|---|
+| experiment | `{experiment_id}` |
+| 코드 원본 | `labs/real_models/run_pythia.py` |
+| model | `{model['repository']}` |
+| requested revision | `{model['revision']}` |
+| mode | `{experiment['mode']}` |
+| hook | `gpt_neox.layers.{experiment['layer']}.mlp.dense_4h_to_h`, `{experiment['token']}` token |
+| sequence 상한 | `{experiment['sequence_length']}` |
+| peak VRAM 상한 | `{int(model['peak_vram_limit_bytes']) / 1024**3:.1f} GiB` |
+| 실행 timeout | `{model['timeout_seconds']}초` |
+
+```powershell
+{command}
+```
+"""
+        if not include_results:
+            generated += "\n> 로컬 GPU 결과가 삽입되지 않음. 위 명령으로 고정된 실험을 재현할 수 있다.\n"
+            text = text.replace(marker, generated.rstrip())
+            continue
+
+        manifest_path = BUILD_ROOT / "gpu" / "results" / experiment_id / "manifest.json"
+        if not manifest_path.exists():
+            raise SiteError(f"요청한 로컬 GPU manifest가 없다: {experiment_id}")
+        manifest = json.loads(read_text(manifest_path))
+        required = {
+            "schema_version", "experiment_id", "lesson_id", "status", "source", "model",
+            "inputs", "hook", "resources", "artifacts", "assertions", "summary", "failure",
+        }
+        missing = sorted(required - manifest.keys())
+        if missing:
+            raise SiteError(f"GPU manifest field 누락: {experiment_id} -> {', '.join(missing)}")
+        if manifest.get("status") != "passed" or manifest.get("failure") is not None:
+            raise SiteError(f"GPU manifest가 통과 상태가 아니다: {experiment_id}")
+        if manifest.get("experiment_id") != experiment_id or manifest.get("lesson_id") != lesson_id:
+            raise SiteError(f"GPU manifest identity가 다르다: {experiment_id}")
+        if manifest["source"].get("sha256") != source_hash:
+            raise SiteError(f"GPU runner와 manifest source hash가 다르다: {experiment_id}")
+        if manifest["model"].get("repository") != model["repository"]:
+            raise SiteError(f"GPU manifest model이 다르다: {experiment_id}")
+        if manifest["model"].get("requested_revision") != model["revision"]:
+            raise SiteError(f"GPU manifest revision이 다르다: {experiment_id}")
+        if not manifest["model"].get("resolved_sha"):
+            raise SiteError(f"GPU manifest resolved SHA가 없다: {experiment_id}")
+        for artifact in manifest["artifacts"]:
+            artifact_path = (ROOT / str(artifact["path"])).resolve()
+            if not artifact_path.is_relative_to(BUILD_ROOT.resolve()) or not artifact_path.exists():
+                raise SiteError(f"GPU artifact path가 없거나 안전하지 않다: {experiment_id}")
+            if hashlib.sha256(artifact_path.read_bytes()).hexdigest() != artifact.get("sha256"):
+                raise SiteError(f"GPU artifact hash가 다르다: {experiment_id}")
+        serialized = json.dumps(manifest, ensure_ascii=False)
+        if str(ROOT) in serialized:
+            raise SiteError(f"GPU manifest에 absolute project path가 있다: {experiment_id}")
+
+        resources = manifest["resources"]
+        summary = json.dumps(manifest["summary"], ensure_ascii=False, sort_keys=True, indent=2)
+        generated += f"""
+
+#### 검증된 로컬 GPU 결과
+
+```text
+{summary}
+```
+
+| 검증 항목 | 값 |
+|---|---|
+| resolved model SHA | `{manifest['model']['resolved_sha']}` |
+| source SHA-256 | `{manifest['source']['sha256']}` |
+| peak allocated VRAM | `{int(resources['peak_allocated_bytes']) / 1024**3:.3f} GiB` |
+| artifact 크기 | `{resources['artifact_bytes']} bytes` |
+| 실행시간 | `{manifest['timestamps']['seconds']:.3f}초` |
+"""
+        text = text.replace(marker, generated.rstrip())
+    return text
+
+
 def build_nav(lessons: list[dict[str, object]]) -> list[dict[str, object]]:
     nav: list[dict[str, object]] = [
         {"홈": "index.md"},
         {"전체 학습경로": "curriculum.md"},
         {"N05 실행 환경": "N05-ENVIRONMENT.md"},
         {"N05 아키텍처 기준": "05-N05-ARCHITECTURE-BASELINE.md"},
+        {"GPU·Pythia 실행 환경": "GPU-ENVIRONMENT.md"},
     ]
     for stage in STAGE_COUNTS:
         stage_items: list[dict[str, str]] = []
@@ -577,6 +806,15 @@ def build_nav(lessons: list[dict[str, object]]) -> list[dict[str, object]]:
         n05_items.append({label: str(lesson["relative_path"])})
     if n05_items:
         nav.append({STAGE_TITLES["N05"]: n05_items})
+    for stage in POST_N05_STAGE_SPECS:
+        stage_items: list[dict[str, str]] = []
+        for lesson in lessons:
+            if lesson["stage"] != stage:
+                continue
+            label = f"{lesson['id']} {lesson['title']}"
+            stage_items.append({label: str(lesson["relative_path"])})
+        if stage_items:
+            nav.append({STAGE_TITLES[stage]: stage_items})
     nav.append({"용어집": "glossary.md"})
     return nav
 
@@ -602,6 +840,7 @@ def prepare() -> None:
     write_text(DOCS_DIR / "index.md", prepare_homepage())
     write_text(DOCS_DIR / "curriculum.md", read_text(ROOT / "01-CURRICULUM.md"))
     write_text(DOCS_DIR / "N05-ENVIRONMENT.md", read_text(ROOT / "N05-ENVIRONMENT.md"))
+    write_text(DOCS_DIR / "GPU-ENVIRONMENT.md", read_text(ROOT / "GPU-ENVIRONMENT.md"))
     write_text(
         DOCS_DIR / "05-N05-ARCHITECTURE-BASELINE.md",
         read_text(ROOT / "05-N05-ARCHITECTURE-BASELINE.md"),
@@ -616,6 +855,7 @@ def prepare() -> None:
         text = enable_markdown_in_details(text, str(lesson["id"]))
         text = add_search_alias(text, str(lesson["id"]))
         text = expand_n05_example(text, str(lesson["id"]))
+        text = expand_gpu_experiments(text, str(lesson["id"]))
         destination = DOCS_DIR / str(lesson["relative_path"])
         write_text(destination, text)
 
@@ -690,8 +930,14 @@ def resolve_generated_url(page: Path, url: str) -> Path | None:
 def validate() -> None:
     foundation_lessons = discover_lessons()
     n05_lessons = discover_n05_lessons()
+    post_n05_lessons = [
+        lesson
+        for stage in POST_N05_STAGE_SPECS
+        for lesson in discover_post_n05_stage(stage)
+    ]
     n05_registry = load_n05_example_registry()
-    lessons = foundation_lessons + n05_lessons
+    _, gpu_experiments = load_gpu_registries()
+    lessons = foundation_lessons + n05_lessons + post_n05_lessons
     issues: list[str] = []
     _, reading_table_count, reading_cell_count = lint_english_readings()
 
@@ -704,11 +950,20 @@ def validate() -> None:
     staged_n05 = sorted(
         (DOCS_DIR / "part-2-neural-computation" / "N05").glob("N05-*.md")
     )
-    staged_lessons = staged_foundations + staged_n05
+    staged_post_n05 = [
+        path
+        for stage, spec in POST_N05_STAGE_SPECS.items()
+        for path in sorted((DOCS_DIR / str(spec["directory"])).glob(f"{stage}-*.md"))
+    ]
+    staged_lessons = staged_foundations + staged_n05 + staged_post_n05
     if len(staged_foundations) != 70:
         issues.append(f"staged foundation lesson count={len(staged_foundations)}, expected=70")
     if len(staged_n05) != len(n05_lessons):
         issues.append(f"staged N05 lesson count={len(staged_n05)}, expected={len(n05_lessons)}")
+    if len(staged_post_n05) != len(post_n05_lessons):
+        issues.append(
+            f"staged post-N05 lesson count={len(staged_post_n05)}, expected={len(post_n05_lessons)}"
+        )
 
     original_checklists = sum(
         len(re.findall(r"^##\s+집필자 점검표\s*$", read_text(Path(str(lesson["path"]))), flags=re.MULTILINE))
@@ -748,6 +1003,14 @@ def validate() -> None:
             f"N05 nav count/unique={len(n05_nav_paths)}/{len(set(n05_nav_paths))}, "
             f"expected={len(n05_lessons)}"
         )
+    post_nav_paths = [
+        path for path in nav_paths if re.match(r"part-3-interpretability/I0[6-8]/I0[6-8]-", path)
+    ]
+    if len(post_nav_paths) != len(post_n05_lessons) or len(set(post_nav_paths)) != len(post_n05_lessons):
+        issues.append(
+            f"post-N05 nav count/unique={len(post_nav_paths)}/{len(set(post_nav_paths))}, "
+            f"expected={len(post_n05_lessons)}"
+        )
 
     for lesson in n05_lessons:
         lesson_id = str(lesson["id"])
@@ -765,6 +1028,22 @@ def validate() -> None:
         if not result_path.exists():
             issues.append(f"generated result missing: {example_id}")
 
+    include_gpu_results = os.environ.get("AI_MATH_GPU_RESULTS") == "1"
+    for lesson in post_n05_lessons:
+        lesson_id = str(lesson["id"])
+        staged_source = read_text(DOCS_DIR / str(lesson["relative_path"]))
+        for experiment_id, experiment in gpu_experiments.items():
+            if experiment.get("lesson_id") != lesson_id:
+                continue
+            source_hash = hashlib.sha256(GPU_RUNNER_PATH.read_bytes()).hexdigest()
+            if f"GPU_SOURCE_SHA256: {experiment_id} {source_hash}" not in staged_source:
+                issues.append(f"GPU source hash marker missing from staging: {lesson_id}/{experiment_id}")
+            placeholder = "로컬 GPU 결과가 삽입되지 않음"
+            if include_gpu_results and placeholder in staged_source:
+                issues.append(f"GPU result mode still has placeholder: {lesson_id}/{experiment_id}")
+            if not include_gpu_results and placeholder not in staged_source:
+                issues.append(f"CPU build is missing GPU placeholder: {lesson_id}/{experiment_id}")
+
     missing_pages: list[str] = []
     lesson_html_paths: list[Path] = []
     for lesson in lessons:
@@ -780,6 +1059,7 @@ def validate() -> None:
         SITE_DIR / "curriculum" / "index.html",
         SITE_DIR / "N05-ENVIRONMENT" / "index.html",
         SITE_DIR / "05-N05-ARCHITECTURE-BASELINE" / "index.html",
+        SITE_DIR / "GPU-ENVIRONMENT" / "index.html",
         SITE_DIR / "glossary" / "index.html",
     ):
         if not path.exists():
@@ -817,6 +1097,17 @@ def validate() -> None:
         page = output_html_for(str(lesson["relative_path"]))
         if page.exists() and marker not in read_text(page):
             issues.append(f"N05 source hash marker missing from HTML: {lesson_id}")
+    for lesson in post_n05_lessons:
+        lesson_id = str(lesson["id"])
+        page = output_html_for(str(lesson["relative_path"]))
+        page_text = read_text(page) if page.exists() else ""
+        for experiment_id, experiment in gpu_experiments.items():
+            if experiment.get("lesson_id") != lesson_id:
+                continue
+            source_hash = hashlib.sha256(GPU_RUNNER_PATH.read_bytes()).hexdigest()
+            marker = f"GPU_SOURCE_SHA256: {experiment_id} {source_hash}"
+            if marker not in page_text:
+                issues.append(f"GPU source hash marker missing from HTML: {lesson_id}/{experiment_id}")
     for internal in INTERNAL_DOCS:
         if internal in combined_html:
             issues.append(f"generated HTML에 internal filename이 남았다: {internal}")
@@ -864,6 +1155,11 @@ def validate() -> None:
         "foundation_lessons": len(foundation_lessons),
         "n05_written_lessons": len(n05_lessons),
         "n05_planned_lessons": N05_PLANNED_COUNT,
+        "post_n05_written_lessons": len(post_n05_lessons),
+        "post_n05_by_stage": {
+            stage: sum(lesson["stage"] == stage for lesson in post_n05_lessons)
+            for stage in POST_N05_STAGE_SPECS
+        },
         "staged_lessons": len(staged_lessons),
         "generated_lesson_pages": sum(path.exists() for path in lesson_html_paths),
         "spoken_reading_tables": reading_table_count,
@@ -883,6 +1179,8 @@ def validate() -> None:
             ).exists()
             for example_spec in n05_registry.values()
         ),
+        "gpu_result_mode": include_gpu_results,
+        "gpu_registered_experiments": len(gpu_experiments),
         "search_hits": {term: len(hits) for term, hits in search_hits.items()},
     }
     write_text(BUILD_ROOT / "validation.json", json.dumps(summary, ensure_ascii=False, indent=2) + "\n")
@@ -900,13 +1198,18 @@ def main() -> int:
         if args.command == "audit":
             foundation_lessons = discover_lessons()
             n05_lessons = discover_n05_lessons()
-            lessons = foundation_lessons + n05_lessons
+            post_n05_lessons = [
+                lesson
+                for stage in POST_N05_STAGE_SPECS
+                for lesson in discover_post_n05_stage(stage)
+            ]
+            lessons = foundation_lessons + n05_lessons + post_n05_lessons
             _, table_count, cell_count = lint_english_readings()
             print(
                 "source audit passed: "
                 f"lessons={len(lessons)} foundations={len(foundation_lessons)} "
                 f"n05={len(n05_lessons)}/{N05_PLANNED_COUNT} reading_tables={table_count} "
-                f"reading_cells={cell_count}"
+                f"post_n05={len(post_n05_lessons)} reading_cells={cell_count}"
             )
         elif args.command == "prepare":
             prepare()

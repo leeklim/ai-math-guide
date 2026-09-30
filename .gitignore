@@ -1,6 +1,13 @@
 .venv/
+.venv-gpu/
 .build/
+.cache/
 __pycache__/
 *.py[cod]
 .pytest_cache/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.npz
 .DS_Store

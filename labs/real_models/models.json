@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "models": [
+    {
+      "model_key": "pythia-70m",
+      "repository": "EleutherAI/pythia-70m-deduped",
+      "revision": "step143000",
+      "role": "smoke",
+      "dtype": "float16",
+      "sequence_limit": 128,
+      "peak_vram_limit_bytes": 2684354560,
+      "timeout_seconds": 120
+    },
+    {
+      "model_key": "pythia-160m",
+      "repository": "EleutherAI/pythia-160m-deduped",
+      "revision": "step143000",
+      "role": "main",
+      "dtype": "float16",
+      "sequence_limit": 128,
+      "peak_vram_limit_bytes": 4294967296,
+      "timeout_seconds": 180
+    },
+    {
+      "model_key": "pythia-410m",
+      "repository": "EleutherAI/pythia-410m-deduped",
+      "revision": "step143000",
+      "role": "scale",
+      "dtype": "float16",
+      "sequence_limit": 64,
+      "peak_vram_limit_bytes": 6979321856,
+      "timeout_seconds": 300
+    }
+  ]
+}

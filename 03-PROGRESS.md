@@ -22,6 +22,7 @@
 | `04-GLOSSARY.md` | 초안 | 2026-10-01 | 집필과 함께 확장 |
 | `05-N05-ARCHITECTURE-BASELINE.md` | 완료 | 2026-10-01 | N05 아키텍처와 자료 선정 기준 |
 | `N05-ENVIRONMENT.md` | 완료 | 2026-10-01 | CPU 환경, 설치와 자원 예산 |
+| `GPU-ENVIRONMENT.md` | 완료 | 2026-10-01 | 분리된 CUDA 환경, Pythia cache·runner와 자원 예산 |
 | `templates/lesson-template.md` | 완료 | 2026-09-30 | 단원 공통 구조 |
 | `templates/n05-lesson-template.md` | 완료 | 2026-10-01 | 실행 실습 단원 확장 구조 |
 
@@ -35,7 +36,7 @@
 | M03 | 추상선형대수와 행렬미분 | 완료 | 15/15 | M04 완료 |
 | M04 | 확률·통계·정보이론 | 완료 | 17/17 | N05 선수지식 제공 |
 | N05 | 신경망과 Transformer | 완료 | 28/28 | Phase 3 GPU·Pythia 기반과 I06-01~03 |
-| I06 | 표현 해석 | 계획 | 0/15 | N05 완료 후 시작 |
+| I06 | 표현 해석 | 집필 중 | 3/15 | I06-04 neuron 단위 분석 |
 | I07 | 귀인·인과·기계론 | 계획 | 0/17 | I06 핵심 단원 완료 후 시작 |
 | I08 | 학습 동역학 | 계획 | 0/13 | N05·I06 완료 후 시작 |
 | A09-GEO | 미분기하학 | 계획 | 0/8 | 선택 |
@@ -62,13 +63,14 @@
 - N05 필수 실습은 외부 모델 다운로드 없이 실행하며 공개 모델은 config 대조와 후속 해석 실험에 사용한다.
 - N05 필수 실습은 Python 3.12, PyTorch 2.13.0+cpu와 NumPy 2.5.3을 사용한다. 코드 원본은 `labs/N05`에 두고 build가 실제 결과를 HTML에 삽입한다.
 - N05-01~N05-28은 문제·해설 170쌍, 실행 예제 28개와 N05 단위 test 59개를 포함한다.
+- I06 이후 실제 모델 실험은 별도 `.venv-gpu`에서 Pythia 70M·160M·410M deduped의 `step143000`을 사용한다. CPU build는 model cache와 GPU 결과에 의존하지 않는다.
+- 로컬 GPU artifact는 Git에서 제외하고, 추적하는 runner·registry와 manifest schema로 model·revision·hook·입력·자원 상한을 고정한다.
 - 제4부는 순차 교재가 아니라 선택 모듈이다.
 
 ## 미해결 결정
 
 본문 집필을 막는 미해결 결정은 없다. 다음 항목은 해당 단계에 들어가기 전에 정한다.
 
-- 제3부에서 사용할 교육용 모델
 - PDF와 DOCX 배포 여부
 
 ## 검토 기록
@@ -183,3 +185,6 @@
 | 2026-10-01 | N05-20~22 | tiny decoder block, architecture diff, next-token objective, causal inference와 KV cache 설명, 문제·해설 18쌍, 실행 예제 3개와 N05 test 6개 추가 | N05-20 architecture 재검토와 strict build 검증 |
 | 2026-10-01 | N05-23~25 | greedy·temperature·top-k·top-p decoding, CoT의 관찰 지위, forward hook과 최소 activation 수집 설명, 문제·해설 18쌍, 실행 예제 3개와 N05 test 6개 추가 | strict build 검증 |
 | 2026-10-01 | N05-26~28 | activation gradient·intervention, checkpoint state, 한 token의 누적 경로 설명, 문제·해설 20쌍, 실행 예제 3개와 N05 test 6개 추가 | N05 단계 감사와 strict build 검증 |
+| 2026-10-01 | Phase 3 GPU 기반 | Python 3.12.14, PyTorch 2.13.0+cu132, Transformers 5.17.0 분리 환경과 CUDA 결정성 진단 통과 | Pythia cache·runner 검증 |
+| 2026-10-01 | Pythia 70M·160M·410M gate | immutable revision, hook·선택 activation·최소 gradient, VRAM·artifact·timeout manifest 검증 통과 | I06-01~03 집필 |
+| 2026-10-01 | I06-01~03 | 질문 설계, activation dataset, 분포·기초 통계 설명과 문제·해설 18쌍 작성 | CPU·로컬 GPU site 검증 |

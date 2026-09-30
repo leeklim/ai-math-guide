@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "artifact_limit_bytes": 268435456,
+  "experiments": [
+    {
+      "experiment_id": "pythia_70m_smoke",
+      "lesson_id": "I06-01",
+      "model_key": "pythia-70m",
+      "mode": "inference",
+      "layer": 0,
+      "token": "last",
+      "component": "mlp.dense_4h_to_h",
+      "sequence_length": 32,
+      "seed": 20261001
+    },
+    {
+      "experiment_id": "pythia_160m_activation_dataset",
+      "lesson_id": "I06-02",
+      "model_key": "pythia-160m",
+      "mode": "selected_activation_gradient",
+      "layer": 5,
+      "token": "last",
+      "component": "mlp.dense_4h_to_h",
+      "sequence_length": 64,
+      "seed": 20261001
+    },
+    {
+      "experiment_id": "pythia_410m_scale_smoke",
+      "lesson_id": "I06-03",
+      "model_key": "pythia-410m",
+      "mode": "inference",
+      "layer": 11,
+      "token": "last",
+      "component": "mlp.dense_4h_to_h",
+      "sequence_length": 48,
+      "seed": 20261001
+    }
+  ]
+}

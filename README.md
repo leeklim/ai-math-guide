@@ -13,8 +13,9 @@
 5. [용어집](04-GLOSSARY.md)
 6. [N05 아키텍처와 자료 기준](05-N05-ARCHITECTURE-BASELINE.md)
 7. [N05 실행 환경](N05-ENVIRONMENT.md)
-8. [단원 템플릿](templates/lesson-template.md)
-9. [N05 단원 템플릿](templates/n05-lesson-template.md)
+8. [GPU·Pythia 실행 환경](GPU-ENVIRONMENT.md)
+9. [단원 템플릿](templates/lesson-template.md)
+10. [N05 단원 템플릿](templates/n05-lesson-template.md)
 
 ## 네 부분
 
@@ -38,7 +39,7 @@
 
 ## 현재 상태
 
-M00부터 M04까지 70개 기초 단원과 N05 파일럿 3개 단원을 집필했다. 자세한 상태는 [진행 현황](03-PROGRESS.md)에 기록한다.
+M00~M04의 70개 기초 단원, N05의 28개 단원과 I06-01~03을 집필했다. 자세한 상태는 [진행 현황](03-PROGRESS.md)에 기록한다.
 
 ## 로컬 HTML 검수
 

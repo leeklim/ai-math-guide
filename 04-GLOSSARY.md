@@ -566,6 +566,12 @@
 |---|---|---|---|---|
 | 모델 해석 | model interpretability | 설명가능성과 문맥상 구분 | 모델의 행동과 내부 계산을 이해하고 검증하는 연구 | I06-01 |
 | 표현 | representation | activation 하나와 항상 같지 않음 | 모델이 입력 정보를 내부 상태로 나타낸 방식 | I06-01 |
+| 행동값 | behavioral metric | 내부 activation과 구분 | model의 입력·출력 관계에서 정의한 측정값 | I06-01 |
+| 표현 질문 | representation question | 행동 질문과 구분 | model·layer·token·component를 고정해 내부량을 묻는 질문 | I06-01 |
+| activation dataset | activation dataset | activation array만 있는 파일과 구분 | 선택 activation과 입력·위치·실행 provenance를 행 단위로 묶은 자료 | I06-02 |
+| 데이터 누출 | data leakage | 정상적인 일반화와 구분 | 평가 정보가 학습·선택·전처리 과정에 유입되는 일 | I06-02 |
+| 이상치 | outlier | 자동 오류 판정과 구분 | 정한 기준에서 다른 표본과 크게 떨어진 관측값 | I06-03 |
+| robust statistic | robust statistic | 이상치를 무조건 제거하는 규칙과 구분 | 극단값의 영향이 비교적 작은 통계량 | I06-03 |
 | 탐침 | probe | 모델이 실제 사용한다는 증거가 아님 | activation에서 정보를 복원하는 보조모형 | I06-06 |
 | 중첩 | superposition | 단순 feature 합과 구분 | 제한된 차원에 더 많은 feature가 겹쳐 표현되는 현상 | I06-10 |
 | 희소 오토인코더 | sparse autoencoder, SAE | feature의 유일성을 보장하지 않음 | 희소 latent로 activation을 재구성하는 모형 | I06-12 |

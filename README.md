@@ -11,7 +11,10 @@
 3. [문체와 표기 규칙](02-STYLE-AND-NOTATION.md)
 4. [진행 현황](03-PROGRESS.md)
 5. [용어집](04-GLOSSARY.md)
-6. [단원 템플릿](templates/lesson-template.md)
+6. [N05 아키텍처와 자료 기준](05-N05-ARCHITECTURE-BASELINE.md)
+7. [N05 실행 환경](N05-ENVIRONMENT.md)
+8. [단원 템플릿](templates/lesson-template.md)
+9. [N05 단원 템플릿](templates/n05-lesson-template.md)
 
 ## 네 부분
 
@@ -35,7 +38,7 @@
 
 ## 현재 상태
 
-M00부터 M04까지 70개 기초 단원을 집필했다. 자세한 상태는 [진행 현황](03-PROGRESS.md)에 기록한다.
+M00부터 M04까지 70개 기초 단원과 N05 파일럿 3개 단원을 집필했다. 자세한 상태는 [진행 현황](03-PROGRESS.md)에 기록한다.
 
 ## 로컬 HTML 검수
 
@@ -46,6 +49,7 @@ Windows PowerShell에서 처음 한 번 가상환경과 dependency를 설치한�
 ```powershell
 py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\scripts\setup_n05.ps1
 ```
 
 자동 검사 테스트, 원본 감사, production build와 생성물 검증을 한 번에 실행한다.

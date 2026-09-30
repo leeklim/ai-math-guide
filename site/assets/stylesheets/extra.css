@@ -67,6 +67,15 @@
   min-width: max-content;
 }
 
+.md-typeset pre {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.md-typeset pre > code {
+  min-width: max-content;
+}
+
 .md-typeset details {
   border: 1px solid var(--md-default-fg-color--lightest);
   border-radius: 0.35rem;

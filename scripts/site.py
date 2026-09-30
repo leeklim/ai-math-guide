@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import shutil
@@ -37,6 +38,19 @@ STAGE_TITLES = {
     "M02": "M02 벡터와 행렬",
     "M03": "M03 추상선형대수와 행렬미분",
     "M04": "M04 확률·통계·정보이론",
+    "N05": "N05 신경망 계산",
+}
+
+N05_PLANNED_COUNT = 28
+N05_EXAMPLES = {
+    "N05-01": "n05_01_tensor_graph",
+    "N05-02": "n05_02_single_neuron",
+    "N05-03": "n05_03_mlp_forward",
+}
+N05_LAB_PATHS = {
+    "n05_01_tensor_graph": ROOT / "labs" / "N05" / "n05_01_tensor_graph.py",
+    "n05_02_single_neuron": ROOT / "labs" / "N05" / "n05_02_single_neuron.py",
+    "n05_03_mlp_forward": ROOT / "labs" / "N05" / "n05_03_mlp_forward.py",
 }
 
 INTERNAL_DOCS = {
@@ -118,10 +132,15 @@ def lint_english_readings(
 ) -> tuple[list[str], int, int]:
     """Validate notation-table readings and return issues, table count, and cell count."""
     if sources is None:
-        sources = [
+        foundation_sources = [
             (path, read_text(path))
             for path in sorted(ROOT.glob("part-*/M??/M??-*.md"))
         ]
+        n05_sources = [
+            (path, read_text(path))
+            for path in sorted(ROOT.glob("part-2-neural-computation/N05/N05-*.md"))
+        ]
+        sources = foundation_sources + n05_sources
 
     issues: list[str] = []
     entries: dict[str, list[tuple[str, Path, int]]] = {}
@@ -266,14 +285,99 @@ def discover_lessons() -> list[dict[str, object]]:
                 }
             )
 
-    reading_issues, _, _ = lint_english_readings()
+    foundation_sources = [
+        (path, read_text(path))
+        for path in sorted(ROOT.glob("part-1-foundations/M??/M??-*.md"))
+    ]
+    reading_issues, reading_tables, reading_cells = lint_english_readings(foundation_sources)
     issues.extend(reading_issues)
+    if reading_tables != 70:
+        issues.append(f"foundation reading table count={reading_tables}, expected=70")
+    if reading_cells != 463:
+        issues.append(f"foundation reading cell count={reading_cells}, expected=463")
 
     if len(lessons) != 70:
         issues.append(f"total lesson count={len(lessons)}, expected=70")
     if issues:
         raise SiteError("source audit 실패:\n- " + "\n- ".join(issues))
     return lessons
+
+
+def discover_n05_lessons() -> list[dict[str, object]]:
+    stage_dir = ROOT / "part-2-neural-computation" / "N05"
+    paths = sorted(stage_dir.glob("N05-*.md"))
+    issues: list[str] = []
+    lessons: list[dict[str, object]] = []
+
+    if len(paths) > N05_PLANNED_COUNT:
+        issues.append(f"N05 file count={len(paths)}, planned maximum={N05_PLANNED_COUNT}")
+
+    for expected_number, path in enumerate(paths, start=1):
+        text = read_text(path)
+        meta = parse_frontmatter(path, text)
+        lesson_id = str(meta.get("id", ""))
+        title = str(meta.get("title", ""))
+        expected_id = f"N05-{expected_number:02d}"
+
+        if lesson_id != expected_id:
+            issues.append(f"N05 prefix gap or ID order mismatch: {path.name} -> {lesson_id}, expected={expected_id}")
+        if meta.get("part") != 2 or meta.get("stage") != "N05":
+            issues.append(f"N05 frontmatter part/stage mismatch: {path.name}")
+        if path.stem != lesson_id and not path.stem.startswith(f"{lesson_id}-"):
+            issues.append(f"N05 filename/ID mismatch: {path.name} -> {lesson_id}")
+
+        h1_matches = H1_RE.findall(text)
+        if h1_matches != [f"{lesson_id}. {title}"]:
+            issues.append(f"N05 H1 mismatch: {lesson_id}")
+        if len(re.findall(r"^##\s+집필자 점검표\s*$", text, flags=re.MULTILINE)) != 1:
+            issues.append(f"N05 checklist count is not one: {lesson_id}")
+
+        display_open = len(re.findall(r"^\\\[$", text, flags=re.MULTILINE))
+        display_close = len(re.findall(r"^\\\]$", text, flags=re.MULTILINE))
+        if display_open != display_close:
+            issues.append(f"N05 display math mismatch: {lesson_id}={display_open}/{display_close}")
+        for line_number, line in enumerate(text.splitlines(), start=1):
+            if len(re.findall(r"(?<!\\)\$", line)) % 2:
+                issues.append(f"N05 inline math mismatch: {lesson_id}:{line_number}")
+                break
+
+        for href in LINK_RE.findall(text):
+            local_path = href.split("#", 1)[0]
+            if not local_path or urlsplit(local_path).scheme:
+                continue
+            target = (path.parent / unquote(local_path)).resolve()
+            if not target.exists():
+                issues.append(f"broken N05 source link: {lesson_id} -> {href}")
+
+        expected_example = N05_EXAMPLES.get(lesson_id)
+        markers = re.findall(r"<!--\s*N05_EXAMPLE:\s*([a-z0-9_]+)\s*-->", text)
+        if expected_example and markers != [expected_example]:
+            issues.append(
+                f"N05 example marker mismatch: {lesson_id}={markers}, expected={[expected_example]}"
+            )
+
+        lessons.append(
+            {
+                "id": lesson_id,
+                "title": title,
+                "stage": "N05",
+                "path": path,
+                "relative_path": path.relative_to(ROOT).as_posix(),
+            }
+        )
+
+    n05_sources = [(path, read_text(path)) for path in paths]
+    reading_issues, reading_tables, _ = lint_english_readings(n05_sources)
+    issues.extend(reading_issues)
+    if reading_tables != len(paths):
+        issues.append(f"N05 reading table count={reading_tables}, lesson count={len(paths)}")
+    if issues:
+        raise SiteError("N05 source audit 실패:\n- " + "\n- ".join(issues))
+    return lessons
+
+
+def discover_all_lessons() -> list[dict[str, object]]:
+    return discover_lessons() + discover_n05_lessons()
 
 
 def remove_h2_sections(text: str, section_names: set[str], *, required: bool = False) -> str:
@@ -339,10 +443,95 @@ def add_search_alias(text: str, lesson_id: str) -> str:
     raise SiteError("M03-11 H1 뒤에 검색 별칭을 넣지 못했다")
 
 
+def expand_n05_example(text: str, lesson_id: str) -> str:
+    example_id = N05_EXAMPLES.get(lesson_id)
+    if example_id is None:
+        return text
+    marker = f"<!-- N05_EXAMPLE: {example_id} -->"
+    if text.count(marker) != 1:
+        raise SiteError(f"N05 example marker 수가 1이 아니다: {lesson_id}")
+
+    source_path = N05_LAB_PATHS[example_id]
+    result_path = BUILD_ROOT / "n05" / "results" / f"{example_id}.json"
+    if not source_path.exists():
+        raise SiteError(f"N05 code source가 없다: {source_path.relative_to(ROOT)}")
+    if not result_path.exists():
+        raise SiteError(
+            f"N05 실행 결과가 없다: {result_path.relative_to(ROOT)}; "
+            "scripts/run_n05_examples.py를 먼저 실행하라"
+        )
+
+    source = read_text(source_path).rstrip()
+    source_hash = hashlib.sha256(source_path.read_bytes()).hexdigest()
+    result = json.loads(read_text(result_path))
+    if result.get("source_sha256") != source_hash:
+        raise SiteError(f"N05 code와 실행 결과의 source hash가 다르다: {example_id}")
+    required = {
+        "stdout",
+        "shapes",
+        "gradients",
+        "seed",
+        "python_version",
+        "torch_version",
+        "numpy_version",
+        "device",
+        "resources",
+        "compute_seconds",
+        "process_seconds",
+        "command",
+        "figure_paths",
+    }
+    missing = sorted(required - result.keys())
+    if missing:
+        raise SiteError(f"N05 실행 결과 field 누락: {example_id} -> {', '.join(missing)}")
+    for figure_path in result["figure_paths"]:
+        if not (ROOT / str(figure_path)).exists():
+            raise SiteError(f"N05 생성 그림이 없다: {figure_path}")
+
+    resources = result["resources"]
+    generated = f"""<!-- N05_SOURCE_SHA256: {example_id} {source_hash} -->
+
+#### 실제 실행 코드
+
+```python
+{source}
+```
+
+#### 실행 명령
+
+```powershell
+{result['command']}
+```
+
+#### 실제 실행 결과
+
+```text
+{result['stdout']}
+```
+
+#### 자동 확인 기록
+
+| 항목 | 값 |
+|---|---|
+| shape | `{json.dumps(result['shapes'], ensure_ascii=False, sort_keys=True)}` |
+| gradient | `{json.dumps(result['gradients'], ensure_ascii=False, sort_keys=True)}` |
+| seed | `{result['seed']}` |
+| 환경 | Python `{result['python_version']}`, PyTorch `{result['torch_version']}`, NumPy `{result['numpy_version']}` |
+| device | `{result['device']}` |
+| parameter | `{resources['parameter_count']}` |
+| 학습 step | `{resources['training_steps']}` |
+| 계산시간 | `{result['compute_seconds']:.6f}`초 |
+| process 시작 포함 | `{result['process_seconds']:.6f}`초 |
+"""
+    return text.replace(marker, generated.rstrip())
+
+
 def build_nav(lessons: list[dict[str, object]]) -> list[dict[str, object]]:
     nav: list[dict[str, object]] = [
         {"홈": "index.md"},
         {"전체 학습경로": "curriculum.md"},
+        {"N05 실행 환경": "N05-ENVIRONMENT.md"},
+        {"N05 아키텍처 기준": "05-N05-ARCHITECTURE-BASELINE.md"},
     ]
     for stage in STAGE_COUNTS:
         stage_items: list[dict[str, str]] = []
@@ -352,6 +541,14 @@ def build_nav(lessons: list[dict[str, object]]) -> list[dict[str, object]]:
             label = f"{lesson['id']} {lesson['title']}"
             stage_items.append({label: str(lesson["relative_path"])})
         nav.append({STAGE_TITLES[stage]: stage_items})
+    n05_items: list[dict[str, str]] = []
+    for lesson in lessons:
+        if lesson["stage"] != "N05":
+            continue
+        label = f"{lesson['id']} {lesson['title']}"
+        n05_items.append({label: str(lesson["relative_path"])})
+    if n05_items:
+        nav.append({STAGE_TITLES["N05"]: n05_items})
     nav.append({"용어집": "glossary.md"})
     return nav
 
@@ -364,14 +561,23 @@ def assert_safe_build_root() -> None:
 
 
 def prepare() -> None:
-    lessons = discover_lessons()
+    lessons = discover_all_lessons()
     assert_safe_build_root()
-    if BUILD_ROOT.exists():
-        shutil.rmtree(BUILD_ROOT)
+    if DOCS_DIR.exists():
+        shutil.rmtree(DOCS_DIR)
+    if SITE_DIR.exists():
+        shutil.rmtree(SITE_DIR)
+    if CONFIG_PATH.exists():
+        CONFIG_PATH.unlink()
     DOCS_DIR.mkdir(parents=True)
 
     write_text(DOCS_DIR / "index.md", prepare_homepage())
     write_text(DOCS_DIR / "curriculum.md", read_text(ROOT / "01-CURRICULUM.md"))
+    write_text(DOCS_DIR / "N05-ENVIRONMENT.md", read_text(ROOT / "N05-ENVIRONMENT.md"))
+    write_text(
+        DOCS_DIR / "05-N05-ARCHITECTURE-BASELINE.md",
+        read_text(ROOT / "05-N05-ARCHITECTURE-BASELINE.md"),
+    )
     write_text(DOCS_DIR / "glossary.md", read_text(ROOT / "04-GLOSSARY.md"))
 
     for lesson in lessons:
@@ -381,6 +587,7 @@ def prepare() -> None:
         text = strip_editor_checklist(read_text(source_path), str(lesson["id"]))
         text = enable_markdown_in_details(text, str(lesson["id"]))
         text = add_search_alias(text, str(lesson["id"]))
+        text = expand_n05_example(text, str(lesson["id"]))
         destination = DOCS_DIR / str(lesson["relative_path"])
         write_text(destination, text)
 
@@ -453,29 +660,42 @@ def resolve_generated_url(page: Path, url: str) -> Path | None:
 
 
 def validate() -> None:
-    lessons = discover_lessons()
+    foundation_lessons = discover_lessons()
+    n05_lessons = discover_n05_lessons()
+    lessons = foundation_lessons + n05_lessons
     issues: list[str] = []
     _, reading_table_count, reading_cell_count = lint_english_readings()
 
     if not CONFIG_PATH.exists() or not SITE_DIR.exists():
         raise SiteError("prepare와 MkDocs build를 먼저 실행해야 한다")
 
-    staged_lessons = sorted((DOCS_DIR / "part-1-foundations").glob("M0[0-4]/M0[0-4]-*.md"))
-    if len(staged_lessons) != 70:
-        issues.append(f"staged lesson count={len(staged_lessons)}, expected=70")
+    staged_foundations = sorted(
+        (DOCS_DIR / "part-1-foundations").glob("M0[0-4]/M0[0-4]-*.md")
+    )
+    staged_n05 = sorted(
+        (DOCS_DIR / "part-2-neural-computation" / "N05").glob("N05-*.md")
+    )
+    staged_lessons = staged_foundations + staged_n05
+    if len(staged_foundations) != 70:
+        issues.append(f"staged foundation lesson count={len(staged_foundations)}, expected=70")
+    if len(staged_n05) != len(n05_lessons):
+        issues.append(f"staged N05 lesson count={len(staged_n05)}, expected={len(n05_lessons)}")
 
     original_checklists = sum(
         len(re.findall(r"^##\s+집필자 점검표\s*$", read_text(Path(str(lesson["path"]))), flags=re.MULTILINE))
         for lesson in lessons
     )
-    if original_checklists != 70:
-        issues.append(f"original checklist count={original_checklists}, expected=70")
+    if original_checklists != len(lessons):
+        issues.append(
+            f"original checklist count={original_checklists}, expected={len(lessons)}"
+        )
 
     staged_text = "\n".join(read_text(path) for path in DOCS_DIR.rglob("*.md"))
     staged_reading_headers = staged_text.count("| Common spoken reading |")
-    if staged_reading_headers != 70:
+    if staged_reading_headers != len(lessons):
         issues.append(
-            f"staged Common spoken reading headers={staged_reading_headers}, expected=70"
+            f"staged Common spoken reading headers={staged_reading_headers}, "
+            f"expected={len(lessons)}"
         )
     if "집필자 점검표" in staged_text:
         issues.append("staging에 집필자 점검표가 남았다")
@@ -491,6 +711,26 @@ def validate() -> None:
     lesson_nav_paths = [path for path in nav_paths if re.match(r"part-1-foundations/M0[0-4]/M0[0-4]-", path)]
     if len(lesson_nav_paths) != 70 or len(set(lesson_nav_paths)) != 70:
         issues.append(f"lesson nav count/unique={len(lesson_nav_paths)}/{len(set(lesson_nav_paths))}")
+    n05_nav_paths = [
+        path for path in nav_paths if re.match(r"part-2-neural-computation/N05/N05-", path)
+    ]
+    if len(n05_nav_paths) != len(n05_lessons) or len(set(n05_nav_paths)) != len(n05_lessons):
+        issues.append(
+            f"N05 nav count/unique={len(n05_nav_paths)}/{len(set(n05_nav_paths))}, "
+            f"expected={len(n05_lessons)}"
+        )
+
+    for lesson in n05_lessons:
+        lesson_id = str(lesson["id"])
+        example_id = N05_EXAMPLES[lesson_id]
+        source = read_text(N05_LAB_PATHS[example_id]).rstrip()
+        staged_path = DOCS_DIR / str(lesson["relative_path"])
+        staged_source = read_text(staged_path)
+        if f"```python\n{source}\n```" not in staged_source:
+            issues.append(f"staged code differs from source: {lesson_id}")
+        result_path = BUILD_ROOT / "n05" / "results" / f"{example_id}.json"
+        if not result_path.exists():
+            issues.append(f"generated result missing: {example_id}")
 
     missing_pages: list[str] = []
     lesson_html_paths: list[Path] = []
@@ -502,16 +742,22 @@ def validate() -> None:
     if missing_pages:
         issues.append("missing lesson HTML: " + ", ".join(missing_pages))
 
-    for path in (SITE_DIR / "index.html", SITE_DIR / "curriculum" / "index.html", SITE_DIR / "glossary" / "index.html"):
+    for path in (
+        SITE_DIR / "index.html",
+        SITE_DIR / "curriculum" / "index.html",
+        SITE_DIR / "N05-ENVIRONMENT" / "index.html",
+        SITE_DIR / "05-N05-ARCHITECTURE-BASELINE" / "index.html",
+        SITE_DIR / "glossary" / "index.html",
+    ):
         if not path.exists():
             issues.append(f"missing public page: {path.relative_to(SITE_DIR)}")
 
     html_paths = sorted(SITE_DIR.rglob("*.html"))
     combined_html = "\n".join(read_text(path) for path in html_paths)
     html_reading_headers = combined_html.count("<th>Common spoken reading</th>")
-    if html_reading_headers != 70:
+    if html_reading_headers != len(lessons):
         issues.append(
-            f"HTML Common spoken reading headers={html_reading_headers}, expected=70"
+            f"HTML Common spoken reading headers={html_reading_headers}, expected={len(lessons)}"
         )
     for spoken_reading in (
         "the exponential of x",
@@ -526,6 +772,14 @@ def validate() -> None:
             issues.append(f"spoken reading missing from HTML: {spoken_reading}")
     if "집필자 점검표" in combined_html:
         issues.append("generated HTML에 집필자 점검표가 남았다")
+    for lesson in n05_lessons:
+        lesson_id = str(lesson["id"])
+        example_id = N05_EXAMPLES[lesson_id]
+        source_hash = hashlib.sha256(N05_LAB_PATHS[example_id].read_bytes()).hexdigest()
+        marker = f"N05_SOURCE_SHA256: {example_id} {source_hash}"
+        page = output_html_for(str(lesson["relative_path"]))
+        if page.exists() and marker not in read_text(page):
+            issues.append(f"N05 source hash marker missing from HTML: {lesson_id}")
     for internal in INTERNAL_DOCS:
         if internal in combined_html:
             issues.append(f"generated HTML에 internal filename이 남았다: {internal}")
@@ -570,6 +824,9 @@ def validate() -> None:
 
     summary = {
         "source_lessons": len(lessons),
+        "foundation_lessons": len(foundation_lessons),
+        "n05_written_lessons": len(n05_lessons),
+        "n05_planned_lessons": N05_PLANNED_COUNT,
         "staged_lessons": len(staged_lessons),
         "generated_lesson_pages": sum(path.exists() for path in lesson_html_paths),
         "spoken_reading_tables": reading_table_count,
@@ -580,6 +837,10 @@ def validate() -> None:
         "generated_details": html_details,
         "arithmatex_wrappers": arithmatex_count,
         "checklist_exposure": combined_html.count("집필자 점검표"),
+        "n05_generated_results": sum(
+            (BUILD_ROOT / "n05" / "results" / f"{example_id}.json").exists()
+            for example_id in N05_EXAMPLES.values()
+        ),
         "search_hits": {term: len(hits) for term, hits in search_hits.items()},
     }
     write_text(BUILD_ROOT / "validation.json", json.dumps(summary, ensure_ascii=False, indent=2) + "\n")
@@ -595,11 +856,14 @@ def main() -> int:
     args = parser.parse_args()
     try:
         if args.command == "audit":
-            lessons = discover_lessons()
+            foundation_lessons = discover_lessons()
+            n05_lessons = discover_n05_lessons()
+            lessons = foundation_lessons + n05_lessons
             _, table_count, cell_count = lint_english_readings()
             print(
                 "source audit passed: "
-                f"lessons={len(lessons)} reading_tables={table_count} "
+                f"lessons={len(lessons)} foundations={len(foundation_lessons)} "
+                f"n05={len(n05_lessons)}/{N05_PLANNED_COUNT} reading_tables={table_count} "
                 f"reading_cells={cell_count}"
             )
         elif args.command == "prepare":

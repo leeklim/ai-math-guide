@@ -147,35 +147,38 @@
 
 ### 5단계 N05. 신경망 계산
 
+아키텍처와 자료 선정은 [N05 아키텍처와 자료 기준](05-N05-ARCHITECTURE-BASELINE.md)을 따른다. 필수 본문은 변하지 않는 계산 구조를 다루고, 현대적 구성요소는 기준 아키텍처와의 차이로 설명한다.
+
 | ID | 단원 | 핵심 결과 |
 |---|---|---|
 | N05-01 | tensor와 계산 그래프 | 신경망 계산을 node와 edge로 추적한다. |
 | N05-02 | 하나의 neuron | 선형결합, bias와 activation을 계산한다. |
 | N05-03 | MLP forward pass | 여러 neuron을 행렬 계산으로 묶는다. |
-| N05-04 | activation function | ReLU, sigmoid와 GELU의 비선형성을 비교한다. |
+| N05-04 | activation function과 gating | ReLU, sigmoid, GELU, SiLU와 gated activation의 계산을 비교한다. |
 | N05-05 | logits, softmax와 cross entropy | 점수, 확률과 분류 손실을 연결한다. |
 | N05-06 | backpropagation | loss의 gradient가 층을 거슬러 전달되는 과정을 계산한다. |
 | N05-07 | gradient descent와 mini-batch | 데이터 묶음으로 파라미터를 갱신한다. |
-| N05-08 | momentum, Adam과 optimizer state | 업데이트 규칙과 저장 상태를 구분한다. |
-| N05-09 | PyTorch tensor와 shape | 코드의 tensor 연산을 수식과 대응시킨다. |
+| N05-08 | momentum, AdamW와 optimizer state | 업데이트 규칙, weight decay와 저장 상태를 구분한다. |
+| N05-09 | PyTorch tensor, shape와 dtype | 코드의 tensor 연산, 축과 수치 표현을 수식에 대응시킨다. |
 | N05-10 | autograd, JVP와 VJP | 자동미분 결과를 확인한다. |
 | N05-11 | token과 tokenizer | 문자열이 token ID로 바뀌는 과정을 이해한다. |
-| N05-12 | embedding | 이산 token을 연속 벡터로 바꾼다. |
-| N05-13 | 위치정보 | 순서가 표현에 들어가는 방식을 비교한다. |
+| N05-12 | embedding과 unembedding | token ID, 입력 표현과 출력 logit의 대응을 계산한다. |
+| N05-13 | 위치정보와 RoPE | 절대·sinusoidal 위치정보와 rotary 변환이 attention에 들어가는 방식을 비교한다. |
 | N05-14 | query, key와 value | attention의 세 투영을 계산한다. |
-| N05-15 | scaled dot-product attention | attention score와 가중합을 계산한다. |
-| N05-16 | multi-head attention | 여러 표현 부분공간의 병렬 계산을 추적한다. |
-| N05-17 | residual stream | 정보가 층을 가로질러 더해지는 경로를 이해한다. |
-| N05-18 | layer normalization | 정규화의 계산과 위치를 추적한다. |
-| N05-19 | Transformer의 MLP block | token별 비선형 변환을 계산한다. |
-| N05-20 | Transformer block 전체 | attention, residual과 MLP를 하나의 계산으로 연결한다. |
+| N05-15 | causal scaled dot-product attention | causal mask, attention score, softmax와 value 가중합을 계산한다. |
+| N05-16 | MHA, MQA와 GQA | query head와 key-value head의 수가 shape과 공유 구조를 바꾸는 방식을 계산한다. |
+| N05-17 | residual stream | attention과 MLP 출력이 공통 stream에 더해지는 경로를 추적한다. |
+| N05-18 | LayerNorm, RMSNorm과 residual 순서 | 정규화 식과 pre-norm·post-norm block을 비교한다. |
+| N05-19 | dense MLP, SwiGLU와 expert routing | token별 dense·gated 변환을 계산하고 MoE의 조건부 경로를 구분한다. |
+| N05-20 | decoder block과 architecture diff | attention, normalization, residual과 MLP를 연결하고 모델별 교체 지점을 표시한다. |
 | N05-21 | 언어모델 목적함수 | next-token prediction과 teacher forcing을 이해한다. |
-| N05-22 | decoding과 생성 | greedy, sampling과 temperature를 구분한다. |
-| N05-23 | Chain-of-thought의 관찰 지위 | 생성된 설명과 내부 계산을 구분한다. |
-| N05-24 | hook과 activation 수집 | 원하는 층과 token의 activation을 저장한다. |
-| N05-25 | gradient 수집과 개입 준비 | backward hook과 입력 개입을 수행한다. |
-| N05-26 | checkpoint와 모델 상태 | 파라미터, buffer와 optimizer state를 구분한다. |
-| N05-27 | 종합 실습: 한 token의 경로 | 입력 token부터 logit까지 shape과 계산을 추적한다. |
+| N05-22 | causal inference와 KV cache | 학습의 전체 sequence 계산과 생성 시 key-value 재사용을 구분한다. |
+| N05-23 | decoding과 생성 | greedy, sampling, temperature와 확률 절단을 구분한다. |
+| N05-24 | Chain-of-thought의 관찰 지위 | 생성된 설명과 내부 계산을 구분한다. |
+| N05-25 | hook과 activation 수집 | 원하는 층과 token의 activation을 저장한다. |
+| N05-26 | gradient 수집과 개입 준비 | backward hook과 입력 개입을 수행한다. |
+| N05-27 | checkpoint와 모델 상태 | 파라미터, buffer, optimizer state와 학습 시점을 구분한다. |
+| N05-28 | 종합 실습: 한 token의 경로 | 입력 token부터 logit까지 shape, residual 경로와 cache 상태를 추적한다. |
 
 ## 제3부. 6~8단계 모델 해석의 실제
 

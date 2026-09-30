@@ -489,8 +489,14 @@
 
 | 권장 표기 | 영어 | 피하거나 구분할 표현 | 짧은 뜻 | 최초 단원 |
 |---|---|---|---|---|
-| 활성값 | activation | 활성화함수와 구분 | 층의 중간 계산 결과 | N05-03 |
+| 축 | axis | vector 성분이나 matrix rank와 구분 | tensor 위치를 지정하는 독립 방향 | N05-01 |
+| shape | tensor shape | 수학적 차원 하나와 구분 | tensor의 각 axis 길이를 순서대로 적은 tuple | N05-01 |
+| dtype | data type | shape와 구분 | tensor 원소의 수치 표현 형식 | N05-01 |
+| device | device | 수학적 공간과 구분 | tensor가 저장되고 연산되는 CPU 또는 accelerator 위치 | N05-01 |
+| pre-activation | pre-activation | 활성값과 구분 | activation function을 적용하기 전 affine output | N05-02 |
+| 활성값 | activation | 활성화함수와 구분 | activation function을 적용한 뒤의 중간 계산 결과 | N05-02 |
 | 활성화함수 | activation function | activation과 구분 | 선형결합 뒤 적용하는 비선형함수 | N05-04 |
+| MLP | multilayer perceptron, MLP | Transformer 전체와 구분 | affine layer와 elementwise nonlinearity를 연결한 feed-forward network | N05-03 |
 | 로짓 | logit | 확률과 구분 | 소프트맥스 전의 class 점수 | M00-10 |
 | 소프트맥스 | softmax | argmax와 구분 | 로짓을 양수이며 합이 1인 class 확률로 바꾸는 함수 | M00-10 |
 | 손실함수 | loss function | 평가 지표와 구분 | 학습에서 최소화하는 scalar 함수 | M00-10 |

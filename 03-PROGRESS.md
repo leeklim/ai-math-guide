@@ -40,7 +40,7 @@
 | I07 | 귀인·인과·기계론 | 완료 | 17/17 | I08-01 checkpoint 연구 설계 |
 | I08 | 학습 동역학 | 완료 | 13/13 | A09-GEO-01 집필 |
 | A09-GEO | 미분기하학 | 완료 | 8/8 | A09-DYN-01 집필 |
-| A09-DYN | 동역학계·확률과정 | 계획 | 0/8 | 선택 |
+| A09-DYN | 동역학계·확률과정 | 완료 | 8/8 | A09-SYM-01 집필 |
 | A09-SYM | 군론·대칭성 | 계획 | 0/8 | 선택 |
 | A09-LRN | 통계학습이론 | 계획 | 0/8 | 선택 |
 | A09-KER | Kernel·함수공간 | 계획 | 0/8 | 선택 |
@@ -72,6 +72,7 @@
 - I08은 문제·해설 78쌍과 CPU 예제 13개로 checkpoint 계약, 파라미터·함수 거리, alignment, optimizer dynamics, Hessian, loss path, influence, feature emergence와 데이터 귀인을 재현한다.
 - I08 실제 모델 gate는 Pythia-160M의 `step0`, `step1000`, `step10000`, `step50000`, `step100000`, `step143000`을 한 번에 하나씩 적재한다. 고정 8개 prompt에서 target first-token NLL은 10.91에서 2.74로 낮아졌지만 condition probe는 step0부터 1.0이고 zero-ablation margin effect는 비단조이므로 세 지표를 하나의 feature emergence로 합치지 않는다.
 - A09-GEO는 문제·해설 32쌍으로 manifold, tangent·cotangent, metric, pullback, geodesic, curvature와 activation point-cloud 분석의 한계를 다룬다. projection의 시각적 굽음과 intrinsic curvature를 구분하고, metric·neighborhood·null control을 분석 계약에 포함한다.
+- A09-DYN은 문제·해설 32쌍으로 ODE·flow, fixed point·bifurcation, Markov·Langevin·SDE와 SGD의 연속시간 근사를 다룬다. finite checkpoint interpolation과 실제 학습 path를 구분하고 noise covariance·autocorrelation을 근사 진단에 포함한다.
 - 제4부는 순차 교재가 아니라 선택 모듈이다.
 
 ## 미해결 결정
@@ -217,3 +218,7 @@
 | 2026-10-01 | A09-GEO-04~06 | Jacobian pullback metric, connection·geodesic, intrinsic·extrinsic curvature 설명과 문제·해설 12쌍 작성 | 분석 함정·종합 실습 배치 |
 | 2026-10-01 | A09-GEO-07~08 | activation manifold 추정의 함정과 국소 표현 기하 분석 계약·문제 해설 8쌍 작성 | A09-GEO 모듈 감사 |
 | 2026-10-01 | A09-GEO 모듈 감사 | 8개 단원, 문제·해설 32쌍, 117개 test, 151개 HTML 페이지, broken link·asset·checklist 노출 0개와 첫·수식·종합 단원 브라우저 검수 통과 | A09-DYN-01 집필 |
+| 2026-10-01 | A09-DYN-01~03 | ODE·flow, fixed point·linear stability, phase portrait·bifurcation 설명과 문제·해설 12쌍 작성 | 확률과정 배치 |
+| 2026-10-01 | A09-DYN-04~06 | Markov process, Langevin dynamics, Itô SDE 입문과 문제·해설 12쌍 작성 | SGD 근사·종합 실습 배치 |
+| 2026-10-01 | A09-DYN-07~08 | SGD 연속시간 근사의 가정·진단과 학습 궤적 분석 계약·문제 해설 8쌍 작성 | A09-DYN 모듈 감사 |
+| 2026-10-01 | A09-DYN 모듈 감사 | 8개 단원, 문제·해설 32쌍, 117개 test, 159개 HTML 페이지, broken link·asset·checklist 노출 0개와 첫·종합 단원 브라우저 검수 통과 | A09-SYM-01 집필 |

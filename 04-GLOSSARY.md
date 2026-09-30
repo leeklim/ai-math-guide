@@ -631,3 +631,13 @@
 | intrinsic curvature | intrinsic curvature | embedding의 시각적 굽음과 구분 | manifold 내부 metric만으로 정해지는 curvature | A09-GEO-06 |
 | extrinsic curvature | extrinsic curvature | intrinsic curvature와 구분 | manifold가 ambient space 안에서 굽는 방식 | A09-GEO-06 |
 | local PCA | local principal component analysis | manifold 증명과 구분 | neighborhood covariance의 leading subspace로 tangent space를 근사하는 방법 | A09-GEO-07 |
+| 흐름 | flow | trajectory 하나와 구분 | 모든 초기 state를 지정한 시간 뒤의 state로 보내는 map | A09-DYN-01 |
+| fixed point | fixed point | minimum과 자동 동일시하지 않음 | dynamics를 적용해도 변하지 않는 state | A09-DYN-02 |
+| basin of attraction | basin of attraction | local stability와 구분 | 같은 attractor로 수렴하는 초기 state의 집합 | A09-DYN-03 |
+| bifurcation | bifurcation | metric의 단순 급변과 구분 | parameter 변화로 invariant structure나 안정성이 질적으로 바뀌는 현상 | A09-DYN-03 |
+| Markov property | Markov property | state 간 독립과 구분 | 현재 state를 조건으로 미래가 과거와 독립이라는 성질 | A09-DYN-04 |
+| stationary distribution | stationary distribution | 빠른 mixing과 구분 | transition을 적용해도 변하지 않는 state distribution | A09-DYN-04 |
+| Langevin dynamics | Langevin dynamics | SGD와 자동 동일시하지 않음 | potential gradient drift와 Brownian diffusion을 결합한 확률 dynamics | A09-DYN-05 |
+| 확률미분방정식 | stochastic differential equation, SDE | random ODE 표기와 구분 | drift와 diffusion으로 stochastic increment를 정하는 equation | A09-DYN-06 |
+| Itô formula | Itô formula | ordinary chain rule과 구분 | quadratic variation correction을 포함한 stochastic chain rule | A09-DYN-06 |
+| diffusion approximation | diffusion approximation | finite-step optimizer의 정확한 복제와 구분 | 작은 step의 stochastic update를 SDE로 나타내는 근사 | A09-DYN-07 |

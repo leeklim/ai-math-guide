@@ -43,7 +43,7 @@
 | A09-DYN | 동역학계·확률과정 | 완료 | 8/8 | A09-SYM-01 집필 |
 | A09-SYM | 군론·대칭성 | 완료 | 8/8 | A09-LRN-01 집필 |
 | A09-LRN | 통계학습이론 | 완료 | 8/8 | A09-KER-01 집필 |
-| A09-KER | Kernel·함수공간 | 계획 | 0/8 | 선택 |
+| A09-KER | Kernel·함수공간 | 완료 | 8/8 | A09-RMT-01 집필 |
 | A09-RMT | Random matrix | 계획 | 0/8 | 선택 |
 | A09-CAU | 고급 인과추론 | 계획 | 0/8 | 선택 |
 
@@ -75,6 +75,7 @@
 - A09-DYN은 문제·해설 32쌍으로 ODE·flow, fixed point·bifurcation, Markov·Langevin·SDE와 SGD의 연속시간 근사를 다룬다. finite checkpoint interpolation과 실제 학습 path를 구분하고 noise covariance·autocorrelation을 근사 진단에 포함한다.
 - A09-SYM은 문제·해설 32쌍으로 group action, orbit·stabilizer, invariant·equivariant, permutation·gauge symmetry와 seed 간 representation alignment를 다룬다. neuron·subspace·function identity를 분리하고 alignment를 held-out input과 intervention으로 검증한다.
 - A09-LRN은 문제·해설 32쌍으로 hypothesis class·risk, bias–variance, generalization gap, VC·Rademacher·PAC와 probe 일반화를 다룬다. empirical gap·complexity bound·random-label control·functional intervention을 서로 다른 증거로 구분한다.
+- A09-KER는 문제·해설 32쌍으로 함수공간·PSD kernel·feature map·RKHS·integral operator spectrum·NTK와 parameter·function geometry를 다룬다. finite Gram matrix와 population operator를 구분하고, fixed-kernel 예측을 실제 학습 trajectory와 비교한다.
 - 제4부는 순차 교재가 아니라 선택 모듈이다.
 
 ## 미해결 결정
@@ -232,3 +233,7 @@
 | 2026-10-01 | A09-LRN-04~06 | VC dimension, Rademacher complexity, PAC learning과 문제·해설 12쌍 작성 | probe 일반화·종합 실습 배치 |
 | 2026-10-01 | A09-LRN-07~08 | probe 일반화 축과 complexity·generalization 분석 계약·문제 해설 8쌍 작성 | A09-LRN 모듈 감사 |
 | 2026-10-01 | A09-LRN 모듈 감사 | 8개 단원, 문제·해설 32쌍, 117개 test, 175개 HTML 페이지, broken link·asset·checklist 노출 0개와 첫·종합 단원 브라우저 검수 통과 | A09-KER-01 집필 |
+| 2026-10-01 | A09-KER-01~03 | 함수공간·operator, positive definite kernel, feature map·kernel trick과 문제·해설 12쌍 작성 | RKHS·spectrum 배치 |
+| 2026-10-01 | A09-KER-04~06 | reproducing property·representer form, compact integral operator spectrum, neural tangent kernel과 문제·해설 12쌍 작성 | 공간 비교·종합 실습 배치 |
+| 2026-10-01 | A09-KER-07~08 | parameter·function-space 비교와 kernel 관점 학습 분석 계약·문제 해설 8쌍 작성 | A09-KER 모듈 감사 |
+| 2026-10-01 | A09-KER 모듈 감사 | 8개 단원, 문제·해설 32쌍, 117개 test, 183개 HTML 페이지, broken link·asset·checklist 노출 0개와 첫·종합 단원 브라우저 검수 통과 | A09-RMT-01 집필 |

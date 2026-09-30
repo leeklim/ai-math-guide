@@ -659,3 +659,13 @@
 | Rademacher complexity | Rademacher complexity | random-label accuracy와 구분 | sample에서 random sign을 맞추는 function class의 기대 능력 | A09-LRN-05 |
 | PAC learning | probably approximately correct learning | prediction confidence와 구분 | 허용 error와 failure probability로 표현한 distribution-free 학습 보장 | A09-LRN-06 |
 | sample complexity | sample complexity | 실행시간 복잡도와 구분 | 지정 accuracy·confidence guarantee에 필요한 sample 수 | A09-LRN-06 |
+| positive semidefinite kernel | positive semidefinite kernel | 선형사상의 핵공간과 구분 | 모든 finite Gram matrix가 positive semidefinite가 되는 대칭 함수 | A09-KER-02 |
+| Gram matrix | Gram matrix | covariance matrix와 자동 동일시하지 않음 | sample 쌍의 inner product나 kernel value를 모은 행렬 | A09-KER-02 |
+| feature map | feature map | coordinate의 유일한 의미와 구분 | input을 kernel inner product가 정의되는 feature space로 보내는 map | A09-KER-03 |
+| kernel trick | kernel trick | 계산량의 무조건적 감소와 구분 | explicit feature coordinate 없이 kernel value로 inner product 계산을 수행하는 방법 | A09-KER-03 |
+| RKHS | reproducing kernel Hilbert space | 임의의 함수공간과 구분 | point evaluation을 kernel section과의 inner product로 나타내는 Hilbert space | A09-KER-04 |
+| reproducing property | reproducing property | 단순 함수 복사와 구분 | $f(x)=\langle f,k(x,\cdot)\rangle$로 evaluation을 재현하는 성질 | A09-KER-04 |
+| kernel integral operator | kernel integral operator | finite Gram matrix와 구분 | kernel과 reference measure를 적분해 함수에 작용하는 operator | A09-KER-05 |
+| effective dimension | effective dimension | hard rank와 구분 | regularization scale에 따라 eigenvalue 기여를 합한 spectral dimension | A09-KER-05 |
+| neural tangent kernel | neural tangent kernel, NTK | activation similarity kernel과 구분 | input별 parameter gradient의 inner product로 정의한 kernel | A09-KER-06 |
+| kernel drift | kernel drift | function distance와 동일하지 않음 | checkpoint 사이에서 empirical kernel geometry가 변한 정도 | A09-KER-08 |

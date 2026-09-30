@@ -678,3 +678,13 @@
 | spectral separation | spectral separation | task relevance와 구분 | sample outlier eigenvalue가 noise bulk와 분리되는 현상 | A09-RMT-05 |
 | parallel analysis | parallel analysis | analytic edge 하나와 구분 | simulated null eigenvalue quantile과 observed eigenvalue를 비교하는 절차 | A09-RMT-06 |
 | subspace stability | subspace stability | eigenvector coordinate 일치와 구분 | split·seed 사이에서 leading span이 재현되는 정도 | A09-RMT-06 |
+| 구조적 인과모형 | structural causal model, SCM | correlation graph와 구분 | variable, structural equation과 exogenous distribution으로 causal system을 정의한 model | A09-CAU-01 |
+| exogenous variable | exogenous variable | endogenous variable과 구분 | structural model 밖에서 값과 distribution이 주어지는 변수 | A09-CAU-01 |
+| endogenous variable | endogenous variable | observed variable 전체와 동일하지 않음 | structural equation이 부모와 exogenous variable에서 값을 정하는 변수 | A09-CAU-01 |
+| backdoor adjustment | backdoor adjustment | 임의의 covariate conditioning과 구분 | treatment로 들어오는 noncausal path를 막는 set으로 interventional distribution을 식별하는 공식 | A09-CAU-03 |
+| 인과 식별가능성 | causal identifiability | finite-sample 추정 정확도와 구분 | causal estimand가 observed distribution과 가정에서 유일하게 정해지는 성질 | A09-CAU-03 |
+| natural direct effect | natural direct effect, NDE | regression의 treatment coefficient와 구분 | mediator를 baseline counterfactual에 둔 treatment effect | A09-CAU-04 |
+| natural indirect effect | natural indirect effect, NIE | 단순 mediator association과 구분 | treatment를 고정하고 mediator counterfactual world를 바꾼 effect | A09-CAU-04 |
+| causal abstraction | causal abstraction | probe decoding과 구분 | low-level과 high-level intervention의 결과 대응으로 구현 관계를 정의하는 abstraction | A09-CAU-06 |
+| transportability | transportability | 같은 dataset 내 재현성과 구분 | source population에서 식별한 causal effect를 target population으로 옮길 수 있는 성질 | A09-CAU-07 |
+| effect heterogeneity | effect heterogeneity | sampling noise와 구분 | context, subgroup이나 model 조건에 따라 causal effect가 달라지는 현상 | A09-CAU-07 |

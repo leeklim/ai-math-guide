@@ -45,7 +45,7 @@
 | A09-LRN | 통계학습이론 | 완료 | 8/8 | A09-KER-01 집필 |
 | A09-KER | Kernel·함수공간 | 완료 | 8/8 | A09-RMT-01 집필 |
 | A09-RMT | Random matrix | 완료 | 8/8 | A09-CAU-01 집필 |
-| A09-CAU | 고급 인과추론 | 계획 | 0/8 | 선택 |
+| A09-CAU | 고급 인과추론 | 완료 | 8/8 | 전체 통합 감사 |
 
 ## 현재 결정
 
@@ -77,6 +77,7 @@
 - A09-LRN은 문제·해설 32쌍으로 hypothesis class·risk, bias–variance, generalization gap, VC·Rademacher·PAC와 probe 일반화를 다룬다. empirical gap·complexity bound·random-label control·functional intervention을 서로 다른 증거로 구분한다.
 - A09-KER는 문제·해설 32쌍으로 함수공간·PSD kernel·feature map·RKHS·integral operator spectrum·NTK와 parameter·function geometry를 다룬다. finite Gram matrix와 population operator를 구분하고, fixed-kernel 예측을 실제 학습 trajectory와 비교한다.
 - A09-RMT는 문제·해설 32쌍으로 고차원 집중, random projection, sample covariance, Marchenko–Pastur bulk, spiked model과 weight·activation·Hessian spectrum을 다룬다. analytic·simulated null, subspace 안정성, task 복원과 intervention을 단계별 증거로 구분한다.
+- A09-CAU는 문제·해설 32쌍으로 SCM, do intervention, confounding·identifiability, mediation·potential outcome, causal abstraction과 내부 개입의 외적 타당성을 다룬다. circuit claim을 graph·unit·intervention·control·estimand·population 계약에 한정한다.
 - 제4부는 순차 교재가 아니라 선택 모듈이다.
 
 ## 미해결 결정
@@ -242,3 +243,7 @@
 | 2026-10-01 | A09-RMT-04~06 | Marchenko–Pastur bulk, spiked covariance, signal·noise eigenvalue 판정과 문제·해설 12쌍 작성 | model spectrum·종합 실습 배치 |
 | 2026-10-01 | A09-RMT-07~08 | weight·activation·Hessian spectrum 구분과 spectrum null-model 분석 계약·문제 해설 8쌍 작성 | A09-RMT 모듈 감사 |
 | 2026-10-01 | A09-RMT 모듈 감사 | 8개 단원, 문제·해설 32쌍, 117개 test, 191개 HTML 페이지, broken link·asset·checklist 노출 0개와 첫·종합 단원 브라우저 검수 통과 | A09-CAU-01 집필 |
+| 2026-10-01 | A09-CAU-01~03 | structural causal model, do intervention, confounding·backdoor identifiability와 문제·해설 12쌍 작성 | mediation·abstraction 배치 |
+| 2026-10-01 | A09-CAU-04~06 | natural mediation, potential outcome, causal abstraction과 문제·해설 12쌍 작성 | 외적 타당성·종합 실습 배치 |
+| 2026-10-01 | A09-CAU-07~08 | 내부 개입의 transport와 circuit 수준 인과 주장 분석 계약·문제 해설 8쌍 작성 | A09-CAU 모듈 감사 |
+| 2026-10-01 | A09-CAU 모듈 감사 | 8개 단원, 문제·해설 32쌍, 117개 test, 199개 HTML 페이지, broken link·asset·checklist 노출 0개와 첫·종합 단원 브라우저 검수 통과 | 전체 통합 감사 |

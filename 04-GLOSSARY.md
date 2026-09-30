@@ -641,3 +641,13 @@
 | 확률미분방정식 | stochastic differential equation, SDE | random ODE 표기와 구분 | drift와 diffusion으로 stochastic increment를 정하는 equation | A09-DYN-06 |
 | Itô formula | Itô formula | ordinary chain rule과 구분 | quadratic variation correction을 포함한 stochastic chain rule | A09-DYN-06 |
 | diffusion approximation | diffusion approximation | finite-step optimizer의 정확한 복제와 구분 | 작은 step의 stochastic update를 SDE로 나타내는 근사 | A09-DYN-07 |
+| 군 | group | 임의의 변환 모음과 구분 | 결합법칙·항등원·역원을 갖는 닫힌 연산 구조 | A09-SYM-01 |
+| 군 작용 | group action | group 자체와 구분 | group element가 대상의 변환으로 일관되게 작용하는 규칙 | A09-SYM-01 |
+| orbit | orbit | trajectory와 구분 | 한 대상에 모든 group element를 작용해 얻는 집합 | A09-SYM-02 |
+| stabilizer | stabilizer | orbit와 구분 | 지정 대상을 고정하는 group element의 subgroup | A09-SYM-02 |
+| 불변성 | invariance | equivariance와 구분 | input action 뒤에도 output이 변하지 않는 성질 | A09-SYM-03 |
+| equivariance | equivariance | invariance와 구분 | input action이 대응하는 output action으로 옮겨지는 성질 | A09-SYM-03 |
+| gauge freedom | gauge freedom | 기능 차이와 구분 | observable을 바꾸지 않는 redundant coordinate freedom | A09-SYM-05 |
+| 선형 표현 | linear representation | hidden representation과 구분 | group multiplication을 invertible linear map의 합성으로 보존하는 map | A09-SYM-06 |
+| irreducible representation | irreducible representation | 1차원 component와 동일하지 않음 | nonzero proper invariant subspace가 없는 linear representation | A09-SYM-06 |
+| symmetry-aligned distance | symmetry-aligned distance | raw coordinate distance와 구분 | 허용 symmetry transformation에 대해 최소화한 두 대상의 거리 | A09-SYM-07 |

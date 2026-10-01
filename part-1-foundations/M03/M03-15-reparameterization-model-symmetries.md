@@ -65,7 +65,7 @@ estimated_time: "145~175분"
 를 사용해 같은 모델족을
 
 \[
-f_{r(\boldsymbol\phi})}
+f_{r(\boldsymbol\phi)}
 \]
 
 로 표현하면 재매개화이다. $r$이 일대일인 좌표변환일 수도 있고, 여러 $\boldsymbol\phi$가 같은 $\boldsymbol\theta$로 가는 중복 표현일 수도 있다.

@@ -41,7 +41,7 @@ backpropagation은 현재 parameter에서 loss gradient를 계산한다. 학습�
 |---|---|---|---|
 | $\theta$ | `theta` | 학습할 parameter vector | $\mathbb R^P$ |
 | $\ell_i(\theta)$ | `ell sub i of theta` | sample $i$의 loss | $[0,\infty)$ |
-| $\mathcal B_t$ | `script B sub t` | step $t$에서 선택한 mini-batch index 집합 | $|\mathcal B_t|=B$ |
+| $\mathcal B_t$ | `script B sub t` | step $t$에서 선택한 mini-batch index 집합 | $\lvert\mathcal B_t\rvert=B$ |
 | $L_{\mathcal B_t}$ | `L sub script B sub t` | mini-batch mean loss | scalar |
 | $\eta$ | `eta` | learning rate | $\eta>0$ |
 | $g_t$ | `g sub t` | step $t$의 mini-batch gradient | $\mathbb R^P$ |

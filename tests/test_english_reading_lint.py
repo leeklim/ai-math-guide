@@ -56,6 +56,14 @@ class EnglishReadingLintTests(unittest.TestCase):
     def test_old_header_fails(self) -> None:
         self.assertTrue(self.lint(lesson([("$w_i$", "`w sub i`")], header="읽는 법")))
 
+    def test_raw_pipe_inside_table_math_fails(self) -> None:
+        issues = self.lint(lesson([("$|x|$", "`the absolute value of x`")]))
+        self.assertTrue(any("raw pipe inside table math" in issue for issue in issues))
+
+    def test_lvert_rvert_inside_table_math_passes(self) -> None:
+        rows = [("$\\lvert x\\rvert$", "`the absolute value of x`")]
+        self.assertEqual(self.lint(lesson(rows)), [])
+
     def test_unexplained_inconsistency_fails(self) -> None:
         sources = [
             (Path("part-9/M99/M99-01-a.md"), lesson([("$w_i$", "`w sub i`")])),

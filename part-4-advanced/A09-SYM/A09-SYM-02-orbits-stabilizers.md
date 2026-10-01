@@ -33,7 +33,7 @@ estimated_time: "90~120분"
 | $G\cdot x$ | `the G orbit of x` | $x$의 orbit | subset of $X$ |
 | $G_x$ | `the stabilizer of x` | $x$를 고정하는 subgroup | subgroup of $G$ |
 | $X/G$ | `X modulo G` | orbit들의 quotient | set of equivalence classes |
-| $|G\cdot x|$ | `the size of the orbit of x` | finite orbit cardinality | positive integer |
+| $\lvert G\cdot x\rvert$ | `the size of the orbit of x` | finite orbit cardinality | positive integer |
 
 ## 핵심 개념
 

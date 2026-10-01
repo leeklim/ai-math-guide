@@ -1,9 +1,9 @@
 window.MathJax = {
   loader: {
-    load: ["[tex]/boldsymbol"]
+    load: ["[tex]/boldsymbol", "[tex]/mathtools"]
   },
   tex: {
-    packages: {"[+]": ["boldsymbol"]},
+    packages: {"[+]": ["boldsymbol", "mathtools"]},
     inlineMath: [["\\(", "\\)"], ["$", "$"]],
     displayMath: [["\\[", "\\]"], ["$$", "$$"]],
     processEscapes: true,
@@ -11,7 +11,7 @@ window.MathJax = {
   },
   options: {
     ignoreHtmlClass: ".*|",
-    processHtmlClass: "arithmatex"
+    processHtmlClass: "arithmatex|md-ellipsis"
   }
 };
 

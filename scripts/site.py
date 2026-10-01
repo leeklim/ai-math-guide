@@ -234,6 +234,28 @@ def split_markdown_table_row(line: str) -> list[str]:
     return cells
 
 
+def find_raw_math_pipes_in_tables(path: Path, text: str) -> list[str]:
+    """Find unescaped pipes that Markdown would split even though they are inside math."""
+    issues: list[str] = []
+    for line_number, line in enumerate(text.splitlines(), start=1):
+        if not line.startswith("|"):
+            continue
+        in_math = False
+        in_code = False
+        for index, char in enumerate(line):
+            escaped = index > 0 and line[index - 1] == "\\"
+            if char == "`" and not escaped:
+                in_code = not in_code
+            elif char == "$" and not in_code and not escaped:
+                in_math = not in_math
+            elif char == "|" and in_math and not in_code and not escaped:
+                issues.append(
+                    f"{path}:{line_number}:{index + 1}: "
+                    "unescaped raw pipe inside table math"
+                )
+    return issues
+
+
 def lint_english_readings(
     sources: list[tuple[Path, str]] | None = None,
 ) -> tuple[list[str], int, int]:
@@ -263,6 +285,7 @@ def lint_english_readings(
     cell_count = 0
 
     for path, text in sources:
+        issues.extend(find_raw_math_pipes_in_tables(path, text))
         lines = text.splitlines()
         file_table_count = 0
         for index, line in enumerate(lines):

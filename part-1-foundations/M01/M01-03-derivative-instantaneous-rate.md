@@ -43,7 +43,7 @@ estimated_time: "95~115분"
 |---|---|---|---|
 | $h$ | `h` | 기준 입력에서 더한 변화량 | $h\ne0$인 값으로 극한을 취한다. |
 | $f'(a)$ | `f prime of a` | $x=a$에서의 미분계수 | 극한이 유한한 실수로 존재해야 한다. |
-| $\left.\frac{df}{dx}\right|_{x=a}$ | `d f over d x evaluated at x equals a` | $x=a$에서 $x$에 대한 $f$의 변화율 | $f'(a)$와 같은 값이다. |
+| $\left.\frac{df}{dx}\right\rvert_{x=a}$ | `d f over d x evaluated at x equals a` | $x=a$에서 $x$에 대한 $f$의 변화율 | $f'(a)$와 같은 값이다. |
 | $\lvert r\rvert$ | `the absolute value of r` | 실수 $r$의 부호를 제외한 크기 | $\lvert r\rvert\ge0$ |
 | 미분 | `differentiation` | 순간변화율을 구하는 과정 | 극한의 존재를 확인한다. |
 | 미분계수 | `the derivative at a point` | 한 점에서의 순간변화율 | 스칼라 값이다. |

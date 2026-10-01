@@ -36,7 +36,7 @@ estimated_time: "120~150분"
 | 기호·용어 | Common spoken reading | 의미 | shape·범위 |
 |---|---|---|---|
 | $\mathcal V$ | `script V` | tokenizer vocabulary | finite set |
-| $V$ | `V` | vocabulary size | $V=|\mathcal V|$ |
+| $V$ | `V` | vocabulary size | $V=\lvert\mathcal V\rvert$ |
 | $t_i$ | `t sub i` | position $i$의 token | $t_i\in\mathcal V$ |
 | $a_i$ | `a sub i` | token $t_i$의 integer ID | $\{0,\ldots,V-1\}$ |
 | $T$ | `T` | token sequence length | positive integer |

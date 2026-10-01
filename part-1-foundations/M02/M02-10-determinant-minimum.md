@@ -45,7 +45,7 @@ determinant는 정사각행렬이 부피를 몇 배로 바꾸는지 나타내는
 | 기호·용어 | Common spoken reading | 의미 | 조건 |
 |---|---|---|---|
 | $\det(\mathbf A)$ | `the determinant of A` | 정사각행렬의 방향 있는 부피 배율 | scalar |
-| $|\det(\mathbf A)|$ | `the absolute value of the determinant of A` | 부호를 제외한 부피 배율 | 0 이상 |
+| $\lvert\det(\mathbf A)\rvert$ | `the absolute value of the determinant of A` | 부호를 제외한 부피 배율 | 0 이상 |
 | 방향 순서 | `orientation` | 기저의 축 순서가 오른손·왼손 방식 중 어느 쪽인지 나타내는 성질 | determinant 부호와 연결 |
 | 삼각행렬 | `triangular matrix` | 대각선 한쪽이 모두 0인 정사각행렬 | determinant는 대각 원소의 곱 |
 

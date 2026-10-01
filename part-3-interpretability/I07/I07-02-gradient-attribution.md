@@ -31,7 +31,7 @@ gradient는 역전파 한 번으로 많은 입력 좌표의 민감도를 동시�
 | 기호·용어 | Common spoken reading | 의미 | shape·범위 |
 |---|---|---|---|
 | $g_i=\frac{\partial s}{\partial x_i}$ | `g sub i equals partial s over partial x sub i` | signed local sensitivity | scalar |
-| $|g_i|$ | `the absolute value of g sub i` | saliency magnitude | nonnegative scalar |
+| $\lvert g_i\rvert$ | `the absolute value of g sub i` | saliency magnitude | nonnegative scalar |
 | $x_i g_i$ | `x sub i times g sub i` | zero-baseline gradient×input | scalar |
 | $\nabla_x s$ | `the gradient of s with respect to x` | 모든 좌표의 gradient | $\mathbb R^d$ |
 | saturation | `saturation` | 출력 변화에 비해 국소 gradient가 작은 영역 | local property |

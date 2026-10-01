@@ -33,7 +33,7 @@ low-rank signal이 isotropic noise에 더해져도 sample PCA가 signal directio
 | $\Sigma=I+\beta uu^\top$ | `Sigma equals I plus beta u u transpose` | rank-one spiked population covariance | $d\times d$ |
 | $\lambda_{\mathrm{pop}}=1+\beta$ | `the population spike equals one plus beta` | signal direction의 population eigenvalue | scalar greater than 1 |
 | $\beta>\sqrt\gamma$ | `beta is greater than square root gamma` | unit-noise spectral separation 조건 | asymptotic condition |
-| $|\hat u^\top u|^2$ | `the squared alignment between u hat and u` | sample·population direction alignment | number in $[0,1]$ |
+| $\lvert\hat u^\top u\rvert^2$ | `the squared alignment between u hat and u` | sample·population direction alignment | number in $[0,1]$ |
 
 ## 핵심 개념
 

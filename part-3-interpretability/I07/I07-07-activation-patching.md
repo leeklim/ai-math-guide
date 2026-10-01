@@ -42,6 +42,15 @@ Activation patching은 clean 실행에서 얻은 내부 상태를 corrupt 실행
 2. corrupt: 대비 입력 $x_r$를 실행해 $m_r$를 얻는다.
 3. patched: $x_r$ 실행 중 $h_j$를 $h_j(x_c)$로 덮어쓰고 $m_p$를 얻는다.
 
+<figure class="lesson-figure" markdown="1">
+
+![Clean corrupted and patched model runs aligned at one internal activation node](../../figures/assets/I07/I07-07-three-runs.svg)
+
+<figcaption>patched 실행은 corrupt 입력을 유지하되 지정한 layer·token·component의 activation만 clean 실행 값으로 교체한다.</figcaption>
+</figure>
+
+세 실행은 같은 모델 파라미터와 같은 metric을 사용해야 한다. clean 실행은 교체할 값을 제공하고 목표 행동의 기준을 정한다. corrupt 실행은 개입 전 baseline이며, patched 실행과의 차이가 해당 교체가 만든 효과다. clean과 patched를 직접 비교하면 “얼마나 회복했는가”는 볼 수 있지만 개입 전 baseline에서 얼마나 변했는지를 놓칠 수 있다.
+
 $$
 R_j
 =
@@ -49,6 +58,10 @@ R_j
 $$
 
 $R_j=1$이면 지정 metric이 clean 수준으로 회복됐고 0이면 변화가 없다. 분모가 작으면 비율이 불안정하므로 원시 metric도 함께 보고한다. 0보다 작거나 1보다 큰 값도 가능한 실제 결과다.
+
+normalized recovery가 답하는 질문은 “이 node가 일반적으로 얼마나 중요한가”가 아니다. 정확히는 선택한 clean-corrupt 대비에서 node $j$의 값을 교환했을 때, 선택한 metric의 두 baseline 사이 간격을 얼마나 이동했는가를 묻는다. 입력 쌍, node의 범위 또는 metric을 바꾸면 estimand도 바뀐다.
+
+예를 들어 $m_c=10,m_r=2$에서 $m_p=6$이면 원시 patch effect는 $m_p-m_r=4$이고 recovery는 $4/8=0.5$다. 원시 효과는 metric 단위를 유지하고, recovery는 clean-corrupt 간격을 기준으로 조건 사이 비교를 돕는다. 둘을 함께 제시해야 분모가 작은 실험과 실제 변화량이 큰 실험을 구분할 수 있다.
 
 ## 2. patch 위치
 
@@ -61,6 +74,8 @@ Transformer에서 “layer 5를 patch했다”만으로는 부족하다.
 - normalization 전 또는 후
 
 서로 다른 위치는 다른 edge 집합과 downstream 계산을 바꾼다.
+
+patch 위치는 tensor 주소만이 아니라 개입의 의미를 정한다. residual stream 전체를 교체하면 그 시점까지 누적된 여러 component의 결과를 함께 바꾼다. 특정 attention head output만 교체하면 더 좁은 update를 바꾸지만, 이후 residual addition과 MLP가 그 값을 읽는 방식은 그대로 남는다. neuron 하나나 subspace만 교체할 때는 선택한 좌표계와 projection 정의까지 기록해야 한다.
 
 ## 3. clean·corrupt 쌍
 

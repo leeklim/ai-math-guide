@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Causal scaled dot product attention pipeline</title>
+  <desc id="desc">Query-key scores are scaled, future positions are masked before softmax, and the resulting row-stochastic attention matrix mixes value vectors.</desc>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#475569"/></marker></defs>
+  <rect width="960" height="540" rx="18" fill="#F8FAFC"/>
+  <text x="480" y="48" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#0F172A">Causal scaled dot-product attention</text>
+  <g font-family="sans-serif" text-anchor="middle">
+    <rect x="35" y="170" width="150" height="155" rx="15" fill="#DBEAFE" stroke="#3B82F6" stroke-width="2"/>
+    <text x="110" y="210" font-size="20" font-weight="700" fill="#1E3A8A">Scores</text><text x="110" y="250" font-size="22" fill="#1E3A8A">QKᵀ</text><text x="110" y="288" font-size="15" fill="#475569">T × T</text>
+    <rect x="225" y="170" width="150" height="155" rx="15" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="2"/>
+    <text x="300" y="210" font-size="20" font-weight="700" fill="#5B21B6">Scale</text><text x="300" y="250" font-size="22" fill="#5B21B6">÷ √dₖ</text><text x="300" y="288" font-size="15" fill="#475569">controls logit size</text>
+    <rect x="415" y="170" width="150" height="155" rx="15" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+    <text x="490" y="210" font-size="20" font-weight="700" fill="#78350F">Causal mask</text><text x="490" y="250" font-size="22" fill="#78350F">+ M</text><text x="490" y="288" font-size="15" fill="#475569">future → −∞</text>
+    <rect x="605" y="170" width="150" height="155" rx="15" fill="#DCFCE7" stroke="#22C55E" stroke-width="2"/>
+    <text x="680" y="210" font-size="20" font-weight="700" fill="#14532D">Softmax</text><text x="680" y="250" font-size="22" fill="#14532D">A</text><text x="680" y="288" font-size="15" fill="#475569">each row sums to 1</text>
+    <rect x="795" y="170" width="130" height="155" rx="15" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
+    <text x="860" y="210" font-size="20" font-weight="700" fill="#7F1D1D">Mix values</text><text x="860" y="250" font-size="22" fill="#7F1D1D">AV</text><text x="860" y="288" font-size="15" fill="#475569">T × dᵥ</text>
+  </g>
+  <g stroke="#475569" stroke-width="3" marker-end="url(#arrow)"><path d="M190 247H215"/><path d="M380 247H405"/><path d="M570 247H595"/><path d="M760 247H785"/></g>
+  <g transform="translate(440 350)" font-family="sans-serif" font-size="13" text-anchor="middle">
+    <text x="50" y="-5" font-size="16" font-weight="700" fill="#78350F">Allowed positions</text>
+    <g stroke="#94A3B8"><path d="M0 10H100M0 35H100M0 60H100M0 85H100M0 110H100M0 10V110M25 10V110M50 10V110M75 10V110M100 10V110"/></g>
+    <g fill="#86EFAC"><rect x="1" y="11" width="23" height="23"/><rect x="1" y="36" width="23" height="23"/><rect x="26" y="36" width="23" height="23"/><rect x="1" y="61" width="23" height="23"/><rect x="26" y="61" width="23" height="23"/><rect x="51" y="61" width="23" height="23"/><rect x="1" y="86" width="23" height="23"/><rect x="26" y="86" width="23" height="23"/><rect x="51" y="86" width="23" height="23"/><rect x="76" y="86" width="23" height="23"/></g>
+    <g fill="#FCA5A5"><rect x="26" y="11" width="73" height="23"/><rect x="51" y="36" width="48" height="23"/><rect x="76" y="61" width="23" height="23"/></g>
+  </g>
+  <text x="480" y="500" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#334155">Mask before softmax so prohibited future positions receive exactly zero attention weight.</text>
+</svg>

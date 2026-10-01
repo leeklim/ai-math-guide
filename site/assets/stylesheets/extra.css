@@ -88,6 +88,33 @@
   padding: 0.55rem 0;
 }
 
+.md-typeset .lesson-figure {
+  margin: 1.5rem auto 1.8rem;
+  padding: 1rem 1rem 0.75rem;
+  width: 100%;
+  max-width: 58rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.45rem;
+  background: var(--md-code-bg-color);
+}
+
+.md-typeset .lesson-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 34rem;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.md-typeset .lesson-figure figcaption {
+  margin-top: 0.75rem;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
 .search-alias {
   position: absolute;
   width: 1px;
@@ -108,5 +135,21 @@
 
   .md-typeset table:not([class]) {
     font-size: 0.72rem;
+  }
+
+  .md-typeset .lesson-figure {
+    margin-inline: -0.35rem;
+    padding: 0.65rem 0.55rem 0.6rem;
+  }
+
+  .md-typeset .lesson-figure > p {
+    margin: 0;
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  .md-typeset .lesson-figure > p > img {
+    width: 34rem;
+    max-width: none;
   }
 }

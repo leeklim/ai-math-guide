@@ -1019,6 +1019,10 @@ def prepare() -> None:
     assets_source = ROOT / "site" / "assets"
     shutil.copytree(assets_source, DOCS_DIR / "assets")
 
+    figure_assets_source = ROOT / "figures" / "assets"
+    if figure_assets_source.exists():
+        shutil.copytree(figure_assets_source, DOCS_DIR / "figures" / "assets")
+
     config = yaml.safe_load(read_text(BASE_CONFIG))
     config["docs_dir"] = "docs"
     config["site_dir"] = "site"

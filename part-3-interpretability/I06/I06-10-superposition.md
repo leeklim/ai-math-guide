@@ -63,9 +63,32 @@ D^Ta=D^TDz=Gz
 
 이 설명은 최적화된 toy model에서 관찰되는 geometry를 이해하기 위한 것이다. 실제 model에서 superposition을 입증하려면 feature 정의와 대안 가설, 재현 실험이 필요하다.
 
+### 시각적 직관: 좌표축보다 많은 방향을 공유한다
+
+<figure class="lesson-figure" markdown="1">
+
+![Two orthogonal feature directions compared with four nonorthogonal sparse feature directions in two dimensions](../../figures/assets/I06/I06-10-superposition.svg)
+
+<figcaption>왼쪽은 feature 두 개가 neuron 축과 일치하는 경우이고, 오른쪽은 네 feature 방향이 같은 2차원 공간을 비직교하게 공유하는 경우다.</figcaption>
+</figure>
+
+그림 오른쪽의 feature 수가 dimension보다 많다는 사실만으로 유용한 표현이 되는 것은 아니다. 동시에 켜지는 두 방향이 거의 평행하면 한 feature의 계수를 읽을 때 다른 feature가 크게 섞인다. 학습은 자주 함께 나타나거나 중요한 feature 사이의 각도를 더 벌리고, 드물게 함께 나타나는 feature가 더 많은 간섭을 나누어 부담하게 할 수 있다.
+
+예를 들어 unit direction $d_1,d_2$만 활성화되어 $z_1=z_2=1$이면 $d_1$ 방향의 단순 decoder 출력은
+
+\[
+d_1^\top a
+=
+1+d_1^\top d_2
+\]
+
+이다. 두 방향이 직교하면 두 번째 항은 0이지만, 내적이 $-0.5$이면 읽힌 값은 $0.5$가 된다. 간섭은 그림의 겹침을 수치로 나타낸 Gram matrix의 비대각 항이다.
+
 ## 4. privileged basis
 
 ReLU처럼 coordinate-wise nonlinearity가 있으면 neuron basis가 계산에서 특별한 역할을 갖는다. 그렇더라도 입력 feature가 반드시 개별 neuron과 일치하지는 않는다. `기저 의존적이다`와 `실제 기저가 중요하지 않다`는 다른 문장이다.
+
+임의의 직교회전은 선형 층 사이에서 상쇄시킬 수 있는 경우가 있지만, coordinate-wise ReLU 앞뒤에 같은 방식으로 삽입하면 일반적으로 원래 함수가 보존되지 않는다. 따라서 representation을 분석할 때는 basis-free한 부분공간 주장과 실제 neuron 좌표에서만 성립하는 sparsity·gating 주장을 구분해야 한다.
 
 ## CPU 실습
 

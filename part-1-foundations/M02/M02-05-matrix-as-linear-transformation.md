@@ -128,6 +128,19 @@ x_1\mathbf a_1+\cdots+x_n\mathbf a_n
 
 이다. 표준기저의 도착점을 알면 모든 입력의 출력을 정할 수 있다.
 
+### 시각적 직관: 기저벡터의 도착점이 변환 전체를 정한다
+
+<figure class="lesson-figure" markdown="1">
+
+![Two input basis vectors mapped to the columns of a matrix and recombined into the output](../../figures/assets/M02/M02-05-basis-transformation.svg)
+
+<figcaption>입력 기저 e₁, e₂가 행렬의 두 열 a₁, a₂로 이동하면, 임의의 입력 x도 같은 계수로 두 열을 결합한 출력에 도착한다.</figcaption>
+</figure>
+
+그림의 파란색과 주황색 화살표는 각각 한 기저벡터의 이동을 나타낸다. 초록색 입력 벡터를 따로 외워서 이동시키는 규칙은 필요 없다. 선형성 때문에 입력에서 사용한 계수 $x_1,x_2$를 출력에서도 그대로 사용해 두 열을 결합하면 된다.
+
+여기서 휘어지는 것은 좌표선이 아니다. 하나의 고정 행렬이 수행하는 선형변환은 원점을 지나는 직선을 다시 직선으로 보낸다. 비선형함수를 뒤에 적용하거나 위치마다 서로 다른 Jacobian을 사용해 국소 변환을 이어 붙일 때에야 전체 mapping이 직선을 곡선으로 보낼 수 있다.
+
 ## 핵심 개념 4. 대각행렬은 좌표축별로 확대하거나 줄인다
 
 \[

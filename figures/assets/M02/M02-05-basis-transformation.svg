@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">A linear transformation is determined by the images of the basis vectors</title>
+  <desc id="desc">The input vector is decomposed along two standard basis vectors, which are mapped to the two columns of matrix A and recombined as the output vector.</desc>
+  <defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="context-stroke"/></marker></defs>
+  <rect width="960" height="540" rx="18" fill="#F8FAFC"/>
+  <text x="170" y="54" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#0F172A">Input basis</text>
+  <text x="790" y="54" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#0F172A">Output basis images</text>
+  <g stroke="#CBD5E1" stroke-width="1">
+    <path d="M50 360H350 M170 90V450"/><path d="M610 360H910 M740 90V450"/>
+  </g>
+  <g fill="#475569" font-family="sans-serif" font-size="17">
+    <text x="335" y="385">x₁</text><text x="182" y="110">x₂</text><text x="895" y="385">y₁</text><text x="752" y="110">y₂</text>
+  </g>
+  <g fill="none" stroke-linecap="round" stroke-width="5" marker-end="url(#arrow)">
+    <path d="M170 360L285 360" stroke="#2563EB"/><path d="M170 360L170 225" stroke="#D97706"/>
+    <path d="M740 360L855 245" stroke="#2563EB"/><path d="M740 360L655 180" stroke="#D97706"/>
+    <path d="M170 360L285 225" stroke="#059669"/><path d="M740 360L770 65" stroke="#059669"/>
+  </g>
+  <g font-family="sans-serif" font-size="18" font-weight="600">
+    <text x="290" y="355" fill="#2563EB">e₁</text><text x="180" y="220" fill="#D97706">e₂</text><text x="288" y="218" fill="#059669">x = x₁e₁ + x₂e₂</text>
+    <text x="858" y="240" fill="#2563EB">Ae₁ = a₁</text><text x="620" y="170" fill="#D97706">Ae₂ = a₂</text><text x="785" y="85" fill="#059669">Ax = x₁a₁ + x₂a₂</text>
+  </g>
+  <rect x="405" y="192" width="150" height="100" rx="16" fill="#E0E7FF" stroke="#4F46E5" stroke-width="2"/>
+  <text x="480" y="235" text-anchor="middle" font-family="sans-serif" font-size="29" font-weight="700" fill="#312E81">A</text>
+  <text x="480" y="267" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#475569">linear map</text>
+  <path d="M360 242H395 M565 242H600" stroke="#4F46E5" stroke-width="4" marker-end="url(#arrow)"/>
+  <text x="480" y="478" text-anchor="middle" font-family="sans-serif" font-size="19" fill="#334155">The columns of A tell where the input basis vectors go.</text>
+</svg>

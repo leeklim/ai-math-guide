@@ -49,9 +49,24 @@ feature가 “나타났다”는 말에는 여러 사건이 섞인다. activatio
 
 한 열의 상승을 다른 열의 상승으로 대체하지 않는다.
 
+<figure class="lesson-figure" markdown="1">
+
+![Formation recoverability use and behavior curves crossing a measurement threshold at different training steps](../../figures/assets/I08/I08-09-evidence-timeline.svg)
+
+<figcaption>같은 후보 feature에서도 구조 형성, probe 복원, 개입 효과와 행동 변화가 서로 다른 checkpoint에서 관찰될 수 있다.</figcaption>
+</figure>
+
+그림의 네 곡선은 보편적인 발생 순서를 주장하는 실제 측정값이 아니라, 서로 다른 측정이 같은 시점에 임계값을 넘을 필요가 없음을 보이는 개념도다. formation 지표가 먼저 변해도 probe가 그 구조를 안정적으로 읽는 데 더 많은 학습이 필요할 수 있다. recoverability가 높아진 뒤에도 모델 행동에 사용된다는 개입 증거는 늦게 나타나거나 끝내 관찰되지 않을 수 있다.
+
+각 열에는 별도의 측정 오차와 대조군이 있다. formation에는 null geometry, recoverability에는 label permutation과 held-out 평가, use에는 random 또는 norm-matched intervention, behavior에는 task baseline이 필요하다. 네 score를 한 축에 정규화해 그린 그림은 시점을 비교하기 위한 요약이지 서로 다른 단위의 절댓값을 직접 비교한다는 뜻이 아니다.
+
 ## 2. 같은 feature를 추적하는 문제
 
 좌표별 neuron ID는 checkpoint 사이 의미를 보장하지 않는다. activation profile, direction cosine, decoder vector와 maximal examples를 이용해 matching하고, one-to-one assignment 여부와 matching score를 기록한다. 낮은 score에서는 “같은 feature” 대신 “가장 가까운 후보”라고 쓴다.
+
+matching은 먼저 어느 공간을 비교할지 고정해야 한다. 두 checkpoint의 neuron basis가 permutation이나 rotation으로 달라질 수 있다면 좌표를 직접 비교하지 않고 representation alignment를 적용한 뒤 방향을 맞춘다. 한 checkpoint의 feature가 다음 checkpoint에서 둘로 갈라지거나 여러 feature가 합쳐지는 경우에는 one-to-one assignment 자체가 부적절할 수 있다.
+
+따라서 feature trajectory에는 score만 아니라 identity uncertainty도 함께 기록한다. 낮은 matching score 구간에서 보이는 급격한 score 변화는 실제 feature 변화가 아니라 다른 후보로 연결한 결과일 수 있다.
 
 ## 3. Emergence time은 규칙에 의존한다
 
@@ -62,6 +77,10 @@ t_R=\min\{t:R_t\ge\tau_R\}
 $$
 
 로 recoverability emergence를 정의할 수 있다. threshold, smoothing과 checkpoint grid를 바꾸면 $t_R$도 바뀐다. bootstrap interval이나 여러 seed의 crossing 분포를 함께 본다.
+
+관측 checkpoint가 $t_1<t_2$이고 $R_{t_1}<\tau_R\le R_{t_2}$라면 직접 관찰한 것은 첫 crossing이 $t_2$라는 사실이다. 실제 변화 시점은 $(t_1,t_2]$ 어딘가에 있다. `step $t_2$에서 갑자기 생겼다`고 쓰려면 그 사이를 더 촘촘히 관측해 변화 폭과 지속성을 확인해야 한다.
+
+threshold를 분석 결과를 본 뒤 유리하게 고르면 emergence time이 선택 편향을 갖는다. threshold와 smoothing 규칙은 분석 전에 정하거나, 여러 합리적인 설정에서 결론이 얼마나 달라지는지 sensitivity analysis로 보고한다.
 
 ## 4. CPU 실습
 

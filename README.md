@@ -53,6 +53,16 @@ py -3.12 -m venv .venv
 .\scripts\setup_n05.ps1
 ```
 
+교재용 수치 그래프를 새로 만들거나 저장된 SVG의 재현성을 검사할 때만 그림 dependency를 추가로 설치한다. 완성된 HTML을 빌드하고 읽는 데에는 필요하지 않다.
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-figures.txt
+.\.venv\Scripts\python.exe scripts/figures.py generate
+.\.venv\Scripts\python.exe scripts/figures.py check --reproduce
+```
+
+개념도와 생성된 그래프의 최종 SVG는 `figures/assets`에 있으며, `figures/manifest.json`이 단원과 생성 코드를 연결한다. 전권 개정 진단과 진행 상태는 `revision/visual-audit.csv`에 기록한다.
+
 자동 검사 테스트, 원본 감사, production build와 생성물 검증을 한 번에 실행한다.
 
 ```powershell

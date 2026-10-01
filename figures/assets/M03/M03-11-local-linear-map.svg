@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Jacobian maps a small input displacement to a local output displacement</title>
+  <desc id="desc">A nonlinear map sends x and x plus delta x to nearby outputs, while the Jacobian at x maps delta x to the first order approximation J delta x.</desc>
+  <defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="context-stroke"/></marker></defs>
+  <rect width="960" height="540" rx="18" fill="#F8FAFC"/>
+  <text x="480" y="52" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#0F172A">Local linearization by the Jacobian</text>
+  <rect x="55" y="110" width="310" height="330" rx="20" fill="#EFF6FF" stroke="#93C5FD" stroke-width="2"/>
+  <rect x="595" y="110" width="310" height="330" rx="20" fill="#ECFDF5" stroke="#6EE7B7" stroke-width="2"/>
+  <text x="210" y="145" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="700" fill="#1E3A8A">Input space</text>
+  <text x="750" y="145" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="700" fill="#065F46">Output space</text>
+  <g fill="none" stroke-width="4" marker-end="url(#arrow)">
+    <path d="M170 330L285 225" stroke="#2563EB"/>
+    <path d="M700 340L825 205" stroke="#059669"/>
+    <path d="M370 225C470 150 510 150 590 220" stroke="#475569"/>
+    <path d="M370 350C470 430 510 430 590 350" stroke="#7C3AED" stroke-dasharray="9 7"/>
+  </g>
+  <circle cx="170" cy="330" r="8" fill="#0F172A"/><circle cx="285" cy="225" r="8" fill="#2563EB"/>
+  <circle cx="700" cy="340" r="8" fill="#0F172A"/><circle cx="825" cy="205" r="8" fill="#059669"/>
+  <g font-family="sans-serif" font-size="18" fill="#334155">
+    <text x="145" y="360">x</text><text x="290" y="215">x + Δx</text><text x="665" y="372">f(x)</text><text x="810" y="192">f(x + Δx)</text>
+    <text x="464" y="135">nonlinear f</text><text x="425" y="458" fill="#6D28D9">linear approximation at x</text>
+  </g>
+  <rect x="395" y="245" width="170" height="78" rx="14" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <text x="480" y="277" text-anchor="middle" font-family="sans-serif" font-size="21" font-weight="700" fill="#5B21B6">J_f(x) Δx</text>
+  <text x="480" y="305" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#475569">first-order output change</text>
+  <text x="480" y="505" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#334155">f(x + Δx) − f(x) ≈ J_f(x)Δx only for sufficiently small Δx.</text>
+</svg>

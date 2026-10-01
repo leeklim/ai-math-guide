@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Orbit points and stabilizer transformations under a group action</title>
+  <desc id="desc">Group elements move x among three orbit points, while two different transformations return x to itself and form the stabilizer subgroup.</desc>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="context-stroke"/></marker></defs>
+  <rect width="960" height="540" rx="18" fill="#F8FAFC"/>
+  <text x="480" y="48" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#0F172A">Orbit moves the object; stabilizer leaves it fixed</text>
+  <ellipse cx="360" cy="285" rx="285" ry="175" fill="#EFF6FF" stroke="#60A5FA" stroke-width="2" stroke-dasharray="9 7"/>
+  <text x="130" y="135" font-family="sans-serif" font-size="20" font-weight="700" fill="#1E3A8A">orbit G · x</text>
+  <g fill="#DBEAFE" stroke="#2563EB" stroke-width="3"><circle cx="210" cy="300" r="48"/><circle cx="420" cy="180" r="48"/><circle cx="515" cy="365" r="48"/></g>
+  <g font-family="sans-serif" font-size="19" font-weight="700" text-anchor="middle" fill="#1E3A8A"><text x="210" y="307">x</text><text x="420" y="187">g₁·x</text><text x="515" y="372">g₂·x</text></g>
+  <g fill="none" stroke="#2563EB" stroke-width="3" marker-end="url(#arrow)"><path d="M253 280C305 220 337 200 365 190"/><path d="M455 220C500 260 515 300 515 310"/><path d="M468 385C365 430 260 385 237 346"/></g>
+  <g font-family="sans-serif" font-size="16" fill="#334155"><text x="300" y="210">g₁</text><text x="502" y="265">g₂g₁⁻¹</text><text x="350" y="435">return by another group element</text></g>
+  <rect x="690" y="155" width="220" height="260" rx="18" fill="#FFF7ED" stroke="#F97316" stroke-width="2"/>
+  <text x="800" y="198" text-anchor="middle" font-family="sans-serif" font-size="21" font-weight="700" fill="#9A3412">stabilizer Gₓ</text>
+  <circle cx="800" cy="292" r="45" fill="#FFEDD5" stroke="#F97316" stroke-width="3"/>
+  <text x="800" y="299" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="700" fill="#9A3412">x</text>
+  <path d="M765 263C720 220 735 185 795 208" fill="none" stroke="#D97706" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M835 321C880 365 865 398 805 375" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="720" y="230" font-family="sans-serif" font-size="16" fill="#92400E">e · x = x</text><text x="820" y="395" font-family="sans-serif" font-size="16" fill="#5B21B6">h · x = x</text>
+  <text x="480" y="500" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#334155">A larger stabilizer means more group elements produce the same orbit point.</text>
+</svg>

@@ -56,6 +56,31 @@ Transformer block의 attention과 MLP는 새 hidden state를 처음부터 만드
 
 $\mathbf R_{mid}$를 볼 때는 attention output만 본 것이 아니다. 이전 stream과 attention update의 합을 본 것이다. 마찬가지로 $\mathbf R_{out}$은 입력, attention update와 MLP update가 누적된 결과다. 단, MLP update 자체도 $\mathbf R_{mid}$에 의존하므로 세 항을 독립적인 고정 vector처럼 취급하면 안 된다.
 
+### 시각적 직관: 공통 공간을 읽고 다시 같은 공간에 쓴다
+
+<figure class="lesson-figure" markdown="1">
+
+![Attention and MLP branches reading a shared residual stream and adding updates back into it](../../figures/assets/N05/N05-17-residual-stream.svg)
+
+<figcaption>굵은 가로선은 같은 d_model 공간을 유지하는 residual stream이고, attention과 MLP는 현재 stream을 읽어 update를 계산한 뒤 같은 공간에 더한다.</figcaption>
+</figure>
+
+그림에서 attention과 MLP를 우회하는 가로 경로가 skip path다. 위쪽 branch는 이전 stream을 지우고 새 상태로 교체하지 않는다. branch가 계산한 $\Delta\mathbf R$을 기존 상태에 더한다. 따라서 hook 이름이 `attention output`인지 `residual post`인지에 따라 관찰하는 tensor의 의미가 달라진다.
+
+한 block의 출력은 계산이 끝난 뒤에는
+
+\[
+\mathbf R_{out}
+=
+\mathbf R_{in}
++
+\Delta\mathbf R_A
++
+\Delta\mathbf R_M
+\]
+
+처럼 쓸 수 있다. 그러나 $\Delta\mathbf R_M=M(\mathbf R_{in}+\Delta\mathbf R_A)$이므로 attention update를 바꾸면 MLP update도 일반적으로 달라진다. 이 식은 최종 tensor의 덧셈 관계를 보여 주지만 component 사이의 독립성을 뜻하지 않는다.
+
 ## 핵심 개념 3. gradient의 skip term
 
 단순 residual map $\mathbf y=\mathbf x+F(\mathbf x)$의 Jacobian은
@@ -66,6 +91,8 @@ $\mathbf R_{mid}$를 볼 때는 attention output만 본 것이 아니다. 이전
 \]
 
 이다. 역전파에는 sublayer Jacobian 경로뿐 아니라 identity path의 항이 있다. 이것이 gradient가 항상 안정적이라는 보장은 아니지만, skip path를 제거한 $J_F$만의 연쇄와는 다른 계산이다.
+
+여러 residual block을 합성하면 gradient에는 각 block의 $\mathbf I+\mathbf J_{F_l}$가 연쇄적으로 나타난다. identity 항은 변화가 그대로 전달되는 경로를 제공하지만, 나머지 Jacobian과의 합이 상쇄되거나 여러 층의 곱에서 커질 가능성은 남는다. residual connection의 존재와 안정적인 최적화 결과를 같은 명제로 취급하지 않는다.
 
 ## 예제
 

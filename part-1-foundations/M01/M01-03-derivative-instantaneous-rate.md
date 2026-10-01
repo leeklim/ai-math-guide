@@ -122,6 +122,19 @@ y-f(a)=f'(a)(x-a)
 
 이다. 접선은 곡선 전체를 나타내지 않는다. $a$에 가까운 구간에서 함수의 방향을 직선으로 나타낸다.
 
+### 시각적 직관: 할선이 접선에 가까워지는 과정
+
+<figure class="lesson-figure" markdown="1">
+
+![A secant line approaching the tangent line on the curve f of x equals x squared](../../figures/assets/M01/M01-03-secant-to-tangent.svg)
+
+<figcaption>h가 작아질수록 두 점을 잇는 주황색 할선의 기울기가 기준점 a에서의 파란색 접선 기울기에 가까워진다.</figcaption>
+</figure>
+
+그림에서 움직이는 것은 두 번째 점 $(a+h,f(a+h))$이다. 기준점 $(a,f(a))$는 고정되어 있고, 두 점의 수평 간격 $h$와 수직 간격 $f(a+h)-f(a)$가 함께 줄어든다. 두 점이 합쳐져 기울기를 직접 잴 수 있게 되는 것이 아니라, $h\ne0$인 할선 기울기들의 극한이 하나의 값으로 수렴하는지를 묻는다.
+
+따라서 접선은 곡선에 실제로 두 번 교차해야 하는 직선이 아니다. 미분 가능한 점에서 함수와 같은 1차 변화를 갖는 국소 선형 모형이다. 이 관점은 뒤의 Taylor 근사와 Jacobian으로 그대로 확장된다.
+
 ## 핵심 개념 4. $f(x)=x^2$을 정의에서 미분한다
 
 기준점을 일반적인 $x$로 두고 차분몫을 계산한다.

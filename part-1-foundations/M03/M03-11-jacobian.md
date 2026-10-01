@@ -164,6 +164,19 @@ shape은
 
 를 Jacobian-vector product(JVP)라고 한다. JVP는 $\mathbf v$ 방향의 출력 변화율이다. 큰 Jacobian을 만들지 않고 JVP를 계산하는 방법은 M03-13에서 다룬다.
 
+### 시각적 직관: 비선형함수를 한 점에서 선형으로 펼친다
+
+<figure class="lesson-figure" markdown="1">
+
+![A nonlinear function and its Jacobian mapping a small input displacement to a local output displacement](../../figures/assets/M03/M03-11-local-linear-map.svg)
+
+<figcaption>기준점 x 근처의 작은 입력 변화 Δx는 Jacobian을 거쳐 1차 출력 변화 J_f(x)Δx로 옮겨진다.</figcaption>
+</figure>
+
+그림에서 위쪽 화살표는 실제 비선형함수 $f$가 두 점을 보내는 결과이고, 아래쪽 점선은 기준점에서 만든 선형 근사다. Jacobian은 입력점과 출력점을 직접 대응시키는 새 모델이 아니라, 이미 정한 기준점 $\mathbf x$에서 **변화량**을 대응시키는 선형사상이다.
+
+기준점을 바꾸면 일반적으로 Jacobian도 달라진다. 그러므로 여러 점의 국소 선형화를 이어서 본 결과를 하나의 전역 행렬처럼 해석해서는 안 된다. $\Delta\mathbf x$가 충분히 작다는 조건과 어느 점에서 Jacobian을 계산했는지를 함께 기록해야 한다.
+
 ## 핵심 개념 4. scalar 함수의 Jacobian은 gradient의 전치다
 
 $m=1$이면 Jacobian shape은 $1\times n$이다.

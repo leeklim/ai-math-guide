@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "figures": [
+    {
+      "id": "M01-03-secant-to-tangent",
+      "lesson_id": "M01-03",
+      "kind": "generated-plot",
+      "asset": "figures/assets/M01/M01-03-secant-to-tangent.svg",
+      "generator": "figures/generators/m01_03_secant_to_tangent.py"
+    },
+    {
+      "id": "M02-05-basis-transformation",
+      "lesson_id": "M02-05",
+      "kind": "concept-svg",
+      "asset": "figures/assets/M02/M02-05-basis-transformation.svg",
+      "generator": null
+    },
+    {
+      "id": "M02-13-svd-three-stage",
+      "lesson_id": "M02-13",
+      "kind": "concept-svg",
+      "asset": "figures/assets/M02/M02-13-svd-three-stage.svg",
+      "generator": null
+    },
+    {
+      "id": "M03-11-local-linear-map",
+      "lesson_id": "M03-11",
+      "kind": "concept-svg",
+      "asset": "figures/assets/M03/M03-11-local-linear-map.svg",
+      "generator": null
+    },
+    {
+      "id": "M04-02-bayes-population",
+      "lesson_id": "M04-02",
+      "kind": "concept-svg",
+      "asset": "figures/assets/M04/M04-02-bayes-population.svg",
+      "generator": null
+    },
+    {
+      "id": "N05-15-attention-pipeline",
+      "lesson_id": "N05-15",
+      "kind": "concept-svg",
+      "asset": "figures/assets/N05/N05-15-attention-pipeline.svg",
+      "generator": null
+    },
+    {
+      "id": "N05-17-residual-stream",
+      "lesson_id": "N05-17",
+      "kind": "concept-svg",
+      "asset": "figures/assets/N05/N05-17-residual-stream.svg",
+      "generator": null
+    },
+    {
+      "id": "I06-10-superposition",
+      "lesson_id": "I06-10",
+      "kind": "concept-svg",
+      "asset": "figures/assets/I06/I06-10-superposition.svg",
+      "generator": null
+    },
+    {
+      "id": "I07-07-three-runs",
+      "lesson_id": "I07-07",
+      "kind": "concept-svg",
+      "asset": "figures/assets/I07/I07-07-three-runs.svg",
+      "generator": null
+    },
+    {
+      "id": "I08-09-evidence-timeline",
+      "lesson_id": "I08-09",
+      "kind": "generated-plot",
+      "asset": "figures/assets/I08/I08-09-evidence-timeline.svg",
+      "generator": "figures/generators/i08_09_evidence_timeline.py"
+    },
+    {
+      "id": "A09-GEO-02-tangent-cotangent",
+      "lesson_id": "A09-GEO-02",
+      "kind": "concept-svg",
+      "asset": "figures/assets/A09-GEO/A09-GEO-02-tangent-cotangent.svg",
+      "generator": null
+    },
+    {
+      "id": "A09-SYM-02-orbit-stabilizer",
+      "lesson_id": "A09-SYM-02",
+      "kind": "concept-svg",
+      "asset": "figures/assets/A09-SYM/A09-SYM-02-orbit-stabilizer.svg",
+      "generator": null
+    }
+  ]
+}

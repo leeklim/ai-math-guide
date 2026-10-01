@@ -110,6 +110,19 @@ $\boldsymbol\Sigma$는 주대각에 특이값을 놓고 나머지 원소를 0으
 
 이다. $\mathbf v_i$ 방향의 단위 입력이 $\mathbf u_i$ 방향으로 가며 길이가 $\sigma_i$배 된다.
 
+### 시각적 직관: 단위원이 타원으로 바뀌는 세 단계
+
+<figure class="lesson-figure" markdown="1">
+
+![A unit circle transformed by V transpose Sigma and U into a rotated ellipse](../../figures/assets/M02/M02-13-svd-three-stage.svg)
+
+<figcaption>Vᵀ는 입력을 오른쪽 특이벡터 좌표에 맞추고, Σ는 축마다 길이를 바꾸며, U는 만들어진 타원을 출력공간의 왼쪽 특이벡터 방향으로 놓는다.</figcaption>
+</figure>
+
+단위원 위의 모든 입력을 한꺼번에 생각하면 SVD의 기하가 분명해진다. $\mathbf V^\top$는 원의 모양을 바꾸지 않고 어떤 입력 방향을 각 특이축으로 읽을지 정한다. $\boldsymbol\Sigma$는 $i$번째 축을 $\sigma_i$배 하므로 원을 축 길이가 $\sigma_i$인 타원으로 만든다. 마지막 $\mathbf U$도 길이를 바꾸지 않고 그 타원을 출력공간에 배치한다.
+
+특이값이 $0$인 축은 타원의 길이가 완전히 사라지는 방향이다. 매우 작은 특이값은 그 방향의 입력 차이가 출력에서 거의 보이지 않는다는 뜻이다. 이 설명은 선형변환의 방향별 증폭에 관한 것이며, 상위 축이 곧바로 사람이 이름 붙일 수 있는 의미 feature라는 결론은 주지 않는다.
+
 ## 핵심 개념 3. 특이값은 대칭행렬의 고유값에서 나온다
 
 \[

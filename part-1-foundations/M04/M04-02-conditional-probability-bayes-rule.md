@@ -160,6 +160,19 @@ P(A\mid B)
 
 $P(A)$는 prior, $P(B\mid A)$는 likelihood에 해당하는 항, $P(A\mid B)$는 posterior이다. $P(B)$는 각 가능한 원인 경로에서 증거 $B$가 나올 전체 확률이다.
 
+### 시각적 직관: 조건을 걸면 기준 집단이 바뀐다
+
+<figure class="lesson-figure" markdown="1">
+
+![A prior population filtered into true positives and false positives that form the observed positive group](../../figures/assets/M04/M04-02-bayes-population.svg)
+
+<figcaption>관측 B가 주어지면 전체 집단이 아니라 B가 나온 집단만 새 분모로 삼는다. 이 집단에는 A에서 온 true positive와 A의 여사건에서 온 false positive가 모두 포함된다.</figcaption>
+</figure>
+
+그림의 왼쪽은 관측 전 집단이므로 $A$의 비율이 prior $P(A)$다. 가운데 두 상자는 각 집단에서 $B$가 나오는 경로를 나타낸다. 오른쪽에서 $B$가 나온 사례만 모으면 그 안의 $A\cap B$ 비율이 posterior $P(A\mid B)$가 된다.
+
+이 그림을 읽을 때 분자만 보아서는 안 된다. 검사 민감도 $P(B\mid A)$가 높아도 $A^c$ 집단이 훨씬 크거나 false-positive rate가 충분히 크면 오른쪽 집단의 상당 부분이 $A^c$에서 올 수 있다. Bayes 규칙의 분모 $P(B)$가 base rate와 모든 대안 경로를 함께 세는 이유다.
+
 ## 핵심 개념 5. 독립은 조건을 알아도 확률이 바뀌지 않는 관계이다
 
 사건 $A$와 $B$가 독립이면

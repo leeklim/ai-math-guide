@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" role="img" aria-labelledby="title desc">
   <title id="title">Basis vectors map to the columns of a matrix</title>
   <desc id="desc">Two coordinate grids show standard basis vectors on the input and the corresponding matrix columns on the output. A vector with coefficients two and one keeps those coefficients after the linear map.</desc>
-  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="context-stroke"/></marker></defs>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto"><path d="M1 0.8L6 3L1 5.2" fill="none" stroke="context-stroke" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
   <rect width="960" height="560" rx="18" fill="#F8FAFC"/>
   <text x="480" y="42" text-anchor="middle" font-family="sans-serif" font-size="26" font-weight="700" fill="#0F172A">The columns of A are the images of the input basis</text>
 
@@ -22,8 +22,8 @@
     <path d="M730 350L790 320" stroke="#2563EB"/><path d="M730 350L790 260" stroke="#D97706"/><path d="M730 350L910 200" stroke="#059669"/>
   </g>
   <g font-family="sans-serif" font-size="18" font-weight="700">
-    <text x="300" y="347" font-size="18" fill="#2563EB">e₁</text><text x="242" y="282" font-size="18" fill="#D97706">e₂</text><text x="330" y="280" font-size="18" fill="#059669">x = 2e₁ + e₂</text>
-    <text x="800" y="316" font-size="18" fill="#2563EB">a₁ = Ae₁</text><text x="798" y="254" font-size="18" fill="#D97706">a₂ = Ae₂</text><text x="780" y="184" font-size="18" fill="#059669">Ax = 2a₁ + a₂</text>
+    <text x="300" y="347" font-size="18" fill="#2563EB">e₁</text><text x="190" y="282" font-size="18" fill="#D97706">e₂</text><text x="274" y="258" font-size="18" fill="#059669">x = 2e₁ + e₂</text>
+    <text x="800" y="316" font-size="18" fill="#2563EB">a₁ = Ae₁</text><text x="744" y="238" font-size="18" fill="#D97706">a₂ = Ae₂</text><text x="770" y="154" font-size="18" fill="#059669">Ax = 2a₁ + a₂</text>
   </g>
   <rect x="430" y="226" width="100" height="104" rx="16" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
   <text x="480" y="270" text-anchor="middle" font-family="sans-serif" font-size="28" font-weight="700" fill="#5B21B6">A</text>

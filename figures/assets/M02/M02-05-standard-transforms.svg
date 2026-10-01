@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 500" role="img" aria-labelledby="title desc">
   <title id="title">Scaling rotation and projection as matrix transformations</title>
   <desc id="desc">Three coordinate panels compare anisotropic scaling, a ninety degree rotation, and projection onto the horizontal axis using the same input vector.</desc>
-  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="context-stroke"/></marker></defs>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto"><path d="M1 0.8L6 3L1 5.2" fill="none" stroke="context-stroke" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
   <rect width="1080" height="500" rx="18" fill="#F8FAFC"/>
   <text x="540" y="42" text-anchor="middle" font-family="sans-serif" font-size="26" font-weight="700" fill="#0F172A">The same vector under three matrix transformations</text>
   <g font-family="sans-serif" text-anchor="middle">

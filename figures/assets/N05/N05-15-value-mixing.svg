@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 520" role="img" aria-labelledby="title desc">
+  <title id="title">One attention row mixes allowed value vectors</title>
+  <desc id="desc">The attention weights for query sat multiply three allowed value vectors and one blocked future value, then add to form the output vector for sat.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#475569"/></marker></defs>
+  <rect width="1080" height="520" rx="18" fill="#F8FAFC"/>
+  <text x="540" y="46" text-anchor="middle" font-family="sans-serif" font-size="26" font-weight="700" fill="#0F172A">An attention row becomes coefficients for value mixing</text>
+  <text x="540" y="82" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#334155">Example query: “sat”</text>
+
+  <g font-family="sans-serif" text-anchor="middle">
+    <rect x="50" y="138" width="150" height="64" rx="13" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="2"/><text x="125" y="178" font-size="21" font-weight="700" fill="#5B21B6">0.40</text>
+    <rect x="50" y="220" width="150" height="64" rx="13" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="2"/><text x="125" y="260" font-size="21" font-weight="700" fill="#5B21B6">0.27</text>
+    <rect x="50" y="302" width="150" height="64" rx="13" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="2"/><text x="125" y="342" font-size="21" font-weight="700" fill="#5B21B6">0.33</text>
+    <rect x="50" y="384" width="150" height="64" rx="13" fill="#FEE2E2" stroke="#EF4444" stroke-width="2" stroke-dasharray="8 6"/><text x="125" y="424" font-size="21" font-weight="700" fill="#991B1B">0</text>
+    <text x="125" y="116" font-size="20" font-weight="700" fill="#0F172A">weights A(sat, j)</text>
+
+    <g font-size="18" font-weight="700"><text x="330" y="178" fill="#1E3A8A">v(The)</text><text x="330" y="260" fill="#1E3A8A">v(cat)</text><text x="330" y="342" fill="#1E3A8A">v(sat)</text><text x="330" y="424" fill="#991B1B">v(down)</text></g>
+    <g font-size="22" fill="#334155"><text x="246" y="178">×</text><text x="246" y="260">×</text><text x="246" y="342">×</text><text x="246" y="424">×</text></g>
+
+    <rect x="460" y="140" width="250" height="306" rx="18" fill="#EFF6FF" stroke="#60A5FA" stroke-width="2"/>
+    <text x="585" y="180" font-size="20" font-weight="700" fill="#1E3A8A">weighted value vectors</text>
+    <g font-size="19" fill="#334155"><text x="585" y="238">0.40 v(The)</text><text x="585" y="292">+ 0.27 v(cat)</text><text x="585" y="346">+ 0.33 v(sat)</text><text x="585" y="400" fill="#991B1B">+ 0 v(down)</text></g>
+
+    <rect x="830" y="220" width="200" height="140" rx="18" fill="#DCFCE7" stroke="#22C55E" stroke-width="2"/>
+    <text x="930" y="268" font-size="20" font-weight="700" fill="#14532D">output o(sat)</text><text x="930" y="315" font-size="24" fill="#14532D">Σⱼ A(sat, j) v(j)</text>
+  </g>
+
+  <g fill="none" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"><path d="M372 292H438"/><path d="M734 292H808"/></g>
+  <text x="405" y="270" text-anchor="middle" font-family="sans-serif" font-size="17" font-weight="700" fill="#475569">multiply</text><text x="771" y="270" text-anchor="middle" font-family="sans-serif" font-size="17" font-weight="700" fill="#475569">sum</text>
+  <text x="540" y="486" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#334155">A blocked key contributes nothing even if its value vector is large.</text>
+</svg>

@@ -61,7 +61,7 @@ py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe scripts/figures.py check --reproduce
 ```
 
-개념도와 생성된 그래프의 최종 SVG는 `figures/assets`에 있으며, `figures/manifest.json`이 단원과 생성 코드를 연결한다. 전권 개정 진단과 진행 상태는 `revision/visual-audit.csv`에 기록한다.
+개념도와 생성된 그래프의 최종 SVG는 `figures/assets`에 있으며, `figures/manifest.json`이 단원과 생성 코드를 연결한다. 전권 단원 등급은 `revision/visual-audit.csv`에, 실제 개념별 설명·그림 필요성과 진행 상태는 `revision/concept-audit.csv`에 기록한다.
 
 자동 검사 테스트, 원본 감사, production build와 생성물 검증을 한 번에 실행한다.
 

@@ -48,9 +48,18 @@ attention output은 QK score 하나로 정해지지 않는다. score를 head dim
 
 이다. $d_k$가 커질 때 dot product의 크기가 함께 커지는 효과를 완화한다. 분모는 model dimension $d_{model}$이 아니라 해당 head의 query-key dimension이다.
 
-query와 key의 각 성분이 평균 0, 분산 1이고 서로 독립이라는 단순한 가정에서는 dot product가 $d_k$개 항의 합이므로 분산이 대략 $d_k$에 비례한다. $sqrt{d_k}$로 나누면 score의 전형적인 크기를 dimension에 덜 민감하게 유지할 수 있다. 이 설명은 scaling의 동기를 보이는 근사이며 실제 학습된 성분들이 정확히 독립이라는 주장은 아니다.
+query와 key의 각 성분이 평균 0, 분산 1이고 서로 독립이라는 단순한 가정에서는 dot product가 $d_k$개 항의 합이므로 분산이 대략 $d_k$에 비례한다. $\sqrt{d_k}$로 나누면 score의 전형적인 크기를 dimension에 덜 민감하게 유지할 수 있다. 이 설명은 scaling의 동기를 보이는 근사이며 실제 학습된 성분들이 정확히 독립이라는 주장은 아니다.
 
 scale을 생략해 score 절댓값이 지나치게 커지면 softmax가 한 위치에 거의 몰릴 수 있다. 이때 작은 score 차이도 probability를 극단적으로 바꾸고 gradient가 작아질 수 있다. scaling은 모든 head가 균등한 attention을 갖게 만드는 규칙이 아니라 softmax에 들어가는 logit 크기를 조절하는 규칙이다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Five stages of causal scaled dot product attention with matrix shapes](../../figures/assets/N05/N05-15-attention-pipeline.svg)
+
+<figcaption>score 계산, 크기 조절, 미래 위치 차단, 행별 정규화, value 혼합은 순서가 고정된 서로 다른 연산이다.</figcaption>
+</figure>
+
+앞의 네 단계에서는 sequence 위치 사이의 $T\times T$ 관계를 다룬다. 마지막에만 attention weight와 value가 곱해져 $T\times d_v$ output이 된다. 따라서 mask는 value vector를 지우는 연산이 아니라 softmax에 들어가기 전의 score를 바꾸는 연산이다.
 
 ## 핵심 개념 2. causal mask
 
@@ -69,6 +78,15 @@ M_{ij}=\begin{cases}
 
 실제 floating-point 구현은 $-\infty$ 대신 dtype이 표현할 수 있는 매우 작은 값을 쓰기도 한다. 핵심 불변량은 표현 문자열이 아니라 softmax 뒤 금지 위치의 weight가 0이고 허용 위치의 행 합이 1이라는 사실이다.
 
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Three token-labeled matrices showing raw scores causal masked scores and row-wise attention weights](../../figures/assets/N05/N05-15-causal-mask-matrices.svg)
+
+<figcaption>행은 query, 열은 key다. sat 행의 미래 key down은 일반 score 0.4에서 마스킹된 −∞로, 다시 attention weight 0으로 바뀐다.</figcaption>
+</figure>
+
+보라색 테두리는 query `sat`의 한 행을 세 단계에 걸쳐 추적한다. 이 행에서 `The`, `cat`, `sat`은 현재 또는 과거라서 남고, `down`은 미래라서 빗금으로 표시된다. 금지 위치는 색뿐 아니라 빗금, $-\infty$, 0이라는 수치로도 구분된다. 이처럼 token 이름과 행·열 의미를 함께 적어야 아래쪽 삼각형이 왜 허용 영역인지 읽을 수 있다.
+
 ## 핵심 개념 3. softmax와 value 가중합
 
 \[
@@ -80,17 +98,6 @@ A_{ij}=\frac{\exp(\widetilde S_{ij})}
 
 이다. softmax는 각 query row에서 계산하므로 $\sum_j A_{ij}=1$이다. output row $\mathbf o_i$는 허용된 value row들의 convex combination이다.
 
-### 시각적 직관: score에서 output까지 한 행씩 따라간다
-
-<figure class="lesson-figure" markdown="1">
-
-![Query key scores scaled masked normalized by row and multiplied by value vectors](../../figures/assets/N05/N05-15-attention-pipeline.svg)
-
-<figcaption>QKᵀ를 scale한 뒤 미래 열을 가리고, 각 query 행에 softmax를 적용해 만든 A로 value를 섞는다.</figcaption>
-</figure>
-
-그림의 각 상자는 서로 대체 가능한 설명이 아니라 순서가 고정된 연산이다. scale과 mask는 아직 probability가 아닌 score를 바꾼다. softmax가 끝난 뒤에야 각 행을 확률분포처럼 읽을 수 있고, 마지막 $\mathbf A\mathbf V$에서 그 계수가 실제 vector 내용과 결합된다.
-
 query 위치 $i$의 output을 직접 쓰면
 
 \[
@@ -100,6 +107,15 @@ query 위치 $i$의 output을 직접 쓰면
 \]
 
 이다. 같은 attention weight라도 $\mathbf v_j$가 다르면 output은 달라진다. 반대로 큰 value vector가 있더라도 해당 위치의 weight가 0이면 그 query output에는 들어오지 않는다. attention pattern과 attention output을 분리해야 하는 이유다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The attention row for sat multiplying allowed value vectors and summing to one output vector](../../figures/assets/N05/N05-15-value-mixing.svg)
+
+<figcaption>sat의 attention row는 허용된 value vector 세 개의 계수가 되며, 미래 위치 down의 value는 weight가 0이라 output에 기여하지 않는다.</figcaption>
+</figure>
+
+여기서 $0.40,0.27,0.33$은 vector의 좌표가 아니라 서로 다른 value vector 앞에 붙는 scalar 계수다. 세 weighted vector를 더한 결과가 query `sat`의 output row 하나다. attention map만 보면 어느 위치를 얼마나 참조했는지는 알 수 있지만, 실제로 어떤 방향의 정보가 더해졌는지는 value vector까지 보아야 한다.
 
 ## 예제
 

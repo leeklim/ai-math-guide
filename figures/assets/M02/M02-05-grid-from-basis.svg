@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">A linear map moves an entire grid from two basis images</title>
+  <desc id="desc">A square input grid maps to a slanted output grid. Parallel lines remain parallel, the origin stays fixed, and each output grid direction follows one matrix column.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="context-stroke"/></marker></defs>
+  <rect width="960" height="540" rx="18" fill="#F8FAFC"/>
+  <text x="480" y="44" text-anchor="middle" font-family="sans-serif" font-size="26" font-weight="700" fill="#0F172A">Two basis images determine the whole transformed grid</text>
+  <text x="240" y="92" text-anchor="middle" font-family="sans-serif" font-size="21" font-weight="700" fill="#1E3A8A">Square input grid</text>
+  <text x="720" y="92" text-anchor="middle" font-family="sans-serif" font-size="21" font-weight="700" fill="#065F46">Grid after A</text>
+
+  <g stroke="#CBD5E1" stroke-width="2">
+    <path d="M80 140V460M120 140V460M160 140V460M200 140V460M240 140V460M280 140V460M320 140V460M360 140V460M400 140V460"/>
+    <path d="M80 140H400M80 180H400M80 220H400M80 260H400M80 300H400M80 340H400M80 380H400M80 420H400M80 460H400"/>
+  </g>
+  <g fill="none" stroke="#A7F3D0" stroke-width="2">
+    <path d="M520 460L680 140M560 460L720 140M600 460L760 140M640 460L800 140M680 460L840 140M720 460L880 140"/>
+    <path d="M520 460L880 380M540 420L900 340M560 380L920 300M580 340L940 260M600 300L940 220M620 260L940 180"/>
+  </g>
+  <g stroke="#64748B" stroke-width="2"><path d="M70 300H410M240 470V130"/><path d="M510 460L930 366M600 480L790 100"/></g>
+  <circle cx="240" cy="300" r="7" fill="#0F172A"/><circle cx="700" cy="418" r="7" fill="#0F172A"/>
+  <g fill="none" stroke-width="5" marker-end="url(#arrow)">
+    <path d="M240 300L300 300" stroke="#2563EB"/><path d="M240 300L240 240" stroke="#D97706"/>
+    <path d="M700 418L760 405" stroke="#2563EB"/><path d="M700 418L730 358" stroke="#D97706"/>
+    <path d="M430 300H500" stroke="#7C3AED"/>
+  </g>
+  <text x="305" y="294" font-family="sans-serif" font-size="18" font-weight="700" fill="#2563EB">e₁</text><text x="250" y="235" font-family="sans-serif" font-size="18" font-weight="700" fill="#D97706">e₂</text>
+  <text x="766" y="400" font-family="sans-serif" font-size="18" font-weight="700" fill="#2563EB">a₁</text><text x="738" y="350" font-family="sans-serif" font-size="18" font-weight="700" fill="#D97706">a₂</text>
+  <text x="465" y="278" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#5B21B6">A</text>
+  <text x="480" y="510" text-anchor="middle" font-family="sans-serif" font-size="19" fill="#334155">The origin stays fixed, and straight parallel grid lines remain straight and parallel.</text>
+</svg>

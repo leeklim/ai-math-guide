@@ -16,7 +16,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = ROOT / "figures" / "manifest.json"
 FIGURE_BLOCK_RE = re.compile(
-    r'<figure class="lesson-figure" markdown="1">(?P<body>.*?)</figure>',
+    r'<figure class="[^"]*\blesson-figure\b[^"]*" markdown="1">(?P<body>.*?)</figure>',
     re.DOTALL,
 )
 IMAGE_RE = re.compile(r"!\[(?P<alt>[^\]]+)\]\((?P<path>[^)]+\.svg)\)")
@@ -66,7 +66,7 @@ def safe_repo_path(value: object, *, suffix: str | None = None) -> Path:
     return path
 
 
-def validate_svg(path: Path) -> list[str]:
+def validate_svg(path: Path, *, min_font_size: float | None = None) -> list[str]:
     issues: list[str] = []
     try:
         root = ET.parse(path).getroot()
@@ -85,6 +85,19 @@ def validate_svg(path: Path) -> list[str]:
                 value.startswith(("http:", "https:", "data:", "//"))
             ):
                 issues.append(f"외부 SVG 참조가 있다: {path.relative_to(ROOT)}")
+        if min_font_size is not None and tag == "text":
+            raw_size = element.get("font-size")
+            if raw_size is not None:
+                try:
+                    size = float(raw_size.removesuffix("px"))
+                except ValueError:
+                    issues.append(f"font-size를 수치로 읽을 수 없다: {path.relative_to(ROOT)} -> {raw_size}")
+                else:
+                    if size < min_font_size:
+                        issues.append(
+                            f"font-size가 {min_font_size:g}px보다 작다: "
+                            f"{path.relative_to(ROOT)} -> {size:g}px"
+                        )
     return issues
 
 
@@ -167,7 +180,9 @@ def validate_manifest(*, reproduce: bool) -> dict[str, int]:
         if not asset.exists():
             issues.append(f"figure asset이 없다: {asset_value}")
         else:
-            issues.extend(validate_svg(asset))
+            raw_min_font_size = entry.get("min_font_size")
+            min_font_size = float(raw_min_font_size) if raw_min_font_size is not None else None
+            issues.extend(validate_svg(asset, min_font_size=min_font_size))
 
         generator_value = entry.get("generator")
         if kind == "generated-plot":

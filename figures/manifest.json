@@ -13,7 +13,32 @@
       "lesson_id": "M02-05",
       "kind": "concept-svg",
       "asset": "figures/assets/M02/M02-05-basis-transformation.svg",
-      "generator": null
+      "generator": null,
+      "min_font_size": 16
+    },
+    {
+      "id": "M02-05-grid-from-basis",
+      "lesson_id": "M02-05",
+      "kind": "concept-svg",
+      "asset": "figures/assets/M02/M02-05-grid-from-basis.svg",
+      "generator": null,
+      "min_font_size": 16
+    },
+    {
+      "id": "M02-05-standard-transforms",
+      "lesson_id": "M02-05",
+      "kind": "concept-svg",
+      "asset": "figures/assets/M02/M02-05-standard-transforms.svg",
+      "generator": null,
+      "min_font_size": 16
+    },
+    {
+      "id": "M02-05-linear-affine-nonlinear",
+      "lesson_id": "M02-05",
+      "kind": "concept-svg",
+      "asset": "figures/assets/M02/M02-05-linear-affine-nonlinear.svg",
+      "generator": null,
+      "min_font_size": 16
     },
     {
       "id": "M02-13-svd-three-stage",
@@ -27,7 +52,32 @@
       "lesson_id": "M03-11",
       "kind": "concept-svg",
       "asset": "figures/assets/M03/M03-11-local-linear-map.svg",
-      "generator": null
+      "generator": null,
+      "min_font_size": 16
+    },
+    {
+      "id": "M03-11-jacobian-rows-columns",
+      "lesson_id": "M03-11",
+      "kind": "concept-svg",
+      "asset": "figures/assets/M03/M03-11-jacobian-rows-columns.svg",
+      "generator": null,
+      "min_font_size": 16
+    },
+    {
+      "id": "M03-11-nonlinear-grid",
+      "lesson_id": "M03-11",
+      "kind": "concept-svg",
+      "asset": "figures/assets/M03/M03-11-nonlinear-grid.svg",
+      "generator": null,
+      "min_font_size": 16
+    },
+    {
+      "id": "M03-11-basepoint-error",
+      "lesson_id": "M03-11",
+      "kind": "concept-svg",
+      "asset": "figures/assets/M03/M03-11-basepoint-error.svg",
+      "generator": null,
+      "min_font_size": 16
     },
     {
       "id": "M04-02-bayes-population",
@@ -41,7 +91,24 @@
       "lesson_id": "N05-15",
       "kind": "concept-svg",
       "asset": "figures/assets/N05/N05-15-attention-pipeline.svg",
-      "generator": null
+      "generator": null,
+      "min_font_size": 16
+    },
+    {
+      "id": "N05-15-causal-mask-matrices",
+      "lesson_id": "N05-15",
+      "kind": "concept-svg",
+      "asset": "figures/assets/N05/N05-15-causal-mask-matrices.svg",
+      "generator": null,
+      "min_font_size": 16
+    },
+    {
+      "id": "N05-15-value-mixing",
+      "lesson_id": "N05-15",
+      "kind": "concept-svg",
+      "asset": "figures/assets/N05/N05-15-value-mixing.svg",
+      "generator": null,
+      "min_font_size": 16
     },
     {
       "id": "N05-17-residual-stream",

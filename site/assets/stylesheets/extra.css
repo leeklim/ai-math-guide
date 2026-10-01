@@ -107,6 +107,10 @@
   object-fit: contain;
 }
 
+.md-typeset .lesson-figure > p {
+  margin: 0;
+}
+
 .md-typeset .lesson-figure figcaption {
   margin-top: 0.75rem;
   color: var(--md-default-fg-color--light);
@@ -142,14 +146,13 @@
     padding: 0.65rem 0.55rem 0.6rem;
   }
 
-  .md-typeset .lesson-figure > p {
-    margin: 0;
+  .md-typeset .lesson-figure--wide > p {
     overflow-x: auto;
     scrollbar-width: thin;
   }
 
-  .md-typeset .lesson-figure > p > img {
-    width: 34rem;
+  .md-typeset .lesson-figure--wide > p > img {
+    width: 54rem;
     max-width: none;
   }
 }

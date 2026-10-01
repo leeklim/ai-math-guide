@@ -1,28 +1,33 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
-  <title id="title">A linear transformation is determined by the images of the basis vectors</title>
-  <desc id="desc">The input vector is decomposed along two standard basis vectors, which are mapped to the two columns of matrix A and recombined as the output vector.</desc>
-  <defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="context-stroke"/></marker></defs>
-  <rect width="960" height="540" rx="18" fill="#F8FAFC"/>
-  <text x="170" y="54" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#0F172A">Input basis</text>
-  <text x="790" y="54" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#0F172A">Output basis images</text>
-  <g stroke="#CBD5E1" stroke-width="1">
-    <path d="M50 360H350 M170 90V450"/><path d="M610 360H910 M740 90V450"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" role="img" aria-labelledby="title desc">
+  <title id="title">Basis vectors map to the columns of a matrix</title>
+  <desc id="desc">Two coordinate grids show standard basis vectors on the input and the corresponding matrix columns on the output. A vector with coefficients two and one keeps those coefficients after the linear map.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="context-stroke"/></marker></defs>
+  <rect width="960" height="560" rx="18" fill="#F8FAFC"/>
+  <text x="480" y="42" text-anchor="middle" font-family="sans-serif" font-size="26" font-weight="700" fill="#0F172A">The columns of A are the images of the input basis</text>
+
+  <g stroke="#E2E8F0" stroke-width="1">
+    <path d="M70 130V470M110 130V470M150 130V470M190 130V470M230 130V470M270 130V470M310 130V470M350 130V470M390 130V470"/>
+    <path d="M70 150H390M70 190H390M70 230H390M70 270H390M70 310H390M70 350H390M70 390H390M70 430H390M70 470H390"/>
+    <path d="M570 130V470M610 130V470M650 130V470M690 130V470M730 130V470M770 130V470M810 130V470M850 130V470M890 130V470"/>
+    <path d="M570 150H890M570 190H890M570 230H890M570 270H890M570 310H890M570 350H890M570 390H890M570 430H890M570 470H890"/>
   </g>
-  <g fill="#475569" font-family="sans-serif" font-size="17">
-    <text x="335" y="385">x₁</text><text x="182" y="110">x₂</text><text x="895" y="385">y₁</text><text x="752" y="110">y₂</text>
+  <g stroke="#94A3B8" stroke-width="2">
+    <path d="M70 350H400M230 480V120"/><path d="M560 350H900M730 480V120"/>
   </g>
+  <text x="230" y="92" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#1E3A8A">Input coordinates</text>
+  <text x="730" y="92" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#065F46">Output coordinates</text>
+
   <g fill="none" stroke-linecap="round" stroke-width="5" marker-end="url(#arrow)">
-    <path d="M170 360L285 360" stroke="#2563EB"/><path d="M170 360L170 225" stroke="#D97706"/>
-    <path d="M740 360L855 245" stroke="#2563EB"/><path d="M740 360L655 180" stroke="#D97706"/>
-    <path d="M170 360L285 225" stroke="#059669"/><path d="M740 360L770 65" stroke="#059669"/>
+    <path d="M230 350L290 350" stroke="#2563EB"/><path d="M230 350L230 290" stroke="#D97706"/><path d="M230 350L350 290" stroke="#059669"/>
+    <path d="M730 350L790 320" stroke="#2563EB"/><path d="M730 350L790 260" stroke="#D97706"/><path d="M730 350L910 200" stroke="#059669"/>
   </g>
-  <g font-family="sans-serif" font-size="18" font-weight="600">
-    <text x="290" y="355" fill="#2563EB">e₁</text><text x="180" y="220" fill="#D97706">e₂</text><text x="288" y="218" fill="#059669">x = x₁e₁ + x₂e₂</text>
-    <text x="858" y="240" fill="#2563EB">Ae₁ = a₁</text><text x="620" y="170" fill="#D97706">Ae₂ = a₂</text><text x="785" y="85" fill="#059669">Ax = x₁a₁ + x₂a₂</text>
+  <g font-family="sans-serif" font-size="18" font-weight="700">
+    <text x="300" y="347" font-size="18" fill="#2563EB">e₁</text><text x="242" y="282" font-size="18" fill="#D97706">e₂</text><text x="330" y="280" font-size="18" fill="#059669">x = 2e₁ + e₂</text>
+    <text x="800" y="316" font-size="18" fill="#2563EB">a₁ = Ae₁</text><text x="798" y="254" font-size="18" fill="#D97706">a₂ = Ae₂</text><text x="780" y="184" font-size="18" fill="#059669">Ax = 2a₁ + a₂</text>
   </g>
-  <rect x="405" y="192" width="150" height="100" rx="16" fill="#E0E7FF" stroke="#4F46E5" stroke-width="2"/>
-  <text x="480" y="235" text-anchor="middle" font-family="sans-serif" font-size="29" font-weight="700" fill="#312E81">A</text>
-  <text x="480" y="267" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#475569">linear map</text>
-  <path d="M360 242H395 M565 242H600" stroke="#4F46E5" stroke-width="4" marker-end="url(#arrow)"/>
-  <text x="480" y="478" text-anchor="middle" font-family="sans-serif" font-size="19" fill="#334155">The columns of A tell where the input basis vectors go.</text>
+  <rect x="430" y="226" width="100" height="104" rx="16" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <text x="480" y="270" text-anchor="middle" font-family="sans-serif" font-size="28" font-weight="700" fill="#5B21B6">A</text>
+  <text x="480" y="306" text-anchor="middle" font-family="sans-serif" font-size="17" fill="#475569">linear map</text>
+  <path d="M400 278H420M540 278H560" stroke="#7C3AED" stroke-width="4" marker-end="url(#arrow)"/>
+  <text x="480" y="526" text-anchor="middle" font-family="sans-serif" font-size="19" fill="#334155">The coefficients 2 and 1 stay the same; the basis vectors change to the columns a₁ and a₂.</text>
 </svg>

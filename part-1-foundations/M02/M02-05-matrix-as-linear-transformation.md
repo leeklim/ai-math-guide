@@ -130,7 +130,7 @@ x_1\mathbf a_1+\cdots+x_n\mathbf a_n
 
 ### 시각적 직관: 기저벡터의 도착점이 변환 전체를 정한다
 
-<figure class="lesson-figure" markdown="1">
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
 
 ![Two input basis vectors mapped to the columns of a matrix and recombined into the output](../../figures/assets/M02/M02-05-basis-transformation.svg)
 
@@ -138,6 +138,17 @@ x_1\mathbf a_1+\cdots+x_n\mathbf a_n
 </figure>
 
 그림의 파란색과 주황색 화살표는 각각 한 기저벡터의 이동을 나타낸다. 초록색 입력 벡터를 따로 외워서 이동시키는 규칙은 필요 없다. 선형성 때문에 입력에서 사용한 계수 $x_1,x_2$를 출력에서도 그대로 사용해 두 열을 결합하면 된다.
+
+표준기저의 도착점은 두 화살표만 정하지 않는다. 정수 격자의 모든 점은 $\mathbf e_1,\mathbf e_2$의 선형결합이므로 격자 전체의 도착점도 함께 정해진다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A square coordinate grid mapped to a slanted grid by two matrix columns](../../figures/assets/M02/M02-05-grid-from-basis.svg)
+
+<figcaption>입력의 가로·세로 격자 방향이 두 열벡터 a₁, a₂ 방향으로 이동한다. 원점은 그대로이고 평행한 직선들은 변환 뒤에도 평행하다.</figcaption>
+</figure>
+
+출력 격자의 파란 방향은 첫째 열 $\mathbf a_1$, 주황 방향은 둘째 열 $\mathbf a_2$를 따른다. 임의의 입력점 $(x_1,x_2)$은 출력에서 $x_1\mathbf a_1+x_2\mathbf a_2$에 놓인다. 행렬의 두 열을 알면 격자의 모든 점을 하나씩 계산하지 않아도 전체 변형을 예측할 수 있다.
 
 여기서 휘어지는 것은 좌표선이 아니다. 하나의 고정 행렬이 수행하는 선형변환은 원점을 지나는 직선을 다시 직선으로 보낸다. 비선형함수를 뒤에 적용하거나 위치마다 서로 다른 Jacobian을 사용해 국소 변환을 이어 붙일 때에야 전체 mapping이 직선을 곡선으로 보낼 수 있다.
 
@@ -221,6 +232,17 @@ $x$축 위로 투영하는 행렬은
 
 이므로 세로 성분을 없애고 가로 성분을 남긴다.
 
+같은 입력 벡터를 확대, 회전, 투영하면 결과의 길이와 방향이 서로 다르게 바뀐다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![One vector scaled rotated and projected in three coordinate panels](../../figures/assets/M02/M02-05-standard-transforms.svg)
+
+<figcaption>점선은 같은 입력 벡터다. 대각행렬은 좌표축별 길이를 바꾸고, 회전행렬은 길이와 각도를 보존하며, 투영행렬은 수직 성분을 제거한다.</figcaption>
+</figure>
+
+회전은 두 좌표를 섞으면서 길이를 보존한다. 투영은 한 방향의 성분을 버리므로 서로 다른 여러 입력이 같은 출력으로 갈 수 있다. 행렬이라는 공통 표현을 쓰더라도 보존되는 정보와 사라지는 정보는 변환마다 다르다.
+
 ## 핵심 개념 6. 행렬곱은 변환의 합성을 나타낸다
 
 \[
@@ -270,6 +292,15 @@ ReLU 같은 활성화함수를 추가한
 \]
 
 는 일반적으로 비선형 함수다. 행렬이 공간을 선형적으로 바꾼다는 설명은 $\mathbf W\mathbf x$ 부분에 적용된다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Linear affine and nonlinear maps compared through transformed coordinate grids](../../figures/assets/M02/M02-05-linear-affine-nonlinear.svg)
+
+<figcaption>선형변환은 원점을 고정하고 직선 격자를 직선으로 보낸다. 아핀변환은 같은 격자를 이동시키며, 비선형함수는 위치에 따라 격자 방향을 다르게 바꿀 수 있다.</figcaption>
+</figure>
+
+왼쪽과 가운데 격자는 모두 직선과 평행 관계를 유지한다. 차이는 원점의 도착점이다. 오른쪽에서는 위치에 따라 변환 방향이 달라지므로 하나의 고정 행렬로 전체 mapping을 표현할 수 없다. 이 차이가 뒤에서 Jacobian을 기준점마다 계산하는 이유다.
 
 ## 예제 1. 행렬의 열에서 변환 읽기
 

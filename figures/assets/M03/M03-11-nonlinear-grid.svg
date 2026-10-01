@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">A nonlinear map bends a coordinate grid</title>
+  <desc id="desc">A square input coordinate grid maps to a curved output grid. A small highlighted square around x zero maps to a curved patch around f of x zero.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="context-stroke"/></marker></defs>
+  <rect width="960" height="540" rx="18" fill="#F8FAFC"/>
+  <text x="480" y="44" text-anchor="middle" font-family="sans-serif" font-size="26" font-weight="700" fill="#0F172A">A nonlinear map changes direction from place to place</text>
+  <text x="235" y="92" text-anchor="middle" font-family="sans-serif" font-size="21" font-weight="700" fill="#1E3A8A">Input coordinates</text>
+  <text x="725" y="92" text-anchor="middle" font-family="sans-serif" font-size="21" font-weight="700" fill="#065F46">Curved output coordinates</text>
+  <g stroke="#CBD5E1" stroke-width="2"><path d="M75 140V460M115 140V460M155 140V460M195 140V460M235 140V460M275 140V460M315 140V460M355 140V460M395 140V460"/><path d="M75 140H395M75 180H395M75 220H395M75 260H395M75 300H395M75 340H395M75 380H395M75 420H395M75 460H395"/></g>
+  <g fill="none" stroke="#A7F3D0" stroke-width="2"><path d="M565 450C585 350 560 240 590 140M605 460C625 350 600 240 630 130M645 465C665 350 640 240 670 125M685 465C705 350 680 240 710 125M725 460C745 350 720 240 750 130M765 450C785 350 760 240 790 140M805 435C825 340 800 245 830 155M845 415C865 330 840 250 870 175"/><path d="M555 420C640 390 760 430 875 350M555 375C640 345 760 390 875 310M560 330C650 300 765 345 880 270M570 285C655 255 770 300 880 230M580 240C665 210 780 255 875 195M590 195C675 165 790 210 865 165"/></g>
+  <rect x="215" y="280" width="80" height="80" fill="#EDE9FE" fill-opacity="0.75" stroke="#7C3AED" stroke-width="3"/>
+  <path d="M680 295C705 282 735 288 760 275L770 355C740 370 710 360 685 375Z" fill="#EDE9FE" fill-opacity="0.75" stroke="#7C3AED" stroke-width="3"/>
+  <circle cx="255" cy="320" r="7" fill="#0F172A"/><circle cx="725" cy="330" r="7" fill="#0F172A"/>
+  <text x="245" y="390" font-family="sans-serif" font-size="18" font-weight="700" fill="#6D28D9">small neighborhood around x₀</text>
+  <text x="682" y="405" font-family="sans-serif" font-size="18" font-weight="700" fill="#6D28D9">curved patch around f(x₀)</text>
+  <path d="M420 300H535" stroke="#475569" stroke-width="4" marker-end="url(#arrow)"/>
+  <text x="478" y="278" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="700" fill="#334155">nonlinear f</text>
+  <text x="480" y="510" text-anchor="middle" font-family="sans-serif" font-size="19" fill="#334155">One fixed matrix cannot describe the whole curved grid.</text>
+</svg>

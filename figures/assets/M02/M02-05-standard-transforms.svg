@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 500" role="img" aria-labelledby="title desc">
+  <title id="title">Scaling rotation and projection as matrix transformations</title>
+  <desc id="desc">Three coordinate panels compare anisotropic scaling, a ninety degree rotation, and projection onto the horizontal axis using the same input vector.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="context-stroke"/></marker></defs>
+  <rect width="1080" height="500" rx="18" fill="#F8FAFC"/>
+  <text x="540" y="42" text-anchor="middle" font-family="sans-serif" font-size="26" font-weight="700" fill="#0F172A">The same vector under three matrix transformations</text>
+  <g font-family="sans-serif" text-anchor="middle">
+    <text x="190" y="88" font-size="21" font-weight="700" fill="#1E3A8A">Scale</text><text x="540" y="88" font-size="21" font-weight="700" fill="#5B21B6">Rotate 90°</text><text x="890" y="88" font-size="21" font-weight="700" fill="#065F46">Project to x-axis</text>
+  </g>
+  <g stroke="#E2E8F0" stroke-width="1">
+    <path d="M60 150H320M60 200H320M60 250H320M60 300H320M60 350H320M60 400H320M90 120V430M140 120V430M190 120V430M240 120V430M290 120V430"/>
+    <path d="M410 150H670M410 200H670M410 250H670M410 300H670M410 350H670M410 400H670M440 120V430M490 120V430M540 120V430M590 120V430M640 120V430"/>
+    <path d="M760 150H1020M760 200H1020M760 250H1020M760 300H1020M760 350H1020M760 400H1020M790 120V430M840 120V430M890 120V430M940 120V430M990 120V430"/>
+  </g>
+  <g stroke="#94A3B8" stroke-width="2"><path d="M50 300H330M190 440V110"/><path d="M400 300H680M540 440V110"/><path d="M750 300H1030M890 440V110"/></g>
+  <g fill="none" stroke-linecap="round" stroke-width="5" marker-end="url(#arrow)">
+    <path d="M190 300L240 250" stroke="#64748B" stroke-dasharray="8 7"/><path d="M190 300L290 275" stroke="#2563EB"/>
+    <path d="M540 300L590 250" stroke="#64748B" stroke-dasharray="8 7"/><path d="M540 300L490 250" stroke="#7C3AED"/>
+    <path d="M890 300L940 250" stroke="#64748B" stroke-dasharray="8 7"/><path d="M890 300L940 300" stroke="#059669"/>
+  </g>
+  <g font-family="sans-serif" font-size="17" text-anchor="middle">
+    <text x="190" y="466" font-size="17" fill="#334155">D stretches each coordinate separately</text><text x="540" y="466" font-size="17" fill="#334155">R preserves length and angle</text><text x="890" y="466" font-size="17" fill="#334155">P removes the vertical component</text>
+  </g>
+</svg>

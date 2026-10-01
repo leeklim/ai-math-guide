@@ -34,6 +34,9 @@ try {
     & $Python "scripts/figures.py" check
     if ($LASTEXITCODE -ne 0) { throw "그림 감사가 실패했습니다." }
 
+    & $Python "scripts/concepts.py" check
+    if ($LASTEXITCODE -ne 0) { throw "개념별 개정 대장 검사가 실패했습니다." }
+
     & $Python "scripts/site.py" prepare
     if ($LASTEXITCODE -ne 0) { throw "사이트 staging 생성이 실패했습니다." }
 

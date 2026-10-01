@@ -131,6 +131,15 @@ $j$번째 열은 입력 좌표 $x_j$만 변화시켰을 때 모든 출력 성분
 
 행은 scalar 출력 하나를 측정하고, 열은 입력 방향 하나가 만드는 vector 출력을 기록한다.
 
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A two-dimensional input, a three-by-two Jacobian, and a three-dimensional output with rows and columns highlighted](../../figures/assets/M03/M03-11-jacobian-rows-columns.svg)
+
+<figcaption>열 하나는 입력 방향 하나가 만드는 전체 출력 변화를, 행 하나는 출력 성분 하나가 입력 변화를 측정하는 방식을 나타낸다.</figcaption>
+</figure>
+
+그림의 파란 첫째 열은 $\mathbf e_1$ 방향으로 움직였을 때 세 출력 성분이 함께 얼마나 변하는지를 모은다. 주황 첫째 행은 같은 입력 변화에서 출력 $f_1$만 어떻게 변하는지를 읽는다. 같은 배열을 열로 읽을 때는 vector 출력의 변화이고, 행으로 읽을 때는 scalar 출력의 differential이다.
+
 ## 핵심 개념 3. Jacobian은 국소 선형화를 계산한다
 
 $f$가 $\mathbf x$에서 미분 가능하면
@@ -164,18 +173,36 @@ shape은
 
 를 Jacobian-vector product(JVP)라고 한다. JVP는 $\mathbf v$ 방향의 출력 변화율이다. 큰 Jacobian을 만들지 않고 JVP를 계산하는 방법은 M03-13에서 다룬다.
 
-### 시각적 직관: 비선형함수를 한 점에서 선형으로 펼친다
+### 시각적 직관: 휘어진 좌표격자를 한 점에서 곧게 편다
 
-<figure class="lesson-figure" markdown="1">
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A square input grid transformed into a curved output grid with one small neighborhood highlighted](../../figures/assets/M03/M03-11-nonlinear-grid.svg)
+
+<figcaption>비선형함수는 입력의 곧은 격자를 휘어진 격자로 보낼 수 있지만, 한 점 주변의 작은 영역은 평행사변형에 가까워진다.</figcaption>
+</figure>
+
+왼쪽의 같은 크기 정사각형들이 오른쪽에서는 위치에 따라 다른 방향과 크기로 휘어진다. 따라서 전체 변환을 행렬 하나로 나타낼 수는 없다. 다만 보라색 영역처럼 기준점 주변을 충분히 작게 보면, 휘어진 경계의 1차 변화만 남겨 선형변환으로 근사할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
 
 ![A nonlinear function and its Jacobian mapping a small input displacement to a local output displacement](../../figures/assets/M03/M03-11-local-linear-map.svg)
 
-<figcaption>기준점 x 근처의 작은 입력 변화 Δx는 Jacobian을 거쳐 1차 출력 변화 J_f(x)Δx로 옮겨진다.</figcaption>
+<figcaption>작은 입력 사각형의 두 변은 실제 함수에서 조금 휘지만, Jacobian은 같은 두 변을 평행사변형의 두 변으로 보낸다.</figcaption>
 </figure>
 
-그림에서 위쪽 화살표는 실제 비선형함수 $f$가 두 점을 보내는 결과이고, 아래쪽 점선은 기준점에서 만든 선형 근사다. Jacobian은 입력점과 출력점을 직접 대응시키는 새 모델이 아니라, 이미 정한 기준점 $\mathbf x$에서 **변화량**을 대응시키는 선형사상이다.
+입력 사각형의 두 변 $\mathbf e_1,\mathbf e_2$는 Jacobian을 거쳐 각각 $\mathbf J_f(\mathbf x)\mathbf e_1$, $\mathbf J_f(\mathbf x)\mathbf e_2$가 된다. 두 벡터가 만드는 평행사변형이 실제로 휘어진 작은 출력 영역의 1차 근사다. Jacobian은 입력점과 출력점을 직접 대응시키는 새 모델이 아니라, 이미 정한 기준점 $\mathbf x$에서 **변화량**을 대응시키는 선형사상이다.
 
 기준점을 바꾸면 일반적으로 Jacobian도 달라진다. 그러므로 여러 점의 국소 선형화를 이어서 본 결과를 하나의 전역 행렬처럼 해석해서는 안 된다. $\Delta\mathbf x$가 충분히 작다는 조건과 어느 점에서 Jacobian을 계산했는지를 함께 기록해야 한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two base points on a nonlinear curve with different tangent lines and a comparison of small and large displacement errors](../../figures/assets/M03/M03-11-basepoint-error.svg)
+
+<figcaption>기준점이 달라지면 접선과 Jacobian이 달라지고, 같은 기준점에서도 이동량이 커질수록 선형 근사의 오차가 커진다.</figcaption>
+</figure>
+
+왼쪽은 같은 함수라도 기준점 $x_a$와 $x_b$에서 기울기가 다름을 보여 준다. 오른쪽에서 작은 이동은 접선과 실제 곡선이 거의 겹치지만, 큰 이동은 둘의 차이가 눈에 띈다. 그래서 Jacobian으로 민감도를 말할 때는 기준점과 변화 크기를 생략할 수 없다.
 
 ## 핵심 개념 4. scalar 함수의 Jacobian은 gradient의 전치다
 

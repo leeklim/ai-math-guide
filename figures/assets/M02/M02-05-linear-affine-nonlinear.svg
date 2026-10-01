@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 520" role="img" aria-labelledby="title desc">
+  <title id="title">Linear affine and nonlinear maps transform coordinate grids differently</title>
+  <desc id="desc">A linear map keeps the origin fixed and the grid straight, an affine map shifts a straight grid, and a nonlinear map bends grid lines so one fixed matrix cannot describe the whole map.</desc>
+  <rect width="1080" height="520" rx="18" fill="#F8FAFC"/>
+  <text x="540" y="42" text-anchor="middle" font-family="sans-serif" font-size="26" font-weight="700" fill="#0F172A">Linear, affine, and nonlinear maps leave different geometric signatures</text>
+  <g font-family="sans-serif" text-anchor="middle"><text x="190" y="88" font-size="21" font-weight="700" fill="#1E3A8A">Linear: Ax</text><text x="540" y="88" font-size="21" font-weight="700" fill="#5B21B6">Affine: Ax + b</text><text x="890" y="88" font-size="21" font-weight="700" fill="#B45309">Nonlinear: f(x)</text></g>
+  <g fill="none" stroke-width="2">
+    <g stroke="#93C5FD"><path d="M70 410L210 130M110 430L250 150M150 430L290 150M190 430L330 150"/><path d="M70 410L330 350M80 360L340 300M90 310L350 250M100 260L360 200"/></g>
+    <g stroke="#C4B5FD"><path d="M420 390L560 110M460 410L600 130M500 410L640 130M540 410L680 130"/><path d="M420 390L680 330M430 340L690 280M440 290L700 230M450 240L710 180"/></g>
+    <g stroke="#FBBF24"><path d="M780 420C820 350 800 220 830 130M830 430C870 350 850 220 880 120M880 430C920 350 900 220 930 130M930 420C970 350 950 220 980 150"/><path d="M770 390C840 360 910 390 1000 330M770 340C840 300 910 340 1000 270M780 285C850 250 920 285 1000 210M790 230C860 195 930 220 990 160"/></g>
+  </g>
+  <g font-family="sans-serif" font-size="18" text-anchor="middle" fill="#334155">
+    <text x="190" y="474" font-size="18">origin fixed; lines stay straight</text><text x="540" y="474" font-size="18">straight grid shifted by b</text><text x="890" y="474" font-size="18">local direction changes with position</text>
+  </g>
+  <circle cx="190" cy="382" r="7" fill="#0F172A"/><circle cx="520" cy="367" r="7" fill="#7C3AED"/>
+  <text x="205" y="404" font-family="sans-serif" font-size="16" fill="#0F172A">0 → 0</text><text x="545" y="393" font-family="sans-serif" font-size="16" fill="#5B21B6">0 → b</text>
+</svg>

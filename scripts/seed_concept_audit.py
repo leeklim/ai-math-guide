@@ -78,6 +78,74 @@ VISUAL_KEYWORDS = (
     "Jacobian",
     "spectrum",
 )
+VISUAL_CONCEPT_OVERRIDES = {
+    "M00-03": (1,),
+    "M00-04": (1, 2),
+    "M00-05": (4,),
+    "M00-06": (2,),
+    "M00-07": (3,),
+    "M00-08": (1, 5),
+    "M00-09": (1, 8),
+    "M00-10": (3,),
+    "M01-01": (5,),
+    "M01-02": (2, 4),
+    "M01-03": (1, 3),
+    "M01-04": (2, 5),
+    "M01-05": (2,),
+    "M01-06": (1, 2),
+    "M01-07": (1, 3),
+    "M01-08": (2, 7),
+    "M01-09": (2, 4),
+    "M01-10": (2, 4),
+    "M01-11": (3, 4, 5),
+    "M01-12": (1, 3),
+    "M01-13": (3, 4),
+    "M02-01": (3, 5),
+    "M02-02": (3, 4),
+    "M02-03": (4, 6),
+    "M02-04": (3, 4),
+    "M02-06": (3, 6),
+    "M02-07": (1, 5, 6),
+    "M02-08": (1, 3, 5),
+    "M02-09": (3, 4, 5),
+    "M02-10": (2, 3, 4),
+    "M02-11": (1, 4, 5),
+    "M02-12": (3, 5),
+    "M02-13": (2, 5, 6),
+    "M02-14": (1, 4, 7),
+    "M02-15": (2, 5),
+    "M03-01": (3,),
+    "M03-02": (1, 3),
+    "M03-03": (1, 2, 3),
+    "M03-04": (3, 4),
+    "M03-05": (1, 2, 3),
+    "M03-06": (2, 6),
+    "M03-07": (1, 3, 5),
+    "M03-08": (1, 4),
+    "M03-09": (1, 4),
+    "M03-10": (1, 2, 5),
+    "M03-12": (3, 5, 6),
+    "M03-13": (1, 2, 7),
+    "M03-14": (3, 4, 5),
+    "M03-15": (2, 6),
+    "M04-01": (2, 3),
+    "M04-02": (1, 4),
+    "M04-03": (1, 3),
+    "M04-04": (1, 4, 6),
+    "M04-05": (1, 2, 4),
+    "M04-06": (1, 5, 6),
+    "M04-07": (2, 3),
+    "M04-08": (5, 6),
+    "M04-09": (1, 4),
+    "M04-10": (2, 6),
+    "M04-11": (1, 3),
+    "M04-12": (2, 4),
+    "M04-13": (1, 5),
+    "M04-14": (2, 5),
+    "M04-15": (3, 6),
+    "M04-16": (1, 3),
+    "M04-17": (2, 5),
+}
 
 
 def section(text: str, heading: str) -> str:
@@ -189,9 +257,27 @@ def candidate_lessons() -> list[tuple[str, str, Path]]:
     return sorted(lessons)
 
 
-def visual_indices(concepts: list[tuple[str, str]], visual_grade: str) -> set[int]:
+def visual_indices(
+    lesson_id: str, concepts: list[tuple[str, str]], visual_grade: str
+) -> set[int]:
     requested = {"V0": 0, "V1": 1, "V2": 2, "V3": 3}[visual_grade]
     requested = min(requested, len(concepts))
+    if lesson_id in VISUAL_CONCEPT_OVERRIDES:
+        chosen = {index - 1 for index in VISUAL_CONCEPT_OVERRIDES[lesson_id]}
+        if visual_grade == "V0" and chosen:
+            raise ValueError(
+                f"{lesson_id}: V0 lesson cannot select visual concepts"
+            )
+        if visual_grade != "V0" and len(chosen) < requested:
+            raise ValueError(
+                f"{lesson_id}: {visual_grade} needs at least {requested} visual concepts, "
+                f"but the override selects {len(chosen)}"
+            )
+        if chosen and max(chosen) >= len(concepts):
+            raise ValueError(
+                f"{lesson_id}: visual concept override exceeds {len(concepts)} concepts"
+            )
+        return chosen
     scored = []
     for index, (name, _) in enumerate(concepts):
         score = sum(keyword.lower() in name.lower() for keyword in VISUAL_KEYWORDS)
@@ -224,7 +310,7 @@ def build_rows() -> list[dict[str, str]]:
         text = path.read_text(encoding="utf-8")
         concepts = lesson_concepts(text, lesson_title)
         lesson_plan = visual_audit[lesson_id]
-        visual_set = visual_indices(concepts, lesson_plan["visual_grade"])
+        visual_set = visual_indices(lesson_id, concepts, lesson_plan["visual_grade"])
         known_assets = manifest_assets.get(lesson_id, [])
         used_assets = 0
 

@@ -51,6 +51,19 @@ estimated_time: "60~90분"
 
 개념이 성립하는 대상과 조건을 명시한다.
 
+### 시각적 직관
+
+공간 관계, 계산 흐름이나 비교 구조를 그림으로 보아야 이해가 빨라지는 경우에만 사용한다. 그림이 필요하지 않으면 이 절을 생략한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Descriptive English alt text](../../figures/assets/stage/lesson-id-figure.svg)
+
+<figcaption>그림을 읽는 순서와 개념적 의미를 설명하는 한국어 캡션.</figcaption>
+</figure>
+
+본문에서 그림의 화살표, 축 또는 비교 대상을 직접 설명한다. 그림 내부 라벨은 영어, 캡션은 한국어로 쓴다.
+
 ### 수식 읽기
 
 \[
@@ -208,3 +221,4 @@ estimated_time: "60~90분"
 - [ ] Common spoken reading이 실제 영어 학술 발화이며 한글 음역이나 기계적 직역을 포함하지 않는다.
 - [ ] 선수지식 밖의 내용을 몰래 요구하지 않는다.
 - [ ] 내부 링크와 수식 렌더링을 확인했다.
+- [ ] 그림이 있다면 본문 해설·영어 대체 텍스트·한국어 캡션과 재현 경로를 확인했다.

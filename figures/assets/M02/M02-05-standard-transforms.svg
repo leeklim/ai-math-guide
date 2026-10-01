@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 500" role="img" aria-labelledby="title desc">
   <title id="title">Scaling rotation and projection as matrix transformations</title>
   <desc id="desc">Three coordinate panels compare anisotropic scaling, a ninety degree rotation, and projection onto the horizontal axis using the same input vector.</desc>
-  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto"><path d="M1 0.8L6 3L1 5.2" fill="none" stroke="context-stroke" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
   <rect width="1080" height="500" rx="18" fill="#F8FAFC"/>
   <text x="540" y="42" text-anchor="middle" font-family="sans-serif" font-size="26" font-weight="700" fill="#0F172A">The same vector under three matrix transformations</text>
   <g font-family="sans-serif" text-anchor="middle">
@@ -13,7 +13,7 @@
     <path d="M760 150H1020M760 200H1020M760 250H1020M760 300H1020M760 350H1020M760 400H1020M790 120V430M840 120V430M890 120V430M940 120V430M990 120V430"/>
   </g>
   <g stroke="#94A3B8" stroke-width="2"><path d="M50 300H330M190 440V110"/><path d="M400 300H680M540 440V110"/><path d="M750 300H1030M890 440V110"/></g>
-  <g fill="none" stroke-linecap="round" stroke-width="5" marker-end="url(#arrow)">
+  <g fill="none" stroke-linecap="butt" stroke-width="5" marker-end="url(#arrow)">
     <path d="M190 300L240 250" stroke="#64748B" stroke-dasharray="8 7"/><path d="M190 300L290 275" stroke="#2563EB"/>
     <path d="M540 300L590 250" stroke="#64748B" stroke-dasharray="8 7"/><path d="M540 300L490 250" stroke="#7C3AED"/>
     <path d="M890 300L940 250" stroke="#64748B" stroke-dasharray="8 7"/><path d="M890 300L940 300" stroke="#059669"/>

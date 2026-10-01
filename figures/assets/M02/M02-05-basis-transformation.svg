@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" role="img" aria-labelledby="title desc">
   <title id="title">Basis vectors map to the columns of a matrix</title>
   <desc id="desc">Two coordinate grids show standard basis vectors on the input and the corresponding matrix columns on the output. A vector with coefficients two and one keeps those coefficients after the linear map.</desc>
-  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto"><path d="M1 0.8L6 3L1 5.2" fill="none" stroke="context-stroke" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
   <rect width="960" height="560" rx="18" fill="#F8FAFC"/>
   <text x="480" y="42" text-anchor="middle" font-family="sans-serif" font-size="26" font-weight="700" fill="#0F172A">The columns of A are the images of the input basis</text>
 
@@ -17,7 +17,7 @@
   <text x="230" y="92" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#1E3A8A">Input coordinates</text>
   <text x="730" y="92" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#065F46">Output coordinates</text>
 
-  <g fill="none" stroke-linecap="round" stroke-width="5" marker-end="url(#arrow)">
+  <g fill="none" stroke-linecap="butt" stroke-width="5" marker-end="url(#arrow)">
     <path d="M230 350L290 350" stroke="#2563EB"/><path d="M230 350L230 290" stroke="#D97706"/><path d="M230 350L350 290" stroke="#059669"/>
     <path d="M730 350L790 320" stroke="#2563EB"/><path d="M730 350L790 260" stroke="#D97706"/><path d="M730 350L910 200" stroke="#059669"/>
   </g>

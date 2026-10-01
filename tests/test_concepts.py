@@ -13,11 +13,11 @@ SPEC.loader.exec_module(CONCEPTS)
 
 
 class ConceptAuditTests(unittest.TestCase):
-    def test_pilot_concept_rows_are_valid(self) -> None:
+    def test_full_concept_inventory_is_valid(self) -> None:
         summary = CONCEPTS.validate_audit()
-        self.assertEqual(summary["concepts"], 20)
-        self.assertEqual(summary["lessons"], 3)
-        self.assertEqual(summary["visual_concepts"], 14)
+        self.assertGreater(summary["concepts"], 500)
+        self.assertEqual(summary["lessons"], 199)
+        self.assertGreater(summary["visual_concepts"], 150)
 
 
 if __name__ == "__main__":

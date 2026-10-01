@@ -93,12 +93,30 @@ def validate_audit(*, require_verified: bool = False) -> dict[str, int]:
             if not row["visual_question"] or not row["visual_form"] or not row["planned_asset"]:
                 issues.append(f"{line_number}행 필수 시각화 정보가 비어 있다: {key}")
             for asset in row["planned_asset"].split(";"):
-                if asset not in known_assets:
+                expected_prefix = f"figures/assets/{row['lesson_id'].rsplit('-', 1)[0]}/"
+                if not asset.startswith(expected_prefix) or not asset.endswith(".svg"):
+                    issues.append(f"{line_number}행 planned asset 경로가 잘못됐다: {asset}")
+                if row["status"] == "verified" and asset not in known_assets:
                     issues.append(f"{line_number}행 asset이 manifest에 없다: {asset}")
         elif row["planned_asset"]:
             issues.append(f"{line_number}행 V0 concept에 asset이 있다: {key}")
         if not row["concept_name"] or not row["evidence_source"] or not row["rationale"]:
             issues.append(f"{line_number}행 필수 설명이 비어 있다: {key}")
+
+    missing_lessons = sorted(known_lessons - covered_lessons)
+    extra_lessons = sorted(covered_lessons - known_lessons)
+    if missing_lessons:
+        issues.append(f"개념 대장에서 빠진 단원이 있다: {missing_lessons}")
+    if extra_lessons:
+        issues.append(f"개념 대장에 알 수 없는 단원이 있다: {extra_lessons}")
+
+    by_lesson: dict[str, list[str]] = {}
+    for row in rows:
+        by_lesson.setdefault(row["lesson_id"], []).append(row["concept_id"])
+    for lesson_id, concept_ids in by_lesson.items():
+        expected = [f"C{index:02d}" for index in range(1, len(concept_ids) + 1)]
+        if concept_ids != expected:
+            issues.append(f"{lesson_id} concept_id가 C01부터 연속되지 않는다: {concept_ids}")
 
     if issues:
         raise ConceptAuditError("concept audit 실패:\n- " + "\n- ".join(issues))

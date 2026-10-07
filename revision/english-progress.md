@@ -175,6 +175,16 @@
 ## 2026-10-07 — A09-RMT 진행 중
 
 - KER 병합 snapshot 성공 후 RMT8개 집필을 시작했다. 두 작성자가01~03/04~08을 나누며 별도 검토자는01~06, 작성하지 않은 메인은07~08을 대조한다. 01~03은 독립 전문 대조와 국소 보존/lint를 교정 없이 통과했고, KER 완료 커밋 뒤 해당 reviewed 기록을 반영한다. 메인은07~08 한국어 원문을 끝까지 읽어 covariance·weight·Hessian spectrum, finite-sample null과 극한 MP 경계, prompt 단위·좌표 정렬·전처리 고정·미측정 결과의 구분을 준비했다.
+- KER 완료본과 LRN 개념별 메모 복원 기록을 로컬 commit `24e1e9d`로 저장하고 RMT reviewed 대장을 반영했다. RMT8개 모두 독립 전문 대조를 교정 없이 마쳤다. 메인07~08 실제 국소 수식64/22·figure11/8·reading4씩·metadata/제목/link/code/수치·4문제/해설/check와 lint2표8셀 오류0건이다. KO199/EN191 staging과 strict build가 통과했으며 부분 병합·실제 화면 검수 중이다. CAU 원문 준비는 읽기 전용으로 진행하며 아직 집필하지 않는다.
+
+## 2026-10-07 — A09-RMT 완료
+
+- RMT 전체8개는32문제/해설·70figure 참조·33읽기 셀을 보존한다. KO199/1154와 EN191/1122·읽기1089의 prepare·source audit·English-reading lint·strict build·validate/부분 병합이 통과했다. 실제8페이지 수식 wrapper/MathJax449개씩·그림70개·해설32개, 수식 오류·중복 assistive 렌더링·그림 로딩 실패0건을 확인했다. CPU·GPU·모델·그림 재생성을 실행하지 않았다.
+- 대표08을1440×900·390×844 및 밝은·어두운 테마에서 PR/MP 본문·수식·읽기 표·scaled-coordinate ablation 그림·긴 영문 캡션·열린 null-mismatch 해설로 검수했다. 모바일 문서 폭375/375px, 읽기 표375/616·결과 표375/387·넓은 그림320/1080의 내부 가로 이동을 유지하며 그림 ArrowRight 이동40px를 확인했다. 같은 단원 한영 전환은 양방향 상단으로 이동하고 Spiked covariance model 검색으로 실제 EN05에 연결됐다. 화면은 `.build/qa/english-rmt-desktop.jpg`에 보관했다. 양언어 HTML GA4 mock19개씩이 통과하고 Google 요청·공통 코드 변경·원격 작업은 없다. 새8개를 verified로 기록해 총197개(191단원+6부속 문서) 완료다.
+
+## 2026-10-07 — A09-CAU 진행 중
+
+- RMT 병합 snapshot 성공 후 마지막8개 영문 집필을 시작했다. 두 작성자가01~03/04~08을 나누고 별도 검토자는01~06, 작성하지 않은 메인은07~08의 원문·영문 전문을 대조한다. 모든 담당자는 한국어 원문·필요 인접 문맥·확정 용어를 끝까지 읽어 준비했다. natural-effect의 소거 identity와 개별 node additivity, paired execution과 population 식별, conditional transport와 support, 서로 다른 necessity/sufficiency estimand를 원문대로 구분한다. 새 개입이나 모델 실험은 실행하지 않는다.
 
 ## 작업 단위
 

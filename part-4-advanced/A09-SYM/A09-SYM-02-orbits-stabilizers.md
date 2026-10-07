@@ -49,6 +49,8 @@ $$
 
 $y=g\cdot x$인 어떤 $g$가 존재할 때 $x\sim y$라고 정의하면 이 관계는 동치관계다. identity가 reflexivity를, inverse가 symmetry를, group product가 transitivity를 보장한다. 따라서 $X$는 서로 겹치지 않는 orbit들로 분할된다.
 
+각 조건을 action 식으로 확인할 수 있다. $x=e\cdot x$이므로 자기 자신은 같은 orbit에 속한다. $y=g\cdot x$이면 $x=g^{-1}\cdot y$여서 도달 관계를 뒤집을 수 있다. 또 $z=h\cdot y$이면 $z=(hg)\cdot x$이므로 두 번의 이동도 같은 orbit 안에 남는다. 따라서 $x$와 $y$가 한 번이라도 같은 orbit에서 만나면 두 점에서 출발해 얻는 orbit 전체가 같다.
+
 ## 핵심 개념 2. stabilizer는 한 점을 움직이지 않는 변환들이다
 
 $x$의 stabilizer는
@@ -61,9 +63,11 @@ $$
 
 다. identity는 항상 $G_x$에 속하고, $x$를 고정하는 두 변환의 곱과 inverse도 $x$를 고정한다. 그러므로 $G_x$는 $G$의 subgroup이다.
 
+$g\cdot x=h\cdot x=x$라면 $(gh)\cdot x=g\cdot(h\cdot x)=x$이다. $g\cdot x=x$의 양쪽에 $g^{-1}$을 적용하면 $g^{-1}\cdot x=x$도 얻는다. 이 계산은 stabilizer가 특정 대상 $x$에 대해 닫혀 있음을 보여 준다. 같은 $g$가 다른 대상 $y$까지 고정할 필요는 없다. 따라서 $G_x$의 원소를 “아무것도 하지 않는 변환”이라고 읽으면 적용 대상을 놓친다.
+
 stabilizer가 크다는 말은 여러 group element가 $x$에 작용했을 때 새 위치를 만들지 못하고 같은 $x$로 돌아온다는 뜻이다. 대칭이 많은 대상일수록 stabilizer가 커질 수 있다.
 
-<figure class="lesson-figure" markdown="1">
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
 
 ![Three points in an orbit and two stabilizer transformations that leave the original point fixed](../../figures/assets/A09-SYM/A09-SYM-02-orbit-stabilizer.svg)
 
@@ -71,6 +75,15 @@ stabilizer가 크다는 말은 여러 group element가 $x$에 작용했을 때 �
 </figure>
 
 그림에서 왼쪽의 화살표 수와 orbit point 수는 같을 필요가 없다. 서로 다른 두 변환이 같은 점으로 보내면 그 차이는 $x$를 고정하는 stabilizer element로 설명된다. 바로 이 중복 때문에 stabilizer의 크기가 orbit의 크기를 줄인다.
+
+같은 변환이 어떤 대상을 고정하는지 비교한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The swap of slots one and two fixes (1,1,2) but changes (1,2,3), even though the same permutation acts in both panels.](../../figures/assets/A09-SYM/A09-SYM-02-object-specific-stabilizer.svg)
+
+<figcaption>(12)는 두 성분의 위치를 바꾼다. 두 값이 모두 1인 x는 그대로지만 y는 (2,1,3)으로 달라진다. Gₓ의 원소가 다른 대상 y까지 고정할 필요는 없다는 뜻이다.</figcaption>
+</figure>
 
 ## 핵심 개념 3. orbit 크기는 stabilizer의 coset 수다
 
@@ -92,9 +105,22 @@ $$
 
 이다. 이 식은 group element 수를 결과 수로 단순히 나눈 암기식이 아니라, 같은 결과를 만드는 변환 묶음의 크기가 $|G_x|$라는 counting statement다.
 
+left coset $g_2G_x$는 $\{g_2h:h\in G_x\}$이다. 위 조건은 $g_1=g_2h$인 stabilizer element $h$가 존재한다는 말과 같다. 이때 $(g_2h)\cdot x=g_2\cdot x$이므로 coset 하나의 원소들은 같은 도착점을 만든다. 역으로 도착점이 같으면 $h=g_2^{-1}g_1$이 $x$를 고정한다. 또 $h\mapsto g_2h$가 일대일 대응이어서 각 coset에 $|G_x|$개의 원소가 있다. 서로 다른 coset들은 겹치지 않으므로 $|G|$를 이 묶음 크기로 나눈다. 유한성은 이 마지막 크기 나눗셈에 필요한 조건이다.
+
+변환의 중복을 left coset별 도착점으로 묶는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The six S3 permutations form three left cosets of {identity,(12)}, each pair sending (1,1,2) to one of three distinct orbit vectors.](../../figures/assets/A09-SYM/A09-SYM-02-s3-coset-orbit-fibers.svg)
+
+<figcaption>본문의 x=(1,1,2)에서 Gₓ={e,(12)}이다. (23)Gₓ는 {(23),(132)}, (13)Gₓ는 {(13),(123)}이며 각 묶음은 같은 도착 vector를 만든다. orbit는 변환 6개의 목록이 아닌 서로 다른 결과 3개다. 같은 크기 2의 세 묶음이 6/2=3을 설명한다.</figcaption>
+</figure>
+
 ## 핵심 개념 4. quotient는 symmetry 방향을 하나로 묶는다
 
 quotient $X/G$는 각 orbit를 하나의 원소로 보는 집합이다. parameter symmetry에서 한 orbit 전체가 같은 함수를 나타낸다면 quotient의 한 점이 하나의 기능적 해에 대응할 수 있다. 그러나 quotient를 쓴다고 각 orbit에서 대표 parameter가 자동으로 선택되는 것은 아니다.
+
+quotient의 원소는 좌표 vector 하나가 아니라 $[x]=G\cdot x$라는 동치류다. 이 집합을 표기했다고 덧셈·거리·group 연산이 저절로 생기지는 않는다. parameter action이 함수를 보존하면 같은 orbit의 parameter는 같은 함수를 나타내지만, 다른 orbit에서도 같은 함수가 나올 수 있다. 선택한 symmetry가 함수 동치의 모든 원인을 포함한다는 가정은 별도다.
 
 model parameter $\theta$의 orbit가 같은 function을 나타낸다면 raw distance
 
@@ -111,7 +137,27 @@ d_G(\theta_1,\theta_2)
 \|\theta_1-g\cdot\theta_2\|
 $$
 
-처럼 정의할 수 있다. 어떤 $G$를 허용했는지와 minimum을 실제로 찾았는지가 결과의 일부다. alignment 뒤 거리가 작다는 사실은 선택한 symmetry 아래 parameter가 가깝다는 뜻이며, 모든 입력에서 함수가 같다는 결론은 별도 평가가 필요하다.
+처럼 비교할 수 있다. finite group에서는 모든 후보 중 minimum이 존재한다. 일반적인 무한 group에서는 minimum을 달성하지 못할 수 있어 infimum과 구분해야 한다. 또 이 식을 대표 좌표와 무관한 quotient 거리로 해석하려면 action이 선택한 norm의 거리를 보존하는지 등의 조건을 확인해야 한다. permutation과 Euclidean norm의 조합은 이 조건을 만족하지만 일반적인 scaling은 그렇지 않다.
+
+어떤 $G$를 허용했는지와 minimum을 실제로 찾았는지가 결과의 일부다. 함수 보존 action으로 정확히 같은 orbit임을 보였다면 함수 동치도 따른다. 그와 달리 alignment 뒤 거리가 작다는 사실은 선택한 변환 아래 parameter가 가깝다는 뜻이다. 그 작은 차이가 출력에 얼마나 영향을 주는지는 별도 평가가 필요하다.
+
+orbit 전체를 한 원소로 보내는 quotient map을 확인한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Coordinate-swap orbits {(1,3),(3,1)}, {(2,4),(4,2)}, and {(2,2)} map to three distinct quotient classes without selecting representatives.](../../figures/assets/A09-SYM/A09-SYM-02-quotient-disjoint-orbits.svg)
+
+<figcaption>coordinate swap의 예시에서 각 점은 자신의 orbit 안에서 이동한다. quotient map은 A, B의 두 점을 각각 한 동치류로 보내고 고정점 (2,2)도 별도 동치류 C로 보낸다. [A]는 좌표 하나를 자동 선택한 것이 아니라 orbit 전체를 원소로 취한 표기다.</figcaption>
+</figure>
+
+raw 거리와 허용한 permutation 뒤의 거리를 비교한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Two vectors related by coordinate swap have raw Euclidean distance square root of eight but zero permutation-aligned distance.](../../figures/assets/A09-SYM/A09-SYM-02-raw-aligned-distance.svg)
+
+<figcaption>벡터 (1,3), (3,1)의 raw Euclidean 거리는 √8이다. 두 번째 벡터에 P를 적용하면 첫 벡터와 같아 aligned 거리는 0이다. 이 예시는 permutation과 Euclidean norm의 거리 보존 조합이다. 실제 parameter의 함수 보존은 그 모델에 허용된 action을 별도로 확인해야 한다.</figcaption>
+</figure>
 
 ## 작은 예제
 
@@ -170,6 +216,8 @@ $24/6=4$이다.
 ## 근거와 갱신 경계
 
 orbit·stabilizer·quotient action은 group theory의 표준 정의를 따른다. continuous group에서의 measure와 orbit geometry는 다루지 않는다.
+
+- [MIT Algebra I notes, Lectures 17–18](https://ocw.mit.edu/courses/res-18-011-algebra-i-student-notes-fall-2021/mit18_701f21_full_lec_new.pdf): orbit·stabilizer와 finite counting 관계의 표준 근거다. 거리 비교의 조건은 본문에서 사용하는 norm과 action에 대해 구분했다.
 
 ## 단원 요약
 

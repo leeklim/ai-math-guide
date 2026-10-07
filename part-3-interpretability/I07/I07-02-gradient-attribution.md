@@ -44,7 +44,19 @@ $$
 s(x)-s(0)\approx \nabla_x s(x)^\top x=\sum_i x_i g_i
 $$
 
+여기서는 gradient를 baseline 0이 아니라 현재 점 $x$에서 계산한다. $x$에서 0으로 이동하는 변위가 $-x$이므로 일차 근사는 $s(0)\approx s(x)-\nabla_xs(x)^\top x$이고, 이를 옮기면 위 식을 얻는다. 각 $x_i g_i$는 이 선형근사 안에서 좌표별 항을 나눈 값이다. 0이 현재 점에서 멀면 두 점 사이의 gradient 변화까지 이 한 번의 평가로 나타낼 수는 없다. affine 함수에서는 gradient가 일정하고 bias가 차이에서 소거되므로 이 합이 정확한 score 차이가 된다.
+
 비선형 함수에서는 근사일 뿐이다. 항의 합이 실제 score 차이와 같지 않아도 autograd가 틀린 것은 아니다.
+
+다음 두 패널은 signed gradient에서 saliency로 바꿀 때 없어진 정보를 보여 준다.
+
+<figure class="lesson-figure" markdown="1">
+
+![The worked exercise score two x one minus x two squared at three two yields signed bars two and minus four but absolute saliency bars two and four](../../figures/assets/I07/I07-02-signed-versus-saliency.svg)
+
+<figcaption>연습문제의 s = 2x₁ − x₂², x = (3, 2)를 사용했다. 위에서는 x₂의 증가가 score를 낮추는 음의 방향이 남아 있고, 아래에서는 그 부호가 사라진다.</figcaption>
+
+</figure>
 
 ## 2. 손계산
 
@@ -56,11 +68,45 @@ $$
 
 gradient×input 합은 14이고 $s(x)-s(0)=7$이다. 곱과 제곱의 중복 계수 때문에 completeness가 성립하지 않는다.
 
+일반적인 입력에서도 이 합은 $x_1x_2+x_2x_1+2x_3^2=2s(x)$다. 첫 곱 항은 두 좌표의 미분에 각각 나타나고, 제곱 항은 미분의 계수 2를 갖는다. 현재 점의 변화율에 입력을 곱하는 규칙이 이 계수들을 없애 주지는 않는다. completeness는 귀인값의 합이 기준점 대비 score 차이와 같다는 조건이므로, 여기서는 정확한 gradient를 계산했어도 그 조건을 만족하지 않는다.
+
+다음 경로 그림에서 현재 점의 접선을 baseline까지 연장한 값과 실제 score 곡선을 비교할 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Along the path t times two three one the score is seven t squared and the tangent at t one predicts minus seven at baseline zero instead of actual zero giving slope fourteen but total difference seven](../../figures/assets/I07/I07-02-current-tangent-gap.svg)
+
+<figcaption>현재 입력을 t배 하는 경로에서는 s(tx) = 7t²다. t = 1의 접선 기울기 14가 gradient×input의 합이고, 접선을 t = 0까지 연장하면 −7을 예측한다. 실제 baseline score는 0이어서 두 점 사이의 차이는 7이다.</figcaption>
+
+</figure>
+
 ## 3. scale과 saturation
 
 단위를 $x_i'=c x_i$로 바꾸면 raw gradient는 chain rule에 따라 $1/c$ 배 변할 수 있다. 서로 다른 feature의 gradient 절댓값을 비교할 때 입력 단위를 확인해야 한다.
 
+이 비교는 $c>0$이고 같은 물리적 입력과 함수를 새 단위로 표현하는 경우다. 새 좌표에서 원래 좌표로 돌아가는 미분이 $1/c$이므로, 같은 score를 한 새 단위당 읽는 gradient도 $g_i/c$가 된다. 이때 $x_i'g_i'=cx_i\cdot g_i/c=x_i g_i$여서 gradient×input은 이 원점 보존 배율 변환에 불변이다. 입력 숫자만 바꾸고 model의 함수를 같은 의미로 변환하지 않으면, 단위 비교가 아니라 실제 입력을 바꾼 실험이 된다.
+
 sigmoid처럼 포화되는 함수는 출력이 baseline과 크게 달라도 현재 점의 gradient가 거의 0일 수 있다. 이는 해당 feature가 역사적으로 중요하지 않았다는 뜻이 아니다.
+
+예를 들어 $s(x)=\sigma(x)$에서 baseline이 0이면 baseline score는 0.5다. 양수인 큰 $x$에서는 score가 1에 가까워져 차이가 약 0.5지만, 현재 gradient $\sigma(x)(1-\sigma(x))$는 거의 0이다. 두 점 사이에서 score가 변한 사실과 현재 점 근처가 평평한 사실을 함께 만족할 수 있다.
+
+다음 두 그림은 입력 단위를 바꾸는 것과 포화 영역에 들어가는 것을 각각 보여 준다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Illustrative identical score function has slope three per meter on the upper plot and zero point zero three per centimeter on the lower plot while the same physical point one meter or one hundred centimeters has score three](../../figures/assets/I07/I07-02-unit-rescaling.svg)
+
+<figcaption>설명용 같은 함수 s = 3x를 meter와 centimeter로 다시 썼다. 같은 입력 1 m = 100 cm에서 score는 3이지만, 한 단위당 gradient는 3과 0.03이다. xg는 두 표현 모두 3으로 같다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![Sigmoid curve rises from baseline probability one half at zero to near one at six while the local tangent at six is nearly horizontal and the score gap is nearly one half](../../figures/assets/I07/I07-02-sigmoid-saturation.svg)
+
+<figcaption>σ(0) = 0.5와 σ(6) ≈ 0.9975 사이의 차이는 약 0.4975지만, x = 6의 현재 기울기는 약 0.00247이다. baseline 이후의 누적 변화와 현재 주변의 변화율은 별개다.</figcaption>
+
+</figure>
 
 ## 4. CPU 실습
 

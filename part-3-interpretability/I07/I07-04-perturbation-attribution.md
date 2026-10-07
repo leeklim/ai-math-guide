@@ -44,7 +44,19 @@ $$
 f(x)-f\bigl(x^{(i\leftarrow b_i)}\bigr).
 $$
 
+두 실행에서는 같은 함수와 다른 좌표를 유지하고 $i$번째 값만 바꾼다. 이는 미분에 변위를 곱한 근사가 아니라, 대체 입력에서도 함수를 다시 평가한 유한 차이다. 이 식은 원래 score에서 대체 뒤 score를 빼는 부호를 사용한다. 따라서 대체 뒤 score가 더 높아지면 $\Delta_i$는 음수다.
+
 $\Delta_i>0$이면 그 대체 규칙 아래 원래 feature가 score를 높였다는 뜻이다. feature 자체의 문맥 독립적 가치라는 뜻은 아니다.
+
+다음 단면에서 원래 score를 기준으로 서로 다른 대체값의 유한 차이를 비교한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Worked exercise score two x one plus four has original input three score ten while replacing x one by zero two or four yields score four eight or twelve and signed original minus replacement effects six two or minus two](../../figures/assets/I07/I07-04-replacement-comparisons.svg)
+
+<figcaption>연습문제의 f = 2x₁ + x₂, x₂ = 4에서 원래 x₁ = 3을 고정했다. 0 또는 2로 바꾸는 효과는 6과 2이고, 설명용 비교값 4로 바꾸면 대체 score가 높아져 효과는 −2다.</figcaption>
+
+</figure>
 
 ## 2. 대체값이 질문을 만든다
 
@@ -55,15 +67,59 @@ $\Delta_i>0$이면 그 대체 규칙 아래 원래 feature가 score를 높였다
 
 token 삭제, mask token, 공백과 다른 token 치환은 서로 다른 개입이다.
 
+marginal resampling은 나머지 입력을 보지 않고 해당 feature의 주변분포에서 값을 뽑는다. conditional resampling은 나머지 feature를 지금 입력처럼 고정했을 때의 조건부분포에서 뽑는다. 둘은 같은 feature 값을 바꾸더라도 서로 다른 결합 상태를 만든다. 조건부분포를 사용한다고 원래 입력과 같은 정보가 반드시 제거되는 것도 아니다. 어떤 정보가 대체 뒤에도 남는지는 다른 feature와의 의존관계에 달려 있다.
+
+무작위 대체에서는 같은 입력도 draw마다 score 차이가 바뀐다. 여러 draw의 평균은 정한 대체분포에 대한 평균 효과이고, 서로 다른 입력에서의 일반화를 위한 독립 반복과는 구분한다.
+
+다음 두 그림은 대체분포의 조건과 token 위치 변화라는 서로 다른 결합 상태를 보여 준다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Illustrative correlated input cloud near the x two equals x one diagonal contrasts marginal replacement x one values spread along fixed x two one point five with conditional replacement values concentrated near the compatible cloud](../../figures/assets/I07/I07-04-marginal-conditional-draws.svg)
+
+<figcaption>설명용 x₂ ≈ x₁ 분포에서 x₂ = 1.5를 고정했다. 위 marginal draw는 x₂를 보지 않아 결합분포에서 멀어질 수 있고, 아래 conditional draw는 이 x₂와 맞는 x₁ 주변에서 뽑는다. 실제 모델이나 입력 데이터의 관측 결과가 아니다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![Illustrative token sequence I like this book loses the third token on deletion and book shifts from position four to three while a mask replacement keeps four positions](../../figures/assets/I07/I07-04-token-delete-replace.svg)
+
+<figcaption>설명용 네 token을 비교했다. 삭제는 뒤의 book을 4번에서 3번 위치로 옮기지만, 치환은 3번 자리를 남긴다. [mask]라는 대체 기호를 쓸 수 있다는 사실이 그 모델에서 학습된 token이라는 보장은 아니다.</figcaption>
+
+</figure>
+
 ## 3. 상호작용
 
 $f(x_1,x_2)=x_1x_2$에서 $(1,1)$의 score는 1이다. 각 좌표를 0으로 바꾸면 효과가 각각 1이므로 단일 효과 합은 2이다. 둘을 함께 제거한 전체 효과 1보다 크다. 같은 상호작용을 두 번 센 결과다.
+
+순서대로 제거하면 합계는 달라진다. 첫째 좌표를 먼저 제거하면 score가 $1\to0$으로 내려가고, 그 상태에서 둘째 좌표를 제거하면 $0\to0$으로 유지된다. 두 차이의 합은 1이지만 각각에 배분한 값은 $(1,0)$이다. 순서를 바꾸면 $(0,1)$이 된다. 연속된 score 차이는 중간값이 소거돼 전체 차이와 같아지지만, 어느 feature에 얼마를 배분할지는 제거 순서에 의존한다.
+
+다음 좌표 경로는 제거 순서에 따라 어느 feature가 먼저 score를 없애는지 보여 준다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Binary coordinate grid of product x one x two shows red removal of x one then x two and blue removal of x two then x one from one one to zero zero with scores one at the start and zero at other states](../../figures/assets/I07/I07-04-sequential-removal-paths.svg)
+
+<figcaption>(1, 1)의 score 1에서 (0, 0)의 score 0으로 가는 두 경로다. 첫 제거에서 전체 곱 항이 사라지므로 순차 배분은 (1, 0) 또는 (0, 1)이고, 각 경로의 전체 감소는 1이다. 두 단일 제거를 각각 원래 점에서 측정해 더한 2와 다르다.</figcaption>
+
+</figure>
 
 ## 4. CPU 실습
 
 <!-- I07_EXAMPLE: i07_04_perturbation_attribution -->
 
 zero baseline과 mean-like baseline의 단일 feature 효과가 달라지는 것을 확인한다. 어느 쪽이 자동으로 정답인지는 결정하지 않는다.
+
+다음 비교는 실습 함수에서 대체값만 바꾼 단일 feature 효과다.
+
+<figure class="lesson-figure" markdown="1">
+
+![The lab score nine point two five at two three one has single-feature replacement effects nine six zero point two five for zero replacements and four point five four zero for mean-like one replacements](../../figures/assets/I07/I07-04-lab-baseline-effects.svg)
+
+<figcaption>실습 함수 1.5x₁ + x₁x₂ + 0.25x₃²의 x = (2, 3, 1), score 9.25를 사용했다. 좌표별 zero 대체 효과는 (9, 6, 0.25), mean-like 1 대체 효과는 (4.5, 4, 0)이다. 이 값들은 각각 원래 입력에서 한 좌표만 바꾼 결과다.</figcaption>
+
+</figure>
 
 ## 흔한 오해
 

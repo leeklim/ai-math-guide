@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
   <title id="title">Clean corrupted and patched runs in an activation patching experiment</title>
   <desc id="desc">Three aligned model runs show a clean source activation, a corrupted baseline activation, and a patched run where the clean activation is inserted at one specified node before downstream computation.</desc>
-  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="context-stroke"/></marker></defs>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
   <rect width="960" height="540" rx="18" fill="#F8FAFC"/>
   <text x="480" y="48" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#0F172A">Activation patching requires three aligned runs</text>
   <g font-family="sans-serif" font-size="20" font-weight="700"><text x="70" y="145" fill="#065F46">Clean</text><text x="70" y="275" fill="#991B1B">Corrupted</text><text x="70" y="405" fill="#5B21B6">Patched</text></g>
@@ -14,8 +14,8 @@
     <g fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"><rect x="185" y="360" width="125" height="75" rx="12"/><rect x="395" y="360" width="125" height="75" rx="12"/><rect x="605" y="360" width="125" height="75" rx="12"/></g>
     <g font-size="17" fill="#334155"><text x="247" y="145">upstream</text><text x="457" y="145">node z_clean</text><text x="667" y="145">downstream</text><text x="247" y="275">upstream</text><text x="457" y="275">node z_corrupt</text><text x="667" y="275">downstream</text><text x="247" y="405">upstream</text><text x="457" y="405">insert z_clean</text><text x="667" y="405">downstream</text></g>
   </g>
-  <path d="M457 180V348" stroke="#2563EB" stroke-width="4" stroke-dasharray="8 6" marker-end="url(#arrow)"/>
-  <text x="475" y="337" font-family="sans-serif" font-size="16" fill="#1D4ED8">patch exact layer, token, component</text>
-  <g font-family="sans-serif" font-size="17" text-anchor="middle"><text x="855" y="145" fill="#065F46">m_clean</text><text x="855" y="275" fill="#991B1B">m_corrupt</text><text x="855" y="405" fill="#5B21B6">m_patched</text></g>
+  <path d="M457 180V200H560V330H457V348" fill="none" stroke="#2563EB" stroke-width="4" stroke-dasharray="8 6" marker-end="url(#arrow)"/>
+  <text x="595" y="337" font-family="sans-serif" font-size="16" fill="#1D4ED8">patch exact layer, token, component</text>
+  <g font-family="sans-serif" font-size="17" text-anchor="middle"><text x="885" y="145" fill="#065F46">m_clean</text><text x="885" y="275" fill="#991B1B">m_corrupt</text><text x="885" y="405" fill="#5B21B6">m_patched</text></g>
   <text x="480" y="495" text-anchor="middle" font-family="sans-serif" font-size="17" fill="#334155">Only the specified activation is exchanged; inputs and all other interventions remain controlled.</text>
 </svg>

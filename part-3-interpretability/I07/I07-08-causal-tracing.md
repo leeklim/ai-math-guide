@@ -51,6 +51,18 @@ $$
 
 후보마다 다른 입력을 쓰지 않고 같은 clean·corrupt pair를 유지한다.
 
+한 셀을 평가한 뒤에는 다음 후보를 위해 corrupt 상태에서 새로 실행한다. 앞 셀의 복원값까지 유지하면 한 위치의 효과가 아니라 여러 위치의 누적 복원 효과를 측정하게 된다. noise corruption을 사용한다면 한 반복 안에서 후보별로 같은 noise draw를 사용하고, 새로운 draw를 사용하는 반복은 별도로 평균·보고한다. $m_c=m_r$인 대비에서는 위 정규화가 정의되지 않으므로 원시 복원 차이와 구분한다.
+
+다음 후보 배열에서 한 번에 한 위치만 복원하고 실행 상태를 다시 시작하는 규칙을 확인할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Three independent candidate state grids each begin from the same corrupt baseline and restore exactly one clean cell while the other three cells remain corrupt](../../figures/assets/I07/I07-08-independent-cell-restoration.svg)
+
+<figcaption>알고리즘의 후보 위치 세 개를 나란히 그렸다. 각 후보는 같은 corrupt 상태에서 새로 시작하고 빨간 한 셀만 clean 값 h_c로 복원한다. 앞 후보의 빨간 셀을 다음 실행에 남기면 누적 개입이 된다.</figcaption>
+
+</figure>
+
 ## 2. heatmap이 말하는 것
 
 높은 셀은 그 위치의 clean state가 나머지 corrupt 실행 안에서 metric을 회복시켰다는 뜻이다. 다음은 추가 실험 없이 말할 수 없다.
@@ -60,15 +72,55 @@ $$
 - 그 layer의 weight를 편집하면 원하는 행동만 바뀐다.
 - 같은 위치가 다른 prompt와 모델에서도 일반화된다.
 
+같은 정보가 여러 layer를 거쳐 전달되면 서로 다른 위치의 복원이 모두 효과를 보일 수 있다. 뒤쪽 state를 복원하면 그 state를 만들던 앞쪽 계산의 손상을 우회할 수도 있다. 그래서 한 셀의 높은 회복은 그 위치를 바꾼 실행의 결과이지, 그 state를 원래 어떤 경로가 만들었는지의 설명까지 포함하지 않는다. 각 셀이 별도의 개입 결과이므로 셀값들을 더해 하나의 score 분해로 읽지도 않는다.
+
+다음 두 그림은 뒤 state 복원이 앞 손상을 우회하는 것과 weight 자체를 편집하는 것을 구분한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Two illustrative corrupted chain experiments restore early A or late B to one and both produce Y one while late restoration cuts the damaged A to B dependency and bypasses upstream damage](../../figures/assets/I07/I07-08-late-restoration-bypass.svg)
+
+<figcaption>설명용 전달식 A = X, B = A, Y = B에서 corrupt X = 0이다. A 또는 B를 각각 1로 복원하는 별도 실행은 둘 다 Y = 1을 만든다. B 복원은 앞 계산의 손상을 우회하므로, 두 회복 위치만으로 유일한 저장 장소나 원래 생성 경로를 확정할 수 없다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![Activation restoration combines fixed weights with a new internal state for one run whereas weight editing replaces W by W prime and changes the computation for multiple inputs](../../figures/assets/I07/I07-08-state-versus-weight.svg)
+
+<figcaption>activation 복원은 고정 W 안에서 한 실행의 상태 h*를 바꾼다. weight editing은 W를 W′로 바꿔 여러 입력에 적용되는 함수 자체를 바꾼다. 어느 위치의 상태 복원이 잘 됐다는 사실은 그 위치의 weight 편집 성공을 보장하지 않는다.</figcaption>
+
+</figure>
+
 ## 3. search와 검증 분리
 
 수백 개 위치를 훑어 최대값을 고르면 noise peak도 선택된다. discovery 입력에서 위치를 찾고 held-out 입력에서 고정 위치 효과를 다시 평가한다. layer·token 전체를 보고한 heatmap과 사후 선택한 peak 효과를 구분한다.
+
+다음 탐색 흐름에서 held-out 평가에 들어가기 전에 위치 선택을 끝낸다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Illustrative discovery candidates A B C D lead to choosing C star then freezing the location before an independent held-out input set evaluates that same fixed location without another search](../../figures/assets/I07/I07-08-discovery-frozen-location.svg)
+
+<figcaption>A–D는 설명용 후보 식별자다. discovery에서 C*를 고른 뒤 위치를 고정하고 held-out 입력에서는 같은 C*를 평가한다. held-out에서 다시 최대 셀을 고르면 탐색과 확인을 분리한 것이 아니다.</figcaption>
+
+</figure>
 
 ## 4. CPU 실습
 
 <!-- I07_EXAMPLE: i07_08_causal_tracing -->
 
 2×2 후보 위치의 recovery map을 계산한다. 합성 그래프의 최대 위치는 layer 1 token 0이지만, 이는 정의한 그래프와 corruption에만 해당한다.
+
+다음 지도는 실습 코드에 명시된 재계산 범위 안에서 얻는 후보별 recovery다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Existing CPU implementation recovery matrix has layer zero row zero zero and layer one row two thirds one third with maximum layer one token zero while a note limits the map to late patching without recomputing layer one](../../figures/assets/I07/I07-08-cpu-recovery-map.svg)
+
+<figcaption>기존 CPU 코드의 clean score 4, corrupt score −0.5와 후보 출력을 그대로 계산했다. recovery는 [[0, 0], [2/3, 1/3]]이다. layer 0 patch도 states[1] 계산 뒤에 적용되고 states[1]을 다시 계산하지 않는 구현 범위이므로, 첫 행의 0을 원래 입력 정보가 사용되지 않았다는 증거로 읽지 않는다.</figcaption>
+
+</figure>
 
 ## 흔한 오해
 

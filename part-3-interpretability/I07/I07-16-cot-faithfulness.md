@@ -52,7 +52,11 @@ D_R
 \mathbf 1\left[A_i(r_i)\ne A_i(r_i')\right]
 $$
 
-로 측정할 수 있다. 높은 $D_R$은 답이 그 개입에 민감하다는 뜻이다. 원래 rationale의 모든 문장이 참된 내부 설명이라는 뜻은 아니다.
+로 측정할 수 있다. $A_i(r_i)$는 문항 $i$에서 원래 rationale을 context로 주고 얻은 답이고, $A_i(r_i')$는 같은 문항에 변형한 rationale을 주고 다시 얻은 답이다. Indicator는 두 답이 다르면 1, 같으면 0이므로 합을 문항 수 $N$으로 나누면 바뀐 답의 비율이 된다. 여기서 답의 같고 다름은 표면 문자열인지 정규화한 answer label인지 미리 정해야 한다.
+
+이 개입은 이미 나온 답은 그대로 둔 채 설명만 편집하는 작업이 아니다. 답이 생성되기 전에 rationale token을 교체하고 이후 계산을 다시 수행한다. 바꾼 token 이후에도 원래 rationale의 KV cache를 그대로 쓰면, 새 문자열을 실제로 읽은 조건과 다른 내부 상태를 비교하게 된다. Model weights와 문항, answer 추출 규칙, decoding 조건을 맞춘다. Sampling을 사용한다면 같은 rationale을 두 번 줘도 답이 달라질 수 있으므로, rationale을 바꾸지 않은 반복 조건과도 비교한다.
+
+높은 $D_R$은 답이 그 개입에 민감하다는 뜻이다. 원래 rationale의 모든 문장이 참된 내부 설명이라는 뜻은 아니다. 반대로 의미를 보존한 paraphrase에서 $D_R$이 낮다면 같은 답을 유지하는 것이 예상되는 결과일 수 있다. 점수의 크기는 어떤 내용을 바꾼 실험인지와 함께 해석한다.
 
 검사 종류는 다음과 같다.
 
@@ -62,9 +66,49 @@ $$
 - bias cue: 답을 유도하는 표면 feature를 넣고 설명이 이를 언급하는지 검사
 - counterfactual rationale: 다른 답을 지지하는 rationale을 제공
 
+중간 문장을 교체한 뒤 원래 뒷문장을 그대로 붙이는 실험과, 교체 지점에서 남은 rationale을 다시 생성하는 실험도 다르다. 전자는 나머지 문자열을 고정한 효과이고 후자는 후속 reasoning의 변화까지 포함한다. [Lanham et al. (2023)](https://arxiv.org/html/2307.13702v1#S2.SS4)의 오류 삽입 검사는 바꾼 단계 뒤의 rationale을 다시 생성한다. 어떤 후속 계산을 고정했는지 명시해야 같은 이름의 검사끼리 결과를 비교할 수 있다.
+
+다음 그림에서 답 생성 전 편집 위치와 후속 재계산 범위를 확인하고, indicator가 세는 문항별 답 변화를 읽는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Original token and state row P R1 R2 R3 A contrasts edited row P R1 R2 prime R3 prime A prime with prefix cache reused only for P and R1 while the changed token and suffix are recomputed](../../figures/assets/I07/I07-16-edited-context-cache.svg)
+
+<figcaption>P는 문항, R₁–R₃는 설명용 rationale token 위치다. R₂를 답 생성 전에 바꾸면 P와 R₁의 같은 prefix는 재사용할 수 있지만 R₂′ 이후 상태와 답은 바뀐 context로 계산해야 한다. 원래 R₂ 이후의 KV cache를 그대로 사용하는 비교가 아니다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two pipelines share edited rationale prefix then one retains old suffix R3 while the other regenerates R3 prime before both generate their new answers](../../figures/assets/I07/I07-16-fixed-versus-regenerated-suffix.svg)
+
+<figcaption>같은 R₂′ 뒤에 왼쪽은 원래 R₃를 그대로 붙이고 오른쪽은 R₃′를 새로 생성한다. 왼쪽은 다른 문자열을 고정한 효과, 오른쪽은 후속 rationale 변화까지 포함한 효과를 측정한다. 두 조건의 답이 같거나 다를지는 그림에서 가정하지 않는다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![Twenty question indicator cells group five changed-answer ones and fifteen same-answer zeros whose sum five divided by twenty gives dependence zero point two five](../../figures/assets/I07/I07-16-answer-change-indicators.svg)
+
+<figcaption>기존 문제의 20문항 가운데 바뀐 다섯 답을 위줄에 모아 표시했다. 칸 하나는 사전 정의한 answer 비교 규칙의 indicator이며 합은 5다. 이를 문항 수 20으로 나누어 D_R = 0.25를 얻는다. 어느 실제 문항이 바뀌었는지의 순서를 나타낸 것은 아니다.</figcaption>
+
+</figure>
+
 ## 3. 교란과 대조군
 
 Rationale을 바꾸면 길이, token 확률과 prompt 형식도 함께 변할 수 있다. 길이·문체를 맞춘 무관한 문장, 의미 보존 paraphrase와 동일 token budget control을 둔다. 모델이 외부 제공 rationale을 따르는 능력과 스스로 생성한 CoT의 faithfulness도 구분한다.
+
+오류를 삽입했는데 답이 그대로여도 모델이 그 문장을 무시했는지, 오류를 알아차리고 고쳤는지는 결과 label만으로 구분되지 않는다. 의미 보존 대조군이 정말 같은 주장을 유지하는지도 확인해야 한다. 답을 직접 적은 마지막 문장을 남긴 채 앞 설명만 paraphrase했다면, 동일한 답을 단순히 복사하는 경로가 남을 수 있다. 대조군은 token 수뿐 아니라 답 단서가 어디에 남는지까지 맞춰 설계한다.
+
+다음 반례에서 같은 답 유지가 오류 문장을 무시한 것인지 고친 것인지 구분해 주는지 살펴본다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Illustrative edited arithmetic rationale two plus two equals five can be ignored using hidden correct four or repaired to two plus two equals four and both pathways produce answer four](../../figures/assets/I07/I07-16-null-answer-ignore-repair.svg)
+
+<figcaption>설명용 오류 문장 “2 + 2 = 5” 뒤 답 4가 유지되는 두 가능성을 그렸다. 왼쪽은 해당 문장을 무시하고 이미 있는 정답을 읽고, 오른쪽은 오류를 고쳐 계산한다. 같은 최종 label만으로 둘을 고를 수 없으며 실제 모델에서 이 두 경로를 확인한 결과가 아니다.</figcaption>
+
+</figure>
 
 ## 4. 내부 증거와의 관계
 
@@ -75,6 +119,18 @@ CoT intervention은 행동 수준 검사다. Activation patching과 circuit 분�
 <!-- I07_EXAMPLE: i07_16_cot_faithfulness -->
 
 같은 원래 rationale을 출력하는 두 합성 모델을 비교한다. 하나는 rationale signal을 답에 사용하고, 다른 하나는 hidden signal로 답한 뒤 rationale을 붙인다. Rationale을 바꾸었을 때 첫 모델의 답만 변한다.
+
+실습에서 원래 두 signal은 모두 1이므로 두 모델의 답이 같다. Rationale signal만 0으로 바꾸면 이를 읽는 함수는 0을 답하고, hidden signal을 읽는 함수는 여전히 1을 답한다. 같은 원래 문자열과 답만 관찰해서는 이 두 의존 관계를 구분할 수 없다는 합성 반례다. 실제 CoT의 언어적 충실성을 이 이진 signal 예제 하나로 측정한 것은 아니다.
+
+다음 그림은 같은 원래 signal과 답을 내는 두 CPU 합성 모델의 개입 후 의존 관계를 비교한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two CPU binary-signal models both originally have hidden one rationale one answer one; after rationale alone becomes zero rationale-reading model answers zero while hidden-reading model still answers one](../../figures/assets/I07/I07-16-cpu-rationale-hidden-dependence.svg)
+
+<figcaption>기존 CPU 합성 모델 두 개는 원래 H = R = 1이어서 같은 답 1을 낸다. R만 0으로 바꾼 뒤 rationale를 읽는 왼쪽 함수는 0, H를 읽는 오른쪽 함수는 1을 답한다. 같은 원래 문자열과 답만으로 이 두 의존 관계를 구분할 수 없다는 반례이며 실제 언어적 faithfulness의 점수가 아니다.</figcaption>
+
+</figure>
 
 ## 흔한 오해
 

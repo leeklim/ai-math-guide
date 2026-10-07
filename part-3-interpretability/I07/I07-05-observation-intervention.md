@@ -40,6 +40,10 @@ estimated_time: "90~120분"
 
 $X\to H\to Y$와 $X\to Y$가 함께 있으면 $H=h$를 관찰한 표본은 $X$의 분포도 달라질 수 있다. 반면 $do(H=h^*)$는 원래 $H$를 만들던 계산을 덮어쓰고 downstream만 다시 실행한다.
 
+관찰에서 $H=h$인 표본을 고르는 동안에는 $H$를 만들던 식이 그대로 성립한다. 예를 들어 아래 실습의 $H=2X$, $Y=H+X$에서 $H=2$를 관찰하면 $X=1$이고 $Y=3$이다. 하지만 $X=2$인 실행에 $do(H=2)$를 적용하면 $H=2X$라는 식만 대체하므로 $Y=2+2=4$다. $X\to H$ 계산은 끊어도 $X\to Y$의 직접 경로는 남는다.
+
+node 개입 뒤에는 그 node의 값을 사용하는 downstream node를 원래 계산식으로 다시 계산한다. 이들의 후속 변화까지 포함한 것이 해당 node 조작의 total effect다. 아래 식의 $Y$는 logit이나 행동 metric처럼 비교할 scalar이고, $h_i^{(1)}$, $h_i^{(0)}$는 같은 입력 $i$에 적용할 두 대체값이다.
+
 $$
 \tau
 =
@@ -50,6 +54,42 @@ Y_i\bigl(do(H=h_i^{(1)})\bigr)
 $$
 
 같은 입력 $i$에 두 조건을 적용하면 입력 난이도 차이를 paired difference에서 제거할 수 있다.
+
+먼저 각 입력에서 두 outcome의 차이를 구한 뒤, 명세한 입력 모집단에 대해 평균한다. 두 조건에 서로 다른 prompt 집합을 쓰면서 생기는 구성 차이를 피할 수 있지만, 입력마다 개입 효과가 달라지는 변이는 남는다. 결정론적 모델의 고정 입력·대체값에서는 개별 차이가 계산으로 정해지고, 다른 입력으로 일반화할 평균과 uncertainty에는 표본 선택이 포함된다.
+
+다음 네 그림은 유지되는 계산 경로, 덮어쓴 경로, 비교한 출력 차이와 paired 평균을 차례로 보여 준다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Observed computation X one feeds H two by the original twice X rule and also directly feeds Y three while H feeds Y with both incoming routes intact](../../figures/assets/I07/I07-05-observed-computation.svg)
+
+<figcaption>원래 식 H = 2X에서 H = 2인 실행을 관찰하면 X = 1이다. X→H→Y와 X→Y가 모두 유지되어 Y = 2 + 1 = 3이다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![Intervened computation keeps X two and its direct route to Y cuts the twice X edge into H overrides H with two and recomputes Y as four](../../figures/assets/I07/I07-05-intervened-computation.svg)
+
+<figcaption>X = 2 실행에 do(H = 2)를 적용했다. 회색 점선과 × 표시의 X→H 계산만 덮어쓰고, 직접 경로 X→Y와 H→Y의 덧셈을 다시 계산해 Y = 4를 얻는다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![Original Y equals three X line and fixed H two Y equals X plus two line meet at X one Y three but differ at X two with original six and intervened four](../../figures/assets/I07/I07-05-observed-versus-fixed-h.svg)
+
+<figcaption>원래 계산의 Y = 3X와 do(H = 2) 뒤의 Y = X + 2다. X를 1에서 2로 바꾸는 원래 출력 차이는 +3이고, X = 2를 고정한 H 개입 차이는 4 − 6 = −2다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![Illustrative paired outcome lines for X one half one and two connect intact Y one point five three six to do H two outcomes two point five three four giving differences plus one zero minus two](../../figures/assets/I07/I07-05-paired-aggregation.svg)
+
+<figcaption>같은 toy 함수에서 설명용 입력 X = 0.5, 1, 2를 두 조건으로 반복했다. 각 선이 같은 입력의 paired 실행이고, 개입−intact 차이 (+1, 0, −2)를 먼저 구한 뒤 평균하면 −1/3이다. 이 세 입력의 평균을 다른 입력 모집단으로 일반화하지 않는다.</figcaption>
+
+</figure>
 
 ## 2. 모델 내부 인과
 
@@ -65,6 +105,16 @@ $$
 - random·matched·resampled control
 
 같은 “activation patching”이라는 이름도 이 항목이 다르면 다른 estimand를 측정한다.
+
+다음 residual 계산에서 개입 시점에 따라 실제로 바꾸는 tensor가 달라지는 것을 확인할 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Residual computation has module F and a skip path into a sum with three red overwrite positions at module input module output and after the residual sum representing distinct tensors](../../figures/assets/I07/I07-05-hook-timing.svg)
+
+<figcaption>위치 A는 F의 입력, B는 F의 출력, C는 residual 합 뒤의 tensor다. B의 덮어쓰기는 skip 경로의 r을 남기지만 C는 합쳐진 전체 tensor를 바꾼다. 같은 layer라도 세 위치는 같은 개입이 아니다.</figcaption>
+
+</figure>
 
 ## 4. CPU 실습
 

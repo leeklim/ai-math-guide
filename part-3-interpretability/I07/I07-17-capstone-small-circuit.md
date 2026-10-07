@@ -66,8 +66,11 @@ estimated_time: "180~240분"
 - necessity: intact에서 $C$ 제거
 - sufficiency: 사전 정의 baseline에 $C$ 복원
 - faithfulness: $C$만 유지한 계산과 intact 비교
-- minimality: node·edge를 하나씩 제거
+- completeness: 같은 circuit 내부 제거를 전체 모델과 $C$에 적용해 비교
+- minimality: node·edge별 기여 확인; 중복이 있으면 다른 일부 경로를 제거한 조건에서도 검사
 - off-manifold distance와 matched control
+
+Necessity는 원래 잘 작동하던 계산에서 제거했을 때 무엇을 잃는지 묻고, sufficiency는 약화한 baseline에서 복원했을 때 무엇을 얻는지 묻는다. 출발 상태가 다르므로 두 수치를 같은 원인의 양·음 효과처럼 취급하지 않는다. Faithfulness를 통과한 후보도 내부 경로를 제거하면 전체 모델에 남아 있는 보조 경로를 재현하지 못할 수 있다. 그 누락을 completeness로 확인한다. 각 비교의 base와 제거·복원 규칙은 같은 graph 목록만으로 정해지지 않는다.
 
 ### D. 통계와 주장
 
@@ -90,6 +93,46 @@ $$
 <!-- I07_EXAMPLE: i07_17_circuit_report -->
 
 64개 독립 합성 입력에서 copy·gate·joint ablation과 random control을 계산한다. 결론은 이 합성 행동의 두 지정 경로가 인과적으로 관여한다는 범위로 제한한다.
+
+실습 입력의 두 좌표는 각각 $-1$ 또는 $1$이다. Copy를 제거하면 $x_0x_1$만 남고, gate를 제거하면 $x_0$만 남는다. 두 경로를 모두 제거하면 출력은 0이다. 예를 들어 $x=(1,-1)$에서는 intact 출력이 $1-1=0$이고, copy 제거 출력은 $-1$, gate 제거 출력은 $1$이다. 두 경로는 각각 출력을 바꾸지만 원래 상태에서는 서로 상쇄된다. 그래서 joint 제거 효과가 각 제거 효과의 크기를 더한 값과 같지 않을 수 있다.
+
+실습은 intact와 ablated 출력 차이의 절댓값을 입력별로 구한 뒤 평균낸다. 이는 출력이 얼마나 바뀌었는지를 측정하며, target-minus-foil logit이 평균적으로 얼마나 낮아졌는지와 다른 metric이다. 부호 있는 차이의 평균에서는 증가와 감소가 상쇄될 수 있지만 절댓값의 평균에서는 상쇄되지 않는다. 이 결과만으로 행동 성공 threshold를 통과하는 데 각 경로가 필요한지까지 판정하지 않는다.
+
+코드의 `complete_for_defined_graph`는 intact와 두 경로의 기여 합이 같은지 검산하는 flag다. 알려진 합성식의 분해를 확인하는 것이며, 일반적인 모델에서 누락된 경로가 없는지 검사하는 completeness 절차 전체를 수행한 것은 아니다. `random_control`도 입력 두 좌표를 뒤집은 뒤 copy를 제외하는 코드상의 비교 조건이다. 이 식에서는 곱 $x_0x_1$이 좌표 교환으로 바뀌지 않으므로 gate-only 조건과 같다. 별도의 random graph 표집으로 특이성을 확인한 결과로 해석하지 않는다.
+
+다음 그림에서 알려진 합성 경로의 상쇄와 제거 결과를 추적한다. 같은 입력에서 효과의 부호와 크기를 구분하고, 코드의 swapped-input control이 실제로 남기는 항을 확인한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Known synthetic input one minus one branches x0 into copy one and gate minus one while x1 feeds the gate and both updates sum to output zero](../../figures/assets/I07/I07-17-known-copy-gate-graph.svg)
+
+<figcaption>본문의 x = (1,−1)이다. x₀는 copy 값 1로도 전달되고 x₁와 곱해 gate 값 −1도 만든다. 두 경로가 합쳐져 intact output은 0이다. 알려진 합성 구조의 ground truth 도식이지 실제 모델에서 발견한 circuit이 아니다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![For known input one minus one synthetic score zero changes to minus one without copy plus one without gate and zero without both so individual absolute changes one one do not add to joint zero](../../figures/assets/I07/I07-17-cancelling-path-removals.svg)
+
+<figcaption>같은 x = (1,−1)에서 copy 제거 후 −1, gate 제거 후 1, 두 경로 제거 후 0이다. intact 0과의 절댓값 차이는 각각 1, 1, 0이므로 joint 크기는 1 + 1과 같지 않다. 행동 성공의 necessity 판정 자체를 그린 것은 아니다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![Signed intact-minus-ablated means and mean absolute changes for copy gate and joint computed on exactly the same sixty four seeded synthetic inputs show cancellation versus change magnitude](../../figures/assets/I07/I07-17-signed-and-absolute-means.svg)
+
+<figcaption>기존 CPU와 같은 seed 20261001의 64개 합성 입력에서 Δ = intact − ablated를 계산했다. 위는 부호 있는 평균, 아래는 실습이 사용하는 절댓값 평균이다. 변화의 방향이 상쇄되는 정도와 변화 크기는 다른 metric이며, 이 값을 실제 모델의 target-minus-foil 감소로 해석하지 않는다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Original input one minus one and swapped minus one one both exclude the copy path and yield identical gate product minus one because coordinate multiplication commutes rather than sampling a random graph](../../figures/assets/I07/I07-17-swapped-control-equivalence.svg)
+
+<figcaption>코드의 random_control은 좌표를 뒤집은 뒤 copy를 제외하는 비교다. 이 합성식에서는 x₀x₁ = x₁x₀이므로 두 조건 모두 gate-only output −1을 낸다. 별도의 random graph를 표집해 특이성을 검증한 결과로 읽지 않는다.</figcaption>
+
+</figure>
 
 ## 4. Pythia 파일럿 연결
 
@@ -208,7 +251,7 @@ End-to-end circuit의 faithfulness·completeness·minimality 평가는 [Wang et 
 
 ## 다음 단계
 
-I08에서는 여러 checkpoint를 비교해 feature와 행동이 언제 형성되는지 추적한다.
+[I08-01 checkpoint 연구 설계](../I08/I08-01-checkpoint-study-design.md)부터 여러 checkpoint를 비교해 feature와 행동이 언제 형성되는지 추적한다.
 
 ## 집필자 점검표
 

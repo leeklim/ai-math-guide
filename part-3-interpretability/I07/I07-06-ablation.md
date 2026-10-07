@@ -46,6 +46,26 @@ $$
 
 zero ablation은 $b_c=0$, mean ablation은 참조 데이터의 평균, resample ablation은 다른 실행에서 얻은 값을 사용한다. LayerNorm이나 residual stream 때문에 0이 “없음”을 뜻하지 않을 수도 있다.
 
+residual에 더하는 update가 $h_c$이면 원래 합 $r+h_c$를 $r+b_c$로 바꾼다. zero ablation에서는 그 update만 빠지고 기존 stream $r$은 남는다. 합 이후의 residual 전체를 0으로 만드는 개입과는 다르다. downstream LayerNorm은 바뀐 합의 평균·분산을 다시 계산하므로, 한 update의 대체가 이후 여러 좌표의 값도 바꿀 수 있다.
+
+다음 두 그림은 남는 residual 경로와 downstream 정규화의 재계산을 각각 보여 준다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Residual stream feeds a component whose output is overwritten by zero while an intact skip path feeds the residual sum so the sum is r before downstream LayerNorm is recomputed](../../figures/assets/I07/I07-06-zero-update-skip.svg)
+
+<figcaption>component 출력 h_c만 0으로 덮어쓴다. 파란 skip 경로의 r은 그대로 합에 들어와 r + 0 = r이 되며, LayerNorm은 이 바뀐 합으로 통계를 다시 계산한다. residual 합 전체를 0으로 만드는 개입과 다르다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![Illustrative three-coordinate residual changes from two zero minus one to one zero minus one when one update coordinate is zeroed but standardization changes all three normalized coordinates](../../figures/assets/I07/I07-06-layernorm-propagation.svg)
+
+<figcaption>설명용 r = (1, 0, −1), h_c = (1, 0, 0)이다. update 제거는 합의 첫 좌표만 바꾸지만, 평균·표준편차를 다시 계산한 정규화에서는 세 좌표가 모두 바뀐다. 표시한 수치는 양의 분산에서 ε = 0, affine 항 없는 계산이다.</figcaption>
+
+</figure>
+
 ## 2. 필요성과 중복
 
 개별 ablation 효과가 크면 그 조건에서 component가 필요하다는 증거가 된다. 효과가 작을 때는 다음이 모두 가능하다.
@@ -57,6 +77,28 @@ zero ablation은 $b_c=0$, mean ablation은 참조 데이터의 평균, resample 
 
 joint ablation과 restore 실험을 함께 보아야 한다.
 
+필요성은 먼저 정한 행동 기준에 대해 판단한다. logit이 내려갔어도 정답 선택이 유지된다면 score에 대한 효과는 있지만, 그 component 없이는 정답을 낼 수 없었다고 말할 근거는 아니다. 단일 제거로 행동이 유지되는 경우에도 집합 제거의 결과는 다를 수 있다. 연습문제의 $Y=\max(h_1,h_2)$에서 두 값이 모두 1이면 하나를 0으로 바꿔도 다른 값이 1을 유지하지만, 둘을 함께 0으로 바꾸면 $Y=0$이다.
+
+고정 model의 ablation에서는 weights를 다시 학습하지 않는다. 이때 downstream 보상은 바뀐 activation에 기존 계산이 반응하는 현상이다. component를 제거한 뒤 재학습해 얻은 성능 회복은 다른 학습 실험으로 구분한다.
+
+다음 두 비교는 중복 경로의 공동 제거와 행동 기준의 경계를 분리한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Diamond state graph for max of two components has intact one one output one and both single-zero states zero one and one zero output one while the joint zero zero state outputs zero](../../figures/assets/I07/I07-06-redundant-max-paths.svg)
+
+<figcaption>본문의 max 예제다. 각 단일 제거 뒤에도 값 1인 경로 하나가 남지만, 둘을 함께 제거하면 outcome이 0이다. 개별 효과 0이 두 component의 기능 부재를 뜻하지 않는다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![Illustrative score-margin bars two zero point two and minus zero point one show a large reduction with the positive decision retained followed by crossing zero and losing the decision](../../figures/assets/I07/I07-06-margin-versus-decision.svg)
+
+<figcaption>설명용 margin을 2, 0.2, −0.1로 두고 양수면 정답을 선택하는 기준을 사용했다. 2→0.2는 큰 score 감소여도 선택은 유지되며, 0.2→−0.1은 0 경계를 지나 선택이 바뀐다.</figcaption>
+
+</figure>
+
 ## 3. 대조군
 
 - 같은 layer에서 무작위 component ablation
@@ -67,11 +109,33 @@ joint ablation과 restore 실험을 함께 보아야 한다.
 
 선택한 component만 보고 무작위 선택 분포를 생략하면 selection bias가 생긴다.
 
+magnitude matching에서는 무엇의 크기를 맞췄는지 밝힌다. 원래 출력 $h_c$의 norm과 실제 바꾼 양 $h_c-b_c$의 norm은 mean·resample ablation에서 다를 수 있다. 같은 대체 규칙과 component 수를 적용한 대조군에서 실제 변화량도 비교해야, target 선택 효과와 더 큰 조작량의 효과를 구분할 수 있다.
+
+다음 좌표 그림은 원래 activation 크기가 같아도 실제 조작량은 달라지는 경우를 보여 준다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Three one-dimensional coordinate diagrams hold original activation three fixed while replacing it by zero two or minus three produces manipulation distances three one and six despite the same original norm three](../../figures/assets/I07/I07-06-change-norm-baselines.svg)
+
+<figcaption>설명용 한 좌표 h = 3의 원래 norm은 항상 3이다. b = 0, 2, −3으로 바꾸는 실제 변화량 |h − b|는 3, 1, 6으로 다르다. 대조군에서 어느 norm을 맞췄는지 구분해야 한다.</figcaption>
+
+</figure>
+
 ## 4. CPU 실습
 
 <!-- I07_EXAMPLE: i07_06_ablation -->
 
 세 component의 단일 평균 효과와 앞의 두 component를 함께 제거한 효과를 계산한다. 이 합성 예제는 선형 합이므로 앞 두 단일 효과 합과 joint effect가 일치한다. 비선형 downstream에서는 보장되지 않는다.
+
+다음 막대는 실습의 단일·공동 ablation 효과를 같은 입력 세 개에서 비교한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Lab component mean effects zero point nine and fourteen fifteenths have a sum eleven sixths equal to the mean joint effect of ablating the first two under the stated linear downstream function](../../figures/assets/I07/I07-06-linear-lab-additivity.svg)
+
+<figcaption>실습의 Y = h₁ + h₂ + 0.2h₃와 세 입력을 사용했다. 첫 두 mean single effect 0.9와 약 0.9333의 합 약 1.8333이 같은 baseline의 joint effect와 같다. 이 일치는 이 실습의 선형 downstream에 한정된다.</figcaption>
+
+</figure>
 
 ## 흔한 오해
 

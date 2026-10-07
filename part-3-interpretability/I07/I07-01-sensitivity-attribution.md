@@ -46,6 +46,8 @@ f(x+\varepsilon e_i)
 f(x)+\varepsilon S_i(x)+o(\varepsilon)
 $$
 
+$e_i$는 $i$번째 성분만 1이고 나머지는 0인 basis vector다. 따라서 $x+\varepsilon e_i$에서는 다른 좌표를 고정하고 $x_i$만 $\varepsilon$만큼 늘린다. $S_i(x)$는 단위 변화당 score의 변화율이고, 실제 작은 변화량은 $\varepsilon S_i(x)$로 근사한다. 나머지 항 $o(\varepsilon)$은 $\varepsilon$로 나눈 값이 0에 가까워지는 오차를 뜻한다. 이 식은 현재 점에서 미분 가능할 때의 국소 근사이므로, 큰 이동까지 같은 변화율을 적용하는 식은 아니다.
+
 귀인은 보통 $f(x)$ 또는 $f(x)-f(x')$를 feature별 값으로 배분하려 한다. 어떤 배분이 옳은지는 함수만으로 정해지지 않는다. baseline, feature 단위와 상호작용 처리 규칙이 필요하다.
 
 ## 2. 같은 함수, 다른 답
@@ -55,6 +57,46 @@ f(x_1,x_2,x_3)=x_1x_2+x_3^2
 $$
 
 $x=(2,3,1)$에서 gradient는 $(3,2,2)$이다. 반면 각 좌표를 0으로 바꿀 때의 score 감소는 $(6,6,1)$이다. gradient는 무한소 변화율이고 제거 효과는 0이라는 먼 기준점까지 이동한 유한 차이이므로 값이 같을 이유가 없다.
+
+첫 두 편미분은 각각 $x_2$, $x_1$이고 세 번째는 $2x_3$이므로 이 점에서 $(3,2,2)$를 얻는다. 원래 score는 $2\cdot3+1^2=7$이다. 첫째 또는 둘째 좌표를 0으로 바꾸면 곱 항 전체가 사라져 score는 1이고 감소량은 6이다. 셋째 좌표를 0으로 바꾸면 score는 6이어서 감소량은 1이다.
+
+세 제거 효과의 합은 13이지만 모든 좌표를 함께 0으로 바꿀 때의 감소량은 7이다. $x_1x_2$라는 상호작용 항을 첫째·둘째 좌표의 개별 제거에서 각각 세었기 때문이다. 각 좌표를 없앴을 때의 효과를 나열하는 것과, 총 score 차이를 중복 없이 배분하는 귀인 규칙을 정하는 것은 구분해야 한다.
+
+아래 직선 단면에서는 변화율과 유한 score 감소를 다른 눈금으로 읽는다.
+
+<figure class="lesson-figure" markdown="1">
+
+![With other coordinates fixed the slice three times x one plus one has slope three at input two while moving the input from two to zero decreases the score from seven to one by six](../../figures/assets/I07/I07-01-linear-coordinate-change.svg)
+
+<figcaption>x₂ = 3, x₃ = 1을 고정한 단면이다. 현재 x₁ = 2에서 기울기는 3이지만, 0까지 가는 이동량은 −2이므로 실제 score 감소는 6이다. 변화율과 전체 변화량의 단위도 다르다.</figcaption>
+</figure>
+
+제곱 항의 아래 곡선에서는 현재 접선을 먼 기준점까지 적용한 오차를 본다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Quadratic slice six plus x three squared and tangent at x three one agree at score seven but at zero the actual score is six and the tangent predicts five](../../figures/assets/I07/I07-01-quadratic-local-finite.svg)
+
+<figcaption>x₁ = 2, x₂ = 3을 고정했다. x₃ = 1의 local gradient는 2이지만 0까지 제거하면 score 감소는 1이다. 접선을 0까지 연장하면 5를 예측해 실제 곡선의 score 6과 차이가 난다.</figcaption>
+</figure>
+
+세 좌표를 비교한 아래 두 패널은 변화율과 score 차이의 단위를 분리한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Separate vertical panels show local gradient three two two in score per input unit and zero-baseline removal effects six six one in score units with different ties](../../figures/assets/I07/I07-01-gradient-removal-units.svg)
+
+<figcaption>위는 현재 점의 단위 입력 변화당 민감도, 아래는 각 좌표를 0으로 바꾼 score 차이다. gradient에서는 x₁이 x₂보다 크고, 제거 효과에서는 둘이 같은 6이다. 서로 다른 단위를 한 점수처럼 섞지 않는다.</figcaption>
+</figure>
+
+아래 분기 그림에서는 두 제거가 같은 상호작용 항을 각각 세는 지점을 확인한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Six unit cells of the interaction x one times x two feed both individual removals with effects six and six while one square-term unit feeds effect one so the individual effects double count the same interaction](../../figures/assets/I07/I07-01-overlapping-removals.svg)
+
+<figcaption>곱 항 6의 같은 여섯 셀에서 두 제거 경로가 출발한다. x₁ 또는 x₂를 0으로 바꾸면 각각 이 전체 곱 항이 사라져 둘 다 감소량 6을 센다. 실제 원래 score는 곱 항 6과 제곱 항 1의 합 7이다.</figcaption>
+</figure>
 
 ## 3. 분석 계약
 
@@ -68,6 +110,15 @@ $x=(2,3,1)$에서 gradient는 $(3,2,2)$이다. 반면 각 좌표를 0으로 바�
 - 귀인인지 실제 개입 효과인지
 
 softmax 확률은 다른 logit에도 의존한다. 특정 logit의 민감도와 그 token 확률의 민감도는 같은 질문이 아니다.
+
+아래 두 target 곡선에서는 같은 class의 logit과 probability가 다른 질문임을 비교한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Illustrative two-class example holds logit A at one while increasing logit B lowers probability A from sigmoid one to one half and lower through the softmax denominator](../../figures/assets/I07/I07-01-target-softmax-coupling.svg)
+
+<figcaption>두 class의 설명용 계산으로 z_A = 1을 고정하고 z_B만 바꿨다. 위 target logit은 변하지 않지만 아래 target probability는 분모 때문에 변한다. 같은 class를 골라도 어느 scalar를 측정하는지에 따라 질문이 달라진다.</figcaption>
+</figure>
 
 ## 4. CPU 실습
 

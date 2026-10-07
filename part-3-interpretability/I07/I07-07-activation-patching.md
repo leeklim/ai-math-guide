@@ -42,7 +42,7 @@ Activation patching은 clean 실행에서 얻은 내부 상태를 corrupt 실행
 2. corrupt: 대비 입력 $x_r$를 실행해 $m_r$를 얻는다.
 3. patched: $x_r$ 실행 중 $h_j$를 $h_j(x_c)$로 덮어쓰고 $m_p$를 얻는다.
 
-<figure class="lesson-figure" markdown="1">
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
 
 ![Clean corrupted and patched model runs aligned at one internal activation node](../../figures/assets/I07/I07-07-three-runs.svg)
 
@@ -59,9 +59,29 @@ $$
 
 $R_j=1$이면 지정 metric이 clean 수준으로 회복됐고 0이면 변화가 없다. 분모가 작으면 비율이 불안정하므로 원시 metric도 함께 보고한다. 0보다 작거나 1보다 큰 값도 가능한 실제 결과다.
 
+$m_c=m_r$이면 분모가 0이어서 recovery는 정의되지 않는다. 이 경우에도 원시 patch effect $m_p-m_r$는 계산할 수 있지만, 0인 baseline 간격의 몇 배를 회복했다고 표현할 수는 없다.
+
 normalized recovery가 답하는 질문은 “이 node가 일반적으로 얼마나 중요한가”가 아니다. 정확히는 선택한 clean-corrupt 대비에서 node $j$의 값을 교환했을 때, 선택한 metric의 두 baseline 사이 간격을 얼마나 이동했는가를 묻는다. 입력 쌍, node의 범위 또는 metric을 바꾸면 estimand도 바뀐다.
 
 예를 들어 $m_c=10,m_r=2$에서 $m_p=6$이면 원시 patch effect는 $m_p-m_r=4$이고 recovery는 $4/8=0.5$다. 원시 효과는 metric 단위를 유지하고, recovery는 clean-corrupt 간격을 기준으로 조건 사이 비교를 돕는다. 둘을 함께 제시해야 분모가 작은 실험과 실제 변화량이 큰 실험을 구분할 수 있다.
+
+다음 두 그림에서 원시 metric 간격과 작은 분모에 따른 recovery 변화를 비교할 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Metric axis positions corrupt two patched six clean ten and overshoot twelve show patch distance four and clean-corrupt distance eight yielding recovery one half and overshoot one point two five](../../figures/assets/I07/I07-07-recovery-metric-span.svg)
+
+<figcaption>본문의 m_c = 10, m_r = 2, m_p = 6을 같은 metric 축에 놓았다. 보라색 변화량 4가 분자이고 초록색 baseline 간격 8이 분모다. m_p = 12의 overshoot도 1.25로 남기며 1에서 잘라내지 않는다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![Illustrative inverse curve recovery equals zero point one divided by baseline gap grows from zero point one at gap one to one at gap zero point one and ten at gap zero point zero one](../../figures/assets/I07/I07-07-small-denominator.svg)
+
+<figcaption>설명용 원시 patch effect를 0.1로 고정했다. clean−corrupt 간격이 1, 0.1, 0.01이면 recovery는 0.1, 1, 10이다. 간격이 0이면 이 곡선의 비율은 정의되지 않는다.</figcaption>
+
+</figure>
 
 ## 2. patch 위치
 
@@ -77,15 +97,49 @@ Transformer에서 “layer 5를 patch했다”만으로는 부족하다.
 
 patch 위치는 tensor 주소만이 아니라 개입의 의미를 정한다. residual stream 전체를 교체하면 그 시점까지 누적된 여러 component의 결과를 함께 바꾼다. 특정 attention head output만 교체하면 더 좁은 update를 바꾸지만, 이후 residual addition과 MLP가 그 값을 읽는 방식은 그대로 남는다. neuron 하나나 subspace만 교체할 때는 선택한 좌표계와 projection 정의까지 기록해야 한다.
 
+같은 위치의 clean·corrupt hidden vector를 $h_c,h_r$라 하고 선택 subspace의 orthogonal projection을 $P$라 하면, 부분 교체값은 $h_r+P(h_c-h_r)$로 만들 수 있다. 선택 subspace 성분은 clean 값으로 바뀌고 그 직교 여공간 성분은 corrupt 값으로 남는다. $P$가 identity이면 전체 vector 교체이고, 특정 좌표만 남기는 projection이면 그 좌표들만 교체한다. 어느 경우에도 이 값 뒤의 downstream 계산은 patched 상태에서 다시 진행한다.
+
+다음 좌표 그림은 부분 projection 교체에서 남는 corrupt 성분을 보여 준다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Illustrative coordinate vectors corrupt one one clean three two and partial-patched three one show a horizontal projection replacing only the first coordinate and preserving the second corrupt component](../../figures/assets/I07/I07-07-subspace-partial-patch.svg)
+
+<figcaption>설명용 h_r = (1, 1), h_c = (3, 2)와 첫 좌표 projection P를 사용했다. P(h_c − h_r) = (2, 0)을 더해 (3, 1)을 얻으며, 두 번째 corrupt 성분 1은 남는다. 전체 vector 교체 (3, 2)와 다르다.</figcaption>
+
+</figure>
+
 ## 3. clean·corrupt 쌍
 
 두 입력은 목표 feature만 다르고 길이·형식·난이도는 가능한 한 맞춰야 한다. corruption이 여러 정보를 함께 바꾸면 patch가 회복한 대상도 모호해진다. 여러 입력 쌍에 대해 paired effect와 불확실성을 계산한다.
+
+정렬은 문장 글자 수뿐 아니라 tokenization 뒤의 위치에서 확인한다. 같은 단어 위치도 한 입력에서는 여러 token으로 나뉠 수 있고, 같은 tensor index가 서로 다른 문맥을 가리킬 수 있다. clean 값을 가져오는 source 위치와 corrupt 실행에서 바꿀 destination 위치를 명시해야, shape가 같다는 사실을 의미 대응으로 오해하지 않는다.
+
+다음 token 배열에서 같은 shape와 의미가 맞는 source/destination 위치를 구분한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Illustrative three-token clean sequence A B C and corrupt sequence A sub one A sub two B have the same shape but clean B at index two corresponds to corrupt B at index three rather than index two](../../figures/assets/I07/I07-07-source-destination-indices.svg)
+
+<figcaption>실제 tokenizer 결과가 아닌 설명용 분할이다. 두 tensor의 길이는 3으로 같지만 clean 2번의 B는 corrupt 3번에 있다. 같은 index 2를 기계적으로 교환하면 B를 A₂ 위치에 넣는 다른 개입이 된다.</figcaption>
+
+</figure>
 
 ## 4. CPU 실습
 
 <!-- I07_EXAMPLE: i07_07_activation_patching -->
 
 작은 MLP의 전체 hidden vector를 clean 값으로 바꾸면 합성 예제에서는 recovery가 1이다. 전체 vector를 교체했으므로 개별 neuron의 역할은 결론 내리지 않는다.
+
+다음 hidden 좌표 그림은 CPU 실습의 전체 vector 교체가 고정 readout에 주는 결과를 보여 준다.
+
+<figure class="lesson-figure" markdown="1">
+
+![CPU toy MLP hidden space shows corrupt tanh hidden near minus zero point eight five zero moved fully to clean hidden near zero point nine four zero point nine one then the same fixed linear readout yields the same clean and patched score](../../figures/assets/I07/I07-07-cpu-full-vector-patch.svg)
+
+<figcaption>기존 CPU 실습의 tanh(W_IN x) 좌표를 그대로 계산했다. full hidden vector를 clean 점으로 교체하면 고정 W_OUT이 같은 vector를 읽어 patched score가 clean score와 같아진다. 이 결과만으로 어느 neuron이 개별적으로 필요한지는 알 수 없다.</figcaption>
+
+</figure>
 
 ## 5. Pythia-160M 실제 모델 실험
 

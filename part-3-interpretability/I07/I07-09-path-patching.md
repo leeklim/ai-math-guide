@@ -48,9 +48,57 @@ $$
 
 여기서 다른 edge의 message는 어느 실행 값으로 고정했는지 계약에 적어야 한다.
 
+message는 receiver가 읽는 입력을 뜻하므로 sender node 전체를 바꾸지 않고도 그 입력만 교체할 수 있다. 기존 실습의 $C=2A$, $B=3A+5C$에서 base $A=-1$이면 $C=-2$, $B=-13$이다. $A\to B$가 읽는 값만 source의 2로 바꾸면 $C$는 여전히 $-2$이고 $B=3\cdot2+5\cdot(-2)=-4$여서 효과는 9다. node $A$를 2로 바꾸면 $C=4$, $B=26$이 되어 효과는 39다. 같은 source 값도 어느 receiver에 전달하도록 허용했는지가 차이를 만든다.
+
+다음 세 계산 그래프는 같은 source/base에서 허용한 전달 경로만 바뀌는 비교다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Base A minus one reaches B directly with coefficient three and through C minus two with coefficients two then five producing B minus thirteen](../../figures/assets/I07/I07-09-base-two-paths.svg)
+
+<figcaption>기존 실습의 base A = −1이다. 직접 항 3A = −3과 간접 항 5C = −10이 더해져 B = −13이고, 전체 계수는 3 + 2×5 = 13이다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![Edge-only patch preserves A minus one and C minus two but the direct message m into B is set to clean two yielding B minus four and effect nine](../../figures/assets/I07/I07-09-edge-only-patch.svg)
+
+<figcaption>A node와 C는 base 값 −1, −2를 유지하고, 빨간 직접 edge가 B에 전달하는 m만 2로 바꾼다. B = 3×2 + 5×(−2) = −4이며 base 대비 효과는 9다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![Node patch sets A to clean two and recomputes C as four so both direct and indirect contributions reach B twenty six and produce total effect thirty nine](../../figures/assets/I07/I07-09-node-all-paths-patch.svg)
+
+<figcaption>A node 자체를 2로 바꾸면 C = 4도 다시 계산된다. B = 3×2 + 5×4 = 26으로, base 대비 total effect는 39다. 직접 edge만 바꾼 효과 9와 다른 개입이다.</figcaption>
+
+</figure>
+
 ## 2. Transformer의 edge
 
 Residual stream은 여러 component 출력의 합이다. sender head의 output을 receiver의 Q·K·V 또는 MLP 입력에 전달하는 경로를 분리하려면 sender output을 받는 다른 receiver를 freeze하거나 recompute하는 규칙이 필요하다. 구현에 따라 “path patching”이 나타내는 counterfactual이 달라질 수 있다.
+
+예를 들어 선택 receiver가 읽을 residual 합을 base 합에서 시작해, sender의 base update를 빼고 source update를 더해 구성할 수 있다. 다른 receiver에는 같은 변경을 적용하지 않는다. 선택 receiver 앞에 normalization이 있으면 바뀐 합의 normalization과 그 뒤의 projection을 다시 계산해야 한다. receiver output 전체를 source 값으로 바꾸면 다른 입력들의 영향까지 교체하므로, sender에서 들어오는 한 edge만 바꾸는 것과 같지 않다.
+
+다음 두 그림은 선택 receiver의 재계산 범위와 비선형 receiver의 base 의존성을 구분한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two receiver pipelines contrast selected receiver input base residual minus base sender update plus clean sender update followed by recomputed normalization and projection with an untouched other receiver at base residual](../../figures/assets/I07/I07-09-receiver-specific-residual.svg)
+
+<figcaption>선택 receiver의 입력만 r_r − h_r + h_c로 구성하는 계약이다. 바뀐 합에서 normalization과 projection/MLP를 다시 계산하고 다른 receiver에는 원래 base 합을 유지한다. receiver output 전체를 clean 값으로 바꾸는 그림이 아니다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![Three illustrative ReLU of message plus other-path base plots compare bases minus two zero and two while the same message change zero to one has effects zero one and one](../../figures/assets/I07/I07-09-relu-base-context.svg)
+
+<figcaption>설명용 receiver Y = ReLU(m + d)에서 m을 0→1로 바꾸고 다른 경로의 합 d를 고정했다. d = −2이면 threshold 아래여서 효과 0, d = 0 또는 2이면 효과 1이다. 같은 edge 변화도 다른 경로를 고정한 조건에 의존한다.</figcaption>
+
+</figure>
 
 ## 3. 회로 탐색과 검증
 

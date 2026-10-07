@@ -667,7 +667,7 @@ A09-GEO-04-pullback-metric.md
 - 문장을 합치거나 나누고 영어 어순으로 쓸 수 있지만 기존 단원/절/문단의 역할·순서·내용·논리 관계를 보존한다. 분량이나 문장 길이를 목표로 삼지 않는다.
 - 정의·조건·부정·양화·관측/개입·정보 복원/실제 사용·필요/충분·상관/인과를 대조한다. `may`, `can`, `shows`, `suggests` 등은 문체용 동의어가 아니다.
 - 용어집의 확정된 영어를 사용하되 다의어는 문맥을 확인한다. 같은 개념에 동의어를 번갈아 쓰지 않는다. 수학 객체, 열벡터/행 데이터, Jacobian 행/열, differential/metric-dependent gradient의 구분을 유지한다.
-- 영어 표 헤더는 `Symbol or term | Common spoken reading | Meaning | Shape and conditions`를 기본으로 한다. 마지막 열은 문맥에 맞게 바꿀 수 있다. 읽기 열의 내용과 백틱은 한국어판과 동일하게 유지한다.
+- 영어 표 헤더는 `Symbol or term | Common spoken reading | Meaning | Shape and conditions`를 기본으로 한다. 원문이 3열이면 3열을 유지하고 `Meaning` 또는 `Meaning in this lesson`을 쓴다. 4열 원문의 마지막 열은 원래 역할에 맞게 `Cautions`, `Examples`, `Scope` 등으로 옮길 수 있으며 없는 열·조건을 추가하지 않는다. 읽기 열의 내용과 백틱은 한국어판과 동일하게 유지한다.
 - 공통 절은 `Why this lesson matters`, `Learning objectives`, `Prerequisite check`, `Symbols and terms`, `Core concepts`, `Common misconceptions`, `Exercises`, `Lesson summary`, `Pass criteria`, `Next lesson`, `Author checklist`로 옮긴다. 실제 하위 절·예제 제목은 원문의 뜻을 영어로 쓰며 새 절을 만들지 않는다.
 - 번호가 붙은 개별 핵심 개념 제목은 `Core concept 1. ...`처럼 단수로 쓴다. `Core concepts`는 여러 개념을 묶는 총괄 절에 사용한다.
 - 문제는 `Calculate`, `Explain`, `Determine`, `Design`처럼 묻는 행동을 밝힌다. 번호·위치·수치·조건·정답과 해설 논리를 보존하며 `<summary>Show solution</summary>`을 사용한다.

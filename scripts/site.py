@@ -438,6 +438,15 @@ def lint_english_readings(
         issues.extend(find_raw_math_pipes_in_tables(path, text))
         lines = text.splitlines()
         file_table_count = 0
+        original_column_count = None
+        if language == "en" and path.is_relative_to(CONTENT_ROOT):
+            original = ROOT / path.relative_to(CONTENT_ROOT)
+            if original.is_file():
+                for original_line in read_text(original).splitlines():
+                    original_header = split_markdown_table_row(original_line)
+                    if original_header and original_header[0] in {"기호·용어", "표기·용어"}:
+                        original_column_count = len(original_header)
+                        break
         for index, line in enumerate(lines):
             if not line.startswith("|"):
                 continue
@@ -455,13 +464,18 @@ def lint_english_readings(
                     "expected='Common spoken reading'"
                 )
                 continue
-            if language == "en" and header != ["Symbol or term", "Common spoken reading", "Meaning", "Shape and conditions"]:
-                issues.append(f"{path}:{index + 1}: English notation-table headers differ from the standard")
+            if language == "en":
+                if len(header) not in {3, 4} or header[2] not in {"Meaning", "Meaning in this lesson"} or any(not cell or HANGUL_RE.search(cell) for cell in header[2:]):
+                    issues.append(f"{path}:{index + 1}: English notation-table headers differ from the standard")
+                if original_column_count is not None and len(header) != original_column_count:
+                    issues.append(f"{path}:{index + 1}: English notation-table column count differs from the Korean source")
 
             row_index = index + 2
             while row_index < len(lines) and lines[row_index].startswith("|"):
                 cells = split_markdown_table_row(lines[row_index])
                 location = f"{path}:{row_index + 1}"
+                if language == "en" and len(cells) != len(header):
+                    issues.append(f"{location}: English notation-table row width differs from its header")
                 if len(cells) < 2:
                     issues.append(f"{location}: Common spoken reading cell is missing")
                     row_index += 1

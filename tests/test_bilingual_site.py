@@ -116,10 +116,35 @@ class BilingualSiteTests(unittest.TestCase):
             f"## {checklist}\n\n- [x] {check}\n"
         )
 
-    def test_english_notation_table_requires_all_standard_headers(self) -> None:
-        source = self.fixture_lesson(english=True).replace("Shape and conditions", "Shape")
+    def test_english_notation_table_requires_english_headers(self) -> None:
+        source = self.fixture_lesson(english=True).replace("Shape and conditions", "주의점")
         issues, _, _ = site.lint_english_readings([(Path("M00-01.md"), source)], language="en")
         self.assertTrue(any("English notation-table headers" in issue for issue in issues))
+
+    def test_english_notation_table_preserves_source_width_and_context_header(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            relative = "part-1-foundations/M00/M00-01-fixture.md"
+            ko_four = self.fixture_lesson(english=False)
+            en_four = self.fixture_lesson(english=True).replace("Shape and conditions", "Cautions")
+            def three_columns(value: str) -> str:
+                return value.replace(" | Shape and conditions |", " |").replace(" | Cautions |", " |").replace("|---|---|---|---|", "|---|---|---|").replace(" | Scalar |", " |")
+            site.write_text(root / relative, ko_four)
+            path = root / "translations/en" / relative
+            with patch.object(site, "ROOT", root):
+                site.select_language("en")
+                issues, _, _ = site.lint_english_readings([(path, en_four)], language="en")
+                self.assertEqual(issues, [])
+                en_three = three_columns(en_four).replace("| Meaning |", "| Meaning in this lesson |")
+                issues, _, _ = site.lint_english_readings([(path, en_three)], language="en")
+                self.assertTrue(any("column count differs" in issue for issue in issues))
+                site.write_text(root / relative, three_columns(ko_four))
+                issues, _, _ = site.lint_english_readings([(path, en_three)], language="en")
+                self.assertEqual(issues, [])
+                issues, _, _ = site.lint_english_readings([(path, en_four)], language="en")
+                self.assertTrue(any("column count differs" in issue for issue in issues))
+                issues, _, _ = site.lint_english_readings([(path, en_three.replace("| $x$ | `x` | A variable |", "| $x$ | `x` | A variable | Scalar |"))], language="en")
+                self.assertTrue(any("row width differs" in issue for issue in issues))
 
     def test_korean_term_translation_preserves_math_and_spoken_reading(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

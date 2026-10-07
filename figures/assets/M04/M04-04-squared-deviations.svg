@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-labelledby="title desc">
+  <title id="title">Variance averages squared deviations, not signed deviations</title>
+  <desc id="desc">Head-count values zero, one, two have probabilities one quarter, one half, one quarter and mean one. Signed deviations minus one, zero, plus one become squared deviations one, zero, one. Positive areas on both sides contribute one quarter each, yielding variance one half.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="800" height="600" rx="16" fill="#F8FAFC"/>
+  <g font-family="sans-serif" text-anchor="middle" fill="#334155"><text x="400" y="48" font-size="24" font-weight="700">Squaring prevents opposite deviations cancelling</text><text x="180" y="108" font-size="20">mass 1/4</text><text x="400" y="108" font-size="20">mass 1/2</text><text x="620" y="108" font-size="20">mass 1/4</text></g>
+  <path d="M110 170H690" stroke="#64748B" stroke-width="2"/><path d="M180 158V182M400 158V182M620 158V182" stroke="#64748B" stroke-width="2"/>
+  <g font-family="sans-serif" text-anchor="middle" font-size="22" fill="#334155"><text x="180" y="215">0</text><text x="400" y="215" fill="#065F46">1 = mean</text><text x="620" y="215">2</text><text x="180" y="267" fill="#1E3A8A">deviation −1</text><text x="400" y="267" fill="#475569">deviation 0</text><text x="620" y="267" fill="#5B21B6">deviation +1</text></g>
+  <path d="M180 288V331" stroke="#2563EB" stroke-width="2.5" marker-end="url(#arrow)"/><path d="M620 288V331" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <rect x="130" y="358" width="100" height="100" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/><rect x="570" y="358" width="100" height="100" fill="#F3E8FF" stroke="#7C3AED" stroke-width="2"/>
+  <g font-family="sans-serif" text-anchor="middle" font-size="24"><text x="180" y="416" fill="#1E3A8A">1</text><text x="400" y="416" fill="#475569">0</text><text x="620" y="416" fill="#5B21B6">1</text><text x="400" y="517" font-size="22" fill="#065F46">Var(X) = (1/4)1 + (1/2)0 + (1/4)1 = 1/2</text><text x="400" y="563" font-size="18" fill="#475569">Square area represents squared distance; probability weights remain.</text></g>
+</svg>

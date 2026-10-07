@@ -74,6 +74,15 @@ I_p(x,y)
 
 자연로그를 사용하면 단위는 nat이고 밑이 2인 로그를 사용하면 bit이다. 이 프로젝트는 별도 언급이 없으면 자연로그를 사용한다.
 
+surprisal 곡선은 probability가 0에 가까워질 때의 변화와 probability 1에서의 기준값을 보여 준다.
+
+<figure class="lesson-figure" markdown="1">
+
+  ![Negative log probability increases toward rare positive probabilities and equals zero at probability one](../../figures/assets/M04/M04-12-surprisal-curve.svg)
+
+  <figcaption>자연로그의 −log p 곡선이다. 표시한 점 p=1/4, 1/2, 1의 surprisal은 각각 약 1.386, 0.693, 0 nats이다. p=0에서 유한한 함수값이 있는 것은 아니며 그림의 왼쪽 끝도 작은 양수까지만 그렸다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. entropy는 같은 분포에서 surprisal을 평균한다
 
 유한 이산분포 $p$의 entropy는
@@ -87,6 +96,15 @@ I_p(x,y)
 이다. $p(x)=0$인 항은 연속성에 따라 $0\log0=0$으로 둔다.
 
 entropy는 결과를 관측하기 전 distribution 자체의 평균 surprisal이다. 가능한 outcome 수와 probability가 퍼진 정도에 영향을 받는다. entropy는 outcome 값 사이의 거리나 의미를 사용하지 않는다.
+
+기댓값의 합에서 각 outcome의 surprisal $-\log p(x)$에 그 outcome이 나올 비중 $p(x)$를 곱한다. 드문 outcome은 한 번 관측했을 때 surprisal이 크지만, 평균에서는 그만큼 자주 나타나지 않는다는 가중치도 받는다. 따라서 가장 드문 결과의 surprisal과 분포 전체의 entropy는 같은 수가 아니다. 확률 0인 결과는 이 평균에 기여하지 않으므로 그 항을 0으로 처리하는 convention을 사용한다.
+
+평균을 계산할 때에는 각 결과의 surprisal에 probability 가중치를 적용한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Outcome probability weights and surprisal combine into weighted contributions that sum to entropy](../../figures/assets/M04/M04-12-weighted-surprisal.svg)
+  <figcaption>p=(0.75,0.25)에서 드문 둘째 결과는 surprisal이 크지만 평균에서는 0.25의 가중치를 받는다. 오른쪽 두 막대의 합 약 0.562가 entropy다. 패널마다 세로축의 대상과 범위가 다르므로 개별 surprisal을 entropy 값으로 읽지 않는다.</figcaption>
+</figure>
 
 ## 핵심 개념 3. deterministic distribution은 entropy 0을 가진다
 
@@ -110,6 +128,22 @@ $K$개 outcome에 같은 probability $1/K$를 배정한 uniform distribution에�
 
 이다. 같은 $K$개 outcome을 가진 distribution 중 uniform distribution이 entropy를 최대화한다. M04-13에서 KL divergence를 사용해 이 성질을 다시 설명한다.
 
+uniform 식에서는 각 결과의 surprisal이 모두 $\log K$다. 같은 수에 총합 1인 가중치를 곱해 평균하므로 결과도 $\log K$가 된다. 반대로 entropy의 각 항은 음수가 아니며, $0<p(x)<1$인 결과가 있으면 그 항은 양수다. 따라서 유한 이산분포에서 entropy가 0이라는 것은 질량이 한 결과에 모두 놓였다는 뜻이다. uniform 최대값을 비교할 때에는 같은 $K$개 결과 집합을 고정한다. 결과 집합을 늘리면 비교하는 최대값도 달라진다.
+
+결과 집합을 고정한 비교와 결과 수 자체를 바꾸는 비교는 구분한다.
+
+<figure class="lesson-figure" markdown="1">
+
+  ![Entropy of a fixed two outcome distribution is zero at deterministic endpoints and maximal at equal masses](../../figures/assets/M04/M04-12-binary-entropy.svg)
+
+  <figcaption>같은 두 결과에 (p,1−p)를 배정하면 양쪽 끝은 deterministic이고 entropy는 0이다. 균등한 p=1/2에서 최대값 log 2를 얻는다. endpoint의 확률 0 항은 0 log 0=0 convention으로 처리했다.</figcaption>
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+  ![Uniform entropy grows as the number of equally probable outcomes increases](../../figures/assets/M04/M04-12-uniform-outcome-count.svg)
+  <figcaption>각 K에서 probability가 1/K인 균등분포만 비교한 값이다. K가 늘어나면 최대 entropy log K도 커진다. 점을 잇는 선은 증가 추세를 읽기 위한 것이며 outcome 수 K는 정수다.</figcaption>
+</figure>
+
 ## 핵심 개념 4. cross entropy는 target $p$의 결과를 model $q$로 평가한다
 
 두 이산분포 $p,q$에 대해 cross entropy를
@@ -124,6 +158,8 @@ $K$개 outcome에 같은 probability $1/K$를 배정한 uniform distribution에�
 
 $p(x)>0$인 outcome에 $q(x)=0$을 배정하면 cross entropy는 무한대이다. target에서 나올 수 있는 결과에 model이 zero probability를 배정했기 때문이다.
 
+$p(x)=0$인 결과는 target 평균에 기여하지 않으므로 합에서 제외할 수 있다. $p$와 $q$가 모두 0인 항도 0으로 처리한다. entropy와 달리, 여기서 평균의 가중치 $p(x)$와 surprisal을 계산하는 $q(x)$는 서로 다른 분포다. $q(x)$를 작게 만들면 그 결과의 log-loss는 커지지만, 평균에 얼마나 반영할지는 여전히 $p(x)$가 결정한다.
+
 cross entropy는
 
 \[
@@ -132,6 +168,22 @@ cross entropy는
 \]
 
 로 분해된다. $p$가 고정된 학습 문제에서는 $\mathrm H(p)$가 model parameter와 무관하므로 cross entropy minimization이 $D_{\mathrm{KL}}(p\Vert q)$ minimization과 연결된다.
+
+$q=p$를 대입하면 cross entropy는 target 자체의 entropy로 돌아간다. target을 바꾸지 않고 $q$만 학습하는 동안 $\mathrm H(p)$는 고정된 기준값이며, 위 분해에서 변하는 부분은 두 분포 사이의 KL 항이다. target entropy가 양수인 문제에서는 분포를 일치시켜도 cross entropy가 0일 필요가 없다. KL의 정의와 비음수성은 다음 단원에서 확인한다.
+
+두 분포의 역할을 바꾸면 각 결과의 평균 기여도 달라진다.
+
+<figure class="lesson-figure" markdown="1">
+  ![Stacked class contributions give different cross entropy totals when target and model roles are reversed](../../figures/assets/M04/M04-12-cross-entropy-direction.svg)
+  <figcaption>p=(0.75,0.25), q=(0.5,0.5)에서 두 색의 높이는 각 결과의 가중 log-loss 기여다. H(p)≈0.562, H(p,q)≈0.693, H(q,p)≈0.837로, 평균 가중치와 평가 확률을 맞바꾸면 합이 달라진다.</figcaption>
+</figure>
+
+모델 분포가 target과 같아져도 target 자체의 평균 surprisal은 남는다.
+
+<figure class="lesson-figure" markdown="1">
+  ![Cross entropy over model probability has a positive minimum equal to the fixed target entropy](../../figures/assets/M04/M04-12-target-entropy-floor.svg)
+  <figcaption>target p=(0.75,0.25)를 고정하고 q=(q₁,1−q₁)를 움직였다. 최솟값은 q=p에서 H(p)≈0.562이며 0이 아니다. target entropy 기준선 위의 파란 차이가 KL 항이고, 정확한 비음수성은 다음 단원에서 확인한다.</figcaption>
+</figure>
 
 ## 핵심 개념 5. one-hot cross entropy는 observed class의 NLL이다
 
@@ -179,6 +231,15 @@ target distribution $p=(p_1,\ldots,p_K)$가 one-hot이 아니면
 
 이 loss는 teacher output distribution을 student가 맞추도록 한다. teacher의 내부 computation이나 causal mechanism까지 같아진다는 조건은 포함하지 않는다.
 
+예를 들어 teacher가 $(0.8,0.2)$를 주면 최빈 class는 첫째지만 둘째 class의 coefficient도 $0.2$로 남는다. student가 첫째 class만 맞추려고 둘째 확률을 0에 가깝게 줄이면 $-0.2\log p_{S,2}$가 커진다. teacher의 argmax class 하나를 hard label로 바꾸면 이 항이 없어져 원래 soft-target 목적과 달라진다. soft target은 정답 index뿐 아니라 class 사이에 질량을 나눈 비율도 학습에 사용한다.
+
+같은 student를 평가해도 soft target과 argmax hard label은 서로 다른 최적점을 요구한다.
+
+<figure class="lesson-figure" markdown="1">
+  ![Soft teacher target loss minimizes at student mass point eight while hard label loss minimizes at one](../../figures/assets/M04/M04-12-soft-hard-target-loss.svg)
+  <figcaption>teacher (0.8,0.2)를 그대로 사용하는 loss는 student의 첫째 class probability가 0.8일 때 최소다. teacher의 argmax만 남긴 (1,0) target은 probability 1을 선호한다. 둘째 class에 대한 teacher 질량을 없애면 학습 목적 자체가 달라진다.</figcaption>
+</figure>
+
 ## 핵심 개념 7. language-model cross entropy는 token NLL의 평균이다
 
 token sequence $y_1,\ldots,y_T$에서 model이 이전 token을 조건으로 다음 token distribution을 만든다고 하자. sequence NLL은
@@ -197,7 +258,25 @@ token sequence $y_1,\ldots,y_T$에서 model이 이전 token을 조건으로 다�
 
 이다. 자연로그 대신 base-2 logarithm을 사용하면 $2^{\bar\ell_{\mathrm{bits}}}$로 쓴다.
 
-perplexity가 낮으면 평가 sequence의 observed token에 평균적으로 더 높은 probability를 배정했다는 뜻이다. tokenizer, evaluation corpus와 token averaging rule이 다르면 수치를 직접 비교하기 어렵다.
+sequence 식은 곱셈 규칙 $q_\theta(y_{1:T})=\prod_t q_\theta(y_t\mid y_{<t})$에 로그를 취한 것이다. 각 token은 앞의 token을 조건으로 평가하므로 token들이 iid라는 가정은 필요하지 않다. 관측 token의 확률이 모두 양수일 때 평균 NLL을 지수화하면
+
+\[
+\operatorname{PPL}
+=\left(\prod_{t=1}^{T}q_\theta(y_t\mid y_{<t})\right)^{-1/T}
+\]
+
+이다. 즉 관측 token 확률의 기하평균을 역수로 바꾼 값이다. 매 위치에서 관측 token에 같은 확률 $1/K$를 주면 perplexity는 $K$가 되지만, 일반적인 값은 실제 vocabulary 크기를 세는 수가 아니다.
+
+perplexity가 낮으면 평가 sequence의 observed token에 기하평균 기준으로 더 높은 probability를 배정했다는 뜻이다. tokenizer, evaluation corpus와 token averaging rule이 다르면 수치를 직접 비교하기 어렵다.
+
+관측 token과 그 앞의 context를 함께 따라가면 conditional probability의 곱이 만들어지는 위치를 확인할 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+  ![Observed tokens with growing contexts produce conditional probabilities then sequence and mean negative log likelihood and perplexity](../../figures/assets/M04/M04-12-conditional-token-loss.svg)
+
+  <figcaption>구성한 sequence A,B,C의 관측 token 확률은 0.5, 0.25, 1이다. 조건부 곱은 0.125, 총 NLL은 log 8, token당 평균은 log 2여서 perplexity는 2다. context를 조건으로 사용하는 계산이며 iid token이나 vocabulary 크기 2라는 주장을 뜻하지 않는다.</figcaption>
+</figure>
 
 ## 핵심 개념 8. predictive entropy는 분포의 퍼짐을 요약한다
 
@@ -214,6 +293,13 @@ perplexity가 낮으면 평가 sequence의 observed token에 평균적으로 더
 낮은 predictive entropy는 예측이 맞다는 보장이 아니다. model이 틀린 class에 높은 probability를 주면 entropy는 낮고 prediction은 틀린다. entropy 하나로 data uncertainty와 parameter uncertainty를 분해할 수도 없다.
 
 activation을 binning한 뒤 계산한 entropy는 bin boundary와 coordinate choice에 의존한다. 낮거나 높은 activation entropy를 feature 수나 semantic complexity와 바로 연결하면 안 된다.
+
+정답과 비교하지 않는 entropy 계산은 두 예측의 정확성 차이를 담지 않는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Two swapped high confidence class distributions have identical predictive entropy but opposite correctness for the same observed label](../../figures/assets/M04/M04-12-entropy-correctness.svg)
+  <figcaption>같은 정답 A에서 (0.9,0.1)과 (0.1,0.9)는 entropy가 모두 약 0.325 nats다. 첫 모델의 최빈 class는 맞고 둘째 모델은 틀리다. 낮은 entropy는 질량이 집중됐다는 뜻이며 그 집중 위치가 정답이라는 보장은 아니다.</figcaption>
+</figure>
 
 ## 예제 1. binary distribution의 entropy
 

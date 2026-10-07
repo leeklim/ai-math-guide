@@ -69,6 +69,17 @@ activation의 평균과 공분산행렬(covariance matrix), loss의 평균과 �
 
 기댓값이 존재하려면 해당 합이나 적분이 적절히 수렴해야 한다. 기댓값은 확률변수의 가능한 값 밖에 놓일 수도 있다. 공정한 주사위의 기댓값은 $3.5$지만 한 번의 결과로 $3.5$가 나오지는 않는다.
 
+이 단원에서 유한한 평균을 계산할 때는 $\sum_x |x|p_X(x)<\infty$ 또는 $\int |x|f_X(x)\,dx<\infty$를 가정한다. 양수 항과 음수 항의 무한한 크기를 서로 상쇄해 평균을 정하지 않기 위한 조건이다. 분산과 공분산을 계산하는 변수에는 유한한 이차 모멘트 $\mathbb E[X^2]$도 가정한다. 가능한 값이 유한 개이고 각 값이 유한한 예제에서는 이 조건들이 성립한다.
+
+아래 설명용 분포는 0과 2에 서로 다른 질량을 둔다. 평균은 질량이 큰 쪽에 가깝지만, 가능한 값 중 하나를 골라야 하는 것은 아니다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A number line with probability masses 0.25 at zero and 0.75 at two balancing at expectation 1.5, which is not a possible outcome](../../figures/assets/M04/M04-04-weighted-balance-point.svg)
+
+<figcaption>원 넓이는 확률 질량을, 가로 위치는 값을 나타낸다. 평균 양쪽의 거리와 질량을 곱한 값이 같아지는 위치가 균형점이며, 이 분포에서는 관측값으로 나올 수 없는 1.5다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. 함수의 기댓값은 원래 분포에서 계산할 수 있다
 
 $Y=g(X)$라 하면 $Y$의 분포를 먼저 만들지 않고
@@ -86,6 +97,16 @@ $Y=g(X)$라 하면 $Y$의 분포를 먼저 만들지 않고
 \]
 
 이다. 이 규칙은 $g(X)=X^2$, loss $\ell(X)$와 indicator 같은 변환의 평균을 계산할 때 사용한다.
+
+이산형에서 $Y$의 한 값 $y$에는 $g(x)=y$인 여러 $x$가 모일 수 있다. 이 값의 확률은 그 $x$들의 확률을 더한 것이다. 따라서 $Y$의 기댓값을 값별로 계산하더라도
+
+\[
+\sum_y y\,p_Y(y)
+=\sum_y y\sum_{x:g(x)=y}p_X(x)
+=\sum_x g(x)p_X(x)
+\]
+
+를 얻는다. 오른쪽 식은 같은 값으로 모으는 중간 단계를 생략하고, 원래 값마다 변환된 출력과 확률을 곱한 것이다. 이 계산에서도 기댓값이 유한하도록 $\mathbb E[|g(X)|]<\infty$를 가정한다.
 
 사건 $A$의 지시변수(indicator)를
 
@@ -105,6 +126,17 @@ $Y=g(X)$라 하면 $Y$의 분포를 먼저 만들지 않고
 
 이다. 정확도도 sample별 정답 indicator의 평균으로 표현할 수 있다.
 
+indicator가 취하는 값은 1과 0뿐이므로 그 기댓값은 $1\cdot P(A)+0\cdot P(A^c)=P(A)$이다. 사건의 확률을 수치 함수의 평균으로 바꾼 관계다.
+
+제곱 변환에서는 서로 다른 원래 값이 같은 출력으로 모일 수 있다. 아래 두 계산은 출력값을 먼저 모으는지 여부만 다르다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Values minus two and two with mass one quarter each mapped by squaring to four with mass one half, while value one with mass one half stays one, yielding expectation 2.5](../../figures/assets/M04/M04-04-transform-before-average.svg)
+
+<figcaption>값을 변환해도 원래 확률 가중치는 유지한다. 같은 출력 4에 모인 확률을 먼저 합쳐도, 원래 세 값마다 변환 결과와 확률을 곱해 더해도 같은 기댓값을 얻는다.</figcaption>
+</figure>
+
 ## 핵심 개념 3. 기댓값은 선형이다
 
 상수 $a,b,c$와 확률변수 $X,Y$에 대해
@@ -115,6 +147,15 @@ $Y=g(X)$라 하면 $Y$의 분포를 먼저 만들지 않고
 \]
 
 이다. 이 성질에는 $X$와 $Y$의 독립이 필요하지 않다. 합의 평균은 각 항의 평균을 더해 계산한다.
+
+이산형에서는 같은 결합분포를 가중치로 사용해
+
+\[
+\mathbb E[aX+bY+c]
+=\sum_x\sum_y (ax+by+c)p_{X,Y}(x,y)
+\]
+
+로 쓴다. 괄호를 펼친 뒤 첫 항에서 $y$를 합하면 $p_X(x)$가 되고, 둘째 항에서 $x$를 합하면 $p_Y(y)$가 된다. 상수 항에는 전체 확률 합 1이 곱해진다. 이 과정에는 결합확률을 두 주변확률의 곱으로 분리하는 단계가 없다.
 
 반면 곱의 기댓값을
 
@@ -154,6 +195,15 @@ $\mu_X=\mathbb E[X]$라 두면 분산(variance)은
 
 이다. 분산의 단위는 $X$ 단위의 제곱이고 표준편차는 $X$와 같은 단위를 가진다.
 
+예제 1의 평균 1을 기준으로 양쪽 편차를 제곱하면, 반대 부호였던 두 거리가 모두 양의 기여로 바뀐다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Head-count values zero, one and two centered at mean one with signed deviations minus one, zero and plus one transformed into squared deviations one, zero and one](../../figures/assets/M04/M04-04-squared-deviations.svg)
+
+<figcaption>양옆 정사각형은 같은 크기의 제곱 거리를 나타낸다. 가운데 편차는 0이라 기여가 없으며, 각 제곱 거리에 원래의 확률을 곱해 분산을 계산한다.</figcaption>
+</figure>
+
 ## 핵심 개념 5. 상수 이동과 배율은 분산을 다르게 바꾼다
 
 상수 $a,b$에 대해
@@ -173,6 +223,33 @@ $\mu_X=\mathbb E[X]$라 두면 분산(variance)은
 \]
 
 독립인 $X,Y$의 공분산은 0이므로 이 경우에는 두 분산만 더한다.
+
+합의 평균은 $\mu_X+\mu_Y$이므로 중심화한 합은 $(X-\mu_X)+(Y-\mu_Y)$이다. 이 편차를 제곱하면
+
+\[
+(X-\mu_X)^2+(Y-\mu_Y)^2
++2(X-\mu_X)(Y-\mu_Y)
+\]
+
+가 된다. 기댓값을 취하면 첫 두 항은 각 분산이고 마지막 항은 두 배의 공분산이다. 따라서 합의 분산에는 두 변수의 퍼짐뿐 아니라 편차가 같은 쪽으로 모이는지 반대쪽으로 모이는지도 들어간다.
+
+같은 확률 질량을 유지한 채 값의 위치만 옮기거나 늘려 보면 평균과의 거리가 어떻게 바뀌는지 확인할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Three distributions on a shared number-line scale showing X with mean one and variance 0.5, X plus three with unchanged variance, and twice X with variance two](../../figures/assets/M04/M04-04-affine-variance.svg)
+
+<figcaption>상수를 더한 줄은 점과 평균이 함께 이동한다. 두 배로 늘린 줄에서는 평균까지의 거리도 두 배가 되어 제곱 거리의 평균은 네 배가 된다.</figcaption>
+</figure>
+
+각 변수의 분산이 같아도 두 변수가 같은 방향으로 움직이는지 반대 방향으로 움직이는지에 따라 합의 퍼짐은 달라진다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two equally weighted joint outcomes aligned along Y equals X or opposed along Y equals minus X, producing sum distributions of variance four or zero despite equal marginal variances](../../figures/assets/M04/M04-04-covariance-sum.svg)
+
+<figcaption>왼쪽에서는 두 편차가 합쳐져 합의 값이 멀어지고, 오른쪽에서는 같은 크기의 편차가 상쇄된다. 두 경우 모두 합의 평균은 0이지만 분산은 다르다. 위 점들은 각 경우에 가능한 결합 결과 두 개다.</figcaption>
+</figure>
 
 ## 핵심 개념 6. 공분산은 두 중심화 변수가 함께 움직이는 방향을 나타낸다
 
@@ -194,6 +271,8 @@ $\mu_X=\mathbb E[X]$라 두면 분산(variance)은
 
 공분산이 양수이면 두 변수가 평균보다 큰 쪽과 작은 쪽으로 함께 움직이는 경향이 있다. 음수이면 한 변수가 평균보다 클 때 다른 변수가 작은 경향이 있다. 0이면 선형 공동변화가 없다는 뜻이다.
 
+전개한 네 항의 기댓값은 $\mathbb E[XY]-\mu_Y\mathbb E[X]-\mu_X\mathbb E[Y]+\mu_X\mu_Y$이다. 평균의 정의를 대입하면 가운데 두 항과 마지막 항이 합쳐져 $-\mu_X\mu_Y$만 남는다. 편차의 곱은 두 편차의 부호가 같을 때 양수이고 다를 때 음수다. 공분산은 이 곱을 확률로 가중해 더한 값이므로 0이라는 결과에는 양수·음수 기여의 상쇄도 포함된다.
+
 공분산은 변수의 단위와 scale에 따라 달라진다. 상관계수(correlation coefficient)는 이를 표준화한다.
 
 \[
@@ -203,6 +282,26 @@ $\mu_X=\mathbb E[X]$라 두면 분산(variance)은
 \]
 
 상관계수도 비선형 의존성과 인과 방향을 정하지 않는다.
+
+평균을 빼고 표준편차로 나눈 변수는 평균 0, 분산 1이다. 두 표준화 변수의 곱을 평균 내면 $\rho_{X,Y}$를 얻는다. 임의의 실수 $t$에 대해 표준화 변수 하나에서 다른 변수의 $t$배를 뺀 제곱의 기댓값은 $1-2t\rho_{X,Y}+t^2\ge0$이다. 여기에 $t=\rho_{X,Y}$를 넣으면 $1-\rho_{X,Y}^2\ge0$이므로 상관계수가 $[-1,1]$에 놓인다. 표준편차가 0이면 이 표준화와 상관계수는 정의할 수 없다.
+
+예제 2의 평균을 빼면 네 결합 결과가 평균의 어느 쪽에 놓이는지 드러난다. 각 점의 기여는 편차의 곱에 그 점의 확률을 곱한 것이다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Four centered binary joint outcomes in positive and negative deviation-product quadrants with weighted contributions 0.09, minus 0.04, minus 0.03 and 0.08 totaling covariance 0.10](../../figures/assets/M04/M04-04-covariance-products.svg)
+
+<figcaption>같은 부호의 편차는 양수, 반대 부호의 편차는 음수 기여를 만든다. 원 넓이는 해당 결과의 확률이며, 공분산의 부호는 점이 있는 개수만이 아니라 이 가중된 기여의 합으로 정해진다.</figcaption>
+</figure>
+
+흔한 오해 4의 $Y=X^2$를 유한한 세 값에서 보면, 양쪽 기여가 상쇄되어도 함수로 정해지는 관계는 남아 있음을 확인할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Three equally likely outcomes on Y equals X squared with negative and positive weighted covariance contributions canceling to zero despite deterministic dependence](../../figures/assets/M04/M04-04-uncorrelated-dependent.svg)
+
+<figcaption>보라 점 세 개가 가능한 결합 결과이며 각각 확률 3분의 1을 갖는다. 회색 곡선은 함수 규칙일 뿐, 그 위의 모든 값에 확률이 있다는 뜻은 아니다. 공분산이 0이어도 X를 알면 Y가 정해진다.</figcaption>
+</figure>
 
 ## 핵심 개념 7. 공분산행렬은 확률벡터의 이차 공동변화를 모은다
 
@@ -230,7 +329,38 @@ $\mu_X=\mathbb E[X]$라 두면 분산(variance)은
 
 이므로 $\mathbf\Sigma$는 positive semidefinite이다.
 
+기댓값은 vector나 matrix의 각 성분에 적용한다. 따라서 $\Sigma_{ij}=\mathbb E[(X_i-\mu_i)(X_j-\mu_j)]$이고, scalar 곱의 순서를 바꿀 수 있어 $\Sigma_{ij}=\Sigma_{ji}$이다. 각 성분 쌍의 공분산을 모은 행렬이라는 뜻과 대칭성이 여기서 나온다.
+
+방향 $\mathbf v$는 고정된 계수이며 $\mathbf v^\top\mathbf X$는 scalar 확률변수다. 이 변수의 중심화 값은 $\mathbf v^\top(\mathbf X-\boldsymbol\mu)$이고, 그 제곱은 $\mathbf v^\top(\mathbf X-\boldsymbol\mu)(\mathbf X-\boldsymbol\mu)^\top\mathbf v$이다. 고정 계수를 기댓값 밖으로 꺼내면 위 분산식이 나온다. M02-14에서 데이터의 중심화 vector를 합해 만든 공분산행렬과 같은 outer product 구조이며, 여기서는 관측된 합 대신 확률분포의 기댓값을 사용한다.
+
 activation covariance는 선택한 데이터 분포와 좌표계에 의존한다. 평균과 covariance가 같아도 더 높은 차수 구조가 다른 분포가 존재하므로 두 요약량만으로 representation 전체가 같다고 결론 내릴 수 없다.
+
+예제 2의 결합 결과 하나에서 중심화 vector를 만들면, outer product의 행과 열이 어느 성분을 곱하는지 확인할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Centered vector 0.5 and 0.4 forming a two-by-two outer product with diagonal squared deviations and symmetric off-diagonal component products, labeled as one outcome contribution rather than the full covariance matrix](../../figures/assets/M04/M04-04-outer-product-entries.svg)
+
+<figcaption>한 결과에서 만든 행렬에는 모든 성분 쌍의 곱이 들어간다. 공분산행렬은 이 한 행렬이 아니라 가능한 각 결과의 행렬을 원래 확률로 가중해 평균 낸 것이다.</figcaption>
+</figure>
+
+같은 공분산행렬에서도 어느 단위 방향으로 값을 투영하는지에 따라 scalar 값의 퍼짐은 달라진다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Exact centered binary joint probabilities projected onto the two unit directions one-one and one-minus-one, yielding direction variances 0.345 and 0.145](../../figures/assets/M04/M04-04-direction-variance.svg)
+
+<figcaption>막대는 각 방향에서 가능한 투영값의 확률이다. 두 방향 모두 평균은 0이지만 제곱 거리의 평균은 다르며, 공분산행렬의 quadratic form이 바로 이 분산을 계산한다.</figcaption>
+</figure>
+
+평균과 분산만 맞춘다고 분포 자체가 같아지는 것은 아니다. 아래 두 scalar 분포도 같은 일차·이차 요약량을 갖지만 가능한 값과 질량 배정은 다르다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two distinct discrete distributions with mean zero and variance one, one supported on minus one and one and the other on minus square root two, zero and square root two](../../figures/assets/M04/M04-04-same-moments.svg)
+
+<figcaption>위 분포에는 값 0의 질량이 없고 아래 분포에는 확률 2분의 1이 모여 있다. 평균과 분산은 이 차이를 기록하지 못한다. vector의 평균과 공분산으로 전체 분포를 비교할 때도 같은 한계가 남는다.</figcaption>
+</figure>
 
 ## 예제 1. PMF에서 평균과 분산 계산하기
 

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 450" role="img" aria-labelledby="title desc">
+<title id="title">One estimate and two margin-of-error endpoints</title>
+<desc id="desc">An observed estimate ten and standard error one give a margin one point nine six. The interval extends to eight point zero four and eleven point nine six on a numeric axis. These endpoints are fixed after observation.</desc>
+<rect width="560" height="450" rx="18" fill="#F8FAFC"/>
+<g font-family="sans-serif" text-anchor="middle" font-size="28" fill="#334155">
+<text x="280" y="54" font-weight="700">Estimate ± critical × SE</text><text x="280" y="102">10 ± 1.96 × 1</text>
+<path d="M84 202H476 M84 192V212 M476 192V212" stroke="#059669" stroke-width="4" fill="none"/><circle cx="280" cy="202" r="7" fill="#2563EB"/>
+<text x="84" y="164" fill="#065F46">8.04</text><text x="280" y="164" fill="#1E3A8A">10</text><text x="476" y="164" fill="#065F46">11.96</text>
+<path d="M60 272H500 M80 261V283 M180 261V283 M280 261V283 M380 261V283 M480 261V283" stroke="#64748B" stroke-width="2"/>
+<text x="80" y="320">8</text><text x="180" y="320">9</text><text x="280" y="320">10</text><text x="380" y="320">11</text><text x="480" y="320">12</text>
+<text x="280" y="382" font-size="26">Fixed endpoints after observation</text>
+</g></svg>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 610" width="800" height="610" role="img" aria-labelledby="title desc">
+  <title id="title">One intersection calculated from either conditioning direction</title>
+  <desc id="desc">A coherent illustrative joint model has P(A)=0.4, P(B given A)=0.25, P(B)=0.2 and P(A given B)=0.5. Selecting A then a quarter of its mass or B then half its mass yields the same intersection mass 0.1. Selection order is not temporal or causal order.</desc>
+  <rect width="800" height="610" rx="16" fill="#F8FAFC"/>
+  <g font-family="sans-serif" text-anchor="middle" fill="#334155"><text x="400" y="48" font-size="24" font-weight="700">Two directions, one intersection</text><text x="400" y="96" font-size="18">A single illustrative joint distribution</text></g>
+  <g font-family="sans-serif" font-size="20" fill="#334155"><text x="100" y="146">Select A: mass 0.4</text><text x="100" y="295">Select B: mass 0.2</text></g>
+  <rect x="100" y="169" width="60" height="70" fill="#D1FAE5" stroke="#059669" stroke-width="2"/><rect x="160" y="169" width="180" height="70" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/><rect x="340" y="169" width="360" height="70" fill="#E2E8F0" stroke="#64748B" stroke-width="2"/>
+  <rect x="100" y="318" width="60" height="70" fill="#D1FAE5" stroke="#059669" stroke-width="2"/><rect x="160" y="318" width="60" height="70" fill="#F3E8FF" stroke="#7C3AED" stroke-width="2"/><rect x="220" y="318" width="480" height="70" fill="#E2E8F0" stroke="#64748B" stroke-width="2"/>
+  <g font-family="sans-serif" text-anchor="middle" font-size="20" fill="#065F46"><text x="130" y="212">0.1</text><text x="130" y="361">0.1</text></g>
+  <path d="M100 246V260H340V246" fill="none" stroke="#2563EB" stroke-width="2"/><path d="M100 395V409H220V395" fill="none" stroke="#7C3AED" stroke-width="2"/>
+  <g font-family="sans-serif" font-size="20"><text x="372" y="262" fill="#1E3A8A">0.25 of A → 0.4 × 0.25 = 0.1</text><text x="270" y="418" fill="#5B21B6">0.5 of B → 0.2 × 0.5 = 0.1</text></g>
+  <rect x="184" y="460" width="432" height="60" rx="12" fill="#D1FAE5" stroke="#059669" stroke-width="2"/>
+  <g font-family="sans-serif" text-anchor="middle"><text x="400" y="497" font-size="22" fill="#065F46">P(A ∩ B) = 0.1 in both directions</text><text x="400" y="566" font-size="18" fill="#475569">Bar width is probability mass; selection order is not causation.</text></g>
+</svg>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 540" width="800" height="540" role="img" aria-labelledby="title desc">
+  <title id="title">Ordered outcomes of two coin flips</title>
+  <desc id="desc">A first flip branches into H or T. Each branch has a second H or T branch, producing HH, HT, TH, and TT. The tree lists outcomes and does not assign probabilities.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="800" height="540" rx="16" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#334155" text-anchor="middle">
+    <text x="400" y="48" font-size="24" font-weight="700">Order creates distinct outcomes</text>
+    <text x="95" y="106" font-size="20">Start</text><text x="330" y="106" font-size="20">First flip</text><text x="650" y="106" font-size="20">Second flip</text>
+  </g>
+  <rect x="556" y="128" width="188" height="316" rx="16" fill="#FFFFFF" stroke="#64748B" stroke-width="2"/>
+  <g fill="none" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#arrow)">
+    <path d="M120 280L296 200"/><path d="M120 280L296 360"/>
+    <path d="M364 200L597 168"/><path d="M364 200L597 242"/>
+    <path d="M364 360L597 324"/><path d="M364 360L597 398"/>
+  </g>
+  <circle cx="95" cy="280" r="25" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+  <g font-family="sans-serif" font-size="22" text-anchor="middle" fill="#1E3A8A">
+    <circle cx="330" cy="200" r="30" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/><text x="330" y="208">H</text>
+    <circle cx="330" cy="360" r="30" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/><text x="330" y="368">T</text>
+  </g>
+  <g font-family="sans-serif" font-size="18" fill="#5B21B6"><text x="458" y="154">H</text><text x="458" y="240">T</text><text x="458" y="310">H</text><text x="458" y="410">T</text></g>
+  <g font-family="sans-serif" text-anchor="middle" font-size="22" fill="#065F46">
+    <rect x="603" y="145" width="94" height="46" rx="10" fill="#D1FAE5"/><text x="650" y="176">HH</text>
+    <rect x="603" y="219" width="94" height="46" rx="10" fill="#D1FAE5"/><text x="650" y="250">HT</text>
+    <rect x="603" y="301" width="94" height="46" rx="10" fill="#D1FAE5"/><text x="650" y="332">TH</text>
+    <rect x="603" y="375" width="94" height="46" rx="10" fill="#D1FAE5"/><text x="650" y="406">TT</text>
+  </g>
+  <g font-family="sans-serif" text-anchor="middle" fill="#475569"><text x="650" y="474" font-size="20">Sample space Ω</text><text x="400" y="512" font-size="18">HT and TH are different; no probabilities are assigned here.</text></g>
+</svg>

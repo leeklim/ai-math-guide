@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 580" width="800" height="580" role="img" aria-labelledby="title desc">
+  <title id="title">Transform values while retaining their original probability weights</title>
+  <desc id="desc">X has values minus two, two, and one with masses one quarter, one quarter, and one half. Squaring maps minus two and two to four, collecting mass one half, and one to one with mass one half. Averaging transformed values either before or after collecting equal outputs gives expectation 2.5.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="800" height="580" rx="16" fill="#F8FAFC"/>
+  <g font-family="sans-serif" text-anchor="middle" fill="#334155"><text x="400" y="48" font-size="24" font-weight="700">Transform first, keep each original weight</text><text x="178" y="106" font-size="20">X value: mass</text><text x="630" y="106" font-size="20">g(X) = X²</text></g>
+  <g stroke-width="2"><rect x="70" y="136" width="216" height="65" rx="12" fill="#DBEAFE" stroke="#2563EB"/><rect x="70" y="226" width="216" height="65" rx="12" fill="#DBEAFE" stroke="#2563EB"/><rect x="70" y="347" width="216" height="65" rx="12" fill="#DBEAFE" stroke="#2563EB"/><rect x="536" y="171" width="188" height="121" rx="12" fill="#D1FAE5" stroke="#059669"/><rect x="536" y="347" width="188" height="65" rx="12" fill="#D1FAE5" stroke="#059669"/></g>
+  <g font-family="sans-serif" text-anchor="middle" font-size="22" fill="#1E3A8A"><text x="178" y="177">−2: 1/4</text><text x="178" y="267">2: 1/4</text><text x="178" y="388">1: 1/2</text></g>
+  <g stroke="#7C3AED" stroke-width="2.5" marker-end="url(#arrow)"><path d="M310 169L512 209"/><path d="M310 259L512 252"/><path d="M310 380H512"/></g>
+  <g font-family="sans-serif" text-anchor="middle" font-size="22" fill="#065F46"><text x="630" y="215">4</text><text x="630" y="260" font-size="20">mass 1/2</text><text x="630" y="388">1: mass 1/2</text></g>
+  <g font-family="sans-serif" text-anchor="middle"><text x="400" y="467" font-size="22" fill="#334155">4(1/4) + 4(1/4) + 1(1/2)</text><text x="400" y="508" font-size="22" fill="#065F46">= 4(1/2) + 1(1/2) = 2.5</text><text x="400" y="550" font-size="18" fill="#475569">Collecting equal outputs is optional; the weights are unchanged.</text></g>
+</svg>

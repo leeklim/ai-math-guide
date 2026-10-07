@@ -57,6 +57,8 @@ P(A\mid B)
 
 로 정의한다. 분모 $P(B)$는 조건을 만족하는 전체 확률이고, 분자 $P(A\cap B)$는 그중 $A$까지 만족하는 확률이다.
 
+조건을 걸면 $B$ 밖의 결과를 제외하고, $B$ 안에 남은 확률을 $P(B)$로 나누어 전체가 1이 되도록 맞춘다. 실제로 $P(\Omega\mid B)=P(B)/P(B)=1$이다. $B$ 안의 각 결과에 같은 수를 나누므로 결과들 사이의 확률 비율은 유지된다. 조건을 걸었다고 해서 남은 결과들이 새로 등확률이 되는 것은 아니다. $P(B)=0$이면 이 나눗셈으로 조건부확률을 정의할 수 없다.
+
 공정한 주사위에서 $A=\{2,4,6\}$은 짝수 사건이고 $B=\{4,5,6\}$은 4 이상인 사건이다. $B$가 일어났다고 알면 가능한 결과는 $\{4,5,6\}$으로 줄어든다. 그중 짝수는 $\{4,6\}$이므로
 
 \[
@@ -69,6 +71,15 @@ P(A\mid B)
 이다.
 
 $P(A\mid B)$와 $P(B\mid A)$는 조건 사건이 다르므로 값도 달라질 수 있다. 세로막대 오른쪽에 있는 사건이 현재 알고 있는 조건이다.
+
+앞 단원의 질량 배정 $0.6,0.3,0.1$에서 $B=\{b,c\}$만 남겨 보자. 같은 분모로 나누어도 두 질량의 비율은 그대로다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Original outcome masses 0.6, 0.3 and 0.1 filtered to b and c and rescaled by their total 0.4 into conditional masses 0.75 and 0.25](../../figures/assets/M04/M04-02-conditioning-renormalizes.svg)
+
+<figcaption>조건 밖의 질량은 제외되고, 남은 막대 전체가 확률 1이 되도록 늘어난다. 같은 배율을 적용하므로 남은 두 결과가 등확률로 바뀌지는 않는다.</figcaption>
+</figure>
 
 ## 핵심 개념 2. 곱셈법칙은 교집합을 순서 있는 계산으로 나눈다
 
@@ -92,6 +103,8 @@ P(A\mid B)P(B)=P(B\mid A)P(A)
 
 가 성립한다.
 
+첫 방향의 식에는 $P(B)>0$, 반대 방향에는 $P(A)>0$이 필요하다. 두 조건부확률을 한 식에 함께 쓸 때는 두 분모 조건을 모두 확인한다. 이 계산 순서는 사건이 시간적으로 먼저 일어났거나 다른 사건의 원인이라는 뜻이 아니다. 같은 교집합을 어느 조건부터 나누어 계산하는지 정한 것이다.
+
 세 사건에는 연쇄형 곱셈법칙을 적용할 수 있다.
 
 \[
@@ -101,9 +114,22 @@ P(A\cap B\cap C)
 
 각 항은 앞에서 정한 사건들이 일어났다는 조건 아래 다음 사건이 일어날 확률이다.
 
+위 연쇄형 식은 $P(A\cap B)>0$인 경우에 사용한다. 먼저 $P(A\cap B\cap C)=P(C\mid A\cap B)P(A\cap B)$로 쓰고, 마지막 교집합에 두 사건의 곱셈법칙을 적용하면 세 항이 나온다. 조건 사건의 확률이 0이면 해당 조건부 항을 이 정의로 계산할 수 없으므로, 미정의 항에 0을 곱하는 방식으로 식을 쓰지 않는다.
+
+아래 설명용 모형에서는 어느 사건을 먼저 골라도 같은 교집합 질량 $0.1$이 남는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two proportional mass partitions selecting A then B given A or B then A given B, both retaining intersection mass 0.1](../../figures/assets/M04/M04-02-intersection-two-directions.svg)
+
+<figcaption>첫 막대에서는 A의 질량 중 4분의 1을, 둘째 막대에서는 B의 질량 중 절반을 고른다. 조건부 비율은 다르지만 교집합의 질량은 같다. 이 선택 순서는 시간이나 인과의 순서가 아니다.</figcaption>
+</figure>
+
 ## 핵심 개념 3. 전체확률법칙은 가능한 경로를 합한다
 
-$A_1,\ldots,A_K$가 표본공간의 partition이라고 하자. 사건 $B$는 서로 겹치지 않는 조각
+$A_1,\ldots,A_K$가 표본공간의 partition이라고 하자. 아래 조건부 항을 쓰기 위해 우선 각 $P(A_k)>0$을 가정한다. 확률 0인 partition 조각이 있다면 그 조각과 $B$의 교집합 확률도 0이므로 합에서 생략한다.
+
+사건 $B$는 서로 겹치지 않는 조각
 
 \[
 B=(B\cap A_1)\cup\cdots\cup(B\cap A_K)
@@ -126,6 +152,17 @@ P(B)=P(B\mid A)P(A)+P(B\mid A^c)P(A^c)
 \]
 
 이다. 분류기의 positive 출력은 실제 positive와 actual negative 두 집단에서 모두 나올 수 있으므로 이 두 항을 함께 계산해야 한다.
+
+각 경로의 조건부확률에 그 경로의 비율을 곱한 뒤 더한다. 두 집단의 크기가 다르면 조건부확률 두 개를 같은 비중으로 평균 내어서는 안 된다. 예제 1에서 $0.9$와 $0.2$의 가중치는 각각 $0.1$과 $0.9$이며, 두 가중치의 합은 1이다.
+
+예제 1의 positive 결과를 두 출발 집단으로 나누면 각 집단의 비율이 어디에서 곱해지는지 보인다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two disjoint population paths with group masses 0.1 and 0.9 weighted by positive rates 0.9 and 0.2 to contribute 0.09 and 0.18 to total positive probability 0.27](../../figures/assets/M04/M04-02-total-probability-paths.svg)
+
+<figcaption>경로를 따라서는 집단의 비율과 그 안의 positive 비율을 곱하고, 경로 사이에서는 겹치지 않는 기여를 더한다. positive 비율이 낮은 집단도 출발 집단이 크면 더 많은 결과를 기여할 수 있다.</figcaption>
+</figure>
 
 ## 핵심 개념 4. Bayes 규칙은 조건의 방향을 바꾼다
 
@@ -160,9 +197,11 @@ P(A\mid B)
 
 $P(A)$는 prior, $P(B\mid A)$는 likelihood에 해당하는 항, $P(A\mid B)$는 posterior이다. $P(B)$는 각 가능한 원인 경로에서 증거 $B$가 나올 전체 확률이다.
 
+이 식은 $P(B)>0$이고 likelihood 항이 정의되도록 $P(A)>0$인 경우에 사용한다. 분자의 $P(B\mid A)P(A)$는 전체 집단에서 $A$와 $B$가 함께 일어난 비율이다. 이를 $B$가 일어난 전체 비율로 나누어 조건 집단 안의 비율로 바꾼다. 예제 1에서는 $0.09$가 이 결합 비율이고 $0.27$이 새 기준 집단의 비율이므로 $0.09/0.27=1/3$이다.
+
 ### 시각적 직관: 조건을 걸면 기준 집단이 바뀐다
 
-<figure class="lesson-figure" markdown="1">
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
 
 ![A prior population filtered into true positives and false positives that form the observed positive group](../../figures/assets/M04/M04-02-bayes-population.svg)
 
@@ -189,7 +228,18 @@ P(A\mid B)=P(A)
 
 로 쓸 수 있다. $B$가 일어났다는 정보가 $A$의 확률을 바꾸지 않는다는 뜻이다.
 
+교집합의 곱을 조건부확률 정의에 대입하면 $P(A\mid B)=P(A)P(B)/P(B)=P(A)$이다. 반대로 조건부확률이 $P(A)$와 같으면 양변에 $P(B)$를 곱해 독립의 정의를 얻는다. 교집합과 두 주변확률은 $A,B$를 바꾸어도 같으므로 독립 관계는 대칭이다. 조건부확률 표현은 분모가 양수일 때만 쓰지만 곱 형태의 정의는 확률 0인 사건에도 적용할 수 있다.
+
 독립과 상호배반은 다르다. 양의 확률을 가진 상호배반 사건은 $P(A\cap B)=0$이지만 $P(A)P(B)>0$이므로 독립이 아니다. 한 사건이 일어났다는 정보가 다른 사건을 불가능하게 만들기 때문이다.
+
+예제 3의 두 경우를 나란히 보면 함께 일어날 수 있는지와 조건을 알아도 확률이 유지되는지가 서로 다른 질문임을 확인할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Four equal-probability coin outcomes with an independent overlapping event pair compared with disjoint die singleton events whose conditional probability becomes zero](../../figures/assets/M04/M04-02-independent-exclusive.svg)
+
+<figcaption>위의 독립 사건은 HH에서 함께 일어날 수 있다. 아래의 상호배반 사건은 하나를 알면 다른 하나의 확률이 0이 되어, 원래의 양의 확률에서 달라진다.</figcaption>
+</figure>
 
 ## 핵심 개념 6. 조건부독립은 공통 조건을 고정한 뒤의 관계이다
 
@@ -204,11 +254,40 @@ P(A\cap B\mid C)
 
 조건부독립 주장은 어떤 사건을 조건으로 고정했는지 포함해야 한다. $A\perp B$와 $A\perp B\mid C$는 서로 다른 주장이다.
 
+$C$ 안에서 확률을 다시 잰 뒤 앞 절의 독립 정의를 적용한 것이 위 식이다. $P(B\cap C)>0$이면
+
+\[
+P(A\mid B\cap C)
+=\frac{P(A\cap B\cap C)}{P(B\cap C)}
+=\frac{P(A\cap B\mid C)}{P(B\mid C)}
+=P(A\mid C)
+\]
+
+로도 나타낼 수 있다. 가운데 분수에서는 분자와 분모를 같은 $P(C)$로 나누었고, 마지막에는 조건부독립의 곱을 대입해 $P(B\mid C)$를 약분했다. 따라서 이미 $C$를 알고 있는 상태에서는 $B$를 추가로 알아도 $A$의 확률이 바뀌지 않는다. $C$를 고정하지 않은 확률에까지 같은 등식이 성립한다는 주장은 아니다.
+
+아래 설명용 모형은 $C$와 여사건을 같은 비율로 섞는다. 각 집단 안에서는 독립이어도, 두 집단을 합한 확률에서 같은 곱이 성립하지 않을 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two independent conditional probability mosaics with event rates 0.8 and 0.2 pooled equally into a dependent joint distribution with intersection probability 0.34 instead of 0.25](../../figures/assets/M04/M04-02-conditional-independence-pooling.svg)
+
+<figcaption>각 집단 안에서는 A를 알든 모르든 B가 차지하는 높이가 같다. 합친 집단에서는 A 쪽과 여사건 쪽의 B 높이가 달라진다. 네 칸의 면적은 각각의 결합확률이며, 조건을 고정한 주장과 전체 집단의 주장을 구분해야 한다.</figcaption>
+</figure>
+
 ## 핵심 개념 7. 조건부확률은 관찰 관계를 나타내며 인과를 자동으로 주지 않는다
 
 $P(A\mid B)$가 크면 $B$를 관찰한 집단에서 $A$가 자주 나타난다는 뜻이다. $B$를 인위적으로 바꾸었을 때 $A$가 어떻게 달라지는지는 이 값만으로 정해지지 않는다. 공통 원인이나 selection 조건이 두 사건을 관련시킬 수 있다.
 
 모델 해석에서도 $P(C\mid H)$가 높다는 사실은 hidden pattern $H$에서 개념 label $C$를 복원할 수 있음을 시사한다. 모델이 $H$를 사용해 출력을 만들었다는 결론에는 $H$를 바꾸는 개입과 적절한 대조군이 필요하다.
+
+관찰된 관련성에는 아래와 같은 공통 원인 설명도 가능하다. 이 그림은 실제 모델의 구조를 추정한 것이 아니라 가능한 대안을 나타낸다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A possible common factor U pointing to hidden pattern H and concept label C, with a dashed undirected observational association and no inferred H-to-C causal arrow](../../figures/assets/M04/M04-02-common-cause-alternative.svg)
+
+<figcaption>H와 C가 함께 나타나는 현상이 둘 사이의 직접적인 기능적 사용 때문에 생겼다고 단정할 수는 없다. 점선은 관찰 관계이며, 화살표로 표시한 공통 원인은 검토해야 할 가능한 대안이다.</figcaption>
+</figure>
 
 ## 예제 1. 검사 결과와 base rate
 
@@ -256,9 +335,18 @@ P(A\mid B)
 
 검사 positive 27개 가운데 실제 positive가 9개이므로 $9/27=1/3$이다. 표 계산은 Bayes 식의 분자와 분모가 어떤 집단을 세는지 보여 준다.
 
+민감도와 posterior를 같은 점 그림에서 읽어 보면, 같은 true positive 9개를 서로 다른 집단으로 나누고 있음을 확인할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A 100-case grid with nine true positives and eighteen false positives showing sensitivity nine of ten actual positives versus posterior nine of twenty-seven positive tests](../../figures/assets/M04/M04-02-bayes-two-denominators.svg)
+
+<figcaption>첫째 행의 실제 positive 10개가 민감도의 분모다. posterior의 분모는 색칠된 positive 결과 전체 27개이므로, 실제 negative 집단에서 나온 18개도 포함한다.</figcaption>
+</figure>
+
 ## 예제 3. 독립과 상호배반 비교하기
 
-공정한 동전을 두 번 던진다. $A$를 첫째 동전이 앞면인 사건, $B$를 둘째 동전이 앞면인 사건이라 하면
+공정한 동전을 두 번 던진다. $A$를 첫째 동전이 앞면인 사건, $B$를 둘째 동전이 앞면인 사건이라 하자. 앞 단원의 동전 예제처럼 네 순서 결과가 각각 확률 $1/4$을 가진다고 가정하면
 
 \[
 P(A)=P(B)=\frac12,

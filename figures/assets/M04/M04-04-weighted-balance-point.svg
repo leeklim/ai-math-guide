@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 510" width="800" height="510" role="img" aria-labelledby="title desc">
+  <title id="title">The expectation is a probability-weighted balance point</title>
+  <desc id="desc">A two-value distribution places probability 0.25 at zero and 0.75 at two. Its expectation 1.5 lies between the possible outcomes. Distances to the balance point are 1.5 and 0.5; multiplying by the corresponding masses gives equal weighted distances 0.375.</desc>
+  <rect width="800" height="510" rx="16" fill="#F8FAFC"/>
+  <g font-family="sans-serif" text-anchor="middle" fill="#334155"><text x="400" y="48" font-size="24" font-weight="700">A balance point need not be an outcome</text><text x="160" y="111" font-size="20" fill="#1E3A8A">P(X = 0) = 0.25</text><text x="640" y="111" font-size="20" fill="#1E3A8A">P(X = 2) = 0.75</text></g>
+  <path d="M100 218H700" stroke="#64748B" stroke-width="2.5"/>
+  <path d="M160 206V230M280 206V230M400 206V230M520 206V230M640 206V230" stroke="#94A3B8" stroke-width="1.5"/>
+  <circle cx="160" cy="177" r="18" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/><circle cx="640" cy="177" r="31.18" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+  <path d="M160 196V218M640 210V218" stroke="#2563EB" stroke-width="2"/>
+  <path d="M500 249L520 221L540 249Z" fill="#D1FAE5" stroke="#059669" stroke-width="2"/>
+  <g font-family="sans-serif" font-size="20" text-anchor="middle" fill="#334155"><text x="160" y="273">0</text><text x="280" y="273">0.5</text><text x="400" y="273">1</text><text x="520" y="290" fill="#065F46">1.5</text><text x="640" y="273">2</text></g>
+  <path d="M160 319V333H520V319M520 319V333H640V319" fill="none" stroke="#7C3AED" stroke-width="2"/>
+  <g font-family="sans-serif" text-anchor="middle"><text x="340" y="365" font-size="20" fill="#5B21B6">0.25 × 1.5 = 0.375</text><text x="613" y="365" font-size="18" fill="#5B21B6">0.75 × 0.5 = 0.375</text><text x="400" y="422" font-size="24" fill="#065F46">E[X] = 0 × 0.25 + 2 × 0.75 = 1.5</text><text x="400" y="472" font-size="18" fill="#475569">Mass is shown by circle area; the number line shows value.</text></g>
+</svg>

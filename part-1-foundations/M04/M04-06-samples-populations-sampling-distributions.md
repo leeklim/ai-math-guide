@@ -69,6 +69,15 @@ x_1,\ldots,x_n
 
 을 고정된 값으로 쓴다. 연구자는 표본을 사용해 모집단의 특성을 추정한다. 목표 모집단을 “평가 데이터”처럼 모호하게 두면 어떤 입력과 조건에 결과를 일반화하는지 알 수 없다.
 
+같은 모집단을 둔 채 표본만 다시 뽑는다는 구분은 아래 과정에서 확인할 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![A fixed Bernoulli population parameter generating a random sample and one illustrative fixed observation with its statistic](../../figures/assets/M04/M04-06-sample-statistic-roles.svg)
+
+<figcaption>표본을 뽑기 전의 통계량과 관측한 통계량 값을 구분한다. 한 표본에서 우연히 평균이 모수와 같아져도, 다른 표본의 평균까지 같다는 뜻은 아니다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. iid는 독립과 동일분포를 함께 가정한다
 
 확률표본이 independent and identically distributed(iid)이면
@@ -79,7 +88,18 @@ X_1,\ldots,X_n\overset{\mathrm{iid}}{\sim}P
 
 로 쓴다. identically distributed는 각 $X_i$가 같은 population distribution $P$를 따른다는 뜻이다. independent는 한 관측값을 아는 것이 다른 관측값의 분포를 바꾸지 않는다는 뜻이다.
 
+독립은 표본 전체의 결합분포에 관한 조건이다. 이산형의 iid 표본에서는 값 목록 하나의 확률이 $p(x_1)\cdots p(x_n)$으로 분해되며, 각 항이 같은 PMF $p$를 사용한다. 각 $X_i$의 주변분포가 같다는 조건만으로 이 곱이 성립하지는 않는다. 또한 여러 관측의 독립을 주장할 때는 두 관측씩 비교한 관계뿐 아니라 전체의 결합 관계를 확인해야 한다.
+
 같은 source에서 왔다는 사실만으로 독립이 성립하지는 않는다. 한 문서의 여러 token, 한 사용자의 반복 입력, 같은 학습 run의 여러 checkpoint는 묶음 안에서 의존할 수 있다. sampling distribution 공식을 적용하려면 연구 설계의 독립 단위를 먼저 정해야 한다.
+
+같은 주변분포를 가진 두 관측에서도 결합확률이 다를 수 있다. 아래 오른쪽은 첫 관측을 복사한 경우다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Independent and copied Bernoulli observations with the same half-half marginals but quarter masses everywhere versus half masses only on the diagonal](../../figures/assets/M04/M04-06-iid-versus-copy.svg)
+
+<figcaption>왼쪽에서는 네 표본 조합이 가능하지만 오른쪽에서는 서로 다른 값의 조합이 나오지 않는다. 평균의 분산도 달라져, 같은 주변분포만으로 iid 표준오차를 사용할 수 없음을 보여 준다.</figcaption>
+</figure>
 
 ## 핵심 개념 3. 모수와 통계량은 고정·무작위 역할이 다르다
 
@@ -109,13 +129,15 @@ X_1,\ldots,X_n\overset{\mathrm{iid}}{\sim}P
 \bar x=\frac1n\sum_{i=1}^{n}x_i
 \]
 
-이다. 표본분산은 보통
+이다. $n\ge2$일 때 표본분산은 보통
 
 \[
 s^2=\frac{1}{n-1}\sum_{i=1}^{n}(x_i-\bar x)^2
 \]
 
 로 계산한다. 분모 $n-1$은 같은 sample에서 평균을 추정하며 잃은 자유도 하나를 반영한다. M04-07에서 이 선택과 불편성을 설명한다.
+
+평균에서의 편차들은 $\sum_i(x_i-\bar x)=0$을 만족한다. 앞의 $n-1$개 편차를 정하면 마지막 편차는 그 합의 음수로 정해지므로 $n$개를 모두 자유롭게 고를 수는 없다. 이 제약이 자유도 하나라는 설명의 뜻이다. 왜 이 분모가 모집단 분산의 불편추정량을 만드는지는 다음 단원에서 기댓값으로 확인한다.
 
 경험분포(empirical distribution)는 관측값 각각에 질량 $1/n$을 둔다. 사건 $A$의 경험확률은
 
@@ -125,6 +147,17 @@ s^2=\frac{1}{n-1}\sum_{i=1}^{n}(x_i-\bar x)^2
 \]
 
 이다. 표본평균은 위치를, 표본분산은 퍼짐을 요약한다. 경험분포는 관측값의 분포 형태를 더 많이 보존한다.
+
+같은 값이 여러 번 관측되면 그 위치의 질량은 관측 횟수만큼 합쳐진다. 예를 들어 두 관측값이 모두 4라면 값 4에 각각 $1/n$이 더해진다. 경험분포의 기댓값은 $\bar x$이며 그 분산은 $n^{-1}\sum_i(x_i-\bar x)^2$이다. 따라서 모집단 분산 추정에 사용하는 위 $s^2$과는 분모가 다르다. 경험분포가 현재 자료를 요약하는 역할과 $s^2$이 모집단 모수를 추정하는 역할을 구분한다.
+
+관측값 2, 4, 4, 6에서는 값 4가 두 번 기록되므로 그 위치의 경험확률도 두 질량을 합친 값이 된다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Four observed records two four four six merging quarter masses at repeated values and using different denominators for empirical and sample variance](../../figures/assets/M04/M04-06-empirical-duplicate-mass.svg)
+
+<figcaption>기록 하나당 질량은 같지만 같은 값의 기록들은 한 위치에 모인다. 제곱편차 합은 같아도 현재 경험분포의 분산과 모집단 분산을 추정하는 표본분산은 분모가 다르다.</figcaption>
+</figure>
 
 ## 핵심 개념 5. sampling distribution은 통계량 자체의 분포이다
 
@@ -137,6 +170,15 @@ s^2=\frac{1}{n-1}\sum_{i=1}^{n}(x_i-\bar x)^2
 - sampling distribution: sample 전체의 함수 $T$가 따르는 분포
 
 표본분포라는 한국어 표현은 “관측 sample 값들의 histogram”으로 오해하기 쉽다. 여기서는 statistic의 repeated-sampling distribution을 뜻한다.
+
+예제 1의 모집단, 한 관측 표본 (0, 1), 가능한 모든 크기 2 표본의 평균을 각각 그리면 확률을 배정하는 대상이 달라진다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Population and one observed empirical Bernoulli PMF supported at zero and one, compared with the exact size-two sample-mean PMF also supported at one half](../../figures/assets/M04/M04-06-three-distributions.svg)
+
+<figcaption>첫 두 패널은 이 표본에서 우연히 같은 막대 높이를 갖지만 역할은 다르다. 셋째 패널은 개별 관측이 아니라 반복 표집에서 계산한 평균에 확률을 배정한다.</figcaption>
+</figure>
 
 ## 핵심 개념 6. iid 표본평균의 변동은 sample size에 따라 줄어든다
 
@@ -167,9 +209,32 @@ $X_1,\ldots,X_n$이 평균 $\mu$, 분산 $\sigma^2$을 가진 iid 표본이면 �
 
 이다. sample size를 네 배로 늘리면 이 표준오차는 절반이 된다. 관측들이 양의 상관을 가지면 공분산 항이 남아 iid 공식보다 변동이 클 수 있다.
 
+$\sigma$는 관측값 하나의 퍼짐이고, $\sigma/\sqrt n$은 크기 $n$의 표본에서 계산한 평균의 퍼짐이다. 같은 모집단에서 표본 수를 늘려도 원자료의 $\sigma$는 바뀌지 않는다. 평균을 낼 때 서로 독립인 편차가 더해져 평균 통계량의 변동이 줄어드는 것이다.
+
+독립을 가정하지 않고 제곱을 전개하면 일반적으로
+
+\[
+\operatorname{Var}(\bar X)
+=\frac{1}{n^2}\left(
+\sum_{i=1}^{n}\operatorname{Var}(X_i)
++2\sum_{1\le i<j\le n}\operatorname{Cov}(X_i,X_j)
+\right)
+\]
+
+이다. 서로 다른 두 편차의 곱을 제곱 전개에서 두 번 세므로 공분산 합에 2가 붙는다. 같은 확률변수 하나를 복사해 $X_1=\cdots=X_n$으로 만들었다면 $\bar X=X_1$이므로 분산은 여전히 $\sigma^2$이다. 목록 길이만 $n$으로 늘려서는 $\sigma^2/n$ 공식을 적용할 수 없다.
+
+Gaussian 모집단에서는 평균의 분포도 정확히 Gaussian이므로, 원자료의 분산을 고정한 채 평균의 폭이 줄어드는 것을 직접 비교할 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Exact Gaussian sample-mean densities from an unchanged standard normal population for sample sizes one four and sixteen with standard errors one one half and one quarter](../../figures/assets/M04/M04-06-mean-spread.svg)
+
+<figcaption>표본 수가 네 배가 될 때마다 평균의 표준오차는 절반이 된다. 원자료 한 관측의 분포는 여전히 N(0, 1)이며, 좁아지는 것은 평균 통계량의 분포다.</figcaption>
+</figure>
+
 ## 핵심 개념 7. 중심극한정리는 표본평균의 근사분포를 준다
 
-적절한 조건과 유한한 분산 아래 iid 표본의 크기 $n$이 커지면
+평균 $\mu$와 $0<\sigma^2<\infty$인 분산을 가진 iid 표본에서 크기 $n$이 커지면
 
 \[
 \frac{\bar X-\mu}{\sigma/\sqrt n}
@@ -177,13 +242,33 @@ $X_1,\ldots,X_n$이 평균 $\mu$, 분산 $\sigma^2$을 가진 iid 표본이면 �
 
 의 분포가 표준정규분포에 가까워진다. 이를 중심극한정리(central limit theorem, CLT)라고 한다. 원래 population distribution이 Gaussian일 필요는 없다.
 
+분자는 표본평균이 모집단 평균에서 벗어난 양이고, 분모는 그 표본평균의 표준오차다. 이 비율은 앞 절의 기댓값·분산 식에 따라 각 $n$에서 평균 0, 분산 1을 가진다. CLT는 이 두 모멘트만 말하는 것이 아니라 $n$이 커질 때 표준화한 통계량의 분포 모양을 설명한다. 원자료 $X_i$의 분포가 Gaussian으로 바뀐다는 뜻은 아니다. 예제 1처럼 작은 표본의 평균은 몇 개의 이산 값만 가질 수 있다.
+
 근사의 품질은 sample size와 원래 분포의 skewness, tail에 좌우된다. 작은 $n$이나 heavy-tailed data에서는 Gaussian 근사가 부정확할 수 있다. 의존 표본에는 iid CLT를 그대로 적용할 수 없다.
+
+Bernoulli 모집단의 평균은 유한한 표본 수에서는 여전히 이산 값만 갖지만, 표준화한 값들의 질량 배치는 표본 수에 따라 달라진다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Exact standardized Bernoulli mean masses at sample sizes two eight and thirty-two compared with standard-normal probabilities over intervals centered on each discrete value](../../figures/assets/M04/M04-06-clt-discrete-means.svg)
+
+<figcaption>파란 막대는 정확한 이산 확률이다. 주황 점은 같은 중심에서 이웃 값 간격만큼의 구간에 배정한 표준정규 확률이며, 정규분포의 점확률이 아니다. 이 비교는 근사 모양을 보여 줄 뿐 특정 표본 수를 보편적인 충분 조건으로 정하지 않는다.</figcaption>
+</figure>
 
 ## 핵심 개념 8. 실험 단위가 sampling uncertainty를 결정한다
 
 모델 해석 실험에서 token 10,000개를 관측했더라도 token들이 prompt 20개 안에 묶여 있다면 독립 단위가 10,000개인지 검토해야 한다. 같은 prompt의 token은 문맥과 model state를 공유한다. token을 독립 sample로 처리하면 표준오차를 작게 추정할 수 있다.
 
 모델 seed, prompt, subject, document 중 무엇을 모집단에 일반화하려는지에 따라 sampling unit이 달라진다. sample size를 보고할 때는 관측 개수와 독립 실험 단위를 함께 밝혀야 한다.
+
+관측 기록이 어느 공통 맥락 안에 묶였는지부터 표시하면 개수와 독립 단위의 차이를 확인하기 쉽다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two illustrative independently sampled prompt contexts each containing three token records, separating six observed records from two prompt-level units](../../figures/assets/M04/M04-06-prompt-clusters.svg)
+
+<figcaption>여섯 token을 기록했더라도 prompt 맥락은 두 개다. 그림은 prompt를 표집한 설계의 예시이며, token 수준 독립이나 다른 모델로의 일반화를 별도로 보장하지 않는다.</figcaption>
+</figure>
 
 ## 예제 1. Bernoulli 표본평균의 sampling distribution
 

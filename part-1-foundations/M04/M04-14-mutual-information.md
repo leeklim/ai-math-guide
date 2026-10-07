@@ -54,7 +54,7 @@ representation과 label 사이 mutual information, layer를 지날 때 정보가
 
 ## 핵심 개념 1. joint entropy는 변수 쌍의 uncertainty를 센다
 
-이산 확률변수 $X,Y$의 joint entropy는
+이 단원의 entropy 항등식은 유한 이산 확률변수에 대해 계산한다. $X,Y$의 joint entropy는
 
 \[
 \mathrm H(X,Y)
@@ -78,6 +78,15 @@ conditional entropy는
 \mathrm H(X\mid Y)
 =\sum_y p_Y(y)\mathrm H(X\mid Y=y).
 \]
+
+$p_Y(y)>0$인 값에서 $p_{X,Y}(x,y)=p_Y(y)p_{X\mid Y}(x\mid y)$를 대입하면, 먼저 각 $y$의 조건부분포로 entropy를 계산하고 그 $y$가 관측될 비중 $p_Y(y)$로 평균하는 식을 얻는다. $p_Y(y)=0$인 값은 평균에서 제외하며 정의되지 않은 조건부확률을 계산하지 않는다. 조건부 entropy의 한 값 $\mathrm H(X\mid Y=y)$와 모든 $y$를 평균한 $\mathrm H(X\mid Y)$는 다른 양이다.
+
+조건값마다 만든 분포와 그것들을 평균하는 비중을 분리해 읽는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Unconditional and two conditional class distributions have different entropies whose marginal weighted average is conditional entropy](../../figures/assets/M04/M04-14-conditional-entropy-average.svg)
+  <figcaption>joint table을 X 행·Y 열 순서로 ((0.72,0.08),(0.10,0.10))으로 둔 구성 예시다. Y=0과 Y=1의 조건부 entropy를 각각 계산한 뒤 해당 marginal 0.82와 0.18로 평균한다. 드문 Y=1의 entropy는 원래 H(X)보다 크지만 평균 H(X∣Y)는 작다. 특정 조건값과 전체 평균을 구분해야 한다.</figcaption>
+</figure>
 
 ## 핵심 개념 2. mutual information은 dependence를 KL로 측정한다
 
@@ -109,6 +118,15 @@ I(X;Y)
 
 joint probability가 marginal product보다 큰 pair는 positive contribution을, 작은 pair는 negative contribution을 줄 수 있다. 전체 평균인 mutual information은 음수가 아니다.
 
+$p_X(x)p_Y(y)$는 $x,y$에 대해 합하면 1이 되는 결합분포다. 실제 joint와 같은 marginal을 유지하되 쌍 사이의 의존관계를 없앤 비교 모형이다. 실제 $p_{X,Y}(x,y)>0$이면 두 marginal도 양수이므로 그 pair의 분모는 0이 되지 않는다. 유한 결과 집합에서는 MI가 이 support mismatch 때문에 무한대가 되지 않는다.
+
+비교하는 두 joint table은 marginal을 그대로 유지하면서 pair의 질량 배치만 다르게 둔다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Noisy copy joint mass table differs from the independent marginal product table while all marginals remain one half](../../figures/assets/M04/M04-14-joint-product.svg)
+  <figcaption>복사 확률 0.8인 fair bit 예시의 joint table이다. 실제 같은 값 pair에는 0.4, 다른 값에는 0.1이 놓인다. 오른쪽 marginal product는 모든 pair에 0.25를 배정한다. 두 표의 행·열 합은 같으며 MI는 왼쪽 joint를 첫 분포로 둔 KL이다.</figcaption>
+</figure>
+
 ## 핵심 개념 3. pointwise mutual information은 한 pair의 관계를 나타낸다
 
 outcome pair $(x,y)$의 pointwise mutual information(PMI)은
@@ -130,6 +148,13 @@ I(X;Y)=\mathbb E_{(X,Y)\sim p_{X,Y}}
 \]
 
 PMI 하나가 negative일 수 있다는 사실과 전체 MI가 nonnegative라는 사실은 모순이 아니다.
+
+PMI의 부호와 joint probability를 적용한 평균 기여를 같은 pair 위치에서 비교한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Positive and negative pointwise mutual information values become joint weighted contributions whose sum is nonnegative mutual information](../../figures/assets/M04/M04-14-pmi-weighted-terms.svg)
+  <figcaption>같은 noisy-copy table에서 대각 pair의 PMI는 log 1.6≈0.470, 다른 pair는 log 0.4≈−0.916이다. 오른쪽은 각 값에 joint mass 0.4 또는 0.1을 곱한 기여이며 네 항의 합 약 0.193이 MI다. 왼쪽과 오른쪽의 색은 부호를 돕고 실제 값은 셀에 직접 적었다.</figcaption>
+</figure>
 
 ## 핵심 개념 4. mutual information은 entropy 감소량이다
 
@@ -156,6 +181,17 @@ I(X;Y)=I(Y;X)
 
 인 symmetry가 성립한다.
 
+첫 항등식의 계산에서는 $p_{X,Y}(x,y)=p_Y(y)p_{X\mid Y}(x\mid y)$를 사용해 log ratio를 $\log p_{X\mid Y}(x\mid y)-\log p_X(x)$로 바꾼다. 첫 로그의 joint 평균은 $-\mathrm H(X\mid Y)$이고, 둘째 로그는 $y$에 대해 합하면 $p_X(x)$가 남으므로 그 음의 평균이 $\mathrm H(X)$다. 두 항을 합하면 첫 항등식을 얻는다.
+
+같은 곱셈 규칙의 로그를 joint entropy에 넣으면 $\mathrm H(X,Y)=\mathrm H(Y)+\mathrm H(X\mid Y)$다. 변수 쌍의 uncertainty를 $Y$ 자체와 $Y$를 안 뒤 남은 $X$로 나누는 식이며, 이를 대입하면 셋째 항등식도 얻는다. entropy 감소는 $Y$의 모든 관측값에 대한 평균이다. 특정 $y$를 관측했을 때의 조건부 entropy가 언제나 원래 entropy보다 작아야 한다는 뜻은 아니다.
+
+두 marginal entropy와 joint entropy를 같은 정보량 눈금에서 나누어 보면 항등식의 각 항을 대응시킬 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+  ![Joint and marginal entropy bars decompose into two conditional entropies and shared mutual information for a noisy copy](../../figures/assets/M04/M04-14-entropy-identity.svg)
+  <figcaption>복사 확률 0.8인 fair bit에서 H(X)=H(Y)=log 2이고 두 conditional entropy는 약 0.500이다. 보라 구간 약 0.193이 MI이며, joint bar는 conditional X·MI·conditional Y의 합이다. H(Y) bar의 가로 시작 위치는 대응 구간을 맞추기 위한 배치이고 총 entropy는 색 구간의 길이를 더해 읽는다.</figcaption>
+</figure>
+
 ## 핵심 개념 5. MI가 0인 조건은 independence이다
 
 KL divergence의 nonnegativity로
@@ -172,7 +208,14 @@ I(X;Y)=0
 
 이면 joint distribution이 marginal product와 같으므로 $X,Y$는 독립이다. 독립이면 반대로 MI가 0이다.
 
-correlation 0은 linear dependence가 없다는 조건이다. MI 0은 joint distribution 전체가 factorize한다는 더 강한 조건이다. finite-sample MI estimate가 0에 가깝다는 사실은 population independence의 증명이 아니며 estimator uncertainty를 함께 봐야 한다.
+유한하고 양수인 분산을 가진 수치 변수에서 correlation 0은 공분산 0을 뜻한다. 중심화한 두 값의 곱을 평균한 한 수가 0인 조건이지, joint distribution 전체가 독립으로 분해된다는 조건은 아니다. MI 0은 joint distribution 전체가 factorize한다는 더 강한 조건이다. finite-sample MI estimate가 0에 가깝다는 사실은 population independence의 증명이 아니며 estimator uncertainty를 함께 봐야 한다.
+
+correlation 0인 비선형 관계에서도 joint 전체에는 의존성이 남을 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+  ![Three equiprobable points with Y equal X squared have zero correlation but positive mutual information](../../figures/assets/M04/M04-14-uncorrelated-dependence.svg)
+  <figcaption>X=−1,0,1이 각각 probability 1/3이고 Y=X²인 유한 분포다. correlation은 0이지만 X가 Y를 결정하므로 MI=H(Y)≈0.637 nats다. 옅은 곡선은 함수 규칙을 보여 줄 뿐 그 중간 좌표에 probability mass가 있다는 뜻은 아니다.</figcaption>
+</figure>
 
 ## 핵심 개념 6. deterministic copy는 output entropy만큼 정보를 가진다
 
@@ -196,6 +239,20 @@ I(X;Y)=\mathrm H(X)=\mathrm H(Y).
 
 discrete variable의 label 이름을 일대일로 바꾸어도 MI는 변하지 않는다. representation coordinate의 invertible relabeling 아래 정보량을 비교할 때 유용한 성질이다.
 
+deterministic이라는 말만으로 $Y$에서 $X$도 복원할 수 있는 것은 아니다. 서로 다른 $x$를 같은 $g(x)$에 보내면 $Y$를 관측한 뒤에도 원래 $X$에 대한 uncertainty가 남는다. 그래서 $\mathrm H(Y\mid X)=0$이어도 $\mathrm H(X\mid Y)$는 양수일 수 있다. bijection은 이 합쳐짐이 없어서 양쪽 conditional entropy가 모두 0인 경우다. 정보량이 유지된다는 결론과 좌표값이나 계산 방식이 같다는 결론도 구분한다.
+
+일대일 대응과 여러 값을 합치는 대응은 역방향에서 남는 uncertainty가 다르다.
+
+<figure class="lesson-figure" markdown="1">
+  ![A bijective relabeling maps three uniform input values to three distinct output labels without losing mutual information](../../figures/assets/M04/M04-14-bijective-relabeling.svg)
+  <figcaption>균등한 X=0,1,2를 각각 A,B,C로 이름만 바꾸었다. Y를 알면 X도 유일하게 정해지므로 두 entropy와 MI는 모두 log 3이다. label 값이 같아야 정보량이 유지되는 것은 아니다.</figcaption>
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+  ![Four uniform input values merge into parity labels leaving one bit of input ambiguity despite a deterministic output](../../figures/assets/M04/M04-14-many-to-one-mapping.svg)
+  <figcaption>균등한 X=0,1,2,3에서 parity만 남긴 deterministic mapping이다. X를 알면 Y는 정해지지만 even을 관측해도 0과 2 중 어느 값인지 정해지지 않는다. I(X;Y)=H(Y)=log 2이고 H(X∣Y)=log 2가 남는다.</figcaption>
+</figure>
+
 ## 핵심 개념 7. data processing은 후처리가 정보를 늘리지 못하게 한다
 
 $X\to Z\to Y$가 Markov chain이면 $X$와 $Y$는 $Z$가 주어졌을 때 조건부독립이다. data processing inequality는
@@ -214,6 +271,15 @@ I(Y;H)\le I(Y;X)
 
 이다. equality나 information loss의 크기는 $f$와 joint distribution에 달려 있다. finite-sample estimator가 inequality를 어기면 estimation error나 가정 위반을 점검해야 한다.
 
+Markov 조건은 가능한 $x,z$에서 $p(y\mid x,z)=p(y\mid z)$라는 뜻이다. $Z$를 알고 나면 $X$를 더 알아도 다음 출력의 분포를 바꾸지 못하므로, $Y$가 $X$에 대한 추가 정보를 별도 경로로 받지 않는다. 화살표는 여기서 이 조건부 구조를 표시하며 그것만으로 인과 방향을 입증하지 않는다. representation 예에서는 고정한 $f$가 $X$만 받아 $H$를 만들기 때문에 $Y\to X\to H$ 조건이 성립한다. label 같은 추가 입력을 후처리에 넣으면 같은 가정을 자동으로 적용할 수 없다.
+
+source를 별도로 받지 않는 후처리에서는 잃은 정보를 다음 단계에서 새로 추가할 수 없다.
+
+<figure class="lesson-figure" markdown="1">
+  ![Two independent noisy fair bit copying stages reduce source mutual information with a total flip probability point three two](../../figures/assets/M04/M04-14-noisy-copy-data-processing.svg)
+  <figcaption>두 채널이 각각 probability 0.2로 bit를 독립적으로 뒤집는 구성이다. 두 번 뒤집힘은 복원이므로 최종 flip probability는 0.8×0.2+0.2×0.8=0.32다. I(X;Z)≈0.193에서 I(X;Y)≈0.066으로 줄며, 화살표는 이 조건부 채널 구조를 표시한다. representation에 대한 인과 증거를 측정한 그림은 아니다.</figcaption>
+</figure>
+
 ## 핵심 개념 8. high-dimensional MI estimation은 estimator에 민감하다
 
 categorical joint table에서는 empirical count로 MI를 계산할 수 있다. sample이 적고 category 수가 많으면 empty cell과 plug-in bias가 커진다. continuous·high-dimensional representation에서는 density estimation, binning, k-nearest-neighbor bound와 variational bound가 서로 다른 bias를 가진다.
@@ -221,6 +287,13 @@ categorical joint table에서는 empirical count로 MI를 계산할 수 있다. 
 probe accuracy가 높으면 representation $H$와 label $Y$ 사이 dependence를 시사하지만 exact $I(H;Y)$ 값을 바로 주지는 않는다. 높은 MI도 모델이 $H$의 label information을 output computation에 사용한다는 intervention evidence가 아니다.
 
 deterministic continuous network에서는 $I(X;H)$가 density assumptions와 injected noise에 따라 infinite하거나 ill-defined해질 수 있다. estimator가 출력한 finite number를 intrinsic property로 해석하기 전에 변수 정의와 noise model을 밝혀야 한다.
+
+작은 joint table에서도 관측 count와 population probability를 같은 값으로 취급할 수는 없다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Two possible four sample count tables from independent fair bits yield different empirical mutual information values despite zero population mutual information](../../figures/assets/M04/M04-14-empirical-mi.svg)
+  <figcaption>population은 모든 pair가 1/4인 독립 fair bit다. 가운데는 가능한 n=4 count table ((2,0),(0,2))이고 empirical MI는 log 2다. 오른쪽 count가 모두 1이면 empirical MI는 0이다. 두 표는 구성한 가능한 sample이며 실제 표집 실험이나 population independence 검정 결과는 아니다.</figcaption>
+</figure>
 
 ## 예제 1. 독립인 두 fair bit
 

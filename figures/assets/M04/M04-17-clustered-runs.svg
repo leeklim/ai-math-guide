@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="730" viewBox="0 0 980 730">
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+<rect width="980" height="730" rx="16" fill="#F8FAFC"/>
+<g font-family="sans-serif" font-size="28" text-anchor="middle" fill="#334155">
+<text x="490" y="68" font-weight="700">Rows inherit their training-run cluster</text>
+<g fill="#DBEAFE" stroke="#2563EB" stroke-width="2"><rect x="66" y="134" width="236" height="100" rx="10"/><rect x="372" y="134" width="236" height="100" rx="10"/><rect x="678" y="134" width="236" height="100" rx="10"/></g>
+<text x="184" y="175">Training run 1</text><text x="184" y="213">Checkpoint θ1</text><text x="490" y="175">Training run 2</text><text x="490" y="213">Checkpoint θ2</text><text x="796" y="175">Training run 3</text><text x="796" y="213">Checkpoint θ3</text>
+<g fill="#F1F5F9" stroke="#CBD5E1" stroke-width="2"><rect x="48" y="314" width="272" height="240" rx="10"/><rect x="354" y="314" width="272" height="240" rx="10"/><rect x="660" y="314" width="272" height="240" rx="10"/></g>
+<text x="184" y="359">Token row 1</text><text x="184" y="405">Token row 2</text><text x="184" y="451">⋮</text><text x="184" y="517">10,000 rows</text>
+<text x="490" y="359">Token row 1</text><text x="490" y="405">Token row 2</text><text x="490" y="451">⋮</text><text x="490" y="517">10,000 rows</text>
+<text x="796" y="359">Token row 1</text><text x="796" y="405">Token row 2</text><text x="796" y="451">⋮</text><text x="796" y="517">10,000 rows</text>
+<text x="490" y="621" fill="#065F46">3 independent training replicates; 30,000 token rows</text><text x="490" y="674" font-size="26">More within-run rows do not create more training runs</text>
+</g><g fill="none" stroke="#7C3AED" stroke-width="2" marker-end="url(#arrow)"><path d="M184 250V296"/><path d="M490 250V296"/><path d="M796 250V296"/></g>
+</svg>

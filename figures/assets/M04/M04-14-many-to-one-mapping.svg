@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="730" viewBox="0 0 520 730">
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs><rect width="520" height="730" rx="16" fill="#F8FAFC"/>
+<g font-family="sans-serif" font-size="28" text-anchor="middle" fill="#334155"><text x="260" y="53" font-weight="700">Many-to-one deterministic map</text><text x="108" y="112">X</text><text x="402" y="112">Y: parity</text>
+<g fill="#DBEAFE" stroke="#2563EB" stroke-width="2"><rect x="48" y="144" width="120" height="64" rx="10"/><rect x="48" y="254" width="120" height="64" rx="10"/><rect x="48" y="364" width="120" height="64" rx="10"/><rect x="48" y="474" width="120" height="64" rx="10"/></g>
+<g fill="#D1FAE5" stroke="#059669" stroke-width="2"><rect x="332" y="194" width="140" height="96" rx="10"/><rect x="332" y="414" width="140" height="96" rx="10"/></g>
+<text x="108" y="185">0</text><text x="108" y="295">1</text><text x="108" y="405">2</text><text x="108" y="515">3</text><text x="402" y="251">even</text><text x="402" y="471">odd</text>
+<text x="260" y="592" font-size="26">Uniform X: H(X) = log 4</text><text x="260" y="635" font-size="26">H(Y) = I(X;Y) = log 2</text><text x="260" y="683" font-size="26" fill="#065F46">H(X ∣ Y) = log 2 remains</text></g>
+<g fill="none" stroke="#7C3AED" stroke-width="2" marker-end="url(#arrow)"><path d="M184 176C232 176 262 217 316 217"/><path d="M184 286C234 286 262 437 316 437"/><path d="M184 396C234 396 262 267 316 267"/><path d="M184 506C232 506 262 487 316 487"/></g>
+</svg>

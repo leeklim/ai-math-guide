@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 610" width="800" height="610" role="img" aria-labelledby="title desc">
+  <title id="title">The overlap must be counted once</title>
+  <desc id="desc">For a fair die, A contains 2, 4, 6 and B contains 4, 5, 6. A-only outcome 2, shared outcomes 4 and 6, and B-only outcome 5 occupy separate regions. Outcomes 1 and 3 lie outside both. Adding the event counts repeats the overlap, so two shared outcomes are subtracted once.</desc>
+  <rect width="800" height="610" rx="16" fill="#F8FAFC"/>
+  <g font-family="sans-serif" text-anchor="middle" fill="#334155"><text x="400" y="48" font-size="24" font-weight="700">Count the overlap once</text><text x="220" y="106" font-size="20" fill="#1E3A8A">A: even</text><text x="580" y="106" font-size="20" fill="#5B21B6">B: at least 4</text></g>
+  <rect x="64" y="128" width="672" height="304" rx="16" fill="#FFFFFF" stroke="#64748B" stroke-width="2"/>
+  <ellipse cx="310" cy="266" rx="158" ry="112" fill="#DBEAFE" fill-opacity="0.75" stroke="#2563EB" stroke-width="2"/>
+  <ellipse cx="490" cy="266" rx="158" ry="112" fill="#F3E8FF" fill-opacity="0.65" stroke="#7C3AED" stroke-width="2"/>
+  <g font-family="sans-serif" font-size="24" text-anchor="middle" fill="#334155"><text x="228" y="275">2</text><text x="400" y="242">4</text><text x="400" y="302">6</text><text x="572" y="275">5</text><text x="110" y="399">1</text><text x="690" y="399">3</text></g>
+  <g font-family="sans-serif" text-anchor="middle"><text x="400" y="480" font-size="22" fill="#334155">3 + 3 − 2 = 4 distinct outcomes</text><text x="400" y="524" font-size="24" fill="#065F46">P(A ∪ B) = 3/6 + 3/6 − 2/6 = 4/6</text><text x="400" y="574" font-size="18" fill="#475569">Equal outcome probabilities are assumed for this die.</text></g>
+</svg>

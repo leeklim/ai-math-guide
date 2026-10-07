@@ -101,6 +101,15 @@ sample을 뽑기 전에는 $\widehat\theta$가 sampling distribution을 가진�
 
 두 추정량이 같은 bias를 가지면 variance가 작은 추정량이 더 안정적이다. variance가 작아도 큰 bias가 남을 수 있으므로 안정성만으로 target에 가깝다고 결론 내릴 수 없다.
 
+같은 target을 표시한 축에서 sampling distribution의 중심과 폭을 따로 바꾸면 두 성질을 구별할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Four illustrative Gaussian estimator sampling densities with fixed target zero, biases zero or one and variances one or 0.16](../../figures/assets/M04/M04-07-bias-variance.svg)
+
+<figcaption>좌우 패널은 중심의 차이, 위아래 패널은 퍼짐의 차이를 보여 준다. 오른쪽 아래처럼 좁게 모여도 target에서 벗어나 있을 수 있다. 이는 추정량 분포의 예시이지 신경망 bias 파라미터 그림이 아니다.</figcaption>
+</figure>
+
 ## 핵심 개념 4. MSE는 variance와 bias 제곱으로 분해된다
 
 평균제곱오차(mean squared error, MSE)는
@@ -126,6 +135,17 @@ sample을 뽑기 전에는 $\widehat\theta$가 sampling distribution을 가진�
 \]
 
 MSE는 variance와 target에서의 체계적 차이를 한 단위로 비교한다. 불편추정량에서는 bias 항이 0이므로 MSE가 variance와 같다.
+
+제곱 전개의 교차항은 $2(m-\theta)(\widehat\theta-m)$이다. $m-\theta$는 고정값이므로 그 기댓값은 $2(m-\theta)\mathbb E[\widehat\theta-m]=0$이다. 이 소거에는 독립을 가정할 필요가 없다. 남은 첫 제곱항은 추정량 자체의 평균 주변 분산이고, 둘째 제곱항은 그 평균과 target 사이의 거리다. 유한한 이차 모멘트 아래에서 이 두 오차를 더한다.
+
+두 추정값이 같은 확률로 나오는 간단한 경우에서는 중심화 오차와 bias가 한 번의 오차를 어떻게 나누는지 볼 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Illustrative estimator values one and three with equal masses, estimator mean two and target one, separating bias one from centered errors minus and plus one and cancelling their cross terms in expectation](../../figures/assets/M04/M04-07-mse-cross-term.svg)
+
+<figcaption>왼쪽 추정값의 총오차는 0이고 오른쪽은 2다. 교차항의 평균만 0이 되며, 중심 주변의 분산과 bias 제곱은 각각 1로 남아 MSE가 2가 된다.</figcaption>
+</figure>
 
 ## 핵심 개념 5. 표본평균은 모평균의 불편추정량이다
 
@@ -157,7 +177,7 @@ sample size가 커지면 variance와 MSE가 줄어든다. 이 결론은 iid 표�
 
 ## 핵심 개념 6. 표본분산의 $n-1$은 bias를 바로잡는다
 
-모평균 $\mu$를 모르는 상태에서 sample mean을 사용하면
+앞 절처럼 평균 $\mu$, 유한한 분산 $\sigma^2$을 가진 iid 표본을 사용하고 $n\ge2$라 하자. 모평균 $\mu$를 모르는 상태에서 sample mean을 사용하면
 
 \[
 \sum_{i=1}^{n}(X_i-\bar X)^2
@@ -165,7 +185,20 @@ sample size가 커지면 variance와 MSE가 줄어든다. 이 결론은 iid 표�
 -n(\bar X-\mu)^2
 \]
 
-이다. 양변의 기댓값을 취하면
+이다.
+
+이 등식은 $X_i-\mu=(X_i-\bar X)+(\bar X-\mu)$를 제곱해 더하면 얻는다. 교차항의 합은 $2(\bar X-\mu)\sum_i(X_i-\bar X)$인데, sample mean의 정의에 따라 편차의 합이 0이므로 사라진다. 모든 $i$에 공통인 두 번째 편차의 제곱은 각 항에 한 번씩 들어가 $n(\bar X-\mu)^2$이 된다. 따라서 sample mean 주변의 제곱편차 합은 모평균 주변의 제곱편차 합보다 그 항만큼 작다.
+
+한 관측 표본에서 중심을 움직이면 제곱편차 합이 표본평균에서 최소가 되는 것을 확인할 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Squared-deviation sum of observed values two four six as a function of center, minimized at sample mean four with sum eight rather than eleven at an illustrative population mean three](../../figures/assets/M04/M04-07-fitted-center.svg)
+
+<figcaption>이 표본에서는 중심을 3에서 4로 맞추며 합이 3만큼 줄어든다. 한 표본의 수치가 불편성을 증명하는 것은 아니며, 다음 기댓값 계산이 같은 표집 규칙의 평균 감소량을 구한다.</figcaption>
+</figure>
+
+양변의 기댓값을 취하면
 
 \[
 \mathbb E\left[
@@ -174,6 +207,8 @@ sample size가 커지면 variance와 MSE가 줄어든다. 이 결론은 iid 표�
 =n\sigma^2-n\frac{\sigma^2}{n}
 =(n-1)\sigma^2.
 \]
+
+원래 등식 우변의 첫 합은 모평균 주변의 편차 제곱이며, 각 항의 기댓값이 $\sigma^2$이다. 또 $\bar X$가 $\mu$의 불편추정량이므로 $\mathbb E[(\bar X-\mu)^2]=\operatorname{Var}(\bar X)=\sigma^2/n$이다. 같은 자료에서 중심을 추정해 맞춘 만큼 제곱편차 합의 평균이 줄어든다.
 
 따라서
 
@@ -198,6 +233,15 @@ S^2=\frac{1}{n-1}
 
 이므로 아래쪽 bias를 가진다. 분모 $n-1$이 모든 목적에서 우월하다는 뜻은 아니다. 추정 target과 loss에 따라 다른 estimator가 더 작은 MSE를 가질 수 있다.
 
+두 분모의 차이는 관측값 하나를 정확하게 만드는 교정이 아니라 반복 표집에서 추정량 평균의 교정이다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Expected variance estimator divided by population variance across integer sample sizes, with denominator n below one and denominator n minus one exactly one under iid sampling](../../figures/assets/M04/M04-07-variance-correction.svg)
+
+<figcaption>세로축은 한 번 계산한 분산이 아니라 추정량의 기댓값과 모분산의 비율이다. n이 커지면 두 평균의 차이는 작아지지만, 작은 표본에서는 분모 n의 아래쪽 bias가 더 크다.</figcaption>
+</figure>
+
 ## 핵심 개념 7. shrinkage는 bias를 허용해 variance를 줄일 수 있다
 
 모평균을 추정하는 규칙
@@ -207,7 +251,7 @@ S^2=\frac{1}{n-1}
 \qquad 0\le a\le1
 \]
 
-을 생각하자. 이 추정량은 0 쪽으로 값을 줄인다. bias와 variance는
+을 생각하자. $a$는 관측값과 별도로 정한 상수이며 이 추정량은 0 쪽으로 값을 줄인다. bias와 variance는
 
 \[
 \operatorname{Bias}(\widehat\mu_a)
@@ -227,7 +271,29 @@ S^2=\frac{1}{n-1}
 +(a-1)^2\mu^2.
 \]
 
-$a<1$은 bias를 만들고 variance를 줄인다. 특정 $\mu,\sigma^2,n$에서는 전체 MSE가 감소할 수 있다. 정규화와 regularization도 추정의 안정성을 높이는 과정에서 이와 비슷한 tradeoff를 만든다.
+$a<1$이면 $\mu\ne0$인 경우 bias가 생기고, 양의 sampling variance는 줄어든다. 특정 $\mu,\sigma^2,n$에서는 전체 MSE가 감소할 수 있다. 정규화와 regularization도 추정의 안정성을 높이는 과정에서 이와 비슷한 tradeoff를 만든다.
+
+평균의 선형성으로 $\mathbb E[a\bar X]=a\mu$이므로 target $\mu$를 빼면 bias가 $(a-1)\mu$이다. 고정 배율의 분산은 배율 제곱만큼 변하므로 sampling variance는 $a^2\sigma^2/n$이 된다. 이 두 값을 MSE 분해에 넣은 것이 위 식이다. $a$ 자체를 같은 sample에서 추정했다면 고정 상수의 배율식을 그대로 적용할 수는 없다.
+
+예제의 $a=1/2$에서는 MSE가 $\sigma^2/(4n)+\mu^2/4$이다. 이를 원래 표본평균의 MSE $\sigma^2/n$과 비교하면 $\mu^2<3\sigma^2/n$일 때 더 작다. 따라서 target이 0에서 먼 정도와 현재 평균 추정의 흔들림에 따라 이 shrinkage가 유리한지 달라진다.
+
+예제 2의 모멘트를 가진 Gaussian sampling distribution을 예시로 그리면, 고정 배율 1/2가 폭을 줄이는 동시에 중심을 0 쪽으로 당기는 것을 볼 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Illustrative normal sampling densities for a mean estimator centered at one with variance one and its half-shrunken estimator centered at one half with variance one quarter](../../figures/assets/M04/M04-07-shrinkage-density.svg)
+
+<figcaption>더 좁은 분포의 중심은 target보다 0.5 작다. 예제의 MSE 계산 자체는 Gaussian 가정이 필요하지 않으며, 그림은 그 모멘트를 갖는 한 sampling distribution을 선택한 것이다.</figcaption>
+</figure>
+
+같은 원래 분산에서도 target이 0에서 얼마나 먼지에 따라 shrinkage의 MSE 손익이 달라진다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Variance bias squared and total MSE across fixed shrinkage coefficients for population means one and three with original mean variance one](../../figures/assets/M04/M04-07-shrinkage-mse.svg)
+
+<figcaption>초록 점은 계수 1/2와 1을 비교한다. 위에서는 MSE가 1에서 0.5로 줄지만, 아래에서는 1에서 2.5로 늘어난다. 분산 감소만으로 개선을 주장할 수 없다.</figcaption>
+</figure>
 
 ## 핵심 개념 8. 일치성은 sample size가 커질 때의 성질이다
 
@@ -243,6 +309,24 @@ P\left(
 를 만족하면 $\theta$의 일치추정량(consistent estimator)이라고 한다. sample size가 커질수록 target에서 일정 거리 이상 벗어날 확률이 0에 가까워진다는 뜻이다.
 
 불편성과 일치성은 서로 다른 성질이다. 작은 sample에서 bias가 있는 estimator도 bias와 variance가 $n$에 따라 0으로 가면 consistent할 수 있다. 불편추정량도 variance가 줄지 않으면 consistent하지 않을 수 있다.
+
+고정한 $\varepsilon$ 밖으로 벗어나는 경우에는 제곱오차가 적어도 $\varepsilon^2$만큼 크다. 그 사건의 확률에 이 크기를 곱한 값은 전체 제곱오차 평균보다 클 수 없으므로
+
+\[
+P(|\widehat\theta_n-\theta|>\varepsilon)
+\le\frac{\operatorname{MSE}(\widehat\theta_n)}{\varepsilon^2}
+\]
+
+이다. bias와 variance가 모두 0으로 가면 MSE도 0으로 가고, 각 고정 $\varepsilon>0$에 대한 위 확률도 0으로 간다. 이것이 앞 문장의 일치성을 확인하는 한 방법이다. 반면 앞 단원의 Bernoulli$(0.5)$ 표본에서 첫 관측 $X_1$만 평균 추정값으로 계속 사용하면 불편이지만, 표본 수를 늘려도 $|X_1-0.5|=0.5$다. $\varepsilon=0.25$ 밖으로 벗어날 확률이 1이므로 이 규칙은 일치하지 않는다.
+
+본문의 Bernoulli 반례에서는 target에서 일정 거리 밖에 남는 확률을 표본 수별로 정확하게 계산할 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Exact probabilities of deviating more than one quarter from the Bernoulli mean one half, declining for the full sample mean but staying one for the first-observation estimator](../../figures/assets/M04/M04-07-consistency-tail.svg)
+
+<figcaption>표본평균은 전체 표본을 사용하지만 첫 관측 규칙은 자료가 늘어도 같은 관측 하나만 사용한다. 파란 곡선의 작은 요철은 유한한 이산 support와 엄격한 부등식에서 생기며, 일치성이 매 n에서 단조 감소를 요구한다는 뜻은 아니다.</figcaption>
+</figure>
 
 ## 예제 1. 두 추정량의 bias와 MSE 비교하기
 

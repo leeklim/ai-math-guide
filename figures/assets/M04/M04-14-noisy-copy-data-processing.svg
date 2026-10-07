@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="820" viewBox="0 0 520 820">
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs><rect width="520" height="820" rx="16" fill="#F8FAFC"/>
+<g font-family="sans-serif" font-size="26" text-anchor="middle" fill="#334155"><text x="260" y="53" font-size="28" font-weight="700">Two noisy-copy channels</text>
+<rect x="48" y="96" width="424" height="110" rx="10" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/><text x="260" y="140">Source X: fair bit</text><text x="260" y="181">H(X) = log 2 ≈ 0.693</text>
+<text x="318" y="260" fill="#5B21B6">flip probability 0.2</text>
+<rect x="48" y="306" width="424" height="110" rx="10" fill="#F3E8FF" stroke="#7C3AED" stroke-width="2"/><text x="260" y="350">Intermediate Z</text><text x="260" y="391">I(X;Z) ≈ 0.193</text>
+<text x="318" y="470" fill="#5B21B6">flip probability 0.2</text>
+<rect x="48" y="516" width="424" height="110" rx="10" fill="#D1FAE5" stroke="#059669" stroke-width="2"/><text x="260" y="560">Output Y; total flip = 0.32</text><text x="260" y="601">I(X;Y) ≈ 0.066</text>
+<text x="260" y="698">Y receives only Z and new noise</text><text x="260" y="741" fill="#065F46">I(X;Y) ≤ I(X;Z)</text><text x="260" y="784" font-size="24">No separate input from X</text></g>
+<g fill="none" stroke="#7C3AED" stroke-width="2" marker-end="url(#arrow)"><path d="M104 222V290"/><path d="M104 432V500"/></g>
+</svg>

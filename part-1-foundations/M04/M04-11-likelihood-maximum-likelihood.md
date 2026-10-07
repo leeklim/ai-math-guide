@@ -76,6 +76,13 @@ L(\theta;x)=p_\theta(x)
 
 을 만족할 필요가 없다.
 
+같은 Bernoulli 식도 어느 축을 움직이는지에 따라 다르게 읽힌다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Bernoulli masses at fixed p and likelihood over p for a fixed observed success](../../figures/assets/M04/M04-11-probability-likelihood.svg)
+  <figcaption>왼쪽은 p=0.75를 고정한 두 가능한 관측값의 probability mass이고, 오른쪽은 관측 x=1을 고정한 L(p;1)=p이다. 오른쪽 곡선 아래 p 방향 넓이는 1/2이며, likelihood에 파라미터 방향 정규화가 요구되지 않는다는 작은 예시다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. iid likelihood는 관측별 항의 곱이다
 
 $X_1,\ldots,X_n\overset{\mathrm{iid}}{\sim}p_\theta$이고 관측값이 $x_1,\ldots,x_n$이면 joint likelihood는
@@ -85,7 +92,7 @@ L(\theta;\mathcal D)
 =\prod_{i=1}^{n}p_\theta(x_i)
 \]
 
-이다. 곱 형태는 conditional independence 가정에서 나온다. 시계열이나 cluster data에서는 joint density를 dependence 구조에 맞게 써야 한다.
+이다. 곱 형태는 모형의 $\theta$를 고정했을 때 관측들이 독립이라는 가정에서 나온다. identical distribution 조건은 각 관측에 같은 $p_\theta$를 쓰게 한다. 시계열이나 cluster data에서는 joint density를 dependence 구조에 맞게 써야 한다.
 
 작은 probability를 많이 곱하면 floating-point underflow가 생길 수 있다. 자연로그를 취하면
 
@@ -96,6 +103,15 @@ L(\theta;\mathcal D)
 \]
 
 가 된다. 로그는 증가함수이므로 likelihood와 log-likelihood를 최대화하는 $\theta$가 같다.
+
+각 항이 양수인 후보에서는 곱의 로그를 항별 로그의 합으로 바꿀 수 있다. 관측값의 probability mass나 density가 0이어서 likelihood가 0인 후보는 log-likelihood를 $-\infty$로 처리한다. likelihood가 양수인 후보가 있다면 이런 후보는 최대점이 될 수 없다. 연속모형에서는 한 점의 확률이 아니라 그 점의 density를 비교하므로, $P(X=x)=0$이라는 이유로 log-likelihood가 모두 $-\infty$가 되는 것은 아니다.
+
+관측별 확률을 먼저 계산하면 곱의 로그가 합으로 바뀌는 위치를 따라갈 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Four Bernoulli observation probabilities multiplied into likelihood then summed after taking logs](../../figures/assets/M04/M04-11-product-log-terms.svg)
+  <figcaption>관측 (1,0,1,1)과 후보 p=0.75를 고정하면 네 항의 곱은 0.10546875다. 각 항의 로그를 더하면 같은 likelihood의 log 값 약 −2.24934를 얻는다. 관측별 곱은 iid 모형 가정 아래의 계산이다.</figcaption>
+</figure>
 
 ## 핵심 개념 3. maximum likelihood estimator는 데이터 적합을 최대화한다
 
@@ -127,6 +143,15 @@ L(\theta;\mathcal D)
 
 평균 NLL은 위 식을 $n$으로 나눈다. 양의 상수 배율은 minimizer를 바꾸지 않지만 loss의 수치 scale과 gradient scale에는 영향을 준다.
 
+관측 자료를 넣어 최대점을 고르는 전체 규칙은 estimator이고, 지금 자료에서 고른 파라미터는 estimate다. 미분값 0인 점을 찾는 것은 최대점 후보를 찾는 단계일 뿐이다. 허용한 파라미터 범위의 경계, 최대값의 존재와 여러 후보의 likelihood도 확인해야 한다. 최대값에 가까워질 수만 있고 허용한 범위 안에서 그 값에 도달하지 못하면 위 argmax는 비어 있을 수 있다.
+
+세 목적함수의 값과 최적화 방향은 달라도 최적 파라미터의 위치는 같다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Bernoulli likelihood and log likelihood share a maximum while negative log likelihood has its minimum at the same p](../../figures/assets/M04/M04-11-likelihood-log-nll.svg)
+  <figcaption>관측 (1,0,1,1)에서는 L과 log L의 최대점, −log L의 최소점이 모두 p=0.75에 놓인다. 세로축은 서로 다른 목적함수 값이므로 곡선의 높이를 그대로 비교하지 않고 최적점의 가로 위치를 비교한다.</figcaption>
+</figure>
+
 ## 핵심 개념 4. Bernoulli MLE는 관측 성공 비율이다
 
 $x_i\in\{0,1\}$이고 $X_i\overset{\mathrm{iid}}{\sim}\operatorname{Bernoulli}(p)$라 하자. likelihood는
@@ -137,7 +162,7 @@ L(p;\mathcal D)
 =p^{\sum_i x_i}(1-p)^{n-\sum_i x_i}
 \]
 
-이다. $k=\sum_i x_i$라 두면 log-likelihood는
+이다. 이 거듭제곱·로그 계산은 먼저 $0<p<1$에서 수행한다. $k=\sum_i x_i$라 두면 log-likelihood는
 
 \[
 \ell(p)=k\log p+(n-k)\log(1-p).
@@ -164,9 +189,20 @@ k(1-p)=(n-k)p
 
 를 얻는다. $k=0$이나 $k=n$이면 maximum은 boundary $p=0$이나 $p=1$에 있다.
 
+미분식을 통분하면 $(k-np)/(p(1-p))$다. 분모가 양수이므로 $p<k/n$에서는 log-likelihood가 증가하고 $p>k/n$에서는 감소한다. 따라서 $0<k<n$에서 이 정지점은 최대점이다. $k=0$이면 관측이 모두 0이므로 likelihood는 $(1-p)^n$이고, $k=n$이면 모두 1이므로 $p^n$이다. 두 식의 최대점을 직접 고르면 경계 해를 얻으며, $0^0$이나 $0\log0$을 그대로 계산할 필요가 없다.
+
+모든 관측이 같은 값이면 내부 정지점 대신 허용 구간의 끝을 확인한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+  ![All failures and all successes produce Bernoulli likelihood maxima at opposite parameter boundaries](../../figures/assets/M04/M04-11-boundary-maxima.svg)
+
+  <figcaption>모두 0인 자료의 likelihood는 (1−p)⁴이고 모두 1인 자료는 p⁴이다. p를 [0,1]에서 허용하면 각각 0과 1이 최대점이다. 열린 구간 0&lt;p&lt;1만 허용한다면 끝값에 접근할 뿐 그 최대값을 얻는 파라미터는 없다.</figcaption>
+</figure>
+
 ## 핵심 개념 5. Gaussian MLE는 표본평균과 분모 $n$의 분산이다
 
-$X_i\overset{\mathrm{iid}}{\sim}\mathcal N(\mu,\sigma^2)$라 하자. 상수를 포함한 log-likelihood는
+$X_i\overset{\mathrm{iid}}{\sim}\mathcal N(\mu,\sigma^2)$이며 $\sigma^2>0$라 하자. 우선 관측값이 모두 같지는 않은 sample을 다룬다. 상수를 포함한 log-likelihood는
 
 \[
 \ell(\mu,\sigma^2)
@@ -191,6 +227,40 @@ $\mu$에 대해 최대화하면
 
 이다. 이 variance MLE는 finite sample에서 아래쪽 bias를 가진다. 불편 sample variance의 분모 $n-1$과 목적이 다르다. MLE는 likelihood 최대화 기준에서 나온다.
 
+평균에 대한 편미분은
+
+\[
+\frac{\partial\ell}{\partial\mu}
+=\frac1{\sigma^2}\sum_i(x_i-\mu)
+=\frac n{\sigma^2}(\bar x-\mu)
+\]
+
+다. $\mu<\bar x$에서 증가하고 $\mu>\bar x$에서 감소하므로 어떤 양수 분산에서도 $\bar x$가 평균의 최대점이다. 분산을 하나의 변수 $\sigma^2$로 미분하면
+
+\[
+\frac{\partial\ell}{\partial(\sigma^2)}
+=-\frac n{2\sigma^2}
++\frac{\sum_i(x_i-\mu)^2}{2(\sigma^2)^2}
+\]
+
+다. $\mu=\bar x$를 대입하고 분자를 0으로 두면 $n\sigma^2=\sum_i(x_i-\bar x)^2$를 얻는다. 이 양수 해의 아래에서는 증가하고 위에서는 감소한다. M04-07에서 같은 제곱편차 합의 기댓값이 $(n-1)\sigma^2$였으므로, 분모 $n$의 추정량 기댓값은 $(n-1)\sigma^2/n$이다. 이 계산이 아래쪽 bias와 분모 $n-1$인 불편추정량의 차이를 설명한다.
+
+관측값이 모두 같으면 $\mu=\bar x$에서 제곱편차가 0이다. 이때 $\sigma^2$를 0에 가깝게 줄일수록 log-likelihood가 한없이 커지므로 양수 분산 범위에는 최대점이 없다. 공식에 0이 나온다고 해서 variance 0을 가진 통상적인 Gaussian PDF의 MLE가 존재하는 것은 아니다.
+
+평균과 분산을 함께 움직이면 자료에 가장 높은 density를 배정하는 조합을 찾는다.
+
+<figure class="lesson-figure" markdown="1">
+  ![Gaussian log likelihood contours over mean and positive variance for observations one two three](../../figures/assets/M04/M04-11-gaussian-likelihood.svg)
+  <figcaption>관측 (1,2,3)의 log-likelihood 등고선이다. 한 선 위에서는 값이 같고, 중앙의 최대점은 (μ,σ²)=(2,2/3)이다. 그림은 파라미터 공간의 적합도이며 μ와 σ²의 probability density가 아니다.</figcaption>
+</figure>
+
+관측값이 전부 같을 때에는 같은 모형에서도 최대점의 존재가 달라진다.
+
+<figure class="lesson-figure" markdown="1">
+  ![Coincident observations give increasing Gaussian log likelihood as positive variance approaches zero](../../figures/assets/M04/M04-11-no-positive-variance-maximum.svg)
+  <figcaption>관측 (2,2,2)에서 μ=2로 두면 양수 분산을 줄일수록 log-likelihood가 커진다. 가로축은 로그 눈금이며, 표시한 가장 작은 분산이 최적값인 것은 아니다. σ²&gt;0 범위에는 유한한 최대점이 없다.</figcaption>
+</figure>
+
 ## 핵심 개념 6. Gaussian NLL은 squared error와 연결된다
 
 회귀모델이
@@ -212,6 +282,20 @@ Y\mid X=\mathbf x
 
 모델이 $\sigma^2_\theta(\mathbf x)$도 예측하면 log variance 항과 scale된 squared error 항이 모두 학습에 영향을 준다. residual을 크게 허용하려고 variance만 키우면 log variance penalty도 커진다.
 
+Gaussian density의 지수에 있던 음의 제곱편차는 로그를 취한 뒤 부호를 바꾸면 양의 squared error 항이 된다. 정규화 계수 $1/\sqrt{2\pi\sigma^2}$에서는 $\tfrac12\log(2\pi\sigma^2)$가 나온다. 모든 sample에 같은 고정 양수 분산을 사용하면 전체 NLL도 제곱오차 합에 양수 상수를 곱하고 파라미터와 무관한 상수를 더한 식이다. sample별로 고정 분산이 다르면 제곱오차마다 가중치가 달라지고, 분산을 학습하면 두 항 모두 파라미터에 의존한다. 따라서 고정 공통 분산일 때의 동치를 그대로 사용할 수 없다.
+
+고정 분산과 학습하는 분산에서는 최적화에 포함되는 항이 다르다.
+
+<figure class="lesson-figure" markdown="1">
+  ![Squared error and Gaussian negative log likelihood with fixed variance minimize at the same predicted mean](../../figures/assets/M04/M04-11-fixed-variance-loss.svg)
+  <figcaption>target y=3과 공통 고정 분산 σ²=2에서 NLL은 squared error에 양수 배율과 상수를 적용한 곡선이다. 두 곡선의 최소 위치는 모두 predicted mean=3이며 최소 loss 값 자체는 같지 않다.</figcaption>
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+  ![Log normalization increases while scaled residual decreases as learned Gaussian variance grows](../../figures/assets/M04/M04-11-learned-variance-loss.svg)
+  <figcaption>residual을 2로 고정하고 분산만 움직인 예시다. 분산 증가로 제곱오차 항은 줄지만 log normalization 항은 커져 총 NLL은 σ²=4에서 최소가 된다. 분산도 학습할 때에는 제곱오차 항만 줄이는 계산으로 대체할 수 없다.</figcaption>
+</figure>
+
 ## 핵심 개념 7. categorical NLL은 관측 class의 log probability를 사용한다
 
 한 sample의 target class가 $y$이고 모델의 categorical probability가 $p_\theta(k\mid\mathbf x)$이면 NLL은
@@ -232,6 +316,13 @@ Y\mid X=\mathbf x
 
 language model에서는 각 token position의 observed next token에 같은 NLL을 계산하고 position·batch에 대해 합이나 평균을 낸다.
 
+one-hot의 0은 관측하지 않은 class의 로그항을 이 sample의 합에서 제거한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![One hot target selects only the observed class contribution to categorical negative log likelihood](../../figures/assets/M04/M04-11-observed-class-nll.svg)
+  <figcaption>관측 class가 2이고 p=(0.1,0.8,0.1)이면 q=(0,1,0)이다. 오른쪽의 class별 −qₖ log pₖ 중 두 번째 항만 약 0.223을 기여한다. 다른 sample에서는 그 sample의 관측 class가 새로 선택된다.</figcaption>
+</figure>
+
 ## 핵심 개념 8. MLE는 모형·표집·optimization 가정에 의존한다
 
 MLE는 선택한 model family 안에서 training data likelihood를 최대화한다. true data distribution이 model family 밖에 있으면 MLE도 misspecified model의 최적 적합을 찾는다. training likelihood가 높아도 held-out data에서 높은 likelihood를 보장하지 않는다.
@@ -239,6 +330,13 @@ MLE는 선택한 model family 안에서 training data likelihood를 최대화한
 파라미터가 비식별적이면 같은 distribution을 나타내는 MLE가 여러 개일 수 있다. local optimum이나 optimization error 때문에 계산한 parameter가 global MLE와 다를 수도 있다.
 
 regularization을 더한 objective는 순수 MLE와 다르다. penalty를 prior의 negative log-density로 해석하면 maximum a posteriori(MAP) estimation과 연결할 수 있지만, prior와 penalty의 대응을 명시해야 한다.
+
+같은 분포를 나타내는 파라미터가 여럿이면 likelihood의 최대점도 한 점으로 정해지지 않는다.
+
+<figure class="lesson-figure" markdown="1">
+  ![Gaussian mean parameterized by a plus b produces a ridge of equally good likelihood maxima](../../figures/assets/M04/M04-11-identifiable-mean-ridge.svg)
+  <figcaption>평균을 μ=a+b로 표시하고 분산 1을 고정한 Gaussian 예시다. 자료 (1,2,3)에서는 a+b=2인 초록 선 전체가 같은 최대 likelihood를 갖는다. (0,2), (1,1), (2,0)은 다른 파라미터지만 같은 적합 분포를 나타낸다.</figcaption>
+</figure>
 
 ## 예제 1. Bernoulli likelihood 계산하기
 

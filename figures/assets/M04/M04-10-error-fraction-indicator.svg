@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 730" role="img" aria-labelledby="title desc">
+<title id="title">One run's false-discovery fraction and any-error indicator</title>
+<desc id="desc">Five illustrative rejected hypotheses include three true and two false discoveries. This run's false-discovery fraction is two fifths and its indicator of any false discovery is one. FDR and FWER average these different quantities over repeated analyses.</desc>
+<rect width="520" height="730" rx="18" fill="#F8FAFC"/>
+<g font-family="sans-serif" text-anchor="middle" font-size="26" fill="#334155">
+<text x="260" y="54" font-size="28" font-weight="700">Five rejected hypotheses</text>
+<rect x="48" y="95" width="424" height="350" rx="14" fill="#E2E8F0" stroke="#64748B" stroke-width="2"/>
+<rect x="96" y="126" width="328" height="40" rx="8" fill="#D1FAE5"/><rect x="96" y="190" width="328" height="40" rx="8" fill="#D1FAE5"/><rect x="96" y="254" width="328" height="40" rx="8" fill="#D1FAE5"/><rect x="96" y="318" width="328" height="40" rx="8" fill="#FFEDD5"/><rect x="96" y="382" width="328" height="40" rx="8" fill="#FFEDD5"/>
+<text x="260" y="155" fill="#065F46">true discovery</text><text x="260" y="219" fill="#065F46">true discovery</text><text x="260" y="283" fill="#065F46">true discovery</text><text x="260" y="347" fill="#9A3412">false discovery</text><text x="260" y="411" fill="#9A3412">false discovery</text>
+<text x="260" y="506">False-discovery fraction</text><text x="260" y="550" font-size="28" fill="#5B21B6">2/5 = 0.4</text><text x="260" y="610">Any false discovery?</text><text x="260" y="654" fill="#9A3412">Yes → indicator 1</text>
+</g></svg>

@@ -67,6 +67,8 @@ p_X(x)=p^x(1-p)^{1-x},
 
 이다. $x=1$을 넣으면 $p$, $x=0$을 넣으면 $1-p$가 된다.
 
+이 거듭제곱 표현은 $0<p<1$에서 두 경우를 한 번에 읽는 식이다. 경계값 $p=0$과 $p=1$에서는 $0^0$을 계산하는 대신 처음의 두 확률 $p,1-p$를 사용한다. 각각 항상 0, 항상 1을 내는 분포이며, 두 경우 모두 분산은 0이다.
+
 기댓값과 분산은
 
 \[
@@ -76,6 +78,24 @@ p_X(x)=p^x(1-p)^{1-x},
 \]
 
 이다. $X^2=X$이므로 $\mathbb E[X^2]=p$이고 $p-p^2=p(1-p)$을 얻는다. 사건의 indicator도 Bernoulli 확률변수이다.
+
+성공확률을 바꾸어도 가능한 값은 0과 1뿐이며, 바뀌는 것은 그 두 값에 배정한 질량이다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Three Bernoulli PMFs with success probabilities 0.1, 0.5 and 0.9, always supported only at zero and one](../../figures/assets/M04/M04-05-bernoulli-mass.svg)
+
+<figcaption>왼쪽과 오른쪽 막대의 합은 항상 1이다. 같은 두 값 위에서 확률 질량이 이동하는 것이지, 파라미터 p가 새로운 관측값을 만드는 것은 아니다.</figcaption>
+</figure>
+
+분산은 성공확률의 크기와 같은 방향으로만 늘어나지 않는다. 0과 1 중 하나가 거의 확정되면 관측값의 퍼짐도 작아진다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Bernoulli variance p times one minus p peaking at 0.25 when p is 0.5 and becoming zero at both parameter endpoints](../../figures/assets/M04/M04-05-bernoulli-variance.svg)
+
+<figcaption>곡선 양 끝은 항상 같은 값만 나오는 분포다. 가운데에서는 두 값이 같은 확률을 가져 퍼짐이 가장 크며, 예제 1의 p=0.7에서는 분산이 0.21이다.</figcaption>
+</figure>
 
 ## 핵심 개념 2. categorical 분포는 여러 범주 중 하나를 고른다
 
@@ -97,6 +117,17 @@ $Y$의 관측값은 class index $k$로 기록할 수 있다. one-hot vector $\ma
 
 확률 vector $\boldsymbol\pi$와 one-hot 관측값 $\mathbf z$는 역할이 다르다. 전자는 가능한 class 전체에 확률을 배정하고 후자는 한 시행에서 나온 class를 표시한다.
 
+one-hot의 $k$번째 성분 $Z_k$는 사건 $\{Y=k\}$의 indicator다. 앞 단원의 indicator 기댓값에 따라 $\mathbb E[Z_k]=P(Y=k)=\pi_k$이며, 성분마다 모으면 위 평균벡터 식이 된다. 한 관측에서는 성분 하나만 1이어야 하지만, 평균벡터에서는 여러 성분이 양수일 수 있다. 이 성분들은 각 class가 나올 비율을 나타낸다.
+
+예제 2의 확률 vector와 class 2 관측을 나누어 보면 분포 파라미터와 기록값이 다른 역할임을 확인할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Categorical class masses 0.5, 0.3 and 0.2 above one illustrative observed class-two draw recorded as the one-hot vector zero one zero](../../figures/assets/M04/M04-05-probability-one-hot.svg)
+
+<figcaption>위 막대는 모든 가능성의 확률을 나타내지만 아래 vector는 한 시행에서 관측한 class만 표시한다. 여러 관측의 one-hot 평균을 생각할 때에야 각 성분의 기대 비율이 확률 vector와 연결된다.</figcaption>
+</figure>
+
 ## 핵심 개념 3. binomial 분포는 Bernoulli 성공 횟수를 센다
 
 $X_1,\ldots,X_n$이 같은 성공확률 $p$를 가진 독립 Bernoulli 확률변수이고
@@ -115,6 +146,18 @@ P(S=s)
 
 이다. $p^s(1-p)^{n-s}$는 특정한 성공·실패 배열 하나의 확률이고 $\binom ns$는 성공 위치를 고르는 배열 수이다.
 
+이 거듭제곱 계산은 $0<p<1$인 경우부터 읽는다. 경계값에서는 $p=0$이면 $S=0$, $p=1$이면 $S=n$인 사건에 확률 1을 배정한다.
+
+각 시행이 독립이므로 배열의 확률은 시행별 성공확률 또는 실패확률을 곱한 값이다. 같은 $p$를 쓰면 성공이 $s$개인 배열들은 위치와 관계없이 모두 $p^s(1-p)^{n-s}$를 가진다. 서로 다른 배열은 겹치지 않는 사건이므로 같은 확률을 배열 수만큼 더한다.
+
+$s\ge1$일 때 성공 위치 $s$개를 순서 있게 고르면 $n(n-1)\cdots(n-s+1)$가지다. 같은 위치 집합을 나열하는 순서가 $s(s-1)\cdots1$개이므로 이 수로 나누면
+
+\[
+\binom ns=\frac{n(n-1)\cdots(n-s+1)}{s(s-1)\cdots1}
+\]
+
+이다. $s=0$이면 성공 위치를 하나도 고르지 않는 배열이 하나이므로 $\binom n0=1$이다. 예제 3에서는 두 성공 위치를 순서 있게 고르는 경우가 $3\cdot2$개이고, 순서만 다른 두 나열을 하나로 세어 $\binom32=3$을 얻는다.
+
 기댓값의 선형성과 독립을 사용하면
 
 \[
@@ -124,6 +167,26 @@ P(S=s)
 \]
 
 이다. 독립이 없으면 성공 횟수의 분산에 시행 사이 공분산 항이 들어간다.
+
+평균은 $\mathbb E[S]=\sum_i\mathbb E[X_i]=np$이므로 같은 성공확률만 있으면 독립 없이도 계산된다. 분산을 $n$개의 $p(1-p)$로 더할 때는 독립을 사용해 서로 다른 시행의 공분산을 없앤다. 평균의 선형성만으로 binomial 분포 전체나 위 분산식을 얻을 수는 없다.
+
+예제 3에서는 성공의 두 위치를 고르면 배열 하나가 정해진다. 같은 두 위치를 다른 순서로 나열했다고 새 배열이 되는 것은 아니다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The three distinct success-position arrays 110, 101 and 011 for three independent equal-probability binary trials, each of mass one eighth and total mass three eighths](../../figures/assets/M04/M04-05-binomial-success-positions.svg)
+
+<figcaption>각 행은 두 성공 위치가 다른 배열이다. 같은 성공확률과 독립을 가정했으므로 세 행의 확률이 같고, 서로 겹치지 않아 그대로 더할 수 있다.</figcaption>
+</figure>
+
+성공 횟수를 기록하면 관측 가능한 값은 시행 수까지의 정수가 된다. 같은 다섯 시행이라도 성공확률이 달라지면 횟수의 분포 모양은 달라진다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two binomial count PMFs for five independent trials with success parameters 0.2 and 0.5, supported on integer counts zero through five](../../figures/assets/M04/M04-05-binomial-mass.svg)
+
+<figcaption>가로축은 성공의 순서가 아니라 횟수다. 작은 p에서는 낮은 횟수에 질량이 모이고, p=0.5에서는 다섯 시행의 가운데 횟수들에 대칭적으로 모인다.</figcaption>
+</figure>
 
 ## 핵심 개념 4. Gaussian 분포는 평균과 분산으로 위치와 scale을 정한다
 
@@ -144,6 +207,26 @@ f_X(x)
 \]
 
 밀도는 $\mu$를 중심으로 대칭이고 $\sigma$가 커지면 더 넓게 퍼진다. Gaussian은 연속분포이므로 한 점의 확률 $P(X=x)$는 0이며 구간확률을 적분해 계산한다.
+
+지수부에서는 평균에서의 거리 $x-\mu$를 $\sigma$로 나눈 뒤 제곱한다. 평균에서 표준편차 한 배만큼 떨어진 $x=\mu\pm\sigma$에서는 지수가 두 방향 모두 $-1/2$이다. 따라서 $\mu$는 밀도의 중심을 옮기고, $\sigma$는 같은 상대 위치에 도달하는 거리의 단위를 정한다. $\sigma$가 커질 때 앞의 계수 $1/(\sqrt{2\pi}\sigma)$는 작아져 밀도를 넓히면서 전체 면적 1을 유지한다.
+
+분산을 고정하고 평균만 바꾸면 같은 곡선이 좌우로 이동한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Gaussian densities with means zero and two and common variance one, showing the same density shape translated horizontally](../../figures/assets/M04/M04-05-gaussian-mean-shift.svg)
+
+<figcaption>두 곡선은 폭과 최대 높이가 같다. 평균을 바꾸면 높은 확률 밀도가 모이는 위치만 옮겨진다.</figcaption>
+</figure>
+
+평균을 고정하고 표준편차를 바꾸면 폭과 최대 높이가 함께 바뀐다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Centered normalized Gaussian densities with standard deviations 0.5, one and two and corresponding variances 0.25, one and four](../../figures/assets/M04/M04-05-gaussian-scale.svg)
+
+<figcaption>넓은 곡선은 낮아지고 좁은 곡선은 높아져 전체 면적을 1로 유지한다. 범례에서 표준편차와 그 제곱인 분산을 구분해야 한다.</figcaption>
+</figure>
 
 ## 핵심 개념 5. 표준화는 Gaussian을 표준정규분포로 바꾼다
 
@@ -167,6 +250,35 @@ z=\frac{x-\mu}{\sigma}
 
 는 $x$가 평균에서 표준편차 몇 배만큼 떨어졌는지 나타낸다. 표준화는 단위를 제거하지만 원래 분포가 Gaussian이라는 사실을 새로 만들지는 않는다.
 
+기댓값의 선형성과 분산의 배율식으로 $\mathbb E[Z]=(\mu-\mu)/\sigma=0$, $\operatorname{Var}(Z)=\sigma^2/\sigma^2=1$이다. 이 두 계산은 유한한 평균과 양의 분산을 가진 다른 분포에도 적용되지만, 표준화한 분포가 Gaussian인 것은 원래 $X$가 Gaussian이었기 때문이다.
+
+밀도에서도 같은 변환을 확인할 수 있다. $x=\mu+\sigma z$로 바꾸면 원래 구간의 폭은 표준화한 구간 폭의 $\sigma$배다. 대응하는 두 구간의 확률이 같도록 밀도에 이 폭 배율을 곱하면
+
+\[
+f_Z(z)=\sigma f_X(\mu+\sigma z)
+=\frac{1}{\sqrt{2\pi}}\exp\left(-\frac{z^2}{2}\right)
+\]
+
+이 된다. 원래 Gaussian PDF에서 평균 이동과 양의 scale이 소거되어 표준정규 PDF를 얻은 것이다.
+
+$\sigma>0$이므로 부등식의 방향을 유지한 채 구간도 같은 규칙으로 바꾼다.
+
+\[
+P(a\le X\le b)
+=P\left(\frac{a-\mu}{\sigma}\le Z\le\frac{b-\mu}{\sigma}\right).
+\]
+
+따라서 표준정규 CDF $F_Z$에서 두 끝점의 누적확률을 빼면 원래 구간확률을 얻는다. Gaussian의 점확률은 0이므로 여기서는 끝점을 포함하는지에 따라 확률이 바뀌지 않는다. 예제 4의 $z=1.5$도 확률 자체가 아니라 CDF에 넣을 위치다.
+
+예제 4의 분포에서 구간 $[8,13]$을 함께 옮기면 값의 단위는 달라지지만 대응 구간의 확률은 유지된다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Gaussian density with mean ten and standard deviation two over interval eight to thirteen transformed into standard normal density over minus one to 1.5 with equal shaded probability area](../../figures/assets/M04/M04-05-gaussian-standardization.svg)
+
+<figcaption>아래 가로축은 원래 값이 아니라 평균에서 표준편차 몇 배 떨어졌는지를 나타낸다. 구간 폭은 절반이 되지만 밀도 높이는 두 배가 되어 색칠한 확률 넓이는 같다.</figcaption>
+</figure>
+
 ## 핵심 개념 6. 다변량 Gaussian은 평균벡터와 covariance matrix를 사용한다
 
 $d$차원 확률벡터 $\mathbf X$에 대해
@@ -189,7 +301,27 @@ f_{\mathbf X}(\mathbf x)
 
 이다. quadratic form이 같은 점들은 같은 밀도를 가지며 covariance가 등밀도 곡면의 방향과 scale을 정한다.
 
+이 식에서 $|\mathbf\Sigma|$는 covariance matrix의 determinant이며 positive definite 조건에서 양수다. 이 조건은 모든 비영 방향의 분산이 양수이고 역행렬도 존재함을 뜻한다. $d=1$이면 $\mathbf\Sigma=[\sigma^2]$이므로 determinant와 역행렬 항이 각각 $\sigma^2$, $1/\sigma^2$가 되어 앞의 일변량 PDF로 돌아간다.
+
+공분산의 직교 고유기저에서 $\mathbf\Sigma=\mathbf Q\boldsymbol\Lambda\mathbf Q^\top$이고 $\boldsymbol\Lambda$의 대각 원소를 $\lambda_i>0$이라 하자. 중심화한 좌표를 $\mathbf z=\mathbf Q^\top(\mathbf x-\boldsymbol\mu)$로 바꾸면 지수의 quadratic form은
+
+\[
+(\mathbf x-\boldsymbol\mu)^\top\mathbf\Sigma^{-1}(\mathbf x-\boldsymbol\mu)
+=\sum_{i=1}^{d}\frac{z_i^2}{\lambda_i}
+\]
+
+이다. 각 고유방향의 거리를 그 방향의 표준편차 $\sqrt{\lambda_i}$로 나눈 뒤 제곱해 더한 값이다. 이 합이 같은 점들이 등밀도 곡면을 이루므로, 고유벡터는 곡면의 축 방향을 정하고 고유값은 축별 퍼짐을 정한다.
+
 평균과 covariance가 주어졌다고 모든 분포가 Gaussian이 되는 것은 아니다. 다변량 Gaussian이라는 가정을 추가했을 때 두 파라미터가 분포를 정한다.
+
+Gaussian을 가정한 다음에야 covariance의 방향과 scale을 등밀도 타원으로 읽을 수 있다. 아래 곡선의 숫자는 본문의 quadratic form 값이다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Equal-density contours of a two-dimensional Gaussian centered at one and minus 0.5 with covariance one on the diagonal and 0.7 off-diagonal, and two covariance eigen-direction semiaxes](../../figures/assets/M04/M04-05-gaussian-covariance-contours.svg)
+
+<figcaption>같은 숫자의 곡선 위에서는 지수부가 같아 밀도도 같다. 두 화살표는 값 4인 타원의 고유방향 반축이며, 각 길이는 해당 방향 표준편차의 두 배다. 이는 Gaussian 모형의 구조이지 임의의 activation 분포 모양에 대한 결론은 아니다.</figcaption>
+</figure>
 
 ## 핵심 개념 7. 분포 선택은 support와 생성 가정을 포함한다
 

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-labelledby="title desc">
+  <title id="title">A categorical probability vector and one observed one-hot record</title>
+  <desc id="desc">Categorical probabilities 0.5, 0.3, 0.2 assign mass to three classes. An illustrative draw observes class two, whose one-hot record is zero, one, zero. The probability vector has three positive components, whereas a single observation has exactly one component equal to one.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="800" height="600" rx="16" fill="#F8FAFC"/>
+  <g font-family="sans-serif" text-anchor="middle" fill="#334155"><text x="400" y="48" font-size="24" font-weight="700">A probability vector is not one observed label</text><text x="400" y="103" font-size="20">π = (0.5, 0.3, 0.2): all class possibilities</text></g>
+  <rect x="100" y="137" width="300" height="104" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/><rect x="400" y="137" width="180" height="104" fill="#F3E8FF" stroke="#7C3AED" stroke-width="2"/><rect x="580" y="137" width="120" height="104" fill="#D1FAE5" stroke="#059669" stroke-width="2"/>
+  <g font-family="sans-serif" text-anchor="middle" font-size="21" fill="#334155"><text x="250" y="177">class 1</text><text x="250" y="216">0.5</text><text x="490" y="177">class 2</text><text x="490" y="216">0.3</text><text x="640" y="177">class 3</text><text x="640" y="216">0.2</text></g>
+  <path d="M400 265V326" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="430" y="305" font-family="sans-serif" font-size="20" fill="#5B21B6">One illustrative draw: Y = 2</text>
+  <g font-family="sans-serif" text-anchor="middle" fill="#334155" font-size="20"><text x="190" y="366">component 1</text><text x="400" y="366">component 2</text><text x="610" y="366">component 3</text></g>
+  <rect x="100" y="397" width="180" height="84" rx="12" fill="#E2E8F0" stroke="#64748B" stroke-width="2"/><rect x="310" y="397" width="180" height="84" rx="12" fill="#D1FAE5" stroke="#059669" stroke-width="2"/><rect x="520" y="397" width="180" height="84" rx="12" fill="#E2E8F0" stroke="#64748B" stroke-width="2"/>
+  <g font-family="sans-serif" text-anchor="middle" font-size="25" fill="#334155"><text x="190" y="449">0</text><text x="400" y="449" fill="#065F46">1</text><text x="610" y="449">0</text><text x="400" y="530" font-size="22">Observed z = (0, 1, 0)</text><text x="400" y="574" font-size="18" fill="#475569">Across draws, the mean one-hot vector is π.</text></g>
+</svg>

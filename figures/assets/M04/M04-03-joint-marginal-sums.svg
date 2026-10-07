@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" width="800" height="560" role="img" aria-labelledby="title desc">
+  <title id="title">Marginalization sums joint cells along one variable</title>
+  <desc id="desc">A joint table has cells 0.30 and 0.20 for X zero, and 0.10 and 0.40 for X one, in columns Y zero and Y one. Row sums give marginal X probabilities 0.50 each; column sums give marginal Y probabilities 0.40 and 0.60. Summing removes the summed variable's condition.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="800" height="560" rx="16" fill="#F8FAFC"/>
+  <g font-family="sans-serif" text-anchor="middle" fill="#334155"><text x="400" y="48" font-size="24" font-weight="700">Summing removes one value condition</text><text x="290" y="111" font-size="20">Y = 0</text><text x="470" y="111" font-size="20">Y = 1</text><text x="678" y="111" font-size="20" fill="#065F46">p_X(x)</text></g>
+  <g stroke="#64748B" stroke-width="2"><rect x="200" y="144" width="180" height="104" fill="#DBEAFE"/><rect x="380" y="144" width="180" height="104" fill="#DBEAFE"/><rect x="200" y="248" width="180" height="104" fill="#F3E8FF"/><rect x="380" y="248" width="180" height="104" fill="#F3E8FF"/></g>
+  <g font-family="sans-serif" text-anchor="middle" font-size="23" fill="#334155"><text x="290" y="205">0.30</text><text x="470" y="205">0.20</text><text x="290" y="309">0.10</text><text x="470" y="309">0.40</text><text x="122" y="205" font-size="20">X = 0</text><text x="122" y="309" font-size="20">X = 1</text><text x="678" y="205" fill="#065F46">0.50</text><text x="678" y="309" fill="#065F46">0.50</text></g>
+  <g stroke="#059669" stroke-width="2.5" marker-end="url(#arrow)"><path d="M584 196H624"/><path d="M584 300H624"/><path d="M290 376V422"/><path d="M470 376V422"/></g>
+  <g font-family="sans-serif" text-anchor="middle" fill="#065F46" font-size="23"><text x="290" y="462">0.40</text><text x="470" y="462">0.60</text></g>
+  <g font-family="sans-serif" text-anchor="middle" font-size="18" fill="#475569"><text x="400" y="507">p_Y(y): add across X values</text><text x="400" y="542">All four joint cells add to 1.</text></g>
+</svg>

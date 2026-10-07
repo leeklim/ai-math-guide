@@ -87,7 +87,27 @@ p=P_{H_0}(T\ge t_{\mathrm{obs}})
 
 를 사용한다. “더 극단적”의 정의는 $H_1$과 검정통계량에 달려 있다.
 
+양측 식은 절댓값이 $|t_{\mathrm{obs}}|$ 이상인 두 tail의 확률을 합한다. 연속이고 0에 대해 대칭인 귀무분포에서는 두 tail의 확률이 같으므로 오른쪽 tail의 두 배로 계산할 수 있다. 반면 오른쪽 단측검정은 positive 방향만 센다. 관측값이 negative 방향으로 커지면 절댓값은 커져도 오른쪽 단측 p-value는 작아지지 않는다. 어느 방향을 극단적으로 셀지 먼저 정해야 하는 이유다.
+
 p-value는 $P(H_0\mid\text{data})$가 아니다. 귀무가설의 사후확률을 계산하려면 prior와 likelihood를 포함한 Bayesian 모형이 필요하다.
+
+예제 1의 z=2를 귀무분포에 표시하면 양측검정이 세는 두 영역을 볼 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Standard-normal null density with both tails beyond minus and plus two shaded for the observed z statistic two and two-sided p-value approximately 0.0455](../../figures/assets/M04/M04-10-two-sided-tail.svg)
+
+<figcaption>색칠한 넓이는 귀무가설을 가정한 통계량의 확률이다. 관측값 이상으로 절댓값이 큰 두 영역을 함께 세며, 귀무가설 자체의 확률을 그린 것이 아니다.</figcaption>
+</figure>
+
+관측값의 절댓값이 같아도 오른쪽 단측검정에서는 방향에 따라 넓이가 크게 달라진다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The same right-sided null-tail rule applied to observed z values plus two and minus two with p-values approximately 0.02275 and 0.97725](../../figures/assets/M04/M04-10-directional-tail.svg)
+
+<figcaption>두 패널 모두 관측 위치의 오른쪽을 센다. negative 방향으로 큰 관측값은 positive 대립가설을 위한 오른쪽 단측검정에서 작은 p-value를 만들지 않는다.</figcaption>
+</figure>
 
 ## 핵심 개념 3. 유의수준은 기각 규칙을 정한다
 
@@ -102,6 +122,8 @@ p\le\alpha
 기각 실패는 $H_0$가 참이라는 증명이 아니다. sample size가 작거나 noise가 크면 meaningful effect가 있어도 검정력이 부족할 수 있다. 반대로 큰 sample에서는 작은 effect도 낮은 p-value를 만들 수 있다.
 
 검정 결론에는 effect estimate와 confidence interval을 함께 보고한다. 이 두 수는 효과의 크기와 추정 정밀도를 보여 준다.
+
+표집 전에는 p-value도 sample에서 계산하는 통계량이다. 유효한 p-value라는 조건은 $H_0$ 아래 $P_{H_0}(p\le\alpha)\le\alpha$라는 반복 표집 확률로 표현된다. 따라서 $p\le\alpha$를 기각 규칙으로 삼으면 참인 $H_0$를 기각할 확률도 $\alpha$ 이하가 된다. 이는 귀무가설이 참인 표집을 반복했을 때의 오류율이지, 이미 기각한 한 결과가 틀릴 확률이라는 뜻은 아니다.
 
 ## 핵심 개념 4. Type I·II error와 power는 서로 다른 오류를 센다
 
@@ -129,15 +151,35 @@ P(\text{reject }H_0\mid H_0\text{ true})
 
 power는 effect size, sample size, variability와 $\alpha$에 좌우된다. 더 작은 $\alpha$는 false positive를 줄이는 대신 같은 조건에서 power를 낮출 수 있다.
 
+같은 기각 영역을 두 실제 상태의 분포에 적용하면 Type I error와 power가 서로 다른 조건부확률임을 확인할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![One right-sided rejection cutoff 1.645 under a null normal distribution centered at zero and a specific alternative centered at 2.5, shading Type I error under the null and Type II error and power under the alternative](../../figures/assets/M04/M04-10-null-alternative-errors.svg)
+
+<figcaption>위 주황 영역은 귀무가설이 참일 때의 오류이고, 아래 주황 영역은 이 특정 대립가설이 참일 때 놓치는 경우다. 같은 기각 규칙에서도 조건으로 둔 분포가 다르며, 아래 power가 모든 효과 크기의 공통값인 것은 아니다.</figcaption>
+</figure>
+
 ## 핵심 개념 5. 통계적 유의성과 효과 크기는 다른 질문에 답한다
 
 p-value는 $H_0$ 아래 관측 결과의 극단성을 나타낸다. effect size는 연구 대상 차이의 크기를 나타낸다. confidence interval은 sampling uncertainty를 포함한 plausible effect 범위를 제공한다.
 
 평균 차이가 $0.001$이어도 sample size가 크면 낮은 p-value가 나올 수 있다. 평균 차이가 $0.2$여도 sample이 작고 variance가 크면 interval이 넓고 p-value가 높을 수 있다. 모델 행동에 어떤 크기의 변화가 의미 있는지는 task metric과 intervention 비용을 바탕으로 별도 판단해야 한다.
 
+평균 차이 검정에서 관측 차이를 standard error로 나누면 그 차이가 표집 변동의 몇 배인지 나타난다. 같은 관측 차이에 standard error가 작아지면 표준화한 통계량은 귀무값에서 더 멀어지고 tail probability는 작아진다. 실제 효과를 고정한 반복 표집에서도 standard error가 작아지면 기각 영역에 들어갈 기회가 늘어난다. 이 계산은 power 증가를 설명하지만 원래 metric에서의 효과 크기를 키우지는 않는다.
+
+원래 metric의 차이와 표준오차의 배수를 분리하면 작은 효과의 유의성과 큰 효과의 불확실성을 동시에 표현할 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Illustrative 95 percent z intervals for effect 0.05 with standard error 0.01 and effect 0.20 with standard error 0.20 on the same effect axis](../../figures/assets/M04/M04-10-effect-precision.svg)
+
+<figcaption>위 차이는 0.05, SE는 0.01이라 귀무값에서 5배 떨어지고, 아래 차이는 0.20, SE는 0.20이라 1배 떨어진다. 효과가 큰 아래 결과의 p-value가 오히려 높다. 그림은 가정한 수치 예시이며 실제 모델의 효과를 보고하는 것이 아니다.</figcaption>
+</figure>
+
 ## 핵심 개념 6. 다중비교는 false positive가 생길 기회를 늘린다
 
-각각 유의수준 $\alpha$로 $m$개 독립 귀무가설을 검사하고 모두 참이라고 하자. false positive가 하나 이상 나올 확률인 family-wise error rate(FWER)는
+귀무가설 $m$개가 모두 참이고, 각 검정의 Type I error 확률이 정확히 $\alpha$이며 검정 결과들이 독립이라고 하자. false positive가 하나 이상 나올 확률인 family-wise error rate(FWER)는
 
 \[
 1-(1-\alpha)^m
@@ -151,6 +193,8 @@ p-value는 $H_0$ 아래 관측 결과의 극단성을 나타낸다. effect size�
 
 이다. independence가 없어도 여러 검정을 탐색하면 raw p-value 하나의 해석에는 전체 선택 절차가 들어가야 한다.
 
+각 검정에서 false positive가 없을 확률은 $1-\alpha$다. 독립이면 $m$개 모두에서 오류가 없을 확률이 $(1-\alpha)^m$이고, 그 여사건이 하나 이상의 오류다. 실제 검정별 오류 확률이 $\alpha$ 이하라는 조건만 있다면 위 값은 독립 조건 아래의 상한이지 반드시 등식은 아니다.
+
 Bonferroni correction은 각 가설을
 
 \[
@@ -158,6 +202,17 @@ Bonferroni correction은 각 가설을
 \]
 
 수준에서 검사한다. 가설 사이의 dependence와 관계없이 FWER를 $\alpha$ 이하로 통제하지만, $m$이 크면 power가 낮아질 수 있다.
+
+오류가 하나라도 있는 사건은 각 참인 귀무가설에서 오류가 있는 사건들의 합집합이다. 합집합 확률은 개별 확률의 합 이하이므로, 참인 가설 수가 최대 $m$개이고 각 오류 확률이 $\alpha/m$ 이하이면 전체 오류 확률은 $m(\alpha/m)=\alpha$ 이하가 된다. 사건 사이의 독립성을 쓰지 않는 이 상한이 Bonferroni 보장의 근거다.
+
+모든 귀무가설이 참인 독립 검정이라는 본문의 조건 아래에서 검정 수에 따른 family 오류를 정확하게 비교할 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Independent all-null family-wise error rate increasing with test count at raw per-test level 0.05 and staying below 0.05 at Bonferroni per-test level 0.05 divided by family size](../../figures/assets/M04/M04-10-family-error.svg)
+
+<figcaption>주황 점은 m=20에서 보정 전 확률 약 0.642다. 초록 곡선은 이 독립 예시의 정확한 확률이며, dependence가 있는 일반적인 경우의 Bonferroni 보장은 본문의 합집합 상한에서 얻는다.</figcaption>
+</figure>
 
 ## 핵심 개념 7. FDR은 발견된 항목 중 false discovery 비율을 통제한다
 
@@ -167,7 +222,29 @@ false discovery rate(FDR)는 기각한 가설들 가운데 false positive가 차
 2. 목표 FDR $q$에 대해 $p_{(k)}\le kq/m$을 만족하는 가장 큰 $k$를 찾는다.
 3. $p_{(1)},\ldots,p_{(k)}$에 해당하는 가설을 기각한다.
 
+FDR의 비율은 sample마다 기각 개수와 false positive 개수가 달라지는 random quantity다. 기각이 하나도 없으면 이 비율을 0으로 정하고, 반복 분석에서 얻는 비율의 기댓값을 통제한다. 목표 $q$는 지금 얻은 발견들 중 false positive가 정확히 그 비율이라는 뜻도, false positive가 하나라도 있을 확률이라는 뜻도 아니다.
+
+BH의 threshold $kq/m$은 정렬 위치가 뒤로 갈수록 커진다. 따라서 처음 조건을 실패한 위치에서 멈추지 않고 모든 위치 중 조건을 만족하는 가장 큰 $k$를 찾는다. 그런 위치가 없으면 아무 가설도 기각하지 않는다. $k$를 찾았으면 앞의 모든 p-value는 $p_{(k)}$ 이하이므로 하나의 cutoff $kq/m$ 아래에서 함께 기각한다.
+
 BH 절차의 FDR 보장은 독립이나 특정 positive dependence 조건에서 성립한다. arbitrary dependence에는 다른 보정이 필요할 수 있다. FWER와 FDR은 통제하려는 오류가 다르므로 연구 목적에 맞춰 선택한다.
+
+기각한 가설 다섯 개 안에 오류가 두 개 있다고 가정하면, 같은 분석에서 오류 비율과 오류 존재 여부가 서로 다른 양이 된다.
+
+<figure class="lesson-figure" markdown="1">
+
+![One illustrative rejected set of five hypotheses with three true and two false discoveries, yielding false-discovery fraction two fifths and any-false-discovery indicator one](../../figures/assets/M04/M04-10-error-fraction-indicator.svg)
+
+<figcaption>이 한 번의 false-discovery fraction은 0.4이고 오류가 하나라도 있는지의 indicator는 1이다. FDR과 FWER는 반복 분석에서 이 서로 다른 양의 기댓값을 취한다. 현재의 비율이 목표 q와 정확히 같아야 한다는 뜻이 아니다.</figcaption>
+</figure>
+
+BH의 최대 위치 선택은 예제 4와 첫 위치만 바꾼 비교 예시에서 확인할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two BH rank plots with four p-values and target q 0.05, both selecting maximum passing rank two, including a variant where the first p-value 0.014 fails its own rank threshold but is still rejected under the final cutoff 0.025](../../figures/assets/M04/M04-10-bh-step-up.svg)
+
+<figcaption>원은 해당 순위의 조건을 통과한 점이고 ×는 실패한 점이다. 둘째 위치가 마지막 통과 위치여서 음영으로 표시한 앞 두 가설을 함께 기각한다. 오른쪽에서는 첫 위치가 실패해도 거기서 멈추지 않는다. p₄=0.200은 세로축의 확대 범위 위에 있어 점이 보이지 않으며 넷째 조건을 실패한다.</figcaption>
+</figure>
 
 ## 핵심 개념 8. 탐색과 확인을 같은 데이터에서 섞으면 오류 통제가 깨진다
 
@@ -175,11 +252,20 @@ BH 절차의 FDR 보장은 독립이나 특정 positive dependence 조건에서 
 
 탐색 단계에서는 후보를 찾고 effect pattern을 기술할 수 있다. 확인 단계에서는 독립 data와 사전에 정한 hypothesis, metric과 correction을 사용한다. 모델 해석에서 발견한 component를 새 prompt와 seed에서 재현하고 intervention으로 검증하면 통계적 association보다 강한 기능적 주장을 평가할 수 있다.
 
+후보를 고르는 자료와 고정한 주장을 확인하는 자료를 구별해야 선택 절차를 평가에 포함할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Data A used for searching candidate neurons layers and metrics, frozen choices passed to confirmation on new data B not used for selection with a prespecified correction](../../figures/assets/M04/M04-10-explore-confirm-separation.svg)
+
+<figcaption>위 탐색이 끝난 뒤 가설·metric·보정 방법을 고정하고 새 자료로 확인한다. 아래 자료를 다시 후보 선택에 쓰면 표시한 역할 분리가 깨진다. 독립 확인만으로 모델의 인과적 사용이 증명되는 것은 아니다.</figcaption>
+</figure>
+
 ## 예제 1. 한 표본 z 검정
 
 ### 문제
 
-$H_0:\mu=1$, $H_1:\mu\ne1$을 검정한다. 모표준편차 $\sigma=1$, $n=25$, $\bar x=1.4$이다. z statistic과 양측 p-value를 구하고 $\alpha=0.05$에서 판단한다. 표준정규 CDF를 $\Phi$라 하고 $\Phi(2)=0.97725$를 사용한다.
+$H_0:\mu=1$, $H_1:\mu\ne1$을 검정한다. iid Gaussian 표본이며 모표준편차 $\sigma=1$, $n=25$, $\bar x=1.4$이다. z statistic과 양측 p-value를 구하고 $\alpha=0.05$에서 판단한다. 표준정규 CDF를 $\Phi$라 하고 $\Phi(2)=0.97725$를 사용한다.
 
 ### 풀이
 
@@ -223,7 +309,7 @@ $0.0455<0.05$이므로 $H_0$를 기각한다.
 =[1.008,1.792]
 \]
 
-이다. interval이 귀무값 1을 포함하지 않는 결과는 양측 $\alpha=0.05$ z test의 기각과 대응한다. effect estimate는 $0.4$이고 interval은 이 차이의 정밀도를 보여 준다.
+이다. interval이 귀무값 1을 포함하지 않는 결과는 양측 $\alpha=0.05$ z test의 기각과 대응한다. 이 구간은 평균 $\mu$의 구간이다. 효과를 기준값과의 차이 $\mu-1$로 보고하면 estimate는 $0.4$이고, 양쪽 endpoint에서 1을 뺀 차이의 interval은 $[0.008,0.792]$이다.
 
 ## 예제 3. Bonferroni correction
 

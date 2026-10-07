@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="1010" viewBox="0 0 520 1010">
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+<rect width="520" height="1010" rx="16" fill="#F8FAFC"/>
+<g font-family="sans-serif" font-size="28" text-anchor="middle" fill="#334155"><text x="260" y="68" font-size="26" font-weight="700">Select, freeze, then confirm</text>
+<rect x="44" y="142" width="432" height="182" rx="12" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/><text x="260" y="189" font-weight="700">Discovery data</text><text x="260" y="244">Screen 24 candidate heads</text><text x="260" y="291">Choose head j*</text>
+<rect x="44" y="420" width="432" height="158" rx="12" fill="#F3E8FF" stroke="#7C3AED" stroke-width="2"/><text x="260" y="465" font-weight="700">Frozen candidate</text><text x="260" y="509" font-size="26">Same head and analysis rule</text><text x="260" y="550" font-size="26">before confirmation</text>
+<rect x="44" y="674" width="432" height="182" rx="12" fill="#D1FAE5" stroke="#059669" stroke-width="2"/><text x="260" y="719" font-weight="700">New confirmation data</text><text x="260" y="770" font-size="26">Estimate fixed head's effect</text><text x="260" y="818" font-size="26">Use prespecified controls</text>
+<text x="260" y="935" font-size="26" fill="#9A3412">Do not reselect on</text><text x="260" y="973" font-size="26" fill="#9A3412">confirmation scores</text>
+</g><g fill="none" stroke="#7C3AED" stroke-width="2" marker-end="url(#arrow)"><path d="M260 340V404"/><path d="M260 594V658"/></g>
+</svg>

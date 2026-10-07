@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 860" role="img" aria-labelledby="title desc">
+<title id="title">Resampling does not recover an unobserved outcome</title>
+<desc id="desc">An illustrative population supports a b c with probabilities 0.45 0.45 and 0.10. A possible observed sample a b a contains no c, so its empirical distribution has zero mass for c. Any bootstrap sample contains only a and b, regardless of replicate count.</desc>
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+<rect width="520" height="860" rx="18" fill="#F8FAFC"/>
+<g font-family="sans-serif" text-anchor="middle" font-size="26" fill="#334155">
+<text x="260" y="54" font-size="28" font-weight="700">An unseen value stays unseen</text>
+<rect x="48" y="95" width="424" height="144" rx="12" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+<text x="260" y="136" fill="#1E3A8A" font-weight="700">Illustrative population</text><text x="260" y="174">P(a) = 0.45; P(b) = 0.45</text><text x="260" y="207">P(c) = 0.10</text>
+<path d="M260 263V311" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="48" y="335" width="424" height="120" rx="12" fill="#F3E8FF" stroke="#7C3AED" stroke-width="2"/>
+<text x="260" y="378" fill="#5B21B6">Possible sample: (a, b, a)</text><text x="260" y="422">No record with value c</text>
+<path d="M260 479V527" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="48" y="551" width="424" height="144" rx="12" fill="#D1FAE5" stroke="#059669" stroke-width="2"/>
+<text x="260" y="594" fill="#065F46" font-weight="700">Empirical resampling</text><text x="260" y="631">Only a and b can be drawn.</text><text x="260" y="663">Empirical mass at c is 0.</text>
+<text x="260" y="752">Larger B keeps the same support.</text><text x="260" y="800">No new population records.</text>
+</g></svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 660" role="img" aria-labelledby="title desc">
+<title id="title">Centered errors cancel only after averaging cross terms</title>
+<desc id="desc">An illustrative estimator takes one or three with probability one half each, has mean two, and targets one. Its centered errors are minus one and plus one, while bias is one. The total errors zero and two have squared average two, matching variance one plus squared bias one.</desc>
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+<rect width="820" height="660" rx="18" fill="#F8FAFC"/>
+<g font-family="sans-serif" text-anchor="middle" font-size="22" fill="#334155">
+<text x="410" y="54" font-size="26" font-weight="700">Why the cross term disappears in expectation</text>
+<text x="410" y="101">Estimator values 1 and 3, each with probability 1/2</text>
+<path d="M170 212H650" stroke="#64748B" stroke-width="2"/>
+<path d="M210 202V222 M410 202V222 M610 202V222" stroke="#64748B" stroke-width="2"/>
+<text x="210" y="250" fill="#1E3A8A">θ = 1</text><text x="410" y="250" fill="#065F46">m = 2</text><text x="610" y="250">3</text>
+<path d="M210 157H410" stroke="#059669" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="310" y="140" fill="#065F46">Bias = +1</text>
+<path d="M410 315H210" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M410 381H610" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="310" y="302" fill="#5B21B6">Centered error −1</text><text x="510" y="368" fill="#5B21B6">Centered error +1</text>
+<text x="410" y="443">Total errors: (−1) + 1 = 0; (+1) + 1 = 2</text>
+<text x="410" y="493">Cross terms: −2 and +2; average 0</text>
+<text x="410" y="548" font-weight="700" fill="#065F46">MSE = (0² + 2²)/2 = 2</text>
+<text x="410" y="600" fill="#5B21B6">Variance 1 + bias² 1 = 2</text>
+</g></svg>

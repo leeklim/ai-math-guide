@@ -97,6 +97,15 @@ Y=f(X,U_Y)
 
 처럼 쓸 수 있다. $U_Y$는 graph에 표시하지 않은 다른 원인을 모은다. intervention $\operatorname{do}(X=x)$는 $X$를 만들던 원래 mechanism을 끊고 $X=x$로 고정한 새 system을 뜻한다.
 
+관찰조건 $X=x$는 원래 system에서 그 값을 갖게 된 unit을 골라 본다. 이 선택은 $X$의 원인들과 $U_Y$의 분포까지 달리 만들 수 있다. 반면 intervention은 $X$로 들어오는 원인 경로를 끊되 다른 구조방정식은 유지하고, 바뀐 $X$를 후속 식에 넣는다. 두 식이 같은 $x$를 사용해도 모집단을 고르는 규칙과 system을 바꾸는 규칙이 다르기 때문에 outcome 평균이 달라질 수 있다.
+
+같은 값 X=1을 쓰더라도 관찰집단을 고르는 것과 생성 경로를 바꾸는 것은 다르다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Observing a copy of a common fair bit selects that bit while intervention removes its incoming edge without changing the other copied outcome](../../figures/assets/M04/M04-16-condition-versus-do.svg)
+  <figcaption>Z가 fair bit이고 X=Z, Y=Z인 구조를 가정한 예시다. X=1을 관찰하면 Z=1인 unit이 선택돼 Y도 1이다. do(X=1)은 Z→X 경로만 끊으므로 Y=Z의 생성식과 Z의 분포는 그대로이며 Y=1의 확률은 0.5다. 관찰 contrast는 1이지만 intervention contrast는 0이다. 이 deterministic 예시는 adjustment의 positivity 예시로 사용하지 않는다.</figcaption>
+</figure>
+
 ## 핵심 개념 3. confounder는 관찰된 차이에 다른 경로를 섞는다
 
 $Z$가 $X$와 $Y$의 공통원인이면 graph는
@@ -118,6 +127,24 @@ X\leftarrow Z\to Y
 
 로 intervention mean을 식별할 수 있다. 이 식에는 relevant confounder를 모두 측정했다는 exchangeability, 가능한 각 $z$에서 두 treatment가 관측될 positivity, 관측 treatment와 potential outcome을 연결하는 consistency 조건이 필요하다.
 
+여기서는 이산 $Z$를 합으로 평균한다. 관찰집단의 평균을 분해하면 $\mathbb E[Y\mid X=x]=\sum_z\mathbb E[Y\mid X=x,Z=z]p(z\mid X=x)$다. adjustment 식은 이 집단별 weight 대신 동일한 target population의 $p(z)$를 사용한다. 같은 $z$ 안에서 treatment 비교가 적절하다는 조건 아래 각 조건부 평균을 얻고, 이를 공통 기준 분포로 다시 평균하는 것이다.
+
+exchangeability는 같은 $z$ 안에서 treatment 선택에 따라 potential outcome이 체계적으로 달라지지 않는다는 가정이다. positivity가 없으면 어떤 $z$의 treatment 평균을 자료에서 계산할 수 없고, consistency가 없으면 관측 outcome이 정의한 intervention outcome을 나타내지 않을 수 있다. 단순히 $Z$를 회귀식에 포함했다는 사실만으로 이 조건들이 성립하지는 않는다.
+
+변수의 역할은 이름이나 배치가 아니라 가정한 화살표 방향으로 판단한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Confounder fork with direct treatment effect mediator chain and collider converging arrows show three distinct variable roles](../../figures/assets/M04/M04-16-three-causal-roles.svg)
+  <figcaption>왼쪽 Z는 treatment X와 outcome Y의 공통원인이고 X→Y 경로도 있다. 가운데 M은 X의 변화가 Y로 전달되는 중간 경로에 놓인다. 오른쪽 C는 X와 Y가 함께 만드는 결과다. 가운데에 놓인 변수라는 이유만으로 세 변수를 모두 같은 방식으로 control하지 않는다.</figcaption>
+</figure>
+
+adjustment는 조건부 평균을 같은 target population 비중으로 다시 섞는 계산이다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Confounder distributions differ across observed treatment groups while common target weights reduce an observed outcome contrast to the adjusted causal contrast](../../figures/assets/M04/M04-16-adjustment-weights.svg)
+  <figcaption>p(Z=1)=0.5, treatment probability가 Z=0에서 0.2·Z=1에서 0.8인 구성이다. outcome 평균을 0.1+0.2X+0.5Z로 두면 관찰 평균은 0.2와 0.7이다. 동일한 p(Z)=(0.5,0.5)로 다시 평균하면 0.35와 0.55가 된다. 두 Z 값에서 treatment가 모두 가능하고 Z가 이 모형의 공통원인을 모두 포함한다는 조건 아래 contrast 0.2를 intervention effect로 읽는다.</figcaption>
+</figure>
+
 ## 핵심 개념 4. mediator는 effect가 지나가는 경로에 놓인다
 
 구조가
@@ -130,6 +157,15 @@ X\to M\to Y
 
 total effect를 알고 싶은데 mediator $M$을 단순히 control하면 $X\to M\to Y$ 경로 일부를 막는다. direct effect와 indirect effect를 분리하려면 어떤 intervention을 비교하는지와 추가 식별 가정을 정해야 한다. “모든 관련 변수를 회귀식에 넣는다”는 규칙은 안전하지 않다.
 
+total effect의 두 intervention에서는 $X$를 바꾼 결과로 $M$도 달라지도록 둔다. $M$을 같은 값으로 고정한 비교에서는 그 변화가 $Y$로 전달될 수 없으므로 서로 다른 질문을 묻는다. 관측된 $M$이 같은 사람만 비교하는 conditioning과 실제로 $M$을 고정하는 intervention도 일반적으로 같지 않다. mediator를 회귀식에 넣어 얻은 coefficient를 direct effect라고 부르려면 그 차이를 연결할 식별 조건이 필요하다.
+
+mediator를 따라 움직이게 둔 경우와 외부에서 고정한 경우를 같은 생성식에서 비교한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Treatment changes propagate through a deterministic mediator but fixing that mediator removes the propagation and changes the intervention contrast](../../figures/assets/M04/M04-16-mediator-fixed-versus-following.svg)
+  <figcaption>M=2X, Y=M의 가정한 구조에서 X를 0에서 1로 바꾸면 M과 Y가 0에서 2로 변한다. 아래는 do(M=0)으로 X→M 경로를 끊은 다른 intervention이다. X만 바꿔도 Y는 0으로 유지된다. 관찰된 M=0인 unit을 고른 regression 결과를 그대로 그린 것이 아니다.</figcaption>
+</figure>
+
 ## 핵심 개념 5. collider를 조건으로 잡으면 없던 association이 생길 수 있다
 
 구조가
@@ -141,6 +177,15 @@ X\to C\leftarrow Y
 이면 $C$는 collider이다. $X,Y$가 marginally independent여도 공통결과 $C$를 조건으로 고르면 dependence가 생길 수 있다.
 
 예를 들어 skill $X$와 luck $Y$가 합격 $C$를 높인다고 하자. 합격자만 보면 skill이 낮은 사람은 높은 luck으로 보완됐을 가능성이 커진다. selection variable인 합격을 고정했기 때문에 skill과 luck 사이 negative association이 나타날 수 있다. collider adjustment는 bias를 줄이는 것이 아니라 새 bias를 만들 수 있다.
+
+예제 3의 구조를 두 독립 fair bit로 계산하자. $X$나 $Y$ 중 하나라도 1이면 $C=1$로 두면 원래 네 pair의 확률은 각각 $1/4$다. $C=1$ 조건에서는 $(0,0)$을 제외하고 나머지 세 pair를 각각 $1/3$로 재정규화한다. 따라서 $P(Y=1\mid C=1)=2/3$이지만 $P(Y=1\mid X=0,C=1)=1$이다. 조건부 집단 안에서는 $X$를 알아도 $Y$의 확률이 그대로라는 독립 조건이 더 이상 성립하지 않는다.
+
+selection으로 빠지는 pair와 나머지 pair의 재정규화를 직접 확인한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Conditioning independent fair bits on their OR outcome removes one pair and renormalizes three remaining pairs causing dependence](../../figures/assets/M04/M04-16-collider-selection.svg)
+  <figcaption>본문의 C=X OR Y 예시다. 원래 네 pair는 각각 1/4이고 C=1 조건은 (0,0)을 제외해 나머지를 각각 1/3로 만든다. 그 결과 P(Y=1∣C=1)=2/3과 P(Y=1∣X=0,C=1)=1이 달라져 조건부 집단 안의 독립성이 깨진다.</figcaption>
+</figure>
 
 ## 핵심 개념 6. potential outcome은 비교하려는 causal effect를 정한다
 
@@ -161,6 +206,15 @@ population average treatment effect는
 
 이다. causal question에는 treatment version, outcome 측정시점과 target population이 포함돼야 이 estimand가 분명해진다.
 
+consistency가 성립하면 관측 outcome은 $Y=TY(1)+(1-T)Y(0)$로 쓸 수 있다. $T=1$인 unit에서는 $Y(1)$이, $T=0$인 unit에서는 $Y(0)$이 남는다. ATE는 같은 unit의 두 상태 차이를 population에서 평균한 것이므로 선형성에 따라 $\mathbb E[Y(1)]-\mathbb E[Y(0)]$와 같다. 서로 다른 관찰집단의 평균 차이가 이 두 potential-outcome 평균을 나타내는지는 assignment와 식별 조건을 별도로 확인해야 한다.
+
+같은 unit의 두 잠재 상태와 실제 treatment가 선택하는 한 관측값을 나누어 읽는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![A constructed four unit potential outcome schedule highlights only the treatment selected observed outcome while unobserved counterfactual cells remain dashed](../../figures/assets/M04/M04-16-potential-outcome-selection.svg)
+  <figcaption>설명을 위해 두 potential outcomes를 정해 놓은 네 unit의 구성표다. 파란 셀 하나만 실제 treatment T에 따라 관측되고 다른 셀은 counterfactual이다. 각 unit의 effect는 2지만 큰 baseline unit 3·4에 treatment를 준 이 배정의 관찰 평균 차이는 6이다. 실제 자료에서 두 상태를 동시에 관측했다는 뜻은 아니다.</figcaption>
+</figure>
+
 ## 핵심 개념 7. random assignment는 비교 가능한 group을 만든다
 
 randomized experiment에서 treatment assignment $T$를 potential outcomes와 독립이 되도록 정하면
@@ -171,7 +225,7 @@ T\perp\!\!\!\perp (Y(1),Y(0))
 
 이다. 충분한 sample에서 treatment group과 control group은 measured·unmeasured pretreatment causes가 평균적으로 비슷해진다.
 
-consistency와 treatment 간 interference가 없다는 조건 아래 difference in means는 ATE의 unbiased estimator가 된다.
+consistency와 unit 간 interference가 없고 두 group이 비어 있지 않은 적절한 random assignment 설계에서는 difference in means로 average treatment effect를 추정한다.
 
 \[
 \widehat{\operatorname{ATE}}
@@ -179,6 +233,17 @@ consistency와 treatment 간 interference가 없다는 조건 아래 difference 
 \]
 
 random sampling은 population generalization과 관계되고, random assignment는 group 사이 causal comparison과 관계된다. 하나가 다른 하나를 대신하지 않는다.
+
+독립 assignment와 consistency를 사용하면 각 $t=0,1$에서 $\mathbb E[Y\mid T=t]=\mathbb E[Y(t)\mid T=t]=\mathbb E[Y(t)]$다. 첫 equality는 관측 outcome과 해당 상태의 outcome을 연결하고, 둘째는 assignment가 potential outcome을 고르지 않는다는 조건을 사용한다. 따라서 두 population group의 평균 차이가 ATE와 같다. random assignment는 이 확률적 비교 가능성을 만들지만, 실현된 작은 sample의 모든 pretreatment 변수가 정확히 균형이라는 뜻은 아니다.
+
+정해진 등록 sample에서 양의 treatment·control 인원수를 고정하고 가능한 배정을 균등하게 뽑는 설계라면, 위 표본평균 차이는 그 sample의 평균 causal effect에 대해 불편이다. target population의 ATE에 대한 불편성과 일반화에는 sample을 어떻게 뽑았는지도 필요하다. 표집과 배정의 무작위성을 어느 단계에 사용했는지 구분한다.
+
+등록한 unit을 고정하고 가능한 배정을 반복하면 배정 불확실성과 sample causal effect를 분리할 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+  ![All six uniform two treated assignments of four fixed units give a mean contrast distribution centered on the sample average treatment effect](../../figures/assets/M04/M04-16-random-assignment-distribution.svg)
+  <figcaption>바로 앞의 네 unit 중 두 명을 treatment로 고르는 여섯 배정을 같은 확률로 계산했다. 관찰 평균 차이는 −2,0,2,4,6이고 2는 두 배정에서 나온다. 배정 분포의 평균은 sample ATE=2지만 개별 배정은 균형이나 정확한 효과값을 보장하지 않는다. target population에 대한 generalization은 여기서 별도로 증명하지 않았다.</figcaption>
+</figure>
 
 ## 핵심 개념 8. 회귀 coefficient는 설계 없이 causal effect가 아니다
 
@@ -199,6 +264,13 @@ activation $H$에서 concept $C$를 잘 decode했다면 $H$와 $C$ 사이 associ
 ablation, activation patching과 steering은 intervention 후보이다. 그러나 intervention이 off-distribution state를 만들거나 여러 feature를 동시에 바꾸면 observed output change를 target concept 하나의 effect로 해석하기 어렵다. matched control direction, dose-response, specificity, restoration과 multiple input·model 검증이 필요하다.
 
 필요성 주장은 component를 제거했을 때 기능이 손상되는지 묻는다. 충분성 주장은 해당 component나 signal만으로 기능을 복원할 수 있는지 묻는다. correlation, necessity와 sufficiency는 서로 다른 evidence이다.
+
+읽을 수 있는 좌표를 지우고 복원했을 때의 output effect는 실제 계산 경로에 따라 달라진다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![The same readable hidden coordinate has no ablation effect in a function ignoring it but changes and restores output in a function using it](../../figures/assets/M04/M04-16-decodable-versus-used.svg)
+  <figcaption>두 known toy function에 동일한 h=(a,b)=(1,2)를 넣었다. a는 두 경우 모두 읽을 수 있지만 y=b에서는 제거·복원해도 output이 2다. y=a+b에서는 a를 0으로 만들면 3에서 2로 바뀌고 복원하면 3으로 돌아온다. 실제 neural-model 측정 결과가 아니며, 현실의 intervention validity·specificity·off-distribution 검사를 대신하지 않는다.</figcaption>
+</figure>
 
 ## 예제 1. 공통원인이 만든 association
 

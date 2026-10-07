@@ -68,6 +68,15 @@ estimated_time: "120~145분"
 
 이다. 같은 실험도 무엇을 관찰하고 구분하는지에 따라 표본공간이 달라진다. 표본공간 밖의 결과에는 이 모형이 확률을 배정하지 않는다.
 
+두 시행의 기록을 따라가면 $HT$와 $TH$가 서로 다른 결과인 이유가 보인다. 아래 가지에는 확률을 붙이지 않았다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A two-level coin-flip tree with distinct ordered leaves HH, HT, TH and TT, without assigned probabilities](../../figures/assets/M04/M04-01-ordered-outcome-tree.svg)
+
+<figcaption>첫째 기록과 둘째 기록을 순서대로 붙이면 네 outcome이 만들어진다. 가지를 나열하는 것만으로 각 결과의 확률이 같다고 가정한 것은 아니다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. 사건은 결과들을 묶은 집합이다
 
 사건(event) $A$는 표본공간의 부분집합이다. 주사위 한 번의 결과를
@@ -86,6 +95,15 @@ estimated_time: "120~145분"
 - $A\setminus B$: $A$는 일어나고 $B$는 일어나지 않는다.
 
 두 사건이 함께 일어날 수 없으면 $A\cap B=\varnothing$이며, 두 사건을 상호배반(mutually exclusive)이라고 한다.
+
+결과 $4$는 사건 전체가 아니라 짝수 사건 안에 들어 있는 원소 하나다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Die outcomes inside sample space Omega, with even event A containing 2, 4 and 6 and observed outcome 4 highlighted](../../figures/assets/M04/M04-01-outcome-event-containment.svg)
+
+<figcaption>바깥 경계는 표본공간, 안쪽 경계는 사건이다. 관측 결과가 안쪽 경계에 속하면 그 사건이 일어났다고 말한다.</figcaption>
+</figure>
 
 ## 핵심 개념 3. 확률은 사건에 수를 배정하는 규칙이다
 
@@ -112,6 +130,19 @@ P\left(\bigcup_{i=1}^{\infty}A_i\right)
 
 유한 표본공간에서는 겹치지 않는 사건들을 유한 개 더하는 경우부터 익히면 된다. 공리는 확률값을 임의로 따로 정할 수 없게 한다. 한 사건의 값을 정하면 관련 사건의 값에도 제약이 생긴다.
 
+유한 표본공간에서는 모든 부분집합을 사건으로 다룬다. 결과 $\omega$ 하나의 확률도 그 결과만 포함하는 사건 $\{\omega\}$에 배정한 값이다. $P$는 결과나 집합 자체가 아니라, 사건을 입력받아 수를 내놓는 규칙이다.
+
+공집합은 어떤 사건과도 겹치지 않으므로 $P(\Omega)=P(\Omega)+P(\varnothing)$에서 $P(\varnothing)=0$을 얻는다. 또 $\Omega=A\cup A^c$에 가법성을 적용하면 $1=P(A)+P(A^c)$이다. 두 항이 음수가 아니므로 $P(A)\le1$도 따른다. 따라서 확률이 $[0,1]$에 놓인다는 범위는 공리와 일치한다.
+
+예제 3의 확률 배정을 막대의 폭으로 나타내면, 사건을 고른다는 것은 그 사건에 속한 질량을 모으는 일이다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A total probability mass bar split into a with mass 0.6, b with mass 0.3 and c with mass 0.1, with event b and c totaling 0.4](../../figures/assets/M04/M04-01-event-mass-assignment.svg)
+
+<figcaption>막대 전체는 확률 1이다. 서로 다른 outcome의 질량은 겹치지 않으므로, 사건에 포함된 부분의 폭을 더해 사건의 확률을 얻는다.</figcaption>
+</figure>
+
 ## 핵심 개념 4. 여사건과 포함배제는 중복을 바로잡는다
 
 $A$와 $A^c$는 겹치지 않고 합치면 $\Omega$가 된다. 따라서
@@ -130,6 +161,8 @@ P(A\cup B)=P(A)+P(B)-P(A\cap B).
 
 $A$와 $B$가 상호배반이면 $P(A\cap B)=0$이므로 확률을 그대로 더할 수 있다.
 
+공리를 이용해 중복 보정을 확인할 수도 있다. $A\cup B$를 서로 겹치지 않는 $A$와 $B\setminus A$로 나누면 $P(A\cup B)=P(A)+P(B\setminus A)$이다. 한편 $B$는 $B\setminus A$와 $A\cap B$로 나뉘므로 $P(B\setminus A)=P(B)-P(A\cap B)$이다. 이 값을 첫 식에 넣으면 포함배제 공식이 나온다.
+
 ## 핵심 개념 5. 부분집합 관계는 확률의 대소관계를 만든다
 
 $A\subseteq B$이면 $B$는 $A$의 모든 결과를 포함한다. 이때
@@ -146,6 +179,15 @@ P(B)=P(A)+P(B\setminus A)
 
 이고 두 번째 항이 음수가 아니므로 위 부등식이 나온다. 이 성질을 단조성(monotonicity)이라고 한다.
 
+아래에서는 $A=\{c\}$, $B=\{b,c\}$로 놓았다. 더 큰 사건에는 원래 질량을 빼는 부분이 없고 추가하는 부분만 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Nested events A containing c and B containing b and c, with nonnegative additional mass 0.3 increasing probability from 0.1 to 0.4](../../figures/assets/M04/M04-01-monotonic-added-mass.svg)
+
+<figcaption>포함 관계를 확률로 옮기면 작은 사건의 질량에 바깥 띠의 질량이 더해진다. 바깥 띠의 확률이 0이면 두 사건의 확률은 같을 수도 있다.</figcaption>
+</figure>
+
 ## 핵심 개념 6. 같은 가능성은 추가 가정이다
 
 유한 표본공간의 각 결과가 같은 확률을 가진다고 가정할 수 있으면
@@ -155,6 +197,8 @@ P(A)=\frac{|A|}{|\Omega|}
 \]
 
 로 계산한다. 공정한 주사위의 짝수 사건은 결과 세 개를 포함하므로 $P(A)=3/6=1/2$이다.
+
+이 분수의 분모는 전체 확률 1을 몇 개의 같은 몫으로 나누는지를 나타낸다. $|\Omega|=K$이고 각 결과의 확률이 $p$라면 $Kp=1$이므로 $p=1/K$이다. 사건 $A$는 겹치지 않는 단일결과 사건 $|A|$개를 포함하므로 그 확률을 더하면 $|A|/K$가 된다.
 
 결과의 개수만 세는 방식은 등확률 가정이 있을 때만 맞다. 찌그러진 주사위나 class 비율이 다른 데이터에서는 결과마다 확률이 다를 수 있다. 이때 각 결과의 확률을 더해야 한다.
 
@@ -174,6 +218,15 @@ P(A)=\sum_{\omega_k\in A}p_k
 
 이다.
 
+같은 두 원소를 고르더라도 원소마다 배정한 질량이 다르면 확률은 달라진다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Equal-width and unequal-width probability partitions on the same three outcomes, where selecting b and c gives two thirds or 0.4 respectively](../../figures/assets/M04/M04-01-equal-unequal-mass.svg)
+
+<figcaption>두 막대 모두 원소는 세 개이고 선택한 사건은 같다. 위에서는 같은 폭 두 개를 세면 되지만, 아래에서는 선택한 두 부분의 서로 다른 질량을 더해야 한다.</figcaption>
+</figure>
+
 ## 핵심 개념 7. 확률과 경험적 빈도는 연결되지만 같은 객체가 아니다
 
 $n$번 관찰해 사건 $A$가 $n_A$번 나타났다면 경험적 빈도는
@@ -184,7 +237,18 @@ $n$번 관찰해 사건 $A$가 $n_A$번 나타났다면 경험적 빈도는
 
 이다. 이는 관찰한 sample로 계산한 값이다. $P(A)$는 선택한 확률모형이 사건에 배정한 값이다. 반복 관찰의 조건이 일정하면 경험적 빈도가 확률에 가까워질 수 있지만, 유한 sample에서는 두 값이 다를 수 있다.
 
+같은 모형 아래에서 관찰을 다시 모으면 $n_A$가 달라질 수 있으므로 $\widehat P_n(A)$도 달라진다. 관찰 10개 중 8개에서 사건이 일어났다는 것은 이번 빈도가 $0.8$이라는 뜻이며, 모형의 확률이 반드시 $0.8$이어야 한다는 뜻은 아니다. 같은 분포에서 앞선 관찰값들이 다음 관찰의 사건 확률을 바꾸지 않도록 자료를 모으는 경우는 빈도와 모형 확률을 연결하는 기본 조건이다. 이후 표본 단원에서 이 조건을 다시 다룬다.
+
 신경망이 출력한 $p_\theta(y\mid x)=0.8$도 모델과 파라미터 $\theta$, 입력 $x$에 의존하는 예측이다. 숫자 $0.8$만으로 비슷한 입력 100개 중 80개가 맞는다고 결론 내릴 수 없다. 그 결론에는 데이터 분포와 calibration 평가가 더 필요하다.
+
+모형 확률을 고정해도 관찰열에서 사건을 센 횟수는 달라질 수 있다. 아래 관찰열은 이 차이를 설명하기 위해 구성한 것이며 실험 결과가 아니다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A fixed model probability 0.7 above two illustrative ten-trial sequences with eight and six successes and empirical frequencies 0.8 and 0.6](../../figures/assets/M04/M04-01-model-frequency.svg)
+
+<figcaption>모형의 확률과 표본의 빈도는 서로 다른 입력으로 정해진다. 위 숫자는 확률모형의 배정이고, 아래 숫자는 각 관찰열에서 실제로 센 개수를 나눈 값이다.</figcaption>
+</figure>
 
 ## 예제 1. 주사위 사건 계산하기
 
@@ -226,15 +290,37 @@ P(A\cup B)
 
 $A$와 $B$가 결과 $4,6$을 공유하므로 두 확률을 그대로 더하면 중복이 생긴다.
 
+겹친 영역의 결과 $4,6$은 두 사건을 각각 셀 때마다 한 번씩 들어간다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Overlapping even and at-least-four die events with shared outcomes 4 and 6, showing the subtraction of one duplicated overlap](../../figures/assets/M04/M04-01-inclusion-exclusion-overlap.svg)
+
+<figcaption>합집합은 경계 안의 서로 다른 결과 네 개다. 두 사건의 개수를 더한 여섯 개에는 교집합 두 개가 중복되어 있으므로 한 번 빼야 한다.</figcaption>
+</figure>
+
 ## 예제 2. 여사건으로 적어도 한 번 계산하기
 
-공정한 동전을 두 번 던진다. 적어도 한 번 앞면이 나오는 사건을 $C$라 하자. $C^c$는 두 번 모두 뒷면인 사건이므로
+공정한 동전을 두 번 던진다. 적어도 한 번 앞면이 나오는 사건을 $C$라 하자. $C^c$는 두 번 모두 뒷면인 사건이다.
+
+여기서는 순서를 기록한 네 결과 $HH,HT,TH,TT$가 각각 확률 $1/4$을 가진다고 가정한다. 각 시행이 공정하다는 말만으로 두 시행의 결합 확률까지 정해지는 것은 아니므로 이 가정을 명시한다.
+
+여사건 공식을 적용하면
 
 \[
 P(C)=1-P(C^c)=1-\frac14=\frac34
 \]
 
 이다. 가능한 네 결과를 직접 세어도 $C=\{HH,HT,TH\}$이므로 같은 값을 얻는다.
+
+이번 예제의 등확률 가정 아래에서는 세 결과를 직접 더하거나, 남은 한 결과의 확률을 전체에서 빼도 같다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Four equally likely coin outcomes partitioned into at least one head with three outcomes and no heads with only TT](../../figures/assets/M04/M04-01-complement-partition.svg)
+
+<figcaption>관심 사건과 여사건은 겹치지 않으면서 네 결과를 빠짐없이 나눈다. 따라서 두 부분의 확률은 합해서 1이 된다.</figcaption>
+</figure>
 
 ## 예제 3. 등확률이 아닌 표본공간
 

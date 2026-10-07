@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="650" viewBox="0 0 520 650">
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs><rect width="520" height="650" rx="16" fill="#F8FAFC"/>
+<g font-family="sans-serif" font-size="26" text-anchor="middle" fill="#334155"><text x="260" y="53" font-size="28" font-weight="700">Same reported probability</text><rect x="48" y="98" width="424" height="90" rx="10" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/><text x="260" y="150">P̂ = 0.8 for all ten cases</text>
+<text x="260" y="279">Each observed Y is 0 or 1</text><g fill="#D1FAE5" stroke="#059669" stroke-width="2"><circle cx="84" cy="333" r="26"/><circle cx="172" cy="333" r="26"/><circle cx="260" cy="333" r="26"/><circle cx="348" cy="333" r="26"/><circle cx="436" cy="333" r="26"/><circle cx="84" cy="411" r="26"/><circle cx="172" cy="411" r="26"/><circle cx="260" cy="411" r="26"/></g><g fill="#FFEDD5" stroke="#D97706" stroke-width="2"><circle cx="348" cy="411" r="26"/><circle cx="436" cy="411" r="26"/></g>
+<text x="84" y="342">1</text><text x="172" y="342">1</text><text x="260" y="342">1</text><text x="348" y="342">1</text><text x="436" y="342">1</text><text x="84" y="420">1</text><text x="172" y="420">1</text><text x="260" y="420">1</text><text x="348" y="420">0</text><text x="436" y="420">0</text>
+<text x="260" y="501">Group average: 8/10 = 0.8</text><text x="260" y="554" fill="#065F46">Compare frequency with P̂</text><text x="260" y="608" font-size="24">One possible finite sample</text></g>
+<path d="M260 204V243" fill="none" stroke="#7C3AED" stroke-width="2" marker-end="url(#arrow)"/>
+</svg>

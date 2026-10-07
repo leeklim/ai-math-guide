@@ -1,0 +1,56 @@
+{# Preserve formal lesson neighbors independently of reference navigation. #}
+{% set previous = page.meta.learning_previous if page and page.meta.learning_lesson else page.previous_page %}
+{% set next = page.meta.learning_next if page and page.meta.learning_lesson else page.next_page %}
+<footer class="md-footer">
+  {% if "navigation.footer" in features %}
+    {% if previous or next %}
+      {% if page.meta and page.meta.hide %}
+        {% set hidden = "hidden" if "footer" in page.meta.hide %}
+      {% endif %}
+      <nav class="md-footer__inner md-grid" aria-label="{{ lang.t('footer') }}" {{ hidden }}>
+        {% if previous %}
+          {% set direction = lang.t("footer.previous") %}
+          <a href="{{ previous.url | url }}" class="md-footer__link md-footer__link--prev" aria-label="{{ direction }}: {{ previous.title | e }}">
+            <div class="md-footer__button md-icon">
+              {% set icon = config.theme.icon.previous or "material/arrow-left" %}
+              {% include ".icons/" ~ icon ~ ".svg" %}
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                {{ direction }}
+              </span>
+              <div class="md-ellipsis">
+                {{ previous.title }}
+              </div>
+            </div>
+          </a>
+        {% endif %}
+        {% if next %}
+          {% set direction = lang.t("footer.next") %}
+          <a href="{{ next.url | url }}" class="md-footer__link md-footer__link--next" aria-label="{{ direction }}: {{ next.title | e }}">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                {{ direction }}
+              </span>
+              <div class="md-ellipsis">
+                {{ next.title }}
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              {% set icon = config.theme.icon.next or "material/arrow-right" %}
+              {% include ".icons/" ~ icon ~ ".svg" %}
+            </div>
+          </a>
+        {% endif %}
+      </nav>
+    {% endif %}
+  {% endif %}
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      {% include "partials/copyright.html" %}
+      {% if config.extra.social %}
+        {% include "partials/social.html" %}
+      {% endif %}
+    </div>
+  </div>
+</footer>

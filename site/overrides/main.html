@@ -8,10 +8,15 @@
 
 {# Page-specific language metadata; never canonicalize English to Korean. #}
 {% block site_meta %}
+  {% set previous = page.meta.learning_previous if page and page.meta.learning_lesson else page.previous_page %}
+  {% set next = page.meta.learning_next if page and page.meta.learning_lesson else page.next_page %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  {% if config.extra.google_site_verification %}
+    <meta name="google-site-verification" content="{{ config.extra.google_site_verification | e }}">
+  {% endif %}
   {% if page and page.meta and page.meta.description %}
-    <meta name="description" content="{{ page.meta.description }}">
+    <meta name="description" content="{{ page.meta.description | e }}">
   {% elif config.site_description %}
     <meta name="description" content="{{ config.site_description }}">
   {% endif %}
@@ -23,11 +28,24 @@
   {% if page and page.canonical_url %}
     <link rel="canonical" href="{{ page.canonical_url }}">
   {% endif %}
-  {% if page and page.previous_page %}
-    <link rel="prev" href="{{ page.previous_page.url | url }}">
+  {% if previous %}
+    <link rel="prev" href="{{ previous.url | url }}">
   {% endif %}
-  {% if page and page.next_page %}
-    <link rel="next" href="{{ page.next_page.url | url }}">
+  {% if next %}
+    <link rel="next" href="{{ next.url | url }}">
+  {% endif %}
+  {% if page and page.canonical_url %}
+    {% set description = page.meta.description or config.site_description %}
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ page.title | e }}">
+    <meta property="og:description" content="{{ description | e }}">
+    <meta property="og:url" content="{{ page.canonical_url }}">
+    <meta property="og:site_name" content="{{ config.site_name | e }}">
+    <meta property="og:locale" content="{{ 'en_US' if config.theme.language == 'en' else 'ko_KR' }}">
+    <meta property="og:locale:alternate" content="{{ 'ko_KR' if config.theme.language == 'en' else 'en_US' }}">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{{ page.title | e }}">
+    <meta name="twitter:description" content="{{ description | e }}">
   {% endif %}
   {% if page and config.extra.bilingual and page.url in config.extra.bilingual.en_pages %}
     <link rel="alternate" hreflang="ko" href="https://leeklim.github.io{{ config.extra.bilingual.root }}{{ page.url }}">

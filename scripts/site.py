@@ -11,6 +11,7 @@ import re
 import shutil
 import subprocess
 import sys
+import xml.etree.ElementTree as ET
 from collections import Counter
 from html.parser import HTMLParser
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -18,6 +19,7 @@ from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
 import yaml
+import markdown
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -224,6 +226,7 @@ def source_snapshot(lessons: list[dict[str, object]]) -> dict[str, object]:
     sources = [Path(lesson["path"]) for lesson in lessons]
     sources.extend(CONTENT_ROOT / source for source in PUBLIC_DOCUMENTS if (CONTENT_ROOT / source).is_file())
     sources.extend([BASE_CONFIG, Path(__file__).resolve()])
+    sources.extend((ROOT / "site" / "page-metadata").glob("*.json"))
     sources.extend(path for directory in (ROOT / "site" / "assets", ROOT / "site" / "overrides", ROOT / "figures" / "assets") for path in directory.rglob("*") if path.is_file())
     registries: dict[str, object] = {}
     stages = {str(lesson["stage"]) for lesson in lessons if "stage" in lesson}
@@ -1298,6 +1301,158 @@ def expand_gpu_experiments(text: str, lesson_id: str) -> str:
     return text
 
 
+def load_page_metadata(lessons: list[dict[str, object]], *, require_complete: bool = False) -> dict[str, dict[str, str]]:
+    result: dict[str, dict[str, str]] = {}
+    expected = {str(lesson["relative_path"]) for lesson in lessons} | set(PUBLIC_DOCUMENTS)
+    for path in sorted((ROOT / "site" / "page-metadata").glob("*.json")):
+        for relative, descriptions in json.loads(read_text(path)).items():
+            if relative in result or relative not in expected:
+                raise SiteError(f"duplicate or unknown page metadata: {relative}")
+            if set(descriptions) != {"ko", "en"} or any(not isinstance(value, str) or not value.strip() for value in descriptions.values()):
+                raise SiteError(f"invalid bilingual page description: {relative}")
+            result[relative] = descriptions
+    if require_complete and set(result) != expected:
+        raise SiteError(f"page descriptions incomplete: {len(result)}/{len(expected)}; missing={sorted(expected - set(result))}")
+    return result
+
+
+def markdown_renderer() -> markdown.Markdown:
+    extensions, configs = [], {}
+    for entry in yaml.safe_load(read_text(BASE_CONFIG))["markdown_extensions"]:
+        if isinstance(entry, str):
+            extensions.append(entry)
+        else:
+            for name, config in entry.items():
+                extensions.append(name)
+                configs[name] = config
+    return markdown.Markdown(extensions=extensions, extension_configs=configs)
+
+
+def prepare_reader_markdown(text: str, relative: str, lessons: list[dict[str, object]], descriptions: dict[str, dict[str, str]]) -> str:
+    """Change public labels without altering reviewed manuscripts or old anchors."""
+    front = FRONTMATTER_RE.match(text)
+    metadata = (yaml.safe_load(front.group(1)) or {}) if front else {}
+    body = text[front.end():] if front else text
+    renderer = markdown_renderer()
+    renderer.convert(body)
+    def flatten(tokens: list[dict]) -> list[str]:
+        return [anchor for token in tokens for anchor in [token["id"], *flatten(token["children"])]]
+    anchors = iter(flatten(renderer.toc_tokens))
+    by_id = {str(lesson["id"]): lesson for lesson in lessons}
+    current = next((lesson for lesson in lessons if lesson["relative_path"] == relative), None)
+    stages = EN_STAGE_TITLES if LANGUAGE == "en" else STAGE_TITLES
+    labels = {key: value.split(" ", 1)[1] for key, value in stages.items()}
+    labels["A09"] = "Optional advanced topics" if LANGUAGE == "en" else "선택 심화"
+    lesson_token = r"(?:A09-[A-Z]{3}|[MNI]\d{2})-\d{2}"
+    range_pattern = rf"({lesson_token})\s*[~–—-]\s*({lesson_token}|\d{{2}})"
+    id_pattern = re.compile(rf"(?<![A-Za-z0-9_/-])(?:{range_pattern}|A09-[A-Z]{{3}}(?:-\d{{2}})?|[MNI]\d{{2}}(?:-\d{{2}})?|A09)(?![A-Za-z0-9_/-])")
+    def replace_ids(value: str, *, links: bool = True) -> str:
+        def label(key: str) -> str:
+            if key not in by_id:
+                return labels.get(key, key)
+            lesson = by_id[key]
+            title = str(lesson["title"])
+            if not links:
+                return title
+            origin = DOCS_DIR / PUBLIC_DOCUMENTS.get(relative, relative)
+            href = Path(os.path.relpath(DOCS_DIR / str(lesson["relative_path"]), origin.parent)).as_posix()
+            return f"[{title}]({href})"
+        def replace(match: re.Match[str]) -> str:
+            key = match.group(0)
+            interval = re.fullmatch(range_pattern, key)
+            if interval:
+                first, last = interval.groups()
+                if len(last) == 2:
+                    last = first.rsplit("-", 1)[0] + "-" + last
+                if first not in by_id or last not in by_id:
+                    return key
+                return f"{label(first)} through {label(last)}" if LANGUAGE == "en" else f"{label(first)}부터 {label(last)}까지"
+            return label(key)
+        return id_pattern.sub(replace, value)
+    protected = re.compile(r"<!--.*?-->|!?\[[^\]]*\]\([^)]*\)|`+[^`\n]*`+|\$\$.*?\$\$|\$[^$\n]+\$|\\\[.*?\\\]|\\\(.*?\\\)", re.DOTALL)
+    def inline(value: str, *, links: bool = True) -> str:
+        output, start = [], 0
+        for match in protected.finditer(value):
+            output.append(replace_ids(value[start:match.start()], links=links))
+            token = match.group(0)
+            if token.startswith("["):
+                label, href = re.match(r"\[([^\]]*)\]\(([^)]*)\)", token).groups()
+                for key in sorted([*by_id, *labels], key=len, reverse=True):
+                    if label == key:
+                        label = replace_ids(key, links=False)
+                        break
+                    if label.startswith(key + " "):
+                        label = label[len(key):].lstrip(" .:–—-")
+                        break
+                token = f"[{replace_ids(label, links=False)}]({href})"
+            elif token.startswith("`") and id_pattern.fullmatch(token.strip("`")):
+                token = replace_ids(token.strip("`"), links=links)
+            output.append(token)
+            start = match.end()
+        output.append(replace_ids(value[start:], links=links))
+        return "".join(output)
+    lines, fence, math_block, drop_id_column = [], None, None, False
+    for line in body.splitlines():
+        fence_match = re.match(r"^ {0,3}(`{3,}|~{3,})(.*)$", line)
+        if fence_match:
+            if fence is None:
+                fence = (fence_match.group(1), fence_match.group(2).strip())
+            elif fence_match.group(1)[0] == fence[0][0] and len(fence_match.group(1)) >= len(fence[0]) and not fence_match.group(2).strip():
+                fence = None
+            lines.append(line)
+            continue
+        if fence:
+            if relative == "01-CURRICULUM.md" and fence[1] == "text":
+                line = re.sub(r"(?:A09-[A-Z]{3}|[MNI]\d{2}|A09)\s+(?=[^\s→↓─┐├┘·-])", lambda match: " " * len(match.group(0)), line)
+                line = replace_ids(line, links=False)
+            lines.append(line)
+            continue
+        if line.strip() in {r"\[", "$$"} and math_block is None:
+            math_block = r"\]" if line.strip() == r"\[" else "$$"
+        elif math_block and line.strip() == math_block:
+            math_block = None
+            lines.append(line)
+            continue
+        if math_block:
+            lines.append(line)
+            continue
+        heading = re.match(r"^(#{1,6})\s+(.+)$", line)
+        if heading:
+            anchor = next(anchors)
+            title = str(current["title"]) if current and heading.group(1) == "#" else heading.group(2)
+            if not current or heading.group(1) != "#":
+                title = re.sub(r"(?:A09-[A-Z]{3}|[MNI]\d{2}|A09)\.\s+", "", title)
+                title = inline(title, links=False)
+            if not re.search(r"\{\s*#", title):
+                title += " { #" + anchor + " }"
+            lines.append(heading.group(1) + " " + title)
+            continue
+        if relative == "01-CURRICULUM.md" and line.startswith("|"):
+            cells = split_markdown_table_row(line)
+            if cells and cells[0].strip() == "ID":
+                drop_id_column = True
+            if drop_id_column:
+                lesson = by_id.get(cells[0].strip()) if cells else None
+                cells = cells[1:]
+                if lesson and cells and "](" not in cells[0]:
+                    cells[0] = f"[{cells[0].strip()}]({lesson['relative_path']})"
+                line = "| " + " | ".join(cell.strip() for cell in cells) + " |"
+        else:
+            drop_id_column = False
+        if relative == "01-CURRICULUM.md" and re.match(r"^- (?:단원 ID는|Lesson IDs\b|Lesson identifiers\b)", line):
+            continue
+        lines.append(inline(line))
+    if relative in descriptions:
+        metadata["description"] = descriptions[relative][LANGUAGE]
+    if current:
+        index = lessons.index(current)
+        metadata["learning_lesson"] = True
+        for key, offset in (("learning_previous", -1), ("learning_next", 1)):
+            neighbor = lessons[index + offset] if 0 <= index + offset < len(lessons) else None
+            metadata[key] = {"title": neighbor["title"], "url": page_url(str(neighbor["relative_path"]))} if neighbor else None
+    return "---\n" + yaml.safe_dump(metadata, allow_unicode=True, sort_keys=False) + "---\n\n" + "\n".join(lines).rstrip() + "\n"
+
+
 def build_nav(lessons: list[dict[str, object]]) -> list[dict[str, object]]:
     titles = EN_STAGE_TITLES if LANGUAGE == "en" else STAGE_TITLES
     def nav_path(source: str) -> str:
@@ -1308,37 +1463,27 @@ def build_nav(lessons: list[dict[str, object]]) -> list[dict[str, object]]:
     nav: list[dict[str, object]] = [
         {"Home" if LANGUAGE == "en" else "홈": "index.md"},
         {"Learning path" if LANGUAGE == "en" else "전체 학습경로": nav_path("01-CURRICULUM.md")},
-        {"N05 environment" if LANGUAGE == "en" else "N05 실행 환경": nav_path("N05-ENVIRONMENT.md")},
-        {"N05 architecture baseline" if LANGUAGE == "en" else "N05 아키텍처 기준": nav_path("05-N05-ARCHITECTURE-BASELINE.md")},
-        {"GPU and Pythia environment" if LANGUAGE == "en" else "GPU·Pythia 실행 환경": nav_path("GPU-ENVIRONMENT.md")},
     ]
-    for stage in STAGE_COUNTS:
-        stage_items: list[dict[str, str]] = []
-        for lesson in lessons:
-            if lesson["stage"] != stage:
-                continue
-            label = f"{lesson['id']} {lesson['title']}"
-            stage_items.append({label: str(lesson["relative_path"])})
-        if stage_items or LANGUAGE == "ko":
-            nav.append({titles[stage]: stage_items})
-    n05_items: list[dict[str, str]] = []
-    for lesson in lessons:
-        if lesson["stage"] != "N05":
-            continue
-        label = f"{lesson['id']} {lesson['title']}"
-        n05_items.append({label: str(lesson["relative_path"])})
-    if n05_items:
-        nav.append({titles["N05"]: n05_items})
-    for stage in POST_N05_STAGE_SPECS:
-        stage_items: list[dict[str, str]] = []
-        for lesson in lessons:
-            if lesson["stage"] != stage:
-                continue
-            label = f"{lesson['id']} {lesson['title']}"
-            stage_items.append({label: str(lesson["relative_path"])})
-        if stage_items:
-            nav.append({titles[stage]: stage_items})
-    nav.append({"Glossary" if LANGUAGE == "en" else "용어집": nav_path("04-GLOSSARY.md")})
+    parts = (
+        ("Part 1: Mathematical foundations", "제1부 · 기초 수학", list(STAGE_COUNTS)),
+        ("Part 2: Neural networks and Transformers", "제2부 · 신경망과 Transformer", ["N05"]),
+        ("Part 3: Model interpretability", "제3부 · 모델 해석", ["I06", "I07", "I08"]),
+        ("Part 4: Optional advanced topics", "제4부 · 선택 심화", [stage for stage in POST_N05_STAGE_SPECS if stage.startswith("A09-")]),
+    )
+    for english, korean, stages in parts:
+        modules = []
+        for stage in stages:
+            items = [{str(lesson["title"]): str(lesson["relative_path"])} for lesson in lessons if lesson["stage"] == stage]
+            if items:
+                modules.append({titles[stage].split(" ", 1)[1]: items})
+        if modules:
+            nav.append({english if LANGUAGE == "en" else korean: modules})
+    nav.append({"Reference materials" if LANGUAGE == "en" else "참고자료": [
+        {"Glossary" if LANGUAGE == "en" else "용어집": nav_path("04-GLOSSARY.md")},
+        {"CPU execution environment" if LANGUAGE == "en" else "CPU 실행 환경": nav_path("N05-ENVIRONMENT.md")},
+        {"Architecture and source baseline" if LANGUAGE == "en" else "아키텍처와 자료 기준": nav_path("05-N05-ARCHITECTURE-BASELINE.md")},
+        {"GPU and Pythia environment" if LANGUAGE == "en" else "GPU·Pythia 실행 환경": nav_path("GPU-ENVIRONMENT.md")},
+    ]})
     return nav
 
 
@@ -1380,6 +1525,7 @@ def assert_safe_build_root() -> None:
 
 def prepare() -> None:
     lessons = discover_all_lessons()
+    descriptions = load_page_metadata(lessons)
     initial_snapshot = source_snapshot(lessons)
     assert_safe_build_root()
     if LANGUAGE == "en":
@@ -1396,12 +1542,12 @@ def prepare() -> None:
         CONFIG_PATH.unlink()
     DOCS_DIR.mkdir(parents=True)
 
-    write_text(DOCS_DIR / "index.md", rewrite_partial_links(prepare_homepage(), "README.md"))
+    write_text(DOCS_DIR / "index.md", rewrite_partial_links(prepare_reader_markdown(prepare_homepage(), "README.md", lessons, descriptions), "README.md"))
     for source, target in PUBLIC_DOCUMENTS.items():
         if source == "README.md" or not (CONTENT_ROOT / source).exists():
             continue
         text = read_text(CONTENT_ROOT / source)
-        write_text(DOCS_DIR / target, rewrite_partial_links(text, source))
+        write_text(DOCS_DIR / target, rewrite_partial_links(prepare_reader_markdown(text, source, lessons, descriptions), source))
 
     for lesson in lessons:
         source_path = lesson["path"]
@@ -1413,6 +1559,7 @@ def prepare() -> None:
         text = expand_n05_example(text, str(lesson["id"]))
         text = expand_stage_example(text, str(lesson["id"]))
         text = expand_gpu_experiments(text, str(lesson["id"]))
+        text = prepare_reader_markdown(text, str(lesson["relative_path"]), lessons, descriptions)
         text = rewrite_partial_links(text, str(lesson["relative_path"]))
         destination = DOCS_DIR / str(lesson["relative_path"])
         write_text(destination, text)
@@ -1428,6 +1575,7 @@ def prepare() -> None:
     config["docs_dir"] = "docs"
     config["site_dir"] = "site"
     config["nav"] = build_nav(lessons)
+    config["extra"]["start_page"] = page_url(str(lessons[0]["relative_path"])) if lessons else ""
     if source_snapshot(lessons) != initial_snapshot:
         raise SiteError("locale sources changed during prepare; run prepare again")
     write_text(CONFIG_PATH, yaml.safe_dump(config, allow_unicode=True, sort_keys=False))
@@ -1441,8 +1589,28 @@ class LinkCollector(HTMLParser):
         super().__init__()
         self.urls: list[str] = []
         self.details_count = 0
+        self.ids: set[str] = set()
+        self.metadata: dict[str, str] = {}
+        self.relations: dict[str, str] = {}
+        self.reader_parts: list[str] = []
+        self.duplicate_ids: set[str] = set()
+        self.elements: list[tuple[str, bool]] = []
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        values = dict(attrs)
+        if values.get("id"):
+            if values["id"] in self.ids:
+                self.duplicate_ids.add(values["id"])
+            self.ids.add(values["id"])
+        if tag == "a" and values.get("name"):
+            self.ids.add(values["name"])
+        if tag == "meta" and values.get("content"):
+            self.metadata[str(values.get("name") or values.get("property"))] = values["content"]
+        if tag == "link" and values.get("rel") in {"prev", "next"}:
+            self.relations[values["rel"]] = str(values.get("href", ""))
+        if tag not in {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"}:
+            excluded = (self.elements[-1][1] if self.elements else False) or tag in {"pre", "code", "script", "style"} or "arithmatex" in str(values.get("class", "")).split()
+            self.elements.append((tag, excluded))
         if tag == "details":
             self.details_count += 1
         attribute = "href" if tag in {"a", "link"} else "src" if tag in {"img", "script"} else None
@@ -1452,6 +1620,16 @@ class LinkCollector(HTMLParser):
         value = values.get(attribute)
         if value:
             self.urls.append(value)
+
+    def handle_endtag(self, tag: str) -> None:
+        for index in range(len(self.elements) - 1, -1, -1):
+            if self.elements[index][0] == tag:
+                del self.elements[index:]
+                break
+
+    def handle_data(self, data: str) -> None:
+        if not self.elements or not self.elements[-1][1]:
+            self.reader_parts.append(data)
 
 
 def flatten_nav_paths(nav: list[object]) -> list[str]:
@@ -1477,8 +1655,10 @@ def output_html_for(markdown_relative_path: str) -> Path:
 
 def resolve_generated_url(page: Path, url: str) -> Path | None:
     parsed = urlsplit(url)
-    if parsed.scheme or parsed.netloc or not parsed.path:
+    if parsed.scheme or parsed.netloc:
         return None
+    if not parsed.path:
+        return page if parsed.fragment else None
     path = unquote(parsed.path)
     if LANGUAGE == "ko" and path.startswith("/ai-math-guide/en/"):
         return None  # Cross-language targets are checked after artifact assembly.
@@ -1496,6 +1676,29 @@ def resolve_generated_url(page: Path, url: str) -> Path | None:
     if path.endswith("/") or target.is_dir():
         target = target / "index.html"
     return target
+
+
+def generated_fragment_exists(target: Path, url: str, cache: dict[Path, set[str]]) -> bool:
+    fragment = unquote(urlsplit(url).fragment)
+    if not fragment or fragment == "__consent" or target.suffix != ".html":
+        return True
+    if target not in cache:
+        collector = LinkCollector()
+        collector.feed(read_text(target))
+        cache[target] = collector.ids
+    return fragment in cache[target]
+
+
+def sitemap_issues(public_pages: list[str]) -> list[str]:
+    path = SITE_DIR / "sitemap.xml"
+    if not path.exists():
+        return ["missing sitemap"]
+    prefix = PUBLIC_ROOT + ("en/" if LANGUAGE == "en" else "")
+    expected = {prefix + page_url(relative) for relative in public_pages}
+    locations = [str(element.text) for element in ET.parse(path).findall("{*}url/{*}loc")]
+    if len(locations) != len(expected) or set(locations) != expected:
+        return [f"sitemap coverage mismatch: missing={sorted(expected - set(locations))}, extra={sorted(set(locations) - expected)}"]
+    return []
 
 
 def search_page_hits(documents: list[dict], term: str, relative: str) -> list[str]:
@@ -1524,6 +1727,7 @@ def validate() -> None:
     }
     _, gpu_experiments = load_gpu_registries()
     lessons = foundation_lessons + n05_lessons + post_n05_lessons
+    descriptions = load_page_metadata(lessons, require_complete=not ALLOW_PARTIAL)
     issues: list[str] = []
     _, reading_table_count, reading_cell_count = lint_english_readings()
 
@@ -1605,6 +1809,9 @@ def validate() -> None:
             f"post-N05 nav count/unique={len(post_nav_paths)}/{len(set(post_nav_paths))}, "
             f"expected={len(post_n05_lessons)}"
         )
+    expected_lesson_paths = [str(lesson["relative_path"]) for lesson in lessons]
+    if [path for path in nav_paths if path in set(expected_lesson_paths)] != expected_lesson_paths:
+        issues.append("formal lesson navigation differs from the educational order")
 
     for lesson in n05_lessons:
         lesson_id = str(lesson["id"])
@@ -1692,6 +1899,8 @@ def validate() -> None:
     if "집필자 점검표" in combined_html or "Author checklist" in combined_html:
         issues.append("generated HTML에 집필자 점검표가 남았다")
     public_pages = [str(lesson["relative_path"]) for lesson in lessons] + list(PUBLIC_DOCUMENTS.values())
+    if not ALLOW_PARTIAL:
+        issues.extend(sitemap_issues(public_pages))
     if LANGUAGE == "en" and not ALLOW_PARTIAL:
         missing_alternates = {page_url(relative) for relative in public_pages} - set(config["extra"]["bilingual"]["en_pages"])
         if missing_alternates:
@@ -1701,8 +1910,42 @@ def validate() -> None:
         if not page.exists():
             continue
         html = read_text(page)
+        collector = LinkCollector()
+        collector.feed(html)
+        if collector.duplicate_ids:
+            issues.append(f"duplicate HTML anchors: {relative}/{sorted(collector.duplicate_ids)}")
+        if re.search(r"(?<![A-Za-z0-9_/-])(?:A09-[A-Z]{3}(?:-\d{2})?|[MNI]\d{2}(?:-\d{2})?|A09)(?![A-Za-z0-9_/-])", " ".join(collector.reader_parts)):
+            issues.append(f"management ID exposed in reader-facing text: {relative}")
+        original_relative = next((source for source, target in PUBLIC_DOCUMENTS.items() if target == relative), relative)
+        if original_relative in descriptions:
+            description = descriptions[original_relative][LANGUAGE]
+            for key in ("description", "og:description", "twitter:description"):
+                if collector.metadata.get(key) != description:
+                    issues.append(f"wrong page description: {relative}/{key}")
         suffix = page_url(relative)
         expected_url = PUBLIC_ROOT + ("en/" if LANGUAGE == "en" else "") + suffix
+        if collector.metadata.get("og:url") != expected_url:
+            issues.append(f"wrong sharing URL: {relative}")
+        expected_locale = "en_US" if LANGUAGE == "en" else "ko_KR"
+        alternate_locale = "ko_KR" if LANGUAGE == "en" else "en_US"
+        if (collector.metadata.get("og:locale"), collector.metadata.get("og:locale:alternate")) != (expected_locale, alternate_locale):
+            issues.append(f"wrong sharing locales: {relative}")
+        if not collector.metadata.get("og:title") or collector.metadata.get("og:title") != collector.metadata.get("twitter:title"):
+            issues.append(f"missing or inconsistent sharing titles: {relative}")
+        if "noindex" in collector.metadata.get("robots", "").lower():
+            issues.append(f"public page blocked by noindex: {relative}")
+        verification = config["extra"].get("google_site_verification")
+        if verification and collector.metadata.get("google-site-verification") != verification:
+            issues.append(f"missing Search Console verification tag: {relative}")
+        if relative in expected_lesson_paths:
+            index = expected_lesson_paths.index(relative)
+            if collector.metadata.get("og:title") != lessons[index]["title"]:
+                issues.append(f"sharing lesson title differs from display name: {relative}")
+            for relation, offset in (("prev", -1), ("next", 1)):
+                target = resolve_generated_url(page, collector.relations[relation]) if relation in collector.relations else None
+                expected_target = output_html_for(expected_lesson_paths[index + offset]).resolve() if 0 <= index + offset < len(lessons) else None
+                if target != expected_target:
+                    issues.append(f"wrong learning {relation}: {relative}")
         if f'<html lang="{LANGUAGE}"' not in html or f'<link rel="canonical" href="{expected_url}">' not in html:
             issues.append(f"wrong HTML language/self canonical: {relative}")
         if suffix in config["extra"]["bilingual"]["en_pages"]:
@@ -1750,6 +1993,7 @@ def validate() -> None:
     source_details = sum(read_text(Path(str(lesson["path"]))).count("<details>") for lesson in lessons)
     html_details = 0
     broken_urls: list[str] = []
+    fragment_cache: dict[Path, set[str]] = {}
     for page in html_paths:
         collector = LinkCollector()
         collector.feed(read_text(page))
@@ -1758,6 +2002,8 @@ def validate() -> None:
             target = resolve_generated_url(page, url)
             if target is not None and not target.exists():
                 broken_urls.append(f"{page.relative_to(SITE_DIR)} -> {url}")
+            elif target is not None and not generated_fragment_exists(target, url, fragment_cache):
+                broken_urls.append(f"{page.relative_to(SITE_DIR)} -> {url} (missing fragment)")
     if html_details != source_details:
         issues.append(f"details count source/html={source_details}/{html_details}")
     if broken_urls:
@@ -1774,6 +2020,16 @@ def validate() -> None:
     else:
         search_data = json.loads(read_text(search_path))
         documents = search_data.get("docs", [])
+        search_pages = {unquote(urlsplit(str(document.get("location", ""))).path) for document in documents}
+        if search_pages != {page_url(relative) for relative in public_pages}:
+            issues.append("search index differs from the public page inventory")
+        for document in documents:
+            location = str(document.get("location", ""))
+            target = resolve_generated_url(SITE_DIR / "index.html", location)
+            if target is not None and target.exists() and not generated_fragment_exists(target, location, fragment_cache):
+                issues.append(f"search result points to missing fragment: {location}")
+            if re.search(r"(?:A09-[A-Z]{3}|[MNI]\d{2})(?:-\d{2})?", str(document.get("title", ""))):
+                issues.append(f"management ID exposed in search title: {location}")
         search_terms = SEARCH_TERMS if LANGUAGE == "ko" else {
             "Jacobian": "M03-11", "singular value decomposition": "M02-13",
             "mutual information": "M04-14", "chain rule": "M01-06", "calibration": "M04-15",
@@ -1864,15 +2120,16 @@ def merge_sites(*, allow_partial: bool = False) -> None:
     shutil.copytree(BUILD_ROOT / "ko" / "site", destination)
     shutil.copytree(BUILD_ROOT / "en" / "site", destination / "en")
     broken: list[str] = []
+    fragment_cache: dict[Path, set[str]] = {}
     for page in destination.rglob("*.html"):
         collector = LinkCollector()
         collector.feed(read_text(page))
         for href in collector.urls:
             parsed = urlsplit(href)
-            if parsed.scheme or parsed.netloc or not parsed.path:
+            if parsed.scheme or parsed.netloc:
                 continue
             path = unquote(parsed.path)
-            target = destination / path.removeprefix(PUBLIC_PATH) if path.startswith(PUBLIC_PATH) else page.parent / path
+            target = (destination / path.removeprefix(PUBLIC_PATH) if path.startswith(PUBLIC_PATH) else page.parent / path) if path else page
             target = target.resolve()
             if not target.is_relative_to(destination.resolve()):
                 broken.append(f"{page.relative_to(destination)} -> {href} (outside artifact)")
@@ -1881,6 +2138,8 @@ def merge_sites(*, allow_partial: bool = False) -> None:
                 target = target / "index.html"
             if not target.exists():
                 broken.append(f"{page.relative_to(destination)} -> {href}")
+            elif not generated_fragment_exists(target, href, fragment_cache):
+                broken.append(f"{page.relative_to(destination)} -> {href} (missing fragment)")
     for prefix in ("", "en"):
         output = destination / prefix
         if not (output / "search" / "search_index.json").exists() or not (output / "sitemap.xml").exists():
@@ -1903,6 +2162,8 @@ def merge_sites(*, allow_partial: bool = False) -> None:
                 target /= "index.html"
             if not target.exists():
                 broken.append(f"missing locale search target: {prefix}/{path}")
+            elif not generated_fragment_exists(target, str(item["location"]), fragment_cache):
+                broken.append(f"missing locale search fragment: {prefix}/{item['location']}")
     summary = {"partial_preview": allow_partial, "output": destination.relative_to(ROOT).as_posix(),
                "broken_links_or_assets": len(broken), "translation_audit": json.loads(result.stdout)}
     write_text(destination.parent / "validation.json", json.dumps(summary, ensure_ascii=False, indent=2) + "\n")

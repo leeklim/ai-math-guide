@@ -2,6 +2,27 @@
   --mmi-reading-width: 78rem;
 }
 
+/* Navigation only: retain the existing body-reading layout. */
+.md-nav--primary > .md-nav__title {
+  font-size: 0.8rem;
+}
+
+.md-nav--primary .reader-start {
+  margin-bottom: 0.8rem;
+}
+
+.md-nav--primary .reader-start > a {
+  padding: 0.65rem 0.7rem;
+  border-radius: 0.35rem;
+  background: var(--md-accent-fg-color--transparent);
+  color: var(--md-accent-fg-color);
+  font-weight: 650;
+}
+
+.md-nav--primary .md-nav__link {
+  line-height: 1.45;
+}
+
 .md-grid {
   max-width: var(--mmi-reading-width);
 }
@@ -155,6 +176,25 @@ html[lang="en"] .md-typeset {
 }
 
 @media screen and (max-width: 44.984375em) {
+  .md-path__list {
+    flex-wrap: wrap;
+    gap: 0.3rem 0.2rem;
+  }
+
+  .md-path__item,
+  .md-path__item:not(:first-child) {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .md-path__item::before {
+    flex-shrink: 0;
+  }
+
+  .md-path .md-ellipsis {
+    white-space: normal;
+  }
+
   .md-typeset {
     line-height: 1.68;
     word-break: normal;

@@ -87,6 +87,20 @@ $V$의 두 기저를 $\mathcal B$와 $\mathcal C$라 하자. 좌표변환행렬
 
 두 기저가 모두 기저이므로 좌표변환행렬은 반드시 가역이다.
 
+이를 왕복 계산으로 확인할 수 있다. $\mathcal B$ 좌표에서 원래 벡터를 조립하고 $\mathcal C$ 좌표를 읽은 뒤, 다시 $\mathcal B$ 좌표를 읽으면 처음 계수 열로 돌아온다. 기저 표현이 유일하기 때문이다. 반대 방향에서도 같으므로 두 좌표변환행렬의 곱은 어느 순서에서나 항등행렬이다. 좌표변환은 투영처럼 일부 정보를 버리는 연산이 아니다.
+
+<figure class="lesson-figure" markdown="1">
+  ![Vector four two assembled as four horizontal standard basis units and two vertical standard basis units on a coordinate grid](../../figures/assets/M03/M03-03-standard-coordinates.svg)
+  <figcaption>예제 1의 벡터를 표준기저로 조립하면 오른쪽으로 4, 위로 2를 이동한다. 초록색 화살표가 나타내는 벡터의 표준좌표는 (4,2)ᵀ이다.</figcaption>
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+  ![Same vector four two assembled by three copies of basis one one and one copy of basis one minus one on the same coordinate grid](../../figures/assets/M03/M03-03-oblique-coordinates.svg)
+  <figcaption>같은 좌표 격자 위에서 3b₁+b₂를 조립해도 초록색 화살표의 끝점은 그대로다. 바뀐 (3,1)ᵀ은 다른 벡터의 표준좌표가 아니라, 새 기저 두 벡터를 몇 배씩 사용할지 정하는 계수다.</figcaption>
+</figure>
+
+두 그림의 초록색 화살표를 비교하면 수동적 좌표변경에서 유지되는 대상과 달라지는 계수를 구분할 수 있다.
+
 ## 핵심 개념 2. 좌표변환행렬의 열은 출발 기저벡터의 도착 좌표다
 
 항등사상 $\operatorname{Id}_V:V\to V$를 생각하면
@@ -113,7 +127,7 @@ $V$의 두 기저를 $\mathcal B$와 $\mathcal C$라 하자. 좌표변환행렬
 
 이다. 즉 각 열은 출발 기저 $\mathcal B$의 벡터를 도착 기저 $\mathcal C$로 나타낸 좌표다.
 
-표준기저를 $\mathcal E$라 하면
+$V=\mathbb R^n$에서 표준기저를 $\mathcal E$라 하면
 
 \[
 \mathbf P_{\mathcal E\leftarrow\mathcal B}
@@ -124,6 +138,27 @@ $V$의 두 기저를 $\mathcal B$와 $\mathcal C$라 하자. 좌표변환행렬
 \]
 
 로 쓸 수 있다. 이때 각 $\mathbf b_j$는 표준좌표 열이다.
+
+각 열의 의미를 확인하려면 $\mathcal B$ 좌표가 $\mathbf e_j$인 입력을 생각한다. 이 열벡터의 $j$번째 계수만 1이므로 원래 벡터는 $\mathbf b_j$다. 이를 $\mathcal C$로 다시 기록한 $[\mathbf b_j]_{\mathcal C}$가 변환행렬의 $j$번째 열이어야 한다. 여기서 $\mathbf e_j$는 계수 열의 표준기저벡터이지, 원래 공간에서 $\mathbf b_j$와 항상 같은 벡터라는 뜻은 아니다.
+
+두 기저벡터 목록이 모두 표준좌표로 주어졌다면, 먼저 $\mathcal B$ 좌표로 벡터를 조립하고 그 결과에서 $\mathcal C$ 계수를 읽는다. 따라서
+
+\[
+\mathbf P_{\mathcal C\leftarrow\mathcal B}
+=\mathbf P_{\mathcal C\leftarrow\mathcal E}
+\mathbf P_{\mathcal E\leftarrow\mathcal B}
+=\mathbf P_{\mathcal E\leftarrow\mathcal C}^{-1}
+\mathbf P_{\mathcal E\leftarrow\mathcal B}
+\]
+
+이다. 도착 기저벡터를 표준좌표 열로 세운 행렬은 $\mathcal C$에서 표준좌표로 가는 방향이므로, 표준좌표에서 $\mathcal C$ 계수를 읽을 때에는 그 역행렬을 사용한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Basis vectors one one and one minus one assembled as ordered columns of the B to E coordinate matrix then weighted by three and one](../../figures/assets/M03/M03-03-coordinate-columns.svg)
+  <figcaption>예제 1의 출발 기저벡터 두 개를 도착 기저인 표준좌표로 기록해 열에 넣는다. 여기에 출발 계수 (3,1)ᵀ을 곱하면 두 열을 각각 3배와 1배 해 더하므로 같은 벡터의 표준좌표 (4,2)ᵀ을 얻는다.</figcaption>
+</figure>
+
+색으로 구분한 각 열은 좌표축의 새 위치가 아니라, 출발 기저벡터 하나를 도착 기저로 읽은 기록이다.
 
 ## 핵심 개념 3. 같은 선형연산자의 행렬은 similarity로 연결된다
 
@@ -186,6 +221,13 @@ $T:V\to V$가 선형연산자이고, 정의역과 공역에 같은 기저를 사
 
 가 된다. $\mathbf P$가 어느 방향의 좌표변환인지 밝히지 않고 공식만 외우면 역행렬 위치를 바꾸기 쉽다.
 
+<figure class="lesson-figure" markdown="1">
+  ![Similarity calculation route converts B coordinates to E applies T in E and converts the output back to B using the example vector](../../figures/assets/M03/M03-03-similarity-route.svg)
+  <figcaption>예제 2의 연산을 새 기저에서 계산하려면 입력을 익숙한 표준좌표로 바꾸고, 그 좌표에서 T를 적용한 뒤, 출력만 새 기저로 다시 기록한다. 좌표를 바꾸는 양끝 단계와 벡터를 바꾸는 가운데 단계를 구분한다.</figcaption>
+</figure>
+
+세 단계의 행렬은 경로의 역순으로 식에 놓인다. 이 단원의 예제에서는 $(3,1)^\top$이 최종적으로 $(5,3)^\top$이 된다.
+
 ## 핵심 개념 4. 모든 수치가 같은 방식으로 유지되지는 않는다
 
 같은 벡터나 사상을 다른 기저로 표현할 때 다음을 구분해야 한다.
@@ -202,6 +244,40 @@ $T:V\to V$가 선형연산자이고, 정의역과 공역에 같은 기저를 사
 | 좌표의 Euclidean norm | 임의의 기저변환에서는 유지되지 않을 수 있다. |
 
 길이와 각도를 보존하려면 내적을 함께 옮기거나 정규직교 기저 사이의 직교 좌표변환을 사용해야 한다. singular value도 일반적인 similarity transformation에서 자동으로 보존되는 양이 아니다. 어떤 변환군을 허용하는지에 따라 불변량이 달라진다.
+
+영벡터와 선형독립이 유지되는 이유는 좌표변환이 가역이고 선형결합을 보존하기 때문이다. $\mathbf P\mathbf x=\mathbf 0$이면 역행렬을 곱해 $\mathbf x=\mathbf 0$을 얻는다. 또한 변환한 벡터들의 선형결합이 0이면 역변환한 원래 벡터들의 같은 계수 선형결합도 0이다. 따라서 독립인 벡터들이 좌표변환 때문에 종속으로 바뀌지 않는다. 부분공간의 기저도 같은 개수의 독립 생성집합으로 옮겨지므로 차원이 유지된다. kernel과 image의 좌표에도 이 논리가 적용된다.
+
+선형연산자의 불변량에는 정의역과 공역에 같은 기저변환을 쓰는 similarity 조건이 중요하다. 앞 절의 $\mathbf A=[T]_{\mathcal B}$와 $\mathbf P=\mathbf P_{\mathcal B\leftarrow\mathcal C}$를 쓰면 새 행렬은 $\mathbf P^{-1}\mathbf A\mathbf P$다. $\mathbf A\mathbf z=\lambda\mathbf z$인 비영 좌표 열 $\mathbf z$에 대해
+
+\[
+(\mathbf P^{-1}\mathbf A\mathbf P)(\mathbf P^{-1}\mathbf z)
+=\mathbf P^{-1}\mathbf A\mathbf z
+=\lambda\mathbf P^{-1}\mathbf z
+\]
+
+이다. $\mathbf P^{-1}\mathbf z$도 비영벡터이므로 같은 $\lambda$가 새 표현에서도 고유값이다. 역방향에서도 같아 고유값이 유지된다. determinant는 곱의 법칙에서 $\det(\mathbf P^{-1})\det(\mathbf P)=1$이므로 유지된다.
+
+trace의 경우 두 $n\times n$ 행렬 $\mathbf X,\mathbf Y$에 대해
+
+\[
+\operatorname{tr}(\mathbf X\mathbf Y)
+=\sum_{i=1}^n\sum_{j=1}^n X_{ij}Y_{ji}
+=\sum_{j=1}^n\sum_{i=1}^n Y_{ji}X_{ij}
+=\operatorname{tr}(\mathbf Y\mathbf X)
+\]
+
+이다. 행렬곱 자체가 교환된다는 뜻은 아니지만, 곱의 trace는 이 두 순서에서 같다. $\mathbf X=\mathbf P^{-1}$, $\mathbf Y=\mathbf A\mathbf P$로 놓으면 $\operatorname{tr}(\mathbf P^{-1}\mathbf A\mathbf P)=\operatorname{tr}(\mathbf A\mathbf P\mathbf P^{-1})=\operatorname{tr}\mathbf A$를 얻는다.
+
+반면 좌표 열의 길이는 원래 벡터의 길이와 구분해야 한다. 아래 예제 1의 $\mathbf b_1=(1,1)^\top$은 표준좌표에서 길이가 $\sqrt2$지만 $\mathcal B$ 좌표는 $(1,0)^\top$이어서 계수 열의 Euclidean norm은 1이다. 벡터의 실제 길이가 바뀐 것이 아니라, 길이가 1이 아닌 기저벡터에 붙은 계수를 단위 길이 좌표처럼 계산한 것이다. 정규직교 기저 사이에서는 좌표변환행렬 $\mathbf Q$가 $\mathbf Q^\top\mathbf Q=\mathbf I$를 만족하여 $\|\mathbf Q\mathbf x\|_2^2=\mathbf x^\top\mathbf Q^\top\mathbf Q\mathbf x=\|\mathbf x\|_2^2$가 된다.
+
+singular value 역시 좌표에 사용하는 길이와 관련된다. 아래 연습문제 4의 두 행렬 $\begin{bmatrix}1&1\\0&2\end{bmatrix}$와 $\begin{bmatrix}1&0\\0&2\end{bmatrix}$는 similarity로 연결되지만 Frobenius norm의 제곱은 각각 6과 5다. M02-13에서 배운 특이값 제곱의 합이 서로 다르므로 특이값 목록도 같을 수 없다. 고유값 보존을 특이값 보존으로 바꾸어 읽으면 안 된다.
+
+<figure class="lesson-figure" markdown="1">
+  ![Basis vector one one on a coordinate grid has geometric length square root of two although its B coefficient vector one zero has norm one](../../figures/assets/M03/M03-03-coordinate-norm.svg)
+  <figcaption>b₁ 자체의 길이는 √2지만, B에서 이를 조립하는 계수는 (1,0)ᵀ이다. 계수 열에 보통의 Euclidean norm을 적용해 얻은 1은 이 비정규직교 기저에서 벡터의 실제 길이가 아니다.</figcaption>
+</figure>
+
+그림에서는 원점과 끝점이 바뀌지 않는다. 달라지는 길이 계산은 벡터의 이동이 아니라 기저 단위와 계수 단위를 혼동한 결과다.
 
 ## 핵심 개념 5. 수동적 좌표변경과 능동적 변환은 다르다
 
@@ -226,6 +302,15 @@ R(\mathbf v)
 로 바꾼다.
 
 두 계산에 같은 모양의 행렬이 등장할 수 있지만 질문이 다르다. 좌표계를 바꿔 같은 대상을 다시 적는 것인지, 실제로 대상에 회전이나 투영을 적용한 것인지 확인해야 한다.
+
+예제 1의 행렬 $\begin{bmatrix}1&1\\1&-1\end{bmatrix}$는 $\mathcal B$ 좌표 $(3,1)^\top$을 표준좌표 $(4,2)^\top$로 바꾼다. 이 수동적 곱셈의 입력과 출력은 같은 벡터의 서로 다른 기록이다. 그러나 같은 배열을 고정된 표준기저에서 능동적 선형변환의 행렬로 사용하면, 표준좌표 $(3,1)^\top$인 벡터를 표준좌표 $(4,2)^\top$인 다른 벡터로 보낸다. 곱셈식의 숫자가 같아도 입력과 출력이 어느 기저의 기록인지에 따라 의미가 달라진다.
+
+<figure class="lesson-figure" markdown="1">
+  ![Fixed standard coordinate axes with an input vector three one actively transformed into vector four two with a visible endpoint movement](../../figures/assets/M03/M03-03-active-versus-passive.svg)
+  <figcaption>같은 배열을 표준기저의 능동적 사상으로 쓰면 표준좌표 (3,1)ᵀ의 끝점이 (4,2)ᵀ으로 이동한다. 앞의 수동적 변환은 이미 (4,2)ᵀ인 벡터를 다른 계수로 기록했을 뿐이므로 출발점의 의미부터 다르다.</figcaption>
+</figure>
+
+이 그림의 두 화살표는 서로 다른 벡터다. 앞의 두 기저 조립 그림에서 초록색 화살표가 같은 벡터였던 경우와 비교한다.
 
 ## 예제 1. 두 기저 사이에서 벡터 좌표 바꾸기
 

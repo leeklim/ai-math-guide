@@ -53,7 +53,7 @@ estimated_time: "120~145분"
 
 ## 핵심 개념 1. 부분공간의 합은 두 공간의 성분을 더해 만든다
 
-$U,W\le V$일 때 두 부분공간의 합을
+$U,W\le V$는 $U,W$가 $V$의 부분공간이라는 뜻이다. 두 부분공간의 합을
 
 \[
 U+W
@@ -62,6 +62,8 @@ U+W
 \]
 
 로 정의한다. $U+W$는 $U\cup W$와 다르다. 합에는 두 공간의 벡터를 섞은 선형결합도 들어간다.
+
+$U,W$에는 각각 영벡터가 있으므로 $\mathbf u=\mathbf u+\mathbf 0$과 $\mathbf w=\mathbf 0+\mathbf w$도 이 합에 속한다. 따라서 합은 두 부분공간을 모두 포함한다. 또한 $\alpha\mathbf u\in U$, $\beta\mathbf w\in W$이므로 $\alpha\mathbf u+\beta\mathbf w$처럼 계수를 붙인 결합도 같은 정의에 들어간다. 정의의 한 항 $\mathbf u$나 $\mathbf w$가 생성벡터 하나로 제한되는 것은 아니다.
 
 $U+W$는 $V$의 부분공간이다. 영벡터는 $\mathbf 0_U+\mathbf 0_W$로 쓸 수 있다. 두 원소
 
@@ -80,6 +82,13 @@ $U+W$는 $V$의 부분공간이다. 영벡터는 $\mathbf 0_U+\mathbf 0_W$로 �
 \]
 
 이고 각 괄호는 해당 부분공간에 남는다. 스칼라곱도 같은 방식으로 닫혀 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Horizontal and vertical subspaces with a mixed sum vector two one whose endpoint belongs to neither axis](../../figures/assets/M03/M03-05-sum-not-union.svg)
+  <figcaption>수평 부분공간과 수직 부분공간에서 각각 (2,0)ᵀ과 (0,1)ᵀ을 골라 더하면 (2,1)ᵀ을 얻는다. 이 끝점은 두 축 어느 쪽에도 없지만 부분공간의 합에는 속한다.</figcaption>
+</figure>
+
+합집합은 두 축만 포함한다. 반면 두 성분의 크기를 자유롭게 고르는 합은 이 평면의 모든 끝점을 만들 수 있다.
 
 ## 핵심 개념 2. 교집합은 두 분해 성분의 겹침을 나타낸다
 
@@ -100,6 +109,13 @@ U\cap W
 \]
 
 도 같은 분해다. $\mathbf z\in U$이므로 $\mathbf u+\mathbf z\in U$이고, $\mathbf z\in W$이므로 $\mathbf w-\mathbf z\in W$다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![The horizontal subspace inside a whole-plane subspace with the same nonzero vector belonging to both and allowing two allocations](../../figures/assets/M03/M03-05-overlap-nonunique.svg)
+  <figcaption>예제 2에서는 평면 전체인 W가 수평선 U를 포함한다. 표시한 e₁을 U 성분에 모두 넣거나 W 성분에 모두 넣어도 합은 같으므로 분해가 유일하지 않다.</figcaption>
+</figure>
+
+이 겹침은 원점 한 점의 공유가 아니라, 어느 쪽 성분으로도 옮길 수 있는 비영 방향의 공유다.
 
 ## 핵심 개념 3. 직합은 유일한 분해를 보장한다
 
@@ -160,6 +176,14 @@ V=U\oplus W
 
 가 성립한다. $U$와 $W$의 차원을 더하면 교집합의 방향을 두 번 세므로 한 번 뺀다.
 
+기저를 선택하는 과정으로 이 계산을 확인할 수 있다. $k=\dim(U\cap W)$, $p=\dim U$, $q=\dim W$라 하자. 먼저 교집합의 기저 $k$개를 고른다. 현재 span 밖의 벡터를 추가하면서 이를 $U$의 기저로 늘리면 $p-k$개가 추가되고, 같은 교집합 기저를 $W$의 기저로 늘리면 $q-k$개가 추가된다.
+
+교집합의 기저는 한 번만 넣고 두 쪽의 추가 벡터를 함께 모으면 $U+W$를 생성한다. 이 목록은 선형독립이기도 하다.
+
+목록의 선형결합이 0이라고 가정하면, $U$ 쪽 추가 벡터들의 결합은 공통 기저와 $W$ 쪽 벡터들의 결합을 음수로 바꾼 것과 같다. 따라서 그 벡터는 $U\cap W$에 있다. 그러나 $U$의 기저는 공통 기저와 추가 벡터를 함께 포함하므로, 추가 벡터들의 결합이 공통 기저의 span에 있으려면 추가 계수가 모두 0이어야 한다. 남은 식에서도 $W$의 기저 독립성을 적용하면 나머지 계수가 0이다.
+
+따라서 합의 기저 크기는 $k+(p-k)+(q-k)=p+q-k$다. “겹친 방향을 뺀다”는 설명은 임의로 고른 두 기저에 같은 열이 보인다는 뜻이 아니라, 공통 부분공간의 기저를 한 번만 센다는 뜻이다.
+
 직합이면 $U\cap W=\{\mathbf 0\}$이고 영공간의 차원은 0이므로
 
 \[
@@ -171,6 +195,13 @@ V=U\oplus W
 이다.
 
 차원만 맞는다고 직합이 되는 것은 아니다. 합이 전체 공간을 만드는지와 교집합이 영공간인지 함께 확인해야 한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Basis membership diagram with U directions e1 e2 and W directions e2 e3 sharing e2 so the sum has three independent directions](../../figures/assets/M03/M03-05-shared-basis-count.svg)
+  <figcaption>작은 좌표 예시에서 U=span{e₁,e₂}와 W=span{e₂,e₃}는 e₂ 방향을 공유한다. 합의 기저에서는 이를 한 번만 넣으므로 독립 방향은 세 개다.</figcaption>
+</figure>
+
+사각형의 겹침은 기저 방향이 어느 공간에 속하는지 표시한 것이다. 실제 부분공간을 유한한 사각형 영역으로 그린 것은 아니다.
 
 ## 핵심 개념 5. 여공간은 전체 공간의 나머지 방향을 채운다
 
@@ -190,6 +221,18 @@ W_2=\operatorname{span}\{(1,1)^\top\}
 
 는 모두 $U$의 여공간이다. 두 직선 모두 $U$와 영벡터에서만 만나고 $U$와 함께 $\mathbb R^2$를 생성한다.
 
+같은 벡터 $(a,b)^\top$을 두 여공간으로 나누면
+
+\[
+\begin{bmatrix}a\\b\end{bmatrix}
+=\underbrace{\begin{bmatrix}a\\0\end{bmatrix}}_{\in U}
++\underbrace{\begin{bmatrix}0\\b\end{bmatrix}}_{\in W_1}
+=\underbrace{\begin{bmatrix}a-b\\0\end{bmatrix}}_{\in U}
++\underbrace{\begin{bmatrix}b\\b\end{bmatrix}}_{\in W_2}
+\]
+
+다. 각각의 여공간을 고정하면 분해는 유일하지만, 여공간을 바꾸면 $U$ 성분도 달라질 수 있다. 따라서 여공간은 벡터에서 자동으로 정해지는 나머지가 아니라 분해를 위해 선택한 부분공간이다. 직합은 직교 조건을 요구하지 않으며 $W_2$는 Euclidean 내적에서 $U$와 직교하지 않는다.
+
 내적이 정해지면 직교여공간
 
 \[
@@ -207,9 +250,23 @@ V=U\oplus U^\perp
 
 이다.
 
+$U^\perp$에 속하려면 $U$의 벡터 하나가 아니라 모든 벡터와 직교해야 한다. 실제 계산에서는 $U$의 기저벡터들과의 내적이 모두 0인지 확인하면 된다. 임의의 $\mathbf u\in U$는 그 기저의 선형결합이므로, 내적의 선형성에 의해 나머지 벡터들과의 내적도 0이기 때문이다. 내적을 바꾸면 이 판정식이 바뀌므로 직교여공간의 선택도 달라질 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Vector three two decomposed into a horizontal U component and vertical W1 component on a coordinate grid](../../figures/assets/M03/M03-05-vertical-complement.svg)
+  <figcaption>본문의 (a,b)에 (3,2)를 대입했다. 수직 여공간 W₁을 고르면 U 성분은 (3,0)ᵀ, W₁ 성분은 (0,2)ᵀ이다.</figcaption>
+</figure>
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![The same vector three two decomposed into horizontal component one zero and diagonal complement component two two](../../figures/assets/M03/M03-05-diagonal-complement.svg)
+  <figcaption>대각선 여공간 W₂를 고르면 같은 벡터의 U 성분이 (1,0)ᵀ으로 달라진다. 두 부분공간이 원점에서만 만나는 직합이어도 두 성분이 직교할 필요는 없다.</figcaption>
+</figure>
+
+두 그림의 초록색 벡터는 같지만 파란색 성분은 다르다. 유일성은 여공간을 하나로 고정한 뒤의 성질이다.
+
 ## 핵심 개념 6. 정사영은 직교 직합의 두 성분을 계산한다
 
-$\mathbf P_U$를 $U$ 위로의 정사영행렬이라 하면
+Euclidean 공간 $\mathbb R^n$에서 $\mathbf P_U$를 $U$ 위로의 정사영행렬이라 하면
 
 \[
 \mathbf x
@@ -225,7 +282,18 @@ $\mathbf P_U$를 $U$ 위로의 정사영행렬이라 하면
 \langle\mathbf x_U,\mathbf x_\perp\rangle=0
 \]
 
-따라서 Pythagorean 관계가 성립한다.
+잔차가 $U^\perp$에 있다는 조건은 $\mathbf x_U$ 한 벡터와 직교한다는 조건보다 강하다. M02-09처럼 $U$의 정규직교기저를 열로 쌓은 $\mathbf Q$를 쓰면 $\mathbf P_U=\mathbf Q\mathbf Q^\top$이며
+
+\[
+\mathbf Q^\top\mathbf x_\perp
+=\mathbf Q^\top(\mathbf I-\mathbf Q\mathbf Q^\top)\mathbf x
+=\mathbf Q^\top\mathbf x-\mathbf Q^\top\mathbf x
+=\mathbf 0
+\]
+
+이다. 각 기저벡터와 잔차의 내적이 0이므로 잔차는 $U$의 모든 벡터와 직교한다. 따라서 모든 $\mathbf x$가 $U+U^\perp$에 속한다. 또한 $\mathbf z\in U\cap U^\perp$이면 자기 자신과도 직교하여 $\langle\mathbf z,\mathbf z\rangle=0$이므로 $\mathbf z=\mathbf 0$다. 두 조건을 함께 사용하면 이 합이 직합임을 얻는다.
+
+합의 제곱 norm을 전개하면 두 성분의 제곱 norm에 $2\langle\mathbf x_U,\mathbf x_\perp\rangle$이 더해진다. 위 직교 조건으로 이 교차항이 0이므로 Pythagorean 관계
 
 \[
 \|\mathbf x\|_2^2
@@ -233,7 +301,7 @@ $\mathbf P_U$를 $U$ 위로의 정사영행렬이라 하면
 \|\mathbf x_U\|_2^2+\|\mathbf x_\perp\|_2^2
 \]
 
-이 분해는 부분공간 $U$와 내적을 고정했을 때 유일하다.
+가 성립한다. 이 분해는 부분공간 $U$와 내적을 고정했을 때 유일하다.
 
 ## 예제 1. 좌표 부분공간의 직합
 
@@ -444,6 +512,18 @@ U\cap W=U
 이므로 제곱 norm도 합해진다.
 
 이 계산은 선택한 방향에 대한 activation 성분을 정한다. 그 방향이 개념을 나타내는지, 모델이 그 성분을 예측에 사용하는지는 데이터와 개입으로 따로 검증해야 한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Three dimensional example activation h three one two split into its U projection two two zero and perpendicular residual one minus one two](../../figures/assets/M03/M03-05-activation-orthogonal-decomposition.svg)
+  <figcaption>예제 3의 파란색 투영 성분과 주황색 잔차를 더하면 초록색 activation에 도달한다. 점선은 잔차를 투영 끝점으로 평행이동한 표시이며, 잔차는 U 방향과 직교한다.</figcaption>
+</figure>
+
+입체 투영 화면에서는 직각이 눈에 직각으로 보이지 않을 수 있다. 직교 여부는 표시한 좌표의 내적이 0이라는 계산으로 확인한다.
+
+<figure class="lesson-figure" markdown="1">
+  ![Area partition with common height and widths proportional to eight and six representing orthogonal component squared lengths totaling fourteen](../../figures/assets/M03/M03-05-pythagorean-partition.svg)
+  <figcaption>같은 높이의 두 영역 넓이는 두 성분의 제곱 norm 8과 6에 비례한다. 직교로 교차항이 사라져 전체 제곱 norm 14가 되며, 길이 자체를 8과 6으로 더하는 식은 아니다.</figcaption>
+</figure>
 
 ## 흔한 오해
 

@@ -62,6 +62,8 @@ I(g\cdot\mathbf x)=I(\mathbf x)
 
 가 모든 허용 입력 $\mathbf x$에서 성립하면 $I$를 그 변환에 대한 불변량(invariant)이라고 한다.
 
+여기서 $g\cdot\mathbf x$는 scalar를 곱한다는 뜻이 아니라 지정한 변환을 적용한다는 표기다. 여러 변환을 허용한다면 그 각각에 대해, 허용 범위의 모든 입력에서 등식이 성립해야 한다. 한 입력에서 우연히 값이 같았다는 계산은 그 입력의 확인이지 함수 전체의 불변성을 증명한 것은 아니다.
+
 불변량을 말하려면 두 항목을 함께 밝혀야 한다.
 
 1. 어떤 대상을 변환하는가?
@@ -78,6 +80,13 @@ I(g\cdot\mathbf x)=I(\mathbf x)
 \]
 
 를 사용하면 $\|\mathbf x\|_2=1$이지만 $\|\mathbf A\mathbf x\|_2=2$다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Unit vector and its doubled horizontal image under diagonal scaling compared on one coordinate grid](../../figures/assets/M03/M03-04-scaling-breaks-norm.svg)
+  <figcaption>본문의 가역행렬 diag(2,1)은 수평 벡터의 길이를 1에서 2로 바꾼다. 두 화살표의 겹침을 피하려고 결과 화살표만 위로 조금 옮겨 표시했으며, 방향과 길이의 비교가 목적이다.</figcaption>
+</figure>
+
+가역성은 되돌릴 수 있다는 조건이지 길이를 보존한다는 조건은 아니다.
 
 ## 핵심 개념 2. 직교변환은 내적 구조를 보존한다
 
@@ -121,7 +130,19 @@ $\mathbf Q\in\mathbb R^{d\times d}$가
 \|\mathbf x-\mathbf y\|_2
 \]
 
-이다. 각도는 내적과 norm으로 계산하므로 유지된다.
+이다. 두 벡터가 모두 비영벡터이면 각도는 내적과 norm으로 계산하므로 유지된다. 영벡터와의 각도는 정의하지 않는다. 이 계산에서는 두 벡터에 같은 $\mathbf Q$를 적용한다. 한 벡터만 회전하고 다른 벡터를 고정하면 두 벡터 사이 내적이 유지된다고 결론 낼 수 없다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Original example vectors three four and one minus two with a dashed segment connecting their endpoints](../../figures/assets/M03/M03-04-rotation-before.svg)
+  <figcaption>예제 1의 두 입력 벡터와 끝점 사이 거리를 같은 좌표 격자에서 표시했다. 두 길이는 5와 √5이며 점선의 길이는 √40이다.</figcaption>
+</figure>
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Both example vectors after a ninety degree rotation with the same lengths and endpoint distance](../../figures/assets/M03/M03-04-rotation-after.svg)
+  <figcaption>두 벡터에 같은 90도 회전을 적용하면 전체 배치는 돌아가지만, 두 길이와 사이 거리 및 각도가 유지된다. 각 벡터의 숫자 좌표가 달라져도 이 기하 관계는 같다.</figcaption>
+</figure>
+
+두 그림의 좌표 눈금 간격은 같다. 한 벡터만 돌리는 경우가 아니라 두 벡터와 점선을 함께 돌리는 비교다.
 
 ## 핵심 개념 3. 불변 함수는 입력 변환을 출력에서 지운다
 
@@ -147,7 +168,16 @@ s(\mathbf P\mathbf x)=s(\mathbf x)
 
 를 만족한다. 순열은 성분의 위치만 바꾸므로 합은 달라지지 않는다.
 
+순열행렬은 각 행과 열에 1이 하나씩 있고 나머지는 0인 행렬이다. 각 행은 입력 성분 하나를 고르고, 각 열에 1이 하나씩 있다는 조건은 어느 성분도 빠지거나 중복되지 않게 한다. 따라서 $\mathbf P\mathbf x$의 성분을 더하면 원래 합의 항을 다른 순서로 한 번씩 더한다. 덧셈의 교환법칙과 결합법칙에 의해 합이 같다.
+
 불변 함수는 변환으로 생긴 차이를 출력에서 구분하지 않는다. 이 성질은 필요한 정보를 버릴 수도 있다. 상수함수 $f(\mathbf x)=0$은 모든 입력 변환에 대해 불변이지만 입력에 관한 정보를 제공하지 않는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Two input components exchange positions but both orderings map to the same scalar sum one](../../figures/assets/M03/M03-04-permutation-invariance.svg)
+  <figcaption>예제 2의 입력 성분을 바꾸면 파란색 2와 주황색 −1의 위치가 교환된다. 하지만 합의 출력은 양쪽 경로에서 모두 1이어서 어느 값이 먼저 있었는지는 남지 않는다.</figcaption>
+</figure>
+
+두 교차 화살표는 빠지거나 중복되는 성분 없이 위치만 바뀌는 순열을 표시한다.
 
 ## 핵심 개념 4. equivariant 함수는 변환을 출력으로 운반한다
 
@@ -160,6 +190,8 @@ f(g\cdot\mathbf x)
 \]
 
 가 성립한다는 뜻이다. 입력을 먼저 변환한 뒤 $f$를 적용한 결과와, $f$를 먼저 적용한 뒤 대응하는 출력변환 $\rho(g)$를 적용한 결과가 같다.
+
+$\rho(g)$는 입력변환 $g$에 대응해 출력에 적용할 규칙이다. 입력과 출력의 종류나 크기가 다르면 두 공간에 같은 배열을 적용할 수 없으므로 출력 규칙을 따로 정한다. $\rho(g)$가 행렬이면 오른쪽은 행렬곱이고, 일반 변환이면 그 변환을 출력 $f(\mathbf x)$에 적용한다는 약식 표기다.
 
 입력과 출력이 같은 종류이고 같은 변환을 쓰면
 
@@ -189,6 +221,15 @@ f(\mathbf P\mathbf x)=\mathbf P f(\mathbf x)
 
 순서를 먼저 바꾸든 각 성분을 제곱한 뒤 순서를 바꾸든 같은 결과가 나온다.
 
+이 경우 equivariance는 선형성을 뜻하지 않는다. 제곱함수는 배율을 보존하지 않지만, 성분의 순서를 바꾸는 연산과는 순서를 교환할 수 있다. 더 일반적으로 모든 성분에 같은 일변수 함수 $\phi$를 적용하면 순열 뒤 $i$번째 출력은 그 위치로 옮겨진 원래 성분에 $\phi$를 적용한 값이다. 먼저 $\phi$를 적용한 뒤 출력 순서를 바꾸어도 같은 성분이 그 위치에 놓인다. 성분마다 다른 함수를 쓰면 이 결론을 자동으로 적용할 수 없다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Commuting component paths for swapping before squaring and squaring before swapping ending in the same reordered output one four](../../figures/assets/M03/M03-04-permutation-equivariance.svg)
+  <figcaption>왼쪽에서 입력을 바꾸고 아래에서 제곱하는 경로와, 위에서 제곱하고 오른쪽에서 출력을 바꾸는 경로가 같은 (1,4)ᵀ에 도착한다. 같은 성분을 나타내는 색도 출력 위치의 교환을 따라간다.</figcaption>
+</figure>
+
+앞의 합은 출력 하나를 유지했지만, 성분별 제곱은 출력 두 개의 위치를 입력과 함께 바꾼다.
+
 ## 핵심 개념 5. 불변성과 equivariance는 출력의 역할에 따라 고른다
 
 입력 전체에 label 하나를 붙이는 함수는 순서나 회전을 무시해야 할 수 있다. 이 경우 불변성이 맞는 요구다. 각 입력 요소에 출력을 하나씩 붙이는 함수는 입력 요소가 이동할 때 해당 출력도 이동해야 한다. 이 경우 equivariance가 맞다.
@@ -197,22 +238,54 @@ f(\mathbf P\mathbf x)=\mathbf P f(\mathbf x)
 
 | 질문 | 불변성 | equivariance |
 |---|---|---|
-| 변환 뒤 출력 | 그대로다. | 정해진 방식으로 변한다. |
+| 변환 뒤 출력 | 그대로다. | 정해진 출력변환을 적용한 결과다. |
 | 대표 식 | $f(g\cdot\mathbf x)=f(\mathbf x)$ | $f(g\cdot\mathbf x)=\rho(g)f(\mathbf x)$ |
 | 예 | 집합 원소의 합 | 원소별 예측 |
 | 정보 효과 | 변환 방향 정보를 제거할 수 있다. | 변환 정보를 출력 위치에 보존할 수 있다. |
 
 한 함수가 어떤 변환에 대해서는 불변이고 다른 변환에 대해서는 equivariant일 수 있다. 함수 이름만으로 성질을 판단하지 않고 입력·출력의 작용을 적어야 한다.
 
+두 조건은 서로 배타적이지 않다. 출력변환 $\rho(g)$를 항등변환으로 정하면 equivariance 식이 불변성 식이 된다. 또한 equivariance는 변환 후 출력값이 반드시 달라져야 한다는 조건이 아니다. 예를 들어 순열에 대해 모든 성분이 0인 출력은 그대로다. 등식의 요구는 실제 변화량이 아니라 정한 출력 규칙과의 일치다.
+
 ## 핵심 개념 6. 표현 비교는 허용 변환을 먼저 정한다
 
 두 activation 행렬 $\mathbf H_1$과 $\mathbf H_2$가 있을 때 “같은 표현”이라는 문장은 기준이 부족하다. 다음 관계들은 서로 다른 허용 변환을 사용한다.
+
+여기서는 같은 표본을 같은 순서로 행에 쌓은 $\mathbf H_1,\mathbf H_2\in\mathbb R^{N\times d}$를 비교한다. 오른쪽에 곱하는 $\mathbf Q$와 $\mathbf A$는 $d\times d$이며 feature 좌표를 바꾼다. 표본의 대응까지 바꾸는 비교와 구분해야 한다.
 
 - 원소별 동일성: $\mathbf H_2=\mathbf H_1$
 - 직교 정렬 뒤 동일성: $\mathbf H_2=\mathbf H_1\mathbf Q$
 - 가역 선형 정렬 뒤 동일성: $\mathbf H_2=\mathbf H_1\mathbf A$
 
 직교 정렬은 행 사이의 Euclidean 내적과 거리를 보존한다. 일반 가역 정렬은 선형독립과 차원은 보존하지만 Euclidean 거리와 각도를 바꿀 수 있다. 표현 유사도 지표를 해석할 때 그 지표가 어떤 변환에 불변인지 확인해야 한다.
+
+가역 정렬에서 rank가 유지되는 이유도 열 결합으로 확인할 수 있다. $\mathbf H_1\mathbf A$의 각 열은 $\mathbf H_1$의 열들의 선형결합이다. 반대로 $\mathbf H_1=\mathbf H_2\mathbf A^{-1}$이므로 원래 열도 새 열들의 선형결합이다. 따라서 두 column space가 같고 차원도 같다.
+
+한편 표본 행 사이 내적을 모은 행렬은
+
+\[
+\mathbf H_2\mathbf H_2^\top
+=\mathbf H_1\mathbf A\mathbf A^\top\mathbf H_1^\top
+\]
+
+이다. 일반 가역행렬에서는 가운데 $\mathbf A\mathbf A^\top$을 항등행렬로 소거할 수 없으므로 rank 보존과 같은 논리로 Euclidean 기하의 보존을 결론 낼 수 없다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Three matched sample rows A B C forming a right triangle in two feature coordinates](../../figures/assets/M03/M03-04-sample-geometry-original.svg)
+  <figcaption>표현 비교를 위한 작은 예시로 표본 행 A=(0,0), B=(2,0), C=(0,1)을 표시했다. 표본 이름은 좌표가 바뀌어도 같은 행의 대응을 유지한다.</figcaption>
+</figure>
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Same three matched samples after orthogonal feature rotation with every pair distance preserved](../../figures/assets/M03/M03-04-sample-geometry-orthogonal.svg)
+  <figcaption>오른쪽 직교 곱 Q=[[0,1],[−1,0]]으로 feature 좌표를 바꾸면 세 점의 배치가 회전하고 표본별 좌표값은 바뀐다. 그러나 같은 이름의 점 사이 거리는 모두 유지된다.</figcaption>
+</figure>
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Same matched sample rows after invertible horizontal feature scaling with rank two retained but changed pair distances](../../figures/assets/M03/M03-04-sample-geometry-stretched.svg)
+  <figcaption>가역 곱 A=diag(2,1)에서는 수평 방향이 늘어나 AB와 BC의 거리가 바뀐다. 두 독립 feature 방향과 rank 2는 유지되지만 Euclidean 기하까지 유지되는 것은 아니다.</figcaption>
+</figure>
+
+세 그림은 같은 눈금으로 비교한다. 바뀐 feature 좌표의 번호와 유지되는 표본의 이름을 구분하면 허용 변환에 따라 어떤 관계가 같아지는지 볼 수 있다.
 
 ## 예제 1. 회전 아래 norm과 내적 확인하기
 

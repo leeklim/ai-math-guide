@@ -74,6 +74,14 @@ a=xy,\qquad z=a+x,\qquad L=z^2
 da=y\,dx+x\,dy,\qquad dz=da+dx,\qquad dL=2z\,dz.
 \]
 
+여기서 $dx,dy$는 입력의 일차 변화이고, $da,dz,dL$은 그 변화가 각 연산을 거쳐 만드는 일차 효과다. 현재 값 $x,y,z$에서 국소 규칙을 대입하면
+
+\[
+dL=2z(da+dx)=2z\bigl((y+1)dx+x\,dy\bigr)
+\]
+
+다. $dx,dy$의 계수는 각각 전체 함수의 입력별 미분이다. 국소 규칙을 연결했기 때문에 $L$의 전체 식을 먼저 전개하지 않아도 이 계수들을 계산할 수 있다.
+
 자동미분은 이 관계를 필요한 방향으로 전달한다. 긴 닫힌형식의 미분식을 먼저 만들 필요가 없다.
 
 ## 핵심 개념 2. 기호미분·수치미분·자동미분은 목적이 다르다
@@ -94,11 +102,25 @@ da=y\,dx+x\,dy,\qquad dz=da+dx,\qquad dL=2z\,dz.
 
 계산 그래프의 node는 입력이나 중간값이고, directed edge는 어떤 값이 다음 연산에 사용되는지를 나타낸다. 앞의 예제에서 $x$는 $a=xy$와 $z=a+x$ 두 경로에 모두 사용된다. 따라서 $x$에 대한 최종 gradient에는 두 경로의 기여가 모두 들어가야 한다.
 
+$z=a+x$의 국소 입력은 $a$와 $x$다. 이 연산만 미분할 때에는 다른 국소 입력을 고정하므로 $\partial z/\partial a=1$이고 $\partial z/\partial x=1$이다. $a$도 원래 $x$에 의존한다는 사실은 $x\to a\to z$ 경로를 따로 따라가며 반영한다. 국소 미분에 그 전체 경로의 효과를 미리 넣으면 같은 기여를 중복 계산하게 된다.
+
 그래프는 미분 가능한 함수 그 자체와 동일하지 않다. 같은 함수를 서로 다른 연산 순서로 구현할 수 있고, 그때 중간 node와 메모리 사용량도 달라질 수 있다. 자동미분은 선택한 프로그램 경로에 규칙을 적용한다.
+
+같은 입력 x가 두 node에 사용되는 분기를 먼저 함수값으로 확인하자.
+
+<figure class="lesson-figure" markdown="1">
+
+![Input x two branches into a product with y three and an identity copy then both branches join at z eight and square to loss sixty four](../../figures/assets/M03/M03-14-primal-graph.svg)
+
+<figcaption>x=2는 곱셈 a=xy와 복사 b=x에 각각 들어간다. 두 값을 더한 z=8을 제곱하여 L=64를 만든다. 화살표는 값의 사용 관계이지 기하 공간의 이동이 아니다.</figcaption>
+
+</figure>
 
 ## 핵심 개념 4. forward mode는 primal과 tangent를 함께 보낸다
 
 입력 방향 $(\dot x,\dot y)$를 정하면 각 연산은 값과 tangent를 함께 계산한다.
+
+$\dot x,\dot y$는 경로 $(x+t\dot x,y+t\dot y)$의 $t=0$ 변화율을 정하는 seed다. 각 중간값의 dot 표기도 이 경로를 프로그램에 넣었을 때의 도함수다. 따라서 곱셈에서는 곱의 미분 규칙으로 두 입력의 일차 효과를 더하고, 제곱에서는 현재 값 $z$의 도함수 $2z$를 곱한다.
 
 \[
 \begin{aligned}
@@ -113,6 +135,8 @@ L&=z^2, & \dot L&=2z\dot z.
 ## 핵심 개념 5. reverse mode는 cotangent를 역순으로 보낸다
 
 scalar $L$에 대해 $\bar L=1$을 seed로 둔다. forward pass에서 계산한 값을 이용해 연산의 역순으로 cotangent를 전달한다.
+
+다른 node의 cotangent는 처음에 0으로 두고 도착한 기여를 더한다. $\bar z$는 입력 변화가 $z$를 거쳐 $L$에 전달될 때 곱할 민감도이며, $z$의 값 자체를 되돌려 보내는 것이 아니다. 한 node를 거슬러 가기 전에는 그 node를 사용하는 출력 쪽 경로들의 기여가 모두 모여 있어야 한다.
 
 \[
 \bar z=\bar L\frac{\partial L}{\partial z},\qquad
@@ -129,9 +153,21 @@ scalar $L$에 대해 $\bar L=1$을 seed로 둔다. forward pass에서 계산한 
 
 $\mathrel{+}=$ 표기는 이미 도착한 기여에 새 경로의 기여를 더한다는 뜻이다. reverse mode는 local VJP를 연속해서 적용한다. 출력이 하나이고 입력이 많을 때 한 번의 reverse pass로 모든 입력 좌표의 gradient를 얻을 수 있다.
 
+이 예제에서 $x$는 $z=a+x$의 직접 입력으로 한 번 기여하고 $a=xy$의 입력으로 다시 기여한다. 따라서 최종값은 $\bar x=\bar z+\bar a y$이며 $\bar y=\bar a x$다. $\bar z=2z$, $\bar a=\bar z$를 넣으면 첫 절에서 얻은 $dx,dy$의 계수 $2z(y+1),2zx$와 같다. 두 번째 경로의 값을 첫 번째 값에 덮어쓰면 이 합에서 한 항이 빠진다.
+
 ## 핵심 개념 6. 역전파는 신경망 loss의 reverse-mode 자동미분이다
 
 신경망 층도 행렬곱, bias 덧셈, 활성화함수 같은 기본 연산의 합성이다. loss $L$이 scalar이면 $\bar L=1$에서 시작해 각 층의 local VJP를 뒤에서 앞으로 적용한다. 이 계산이 역전파이다.
+
+예를 들어 $\mathbf z=\mathbf W\mathbf x+\mathbf b$에서 $\mathbf W\in\mathbb R^{m\times n}$이고 출력 cotangent가 $\bar{\mathbf z}\in\mathbb R^m$이면, 입력 $\mathbf x$ 쪽에 전달할 기여는 $\mathbf W^\top\bar{\mathbf z}$다. 각 weight 원소 $W_{ij}$는 출력 $z_i$에 $W_{ij}x_j$로 들어가므로 그 원소에 대한 gradient 기여는 $\bar z_i x_j$다. bias 원소 $b_i$의 기여는 $\bar z_i$다. weight와 bias가 이 연산에만 사용되는 경우, 배열로 모은 gradient는
+
+\[
+\nabla_{\mathbf W}L=\bar{\mathbf z}\mathbf x^\top\in\mathbb R^{m\times n},
+\qquad
+\nabla_{\mathbf b}L=\bar{\mathbf z}\in\mathbb R^m
+\]
+
+이다. 같은 파라미터가 다른 연산에도 쓰였다면 위 affine 연산의 기여에 다른 경로의 기여도 더한다. 따라서 역전파는 입력의 민감도를 전달하는 동시에 학습할 weight와 bias의 미분 계수도 수집한다. M03-15의 누적 과제는 이 규칙을 작은 network에 적용한다.
 
 역전파는 optimizer update와 구분해야 한다. 역전파는 $\nabla_{\boldsymbol\theta}L$을 계산한다. SGD나 Adam은 계산된 gradient를 사용해 $\boldsymbol\theta$를 갱신한다. gradient를 계산했다고 파라미터가 자동으로 바뀌는 것은 아니다.
 
@@ -140,6 +176,8 @@ $\mathrel{+}=$ 표기는 이미 도착한 기여에 새 경로의 기여를 더�
 곱셈 $a=xy$의 역방향 규칙에는 forward 값 $x$와 $y$가 필요하다. ReLU의 역방향 규칙에는 어느 입력이 양수였는지 필요하다. 따라서 reverse mode는 보통 forward pass의 중간값이나 이를 복원할 정보를 저장한다.
 
 모든 값을 저장하면 reverse pass는 빠르지만 메모리를 많이 쓴다. 일부 값만 저장하고 나머지를 다시 계산하면 메모리는 줄고 계산량은 늘어난다. checkpointing은 이 tradeoff를 조절하는 방법이다. 이는 미분식의 정확성을 바꾸는 문제가 아니라 같은 derivative를 어떤 계산·메모리 비용으로 얻는지의 문제이다.
+
+같은 derivative를 얻으려면 재계산한 중간값도 처음 forward pass와 일치해야 한다. 파라미터를 중간에 바꾸거나, 난수를 사용하는 연산에서 다른 난수 결과를 쓰면 다른 값의 국소 미분을 전달할 수 있다. 저장과 재계산을 바꾸더라도 원래 실행의 입력·파라미터·선택한 경로와 필요한 난수 결과를 유지해야 한다.
 
 ## 예제 1. 한 계산 그래프의 forward mode
 
@@ -176,6 +214,16 @@ tangent를 같은 순서로 전달한다.
 ### 결과의 의미
 
 $(1,-1)$ 방향으로 입력을 움직일 때 $L$의 일차 변화율은 $32$이다. 이는 전체 gradient와 방향의 내적과 같아야 한다.
+
+예제 1에서 primal과 tangent를 함께 기록하면 국소 미분 규칙이 어느 값에서 계산됐는지 놓치지 않는다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Each graph node records its primal and tangent with seeds one minus one combining to tangent two at z and thirty two at the loss](../../figures/assets/M03/M03-14-forward-graph.svg)
+
+<figcaption>곱셈의 tangent는 3×1+2×(-1)=1이고, 복사 경로의 tangent는 1이다. z에서 두 기여를 합한 2에 현재 z의 제곱 미분 16을 곱하면 L의 tangent는 32다.</figcaption>
+
+</figure>
 
 ## 예제 2. 같은 그래프의 reverse mode
 
@@ -220,6 +268,16 @@ forward-mode 결과와 비교하면
 
 이다. 두 mode가 같은 derivative를 서로 다른 방향으로 계산했음을 확인할 수 있다.
 
+Reverse 경로에서는 loss의 seed 1에서 시작해 x의 두 기여를 합산한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Loss cotangent seed one travels backward through the graph and the product and copy contributions forty eight and sixteen sum to input cotangent sixty four](../../figures/assets/M03/M03-14-reverse-graph.svg)
+
+<figcaption>x에는 곱셈 경로에서 16×3=48, 복사 경로에서 16이 도착한다. 따라서 x의 cotangent는 64이며 둘 중 하나로 덮어쓰면 전체 gradient를 잃는다.</figcaption>
+
+</figure>
+
 ## 예제 3. 수치차분으로 구현 결과 확인하기
 
 이 함수는
@@ -236,6 +294,16 @@ L(x,y)=x^2(y+1)^2
 
 이며, 적당히 작은 $\varepsilon$에서 $32$에 가까워진다. 너무 큰 $\varepsilon$은 근사 오차를 키우고 너무 작은 $\varepsilon$은 반올림과 상쇄 오차를 키울 수 있다. 수치차분은 자동미분 결과를 독립적으로 점검하는 도구이지 학습 때 gradient를 계산하는 기본 방식은 아니다.
 
+이 예제의 중앙차분을 float64로 계산하면 너무 작은 차분 간격에서 오차가 다시 커질 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Actual float64 central difference error decreases then rises as the step becomes extremely small compared with derivative thirty two](../../figures/assets/M03/M03-14-difference-error.svg)
+
+<figcaption>기준 방향미분은 32다. 큰 간격의 근사 오차와 아주 작은 간격의 반올림·상쇄 오차가 서로 다른 구간에 나타난다. 정확히 0으로 계산된 오차는 log 축에 표시할 수 없어 제외했다.</figcaption>
+
+</figure>
+
 ## 예제 4. 분기에서 gradient가 더해지는 이유
 
 $z=x^2+x$에서는 $x$가 제곱 경로와 항등 경로로 분기한다. reverse mode에서 두 기여는
@@ -245,6 +313,24 @@ $z=x^2+x$에서는 $x$가 제곱 경로와 항등 경로로 분기한다. revers
 \]
 
 로 합쳐진다. $\bar z=1$이면 $dz/dx=2x+1$이다. 한 경로만 남기면 같은 변수의 전체 효과가 아니라 일부 경로의 효과만 계산하게 된다.
+
+Gradient를 계산하는 과정과 파라미터를 바꾸는 과정, 중간값을 저장하는 과정은 역할이 다르다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Forward pass computes loss backward pass computes gradients and only the separate optimizer step changes parameters](../../figures/assets/M03/M03-14-gradient-versus-update.svg)
+
+<figcaption>역전파가 끝나면 현재 파라미터에서의 gradient가 준비된다. SGD나 Adam 같은 optimizer가 이를 사용해 파라미터를 갱신하는 단계는 별도다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A sequence stores every intermediate value in one row while the second row checkpoints alternate values and recomputes the others](../../figures/assets/M03/M03-14-checkpoint-storage.svg)
+
+<figcaption>위는 모든 중간값을 저장하고 아래는 일부를 저장한 뒤 나머지를 재계산한다. 저장량과 재계산량을 바꾸더라도 입력·파라미터·필요한 난수 결과가 일치해야 같은 derivative를 얻는다.</figcaption>
+
+</figure>
 
 ## 흔한 오해
 

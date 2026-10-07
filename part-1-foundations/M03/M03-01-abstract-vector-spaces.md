@@ -73,6 +73,24 @@ estimated_time: "110~135분"
 
 이다. 결과가 다시 실수계수 다항식이므로 같은 공간 안에서 연산할 수 있다.
 
+여기서 $t$는 다항식에 넣는 입력이고, 3은 다항식 전체에 곱하는 scalar다. 다항식을 더한다는 것은 같은 차수의 계수를 더한다는 뜻이다. 차수가 2 이하인 다항식끼리 더하거나 scalar를 곱해도 3차 이상의 항은 생기지 않으므로 $\mathcal P_2$ 안에 머문다. 반면 차수가 정확히 2인 다항식만 모으면 $p+(-p)$가 영다항식이 되어 집합을 벗어난다. 대상이 다항식이라는 사실뿐 아니라 어떤 다항식을 모았는지도 확인해야 한다.
+
+함수공간에서도 연산을 먼저 정한다. 공통 정의역의 실수함수 $f,g$에 대해 $(f+g)(t)=f(t)+g(t)$와 $(\alpha f)(t)=\alpha f(t)$로 정의하면, 같은 입력에서의 값을 더하거나 배율을 적용한 결과가 다시 함수가 된다. 이를 점별 연산이라고 한다.
+
+앞의 다항식을 곡선으로 그려 보면, 덧셈은 같은 입력 위치의 높이를 더하는 연산이다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Pointwise addition of the polynomial curves one plus two t and t minus t squared at a common input](../../figures/assets/M03/M03-01-pointwise-addition.svg)
+  <figcaption>입력 t=1.5에서 p의 값 4와 q의 값 −0.75를 더하면 합의 함수값은 3.25다. 다른 입력에서도 같은 위치의 값을 더해 초록색 합의 곡선을 만든다. 이 곡선 자체가 함수공간의 한 원소다.</figcaption>
+</figure>
+
+스칼라곱에서는 입력을 유지하고 각 입력에서의 출력값에 같은 배율을 곱한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![The polynomial one plus two t and its scalar multiple three plus six t with output values three and nine at input one](../../figures/assets/M03/M03-01-scalar-multiplication.svg)
+  <figcaption>t=1의 높이는 p에서 3, 3p에서 9다. 보라색 점선은 같은 입력 위치의 두 높이를 연결한다. 입력 t를 세 배로 바꾸는 계산과 다항식 전체에 3을 곱하는 계산은 구분한다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. 벡터공간 공리는 계산 규칙을 고정한다
 
 모든 $\mathbf u,\mathbf v,\mathbf w\in V$와 $\alpha,\beta\in\mathbb R$에 대해 다음 법칙이 성립해야 한다.
@@ -88,6 +106,10 @@ estimated_time: "110~135분"
 
 덧셈과 스칼라곱은 $V$ 안에서 결과를 내야 한다. 이를 닫힘이라고 한다. 공리를 매번 전부 확인하기보다, 이미 알려진 벡터공간의 부분집합이라면 영벡터 포함 여부와 덧셈·스칼라곱의 닫힘을 먼저 검사하는 방법이 효율적이다.
 
+이 부분공간 판정에서는 원래 공간의 연산을 그대로 사용한다. 교환법칙·결합법칙·분배법칙은 원래 공간에서 성립하므로 부분집합의 원소에도 성립한다. 영벡터가 포함되고 스칼라곱에 닫혀 있으면 $-\mathbf v=(-1)\mathbf v$도 부분집합에 있으므로 덧셈 역원 조건까지 충족한다. 따라서 이 세 조건을 확인하면 나머지 공리를 다시 증명하지 않아도 된다. 임의로 다른 연산을 정한 집합에는 이 판정을 그대로 적용할 수 없다.
+
+공리에서 $0\mathbf v=\mathbf 0_V$도 따라온다. $(0+0)\mathbf v=0\mathbf v+0\mathbf v$의 왼쪽은 $0\mathbf v$이므로 양변에서 $0\mathbf v$를 더하기 역원으로 소거하면 $\mathbf 0_V=0\mathbf v$다. 이 식은 scalar 0과 영벡터를 구분하면서도 둘의 관계를 설명한다.
+
 ## 핵심 개념 3. 영벡터의 모양은 공간마다 다르다
 
 영벡터는 숫자 0 하나가 아니라 덧셈의 항등원이다.
@@ -100,6 +122,15 @@ estimated_time: "110~135분"
 | $\mathbb R^{2\times2}$ | $2\times2$ 실수행렬 | $2\times2$ 영행렬 |
 
 영함수와 영다항식은 값이 항상 0이지만 각각 함수공간과 다항식공간의 원소다. 같은 기호 0을 쓰더라도 소속 공간을 확인해야 한다.
+
+함수 $f$가 한 입력에서 0이라는 사실은 $f$가 영함수라는 뜻이 아니다. 예를 들어 $f(t)=t$는 $f(0)=0$이지만 다른 입력에서는 0이 아닐 수 있다. 영함수는 정의역의 모든 입력에서 0이어야 하며, 그래야 점별 덧셈에서 모든 함수 $g$에 대해 $g+f=g$가 된다.
+
+한 점의 영값과 영함수는 그래프에서도 구분된다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![A line f of t equals t sharing one zero value with the zero function but differing elsewhere](../../figures/assets/M03/M03-01-zero-value-zero-function.svg)
+  <figcaption>주황색 점에서는 f(t)=t도 값이 0이지만, 다른 입력의 높이는 0이 아니다. 초록색 영함수는 모든 입력의 높이가 0이어서 어느 함수에 점별로 더해도 그 함수값을 바꾸지 않는다.</figcaption>
+</figure>
 
 ## 핵심 개념 4. 익숙한 대수 개념은 대상의 종류와 무관하다
 
@@ -132,6 +163,17 @@ p=a\cdot1+b\cdot t+c\cdot t^2
 \]
 
 로 유일하게 표현된다. 따라서 $\dim\mathcal P_2=3$이다.
+
+기저 조건을 나누어 보면, $\mathcal P_2$의 정의상 모든 다항식을 $1,t,t^2$의 선형결합으로 쓸 수 있으므로 생성 조건을 만족한다. 또한 $a\cdot1+b\cdot t+c\cdot t^2$가 영다항식이라는 것은 모든 계수가 0이라는 뜻이므로 $a=b=c=0$이다. 이것이 선형독립 조건이다. 계수 세 개가 있는 표현을 찾은 것만으로 기저라고 결론 내리는 것이 아니라, 생성과 독립을 함께 확인한 것이다.
+
+두 계수 목록이 같은 다항식을 나타낸다고 하면 두 표현을 빼서 영다항식을 얻는다. 선형독립에 의해 계수 차이가 모두 0이므로 두 목록은 같다. M02에서 배운 좌표의 유일성 논리가 다항식에도 그대로 적용된다.
+
+다항식 기저의 세 원소도 각각 입력을 값으로 보내는 함수다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![The three basis polynomial functions one t and t squared drawn on a shared input axis](../../figures/assets/M03/M03-01-polynomial-basis-curves.svg)
+  <figcaption>기저 (1,t,t²)의 세 원소를 각각 그렸다. 이 함수들에 계수를 곱해 더하면 2차 이하의 다항식을 얻는다. 서로 다른 모양으로 보인다는 사실만으로 독립성을 증명하는 것은 아니며, 독립성은 앞의 영다항식 계수 논리로 확인한다.</figcaption>
+</figure>
 
 ## 핵심 개념 5. 벡터와 좌표 열은 같은 대상이 아니다
 
@@ -176,6 +218,24 @@ p(t)=2-t+3t^2
 \]
 
 이다. 기저를 바꾸면 좌표 열은 달라지지만 다항식 $p$는 달라지지 않는다.
+
+좌표는 원래 벡터를 다시 조립하는 정보다. 위 열의 세 원소를 차례로 $1,t,t^2$에 곱해 더하면 $p$를 복원한다. 이때 각 원소는 다항식의 특정 입력에서의 값이 아니라 기저다항식에 붙는 계수다. 기저의 순서까지 정해야 어느 계수를 어느 다항식에 곱할지 알 수 있다.
+
+같은 기저에서 $\mathbf u=\sum_i a_i\mathbf b_i$와 $\mathbf v=\sum_i c_i\mathbf b_i$라면, 분배법칙에 의해 $\alpha\mathbf u+\beta\mathbf v=\sum_i(\alpha a_i+\beta c_i)\mathbf b_i$다. 따라서
+
+\[
+[\alpha\mathbf u+\beta\mathbf v]_{\mathcal B}
+=\alpha[\mathbf u]_{\mathcal B}+\beta[\mathbf v]_{\mathcal B}
+\]
+
+이다. 추상 벡터와 좌표 열은 다른 대상이지만, 고정된 기저에서의 좌표 기록은 선형결합을 보존한다. 이것이 추상 공간의 계산을 열벡터 계산으로 옮길 수 있는 이유다.
+
+좌표 열의 계수를 실제 기저함수에 곱하면 원래 다항식을 다시 조립할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Weighted basis functions two minus t and three t squared summing to the polynomial two minus t plus three t squared](../../figures/assets/M03/M03-01-coefficient-reconstruction.svg)
+  <figcaption>계수 2, −1, 3이 만드는 세 곡선의 높이를 더하면 초록색 p를 얻는다. 입력 1의 함수값은 4이며 좌표의 둘째 성분 −1과 다르다. 좌표는 선택한 기저에 붙는 계수이고, 함수값은 재조립한 함수에 입력을 넣은 결과다.</figcaption>
+</figure>
 
 ## 예제 1. 부분집합이 벡터공간인지 판정하기
 
@@ -222,6 +282,20 @@ $A$에는 영벡터가 들어 있지 않다. 실제로 $0+0\ne1$이다. 그러�
 ### 결과의 의미
 
 $S$는 원점을 지나는 직선이고 $A$는 그 직선을 평행이동한 affine 집합이다. 둘 다 직선처럼 보이지만 벡터공간은 영벡터를 포함해야 한다.
+
+원점을 지나는 직선에서는 덧셈과 스칼라곱의 결과도 같은 직선에 남는다. 다음은 닫힘을 확인하는 구체적 좌표들이다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![A line x plus y equals zero containing two input vectors their sum and a negative scalar multiple](../../figures/assets/M03/M03-01-subspace-closure.svg)
+  <figcaption>파란 두 입력의 합과 −2배 결과는 모두 x+y=0을 만족해 같은 직선에 놓인다. 주황색 원점도 직선에 속한다. 표시한 좌표들은 앞의 일반적인 닫힘 계산을 보여 주는 예다.</figcaption>
+</figure>
+
+평행이동한 직선에서는 같은 종류의 연산이 집합을 벗어날 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![An affine line x plus y equals one containing two vectors but excluding their sum and the zero vector](../../figures/assets/M03/M03-01-affine-not-closed.svg)
+  <figcaption>(1,0)과 (0,1)은 직선에 속하지만 합 (1,1)은 x+y=2여서 직선 밖이다. 회색 원점 역시 x+y=1을 만족하지 않는다. 직선의 외형보다 영벡터 포함과 연산의 닫힘을 확인해야 한다.</figcaption>
+</figure>
 
 ## 예제 2. 다항식을 벡터처럼 계산하기
 

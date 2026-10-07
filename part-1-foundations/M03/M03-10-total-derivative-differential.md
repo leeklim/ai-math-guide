@@ -87,6 +87,10 @@ Df(\mathbf x)
 
 로 쓴다.
 
+기준점 $\mathbf x$는 고정하고, $\mathbf h$는 그 점에서의 입력 변위다. $L(\mathbf h)$는 출력값 자체가 아니라 출력의 변화량을 예측한다. 따라서 잔차는 $\mathbf r(\mathbf h)=f(\mathbf x+\mathbf h)-f(\mathbf x)-L(\mathbf h)$이며, 실제 변화에서 선형예측을 뺀 값이다.
+
+$\mathbf h\ne\mathbf 0$일 때 이 잔차의 크기를 입력 변위의 크기로 나눈다. 극한이 0이라는 조건은 어떤 양수 $\varepsilon$를 정해도 기준점에 충분히 가까운 모든 비영 변위에서 $\|\mathbf r(\mathbf h)\|\le\varepsilon\|\mathbf h\|$가 된다는 뜻이다. 한 직선으로만 접근하거나 방향을 하나씩 따로 확인하는 조건이 아니라, 접근 방향이 바뀌어도 같은 오차 기준을 만족해야 한다. $o(\|\mathbf h\|)$는 이 상대 크기 조건을 줄여 쓴 표기다.
+
 따라서
 
 \[
@@ -96,6 +100,18 @@ f(\mathbf x)+Df(\mathbf x)(\mathbf h)
 \]
 
 이다. 근사 오차는 입력 변화의 크기보다 더 빠르게 작아진다. 이는 오차의 절댓값만 작다는 조건보다 강하다.
+
+이 조건을 만족하는 선형사상은 하나뿐이다. 두 후보 $L_1,L_2$가 있다면 고정한 비영벡터 $\mathbf v$와 $\mathbf h=t\mathbf v$에 대해 두 잔차의 차이는 $t(L_1-L_2)(\mathbf v)$다. 잔차 각각을 $|t|$로 나눈 크기가 0으로 가므로 $(L_1-L_2)(\mathbf v)=\mathbf 0$이어야 한다. 모든 $\mathbf v$에서 두 후보가 같다는 뜻이다. 제목의 ‘가장 잘 맞는’은 여러 표본의 오차를 최소화한다는 뜻이 아니라 이 일차 잔차 조건으로 유일하게 정해진다는 뜻이다.
+
+예제 1의 변화량을 같은 방향으로 점점 줄여 보면, 오차 자체보다 오차와 입력 변화의 비율이 중요하다는 점을 확인할 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Relative approximation error for input changes proportional to point zero one minus point zero two decreases toward zero](../../figures/assets/M03/M03-10-relative-local-error.svg)
+
+<figcaption>입력 변화 h=s(0.01,−0.02)ᵀ에 대한 실제 출력과 일차 근사의 차이를 ‖h‖로 나눈 값이다. s가 작아질수록 이 비율도 작아지는 것이 total derivative의 조건이다.</figcaption>
+
+</figure>
 
 ## 핵심 개념 2. total derivative는 하나의 선형사상이다
 
@@ -112,6 +128,8 @@ Df(\mathbf x)(\alpha\mathbf h_1+\beta\mathbf h_2)
 가 성립한다.
 
 $f$ 자체가 비선형이어도 한 점에서의 total derivative는 선형이다. 기준점 $\mathbf x$를 바꾸면 derivative도 달라질 수 있다.
+
+선형성의 입력은 기준점이 아니라 변화벡터다. $\mathbf x$를 고정한 채 $\mathbf h_1,\mathbf h_2$의 일차 효과를 합하는 식이지, 서로 다른 기준점의 derivative를 합하는 식이 아니다. 실제 출력값을 예측하는 $f(\mathbf x)+Df(\mathbf x)(\mathbf h)$는 상수 출력 $f(\mathbf x)$를 더한 affine 표현이고, 변화량을 예측하는 $Df(\mathbf x)(\mathbf h)$가 선형이다.
 
 total derivative는 변화벡터를 출력 변화벡터로 보낸다.
 
@@ -135,6 +153,15 @@ Df(\mathbf x)(\mathbf e_j)
 
 이다. 오른쪽은 $m$개 출력 성분의 $x_j$ 편미분을 모은 vector다.
 
+정의의 잔차식에 $\mathbf h=t\mathbf e_j$를 넣고 선형성 $Df(\mathbf x)(t\mathbf e_j)=tDf(\mathbf x)(\mathbf e_j)$를 쓰면
+
+\[
+\frac{f(\mathbf x+t\mathbf e_j)-f(\mathbf x)}{t}
+=Df(\mathbf x)(\mathbf e_j)+\frac{\mathbf r(t\mathbf e_j)}{t}
+\]
+
+이다. $\|\mathbf e_j\|_2=1$이므로 잔차를 $|t|$로 나눈 크기가 0으로 간다. 왼쪽은 $x_j$만 변화시키는 차분몫이어서 극한이 vector 편미분이다. 이 계산이 위 등식을 도출한다.
+
 임의의 변화
 
 \[
@@ -157,6 +184,8 @@ h_j
 
 한 점에서 모든 편미분이 존재한다는 조건만으로 total derivative의 존재가 보장되지는 않는다. 편미분들이 점 주변에서 연속이면 미분 가능성을 보장하는 충분조건을 얻는다.
 
+좌표축에서는 각 입력을 따로 움직이지만, 첫 절의 잔차 조건은 여러 좌표가 동시에 움직이는 경우도 포함한다. 예제 4에서는 좌표축의 변화율이 모두 0이어도 대각선 방향의 잔차 비율이 줄어들지 않는다.
+
 ## 핵심 개념 4. 방향미분은 total derivative에 방향을 넣은 값이다
 
 방향벡터 $\mathbf v$에 대한 방향미분을
@@ -177,6 +206,16 @@ Df(\mathbf x)(\mathbf v)
 \]
 
 이다.
+
+이를 확인하려면 $\mathbf h=t\mathbf v$를 잔차식에 넣는다. 선형성으로 $Df(\mathbf x)(t\mathbf v)/t=Df(\mathbf x)(\mathbf v)$이고, $\mathbf v\ne\mathbf 0$이면
+
+\[
+\frac{\|\mathbf r(t\mathbf v)\|}{|t|}
+=\frac{\|\mathbf r(t\mathbf v)\|}{\|t\mathbf v\|}\,\|\mathbf v\|
+\to0
+\]
+
+이다. 따라서 방향 차분몫의 극한에 잔차가 남지 않는다. $\mathbf v=\mathbf 0$이면 차분몫과 선형 출력이 모두 0이다. 단위벡터가 아닌 $\mathbf v$에 대한 이 변화율은 이동 거리당이 아니라 경로 파라미터 $t$당 변화율이다.
 
 total derivative 하나를 알면 모든 방향미분을 계산할 수 있다. 반대로 여러 방향미분이 따로 존재해도 방향에 대한 의존성이 하나의 선형사상으로 묶이지 않으면 total derivative가 존재하지 않을 수 있다.
 
@@ -218,7 +257,7 @@ f:\mathbb R^n\to\mathbb R^m,
 g:\mathbb R^m\to\mathbb R^p
 \]
 
-이고 두 함수가 해당 점에서 미분 가능하다고 하자. 합성함수는
+이고 $f$는 $\mathbf x$에서, $g$는 중간점 $f(\mathbf x)$에서 미분 가능하다고 하자. 합성함수는
 
 \[
 g\circ f:\mathbb R^n\to\mathbb R^p
@@ -252,6 +291,15 @@ Df(\mathbf x)(\mathbf h)
 \]
 
 로 최종 출력 변화가 된다. 연쇄법칙의 순서는 forward pass의 함수 적용 순서와 같다.
+
+합성에서 버린 오차도 일차 잔차 조건을 만족해야 한다. $A=Df(\mathbf x)$, $B=Dg(f(\mathbf x))$라 쓰자. $\mathbf r_f$는 $f$를 $\mathbf x$에서 선형화한 잔차이고, $\mathbf r_g$는 $g$를 중간점 $f(\mathbf x)$에서 선형화한 잔차다. 실제 중간 변화를 $\boldsymbol\delta=f(\mathbf x+\mathbf h)-f(\mathbf x)=A(\mathbf h)+\mathbf r_f(\mathbf h)$라 하면
+
+\[
+g(f(\mathbf x+\mathbf h))-g(f(\mathbf x))
+=B(A(\mathbf h))+B(\mathbf r_f(\mathbf h))+\mathbf r_g(\boldsymbol\delta)
+\]
+
+이다. 고정된 선형사상 $B$는 잔차의 크기를 일정 배율 이내로 바꾸므로 둘째 항은 $\|\mathbf h\|$에 비해 사라진다. 중간 변화 $\boldsymbol\delta$도 선형항과 작은 잔차의 합이어서 $\|\mathbf h\|$의 일정 배율 이내다. $g$의 잔차는 그 중간 변화보다 빠르게 작아지므로 마지막 항 역시 $\|\mathbf h\|$에 비해 사라진다. 중간 변화가 0이면 $g$의 잔차도 0이다. 남는 일차 사상이 $B\circ A$다.
 
 ## 예제 1. vector 함수의 일차 변화
 
@@ -361,6 +409,16 @@ e^{-0.02}-1
 ### 결과의 의미
 
 total derivative는 두 입력좌표의 변화를 함께 받아 두 출력의 일차 변화를 만든다. 남은 오차는 이 예제에서 변화량의 제곱 크기와 같은 수준이다.
+
+예제 1의 $D\mathbf f$는 변화량을 출력한다. 실제 출력점의 근사에는 기존 함수값을 한 번 더 더해야 한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![An input change maps to predicted output change zero minus point zero two which is then added to base output one one](../../figures/assets/M03/M03-10-output-point-versus-change.svg)
+
+<figcaption>첫 출력 성분의 일차 변화는 0이지만 실제 출력점의 첫 성분이 0이라는 뜻은 아니다. 기존 출력 (1,1)을 더한 예측점은 (1,0.98)이며 실제 값과 작은 나머지항만큼 다르다.</figcaption>
+
+</figure>
 
 ## 예제 2. scalar differential과 gradient
 
@@ -493,6 +551,16 @@ D(g\circ f)(1,2)
 
 이므로 $(1,2)$에서 8과 7을 얻는다.
 
+예제 3에서는 먼저 함수값으로 중간점을 찾고, 그 점에서의 derivative를 합성한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Forward function composition locates intermediate point three two before the local direction epsilon one zero maps to epsilon one two and then scalar eight epsilon](../../figures/assets/M03/M03-10-chain-basepoints.svg)
+
+<figcaption>Dg는 원래 입력점 (1,2)가 아니라 중간점 f(1,2)=(3,2)에서 계산한다. 아래 변화 경로의 8ε는 실제 함수값 11이 아니라 일차 출력 변화다.</figcaption>
+
+</figure>
+
 ## 예제 4. 편미분은 있지만 미분 가능하지 않은 함수
 
 \[
@@ -539,6 +607,24 @@ f(t,t)
 \]
 
 다. 이 비율은 0으로 가지 않으므로 원점에서 미분 가능하지 않다.
+
+좌표축만 따라가는 접근과 대각선 접근을 분리하면 예제 4의 실패 지점을 볼 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Counterexample function is zero along both coordinate axes but equals absolute t divided by square root two along the diagonal](../../figures/assets/M03/M03-10-axis-versus-diagonal.svg)
+
+<figcaption>두 좌표축에서는 함수가 항상 0이므로 편미분도 0이다. 그러나 대각선 (t,t)에서는 |t|/√2의 변화가 생겨 같은 영 선형사상으로 설명되지 않는다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![Normalized error of the zero linear prediction along the diagonal stays at one half as the input approaches zero](../../figures/assets/M03/M03-10-diagonal-relative-error.svg)
+
+<figcaption>대각선 입력의 길이는 √2|t|다. 따라서 영 선형근사의 상대 오차는 항상 1/2이며, 입력을 더 작게 만들어도 0으로 수렴하지 않는다.</figcaption>
+
+</figure>
 
 ## 예제 5. 신경망 층의 국소 변화
 

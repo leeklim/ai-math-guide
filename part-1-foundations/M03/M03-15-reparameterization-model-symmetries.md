@@ -49,7 +49,7 @@ estimated_time: "145~175분"
 | $r(\boldsymbol\phi)=\boldsymbol\theta$ | `r of phi equals theta` | 새 파라미터에서 기존 파라미터로 가는 재매개화 map |
 | $\boldsymbol\theta\sim\boldsymbol\theta'$ | `theta is equivalent to theta prime` | 두 파라미터가 같은 모델 함수를 나타낸다는 동치관계 |
 | symmetry transformation | `symmetry transformation` | 모델 함수를 보존하는 파라미터 변환 |
-| orbit | `orbit` | 한 파라미터에 symmetry transformation들을 적용해 얻는 동치 class |
+| orbit | `orbit` | 정한 symmetry transformation들로 한 파라미터에서 도달하는 집합 |
 | identifiability | `identifiability` | 관찰 가능한 함수나 분포로부터 파라미터를 유일하게 정할 수 있는 성질 |
 | $\mathbf P$ | `P` | hidden unit을 바꾸거나 순열하는 가역행렬 |
 | $\mathbf D$ | `D` | 양의 대각 scaling 행렬 |
@@ -70,6 +70,10 @@ f_{r(\boldsymbol\phi)}
 
 로 표현하면 재매개화이다. $r$이 일대일인 좌표변환일 수도 있고, 여러 $\boldsymbol\phi$가 같은 $\boldsymbol\theta$로 가는 중복 표현일 수도 있다.
 
+같은 모델족이라는 말은 기존 모델족의 각 함수를 적어도 하나의 새 파라미터로 표현할 수 있다는 뜻이다. $r$의 범위가 일부 함수만 표현하면 모델족을 그대로 다시 적은 것이 아니라 범위를 제한한 것이다. 여러 파라미터가 같은 함수를 나타낼 수 있으므로, 모든 기존 파라미터 점을 빠짐없이 방문하는 조건과 모든 모델 함수를 표현하는 조건도 구분한다.
+
+기존 파라미터가 $\boldsymbol\theta\in\mathbb R^p$, 새 파라미터가 $\boldsymbol\phi\in\mathbb R^q$이면 $\mathbf J_r(\boldsymbol\phi)$의 shape은 $p\times q$다. 미분 가능한 $r$은 새 변화벡터를 기존 파라미터의 일차 변화로 보내며, loss의 미분은 그 변화를 scalar로 측정한다.
+
 loss를 $\widetilde L(\boldsymbol\phi)=L(r(\boldsymbol\phi))$로 쓰면 연쇄법칙에 따라
 
 \[
@@ -80,9 +84,11 @@ loss를 $\widetilde L(\boldsymbol\phi)=L(r(\boldsymbol\phi))$로 쓰면 연쇄�
 
 이다. 즉 새 좌표의 gradient는 기존 gradient를 재매개화 map을 따라 VJP한 결과이다. 같은 loss라도 Euclidean gradient의 성분과 norm은 파라미터 좌표에 따라 달라질 수 있다.
 
+$L$의 gradient는 기존 점 $\boldsymbol\theta=r(\boldsymbol\phi)$에서 평가한다. 새 변화 $\Delta\boldsymbol\phi$에 대한 일차 loss 변화는 $\nabla_{\boldsymbol\theta}L^\top\mathbf J_r\Delta\boldsymbol\phi$다. 이를 $\Delta\boldsymbol\phi$에 작용하는 행으로 읽고 전치하면 위 $q$차원 gradient를 얻는다. 두 파라미터 공간에서 표준 Euclidean 내적을 사용하는 열 표현이며, $r$이 가역이 아니어도 이 연쇄법칙은 성립한다.
+
 ## 핵심 개념 2. 모델 대칭성은 함수를 보존하는 능동 변환이다
 
-파라미터 변환 $T$가 모든 허용 입력 $\mathbf x$에 대해
+가역인 파라미터 변환 $T$가 모든 허용 입력 $\mathbf x$에 대해
 
 \[
 f_{T(\boldsymbol\theta)}(\mathbf x)=f_{\boldsymbol\theta}(\mathbf x)
@@ -100,6 +106,8 @@ f_{\boldsymbol\theta}(\mathbf x)=f_{\boldsymbol\theta'}(\mathbf x)
 \]
 
 로 정의할 수 있다. 해석 대상이 함수라면 개별 파라미터 점보다 이 동치 class가 본질적인 경우가 있다.
+
+함수의 등식이 반사성·대칭성·추이성을 가지므로 이 관계도 동치관계다. 정한 symmetry transformation들을 한 점에 적용해 도달하는 집합은 그 점의 orbit이며, 각 변환이 함수를 보존하므로 같은 함수의 동치류 안에 놓인다. 그러나 함수가 같은 모든 파라미터가 선택한 permutation이나 scaling만으로 연결된다고 보장되지는 않는다. 함수 동치류와 특정 transformation class의 orbit을 구분해야 한다.
 
 ## 핵심 개념 3. 선형 hidden layer에는 basis-change symmetry가 있다
 
@@ -128,23 +136,35 @@ f_{\boldsymbol\theta}(\mathbf x)=f_{\boldsymbol\theta'}(\mathbf x)
 
 이다. hidden coordinate는 $\mathbf h'=\mathbf P\mathbf h$로 바뀌지만 입력-출력 함수는 같다. 선형 hidden representation의 각 coordinate를 독립적인 고정 의미로 해석하기 어려운 이유 중 하나이다.
 
+두 층 사이에서 바뀐 hidden 좌표를 다음 층이 역변환으로 보상하는 구조를 보자.
+
+<figure class="lesson-figure" markdown="1">
+
+![The first linear weight inserts P and the second inserts P inverse so the two compensate and preserve the output](../../figures/assets/M03/M03-15-linear-basis-compensation.svg)
+
+<figcaption>선형층 두 개 사이에서는 P와 P⁻¹가 바로 이웃하므로 소거된다. Hidden 값 Ph는 달라져도 W2가 읽는 최종 값은 같으며, 중간에 비선형함수를 넣은 경우에는 이 소거를 바로 사용할 수 없다.</figcaption>
+
+</figure>
+
 ## 핵심 개념 4. elementwise 비선형층에서는 허용되는 변환이 줄어든다
 
 비선형층
 
 \[
-\mathbf h=\sigma(\mathbf W_1\mathbf x+mathbf b_1),
+\mathbf h=\sigma(\mathbf W_1\mathbf x+\mathbf b_1),
 \qquad
-\mathbf y=\mathbf W_2\mathbf h+mathbf b_2
+\mathbf y=\mathbf W_2\mathbf h+\mathbf b_2
 \]
 
-에 임의의 가역행렬 $\mathbf P$를 넣으려면
+에서 선형층과 같은 처방 $\mathbf W_1'=\mathbf P\mathbf W_1$, $\mathbf b_1'=\mathbf P\mathbf b_1$, $\mathbf W_2'=\mathbf W_2\mathbf P^{-1}$을 모든 파라미터에서 함수 보존 변환으로 사용하려면
 
 \[
 \sigma(\mathbf P\mathbf z)=\mathbf P\sigma(\mathbf z)
 \]
 
 가 모든 $\mathbf z$에서 성립해야 한다. 일반적인 elementwise 비선형함수와 임의의 $\mathbf P$에서는 성립하지 않는다. 선형층에서 가능한 모든 hidden basis change를 비선형 신경망에 그대로 적용할 수 없는 이유이다.
+
+기존 pre-activation을 $\mathbf z=\mathbf W_1\mathbf x+\mathbf b_1$라 쓰면 새 pre-activation은 $\mathbf P\mathbf z$다. 새 출력은 $\mathbf W_2\mathbf P^{-1}\sigma(\mathbf P\mathbf z)+\mathbf b_2$이므로, $\sigma(\mathbf P\mathbf z)=\mathbf P\sigma(\mathbf z)$일 때 두 가운데 행렬을 소거하여 원래 출력을 얻는다. 비선형함수가 사이에 있으면 $\mathbf P^{-1}\mathbf P$를 곧바로 소거할 수 없다는 점이 앞 절과 다르다.
 
 다만 permutation matrix $\mathbf P$는 elementwise 함수와 순서를 바꾸어 적용할 수 있다.
 
@@ -162,6 +182,26 @@ f_{\boldsymbol\theta}(\mathbf x)=f_{\boldsymbol\theta'}(\mathbf x)
 
 는 hidden unit의 순서만 바꾸고 함수를 보존한다.
 
+permutation은 각 성분을 다른 자리로 옮길 뿐 서로 더하지 않는다. 모든 unit에 같은 scalar 함수 $\sigma$를 적용하면 성분을 옮긴 뒤 계산해도 계산한 결과를 옮겨도 같다. 이 변환에서는 hidden bias도 함께 순열하고 출력 bias는 $\mathbf b_2'=\mathbf b_2$로 유지한다.
+
+일반 mixing이 실패하는 반례와 실제로 허용되는 permutation을 나누어 확인하자.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![An invertible shear sends one minus two through ReLU to zero while ReLU first then shear gives one zero](../../figures/assets/M03/M03-15-relu-mixing-failure.svg)
+
+<figcaption>P=[[1,1],[0,1]]는 가역이지만 ReLU(Pz)와 P ReLU(z)가 다르다. 이 한 반례만으로도 임의의 가역행렬이 ReLU와 commute한다는 주장을 부정할 수 있다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Original hidden values one six with readout weights three four become six one with weights four three preserving output twenty seven](../../figures/assets/M03/M03-15-permutation-readout.svg)
+
+<figcaption>예제 1의 두 unit과 그 readout weight를 함께 바꾸면 27이 유지된다. 두 activation의 순서가 바뀌어도 제곱합 1²+6²는 같지만, index가 같은 unit끼리의 값은 달라질 수 있다.</figcaption>
+
+</figure>
+
 ## 핵심 개념 5. ReLU에는 양의 scaling symmetry가 있다
 
 ReLU는 양의 $c$에 대해 positive homogeneous하다.
@@ -170,6 +210,8 @@ ReLU는 양의 $c$에 대해 positive homogeneous하다.
 \operatorname{ReLU}(cz)=c\operatorname{ReLU}(z),
 \qquad c>0.
 \]
+
+$c>0$이면 $z$의 부호가 그대로다. 양수 입력에서는 양쪽이 $cz$이고 0 이하 입력에서는 양쪽이 0이므로 등식이 성립한다. $c=0$에서도 ReLU의 등식 자체는 성립하지만, 그 배율은 역변환할 수 없어서 가역인 scaling symmetry로 사용하지 않는다.
 
 양의 대각행렬 $\mathbf D$를 사용하면
 
@@ -188,17 +230,65 @@ ReLU는 양의 $c$에 대해 positive homogeneous하다.
 
 는 함수를 보존한다. $\mathbf D$의 대각성분이 음수이면 이 등식은 일반적으로 성립하지 않는다. sigmoid나 tanh에도 같은 positive scaling symmetry가 그대로 존재하지 않는다.
 
+대각성분 $d_i>0$는 $\mathbf W_1$의 $i$번째 행과 $b_{1,i}$를 $d_i$배하여 해당 unit의 pre-activation과 ReLU 출력을 같은 배율로 바꾼다. $\mathbf W_2\mathbf D^{-1}$는 그 unit을 읽는 $i$번째 열을 $1/d_i$배한다. 들어오는 배율과 나가는 역배율이 상쇄되므로 모든 입력에서 출력이 같고, hidden activation과 weight 크기는 달라질 수 있다.
+
+예제 2의 scaling을 activation 그래프와 출력 그래프로 나누면 무엇이 변하고 무엇이 보존되는지 분명해진다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Original and fourfold scaled hidden ReLU activation curves differ by a factor of four on the same input domain](../../figures/assets/M03/M03-15-scaled-hidden-activation.svg)
+
+<figcaption>들어오는 weight와 bias를 4배 하면 활성 구간의 hidden 값도 4배다. 같은 모델 함수라는 이유만으로 hidden activation 크기가 같다고 기대할 수는 없다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![Original and compensated scaled ReLU output functions lie exactly on the same curve for all inputs](../../figures/assets/M03/M03-15-same-output-function.svg)
+
+<figcaption>나가는 weight를 3에서 3/4로 줄이면 hidden의 배율 4가 상쇄된다. 두 곡선은 몇 개 sample에서만 만나는 것이 아니라 식의 등식에 따라 모든 허용 입력에서 같다.</figcaption>
+
+</figure>
+
 ## 핵심 개념 6. 대칭성은 식별가능성과 loss geometry에 영향을 준다
 
 서로 다른 파라미터가 같은 함수를 나타내면 함수 관찰만으로 그중 하나를 유일하게 선택할 수 없다. 이 경우 파라미터는 비식별적이다. 두 모델의 neuron 번호나 weight 좌표를 그대로 비교하면 permutation이나 scaling 차이를 기능 차이로 오인할 수 있다.
 
 연속적인 symmetry path $\boldsymbol\theta(t)$가 같은 함수를 보존하면 데이터 loss도 그 path에서 일정하다. 따라서 symmetry tangent 방향의 일차 변화는 0이다. stationary point와 적절한 미분 가능성 조건에서는 이런 방향이 Hessian의 zero-curvature 방향으로 나타날 수 있다. 실제 수치 Hessian에서는 regularization, finite precision, 비미분점과 근사 symmetry 때문에 정확한 0이 아닐 수 있다.
 
+이를 미분식으로 확인하려면 고정한 데이터 loss $L$과 symmetry path가 두 번 연속 미분 가능하다고 하자. $\ell(t)=L(\boldsymbol\theta(t))$가 일정하므로
+
+\[
+0=\ell'(t)=\nabla L(\boldsymbol\theta(t))^\top\boldsymbol\theta'(t)
+\]
+
+이고, 한 번 더 미분하면
+
+\[
+0=\ell''(t)
+=\boldsymbol\theta'(t)^\top\mathbf H_L(\boldsymbol\theta(t))\boldsymbol\theta'(t)
++\nabla L(\boldsymbol\theta(t))^\top\boldsymbol\theta''(t)
+\]
+
+이다. 곡선 경로의 이차 변화에는 Hessian 항뿐 아니라 경로 자체의 굽음이 만드는 항도 있다. stationary point에서는 gradient가 0이어서 둘째 항이 사라지고, 비영 symmetry tangent가 있다면 그 방향의 quadratic 곡률이 0이다. 경로에서 loss가 일정하다는 사실만으로 gradient가 0이 아닌 점의 직선 tangent 곡률까지 0이라고 결론 내릴 수는 없다.
+
+동일한 symmetry 곡선을 직선 tangent로 바꾸면 보존 조건이 달라질 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Exact exponential ReLU scaling parameter curve keeps loss at four point five while the straight tangent line through the same parameters changes the loss](../../figures/assets/M03/M03-15-symmetry-curve-versus-tangent.svg)
+
+<figcaption>예제 2의 파라미터에서 입력 0·target 0의 loss를 L=½f(0)²로 둔 예다. 초록 곡선은 θ(t)=(2eᵗ,eᵗ,3e⁻ᵗ)로 함수와 loss를 보존한다. 주황 경로 θ(0)+t(2,1,-3)는 같은 일차 tangent를 갖지만 정확한 scaling은 아니며, 이 점의 gradient가 0이 아니므로 직선 방향의 이차 곡률도 0일 필요가 없다.</figcaption>
+
+</figure>
+
 ## 핵심 개념 7. 해석 주장은 symmetry 아래에서 무엇이 보존되는지 밝혀야 한다
 
 입력-출력 함수, 예측값과 데이터 loss는 exact symmetry 아래에서 보존된다. 반면 특정 hidden neuron의 index, weight 크기와 coordinate별 activation은 permutation이나 scaling 아래에서 달라질 수 있다. 해석 방법이 후자에 의존한다면 symmetry alignment나 normalization 없이 모델 사이 결과를 직접 비교하기 어렵다.
 
 이는 hidden representation이 무의미하다는 결론이 아니다. 해석 단위를 개별 coordinate로 둘 것인지, subspace·span·pairwise relation·함수 효과처럼 더 안정적인 대상으로 둘 것인지 정해야 한다는 뜻이다. 어떤 대상을 택하든 허용한 transformation class를 먼저 명시해야 한다.
+
+예를 들어 hidden vector의 Euclidean norm은 permutation 아래에서는 제곱합의 순서만 바뀌므로 유지된다. 그러나 양의 대각 scaling은 각 성분의 크기를 다르게 바꾸므로 같은 norm을 일반적으로 보존하지 않는다. 한 transformation class에서 유지되는 관측량이 다른 class에서도 유지된다고 가정하지 않고, 비교하려는 양에 실제 변환을 대입해 확인한다.
 
 ## 예제 1. 선형 hidden basis를 바꾸어도 출력은 같다
 
@@ -304,6 +394,24 @@ $L(\theta)=\theta^2$이고 $\theta=r(\phi)=2\phi$라 하자. $\phi=1$이면 $\th
 \]
 
 같은 loss 값을 표현하지만 gradient 성분은 좌표 scale에 따라 달라진다. gradient 크기를 서로 다른 parameterization 사이에서 그대로 비교하면 안 되는 간단한 예이다.
+
+예제 3의 같은 loss 지점은 두 좌표계에서 다른 접선 기울기를 가진다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Original loss theta squared has value four and tangent gradient four at theta two](../../figures/assets/M03/M03-15-old-coordinate-gradient.svg)
+
+<figcaption>기존 좌표 θ=2에서 loss는 4이고 주황 접선의 기울기는 4다. Gradient는 이 좌표의 한 단위 변화에 대한 변화율이다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![Reparameterized loss four phi squared has the same value four and tangent gradient eight at phi one](../../figures/assets/M03/M03-15-new-coordinate-gradient.svg)
+
+<figcaption>대응하는 새 좌표 φ=1에서는 같은 loss 4를 나타내지만 기울기는 8이다. 새 좌표 한 단위가 기존 좌표 두 단위에 해당하므로 gradient에도 배율 2가 들어온다.</figcaption>
+
+</figure>
 
 ## 흔한 오해
 

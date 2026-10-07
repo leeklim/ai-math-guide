@@ -15,7 +15,7 @@ estimated_time: "120~145분"
 
 ## 이 단원이 필요한 이유
 
-내적, attention score와 이차 근사는 벡터 두 개를 scalar로 보내거나 벡터 하나를 두 번 넣어 scalar를 만드는 식을 사용한다. 행렬식 $\mathbf x^\top\mathbf A\mathbf y$는 bilinear form을, $\mathbf x^\top\mathbf A\mathbf x$는 quadratic form을 좌표로 나타낸다.
+내적, attention score와 이차 근사는 벡터 두 개를 scalar로 보내거나 벡터 하나를 두 번 넣어 scalar를 만드는 식을 사용한다. 행렬곱 표현 $\mathbf x^\top\mathbf A\mathbf y$는 bilinear form을, $\mathbf x^\top\mathbf A\mathbf x$는 quadratic form을 좌표로 나타낸다.
 
 같은 행렬이 선형사상과 bilinear form을 모두 표현할 수 있지만 기저변환 법칙은 다르다. 선형연산자의 행렬은 similarity transformation을 따르고, bilinear form의 행렬은 congruence transformation을 따른다. 행렬의 원소만 보고 대상의 타입을 정하면 이 차이를 놓친다.
 
@@ -60,6 +60,8 @@ B:V\times W\to\mathbb R
 
 가 bilinear라는 말은 한 입력을 고정했을 때 다른 입력에 대한 함수가 선형이라는 뜻이다.
 
+$V\times W$는 첫 입력이 $V$에, 둘째 입력이 $W$에 속하는 순서쌍들의 집합이다. 여기서 $\times$는 두 벡터의 외적 계산을 뜻하지 않는다. 두 입력 공간이 같을 때에도 첫 자리와 둘째 자리는 구분한다.
+
 첫 입력에 대해서는
 
 \[
@@ -87,10 +89,24 @@ B(\mathbf u,\alpha\mathbf v_1+\beta\mathbf v_2)
 \[
 B(\alpha\mathbf u,\alpha\mathbf v)
 =
+\alpha B(\mathbf u,\alpha\mathbf v)
+=
 \alpha^2B(\mathbf u,\mathbf v)
 \]
 
-이다. 따라서 bilinear map은 두 입력을 묶은 하나의 벡터에 대한 선형함수와 다르다.
+이다. 첫 입력의 선형성으로 배율 하나를 꺼내고 둘째 입력에서도 하나를 꺼낸 결과다. 따라서 bilinear map은 일반적으로 두 입력을 묶은 하나의 벡터에 대한 선형함수가 아니다.
+
+한 입력을 고정한 그래프와 두 입력을 함께 늘린 그래프를 나란히 읽으면, 두 종류의 선형성을 구분할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Scalar bilinear map u times v with v fixed at two gives a straight line through the origin](../../figures/assets/M03/M03-08-one-slot-linear.svg)
+  <figcaption>둘째 입력을 2로 고정하면 첫 입력에 대한 출력은 2u다. 한 자리의 입력만 두 배로 바꾸면 출력도 두 배다.</figcaption>
+</figure>
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Scaling both inputs of u times v by the same factor gives a quadratic curve rather than the dashed joint linear prediction](../../figures/assets/M03/M03-08-two-slots-quadratic.svg)
+  <figcaption>두 입력 (1,2)를 함께 a배 하면 출력은 2a²다. 두 입력을 모두 바꾸었으므로 배율이 두 번 곱해진다.</figcaption>
+</figure>
 
 ## 핵심 개념 2. 기저를 고르면 bilinear form은 행렬로 표현된다
 
@@ -125,6 +141,26 @@ shape은
 
 행렬의 $j$번째 열은 $\mathbf y=\mathbf b_j$를 고정했을 때 생기는 covector의 좌표와 연결된다. bilinear form은 한 입력을 고정할 때마다 다른 입력에 작용하는 covector를 만든다.
 
+이 행렬 표현은 두 입력을 기저로 전개해 얻는다. $x_i,y_j$를 각각 $\mathbf x,\mathbf y$의 $\mathcal B$ 계수라 쓰면
+
+\[
+B(\mathbf x,\mathbf y)
+=B\left(\sum_i x_i\mathbf b_i,\sum_j y_j\mathbf b_j\right)
+=\sum_i\sum_j x_i y_jB(\mathbf b_i,\mathbf b_j)
+=\sum_i\sum_j x_iA_{ij}y_j
+\]
+
+이다. 첫 입력을 펼쳐 $i$에 대한 합을 만들고, 각 항에서 둘째 입력을 펼쳐 $j$에 대한 합을 만든다. 마지막 이중 합이 위 행렬곱이다.
+
+특히 $\mathbf y=\mathbf b_j$이면 $B(\mathbf x,\mathbf b_j)=\sum_i x_iA_{ij}$다. 이 covector의 계수 열은 행렬의 $j$번째 열이지만, 입력 좌표에 작용하는 행 표현은 그 열을 전치한 것이다. 한 입력을 고정해서 생긴 covector와 행렬을 선형사상으로 해석해 얻는 출력벡터를 구분해야 한다.
+
+예제 1의 이중 합은 아래에서 각 행과 열의 교차점에 놓인 네 기여를 더하는 계산이다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Four matrix cells show the products of row input coefficient matrix entry and column input coefficient summing to scalar twelve](../../figures/assets/M03/M03-08-weighted-matrix-pairing.svg)
+  <figcaption>A=[[2,4],[−2,3]]의 각 원소가 서로 다른 xᵢ,yⱼ 쌍에 작용한다. 네 기여를 합한 12가 B(x,y)이며, 행렬 자체가 출력은 아니다.</figcaption>
+</figure>
+
 ## 핵심 개념 3. 대칭 bilinear form과 내적은 조건이 다르다
 
 bilinear form이
@@ -141,12 +177,28 @@ B(\mathbf x,\mathbf y)=B(\mathbf y,\mathbf x)
 
 와 같다.
 
+대칭성에서 기저벡터들을 넣으면 $A_{ij}=B(\mathbf b_i,\mathbf b_j)=B(\mathbf b_j,\mathbf b_i)=A_{ji}$를 얻는다. 반대로 행렬이 대칭이면 scalar $\mathbf x^\top\mathbf A\mathbf y$를 전치해 $\mathbf y^\top\mathbf A^\top\mathbf x=\mathbf y^\top\mathbf A\mathbf x$를 얻으므로 두 입력을 바꾼 값이 같다. 여기서 $\mathbf x,\mathbf y$는 선택한 기저의 좌표 열로 읽는다.
+
 실수 벡터공간의 내적은 다음 조건을 만족하는 bilinear form이다.
 
 1. 대칭성: $\langle\mathbf x,\mathbf y\rangle=\langle\mathbf y,\mathbf x\rangle$
 2. 양의 정부호성: $\langle\mathbf x,\mathbf x\rangle>0$ for $\mathbf x\ne\mathbf 0$
 
 bilinear form이라고 해서 내적인 것은 아니다. 대칭이 아니거나, 영벡터가 아닌 입력에서 $B(\mathbf x,\mathbf x)\le0$이 될 수 있다.
+
+양의 준정부호성도 내적을 만들기에는 부족할 수 있다. 예를 들어 $\begin{bmatrix}1&0\\0&0\end{bmatrix}$는 대칭이며 quadratic 값이 $x_1^2\ge0$이지만, 비영벡터 $(0,1)^\top$에서도 값이 0이다. 내적은 비영벡터의 제곱 길이가 0이 되지 않도록 모든 비영 입력에서 양수를 요구한다.
+
+등고선은 같은 quadratic 값을 주는 입력들을 연결한다. 영값을 주는 입력이 원점뿐인지, 한 방향 전체인지 비교하자.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Positive definite quadratic form has closed positive value ellipses around its single zero at the origin](../../figures/assets/M03/M03-08-positive-definite.svg)
+  <figcaption>예제 3의 양의 정부호 행렬에서는 원점을 벗어난 모든 입력의 값이 양수다. 1·4·9의 등고선은 원점을 둘러싸지만 0의 값은 원점에서만 나온다.</figcaption>
+</figure>
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Semidefinite quadratic form x squared is constant along vertical lines and is zero on the whole vertical axis including a nonzero vector](../../figures/assets/M03/M03-08-positive-semidefinite.svg)
+  <figcaption>q(x,y)=x²에서는 y 방향의 변화가 값에 전혀 반영되지 않는다. 따라서 비영벡터 (0,1)도 영값을 주며, 이 식은 내적의 제곱 길이가 될 수 없다.</figcaption>
+</figure>
 
 ## 핵심 개념 4. quadratic form은 같은 벡터를 두 입력에 넣는다
 
@@ -180,7 +232,24 @@ q(\mathbf x+\mathbf y)
 q(\mathbf x)+q(\mathbf y)
 \]
 
-이므로 선형함수가 아니다.
+이 된다. 특히 $q$가 영함수가 아니면 $q(2\mathbf x)=4q(\mathbf x)$와 선형성의 $q(2\mathbf x)=2q(\mathbf x)$가 양립할 수 없으므로 선형함수가 아니다.
+
+덧셈에서 생기는 차이는 두 입력의 선형성으로 펼치면 드러난다.
+
+\[
+q(\mathbf x+\mathbf y)
+=B(\mathbf x+\mathbf y,\mathbf x+\mathbf y)
+=q(\mathbf x)+B(\mathbf x,\mathbf y)+B(\mathbf y,\mathbf x)+q(\mathbf y)
+\]
+
+두 교차항이 합에 더해지므로 $q(\mathbf x)+q(\mathbf y)$와 일반적으로 다르다. 같은 벡터를 두 자리에 넣어 얻은 함수에는 두 자리의 배율이 함께 작용한다.
+
+예제 2의 대칭 부분에서 교차항을 지우면 같은 값의 등고선도 달라진다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Level eighteen ellipse with cross term two x y differs from the dashed level eighteen ellipse omitting that term and point one two lies only on the full form](../../figures/assets/M03/M03-08-cross-term-level-set.svg)
+  <figcaption>초록선은 2x²+2xy+3y²=18, 주황 점선은 2x²+3y²=18이다. 입력 (1,2)에서 교차항은 4를 더하므로 전체 값은 18이지만 교차항을 버린 값은 14다.</figcaption>
+</figure>
 
 ## 핵심 개념 5. quadratic form에는 대칭 부분만 기여한다
 
@@ -237,6 +306,15 @@ q(\mathbf x+\mathbf y)-q(\mathbf x)-q(\mathbf y)
 
 이 식을 polarization identity라고 한다.
 
+앞 절의 덧셈 전개에서 $q(\mathbf x)$와 $q(\mathbf y)$를 빼면 $B(\mathbf x,\mathbf y)+B(\mathbf y,\mathbf x)$가 남는다. 대칭성으로 두 항이 같으므로 2로 나누어 $B(\mathbf x,\mathbf y)$를 얻는다. 대칭성이 없으면 이 계산은 원래 form 전체가 아니라 그 대칭 부분을 복원한다.
+
+같은 벡터를 두 자리에 넣으면 두 교차항은 같은 $x_1x_2$를 공유한다. 예제 2의 skew 부분에서는 계수의 부호가 반대이므로 다음처럼 상쇄된다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Skew symmetric matrix off diagonal terms on input one two contribute positive six and negative six which cancel to zero](../../figures/assets/M03/M03-08-skew-cross-term-cancellation.svg)
+  <figcaption>Skew 부분 [[0,3],[−3,0]]은 영행렬이 아니다. 그러나 같은 입력 (1,2)의 교차항 6과 −6이 상쇄되어 quadratic 값에는 기여하지 않는다.</figcaption>
+</figure>
+
 ## 핵심 개념 6. bilinear form의 행렬은 congruence로 변한다
 
 두 기저 $\mathcal B,\mathcal C$가 있고
@@ -280,6 +358,13 @@ B(\mathbf x,\mathbf y)
 
 와 모양이 다르다. bilinear form은 두 입력 좌표를 모두 바꾸므로 왼쪽에 전치행렬이 붙는다.
 
+아래에서는 두 입력 좌표를 각각 변환한다. 두 자리에서 들어온 $\mathbf P$가 행렬의 양쪽에 남는 것이 congruence다.
+
+<figure class="lesson-figure" markdown="1">
+  ![Both bilinear input coordinate columns pass through P and the matrix changes by P transpose A P while scalar two is preserved](../../figures/assets/M03/M03-08-two-slot-congruence.svg)
+  <figcaption>P=[[1,1],[0,1]]와 A_B=diag(2,1)을 사용한 계산이다. 두 입력을 변환해서 계산하든 A_C=PᵀA_BP를 먼저 만들든 같은 scalar 2가 나온다.</figcaption>
+</figure>
+
 ## 핵심 개념 7. attention score와 곡률에 bilinear 식이 나타난다
 
 열벡터 입력 $\mathbf x,\mathbf y\in\mathbb R^d$에서
@@ -290,7 +375,7 @@ B(\mathbf x,\mathbf y)
 \mathbf k=\mathbf W_K\mathbf y
 \]
 
-라 하면 dot-product score는
+라 하자. 여기서 $\mathbf W_Q,\mathbf W_K\in\mathbb R^{d_k\times d}$는 고정된 선형사상의 행렬이며 bias를 포함하지 않는다. 두 출력 $\mathbf q,\mathbf k\in\mathbb R^{d_k}$의 dot-product score는
 
 \[
 \mathbf q^\top\mathbf k
@@ -302,7 +387,9 @@ B(\mathbf x,\mathbf y)
 
 이다. $\mathbf x$와 $\mathbf y$에 대해 bilinear다. score에 softmax를 적용하고 value를 가중합하는 전체 attention 연산은 bilinear가 아니다.
 
-scalar 함수의 점 $\mathbf x$ 주변 이차 근사에는
+query-key 공간에서는 내적을 계산하지만, 입력공간의 form 행렬은 $\mathbf W_Q^\top\mathbf W_K\in\mathbb R^{d\times d}$다. 서로 다른 query와 key 사상을 쓰면 이 행렬이 대칭이라는 보장은 없다. 입력 두 벡터의 순서를 바꾸는 것은 두 사상에 넣는 벡터를 서로 바꾸는 일이므로 score도 달라질 수 있다.
+
+scalar 함수가 점 $\mathbf x$ 주변에서 두 번 연속 미분 가능할 때 이차 근사에는
 
 \[
 \frac12
@@ -312,6 +399,8 @@ scalar 함수의 점 $\mathbf x$ 주변 이차 근사에는
 \]
 
 가 나타난다. Hessian이 정하는 quadratic form은 작은 변화 방향에 따른 이차 곡률을 나타낸다. Hessian의 정의와 계산은 M03-12에서 다룬다.
+
+이 식에서는 기준점 $\mathbf x$를 고정하고 변화벡터 $\Delta\mathbf x$를 같은 두 자리에 넣는다. Hessian을 그 점의 행렬로 고정한 이차항이 quadratic form이라는 뜻이며, 원래 함수 전체가 quadratic 함수라고 결론 내리는 것은 아니다.
 
 ## 예제 1. bilinear form과 quadratic form 계산
 
@@ -582,6 +671,13 @@ x_1^2+x_2^2+(x_1+x_2)^2
 로 같은 score를 얻는다.
 
 이 계산은 softmax 전 score 하나의 bilinear 구조만 설명한다. attention weight와 최종 출력에는 normalization과 value 가중합이 더 들어간다.
+
+예제 4의 두 투영을 거친 계산과 하나의 bilinear 행렬을 사용한 계산은 같은 score를 준다.
+
+<figure class="lesson-figure" markdown="1">
+  ![Query input one two and key input three minus one are separately projected to one three and two minus one then dotted to score minus one before softmax](../../figures/assets/M03/M03-08-attention-score-pairing.svg)
+  <figcaption>Query와 key의 투영을 각각 거친 뒤 내적을 취한 −1은 xᵀW_QᵀW_Ky와 같다. 그림의 bilinear 경로는 score에서 끝나며 softmax 이후의 attention 전체를 선형으로 만들지는 않는다.</figcaption>
+</figure>
 
 ## 흔한 오해
 

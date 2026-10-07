@@ -72,9 +72,9 @@ T(\ldots,\alpha\mathbf u+\beta\mathbf v,\ldots)
 
 가 성립해야 한다.
 
-$k=1$이면 covector이고 $k=2$이면 bilinear form이다. $k=3$이면 세 입력을 받는 trilinear form이다.
+$k=1$이면 covector이고 $k=2$이면 bilinear map이다. $k=3$이면 세 입력을 받는 trilinear map이다. bilinear form이라는 이름은 M03-08처럼 두 입력이 같은 공간에 속하는 경우에 사용한다.
 
-multilinear map은 모든 입력을 한꺼번에 바꾸는 선형함수가 아니다. 각 입력을 모두 $\alpha$배하면
+$k>1$인 multilinear map은 일반적으로 모든 입력을 묶은 하나의 벡터에 대한 선형함수가 아니다. 각 입력을 모두 $\alpha$배하면
 
 \[
 T(\alpha\mathbf v_1,\ldots,\alpha\mathbf v_k)
@@ -82,7 +82,14 @@ T(\alpha\mathbf v_1,\ldots,\alpha\mathbf v_k)
 \alpha^kT(\mathbf v_1,\ldots,\mathbf v_k)
 \]
 
-이다.
+이다. 배율은 각 입력 자리의 선형성을 적용할 때 하나씩 나오므로, $k$개의 자리를 모두 늘리면 배율 $k$개를 곱한다. 한 자리만 늘릴 때의 선형성과 모든 자리를 동시에 늘릴 때의 배율을 구분해야 한다.
+
+예제 1의 값 72에서 각 자리의 배율을 따로 추적해 보자.
+
+<figure class="lesson-figure" markdown="1">
+  ![Three separate input slots each contribute one factor of two so output seventy two becomes one hundred forty four for one scaled slot and five hundred seventy six for all three](../../figures/assets/M03/M03-09-slot-scaling.svg)
+  <figcaption>한 자리만 두 배로 바꾸면 144지만 세 자리를 모두 두 배로 바꾸면 2³×72=576이다. 입력 세 개를 묶은 하나의 선형함수라면 나올 수 없는 차이다.</figcaption>
+</figure>
 
 ## 핵심 개념 2. tensor는 multilinear 구조와 변환 법칙을 가진다
 
@@ -92,13 +99,15 @@ T(\alpha\mathbf v_1,\ldots,\alpha\mathbf v_k)
 \mathcal T:V^k\to\mathbb R
 \]
 
-인 multilinear map으로 정의할 수 있다. 이 정의에서
+인 multilinear map으로 정의할 수 있다.
+
+$V^k$는 $V$의 벡터 $k$개를 순서대로 받는 $V\times\cdots\times V$라는 뜻이다. 여러 입력을 하나씩 기저로 전개할 수 있다는 구조가 tensor의 성분 계산을 정한다.
 
 - order 0 tensor는 scalar다.
 - covariant order 1 tensor는 covector다.
 - covariant order 2 tensor는 bilinear form이다.
 
-벡터는 contravariant order 1 tensor로 분류한다. 더 일반적인 tensor는 vector 자리와 covector 자리를 함께 가질 수 있다. 이 단원에서는 covariant tensor와 좌표 배열을 중심으로 다룬다.
+벡터는 contravariant order 1 tensor로 분류한다. 벡터 $\mathbf v$를 고정하면 covector $\varphi$에 대해 $\varphi\mapsto\varphi(\mathbf v)$라는 선형 측정을 정의할 수 있다. 이 관점에서 벡터는 covector를 입력받고, 위 covariant tensor는 vector를 입력받는다. 더 일반적인 tensor는 vector와 covector를 받는 입력 자리를 함께 가질 수 있다. 이 단원에서는 covariant tensor와 좌표 배열을 중심으로 다룬다.
 
 tensor 객체는 기저와 무관하다. 기저를 바꾸면 성분 배열이 정해진 법칙에 따라 변하고, tensor를 벡터들에 적용한 scalar는 유지된다.
 
@@ -145,11 +154,15 @@ T_{ij}x^iy^j
 \mathbf x^\top\mathbf T\mathbf y
 \]
 
-가 되어 bilinear form의 행렬식을 얻는다.
+가 되어 bilinear form의 행렬 표현을 얻는다.
+
+일반 평가식의 $v_r^{i_r}$는 $r$번째 입력벡터의 $i_r$번째 기저 계수다. 윗첨자는 거듭제곱이 아니다. 첫 입력을 선형결합으로 펼치면 $i_1$에 대한 합이 생기고, 각 항에서 둘째 입력을 펼치면 $i_2$에 대한 합이 생긴다. 이 과정을 입력 자리마다 반복하면 기저벡터를 한 개씩 고른 모든 조합을 합하게 된다. 각 조합에는 그 tensor 성분과 선택된 입력 계수 $k$개의 곱이 붙는다.
+
+모든 입력 공간이 같은 $n$차원 $V$이면 성분 배열의 shape은 $n\times\cdots\times n$이고 성분 수는 $n^k$다. 입력 공간이 서로 다른 경우에는 각 공간의 기저 크기가 각 인덱스 범위를 정한다. 따라서 shape $2\times3\times4$는 차원이 각각 2, 3, 4인 세 입력 공간의 multilinear map을 기록할 수 있다.
 
 ## 핵심 개념 4. 각 tensor 인덱스는 기저변환에 참여한다
 
-covector 성분은 vector 좌표의 역변환을 따른다. covariant tensor는 covector 자리를 여러 개 가지므로 각 인덱스가 그 변환을 하나씩 받는다.
+covector 성분은 vector 좌표의 역변환을 따른다. covariant tensor는 vector 입력 자리를 여러 개 가지며, 한 자리를 제외한 입력을 고정하면 그 자리에 작용하는 covector가 된다. 각 인덱스는 그 자리에 대응하는 covector 성분의 변환을 하나씩 받는다.
 
 order 2 bilinear form에서는 M03-08의
 
@@ -163,7 +176,24 @@ order 2 bilinear form에서는 M03-08의
 
 가 그 법칙이다. order 3 tensor는 세 입력 좌표를 바꾸므로 세 개의 변환 인자가 성분에 작용한다.
 
+이를 기저벡터에 직접 적용해 확인할 수 있다. $\mathbf P=\mathbf P_{\mathcal B\leftarrow\mathcal C}$라 쓰면 새 기저의 $a$번째 벡터는 $\mathbf c_a=\sum_iP_{ia}\mathbf b_i$다. order 3에서는 새 기저벡터 세 개를 넣고 각 입력의 선형성을 적용하여
+
+\[
+(\mathbf T_{\mathcal C})_{abc}
+=\sum_i\sum_j\sum_k
+P_{ia}P_{jb}P_{kc}(\mathbf T_{\mathcal B})_{ijk}
+\]
+
+를 얻는다. $\mathbf T_{\mathcal B}$와 $\mathbf T_{\mathcal C}$는 각 기저에서의 성분 배열이다. 한 입력을 옛 기저로 펼칠 때마다 $\mathbf P$의 성분 하나가 붙어 세 인자가 생긴다. 이 $\mathbf P$는 새 좌표에서 옛 좌표로 가는 행렬이므로, vector 좌표의 옛→새 변환 $\mathbf P^{-1}$과 covector 성분의 역방향 변환이 일치한다.
+
 배열이 tensor 성분을 나타내려면 기저가 바뀔 때 이 변환 법칙을 따라야 한다. 저장된 숫자 배열 하나만으로는 어떤 인덱스가 vector형인지 covector형인지 알 수 없다. 축의 수학적 의미를 함께 정의해야 한다.
+
+각 인덱스는 한 입력 자리의 기저와 연결되어 있다. 따라서 어느 한 축에만 변환을 적용하면 일반적으로 같은 tensor의 새 성분이 되지 않는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Each of three old component indices passes through its own basis change factor before the weighted sum yields one new component](../../figures/assets/M03/M03-09-three-index-basis-change.svg)
+  <figcaption>Order-3 covariant tensor에서는 세 입력을 모두 새 기저로 전개한다. 새 성분 하나를 얻을 때도 기존의 i,j,k를 모두 합하며, 각 자리에서 기저변환 계수가 하나씩 들어온다.</figcaption>
+</figure>
 
 ## 핵심 개념 5. tensor product는 입력 자리를 결합한다
 
@@ -183,6 +213,8 @@ order 2 bilinear form에서는 M03-08의
 
 로 정의한다. 각 입력에 대해 선형이므로 order-2 tensor다.
 
+첫 입력을 바꿀 때 $\beta(\mathbf y)$는 고정된 scalar이므로 $\alpha$의 선형성으로 첫 자리의 선형성을 얻는다. 둘째 자리에서도 $\alpha(\mathbf x)$를 고정하고 $\beta$의 선형성을 사용한다. 출력 두 개를 곱했지만 각각의 입력 자리에 대해서는 선형성이 유지되는 이유다.
+
 $\dim V=m$, $\dim W=n$이고 각 공간에 기저를 골랐다고 하자. $\alpha,\beta$의 좌표 열을 각각 $\mathbf a,\mathbf b$라 하면 성분 행렬은
 
 \[
@@ -199,7 +231,16 @@ $\dim V=m$, $\dim W=n$이고 각 공간에 기저를 골랐다고 하자. $\alph
 
 이다.
 
-여러 tensor의 합은 일반적인 order-2 tensor를 만든다. 한 outer product로 표현된다는 조건은 order가 2라는 조건과 다르다.
+성분이 $a_i b_j$인 이유는 $\alpha(\mathbf x)\beta(\mathbf y)=(\sum_i a_i x^i)(\sum_j b_j y^j)=\sum_i\sum_j a_i b_jx^iy^j$이기 때문이다. 한 outer product의 각 열은 $\mathbf a$의 scalar 배다. $\mathbf a,\mathbf b$가 둘 다 비영벡터이면 행렬 rank가 1이며, 하나가 영벡터이면 영행렬이다.
+
+같은 입력 공간의 outer product들을 더하면 일반적인 order-2 tensor를 표현할 수 있다. 계수 열의 표준단위벡터 $\mathbf e_i,\mathbf e_j$로 만든 $\mathbf e_i\mathbf e_j^\top$는 $(i,j)$ 성분만 1이다. 각 성분값을 이 행렬에 곱해 더하면 어떤 성분 행렬도 복원된다. 따라서 한 outer product로 표현된다는 조건은 order가 2라는 조건보다 강하다.
+
+Outer product에서는 각 행 계수와 열 계수의 조합이 한 성분을 만든다. 예제 2의 행렬에서 이 관계와 rank를 함께 읽을 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+  ![Outer product of column one two and row three minus one has its second row twice its first despite tensor order two](../../figures/assets/M03/M03-09-outer-product-grid.svg)
+  <figcaption>두 입력 자리를 결합했으므로 order는 2다. 그러나 둘째 행이 첫째 행의 두 배여서 행렬 rank는 1이다. Order와 matrix rank가 서로 다른 정보를 준다는 예다.</figcaption>
+</figure>
 
 ## 핵심 개념 6. contraction은 입력을 넣고 인덱스를 합한다
 
@@ -212,6 +253,8 @@ S_{ij}
 \]
 
 를 얻는다. 결과는 두 입력이 남은 order-2 tensor다. 이 연산은 셋째 인덱스에 대한 contraction이다.
+
+고정된 $\mathbf z$에 대해 $S(\mathbf x,\mathbf y)=\mathcal T(\mathbf x,\mathbf y,\mathbf z)$라고 쓰면, 원래 tensor의 첫째·둘째 자리 선형성이 남으므로 $S$가 bilinear임을 알 수 있다. 그 성분을 구하려고 두 자리에 기저벡터를 넣고 $\mathbf z$만 펼친 결과가 위 $S_{ij}$ 식이다. $\mathbf z$는 셋째 입력 공간의 벡터여야 하며, 그 공간의 기저 계수와 $T$의 셋째 인덱스를 짝지어 합한다.
 
 모든 입력을 넣으면
 
@@ -231,6 +274,13 @@ y_i=\sum_jA_{ij}x_j
 \]
 
 도 공유 인덱스 $j$를 합하는 contraction으로 읽을 수 있다. 구현에서는 einsum 같은 표기가 어떤 축을 합하고 어떤 축을 남기는지 명시한다.
+
+예제 3에서 세 번째 입력을 넣는 과정은 두 $k$ slice의 가중 합이다. 그 후에도 첫째·둘째 입력 자리는 남아 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Third index slices with entries one and two weighted by four and five produce a remaining matrix with entries four and ten](../../figures/assets/M03/M03-09-component-contraction.svg)
+  <figcaption>w₁=4,w₂=5를 고정하면 k=1 slice를 4배, k=2 slice를 5배 하여 더한다. k는 사라지고 i,j가 남아 행렬 [[4,0],[10,0]]을 이룬다.</figcaption>
+</figure>
 
 ## 핵심 개념 7. order, shape와 rank는 다른 정보다
 
@@ -264,7 +314,16 @@ y_i=\sum_jA_{ij}x_j
 
 세 축만으로 이 배열을 수학적 의미의 covariant order-3 tensor라고 결론 내릴 수 없다. batch와 token 축은 표본을 나열하는 인덱스일 수 있고, feature 축만 기저변환의 대상일 수 있다.
 
+예를 들어 batch와 token을 고정하여 얻은 feature 좌표를 열벡터 $\mathbf h_{bt}\in\mathbb R^{d_{\mathrm{model}}}$라 쓰자. 옛 feature 좌표를 새 좌표에서 조립하는 기저행렬이 $\mathbf P$이면, 같은 표현벡터의 새 좌표는 $\widetilde{\mathbf h}_{bt}=\mathbf P^{-1}\mathbf h_{bt}$다. 이 계산은 각 $(b,t)$에 같은 feature 좌표변환을 적용한다. batch와 token의 목록 자체를 기저변환한 것이 아니므로 세 축에 모두 covariant 변환 인자를 붙이는 계산과 다르다.
+
 배열 연산을 읽을 때는 shape과 축 의미를 먼저 확인한다. 좌표 독립적인 주장을 하려면 어떤 축에 어떤 기저변환이 작용하는지도 밝혀야 한다.
+
+아래 배열에서는 batch와 token을 고르면 하나의 feature 벡터가 선택된다. Feature 기저변환은 그 벡터의 좌표에 작용하며 batch나 token 자체를 기저벡터로 바꾸는 연산이 아니다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Two batch panels each contain three token rows and four feature columns distinguishing selection axes from feature coordinates](../../figures/assets/M03/M03-09-ml-array-axes.svg)
+  <figcaption>같은 2×3×4 shape라도 축의 역할은 다르다. 그림의 hᵢⱼ는 각 batch 안에서 token i의 feature 좌표 j를 나타내는 표기이며, 실제 모델 측정값은 아니다.</figcaption>
+</figure>
 
 ## 예제 1. order-3 tensor 평가하기
 
@@ -507,6 +566,18 @@ O_{tj}
 \]
 
 를 얻는다. 두 식에서 합을 취한 축과 결과에 남은 축을 구분하면 행렬곱의 shape을 확인할 수 있다.
+
+두 contraction에서는 합하는 축이 다르다. 아래 작은 수치 배열은 그 차이를 표시하기 위한 예시다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Query and key feature coordinates are summed for each token pair to form a two by two score matrix](../../figures/assets/M03/M03-09-attention-score-contraction.svg)
+  <figcaption>Score를 만들 때에는 같은 feature 인덱스 i를 곱해 더한다. 출력에 남는 t,s는 각각 query token과 key token이므로 결과는 token–token 행렬이다.</figcaption>
+</figure>
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Each output row is a weighted sum of two value rows with the source token index summed out](../../figures/assets/M03/M03-09-attention-value-contraction.svg)
+  <figcaption>Value를 합칠 때에는 source token 인덱스 s를 합한다. 첫 출력의 둘째 feature는 0.75×0+0.25×2=0.5이며, 출력에는 query token t와 feature j가 남는다.</figcaption>
+</figure>
 
 ## 흔한 오해
 

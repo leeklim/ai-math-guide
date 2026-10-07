@@ -98,6 +98,16 @@ f(\mathbf x+t\mathbf v)
 
 이다. JVP는 입력 tangent $\mathbf v$를 출력 tangent로 밀어 보낸다.
 
+예제 1의 Jacobian은 입력 방향의 두 계수를 출력 변화의 세 계수로 보낸다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Two component input tangent three minus one maps through a three by two Jacobian to output tangent five five four](../../figures/assets/M03/M03-13-jvp-direction-map.svg)
+
+<figcaption>입력 방향과 출력 방향은 서로 다른 공간에 속하고 성분 수도 다르다. Jv=(5,5,4)ᵀ는 지정한 입력점에서의 출력 변화율이다.</figcaption>
+
+</figure>
+
 ## 핵심 개념 2. VJP는 출력 covector를 입력 쪽으로 당긴다
 
 출력 변화 $\Delta\mathbf y\in\mathbb R^m$를 scalar로 측정하는 covector를
@@ -137,6 +147,20 @@ f(\mathbf x+t\mathbf v)
 
 VJP는 출력공간의 covector를 입력공간의 covector로 pullback한다. Euclidean 좌표에서 covector 계수를 열로 저장하므로 vector처럼 보이지만 변환 역할은 covector다.
 
+출력 측정 $\mathbf u$를 고정하면 입력의 $j$번째 좌표에 붙는 계수는 $\sum_{i=1}^m u_iJ_{ij}$다. 입력 좌표 하나가 각 출력에 만드는 변화율 $J_{ij}$를 출력 측정의 계수 $u_i$로 가중해서 모은 것이다. 이 계수들을 열로 쌓으면 $\mathbf J_f^\top\mathbf u$가 된다. $\mathbf u$를 실제 출력 변위로 움직이는 계산과는 다르다.
+
+같은 관계를 함수 합성으로도 읽을 수 있다. 고정된 선형 측정 $s(\mathbf y)=\mathbf u^\top\mathbf y$를 $f$ 뒤에 붙이면 $s\circ f$는 scalar 함수이고, 그 differential은 $d(s\circ f)_{\mathbf x}(\mathbf v)=\mathbf u^\top\mathbf J_f(\mathbf x)\mathbf v$다. 따라서 이 scalar 함수의 표준 Euclidean gradient가 VJP의 열 표현과 같다. pullback은 측정을 합성한다는 뜻이며 $f$의 역함수를 구한다는 뜻이 아니다.
+
+VJP에서는 방향벡터 대신 출력 변화를 읽는 측정 규칙을 입력 쪽으로 옮긴다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Three component output measurement one minus two three pulls back through the transpose Jacobian to input measurement one minus four](../../figures/assets/M03/M03-13-vjp-measurement-map.svg)
+
+<figcaption>출력 측정 u의 세 계수는 각 출력 변화에 붙는 가중치다. VJP가 만든 (1,−4)ᵀ는 입력 변화에 적용할 측정의 계수이며 원래 입력값을 복원한 것이 아니다.</figcaption>
+
+</figure>
+
 ## 핵심 개념 3. adjoint identity는 두 곱을 같은 scalar로 연결한다
 
 JVP와 VJP는
@@ -155,9 +179,21 @@ JVP와 VJP는
 
 를 만족한다.
 
+전치 규칙으로 $(\mathbf J_f^\top\mathbf u)^\top=\mathbf u^\top\mathbf J_f$이고, 행렬곱의 결합법칙으로 두 곱을 묶는 위치만 바꿀 수 있다. 이 두 규칙이 위 등식을 도출한다. Jacobian이 정사각이거나 가역일 필요는 없다.
+
 왼쪽은 입력 방향을 출력으로 보낸 뒤 $\mathbf u$로 측정한다. 오른쪽은 $\mathbf u$를 입력 쪽으로 당긴 뒤 $\mathbf v$에 적용한다. 두 경로는 같은 scalar를 만든다.
 
 이 식은 손계산이나 구현 결과를 점검하는 데 사용할 수 있다. 두 값이 다르면 transpose, 축 또는 행렬곱 순서를 잘못 잡았을 가능성이 있다.
+
+예제 1의 두 계산을 같은 그림에서 비교하면 어느 공간에서 측정하든 scalar가 7로 일치한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Input tangent pushes forward on the top route and output measurement pulls back on the middle route with both final pairings equal to seven](../../figures/assets/M03/M03-13-adjoint-two-routes.svg)
+
+<figcaption>오른쪽은 출력 변화 (5,5,4)를 u로 읽고, 왼쪽은 입력 변화 (3,−1)를 당겨온 측정 (1,−4)로 읽는다. Covector를 옮겨도 같은 scalar를 읽게 만드는 관계가 adjoint identity다.</figcaption>
+
+</figure>
 
 ## 핵심 개념 4. 합성함수의 JVP는 forward 순서로 흐른다
 
@@ -193,6 +229,8 @@ g:\mathbb R^m\to\mathbb R^p
 
 각 연산은 현재 값과 tangent를 함께 다음 node로 보낸다. 이 구조가 forward-mode 자동미분이다.
 
+먼저 $f(\mathbf x)$를 실제로 계산해야 $g$의 Jacobian을 어느 점에서 평가할지 정할 수 있다. tangent $\mathbf J_f(\mathbf x)\mathbf v$는 그 중간값 주변의 변화율이지 중간값 자체가 아니다. 따라서 forward mode는 함수값을 계산하는 경로와 그 값에서 평가한 미분을 전달하는 경로를 함께 유지한다. tangent의 공간은 $\mathbb R^n\to\mathbb R^m\to\mathbb R^p$ 순서로 바뀐다.
+
 ## 핵심 개념 5. 합성함수의 VJP는 reverse 순서로 흐른다
 
 출력 cotangent $\mathbf u\in\mathbb R^p$에서 시작하면
@@ -222,6 +260,8 @@ g:\mathbb R^m\to\mathbb R^p
 
 forward pass에서 $f$ 다음 $g$를 적용했다면 reverse pass에서는 $g$의 local VJP 다음 $f$의 local VJP를 적용한다.
 
+합성 Jacobian의 곱을 전치하면 $(\mathbf J_g\mathbf J_f)^\top=\mathbf J_f^\top\mathbf J_g^\top$로 순서가 뒤집힌다. 열 seed에는 오른쪽 행렬부터 적용하므로 먼저 $g$의 측정을 $f$의 출력공간으로 당기고, 그다음 $f$를 통해 원래 입력공간으로 당긴다. cotangent의 공간은 $\mathbb R^p\to\mathbb R^m\to\mathbb R^n$ 순서다. 원래 입력값을 복원하는 계산이 아니므로 각 함수가 가역일 필요는 없다.
+
 ## 핵심 개념 6. scalar 출력의 gradient는 VJP 하나로 얻는다
 
 $f:\mathbb R^n\to\mathbb R$이면 Jacobian shape은 $1\times n$이다. 출력공간의 seed를 scalar 1로 두면
@@ -234,6 +274,8 @@ $f:\mathbb R^n\to\mathbb R$이면 Jacobian shape은 $1\times n$이다. 출력공
 \]
 
 이다.
+
+seed 1은 scalar 출력의 변화량을 그대로 읽는 측정이다. Jacobian의 행 계수들을 1배하여 열로 세우므로 모든 입력좌표의 미분 계수를 함께 얻는다. seed를 다른 scalar $a$로 두면 $a\nabla f(\mathbf x)$를 얻어 출력 변화의 $a$배를 측정하게 된다. 이 등식에서 gradient는 표준 Euclidean 내적의 표현이며, VJP 자체의 역할은 입력 differential을 계산하는 것이다.
 
 파라미터가 많고 loss가 하나인 학습에서는 VJP 한 번이 모든 파라미터에 대한 gradient를 만든다. reverse mode가 신경망 학습에 맞는 이유다.
 
@@ -256,6 +298,8 @@ Jacobian 전체를 얻으려면 표준기저 방향의 JVP를 $n$번 계산하�
 는 Jacobian의 $i$번째 행을 열로 세운 값이다.
 
 한 방향이나 한 scalar loss의 gradient만 필요하면 전체 행렬을 구성할 필요가 없다. 자동미분 시스템은 계산 그래프의 local derivative를 사용해 원하는 곱을 계산한다.
+
+$\mathbf J_f\mathbf v$라는 표기는 결과의 정의이지 먼저 $\mathbf J_f$를 배열로 저장하라는 지시가 아니다. 합성에서 각 local JVP에 현재 tangent를 넣으면 전체 Jacobian 대신 최종 $m$개 성분의 곱을 얻고, local VJP에서는 선택한 측정의 $n$개 입력 계수를 얻는다. 전체 Jacobian의 $mn$개 원소를 따로 수집하는 계산과 원하는 곱 하나를 구하는 계산을 구분한다. reverse pass에 필요한 중간값 저장은 별도로 남으며 M03-14에서 다룬다.
 
 ## 예제 1. 같은 Jacobian에서 JVP와 VJP 계산하기
 
@@ -442,6 +486,24 @@ reverse에서는 출력 seed 1에서 시작한다.
 
 으로 forward directional derivative와 같다.
 
+예제 2의 forward와 reverse 전달은 같은 local Jacobian을 서로 다른 순서와 타입으로 사용한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Input tangent two minus one moves first through inner Jacobian to zero minus three then through outer Jacobian to scalar three](../../figures/assets/M03/M03-13-forward-chain.svg)
+
+<figcaption>Forward 경로는 한 입력 방향을 중간 방향과 최종 방향으로 전달한다. 중간 tangent가 (0,−3)이라는 것은 중간 함수값이 그 vector라는 뜻이 아니다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![Scalar output seed one pulls back first to middle covector four minus one and then to input gradient four five](../../figures/assets/M03/M03-13-reverse-chain.svg)
+
+<figcaption>Reverse 경로는 scalar 출력 seed 1에서 시작해 두 입력 좌표의 gradient를 함께 얻는다. 이 gradient를 원래 방향 (2,−1)로 읽으면 forward 결과와 같은 3이다.</figcaption>
+
+</figure>
+
 ## 예제 3. 선형 readout의 VJP
 
 activation $\mathbf h\in\mathbb R^d$에서
@@ -491,6 +553,16 @@ g(\mathbf x)=\nabla f(\mathbf x)
 \]
 
 이다. HVP는 gradient 함수에 대한 JVP로 계산할 수 있다.
+
+전체 Jacobian을 다시 모으려면 한쪽의 표준기저 seed들을 모두 사용한다. 곱 하나만 필요한 계산과 이 재구성 계산을 구분하자.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two input basis seeds select three component Jacobian columns while three output basis seeds select two component Jacobian rows](../../figures/assets/M03/M03-13-jacobian-basis-seeds.svg)
+
+<figcaption>이 3×2 예에서는 입력 basis seed 2개로 두 열을, 출력 basis seed 3개로 세 행을 모을 수 있다. 한 tangent 또는 한 출력 측정의 곱만 필요하면 모든 성분을 수집하는 이 절차를 거칠 필요가 없다.</figcaption>
+
+</figure>
 
 ## 흔한 오해
 

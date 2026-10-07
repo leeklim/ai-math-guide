@@ -74,6 +74,8 @@ T(\mathbf u+\mathbf v)=T(\mathbf u)+T(\mathbf v)
 T(\alpha\mathbf v)=\alpha T(\mathbf v)
 \]
 
+첫 조건은 입력을 먼저 더한 뒤 $T$를 적용해도, 각각에 $T$를 적용한 뒤 출력을 더해도 결과가 같다는 뜻이다. 둘째 조건도 입력에 scalar를 먼저 곱할지, 출력에 곱할지의 순서를 바꾸어도 같다는 뜻이다. 선형결합 식에서 $\alpha=\beta=1$로 놓으면 첫 조건을 얻고, $\beta=0$으로 놓으면 둘째 조건을 얻는다. 반대로 두 조건이 성립하면 $T(\alpha\mathbf u+\beta\mathbf v)=T(\alpha\mathbf u)+T(\beta\mathbf v)=\alpha T(\mathbf u)+\beta T(\mathbf v)$이므로 선형결합 식이 성립한다. 두 정의는 같은 조건을 나타낸다.
+
 선형사상은 반드시 영벡터를 영벡터로 보낸다. 실제로
 
 \[
@@ -87,6 +89,15 @@ T(0\mathbf v)
 \]
 
 이다. 따라서 $T(\mathbf 0_V)\ne\mathbf 0_W$이면 다른 계산 없이도 선형이 아니라고 판정할 수 있다.
+
+다만 영벡터를 영벡터로 보낸다는 조건 하나만으로 선형성이 보장되지는 않는다. $F(x)=x^2$는 $F(0)=0$이지만 $F(2\cdot1)=4\ne2F(1)$이므로 스칼라곱을 보존하지 않는다. 영벡터 조건은 선형성을 부정하는 데 쓸 수 있는 필요조건이지 충분조건은 아니다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Graph of x squared comparing the actual output F two equals four with the scaling requirement two times F one equals two](../../figures/assets/M03/M03-02-zero-is-not-linearity.svg)
+  <figcaption>곡선이 원점을 지나도 선형은 아닐 수 있다. 입력 1을 두 배로 한 실제 출력은 4지만, 출력 1을 두 배로 하면 2이므로 두 경로가 일치하지 않는다.</figcaption>
+</figure>
+
+그래프의 주황색 사각형은 실제 함수값이 아니라 선형이라면 도달해야 할 값이다.
 
 ## 핵심 개념 2. 선형사상은 기저벡터의 출력으로 결정된다
 
@@ -124,6 +135,8 @@ v_1T(\mathbf b_1)+\cdots+v_nT(\mathbf b_n)
 
 이다. 이 행렬의 $j$번째 열은 정의역의 $j$번째 기저벡터가 어디로 가는지를 공역 좌표로 기록한다.
 
+여기서 입력 기저벡터들이 독립이라는 사실과 그 출력들이 독립이라는 주장은 다르다. 서로 다른 기저벡터가 같은 출력으로 가거나 영벡터로 갈 수 있다. 입력의 표현은 유일하므로 출력끼리 중복되어도 $T(\mathbf v)$를 정하는 데 모호함은 없다. 다만 그때는 출력만으로 입력을 유일하게 복원하지 못할 수 있다.
+
 ## 핵심 개념 3. 행렬은 좌표 사이의 계산을 수행한다
 
 $\mathbf v\in V$에 대해
@@ -148,6 +161,22 @@ shape을 확인하면
 
 이다. 왼쪽은 추상 출력 $T(\mathbf v)$가 아니라 그 출력의 $\mathcal C$ 좌표다. 오른쪽 행렬도 $T$ 자체가 아니라 두 기저를 선택해 얻은 숫자 표현이다.
 
+이 좌표식은 앞 절의 선형결합에서 나온다. $\mathbf v=\sum_j v_j\mathbf b_j$이면 $T(\mathbf v)=\sum_j v_jT(\mathbf b_j)$이고, M03-01에서 확인했듯 같은 기저에서 좌표 기록은 선형결합을 보존한다. 따라서
+
+\[
+[T(\mathbf v)]_{\mathcal C}
+=\sum_{j=1}^n v_j[T(\mathbf b_j)]_{\mathcal C}
+\]
+
+이다. 오른쪽은 행렬의 $j$번째 열에 입력 좌표 $v_j$를 곱해 더하는 계산, 즉 행렬과 열벡터의 곱이다. 각 열에는 출력 기저의 계수 $m$개가 있고 입력 기저벡터는 $n$개이므로 행렬의 크기가 $m\times n$이다. 행렬을 만든다는 것은 추상 출력을 그대로 배열에 넣는 것이 아니라 그 출력의 계수 열을 넣는 것이다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Commuting square from a polynomial to its derivative and from three input coefficients to two output coefficients through the derivative matrix](../../figures/assets/M03/M03-02-map-coordinate-square.svg)
+  <figcaption>예제 1의 다항식을 위쪽에서는 직접 미분하고, 아래쪽에서는 계수 열에 행렬을 곱한다. 도착한 두 출력은 같은 도함수와 그 좌표이지만, 다항식 자체와 숫자 열은 구분해야 한다.</figcaption>
+</figure>
+
+세 입력 계수가 두 출력 계수로 바뀌므로 이 행렬은 $2\times3$이다. 아래 경로의 행렬은 다음 예제에서 각 기저의 미분 결과로 구성한다.
+
 ## 핵심 개념 4. 합성은 행렬곱으로 표현된다
 
 \[
@@ -167,7 +196,32 @@ S:W\to U
 
 이다.
 
-오른쪽 행렬이 먼저 $\mathcal B$ 좌표의 입력을 $\mathcal C$ 좌표로 바꾸고, 왼쪽 행렬이 그 결과를 $\mathcal D$ 좌표로 바꾼다. 중간 좌표계 $\mathcal C$가 맞아야 행렬곱이 정의된다.
+오른쪽 행렬이 먼저 $\mathcal B$ 좌표의 입력으로부터 $T(\mathbf v)$의 $\mathcal C$ 좌표를 계산하고, 왼쪽 행렬이 그 출력으로부터 $S(T(\mathbf v))$의 $\mathcal D$ 좌표를 계산한다. 같은 벡터의 좌표만 바꾸는 것이 아니라 두 사상을 차례로 적용하는 계산이다.
+
+실제로
+
+\[
+[S(T(\mathbf v))]_{\mathcal D}
+=[S]_{\mathcal D\leftarrow\mathcal C}[T(\mathbf v)]_{\mathcal C}
+=[S]_{\mathcal D\leftarrow\mathcal C}
+[T]_{\mathcal C\leftarrow\mathcal B}[\mathbf v]_{\mathcal B}
+\]
+
+이다. 따라서 합성을 나타내는 행렬에는 먼저 적용하는 $T$의 행렬이 오른쪽에 놓인다.
+
+행렬곱의 크기가 맞는 것과 중간 기저가 맞는 것은 구분해야 한다. 한 행렬이 $W$의 어떤 기저로 출력한 숫자를 다음 행렬이 다른 기저의 좌표로 해석하면, 크기가 같아 행렬곱을 계산할 수는 있어도 위 합성을 나타내지는 않는다. 중간 출력 기저와 다음 입력 기저를 같은 순서로 맞추거나, 그 사이에 좌표변환을 넣어야 한다.
+
+<figure class="lesson-figure" markdown="1">
+  ![Vertical composition path showing input basis B through T into middle basis C and then through S into output basis D with rightmost matrix acting first](../../figures/assets/M03/M03-02-composition-order.svg)
+  <figcaption>계산 경로에서는 T를 거친 중간 좌표가 S의 입력이 된다. 식에 두 행렬을 나란히 적으면 입력 열벡터에 가까운 오른쪽 행렬이 먼저 작용한다.</figcaption>
+</figure>
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Two interpretations of the same middle coordinate array in bases one t and t one producing different polynomials and derivatives](../../figures/assets/M03/M03-02-middle-basis-mismatch.svg)
+  <figcaption>같은 숫자 열 (−3,8)ᵀ을 (1,t)의 좌표로 읽으면 −3+8t이고, (t,1)의 좌표로 읽으면 −3t+8이다. 그 다음에 미분해도 각각 8과 −3으로 달라진다. 크기가 맞아도 중간 기저를 확인해야 하는 이유다.</figcaption>
+</figure>
+
+두 번째 경로에 같은 다항식을 넘기려면 숫자를 그대로 넘기지 않고 기저 순서에 맞춰 $(8,-3)^\top$으로 바꿔야 한다.
 
 ## 핵심 개념 5. kernel과 image는 사상의 구조다
 
@@ -187,7 +241,31 @@ S:W\to U
 
 이다. 기저를 고르면 이들은 행렬의 null space와 column space 좌표로 계산할 수 있다.
 
+행렬 표현을 $\mathbf A=[T]_{\mathcal C\leftarrow\mathcal B}$라 쓰자. 벡터가 영벡터일 때에만 모든 기저 계수가 0이므로, 좌표식에서
+
+\[
+\mathbf v\in\ker T
+\quad\Longleftrightarrow\quad
+\mathbf A[\mathbf v]_{\mathcal B}=\mathbf 0
+\]
+
+를 얻는다. 행렬의 null space에 속한 열벡터는 원래 kernel 벡터 자체가 아니라 그 벡터의 $\mathcal B$ 좌표다. 그 계수로 기저벡터를 조립하면 $\ker T$의 원소를 얻는다.
+
+마찬가지로 입력 좌표 $\mathbf x\in\mathbb R^n$가 모든 열벡터를 지날 때 $\mathbf A\mathbf x$는 column space 전체를 지난다. 따라서 column space의 열벡터는 $\operatorname{im}T$의 원소를 $\mathcal C$ 기저로 기록한 좌표다. 각 공간에서 좌표를 읽고 다시 조립하는 과정은 일대일로 대응하고 선형결합을 보존한다. 그러므로 생성과 선형독립도 유지되어, kernel과 image의 차원을 각각 행렬의 nullity와 rank로 계산할 수 있다.
+
 기저가 바뀌면 kernel 벡터의 좌표와 image 벡터의 좌표는 달라진다. 그러나 어떤 추상 벡터가 kernel에 속하는지, image의 차원이 얼마인지는 사상 자체의 성질이다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Three input polynomials differing only by constants plotted as vertical shifts](../../figures/assets/M03/M03-02-kernel-lost-constants.svg)
+  <figcaption>예제 1의 p(t)와 여기에 상수 2를 더하거나 뺀 다항식은 서로 다른 입력이다. 곡선의 수직 이동은 미분으로 사라지는 상수 방향의 차이를 보여 준다.</figcaption>
+</figure>
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![One derivative curve shared by all three vertically shifted input polynomials](../../figures/assets/M03/M03-02-kernel-shared-output.svg)
+  <figcaption>세 입력의 도함수는 모두 −3+8t로 겹친다. 입력의 차이가 kernel에 있으면 같은 출력이 나올 수 있으므로, 이 출력만으로 원래 상수항을 복원할 수 없다.</figcaption>
+</figure>
+
+위 두 그림은 서로 다른 입력과 같은 출력을 나누어 보여 준다. 출력에서 사라진 것은 모든 입력 정보가 아니라 상수 방향의 차이다.
 
 ## 예제 1. 다항식 미분의 행렬 표현
 
@@ -292,6 +370,13 @@ D(t^2)=2t
 ### 결과의 의미
 
 미분사상은 다항식을 다항식으로 보내는 추상 연산이다. 기저를 고른 뒤에는 $2\times3$ 행렬로 계산할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Derivative images of basis polynomials one t and t squared aligned with their coordinate columns in a two by three matrix](../../figures/assets/M03/M03-02-basis-images-columns.svg)
+  <figcaption>세 입력 기저를 하나씩 미분한 결과 0,1,2t를 출력 기저 (1,t)의 계수로 기록한다. 이 계수 열을 입력 기저 순서대로 놓은 것이 미분행렬이며, 첫 열이 0인 것은 상수 기저가 영다항식으로 간다는 뜻이다.</figcaption>
+</figure>
+
+같은 열 안에서 위 숫자는 상수 기저의 계수, 아래 숫자는 $t$ 기저의 계수다. 열의 순서와 행의 의미를 함께 읽는다.
 
 ## 예제 2. 선형이 아닌 사상 판정하기
 

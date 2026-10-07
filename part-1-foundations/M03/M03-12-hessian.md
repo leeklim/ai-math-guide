@@ -100,6 +100,8 @@ gradient를
 
 이다. Hessian의 $i$번째 행은 gradient의 $i$번째 성분이 각 입력좌표에 따라 변하는 비율이다.
 
+여기서는 표준 Euclidean 내적의 gradient를 사용한다. 이 gradient는 $\mathbb R^n$에서 $\mathbb R^n$으로 가는 vector 함수이므로 Jacobian에 출력 $n$개와 입력 $n$개의 자리가 생긴다. Hessian의 $(i,j)$ 원소는 gradient의 $i$번째 성분인 $\partial f/\partial x_i$를 $x_j$로 한 번 더 미분한 값이다. 두 입력좌표가 달라도 같은 scalar 함수의 변화율을 두 번 조사한다는 점이 일반 vector 출력의 Jacobian과 다르다. 혼합편미분의 순서를 교환할 조건은 다음 절에서 확인한다.
+
 ## 핵심 개념 2. 충분히 매끄러운 함수의 Hessian은 대칭이다
 
 점 주변에서 이차 혼합편미분이 연속이면 Clairaut 정리에 따라
@@ -126,6 +128,16 @@ gradient를
 
 대칭 Hessian은 실수 고유값과 정규직교 고유기저를 갖는다. 각 고유벡터는 국소 곡률의 주방향이고 대응 고유값은 그 방향의 이차 변화율이다.
 
+예제 1의 Hessian에서는 서로 직교하는 두 고유방향이 모두 양의 곡률을 가지지만 그 크기는 다르다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Positive quadratic loss contours with two orthogonal Hessian eigenvector directions of curvature three minus square root two and three plus square root two](../../figures/assets/M03/M03-12-principal-curvature-directions.svg)
+
+<figcaption>등고선은 예제 1의 f=1,4,9이며 화살표는 두 고유벡터의 방향이다. 같은 길이로 그린 화살표가 같은 곡률을 뜻하지는 않는다. 보라 방향은 3−√2, 초록 방향은 3+√2의 곡률을 가진다.</figcaption>
+
+</figure>
+
 ## 핵심 개념 3. second differential은 bilinear form이다
 
 점 $\mathbf x$에서 second differential은 두 변화벡터 $\mathbf u,\mathbf v$를 받아
@@ -139,6 +151,16 @@ d^2f_{\mathbf x}(\mathbf u,\mathbf v)
 \]
 
 를 내는 bilinear form이다.
+
+first differential $df_{\mathbf x}$는 변화벡터 하나를 받아 일차 변화율을 계산한다. 이번에는 $\mathbf u$를 고정하고 기준점을 $\mathbf v$ 방향으로 바꾸면서 그 변화율이 얼마나 변하는지 조사한다. 즉,
+
+\[
+d^2f_{\mathbf x}(\mathbf u,\mathbf v)
+=\left.\frac{d}{dt}\left[df_{\mathbf x+t\mathbf v}(\mathbf u)\right]\right|_{t=0}
+=\mathbf u^\top\mathbf H_f(\mathbf x)\mathbf v
+\]
+
+다. 첫째 자리는 측정할 일차 변화 방향이고 둘째 자리는 그 측정의 기준점을 변화시키는 방향이다. 기준점에서 Hessian을 고정하면 $\mathbf H_f\mathbf v$는 $\mathbf v$에 선형이고, $\mathbf u^\top$로 측정하는 값은 $\mathbf u$에 선형이므로 두 자리 각각의 선형성이 성립한다.
 
 같은 방향을 두 번 넣으면
 
@@ -164,9 +186,11 @@ d^2f_{\mathbf x}(\mathbf v,\mathbf v)
 \mathbf v^\top\mathbf H_f(\mathbf x)\mathbf v
 \]
 
+경로의 일차 도함수는 $\phi'(t)=\nabla f(\mathbf x+t\mathbf v)^\top\mathbf v$다. 고정된 $\mathbf v$는 미분하지 않고 gradient의 변화만 미분하면 위 이차 도함수를 얻는다. $\mathbf v$를 $\alpha$배하면 두 자리에 모두 배율이 붙어 이차 변화율은 $\alpha^2$배가 된다. 이 값은 경로 파라미터 $t$에 대한 이차 변화율이므로, 단위 거리 기준으로 방향들을 비교하려면 비영벡터 $\mathbf v$를 단위벡터로 정규화한다.
+
 ## 핵심 개념 4. Hessian은 Taylor 이차항을 만든다
 
-함수가 충분히 매끄러우면 작은 변화 $\mathbf h$에 대해
+함수가 기준점 주변에서 두 번 연속 미분 가능하면 작은 변화 $\mathbf h$에 대해
 
 \[
 f(\mathbf x+\mathbf h)
@@ -191,18 +215,70 @@ f(\mathbf x)
 | $\nabla f(\mathbf x)^\top\mathbf h$ | 일차 변화 |
 | $\frac12\mathbf h^\top\mathbf H_f(\mathbf x)\mathbf h$ | 이차 곡률 보정 |
 
+경로 $t\mapsto f(\mathbf x+t\mathbf h)$에 일변수 Taylor 전개를 적용하면 $t=0$의 일차 도함수는 $\nabla f(\mathbf x)^\top\mathbf h$이고 이차 도함수는 $\mathbf h^\top\mathbf H_f(\mathbf x)\mathbf h$다. 따라서 일변수 전개에서 이차 도함수에 붙는 $1/2$가 여기에서도 남는다. 각 입력좌표의 제곱항만 따로 더하는 식이 아니라 $\mathbf h$의 성분들을 두 번 곱한 quadratic form이므로 서로 다른 좌표의 교차항도 포함한다.
+
+근사식에서 생략한 잔차를 $r(\mathbf h)$라 하면 위 매끄러움 조건 아래
+
+\[
+\lim_{\mathbf h\to\mathbf 0}
+\frac{|r(\mathbf h)|}{\|\mathbf h\|_2^2}=0
+\]
+
+이다. M03-10의 일차 근사는 잔차를 입력 크기로 나눴고, 여기서는 이차항까지 뺀 잔차를 입력 크기의 제곱으로 나눈다. 기준점의 gradient와 Hessian은 고정한 채 $\mathbf h$를 줄이며, 이차항을 넣었다고 함수 전체가 quadratic이라는 뜻은 아니다.
+
 임계점에서는 $\nabla f(\mathbf x)=\mathbf 0$이므로 Hessian의 quadratic form이 가장 낮은 차수의 변화가 될 수 있다.
+
+고유방향을 단위 길이로 맞추고 원점에서 같은 거리 $t$만큼 움직이면 Hessian의 두 곡률을 함수값으로 비교할 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Unit distance sections of the positive quadratic loss rise at different rates with one half times each Hessian eigenvalue](../../figures/assets/M03/M03-12-principal-direction-sections.svg)
+
+<figcaption>원점은 gradient가 0인 임계점이므로 이 예에서는 f(tq)=½λ t²다. Hessian 고유값은 이차 변화율이고 실제 Taylor 이차항에는 1/2가 붙는다.</figcaption>
+
+</figure>
 
 ## 핵심 개념 5. 고유값 부호는 임계점의 국소 모양을 분류한다
 
-$\nabla f(\mathbf x)=\mathbf 0$인 임계점에서 Hessian의 부호를 조사한다.
+앞 절처럼 기준점 주변에서 두 번 연속 미분 가능한 함수의 $\nabla f(\mathbf x)=\mathbf 0$인 임계점에서 Hessian의 부호를 조사한다. strict local minimum은 충분히 가까운 다른 점들의 함수값이 기준값보다 모두 큰 경우이며, strict local maximum은 모두 작은 경우다.
+
+대칭 Hessian의 정규직교 고유벡터를 $\mathbf q_i$, 대응 고유값을 $\lambda_i$라 하자. $\mathbf h=\sum_i c_i\mathbf q_i$로 전개하면
+
+\[
+\mathbf h^\top\mathbf H_f(\mathbf x)\mathbf h
+=\sum_i\lambda_i c_i^2,
+\qquad
+\|\mathbf h\|_2^2=\sum_i c_i^2
+\]
+
+이다. 고유기저에서 서로 다른 방향의 교차항이 사라져 각 방향의 제곱 변화량에 고유값을 곱한 합이 된다.
 
 - 모든 고유값이 양수면 strict local minimum이다.
 - 모든 고유값이 음수면 strict local maximum이다.
 - 양수와 음수 고유값이 함께 있으면 saddle point다.
 - 0인 고유값이 있으면 이차 정보만으로 결론이 나지 않을 수 있다.
 
+모든 고유값이 양수이면 가장 작은 값 $\lambda_{\min}>0$에 의해 quadratic form은 $\lambda_{\min}\|\mathbf h\|_2^2$ 이상이다. Taylor의 이차항에는 그 절반이 붙고, 잔차는 $\|\mathbf h\|_2^2$에 비해 사라지므로 충분히 작은 비영 $\mathbf h$에서 함수값의 증가를 뒤집지 못한다. 모든 고유값이 음수인 경우에는 반대로 함수값이 감소한다. 부호가 섞이면 양수 고유벡터 방향으로는 증가하고 음수 고유벡터 방향으로는 감소하는 가까운 점들이 생겨 극대·극소가 될 수 없다.
+
 양의 준정부호 Hessian만으로 strict minimum을 보장하지 않는다. 예를 들어 $f(x)=x^4$의 원점 Hessian은 0이지만 원점은 strict minimum이고, $f(x)=-x^4$에서는 같은 Hessian 0이지만 strict maximum이다.
+
+부호가 섞인 경우와 영 고유값으로 판정이 끝나지 않는 경우는 다음 곡선들에서 구분된다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Saddle loss x squared minus y squared rises along the x axis and falls along the y axis from the same origin](../../figures/assets/M03/M03-12-saddle-sections.svg)
+
+<figcaption>예제 2의 원점에서 x 방향으로는 증가하고 y 방향으로는 감소한다. 그래서 이차항의 부호가 섞인 원점은 최소도 최대도 아니다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![Positive and negative fourth power functions both have zero Hessian at the origin but opposite minimum and maximum outcomes](../../figures/assets/M03/M03-12-zero-hessian-quartics.svg)
+
+<figcaption>두 함수의 원점 gradient와 Hessian은 모두 0이다. 그러나 양의 4차항은 최소를, 음의 4차항은 최대를 만들므로 Hessian 0만으로 판정을 완료할 수 없다.</figcaption>
+
+</figure>
 
 ## 핵심 개념 6. Hessian-vector product는 방향별 곡률을 계산한다
 
@@ -220,6 +296,16 @@ Hessian-vector product는
 \mathbf H_f(\mathbf x)\mathbf v
 \right)
 \]
+
+gradient를 vector 함수로 보고 M03-11의 JVP를 적용하면
+
+\[
+\left.\frac{d}{dt}\nabla f(\mathbf x+t\mathbf v)\right|_{t=0}
+=\mathbf J_{\nabla f}(\mathbf x)\mathbf v
+=\mathbf H_f(\mathbf x)\mathbf v
+\]
+
+다. HVP 자체는 방향 이동에 따른 gradient의 변화율 vector이고, 같은 방향 $\mathbf v$로 이 vector를 한 번 더 측정한 값이 scalar 이차 변화율이다. Hessian의 열들을 $v_j$로 선형결합하는 계산이므로 모든 열을 따로 저장해야만 곱을 구할 수 있는 것은 아니다. 예제 4의 gradient 유한차분은 이 변화율을 점검한다.
 
 파라미터가 $P$개인 모델의 Hessian은 $P\times P$라서 저장 비용이 $P^2$에 비례한다. HVP는 전체 행렬을 저장하지 않고 특정 방향의 곱을 계산하는 알고리즘에 사용된다. 자동미분을 이용한 HVP는 M03-14에서 다시 다룬다.
 
@@ -243,7 +329,24 @@ Hessian-vector product는
 
 이다. 이는 congruence transformation이다. $\mathbf P$가 직교행렬이 아니면 Hessian 고유값의 크기는 달라질 수 있다.
 
+재매개화에서는 $\mathbf P$를 고정된 가역행렬로 둔다. 새 변화벡터 $\mathbf h_z$가 옛 좌표의 $\mathbf h_x=\mathbf P\mathbf h_z$와 대응하므로 같은 이차항을 계산하면
+
+\[
+\mathbf h_x^\top\mathbf H_f\mathbf h_x
+=\mathbf h_z^\top(\mathbf P^\top\mathbf H_f\mathbf P)\mathbf h_z
+\]
+
+다. 두 입력 자리에 좌표변환을 넣은 bilinear form이므로 양쪽에 $\mathbf P$와 $\mathbf P^\top$가 붙는다. 선형연산자의 similarity처럼 $\mathbf P^{-1}$을 곱하는 식이 아니다. 고유값의 수치가 바뀌어도 대응하는 변화벡터를 넣으면 같은 scalar 이차항을 계산한다.
+
 비선형 재매개화에서는 좌표변환의 이차 미분과 gradient가 만드는 항도 더해진다. 따라서 서로 다른 파라미터화의 Hessian spectrum을 숫자 그대로 비교하려면 좌표 대응과 scaling을 통제해야 한다.
+
+이 추가항은 일변수 연쇄법칙으로도 확인할 수 있다. $g(z)=f(x(z))$에서 두 함수가 두 번 미분 가능하면
+
+\[
+g''(z)=f''(x(z))\bigl(x'(z)\bigr)^2+f'(x(z))x''(z)
+\]
+
+다. 첫 항은 옛 함수의 이차 변화율에 좌표변환의 일차 배율을 두 번 곱한 것이다. 둘째 항은 좌표 경로 자체가 이차로 변하기 때문에 생기며, 선형변환이면 $x''(z)=0$이어서 사라진다.
 
 Hessian은 한 점의 이차 정보다. 학습 궤적이나 넓은 영역의 loss 모양을 조사하려면 여러 지점과 실제 경로에서 loss를 평가해야 한다.
 
@@ -427,6 +530,16 @@ r\mathbf a
 
 이다. 이 방향으로 파라미터를 바꾸면 $\theta_1+2\theta_2$가 유지되어 loss도 변하지 않는다.
 
+예제 3의 영 곡률 방향은 loss가 같은 직선 위를 움직이는 방향이다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Least squares loss contours with zero loss line theta one plus two theta two equals three and direction two minus one moving along that line](../../figures/assets/M03/M03-12-least-squares-flat-direction.svg)
+
+<figcaption>(1,1)에서 (2,−1)만큼 이동하면 (3,0)이며 두 점 모두 θ₁+2θ₂=3을 만족한다. 이 예에서는 직선 전체의 loss가 0이므로 영 곡률이 실제 평평한 방향과 일치한다.</figcaption>
+
+</figure>
+
 ## 예제 4. HVP와 유한차분 점검
 
 gradient가 미분 가능하면
@@ -462,6 +575,24 @@ gradient가 미분 가능하면
 \]
 
 이고 유한차분은 $\varepsilon\ne0$에서 정확히 HVP와 같다.
+
+HVP는 gradient 변화율 vector를 먼저 얻는 계산이다. 같은 방향으로 한 번 더 측정해야 scalar 곡률이 된다. 좌표의 배율을 바꾸는 경우도 따로 비교하자.
+
+<figure class="lesson-figure" markdown="1">
+
+![Input direction one minus one maps to gradient change one minus three and a second measurement gives scalar curvature four](../../figures/assets/M03/M03-12-hvp-versus-curvature.svg)
+
+<figcaption>예제 1의 방향 v=(1,−1)ᵀ에 대해 HVP는 (1,−3)ᵀ지만 방향별 이차 변화율은 4다. 이 quadratic 함수에서는 gradient 유한차분도 정확히 같은 HVP를 준다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![Loss x squared and its parameterization x equals two z have Hessian values two and eight while matching points retain the same loss](../../figures/assets/M03/M03-12-coordinate-scaled-curvature.svg)
+
+<figcaption>x=2z로 같은 함수를 표현하면 두 변화 자리에 배율 2가 들어가 Hessian은 4배가 된다. 같은 대상을 나타내는 x=1,z=0.5의 함수값은 같지만 좌표 기준 곡률의 숫자는 다르다.</figcaption>
+
+</figure>
 
 ## 흔한 오해
 

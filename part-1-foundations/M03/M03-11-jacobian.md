@@ -63,7 +63,7 @@ f_m(\mathbf x)
 \end{bmatrix}
 \]
 
-라 하자. 표준기저에서 Jacobian을
+라 하자. 이하에서는 $f$가 기준점 $\mathbf x$에서 미분 가능하다고 가정한다. 편미분들을 배열로 모을 수 있다는 것과 그 배열이 total derivative를 나타낸다는 것은 구분해야 한다. 후자는 M03-10의 전체 잔차 조건을 필요로 한다. 표준기저에서 Jacobian을
 
 \[
 \mathbf J_f(\mathbf x)
@@ -104,6 +104,8 @@ f_m(\mathbf x)
 
 이다. 출력 dimension $m$이 행 수이고 입력 dimension $n$이 열 수다.
 
+큰 행렬 아래의 $\mathbf x$는 모든 편미분을 같은 기준점에서 평가한다는 뜻이다. $J_{ij}$에서 $i$는 무엇을 관찰하는지, $j$는 무엇을 변화시키는지를 고른다. 따라서 입력 한 좌표에 대한 $m$개 출력 변화율을 담는 열이 $n$개 필요하다.
+
 ## 핵심 개념 2. 각 행은 출력 성분의 differential이다
 
 $i$번째 출력 $f_i:\mathbb R^n\to\mathbb R$의 differential은 covector다. 그 표준좌표 행은
@@ -130,6 +132,16 @@ $j$번째 열은 입력 좌표 $x_j$만 변화시켰을 때 모든 출력 성분
 \]
 
 행은 scalar 출력 하나를 측정하고, 열은 입력 방향 하나가 만드는 vector 출력을 기록한다.
+
+임의의 입력 변화 $\Delta\mathbf x$에 대해 $i$번째 행이 계산하는 값은
+
+\[
+d(f_i)_{\mathbf x}(\Delta\mathbf x)
+=\sum_{j=1}^n J_{ij}(\mathbf x)\Delta x_j
+=\bigl(\mathbf J_f(\mathbf x)\Delta\mathbf x\bigr)_i
+\]
+
+다. 행 하나는 입력 변화 전체를 받아 출력 성분 하나의 일차 변화를 계산한다. 이 값들을 출력 번호 $i$ 순서로 쌓으면 전체 출력 변화벡터가 된다. 반대로 $\Delta\mathbf x=\mathbf e_j$를 넣으면 $\Delta x_j=1$이고 나머지 계수가 0이므로 $j$번째 열만 남는다.
 
 <figure class="lesson-figure lesson-figure--wide" markdown="1">
 
@@ -165,6 +177,18 @@ shape은
 
 이다.
 
+실제 출력 변화는 $\Delta\mathbf y=f(\mathbf x+\Delta\mathbf x)-f(\mathbf x)$다. 행렬곱은 이 차이의 일차항을 계산하며, 새 출력값을 얻으려면 기준 출력 $f(\mathbf x)$를 더해야 한다. $\mathbf J_f(\mathbf x)\mathbf x$가 기준 출력과 같다는 뜻은 아니다.
+
+잔차를 $\mathbf r_{\mathbf x}(\Delta\mathbf x)=\Delta\mathbf y-\mathbf J_f(\mathbf x)\Delta\mathbf x$라 하면 미분 가능성은
+
+\[
+\lim_{\Delta\mathbf x\to\mathbf 0}
+\frac{\|\mathbf r_{\mathbf x}(\Delta\mathbf x)\|_2}
+{\|\Delta\mathbf x\|_2}=0
+\]
+
+을 뜻한다. 이 극한에서는 기준점과 Jacobian을 고정하고 이동량만 줄인다. 기준점을 바꾸면 다른 잔차 조건을 검사하는 것이므로, 한 점의 미분 가능성에서 모든 점에 공통인 허용 이동량을 얻지는 못한다. 또한 이 조건만으로 잔차가 이동량의 제곱에 비례한다고 단정할 수 없다.
+
 입력 변화 방향 $\mathbf v$를 넣은
 
 \[
@@ -172,6 +196,8 @@ shape은
 \]
 
 를 Jacobian-vector product(JVP)라고 한다. JVP는 $\mathbf v$ 방향의 출력 변화율이다. 큰 Jacobian을 만들지 않고 JVP를 계산하는 방법은 M03-13에서 다룬다.
+
+예를 들어 실제 변위를 $t\mathbf v$로 줄이면 선형성으로 일차 출력 변화는 $t\mathbf J_f(\mathbf x)\mathbf v$다. 이를 $t$로 나눈 뒤 $t\to0$의 극한을 취해 변화율 $\mathbf J_f(\mathbf x)\mathbf v$를 얻는다. 예제 4의 유한차분은 이 극한을 작은 비영 $t$에서 점검하는 계산이다.
 
 ### 시각적 직관: 휘어진 좌표격자를 한 점에서 곧게 편다
 
@@ -276,6 +302,8 @@ f(\mathbf x)=\mathbf W\mathbf x+\mathbf b
 
 다. bias는 입력에 따라 변하지 않으므로 Jacobian에 나타나지 않는다.
 
+입력을 $\Delta\mathbf x$만큼 바꾸어 두 출력값을 빼면 $\mathbf W(\mathbf x+\Delta\mathbf x)+\mathbf b-(\mathbf W\mathbf x+\mathbf b)=\mathbf W\Delta\mathbf x$다. 이 경우에는 선형예측 뒤의 잔차가 0이며, 입력 대신 weight나 bias를 미분하는 계산과는 대상이 다르다.
+
 원소별 함수
 
 \[
@@ -301,6 +329,8 @@ f(\mathbf x)=\mathbf W\mathbf x+\mathbf b
 
 이다.
 
+여기서는 각 $\sigma'(z_i)$가 존재한다고 가정한다. 출력 $\sigma(z_i)$는 $z_i$에만 의존하므로 $z_j$로 미분하면 $i\ne j$일 때 0이고, $i=j$일 때 $\sigma'(z_i)$다. 좌표 사이의 교차항이 없어서 대각행렬이 된다.
+
 따라서
 
 \[
@@ -323,6 +353,8 @@ f(\mathbf x)=\mathbf W\mathbf x+\mathbf b
 
 이다. 대각행렬 표기 안의 vector에는 각 성분의 도함수를 적용한다.
 
+오른쪽의 $\mathbf W$가 입력 변화를 pre-activation 변화로 보내고, 왼쪽 대각행렬이 각 출력좌표의 변화율을 곱한다. 행렬로 보면 $\mathbf W$의 $i$번째 행 전체에 $\sigma'(z_i)$를 곱하는 계산이다.
+
 ## 핵심 개념 7. rank와 특이값은 국소 방향을 설명한다
 
 고정한 점 $\mathbf x$에서 Jacobian을 선형변환으로 보면
@@ -340,6 +372,8 @@ SVD
 \]
 
 에서 오른쪽 특이벡터는 입력 perturbation 방향이고 특이값은 일차 증폭률이다. 가장 큰 특이값은 Euclidean norm에서의 최대 국소 증폭률이다.
+
+SVD의 대응하는 단위 특이벡터들을 $\mathbf v_i,\mathbf u_i$라 쓰면 $\mathbf J_f(\mathbf x)\mathbf v_i=\sigma_i\mathbf u_i$다. 따라서 실제 입력을 $t\mathbf v_i$만큼 움직였을 때의 일차 출력 변화는 $t\sigma_i\mathbf u_i$다. 특이값은 단위 입력 방향의 변화율 크기를 정하며, 실제 유한 이동의 출력에는 앞 절의 잔차가 더해진다.
 
 이 값들은 기준점과 좌표 scaling에 의존한다. 직교 기저변환은 singular value를 보존하지만 일반 가역 재매개화는 바꿀 수 있다.
 
@@ -478,6 +512,32 @@ x+y
 
 둘째 출력은 이 점 주변의 작은 변화에 대해 비활성 상태이고 첫째 출력만 일차 변화를 전달한다. ReLU는 $z_i=0$에서 고전적 미분이 존재하지 않으므로 그 점에서는 별도 convention이 필요하다.
 
+예제 2에서는 ReLU의 각 기울기를 weight 행 전체에 곱한다. 그 뒤에 남는 입력 방향과 출력 방향도 비교할 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Positive ReLU preactivation four passes the first weight row one two while negative preactivation minus one zeros the second row](../../figures/assets/M03/M03-11-relu-row-gates.svg)
+
+<figcaption>z₁>0이므로 첫 행은 그대로, z₂<0이므로 둘째 행은 영행으로 바뀐다. 이 Jacobian은 입력에 대한 국소 변화율이며 영행이 전역적으로 사용되지 않는 feature를 뜻하지는 않는다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![Unit input circle with amplified direction one two over square root five and kernel direction minus two one over square root five](../../figures/assets/M03/M03-11-relu-input-directions.svg)
+
+<figcaption>초록 방향과 주황 방향은 모두 길이가 1이지만 Jacobian이 보내는 결과는 다르다. 주황 방향에서는 h₁+2h₂=0이 되어 일차 출력 변화가 상쇄된다.</figcaption>
+
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![All unit inputs map to a segment on the first output axis with amplified green direction ending at square root five and orange kernel at zero](../../figures/assets/M03/M03-11-relu-rank-one-image.svg)
+
+<figcaption>두 입력 방향을 위 Jacobian으로 보내면 초록 방향의 출력 길이는 √5, 주황 방향의 출력은 영벡터다. 모든 일차 출력 변화는 첫 출력축에 놓이므로 rank는 1이다.</figcaption>
+
+</figure>
+
 ## 예제 3. 합성 Jacobian의 shape과 값
 
 \[
@@ -529,6 +589,16 @@ g(u,v)=u^2+v
 \]
 
 이다.
+
+예제 3의 행렬곱에서는 중간 변화벡터의 두 성분이 다음 Jacobian의 두 열과 맞아야 한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Input change two by one passes through a two by two inner Jacobian then a one by two outer Jacobian producing a scalar change and combined row eight seven](../../figures/assets/M03/M03-11-chain-shape-route.svg)
+
+<figcaption>오른쪽 2×2 Jacobian이 먼저 입력 변화를 중간 변화로 보내고, 왼쪽 1×2 Jacobian이 scalar 변화를 만든다. 합성 결과는 원래 두 입력 성분에 작용하는 1×2 행이다.</figcaption>
+
+</figure>
 
 ## 예제 4. 유한차분으로 JVP 점검하기
 

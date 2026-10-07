@@ -37,13 +37,59 @@ positive semidefinite kernel은 어떤 feature space의 inner product로 표현�
 
 ## 핵심 개념
 
-feature map $\phi$가 있으면
+### input을 feature vector로 보낸다
+
+feature map $\phi$는 input $x$를 inner-product space $\mathcal H$의 vector로 보낸다. 이 map 자체가 input에 대해 linear일 필요는 없다. 두 feature vector의 inner product를
 
 $$
 k(x,x')=\langle\phi(x),\phi(x')\rangle_{\mathcal H}
 $$
 
-로 kernel을 만든다. sample feature를 row로 쌓은 $\Phi$에 대해 $K=\Phi\Phi^\top$이다. inner product와 sample 사이 linear combination만 사용하는 algorithm은 $\Phi$를 만들지 않고 $K$로 계산할 수 있다.
+로 정의하면, 임의의 coefficient에 대한 kernel quadratic form이 $\|\sum_i c_i\phi(x_i)\|_{\mathcal H}^2$이므로 PSD kernel을 만든다. 반대로 PSD kernel에는 이 내적 관계를 실현하는 Hilbert feature space와 map이 존재한다. 그 map을 직접 계산할 수 있거나 유한 차원이라는 조건까지 따라오는 것은 아니다.
+
+다음 그림에서는 scalar 입력들이 두 feature 좌표로 옮겨지는 모양을 확인한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![The nonlinear feature map (x,x squared) sends scalar inputs minus one, zero, and one onto three points of a parabola in a two-dimensional feature plane](../../figures/assets/A09-KER/A09-KER-03-feature-parabola.svg)
+
+<figcaption>가로축과 세로축은 입력 공간의 두 축이 아니라 feature의 두 성분이다. scalar 입력 하나로도 nonlinear feature 곡선 위의 위치를 정할 수 있다.</figcaption>
+</figure>
+
+유한 feature dimension $d_\phi$에서는 $\phi(x_i)$를 column vector로 두고 전치를 row로 쌓아 $\Phi\in\mathbb R^{n\times d_\phi}$를 만든다. $\Phi\Phi^\top$의 $(i,j)$ entry가 두 row의 내적이므로 $K=\Phi\Phi^\top$이다. infinite-dimensional feature space에서도 kernel value로 유한한 $n\times n$ Gram matrix를 만들 수 있지만, 그때 $\Phi$를 보통의 유한-width 숫자 배열로 만들었다고 가정하지 않는다.
+
+다음 그림은 feature index를 합하는 곱셈과 남는 sample index 두 개를 보여 준다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A three-by-two feature matrix with rows (0,0),(1,1),(2,4) multiplies its transpose to form a three-by-three sample Gram matrix](../../figures/assets/A09-KER/A09-KER-03-gram-factorization.svg)
+
+<figcaption>Φ의 feature 열 두 개를 따라 곱하고 더하면 K의 sample 쌍 하나가 나온다. feature 폭은 2이지만 Gram 원소 수는 3²=9이다.</figcaption>
+</figure>
+
+### 내적을 kernel value로 대체하는 계산
+
+algorithm의 input 의존성이 feature inner product와 sample feature의 linear combination으로 표현된다면, explicit $\Phi$ 대신 kernel value로 계산할 수 있다. 예를 들어 $w=\sum_i\alpha_i\phi(x_i)$인 predictor는
+
+$$
+\langle w,\phi(x)\rangle_{\mathcal H}
+=\sum_i\alpha_i k(x_i,x)
+$$
+
+로 평가한다. training sample에서의 prediction vector는 $K\alpha$이고, $\|w\|_{\mathcal H}^2=\alpha^\top K\alpha$다. prediction과 이 norm만 사용하는 objective는 coefficient $\alpha$와 Gram matrix로 쓸 수 있다. 이것이 kernel trick의 계산상 의미다. feature coordinate별 절댓값 penalty나 특정 coordinate의 activation을 요구하는 algorithm은 같은 Gram matrix만으로 곧바로 대체되지 않는다.
+
+training Gram matrix만으로 새로운 input의 prediction까지 정해지는 것은 아니다. 새 $x$에는 $k(x_i,x)$를 추가로 계산해야 한다. input 전체에 정의한 kernel function과 training에서 저장한 Gram matrix를 이 단계에서도 구분한다.
+
+다음 그림에서는 같은 predictor를 feature vector의 합과 새 입력의 kernel 값으로 각각 평가한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![The feature vectors phi(1) and half phi(2) add to w=(2,3), and a new input one half gives the same prediction 1.75 by a dot product or weighted kernel values](../../figures/assets/A09-KER/A09-KER-03-predictor-feature-sum.svg)
+
+<figcaption>파란 벡터와 보라 벡터를 이어 더한 녹색 w를 새 feature와 내적해도, 새 입력의 kernel 두 값을 합해도 1.75가 나온다. 회색 짧은 벡터는 새 입력의 feature이다.</figcaption>
+</figure>
+
+### polynomial feature의 scale과 비유일성
 
 예를 들어 scalar input에 $k(x,z)=(1+xz)^2$를 쓰면
 
@@ -51,13 +97,55 @@ $$
 \phi(x)=(1,\sqrt2x,x^2)
 $$
 
-를 택할 수 있다. 실제로 $\phi(x)^\top\phi(z)=1+2xz+x^2z^2$이다. orthogonal transformation $Q$를 적용한 $Q\phi(x)$도 같은 inner product를 만들므로 feature coordinate는 유일하지 않다.
+를 택할 수 있다. 실제로 $\phi(x)^\top\phi(z)=1+2xz+x^2z^2$이다. 가운데 coordinate의 $\sqrt2$는 내적에서 두 번 곱해져 $2xz$를 만드는 scale이다. $(1,x,x^2)$를 그대로 사용하면 가운데 항이 $xz$가 되어 다른 kernel을 만든다. nonlinear input map을 통해서도 feature space의 predictor는 $w$에 대해 linear하게 계산할 수 있다.
 
-kernel trick은 계산 표현을 바꾼다. sample 수 $n$에 비례하는 $n\times n$ Gram matrix를 저장하므로 $n$이 큰 상황에서는 계산량이 병목이 될 수 있다.
+orthogonal transformation $Q$를 적용한 $Q\phi(x)$도 $Q^\top Q=I$ 때문에 같은 inner product를 만든다. row feature matrix는 $\tilde\Phi=\Phi Q^\top$로 바뀌고 $\tilde\Phi\tilde\Phi^\top=K$를 유지한다. 따라서 kernel이 정하는 내적 geometry와 각 feature coordinate의 이름·의미는 구분해야 한다. 같은 kernel을 만드는 map은 차원이 다른 공간으로의 embedding 등을 통해서도 비유일할 수 있으므로, coordinate identity를 orthogonal 예 하나로 고정하지 않는다.
+
+다음 그림은 두 feature를 함께 회전할 때 좌표와 내적이 어떻게 달라지는지 비교한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A ninety-degree rotation changes feature coordinates (1,1),(2,4) to (-1,1),(-4,2) while preserving their dot product 6](../../figures/assets/A09-KER/A09-KER-03-orthogonal-features.svg)
+
+<figcaption>각 성분의 수치는 바뀌지만 두 벡터의 길이·각도와 내적 6은 유지된다. 같은 kernel을 얻어도 coordinate의 이름을 동일시할 수는 없다.</figcaption>
+</figure>
+
+### 계산 비용과 비교 단위
+
+kernel trick은 계산 표현을 바꾼다. dense Gram matrix는 sample 쌍마다 값을 저장하므로 entry 수가 $n^2$다. explicit feature dimension이 큰 비용을 피할 수 있어도 sample 수가 크면 저장과 matrix 계산이 병목이 된다. 모든 algorithm의 비용을 자동으로 줄이는 원리는 아니다.
+
+두 layer의 kernel을 비교할 때 matrix의 $i$번째 row가 같은 prompt·token 또는 동일하게 정의한 summary를 뜻해야 한다. sample 수가 같아도 row 순서나 sampling 조건이 다르면 같은 위치의 entry를 직접 비교할 수 없다. centering은 각 feature에서 sample 평균을 빼는 연산이며, 어떤 sample과 평균을 사용했는지도 고정한다. 평가 unit을 정렬한 뒤 row 대응을 섞는 control이나 동일한 dimension·scale의 random-feature control을 비교 목적에 맞게 정의한다. 이런 비교가 답하는 것은 sample 간 geometry의 유사성이며 coordinate별 feature identity는 아니다.
+
+다음 두 그림은 sample 순서의 변경과 feature 평균의 제거를 구분한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Reordering the same samples from A,B,C to C,A,B moves Gram entries but preserves the value 6 for the pair B,C](../../figures/assets/A09-KER/A09-KER-03-row-alignment.svg)
+
+<figcaption>sample B와 C의 관계는 두 행렬에서 값 6으로 같다. 배열 위치만 비교하면 서로 다른 sample 쌍을 비교하게 된다.</figcaption>
+</figure>
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Subtracting the mean (2,14/3) from three feature vectors moves their mean to the origin without reordering the samples](../../figures/assets/A09-KER/A09-KER-03-centering.svg)
+
+<figcaption>회색 ×는 sample 평균이다. 같은 평균을 모든 점에서 빼면 평균이 원점으로 오지만 x₁, x₂, x₃의 대응은 그대로다.</figcaption>
+</figure>
 
 ## 작은 예제
 
 $x=1$, $z=2$이면 polynomial kernel 값은 $(1+2)^2=9$이다. explicit feature로 계산해도 $(1,\sqrt2,1)\cdot(1,2\sqrt2,4)=1+4+4=9$이다.
+
+kernel 계산은 scalar $1+xz$를 만든 뒤 제곱하고, explicit 계산은 세 coordinate의 곱을 더한다. 중간 표현은 달라도 최종 내적은 같다. 여러 sample에서 이 등식을 적용하면 explicit feature Gram과 kernel Gram의 모든 entry가 일치한다. feature map을 쓰지 않아도 계산할 수 있는 것은 이 내적이지 세 coordinate의 개별 의미가 아니다.
+
+다음 그림에서는 세 coordinate 곱의 기여를 각각 확인한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![The explicit polynomial features at inputs one and two contribute coordinate products 1,4,4, whose sum 9 equals the degree-two polynomial kernel](../../figures/assets/A09-KER/A09-KER-03-polynomial-products.svg)
+
+<figcaption>가운데 성분의 √2가 양쪽에서 곱해져 기여 4를 만든다. 세 막대의 값을 더한 9가 직접 계산한 kernel 값과 같다.</figcaption>
+</figure>
 
 ## 흔한 오해
 

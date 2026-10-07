@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="518.4pt" height="792pt" viewBox="0 0 518.4 792" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.7, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 792 
+L 518.4 792 
+L 518.4 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 131.946 451.44 
+L 479.766 451.44 
+L 479.766 182.16 
+L 131.946 182.16 
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <path d="M 188.046 451.44 
+L 188.046 182.16 
+" clip-path="url(#pefee3eae6d)" style="fill: none; stroke: #d9e2ef; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_2">
+      <defs>
+       <path id="m9089fed69f" d="M 0 0 
+L 0 3.5 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m9089fed69f" x="188.046" y="451.44" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="font-size: 26px; font-family: 'DejaVu Sans'; text-anchor: middle" x="188.046" y="478.195938" transform="rotate(-0 188.046 478.195938)">−1</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_3">
+      <path d="M 300.246 451.44 
+L 300.246 182.16 
+" clip-path="url(#pefee3eae6d)" style="fill: none; stroke: #d9e2ef; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#m9089fed69f" x="300.246" y="451.44" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="font-size: 26px; font-family: 'DejaVu Sans'; text-anchor: middle" x="300.246" y="478.195938" transform="rotate(-0 300.246 478.195938)">0</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_5">
+      <path d="M 412.446 451.44 
+L 412.446 182.16 
+" clip-path="url(#pefee3eae6d)" style="fill: none; stroke: #d9e2ef; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#m9089fed69f" x="412.446" y="451.44" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="font-size: 26px; font-family: 'DejaVu Sans'; text-anchor: middle" x="412.446" y="478.195938" transform="rotate(-0 412.446 478.195938)">1</text>
+     </g>
+    </g>
+    <g id="text_4">
+     <text style="font-size: 25px; font-family: 'DejaVu Sans'; text-anchor: middle" x="305.856" y="506.599219" transform="rotate(-0 305.856 506.599219)">gradient ∂f/∂w₁</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_7">
+      <path d="M 131.946 384.12 
+L 479.766 384.12 
+" clip-path="url(#pefee3eae6d)" style="fill: none; stroke: #d9e2ef; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_8">
+      <defs>
+       <path id="m5a30f1ede6" d="M 0 0 
+L -3.5 0 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m5a30f1ede6" x="131.946" y="384.12" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="font-size: 26px; font-family: 'DejaVu Sans'; text-anchor: end" x="124.946" y="393.997969" transform="rotate(-0 124.946 393.997969)">0</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_9">
+      <path d="M 131.946 271.92 
+L 479.766 271.92 
+" clip-path="url(#pefee3eae6d)" style="fill: none; stroke: #d9e2ef; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#m5a30f1ede6" x="131.946" y="271.92" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <text style="font-size: 26px; font-family: 'DejaVu Sans'; text-anchor: end" x="124.946" y="281.797969" transform="rotate(-0 124.946 281.797969)">1</text>
+     </g>
+    </g>
+    <g id="text_7">
+     <text style="font-size: 25px; font-family: 'DejaVu Sans'; text-anchor: middle" x="99.204281" y="316.8" transform="rotate(-90 99.204281 316.8)">gradient ∂f/∂w₂</text>
+    </g>
+   </g>
+   <g id="patch_3">
+    <path d="M 131.946 451.44 
+L 131.946 182.16 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 131.946 451.44 
+L 479.766 451.44 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 25px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #2563eb" x="314.832" y="417.78" transform="rotate(-0 314.832 417.78)">g₁=(1,0)</text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 25px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #7c3aed" x="311.466" y="232.65" transform="rotate(-0 311.466 232.65)">g₂=(1,1)</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 25px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #059669" x="140.922" y="350.46" transform="rotate(-0 140.922 350.46)">g₃=(−1,0)</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 24px; font-family: 'DejaVu Sans'" transform="translate(112.009125 128.28525)">Parameter gradients as features</text>
+    <text style="font-size: 24px; font-family: 'DejaVu Sans'" transform="translate(171.321 155.16)">Linear toy: f_w(x)=w·x</text>
+   </g>
+   <g id="patch_5">
+    <path d="M 300.246 384.12 
+Q 356.346 384.12 409.315505 384.12 
+" style="fill: none; stroke: #2563eb; stroke-width: 2.8; stroke-linecap: round"/>
+    <path d="M 404.515505 381.72 
+L 409.315505 384.12 
+L 404.515505 386.52 
+" style="fill: none; stroke: #2563eb; stroke-width: 2.8; stroke-linecap: round"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 300.246 384.12 
+Q 356.346 328.02 410.232406 274.133594 
+" style="fill: none; stroke: #7c3aed; stroke-width: 2.8; stroke-linecap: round"/>
+    <path d="M 405.141237 275.830651 
+L 410.232406 274.133594 
+L 408.535349 279.224763 
+" style="fill: none; stroke: #7c3aed; stroke-width: 2.8; stroke-linecap: round"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 300.246 384.12 
+Q 244.146 384.12 191.176495 384.12 
+" style="fill: none; stroke: #059669; stroke-width: 2.8; stroke-linecap: round"/>
+    <path d="M 195.976495 386.52 
+L 191.176495 384.12 
+L 195.976495 381.72 
+" style="fill: none; stroke: #059669; stroke-width: 2.8; stroke-linecap: round"/>
+   </g>
+  </g>
+  <g id="text_12">
+   <text style="font-size: 24px; font-family: 'DejaVu Sans'" transform="translate(132.195 642.417)">K₁₂=g₁·g₂=1; K₁₃=−1</text>
+   <text style="font-size: 24px; font-family: 'DejaVu Sans'" transform="translate(184.72125 669.41775)">K₂₂=‖g₂‖²=2</text>
+   <text style="font-size: 24px; font-family: 'DejaVu Sans'" transform="translate(35.064375 696.96)">These are not input-gradient vectors.</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pefee3eae6d">
+   <rect x="131.946" y="182.16" width="347.82" height="269.28"/>
+  </clipPath>
+ </defs>
+</svg>

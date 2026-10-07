@@ -439,8 +439,9 @@ def lint_english_readings(
         lines = text.splitlines()
         file_table_count = 0
         original_column_count = None
-        if language == "en" and path.is_relative_to(CONTENT_ROOT):
-            original = ROOT / path.relative_to(CONTENT_ROOT)
+        source_path = path.resolve()
+        if language == "en" and source_path.is_relative_to(CONTENT_ROOT.resolve()):
+            original = ROOT / source_path.relative_to(CONTENT_ROOT.resolve())
             if original.is_file():
                 for original_line in read_text(original).splitlines():
                     original_header = split_markdown_table_row(original_line)

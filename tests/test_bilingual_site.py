@@ -143,6 +143,9 @@ class BilingualSiteTests(unittest.TestCase):
                 self.assertEqual(issues, [])
                 issues, _, _ = site.lint_english_readings([(path, en_four)], language="en")
                 self.assertTrue(any("column count differs" in issue for issue in issues))
+                relative_path = Path(os.path.relpath(path, Path.cwd()))
+                relative_issues, _, _ = site.lint_english_readings([(relative_path, en_four)], language="en")
+                self.assertTrue(any("column count differs" in issue for issue in relative_issues))
                 issues, _, _ = site.lint_english_readings([(path, en_three.replace("| $x$ | `x` | A variable |", "| $x$ | `x` | A variable | Scalar |"))], language="en")
                 self.assertTrue(any("row width differs" in issue for issue in issues))
 

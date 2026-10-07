@@ -34,7 +34,15 @@
 - 독립 최종 생성물 검토 통과: 398단원의 원래 본문 heading anchor 11,282개·기존 실습 포함 공개 anchor 11,778개·한영 참고 페이지 anchor128개 누락0. 410페이지 중복 ID·metadata/언어 대응·인증 tag·일반 읽기 텍스트 관리ID 노출 오류0. footer/head 이전·다음은 양언어199단원의 교육순서와 일치. 각 언어 formal nav205경로 고유, sitemap205개 정확. 원고/그림/lab diff0. 범위 참조의 끝점과 기존 href 보존.
 - 최종 모바일 재확인: 실제 `innerWidth=390, innerHeight=844`에서 A09-GEO-02 한영·밝은/어두운 테마 줄바꿈·가로 넘침0 확인. viewport 대상은 활성 탭으로 선택하여 실제 치수를 확인했다.
 - 로컬 커밋: `8dc09e9` 수행 명세·진행 기록, `8718842` 공통 탐색/표시/SEO/검증, `8382825` 기초·참고 설명76페이지, `1bdbf76` 신경망·해석·심화 설명129페이지. 이 단계는 로컬 준비 완료이며 공개 배포 완료와 구분한다.
+- 승인된 일반 push 성공: remote main `92f44ff` → `ab9a5364817bcfd01ad53e8c349c6a9da4dbd437`. 로컬 main도 같은 커밋으로 fast-forward 동기화(원고 파일 재checkout 없음). 작업 브랜치는 `codex/english-edition` 유지. force push/이력 재작성 없음. 무관한 미추적 두 폴더 미포함.
+- GitHub Actions 실행 #22 시작: `https://github.com/leeklim/ai-math-guide/actions/runs/37621526345`, push 커밋 `ab9a536`, build 진행 중. 공개 배포와 사후 검증은 아직 완료 처리하지 않는다.
+- #22 공개 배포 성공: build4분35초, deploy11초, 총4분55초. 실제 영문 홈페이지·처음부터 시작→영문 첫 단원 및 새 metadata/인증 tag 확인. 동의 전 GA script 없음, 체크 후 Accept 시 올바른 G-VXDGRXQFT3 script 로드 확인(실제 GA 대시보드 수신 확인 전).
+- Search Console HTML tag 소유권 인증 실제 성공(`Ownership verified`). 승인된 URL-prefix 속성에만 적용. 사이트맵 제출 진행 중.
+- 공개 화면 점검에서 홈의 OG/Twitter 제목이 일반 메뉴명 Home/홈으로 나오는 문제를 발견. 홈페이지에만 locale 교재명 사용하도록 template3줄·검증2줄 수정. 본문·원고·URL 변경 없음. 공통 template 변경이므로 관련 재검증·재배포 후 실제 공개 메타 값을 확인한다.
+- 홈 공유 제목 수정 후 `scripts/build_site.ps1` 재검증 exit0: 187검사 중186통과·선택GPU1skip, figure/concept/source/reading audit 및 한영 strict build·병합 통과(KO6.53초, EN8.19초). 링크/자산/fragment 오류0, translation205 verified·0stale, 각 언어199단원·1,154해설 유지. GA4 모의검사 각19개 통과. 기존 신선한 실습 결과 재사용.
+- 실제 GA4 Realtime pages 보고서 수신 확인: 공개 `/en/`와 `/en/part-1-foundations/M00/M00-01-numbers-variables/` 시험 방문이 사용자1명·조회2건으로 표시됐다. 로컬 모의검사와 구분하며 시험 트래픽은 실제 방문자 성장 지표가 아니다. 증거 화면은 `.build/release-proof/ga4-public-receipt.jpg`에 저장.
+- Search Console 한국어 `sitemap.xml` 제출 성공 알림 확인. 제출 직후 상태는 `Couldn't fetch`, 상세 주소는 올바른 프로젝트 경로. 가져오기 완료로 기록하지 않으며 영문 제출과 공개 XML 응답 확인을 이어간다.
 
 ## 다음 작업
 
-승인 범위의 main push·Pages 배포 → 실제 공개 주소·GA4 수신·Search Console 검증. 외부 계정 확인은 로컬 검사로 대체하지 않는다.
+홈 공유 제목 수정본 main push·Pages 재배포 → 실제 공개 탐색/수식/모바일·한영 sitemap 응답 및 Search Console 제출 확인. 실제 GA4 수신과 Search Console 소유권 인증은 완료했다.

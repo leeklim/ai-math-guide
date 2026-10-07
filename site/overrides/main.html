@@ -36,15 +36,16 @@
   {% endif %}
   {% if page and page.canonical_url %}
     {% set description = page.meta.description or config.site_description %}
+    {% set sharing_title = config.site_name if page.is_homepage else page.title %}
     <meta property="og:type" content="website">
-    <meta property="og:title" content="{{ page.title | e }}">
+    <meta property="og:title" content="{{ sharing_title | e }}">
     <meta property="og:description" content="{{ description | e }}">
     <meta property="og:url" content="{{ page.canonical_url }}">
     <meta property="og:site_name" content="{{ config.site_name | e }}">
     <meta property="og:locale" content="{{ 'en_US' if config.theme.language == 'en' else 'ko_KR' }}">
     <meta property="og:locale:alternate" content="{{ 'ko_KR' if config.theme.language == 'en' else 'en_US' }}">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="{{ page.title | e }}">
+    <meta name="twitter:title" content="{{ sharing_title | e }}">
     <meta name="twitter:description" content="{{ description | e }}">
   {% endif %}
   {% if page and config.extra.bilingual and page.url in config.extra.bilingual.en_pages %}

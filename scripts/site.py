@@ -1924,6 +1924,8 @@ def validate() -> None:
                     issues.append(f"wrong page description: {relative}/{key}")
         suffix = page_url(relative)
         expected_url = PUBLIC_ROOT + ("en/" if LANGUAGE == "en" else "") + suffix
+        if not suffix and collector.metadata.get("og:title") != config["site_name"]:
+            issues.append(f"homepage sharing title differs from the site name: {relative}")
         if collector.metadata.get("og:url") != expected_url:
             issues.append(f"wrong sharing URL: {relative}")
         expected_locale = "en_US" if LANGUAGE == "en" else "ko_KR"

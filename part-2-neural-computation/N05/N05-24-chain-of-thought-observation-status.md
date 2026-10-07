@@ -48,6 +48,17 @@ prompt $x$가 주어졌을 때 model이 CoT $c$와 answer $a$를 생성했다면
 
 라는 output behavior다. token, log probability, decoding 조건과 answer accuracy를 기록할 수 있다. 이것만으로 hidden activation, 실제 사용한 feature와 causal path가 자동으로 주어지지는 않는다.
 
+CoT를 먼저 생성하고 answer를 이어 생성하는 경우 결합확률은 $p_\theta(c\mid x)p_\theta(a\mid x,c)$로 나눌 수 있다. 생성된 $c$가 answer의 token context에 들어간다는 뜻이다. 이 의존 관계만으로 $c$에 적힌 각각의 이유가 내부 계산을 정확히 설명한다고 결론낼 수는 없다. 자연어 token의 조건부 영향과 그 문장의 process 설명으로서의 정확성은 따로 확인한다.
+
+아래 화살표는 생성된 문장이 후속 token의 context에 들어가는 순서를 표시한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![A prompt generates a chain of thought token sequence which then forms part of the context for the generated answer](../../figures/assets/N05/N05-24-cot-answer-context.svg)
+
+<figcaption>예시 문장 c와 answer a는 관찰할 수 있는 생성 token이다. c를 뒤 answer의 조건에 포함한다는 관계와, c가 내부 process를 충실히 설명한다는 주장은 다르다. 그림의 산술 문장은 생성 순서를 설명하기 위한 예시다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. 세 평가축
 
 - legibility: 문장이 사람이 이해 가능한가?
@@ -58,7 +69,7 @@ prompt $x$가 주어졌을 때 model이 CoT $c$와 answer $a$를 생성했다면
 
 ## 핵심 개념 3. output의 비식별성
 
-두 표현을 invertible coordinate change $\mathbf h_B=\mathbf h_A\mathbf P$로 연결하고 unembedding을 함께 $\mathbf W_B=\mathbf W_A\mathbf P$로 바꾸면 적절한 직교 $\mathbf P$에 대해
+이 예에서는 한 position의 hidden을 row vector로 쓰고 $\mathbf P\in\mathbb R^{d\times d}$를 직교행렬로 둔다. 두 표현을 coordinate change $\mathbf h_B=\mathbf h_A\mathbf P$로 연결하고 unembedding을 함께 $\mathbf W_B=\mathbf W_A\mathbf P$로 바꾸면
 
 \[
 \mathbf h_B\mathbf W_B^\top
@@ -67,9 +78,31 @@ prompt $x$가 주어졌을 때 model이 CoT $c$와 answer $a$를 생성했다면
 
 를 만들 수 있다. hidden coordinate는 다르지만 logits와 생성 token은 같다. 이 작은 예는 output만으로 내부 좌표 표현을 유일하게 복원할 수 없음을 보여준다. 실제 CoT faithfulness 전체를 이 예 하나로 판정한다는 뜻은 아니다.
 
+전치한 unembedding은 $\mathbf W_B^\top=\mathbf P^\top\mathbf W_A^\top$이므로 곱은 $\mathbf h_A\mathbf P\mathbf P^\top\mathbf W_A^\top$가 된다. 직교성 $\mathbf P\mathbf P^\top=I$ 때문에 두 좌표변환이 소거된다. 단지 invertible이라는 조건만으로 같은 전치가 소거되는 것은 아니며, 임의의 invertible $\mathbf P$에는 unembedding을 $\mathbf W_A\mathbf P^{-\top}$로 맞춰야 한다. 여기서 $\mathbf P^{-\top}=(\mathbf P^{-1})^\top$는 역행렬의 전치다.
+
+실습의 좌표 교환은 같은 기능을 다른 좌표로 적는 예다. 이것이 서로 다른 reasoning algorithm을 입증하거나 특정 CoT가 unfaithful함을 입증하지는 않는다. 입증한 것은 관찰된 logit에서 하나의 hidden coordinate를 유일하게 정할 수 없다는 범위다.
+
+좌표 두 개를 교환하면 같은 position의 hidden 값이 다음처럼 바뀐다.
+
+<figure class="lesson-figure" markdown="1">
+
+![A two dimensional hidden coordinate pair one two is swapped to two one across the diagonal with a matching unembedding required to keep output unchanged](../../figures/assets/N05/N05-24-coordinate-swap.svg)
+
+<figcaption>position 0의 h는 A에서 (1,2), B에서 (2,1)로 적힌다. 화살표는 좌표 기술의 변환이며 시간에 따른 activation 이동이 아니다. output을 같게 유지하려면 아래와 같이 unembedding도 맞춰야 한다.</figcaption>
+</figure>
+
 ## 예제
 
 실습은 두 position의 hidden state에서 두 feature coordinate를 교환하고 unembedding도 같은 방식으로 바꾼다. hidden tensor는 달라지지만 logits는 정확히 같고 greedy token IDs도 `[1, 0]`으로 같다. 관찰된 token sequence가 동일해도 내부 representation 기술은 하나로 결정되지 않는다.
+
+hidden의 성분과 unembedding의 열을 함께 바꾼 두 계산을 비교해 보자.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two hidden coordinate descriptions and their correspondingly swapped unembedding rows produce the same logits at two positions and the same greedy token IDs one and zero](../../figures/assets/N05/N05-24-matched-unembedding.svg)
+
+<figcaption>각 W의 행은 token 0·1·2의 unembedding vector다. A의 hidden과 W 열을 모두 교환한 B에서는 두 position의 logits가 그대로 남는다. 같은 output만 보고 A와 B 중 하나의 hidden 좌표를 유일하게 정할 수 없음을 보여 준다.</figcaption>
+</figure>
 
 ## 실행 실습
 
@@ -100,6 +133,15 @@ position 2개, hidden dimension 2와 vocabulary 3의 행렬곱만 수행한다. 
 CoT를 중간에서 자르거나, 일부 단계를 바꾸거나, paraphrase한 뒤 answer distribution이 어떻게 달라지는지 볼 수 있다. prompt에 answer hint를 넣고 model이 실제로 그 hint에 반응했을 때 CoT가 이를 드러내는지도 검사할 수 있다. 이 실험들은 특정 operational definition의 faithfulness를 측정하며 모든 내부 reasoning을 완전히 읽는 것은 아니다.
 
 내부 activation patching이나 circuit intervention은 또 다른 질문을 다룬다. 자연어 CoT token을 바꾸는 intervention과 hidden state를 바꾸는 intervention을 같은 것으로 취급하지 않는다.
+
+두 조작이 forward 경로의 어느 지점을 바꾸는지 나누어 보자.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A chain of thought token edit changes the answer token context while an internal layer four activation edit changes a hidden state under the same token context](../../figures/assets/N05/N05-24-two-intervention-sites.svg)
+
+<figcaption>위쪽은 c를 c′로 바꾸어 answer의 token context를 바꾼다. 아래쪽은 token context를 유지하면서 layer 4의 내부 상태를 교체한다. 둘의 효과가 같다고 가정하지 않고 각 개입의 target과 대조군을 지정해야 한다.</figcaption>
+</figure>
 
 ## 모델 해석과의 연결
 

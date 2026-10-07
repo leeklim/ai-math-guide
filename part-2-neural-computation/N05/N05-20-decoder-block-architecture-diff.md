@@ -69,6 +69,28 @@ M_l(\operatorname{RMSNorm}(\mathbf U^{(l)}))
 
 로 vocabulary logit을 만든다. attention에는 RoPE와 causal MHA, MLP에는 dense SwiGLU를 사용한다.
 
+$\mathbf U^{(l)}$는 attention output 자체가 아니라 첫 residual addition 뒤의 stream이다. MLP는 이 갱신된 stream을 정규화한 값을 받으며, 두 번째 덧셈의 skip 항에도 $\mathbf U^{(l)}$를 사용한다. 각 Norm을 같은 기호로 적었다고 learned scale까지 공유한다는 뜻은 아니다. 마지막 Norm은 새 update를 더하지 않고 최종 stream을 unembedding 입력으로 바꾸는 별도 위치다.
+
+block 내부에서는 Norm output, sublayer update와 덧셈 뒤 stream을 서로 다른 위치로 표시한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A serial decoder block separates raw skip states, normalized branch inputs, attention and MLP updates, and residual hook sites](../../figures/assets/N05/N05-20-block-hook-sites.svg)
+
+<figcaption>파란 skip에는 정규화하지 않은 stream이 남고 위쪽 branch는 별도 RMSNorm을 거친다. attention update를 더한 U와 MLP update 자체는 다른 tensor이며, 각 위치의 shape가 같다는 이유로 hook을 같은 것으로 취급하지 않는다.</figcaption>
+</figure>
+
+층 수 $L$과 굵은 $\mathbf L$을 구분한다. $\mathbf X^{(L)}$는 마지막 block 뒤의 stream이고 $\mathbf L$은 후보 token마다 점수를 낸 logit tensor다. embedding으로 vocabulary row 하나를 골라 들어왔더라도 출력에서는 모든 vocabulary 후보의 점수를 계산한다.
+
+한 layer인 실습의 전체 경로는 마지막 axis가 언제 바뀌는지 중심으로 읽는다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Token IDs feed embedding, two residual updates, final norm, and unembedding with their exact tiny-decoder shapes](../../figures/assets/N05/N05-20-decoder-overview.svg)
+
+<figcaption>실습의 B=1, T=3, model dimension=4, vocabulary=16을 사용했다. block에서는 residual shape (1,3,4)를 유지하고 unembedding에서 마지막 axis만 16개 후보 점수로 바뀐다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. shape ledger
 
 $B=1$, $T=3$, $d_{model}=4$, head 1개, vocabulary 16인 실습의 주요 shape는 다음과 같다.
@@ -84,6 +106,15 @@ $B=1$, $T=3$, $d_{model}=4$, head 1개, vocabulary 16인 실습의 주요 shape�
 
 residual addition 지점의 두 tensor shape가 같고, 마지막 axis만 unembedding에서 vocabulary size로 바뀐다.
 
+같은 token 행을 가진 세 배열에서도 열이 가리키는 대상은 다르다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Three token rows have four residual-feature columns, three attention-key columns, or sixteen vocabulary-candidate columns](../../figures/assets/N05/N05-20-score-vocabulary-axes.svg)
+
+<figcaption>batch와 head를 생략한 원소 슬롯이다. attention score의 열 세 개는 입력 key 위치, logit의 열 열여섯 개는 vocabulary 후보를 가리킨다. 빈 슬롯은 axis와 크기를 나타내며 실제 값이나 mask 허용 여부를 뜻하지 않는다.</figcaption>
+</figure>
+
 ## 핵심 개념 3. architecture diff를 읽는 순서
 
 모델끼리 비교할 때 다음 항목을 따로 확인한다.
@@ -98,6 +129,28 @@ residual addition 지점의 두 tensor shape가 같고, 마지막 axis만 unembe
 8. cache layout과 fused kernel
 
 수학 함수를 바꾸는 선택과 같은 함수를 빠르게 계산하는 구현을 같은 열에 넣지 않는다.
+
+기준 serial residual에서는 attention이 바꾼 중간 stream을 MLP가 읽는다. parallel residual에서는 두 branch가 같은 block 입력에서 각각 update를 만들고 그 결과를 더할 수 있다. 후자의 MLP는 attention을 더한 중간 stream을 입력으로 받지 않는다. 두 branch를 컴퓨터에서 동시에 실행하는지뿐 아니라 함수 사이의 의존 관계가 달라진다.
+
+의존 관계만 분리한 toy 숫자에서도 serial과 parallel은 서로 다른 결과를 낸다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Serial and parallel residual toy blocks yield 4.5 and 3.5 because the MLP reads an attention-updated stream or the original input](../../figures/assets/N05/N05-20-serial-parallel-dependency.svg)
+
+<figcaption>Norm을 생략하고 A(z)=z/2, M(z)=2z, x=1로 둔 별도 예시다. serial의 MLP는 U=1.5를, parallel의 MLP는 x=1을 읽는다. 파란 우회선은 각 덧셈에 들어가는 skip 항이다.</figcaption>
+</figure>
+
+반면 같은 Q·K·V와 mask에 대해 같은 attention 결과를 계산하는 fused kernel은 실행 단계와 memory 접근을 합칠 수 있다. 중간 tensor를 따로 저장하지 않더라도 수학적 QK score와 value 가중합의 역할은 남는다. hook이 관찰할 수 있는 실제 tensor와 수식에서 정의한 중간 값을 구분해 비교한다.
+
+수학적 중간 값의 역할이 남는 것과 그 tensor가 실제로 노출되는 것은 아래에서 분리했다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Explicit attention stores full score and weight tensors while a fused path can compute the same output without exposing those full buffers](../../figures/assets/N05/N05-20-fused-intermediates.svg)
+
+<figcaption>같은 입력과 mask에 대해 같은 attention 함수를 계산하는 두 구현 경로다. fused 경로는 score·softmax·value mixing의 역할을 계산하더라도 full (T,T) 중간 tensor를 따로 보관하거나 hook에 노출하지 않을 수 있다.</figcaption>
+</figure>
 
 ## Pythia config 대조
 

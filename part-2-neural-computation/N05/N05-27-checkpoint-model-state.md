@@ -43,7 +43,36 @@ checkpoint는 단순한 weight 파일이 아니다. inference를 재현할 model
 
 PyTorch module의 `state_dict`에는 parameter와 persistent buffer가 들어간다. parameter는 optimizer가 갱신하는 학습 대상이고 buffer는 running statistic처럼 forward 상태에 영향을 주지만 gradient parameter가 아닌 tensor다.
 
-교육용 tiny decoder에는 parameter 12개와 persistent buffer 0개가 있다. 다른 architecture에서는 position table, running statistic이나 mask를 buffer로 등록할 수 있으므로 개수를 가정하지 않는다.
+model이 저장하는 두 종류의 tensor와 optimizer가 따로 저장하는 slot을 구분하자.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The model state dictionary contains parameters and persistent buffers while a separate optimizer state dictionary holds step and first and second moment slots](../../figures/assets/N05/N05-27-state-dictionaries.svg)
+
+<figcaption>tiny decoder의 model state에는 parameter tensor 12개와 persistent buffer 0개가 있다. optimizer는 step 뒤 각 parameter의 step·exp_avg·exp_avg_sq를 별도 dictionary에 둔다. 다른 architecture의 buffer 개수를 0으로 일반화하지 않는다.</figcaption>
+</figure>
+
+교육용 tiny decoder에는 parameter tensor 12개와 persistent buffer 0개가 있다. 여기서 12는 이름을 가진 tensor entry의 수이고, 각 tensor의 원소 수를 모두 더한 학습 scalar 수는 300이다. 다른 architecture에서는 position table, running statistic이나 mask를 buffer로 등록할 수 있으므로 개수를 가정하지 않는다.
+
+실습 구현의 tensor별 shape를 세면 두 가지 개수가 어떻게 다른지 확인할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Twelve named parameter tensors in the tiny decoder have different shapes whose scalar element counts sum to three hundred](../../figures/assets/N05/N05-27-tensor-scalar-inventory.svg)
+
+<figcaption>각 칸은 이름을 가진 tensor entry 하나다. 예를 들어 embedding의 shape 16×4는 entry 하나이면서 scalar 64개다. 네 attention weight와 세 MLP weight, 세 norm vector 및 embedding·unembedding을 모두 합하면 12 entry와 300 scalar를 얻는다.</figcaption>
+</figure>
+
+`state_dict`는 이 이름과 tensor를 연결하여 load할 위치를 정한다. 그렇다고 `state_dict()`를 호출하는 순간 독립된 checkpoint 사본이 만들어지는 것은 아니다. 반환된 tensor는 model의 storage를 참조할 수 있어, memory에 그 dictionary만 보관한 채 training을 계속하면 저장하려던 값도 바뀔 수 있다. 실습에서 state를 깊은 복사한 이유는 선택한 step의 값을 이후 update와 분리하기 위해서다.
+
+값을 선택한 step에 고정하는 사본과 이후 update를 따라가는 참조를 비교하자.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A deep copied checkpoint keeps a toy weight value one at saved step k while the live model storage changes to two at step k plus one](../../figures/assets/N05/N05-27-step-snapshot.svg)
+
+<figcaption>예시 weight가 step k에서 1이고 이후 2로 바뀌었다고 하자. 독립적으로 복사한 snapshot은 저장하려던 step k의 값 1을 유지한다. live storage를 참조하는 dictionary만 보관하면 이후 값 2를 보게 될 수 있다.</figcaption>
+</figure>
 
 ## 핵심 개념 2. training을 재개할 상태
 
@@ -58,11 +87,33 @@ AdamW를 같은 update에서 이어가려면 parameter만으로 부족하다. �
 
 inference만 재현할 때는 optimizer state가 필요 없을 수 있다. 반면 training trajectory를 분석하거나 정확히 resume하려면 위 항목의 누락이 결과를 바꿀 수 있다.
 
+AdamW의 다음 update는 현재 gradient뿐 아니라 과거 gradient로 만든 moment와 누적 step에 의존한다. weight가 같아도 moment를 0으로 다시 시작하면 이어서 학습한 경우와 update가 달라질 수 있다. scheduler는 다음 learning rate를, data position은 다음에 계산할 gradient의 입력을 정한다. RNG state는 난수열의 현재 위치를 보존하므로, 처음 사용한 seed만 다시 지정하는 것과도 다르다. 정확한 resume은 같은 weight에서 새 학습을 시작하는 것이 아니라 다음 계산에 필요한 상태까지 이어 붙이는 일이다.
+
+다음 step에 들어가는 상태의 의존 관계를 모아 보면 weight만으로 충분하지 않은 이유를 볼 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Model weights optimizer moments and step schedule and data position and random draw state separately feed the next training computation](../../figures/assets/N05/N05-27-resume-dependencies.svg)
+
+<figcaption>네 경로는 다음 계산에 필요한 서로 다른 상태다. weight가 같아도 moment·learning rate·다음 batch·난수 위치가 다르면 이어지는 계산이 달라질 수 있다. optimizer state는 고정된 inference만 재현할 때와 정확한 training resume에서 요구가 다르다.</figcaption>
+</figure>
+
 ## 핵심 개념 3. load 검증
 
 `load_state_dict(..., strict=True)`는 loaded key가 model이 기대하는 key와 정확히 맞는지 검사한다. missing·unexpected key를 무시하면 일부 parameter가 새 초기값인 상태로 남을 수 있다.
 
-같은 state를 load한 model은 같은 eval input에서 tolerance 아래 같은 output을 내야 한다. key 일치만 아니라 forward equivalence도 확인한다.
+같은 architecture·config에 같은 state를 load하고 input·eval mode·dtype 등 forward 조건을 맞췄다면 정한 tolerance 아래 같은 output을 내야 한다. key 일치만 아니라 forward equivalence도 확인한다.
+
+key 검사는 tensor를 어느 이름에 넣을지 확인하지만, 그 이름을 사용하는 forward code가 같다는 것까지 증명하지는 않는다. 같은 shape의 weight를 load해도 residual 순서나 normalization 계산이 다르면 다른 함수가 된다. 또한 state load만으로 평가 모드가 설정되는 것은 아니므로, 실습은 원본과 reload model에 각각 `eval()`을 적용한 뒤 비교한다. 몇 입력의 output 일치는 load 절차를 확인하는 검사이지 모든 입력에서 함수가 같다는 증명은 아니다.
+
+key 불일치를 찾는 검사와 forward 결과를 대조하는 검사를 나누어 수행한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![A strict load rejects missing key B and unexpected key C before a separate matched condition numerical forward check can be performed](../../figures/assets/N05/N05-27-load-checks.svg)
+
+<figcaption>키 이름 A·B·C는 불일치를 설명하는 예시다. 기대한 B가 없고 C가 추가됐다면 strict load를 해결한 뒤 분석한다. key와 shape가 맞아도 같은 config·forward code·입력·eval·dtype에서 output을 별도로 대조한다.</figcaption>
+</figure>
 
 ## 예제
 

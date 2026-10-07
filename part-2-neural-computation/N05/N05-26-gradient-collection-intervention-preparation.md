@@ -48,9 +48,31 @@ s=\ell_{t,y^+}-\ell_{t,y^-}
 
 로 정할 수 있다. 정답 logit 하나, cross entropy와 sequence mean loss는 서로 다른 cotangent를 만들므로 질문에 맞춰 선택한다.
 
+여기서 cotangent는 출력의 작은 변화가 선택한 scalar를 얼마나 바꾸는지를 좌표별 가중치로 나타낸다. 이 logit difference는 두 logit에 각각 $+1$과 $-1$을 주므로, activation에 대한 gradient도 $\nabla_{\mathbf a}\ell_{t,y^+}-\nabla_{\mathbf a}\ell_{t,y^-}$가 된다. cross entropy에서는 정답과 예측 확률에 따른 가중치가 쓰이고, 여러 token의 mean loss에서는 위치별 gradient가 평균된다. 같은 activation을 관찰해도 target을 바꾸면 측정하는 민감도가 달라지는 이유다.
+
+작은 선형 logit 두 개에서 +1·−1 가중치가 gradient에 어떻게 전달되는지 보자.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two toy linear logits have gradients two one and one two whose positive and negative combination gives target gradient one minus one](../../figures/assets/N05/N05-26-target-gradient-combination.svg)
+
+<figcaption>예시의 ℓ₀ gradient는 (2,1), ℓ₁ gradient는 (1,2)다. target s=ℓ₀−ℓ₁을 선택하면 두 gradient를 빼서 (1,−1)을 얻는다. ℓ₀ 하나를 target으로 삼을 때와 측정량이 다르다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. activation gradient
 
 중간 activation $\mathbf a$가 leaf tensor가 아니면 PyTorch는 기본적으로 `.grad`를 보존하지 않는다. backward 전에 `retain_grad()`를 요청하거나 `torch.autograd.grad`로 직접 gradient를 구한다.
+
+중간 gradient가 계산되는 것과 그 값이 tensor의 `.grad`에 저장되는 것은 다르다. backpropagation은 activation을 지나며 필요한 미분을 계산하지만, 모든 중간 값을 나중에 읽을 수 있도록 남겨 두지는 않는다. `retain_grad()`는 graph에 연결된 activation의 그 값을 보존하도록 요청한다. 앞 단원처럼 미리 `detach`한 기록용 사본에 이 요청을 한다고 원래 graph가 복원되지는 않는다. 실습은 원래 module output에 gradient를 보존한 뒤, backward가 끝나면 필요한 token의 값과 gradient만 사본으로 가져온다.
+
+graph에 연결된 원래 activation과 관찰 사본의 경로를 나누어 보자.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Backward from a toy scalar target retains gradient one minus one on the original non leaf activation while a detached value record has no link to restore the original graph](../../figures/assets/N05/N05-26-gradient-retention-graph.svg)
+
+<figcaption>예시 target s=a₀−a₁의 backward는 원래 a에서 gradient (1,−1)을 계산한다. backward 전에 retain_grad를 요청하면 그 값을 a.grad에 보존한다. 따로 detach한 (1,2) 기록은 원래 graph를 복원하는 통로가 아니다.</figcaption>
+</figure>
 
 작은 perturbation에 대해서는
 
@@ -62,6 +84,17 @@ s(\mathbf a+\delta\mathbf a)-s(\mathbf a)
 
 이다. 이 값은 기준 activation 주변의 일차 근사다.
 
+내적은 각 좌표의 변화량에 그 좌표의 편미분을 곱해 더한 것이다. gradient의 한 성분이 커도 그 좌표를 거의 바꾸지 않거나 다른 성분의 효과와 상쇄되면 target 변화는 작을 수 있다. 기준점에서 미분 가능한 downstream 함수의 곡선 부분을 접평면으로 근사하므로, 같은 gradient를 멀리 떨어진 activation까지 그대로 적용할 근거는 없다.
+
+좌표별 곱을 따로 그리면, 큰 성분이 있어도 합이 작아지는 경우를 볼 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Gradient components three minus two multiplied by perturbation components zero point two zero point three give contributions positive zero point six and negative zero point six which sum to zero](../../figures/assets/N05/N05-26-component-cancellation.svg)
+
+<figcaption>이 예시의 일차 변화는 3×0.2+(−2)×0.3=0이다. 두 좌표의 기여가 각각 0.6과 −0.6으로 상쇄된다. gradient 크기만 보고 이 perturbation의 target 변화가 크다고 결론낼 수 없다.</figcaption>
+</figure>
+
 ## 핵심 개념 3. intervention과 비교한다
 
 activation을 0으로 바꾸면 $\delta\mathbf a=-\mathbf a$다. gradient prediction은
@@ -71,6 +104,28 @@ activation을 0으로 바꾸면 $\delta\mathbf a=-\mathbf a$다. gradient predic
 \]
 
 이고 실제 forward를 다시 실행해 $\Delta s_{actual}$을 측정한다. 둘의 차이는 비선형성, perturbation 크기와 downstream normalization의 영향을 포함한다.
+
+이 비교에서 $s(\mathbf a)$는 model weight·입력·관찰 위치를 고정하고, 그 위치에 들어가는 activation만 변수로 둔 downstream 계산을 뜻한다. 실제 개입은 해당 activation을 교체한 뒤 이어지는 계산을 다시 수행한다. 저장된 activation 사본의 숫자만 바꾸면 model forward에는 전달되지 않으므로 개입이 아니다. 두 변화량을 비교하려면 같은 위치의 같은 좌표를 교체하고 같은 scalar target을 측정해야 한다.
+
+독립된 기록 사본의 수정과 live activation의 교체는 서로 다른 경로다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Editing an independent activation record leaves live downstream computation unchanged while replacing the live activation with zeros changes the input used by the rerun](../../figures/assets/N05/N05-26-record-versus-replacement.svg)
+
+<figcaption>위쪽에서는 독립된 사본만 0으로 바꾸므로 forward는 여전히 a=(1,2)를 사용한다. 아래쪽에서는 실제 activation을 0으로 교체해 downstream s(0,0)을 다시 계산한다. 변화량은 같은 target의 baseline s(1,2)와 비교한다.</figcaption>
+</figure>
+
+zero ablation의 변화량 크기는 $\|\mathbf a\|$다. 제거라는 조작이 간단해 보여도 작은 perturbation이라고 할 수는 없다. 따라서 gradient prediction과 실제 변화가 가까운지는 이 입력과 교체 규칙에서 확인할 결과이지, 미분식만으로 보장되는 성질이 아니다.
+
+한 차원의 downstream 함수에서도 0까지의 유한 제거와 접선 예측이 어긋날 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![For the toy downstream target a squared zero ablation from activation one to zero changes the actual target by minus one while its tangent predicts minus two](../../figures/assets/N05/N05-26-finite-zero-ablation.svg)
+
+<figcaption>설명용 함수 s=a²에서 baseline은 (a,s)=(1,1)이다. a를 0으로 바꾸면 실제 s는 0으로 내려가 Δs=−1이다. 같은 점의 gradient 2로 예측하면 Δs≈2×(−1)=−2가 된다. 아래 실습의 수치와 다른, 근사 오차를 드러내는 작은 함수 예시다.</figcaption>
+</figure>
 
 ## 예제
 

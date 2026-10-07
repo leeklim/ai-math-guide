@@ -52,13 +52,24 @@ Transformer block의 attention과 MLP는 새 hidden state를 처음부터 만드
 
 `residual stream`은 별도의 module 이름이라기보다 block 사이를 이어 가며 update가 누적되는 표현 경로를 가리킨다.
 
+덧셈은 같은 sample·token·feature 위치의 두 값을 합한다. 이어 붙이는 concatenation과 달리 axis 길이는 늘지 않으며 최종 update의 batch와 token axis도 stream과 맞아야 한다. attention 내부에서는 여러 head를 이어 붙이고 MLP 내부에서는 더 넓은 hidden dimension을 사용할 수 있지만, stream에 쓰기 전에는 projection으로 $d_{model}$ 좌표에 돌아온다. 내부 계산의 폭과 residual stream의 폭을 구분한다.
+
+아래의 덧셈은 행과 열이 같은 원소끼리만 연결된다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two token-feature matrices add matching entries to produce a matrix of the same shape](../../figures/assets/N05/N05-17-same-coordinate-addition.svg)
+
+<figcaption>예제의 attention 덧셈이다. token 0의 feature 1에서 −1과 0.5를 합쳐 −0.5를 얻으며, 다른 행이나 열의 값을 끌어오지 않는다. 결과의 token 수와 feature 수는 모두 그대로다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. update를 따라가는 법
 
 $\mathbf R_{mid}$를 볼 때는 attention output만 본 것이 아니다. 이전 stream과 attention update의 합을 본 것이다. 마찬가지로 $\mathbf R_{out}$은 입력, attention update와 MLP update가 누적된 결과다. 단, MLP update 자체도 $\mathbf R_{mid}$에 의존하므로 세 항을 독립적인 고정 vector처럼 취급하면 안 된다.
 
 ### 시각적 직관: 공통 공간을 읽고 다시 같은 공간에 쓴다
 
-<figure class="lesson-figure" markdown="1">
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
 
 ![Attention and MLP branches reading a shared residual stream and adding updates back into it](../../figures/assets/N05/N05-17-residual-stream.svg)
 
@@ -81,6 +92,15 @@ $\mathbf R_{mid}$를 볼 때는 attention output만 본 것이 아니다. 이전
 
 처럼 쓸 수 있다. 그러나 $\Delta\mathbf R_M=M(\mathbf R_{in}+\Delta\mathbf R_A)$이므로 attention update를 바꾸면 MLP update도 일반적으로 달라진다. 이 식은 최종 tensor의 덧셈 관계를 보여 주지만 component 사이의 독립성을 뜻하지 않는다.
 
+attention update를 제거했을 때 뒤 MLP의 값도 다시 계산되는 모습을 예제의 선형 block으로 비교한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Keeping or removing an attention update changes the next MLP input and recomputed update in a toy residual block](../../figures/assets/N05/N05-17-dependent-mlp-update.svg)
+
+<figcaption>실습의 첫 token에 M(a,b)=(b/4,a/4)를 적용했다. attention update를 제거하면 MLP 입력이 (1,−1)로 돌아가므로 MLP update도 (−0.25,0.25)로 달라진다. 마지막 stream은 각 행의 R_mid와 M(R_mid)를 더한 값이다.</figcaption>
+</figure>
+
 ## 핵심 개념 3. gradient의 skip term
 
 단순 residual map $\mathbf y=\mathbf x+F(\mathbf x)$의 Jacobian은
@@ -93,6 +113,26 @@ $\mathbf R_{mid}$를 볼 때는 attention output만 본 것이 아니다. 이전
 이다. 역전파에는 sublayer Jacobian 경로뿐 아니라 identity path의 항이 있다. 이것이 gradient가 항상 안정적이라는 보장은 아니지만, skip path를 제거한 $J_F$만의 연쇄와는 다른 계산이다.
 
 여러 residual block을 합성하면 gradient에는 각 block의 $\mathbf I+\mathbf J_{F_l}$가 연쇄적으로 나타난다. identity 항은 변화가 그대로 전달되는 경로를 제공하지만, 나머지 Jacobian과의 합이 상쇄되거나 여러 층의 곱에서 커질 가능성은 남는다. residual connection의 존재와 안정적인 최적화 결과를 같은 명제로 취급하지 않는다.
+
+loss에서 돌아오는 열벡터 gradient를 쓰면 $\nabla_{\mathbf x}\mathcal L=\nabla_{\mathbf y}\mathcal L+J_F(\mathbf x)^\top\nabla_{\mathbf y}\mathcal L$이다. 첫 항은 skip path, 둘째 항은 branch에서 돌아온 기여이며 갈라진 경로의 미분을 더하는 규칙과 같다. 예를 들어 $F(\mathbf x)=-\mathbf x$이면 두 항이 상쇄되고 출력도 0이 된다. 기존 stream을 수식에 더한다고 그 정보가 출력에 그대로 보존되는 것은 아니다.
+
+gradient가 입력에 도착하는 두 경로의 합을 수치로 따라가면 identity 항의 위치가 분명해진다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![An incoming two-coordinate gradient passes through identity and branch transposes and sums at the input](../../figures/assets/N05/N05-17-gradient-two-paths.svg)
+
+<figcaption>별도의 선형 예시 F(x₀,x₁)=(2x₀,−0.5x₁)다. incoming gradient (1,1)은 skip에서 그대로, branch에서 (2,−0.5)로 돌아오고 입력에서 합쳐 (3,0.5)가 된다.</figcaption>
+</figure>
+
+상쇄 반례에서는 두 경로가 존재해도 최종 함수가 입력 변화에 반응하지 않는다.
+
+<figure class="lesson-figure" markdown="1">
+
+![The identity line and its negative cancel to a flat zero residual output](../../figures/assets/N05/N05-17-skip-cancellation.svg)
+
+<figcaption>F(x)=−x이면 파란 skip 값과 보라 branch 값이 모든 입력에서 상쇄된다. 초록 output은 y=0인 수평선이며 전체 derivative도 0이다.</figcaption>
+</figure>
 
 ## 예제
 
@@ -114,6 +154,15 @@ $\mathbf R_{mid}$를 볼 때는 attention output만 본 것이 아니다. 이전
 \]
 
 이다.
+
+첫 token의 두 덧셈을 같은 좌표계에 놓으면 update가 새 벡터로 교체하는 연산이 아니라 현재 위치에서의 이동으로 보인다.
+
+<figure class="lesson-figure" markdown="1">
+
+![One token moves from its input residual to the attention-updated point and then the MLP-updated point in one feature coordinate grid](../../figures/assets/N05/N05-17-token-update-trajectory.svg)
+
+<figcaption>첫 token은 (1,−1)에서 attention update (0.5,0.5)를 더해 (1.5,−0.5)로, MLP update (−0.125,0.375)를 더해 (1.375,−0.125)로 이동한다. 축은 layer가 아니라 두 feature 좌표다.</figcaption>
+</figure>
 
 ## 실행 실습
 
@@ -145,11 +194,20 @@ residual stream을 특정 방향으로 projection하면 그 방향의 성분이 
 
 stream에 vector를 더하거나 component output을 제거하는 것은 실제 activation을 바꾸는 intervention이다. 반면 stream을 읽어 plot만 만드는 것은 관찰이다. 두 증거를 같은 강도로 보고하지 않는다.
 
+아래는 같은 hook 위치에서 수치를 읽는 동작과 activation을 바꾸는 동작을 나란히 놓은 것이다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Reading one stream coordinate leaves activation unchanged while adding a vector changes the input to downstream computation](../../figures/assets/N05/N05-17-observation-intervention.svg)
+
+<figcaption>관찰은 r=(1,2)의 첫 좌표 1을 읽어도 원래 실행을 바꾸지 않는다. 개입은 (0.5,0)을 더해 r=(1.5,2)로 바꾼 뒤 downstream 계산과 평가값의 변화를 확인하는 조작이다. 행동 효과 수치는 이 그림에서 가정하지 않는다.</figcaption>
+</figure>
+
 ## 흔한 오해
 
 ### 오해 1. residual stream은 attention output이다
 
-attention output은 stream에 더하는 update다. 덧셈 뒤 stream에는 이전 정보도 남는다.
+attention output은 stream에 더하는 update다. 덧셈 뒤 stream은 이전 stream 항을 포함하지만 update와 상쇄될 수 있으므로 이전 정보의 보존까지 자동으로 보장하지는 않는다.
 
 ### 오해 2. layer output을 component별 고정 vector의 합으로만 보면 충분하다
 

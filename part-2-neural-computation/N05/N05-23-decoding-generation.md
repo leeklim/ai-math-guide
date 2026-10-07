@@ -33,7 +33,7 @@ estimated_time: "120~150분"
 | 기호·용어 | Common spoken reading | 의미 | shape·범위 |
 |---|---|---|---|
 | $\tau$ | `temperature` | logit scale을 조절하는 양수 | $\tau>0$ |
-| $\arg\max_i z_i$ | `the index that maximizes z i` | 가장 큰 logit의 token index | discrete index |
+| $\arg\max_i z_i$ | `arg max over i of z sub i` | 가장 큰 logit의 token index | discrete index |
 | top-k | `top k` | logit이 큰 $k$개 token만 남기는 절단 | $1\le k\le V$ |
 | top-p | `top p` | 누적 probability가 기준을 넘는 최소 상위 집합을 남기는 절단 | $0<p\le1$ |
 | categorical sample | `a categorical sample` | 정규화된 token probability에서 뽑은 index | random variable |
@@ -54,6 +54,26 @@ x_{t+1}\sim\operatorname{Categorical}(\mathbf p)
 
 로 token을 뽑는다. probability가 가장 큰 token도 매번 선택된다는 보장은 없다.
 
+greedy는 현재 prefix에서 가장 큰 다음 token probability를 고르는 규칙이다. 그 선택 뒤의 모든 prefix와 probability 곱을 비교하지 않으므로 전체 sequence probability가 가장 큰 문자열을 찾는다고 보장하지 않는다. sampling에서는 선택한 token이 다음 prefix에 들어가 후속 distribution도 바뀔 수 있다. 같은 weight라도 처음의 random draw가 다르면 이후 생성 경로가 달라질 수 있다.
+
+확률을 길이로 나눈 구간에 놓으면, 최댓값 선택과 무작위 추출의 차이를 볼 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Four token probability intervals give greedy token zero while a possible uniform draw of zero point seven falls in token one](../../figures/assets/N05/N05-23-greedy-sample-interval.svg)
+
+<figcaption>예제의 probability를 순서대로 길이로 놓았다. greedy는 가장 넓은 token 0 구간을 고른다. 반면 0부터 1 사이에서 뽑은 u=0.70은 token 1의 구간에 들어간다. 이 draw는 규칙을 보여 주기 위한 예시다.</figcaption>
+</figure>
+
+현재 단계의 최댓값을 고르는 것과 전체 경로의 곱을 비교하는 것도 다르다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A two step probability tree starts with greedy branch A at zero point six but the largest complete path lies under branch B with probability zero point three nine six](../../figures/assets/N05/N05-23-local-global-choice.svg)
+
+<figcaption>이 작은 분포에서는 처음에 A의 0.60이 B의 0.40보다 크다. 그러나 A 아래 경로는 각각 0.60×0.50=0.300이고, B 아래 가장 큰 경로는 0.40×0.99=0.396이다. 첫 greedy 선택만으로 전체 경로의 최대 확률을 보장할 수 없다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. temperature
 
 \[
@@ -63,9 +83,42 @@ p_i(\tau)=
 
 이다. $0<\tau<1$이면 logit 차이가 확대돼 distribution이 더 뾰족해지고, $\tau>1$이면 더 평평해진다. 양의 temperature는 logit 순서를 바꾸지 않으므로 greedy argmax 자체는 같다.
 
+확률 비는 $p_i(\tau)/p_j(\tau)=\exp((z_i-z_j)/\tau)$다. 양의 logit 차이를 더 큰 temperature로 나누면 비가 1에 가까워져 후보 간 상대 차이가 줄어든다. 고정된 유한 logit vector에서는 temperature를 높일수록 softmax entropy가 감소하지 않는다. 모든 logit이 같으면 처음부터 uniform이라 변화가 없다. $\tau$가 무한히 커지면 uniform에 가까워지고 0 쪽으로 줄면 최대 logit 후보에 집중한다. 동점 최대값이 여러 개이면 그 후보들에 질량이 나뉜다.
+
+같은 네 logit을 유지하고 temperature만 바꾼 세 분포를 비교해 보자.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The same four logits give concentrated or flatter probabilities at temperatures zero point two five one and four while retaining the same token ordering](../../figures/assets/N05/N05-23-temperature-distributions.svg)
+
+<figcaption>세 경우 모두 token 0부터 3까지의 순서는 같다. 다만 질량의 집중도가 달라져 같은 top-p=0.75에서도 남기는 후보가 1개, 2개, 3개가 된다. 작은 막대 위 0.00은 반올림한 표시이며 정확한 확률이 0이라는 뜻은 아니다.</figcaption>
+</figure>
+
+집중도의 변화를 entropy로 묶어 보면 다음 곡선이 된다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Softmax entropy of a fixed four logit vector increases with positive temperature and approaches the uniform entropy log four](../../figures/assets/N05/N05-23-temperature-entropy.svg)
+
+<figcaption>고정된 logits=(2,1.5,0,−1)의 entropy를 자연로그 단위로 표시했다. temperature가 커지면 네 후보의 균등분포 entropy인 log 4에 가까워진다. 가로축은 로그 눈금이다.</figcaption>
+</figure>
+
 ## 핵심 개념 3. top-k와 top-p
 
 top-k는 고정된 후보 수를 남긴다. top-p 또는 nucleus sampling은 원래 probability가 큰 순서로 더해 누적 질량이 $p$ 이상이 되는 최소 집합을 남긴다. 두 방식 모두 제외된 logit을 $-\infty$로 만든 뒤 남은 후보를 다시 정규화해 sampling한다.
+
+남긴 후보 집합을 $\mathcal C$라고 하면 그 안의 새 확률은 기존 $p_i$를 $\sum_{j\in\mathcal C}p_j$로 나눈 값이며 밖은 0이다. 예제의 두 후보는 원래 질량이 약 0.8966이고 이를 분모로 나누어 합을 1로 맞춘다. top-p의 기준 $p$는 유지할 원래 질량의 하한이지 최종 sampling probability의 합이 아니다. threshold를 넘긴 마지막 token까지 포함하므로 남은 질량은 기준보다 클 수 있다.
+
+양의 temperature는 순서를 유지해 top-k 후보는 바꾸지 않지만 probability 질량은 바꾼다. 따라서 temperature 뒤에 top-p를 적용하면 그 temperature에서 얻은 확률로 누적 집합을 정해야 한다.
+
+누적 질량 곡선에서 기준선을 처음 넘는 위치가 남길 후보 수를 정한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Original cumulative probability first crosses the top p threshold zero point seven five after retaining the first two tokens](../../figures/assets/N05/N05-23-nucleus-cumulative.svg)
+
+<figcaption>첫 token의 질량 약 0.558은 기준 0.75에 못 미친다. 둘째 token까지 더하면 약 0.897로 처음 넘으므로 두 token을 남긴다. 기준을 넘긴 둘째 token을 잘라내지는 않는다.</figcaption>
+</figure>
 
 ## 예제
 
@@ -76,6 +129,15 @@ logits가 $(2,1.5,0,-1)$이면 softmax는 약
 \]
 
 이다. greedy token은 index 0이다. top-k에서 $k=2$이면 앞의 두 token만 남고, top-p에서 $p=0.75$이면 첫 token의 질량만으로 부족하므로 둘째 token까지 남는다. 다시 정규화한 distribution은 둘 다 약 $(0.6225,0.3775,0,0)$이다.
+
+남은 질량과 다시 정규화한 확률을 두 줄로 비교하자.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Keeping the first two of four candidates and dividing their probabilities by the retained mass changes them to zero point six two two five and zero point three seven seven five](../../figures/assets/N05/N05-23-candidate-renormalization.svg)
+
+<figcaption>원래 확률에서 token 0·1의 질량 약 0.8966만 남긴다. 각 확률을 그 질량으로 나누면 두 값이 약 0.6225·0.3775가 되어 합이 1이다. 제외된 token 2·3의 최종 sampling probability는 0이다.</figcaption>
+</figure>
 
 ## 실행 실습
 

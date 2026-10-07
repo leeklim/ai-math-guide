@@ -57,9 +57,53 @@ V_{\le t}=\operatorname{concat}(V_{<t},v_t)
 
 만 계산하면 된다. cache는 layer마다 별도로 유지한다.
 
+새 $k_t,v_t$의 sequence 길이는 각각 1이고 concat 뒤 길이는 $t$다. head나 feature를 새로 늘리는 연산이 아니다. 현재 query는 한 위치지만 비교할 key는 과거와 현재의 $t$개이므로 head별 score의 두 위치 axis는 $(1,t)$가 된다. 과거 query output을 다시 만들 필요는 없어도 현재 query의 과거 key 비교와 value 합은 남는다.
+
+아래에서는 feature가 두 개인 작은 벡터로, cache 길이가 늘어나는 방향을 확인한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Separate key and value arrays append a current two-feature vector after two past positions while keeping feature width two](../../figures/assets/N05/N05-22-cache-sequence-append.svg)
+
+<figcaption>과거 두 위치 뒤에 현재 위치를 붙이면 K와 V의 sequence 길이가 각각 2에서 3으로 늘어난다. 각 벡터의 feature 수는 여전히 2다. 두 배열은 서로 합치는 것이 아니라 따로 갱신한다.</figcaption>
+</figure>
+
+같은 key 예시에 현재 query를 대입하면, 한 행에 세 개의 비교 결과가 생긴다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A single current query one one compares with three cached keys and produces one score row with three columns](../../figures/assets/N05/N05-22-query-cached-key-row.svg)
+
+<figcaption>현재 q=(1,1)을 세 key와 내적하고 √2로 나누면 score는 약 (0.707,0.707,1.414)다. query 길이는 1이지만 비교하는 key가 세 개이므로 score shape는 (1,3)이다. 이어지는 softmax와 value 가중합도 필요하다.</figcaption>
+</figure>
+
+각 layer는 서로 다른 hidden state와 projection weight에서 K·V를 만든다. 한 layer의 cache를 다른 layer에 그대로 쓰지 않는다. 새 token 역시 attention만 계산하는 것이 아니라 해당 layer의 residual·MLP를 거쳐 다음 layer로 가며, 그곳의 새 K·V도 만들어 cache에 붙인다.
+
+layer 사이로 넘어가는 현재 hidden state와, 각 layer가 따로 갱신하는 cache를 나누어 보자.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The current token crosses layer zero and layer one while each layer appends its own projected keys and values to a separate cache](../../figures/assets/N05/N05-22-layer-specific-cache.svg)
+
+<figcaption>아래로 향하는 화살표는 현재 token의 다음 layer 입력이고, 오른쪽 화살표는 해당 layer에서 만든 현재 K·V의 cache 추가를 표시한다. cache에 모든 residual·MLP activation을 저장하는 것은 아니다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. full과 cached 결과
 
 dropout을 끄고 position 처리, mask, dtype와 weight가 같다면 cached inference는 full causal forward의 각 position logit과 같은 수학 함수를 계산해야 한다. 실제 hardware와 kernel에서는 연산 순서 차이로 작은 floating-point 차이가 생길 수 있으므로 tolerance로 비교한다.
+
+과거 위치는 미래 token을 참조하지 않고 normalization과 MLP도 각 token에 적용한다. 그러므로 같은 prefix의 끝에 token을 추가해도 이미 계산한 과거 hidden과 각 layer의 K·V는 바뀌지 않는다. 이 의존 관계 때문에 저장된 값을 재사용할 수 있다. 미래를 함께 보는 attention이라면 새 token이 과거 representation을 바꿀 수 있어 같은 근거를 사용할 수 없다.
+
+비교하는 두 실행에는 동일한 token prefix를 넣어야 한다. 다른 prompt에서 만든 cache는 shape가 같아도 같은 state가 아니다. RoPE를 쓰는 새 token의 위치도 cache 누적 길이에 맞아야 하며, 매번 짧은 입력의 첫 위치로 돌려놓으면 full forward와 다른 회전을 계산한다.
+
+아래 두 실행은 같은 네 token의 마지막 위치를 비교한다. 재사용 여부가 달라도 token의 위치는 바뀌지 않는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Full recomputation and cached decoding use the same four token IDs and positions while only the current position recomputes its key and value in the cached run](../../figures/assets/N05/N05-22-full-cached-prefix.svg)
+
+<figcaption>위쪽은 네 위치의 K·V를 다시 계산하고, 아래쪽은 과거 세 위치의 K·V를 재사용한다. 새 token ID 7은 두 실행 모두 position 3에 있다. 마지막 위치 logit의 일치는 같은 실행 조건에서 tolerance로 검사해야 한다.</figcaption>
+</figure>
 
 ## 핵심 개념 3. cache 비용
 
@@ -74,6 +118,15 @@ layer $L$개, K·V head $h_{kv}$개, 누적 길이 $T$, head dimension $d_h$, ba
 ## 예제
 
 실습의 cache shape는 layer마다 `(1,1,T,4)`다. token을 하나씩 넣으면 sequence axis 길이가 `1, 2, 3, 4`로 증가한다. 길이 4에서 K와 V를 합친 element 수는 $2\times1\times1\times4\times4=32$다.
+
+K와 V가 각각 추가하는 원소 수를 쌓아 보면 선형 증가를 확인할 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Stacked key and value counts grow from eight to thirty two stored elements as cached sequence length increases from one to four](../../figures/assets/N05/N05-22-cache-growth.svg)
+
+<figcaption>이 설정에서는 위치마다 K에 4개, V에 4개를 저장해 총 8개씩 늘어난다. 길이 4의 32개는 원소 수이며 byte 수가 아니다. 각 원소가 4 byte라면 이 단순 cache의 용량은 128 byte다.</figcaption>
+</figure>
 
 ## 실행 실습
 

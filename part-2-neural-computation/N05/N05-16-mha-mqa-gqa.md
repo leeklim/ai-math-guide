@@ -51,6 +51,26 @@ batch-first 표기에서 projection과 reshape 뒤 tensor를
 
 로 쓴다. 각 query head가 사용할 K·V head를 얻으려면 key-value head를 head axis에서 반복하거나 같은 storage를 broadcast한다.
 
+이 단원에서는 key와 value의 head dimension을 같은 $d_h$로 둔다. Q projection의 마지막 feature 길이는 $h_qd_h$이고 이를 길이 $d_h$인 head별 묶음으로 나눈 뒤 head axis를 token axis 앞으로 옮긴다. K와 V는 $h_{kv}d_h$에서 같은 과정을 수행한다. 원소 수를 유지하는 reshape와 axis 순서를 바꾸는 transpose를 구분해야 한다.
+
+아래의 인덱스 예시는 원소 값이 바뀌는 것이 아니라 같은 token의 feature 묶음이 head별 위치로 옮겨지는 것을 보여 준다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+  ![Two token rows of eight indexed features split into four two-feature heads while preserving token membership](../../figures/assets/N05/N05-16-feature-to-head-axes.svg)
+  <figcaption>0~15를 순서대로 놓은 projection 예시다. feature를 두 개씩 나누고 head 축을 앞으로 옮겨도 각 head에서 첫째 token과 둘째 token의 원소가 섞이지 않는다.</figcaption>
+</figure>
+
+각 query head는 한 head의 $T\times T$ attention weight와 $T\times d_h$ output을 계산한다. 여러 head의 output은 token별로 feature 방향에 이어 붙인 뒤 output projection으로 보낸다. K·V를 공유해도 query head별 계산과 output 위치가 사라지는 것은 아니다.
+
+이어 붙일 때도 고정한 token의 head output을 같은 행에 모은다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+  ![Four two-coordinate head outputs for one fixed token concatenate into eight feature slots before output projection](../../figures/assets/N05/N05-16-head-output-concat.svg)
+  <figcaption>한 token의 head output을 예시 수치로 놓았다. 네 head의 두 좌표를 이어 붙여 길이 8의 feature 행을 만든 뒤 output projection에 넣는다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. 세 공유 방식
 
 $h_q=4$일 때 배정은 다음과 같다.
@@ -61,6 +81,24 @@ $h_q=4$일 때 배정은 다음과 같다.
 
 GQA의 group size는 $g=h_q/h_{kv}$다. 이 배정은 query head 수가 key-value head 수로 나누어떨어질 때 단순한 contiguous group으로 표현된다.
 
+세 방식의 차이는 아래에서 query 수가 아니라 화살표가 도착하는 K·V 묶음의 수로 나타난다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+  ![Four query heads connect to four separate KV heads in MHA, one shared KV head in MQA, or two grouped KV heads in GQA](../../figures/assets/N05/N05-16-sharing-assignment.svg)
+  <figcaption>query head 네 개는 모두 유지된다. MHA는 각각 다른 K·V를, MQA는 하나의 K·V를, 이 GQA 예시는 두 query씩 같은 K·V를 사용한다.</figcaption>
+</figure>
+
+같은 group의 query head는 동일한 key와 dot product를 계산하지만 query vector는 각 head의 projection에서 나온다. query가 다르면 같은 key에 대한 score와 softmax weight도 달라질 수 있다. 따라서 value를 공유한다고 head output까지 같아지는 것은 아니다. 공유하는 것은 K·V의 값과 parameter 경로이며, 어느 위치를 얼마나 참고하는지는 각 query에서 계산한다.
+
+아래에서는 두 key 위치를 모두 허용한 작은 계산으로 공유와 output 동일성이 다른 조건임을 확인한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+  ![Two distinct queries attending to the same identity keys and value vectors yield reversed attention weights and distinct weighted outputs](../../figures/assets/N05/N05-16-shared-kv-distinct-outputs.svg)
+  <figcaption>같은 K와 V를 쓰지만 query가 (1,0)과 (0,1)이면 두 위치의 가중치가 뒤바뀐다. 두 output도 각각 약 (1.34,0.66)과 (0.66,1.34)로 다르다. mask 없이 공유 관계만 분리한 예시다.</figcaption>
+</figure>
+
 ## 핵심 개념 3. KV cache 비용
 
 한 layer에서 K와 V를 모두 저장하는 element 수는
@@ -70,6 +108,8 @@ GQA의 group size는 $g=h_q/h_{kv}$다. 이 배정은 query head 수가 key-valu
 \]
 
 이다. 같은 $B,T,d_h$라면 MQA는 MHA의 $1/h_q$, GQA는 MHA의 $h_{kv}/h_q$만큼의 K·V element를 저장한다. 실제 byte 수는 여기에 dtype당 byte를 곱한다.
+
+K 하나의 원소 수는 네 axis 길이를 곱한 $BTh_{kv}d_h$이고 같은 shape의 V까지 저장해 2배가 된다. 이 식은 공유 K·V를 cache에 한 번씩 저장하는 경우의 비용이다. 계산을 위해 펼친 복사본을 별도로 보관하면 그 저장량은 추가된다. query head별 score 계산, 다른 activation이나 model weight의 memory까지 이 식으로 줄어든다고 해석하지 않는다.
 
 ## 예제
 
@@ -82,6 +122,14 @@ $B=1$, $T=2$, $h_q=4$, $d_h=2$일 때 K와 V를 합친 element 수는 다음과 
 | GQA | 2 | $(1,2,2,2)$ | 16 |
 
 계산에 사용할 때는 모두 $(1,4,2,2)$에 대응되도록 공유한다. 논리적 확장은 필요하지만 반드시 메모리를 복사해야 하는 것은 아니다.
+
+저장량은 펼쳐진 논리적 shape가 아니라 따로 저장한 K·V head 수를 세어 비교한다.
+
+<figure class="lesson-figure" markdown="1">
+
+  ![Stacked key and value storage bars total 32, 8, and 16 elements for MHA, MQA, and GQA with the same four queries](../../figures/assets/N05/N05-16-cache-elements.svg)
+  <figcaption>예제의 B=1, T=2, head dimension=2를 고정했다. 파란 K와 초록 V를 합친 높이는 각각 32, 8, 16이며 query head 수는 세 방식 모두 4다.</figcaption>
+</figure>
 
 ## 실행 실습
 
@@ -116,6 +164,14 @@ batch 1, sequence length 2, query head 4와 head dimension 2를 사용한다. �
 GQA에서 query head별 Q activation은 서로 다르지만 같은 group의 head들은 K·V activation을 공유한다. 따라서 `attention head 2의 value vector`라는 표현은 독립된 value projection을 뜻하지 않을 수 있다. hook tensor의 head axis가 query head인지 key-value head인지 먼저 확인해야 한다.
 
 head를 ablate할 때도 Q 경로, attention weight, 공유 K·V 경로와 output slice를 구분해야 한다. 공유 K·V head 하나를 바꾸면 여러 query head가 동시에 영향을 받으므로 단일 query head intervention과 같은 조작이 아니다.
+
+가중치를 고정하고 공유 value 하나만 바꾸면, 그 value를 읽는 query마다 변화량이 각자의 가중치만큼 전달된다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+  ![Changing one shared value from one zero to two zero shifts two query outputs by their fixed weights while another KV group remains unchanged](../../figures/assets/N05/N05-16-shared-value-intervention.svg)
+  <figcaption>첫 group의 token 0 value를 (1,0)에서 (2,0)으로 바꾼 예시다. Q·K와 attention weight를 고정하면 output projection 이전의 두 query output은 각각 (0.25,0), (0.75,0)만큼 변한다. 다른 K·V group의 직접 변화는 0이다.</figcaption>
+</figure>
 
 ## 흔한 오해
 

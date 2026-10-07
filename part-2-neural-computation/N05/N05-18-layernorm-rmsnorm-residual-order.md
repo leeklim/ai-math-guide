@@ -60,6 +60,28 @@ feature dimension이 $d$인 token vector $\mathbf x$에 대해
 
 이다. centering과 rescaling을 모두 한다. 보통 각 token의 마지막 feature axis에서 통계를 계산한다.
 
+여기서 $\boldsymbol\beta\in\mathbb R^d$는 feature별 learned shift이고 $\epsilon>0$은 분모를 보호하는 작은 상수다. 평균과 variance는 한 token의 $d$개 성분으로 계산하며 다른 sample이나 token의 값을 섞지 않는다. variance의 분모 $d$는 이 성분들의 제곱편차 평균을 뜻한다. 모집단 variance의 불편 추정량을 구하는 문제가 아니므로 $d-1$로 바꾸지 않는다.
+
+통계를 묶는 범위는 아래에서 한 행을 감싼 feature group으로 표시했다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two separate token rows compute their own feature mean and variance without mixing token statistics](../../figures/assets/N05/N05-18-token-feature-statistics.svg)
+
+<figcaption>두 token의 feature 세 개를 각각 묶는다. 첫 행의 평균은 2, 둘째 행의 평균은 4이며 서로 섞지 않는다. γ=1, β=0, ε>0에서 상수 행은 centering 뒤 0이 된다.</figcaption>
+</figure>
+
+centering한 vector의 성분 합은 0이고 공통 분모로 나눈 뒤에도 mean은 0이다. 그러나 feature마다 다른 $\gamma_j$를 곱하고 $\beta_j$를 더하면 최종 mean은 달라질 수 있다. 모든 입력 성분이 같으면 centered vector와 variance가 모두 0이 되어 위 식의 출력은 $\boldsymbol\beta$다. 정규화 중간 값의 성질과 learned affine 변환 뒤 성질을 구분한다.
+
+2차원에서 mean을 빼는 단계만 떼어 보면 평균 방향을 제거한 위치로 이동한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![A two-coordinate vector projects to the zero-sum line by subtracting its mean in both coordinates](../../figures/assets/N05/N05-18-centering-projection.svg)
+
+<figcaption>x=(1,3)에서 μ=2를 두 좌표 모두 빼면 (−1,1)이 된다. 보라 화살표는 (−2,−2)의 이동이고 점선은 두 좌표 합이 0인 직선이다. 이후의 variance rescaling은 아직 적용하지 않았다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. RMSNorm
 
 \[
@@ -71,6 +93,17 @@ feature dimension이 $d$인 token vector $\mathbf x$에 대해
 \]
 
 이다. mean을 빼지 않으므로 일반적으로 output mean은 0이 아니다. bias 사용 여부는 구현에 따라 다르지만 기준 RMSNorm 식은 learned scale을 사용한다.
+
+위 분모는 제곱평균에 $\epsilon$을 더한 regularized RMS다. $\epsilon=0$일 때 통상적인 root mean square와 같으며 입력이 0이 아니어야 나눗셈을 할 수 있다. 이 경우 learned scale을 적용하기 전에는 출력의 제곱평균이 1이고 Euclidean norm은 $\sqrt d$다. 양의 $\epsilon$을 넣으면 제곱평균은 1보다 작아지고, learned scale 뒤에는 feature별 배율에 따라서도 달라진다. RMSNorm은 한 vector에 공통 분모를 쓰지만 그 mean을 제거하지 않는다.
+
+RMS로 나누는 단계는 원점에서의 방향을 유지한 채 길이를 바꾼다.
+
+<figure class="lesson-figure" markdown="1">
+
+![RMS normalization scales a vector along the same ray to a circle of radius square root of two](../../figures/assets/N05/N05-18-rms-radius.svg)
+
+<figcaption>γ=1, ε=0인 2차원 예시다. (1,3)을 RMS √5로 나누면 약 (0.447,1.342)가 된다. mean은 제거하지 않고 Euclidean norm은 1이 아니라 √2인 점선 원 위에 놓인다.</figcaption>
+</figure>
 
 ## 핵심 개념 3. residual 순서
 
@@ -86,7 +119,18 @@ feature dimension이 $d$인 token vector $\mathbf x$에 대해
 \mathbf y=\operatorname{Norm}(\mathbf x+F(\mathbf x))
 \]
 
-연산 순서가 다르므로 weight가 같아도 같은 함수가 아니다. 원래 Transformer는 post-norm 식을 사용했고 현대 decoder에는 pre-norm 계열도 널리 쓰인다. 실제 모델은 config와 forward code로 확인한다.
+연산 순서가 다르므로 weight가 같아도 일반적으로 같은 함수가 아니다. 원래 Transformer는 post-norm 식을 사용했고 현대 decoder에는 pre-norm 계열도 널리 쓰인다. 실제 모델은 config와 forward code로 확인한다.
+
+pre-norm에서는 $F$가 정규화된 입력을 받지만 skip path의 $\mathbf x$는 정규화하지 않은 채 더한다. post-norm에서는 $F$가 원래 입력을 받고 덧셈한 결과 전체를 정규화한다. 따라서 pre-norm의 덧셈 뒤 stream은 normalized vector일 필요가 없다. post-norm의 skip 항도 마지막 Norm을 통과하므로 backward 경로를 단순한 identity 항으로만 읽을 수 없다.
+
+두 순서를 같은 toy sublayer에 적용하면 skip이 합쳐지는 위치와 최종 수치가 함께 달라진다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Pre-norm and post-norm paths with the same half-scale sublayer yield different numeric outputs and different skip entry points](../../figures/assets/N05/N05-18-pre-post-norm.svg)
+
+<figcaption>F(z)=z/2, γ=1, β=0인 LayerNorm을 사용하고 ε는 무시할 만큼 작다고 둔 예시다. pre-norm의 원래 x는 Norm을 우회해 마지막에 더해지지만 post-norm에서는 합 전체가 Norm에 들어간다.</figcaption>
+</figure>
 
 ## 예제
 
@@ -103,6 +147,15 @@ $\mathbf x=(1,2,3)$, $\gamma=1$, $\beta=0$이고 작은 $\epsilon$만 둔다. La
 \]
 
 이다. 두 결과는 shape가 같지만 보존하는 정보와 scale 기준이 다르다.
+
+예제의 같은 feature 좌표를 비교하면 centering 유무가 부호와 크기에 어떻게 드러나는지 볼 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Input, LayerNorm, and RMSNorm feature bars show the same three coordinates under different normalization operations](../../figures/assets/N05/N05-18-norm-components.svg)
+
+<figcaption>예제의 x=(1,2,3)을 같은 축 범위로 그렸다. LayerNorm은 mean 2를 뺀 뒤 scale하고 RMSNorm은 양수 성분을 공통 분모로 나눈다. 비교를 위해 γ=1, β=0, ε=0으로 이상화했다.</figcaption>
+</figure>
 
 ## 실행 실습
 
@@ -132,11 +185,36 @@ batch 1, token 2개, model dimension 3의 normalization과 단일 sublayer 순�
 
 $\epsilon$은 variance나 mean square가 매우 작을 때 0으로 나누는 것을 막는다. 구현마다 기본값과 제곱근 안팎의 위치가 다를 수 있으므로 수치 재현에는 정확한 식이 필요하다. $\gamma$를 적용한 최종 output의 RMS는 일반적으로 1이 아니다. `normalized`라는 말이 모든 feature의 절댓값이나 norm이 고정된다는 뜻은 아니다.
 
+정규화 중간 값에 learned affine을 적용한 경우와 ε가 작지 않은 경우를 따로 비교한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Different feature scales and shifts change the mean of an initially zero-mean LayerNorm vector](../../figures/assets/N05/N05-18-learned-affine.svg)
+
+<figcaption>x=(1,2,3)의 정규화 중간 값에 γ=(1,1,2), β=(1,0,0)을 적용했다. 초록 점선으로 표시한 최종 mean은 약 0.742로 0이 아니다.</figcaption>
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![Output mean square approaches one before learned scale but four after a common scale of two as input magnitude grows](../../figures/assets/N05/N05-18-epsilon-ratio.svg)
+
+<figcaption>RMSNorm의 분모에 ε=0.01을 넣었다. 입력 제곱평균이 ε보다 작으면 정규화 뒤 제곱평균도 1보다 훨씬 작다. 모든 feature에 γ=2를 곱하면 제곱평균은 다시 네 배가 된다.</figcaption>
+</figure>
+
 ## 모델 해석과의 연결
 
 pre-norm 모델의 sublayer input hook은 normalized activation을 보고, residual stream hook은 normalization 전 stream을 볼 수 있다. 둘의 coordinate와 scale이 다르므로 이름만 `hidden state`라고 맞춰 직접 비교하면 안 된다.
 
-normalization output을 patch하면 feature별 rescaling과 다른 feature에 의존하는 denominator가 함께 바뀐다. 단일 neuron만 독립적으로 바꾸는 조작으로 해석할 수 없다.
+normalization 입력의 한 좌표를 바꾸고 Norm을 다시 계산하면 mean이나 공통 denominator도 바뀌어 다른 출력 좌표까지 달라질 수 있다. 반면 normalization 뒤 tensor의 한 좌표를 직접 patch하면 Norm을 다시 계산하는 것이 아니다. 두 개입은 서로 다른 계산 위치를 바꾸며, 후자의 tensor는 원래 정규화가 만든 성질을 만족하지 않을 수도 있다.
+
+아래에서는 같은 feature 하나를 정규화 전과 후에 바꾼 결과를 비교한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Patching a LayerNorm input and recomputing changes all output features whereas directly patching one output changes only that coordinate](../../figures/assets/N05/N05-18-norm-intervention.svg)
+
+<figcaption>원래 x=(1,2,3)에서 입력의 첫 좌표를 2로 바꾸고 LayerNorm을 다시 계산하면 세 출력 좌표가 모두 변한다. 반면 기존 output의 첫 좌표에 1을 더하면 나머지 두 좌표는 그대로이며 mean은 0.333이 된다. γ=1, β=0, ε=0인 계산이다.</figcaption>
+</figure>
 
 ## 흔한 오해
 

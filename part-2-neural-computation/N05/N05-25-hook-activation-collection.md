@@ -45,6 +45,15 @@ PyTorch module-specific forward hook은 해당 module의 `forward()`가 output�
 
 hook은 module object에 붙는다. 같은 class의 다른 instance에는 자동으로 붙지 않는다. shared module이 여러 번 호출되면 한 forward에서도 hook이 여러 번 실행될 수 있다.
 
+관찰용 hook의 실행 시점과 residual addition의 위치를 나누어 보자.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A forward hook records a toy MLP down update after it is computed and returns None before the unchanged update is added to the residual stream](../../figures/assets/N05/N05-25-hook-before-addition.svg)
+
+<figcaption>작은 벡터 예시에서 hook은 계산된 update u=(0.5,0.5)를 관찰한다. 반환값 None으로 u를 유지한 뒤 residual r=(1,−1)에 더하면 stream은 (1.5,−0.5)다. down output과 addition 뒤 block output을 같은 관찰값으로 취급하지 않는다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. 최소 activation만 저장하기
 
 output shape가 $(B,T,d)$이고 batch 0의 token $t$만 필요하면
@@ -55,7 +64,29 @@ a_t=\text{output}[0,t,:]
 
 만 저장한다. float32 vector의 byte 수는 $4d$다. 전체 batch·sequence·layer를 무조건 저장하면 실험 질문과 무관한 disk·memory를 쓴다.
 
+숫자를 순서대로 채운 배열에서 선택하는 행과 남기는 feature를 확인하자.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A batch one four token four feature array selects token row two and all four feature entries instead of storing the complete tensor](../../figures/assets/N05/N05-25-token-slice-storage.svg)
+
+<figcaption>batch 0의 t=2 행을 선택하면 feature 0·1·2·3은 모두 남는다. shape (1,4,4)의 float32 전체는 64 bytes이고 선택한 shape (4,) vector는 16 bytes다. 배열의 0부터 15는 slice를 설명하는 숫자이며 실제 model activation이 아니다.</figcaption>
+</figure>
+
 관찰용 사본은 보통 `output[...].detach().cpu().clone()`으로 만든다. `detach`는 graph 참조를 끊고, `cpu`는 accelerator memory에서 옮기며, `clone`은 이후 storage 변경과 분리된 사본을 만든다.
+
+이 세 연산은 서로 대신할 수 없다. `detach`한 tensor는 원래 tensor와 storage를 공유하므로, gradient 연결이 없다는 사실만으로 저장 값이 이후 변경에서 보호되지는 않는다. 이미 CPU에 있는 tensor에는 `cpu()`가 새 사본을 만들지 않는다. 마지막 `clone()`이 선택한 값을 별도 storage에 복사하여 그 시점의 관찰값을 보존한다. 반대로 `clone()`만 하면 값은 복사해도 autograd 연결은 남을 수 있다.
+
+이미 CPU에 있는 값의 storage가 나중에 바뀌는 경우를 비교해 보자.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A detached CPU tensor shares storage with its original while a clone made after detaching keeps an independent snapshot when the original storage later changes](../../figures/assets/N05/N05-25-detach-clone-storage.svg)
+
+<figcaption>처음 값 (1,2)을 담은 storage A에서 graph 연결만 끊으면 storage는 공유한다. 이후 A의 첫 값이 9로 바뀌면 detached 값도 (9,2)다. 그 전에 clone한 storage B는 (1,2)를 유지한다. 이 그림은 storage 공유를 설명하는 예시이며 실습에서 model activation을 수정하는 절차가 아니다.</figcaption>
+</figure>
+
+이렇게 분리한 사본은 값 분석에 쓰는 기록이다. 그 사본에서 원래 activation으로 거슬러 올라가는 gradient를 계산하려는 용도로는 쓸 수 없다. 다음 단원의 gradient 수집에서는 계산 그래프에 연결된 원래 activation과 기록용 사본을 구분한다.
 
 ## 핵심 개념 3. 수명과 provenance
 
@@ -68,9 +99,29 @@ a_t=\text{output}[0,t,:]
 - activation shape, dtype, byte 수와 저장 transformation
 - hook 호출 횟수와 제거 여부
 
+module path는 어느 객체를 관찰했는지를 알려 주지만, 여러 호출 중 어느 결과인지는 알려 주지 않는다. shared module을 두 번 쓰거나 generation의 여러 step에서 같은 module을 호출하면 같은 path에 서로 다른 activation이 쌓인다. 따라서 호출 순서와 해당 입력을 함께 기록해야 layer·token의 의미를 복원할 수 있다. cache를 사용하는 step의 길이 1짜리 output에서 local token index 0은 전체 prefix의 첫 token이 아니라 현재 처리한 token을 가리킨다.
+
+같은 path와 local index를 기록해도 호출 시점이 다르면 가리키는 token이 달라진다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two decode calls use the same module path and local token index zero but refer to token IDs seven and nine at prefix positions three and four](../../figures/assets/N05/N05-25-call-token-provenance.svg)
+
+<figcaption>예시의 두 decode 호출은 같은 path에서 shape (1,1,4)를 내지만 token ID와 누적 position은 다르다. local index 0만으로 prompt의 첫 token이라고 판정하지 않는다. 호출 순서와 입력 token을 함께 기록한다.</figcaption>
+</figure>
+
 ## 예제
 
 실습은 `blocks.0.mlp.down`에 hook을 붙이고 output shape `(1,4,4)`에서 token index 2의 vector 네 개만 저장한다. float32이므로 저장량은 $4\times4=16$ bytes다. hook을 제거한 뒤 같은 forward를 다시 실행해 호출 횟수가 1에서 늘지 않고 logits도 변하지 않는지 확인한다.
+
+등록·호출·제거 순서에 따라 callback 횟수가 어떻게 유지되는지 확인한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![A registered forward hook is called once on the first forward then removed so a second forward leaves its call count at one](../../figures/assets/N05/N05-25-hook-lifetime.svg)
+
+<figcaption>첫 forward 뒤 callback 횟수는 1이다. 해당 handle을 remove한 뒤 두 번째 forward를 수행해도 이 callback의 횟수는 늘지 않아야 한다. 관찰용 hook이므로 logits 불변성도 함께 검사한다.</figcaption>
+</figure>
 
 ## 실행 실습
 

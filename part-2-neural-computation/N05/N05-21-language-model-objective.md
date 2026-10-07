@@ -34,7 +34,7 @@ decoder가 각 position에서 vocabulary logit을 만들더라도 어떤 label�
 |---|---|---|---|
 | $x_{<t}$ | `x before t` | position $t$보다 앞선 token prefix | token sequence |
 | $p_\theta(x_t\mid x_{<t})$ | `p theta of x t given x before t` | prefix가 주어졌을 때 다음 token의 model probability | $[0,1]$ |
-| $\ell_t$ | `loss at position t` | position $t$ target의 negative log-likelihood | nonnegative scalar |
+| $\ell_t$ | `loss at position t` | position $t$ logit과 다음 token target의 negative log-likelihood | nonnegative scalar |
 | teacher forcing | `teacher forcing` | training에서 ground-truth prefix를 model input으로 쓰는 방식 | training procedure |
 | label shift | `label shift` | position $t$ logit을 token $t+1$ label과 맞추는 정렬 | one-token offset |
 
@@ -48,6 +48,17 @@ p_\theta(x_1,\ldots,x_T)
 \]
 
 로 분해한다. 시작 token이나 첫 token 처리 방식은 dataset convention에 따라 달라질 수 있다.
+
+첫 항의 $x_{<1}$은 빈 prefix이며 별도 시작 token을 조건으로 둘 수도 있다. 이 곱은 token이 서로 독립이라는 가정이 아니다. 앞에서 관측한 모든 token을 조건에 넣어 결합확률을 나눈 것이다. 로그를 취하면 곱이 conditional log probability의 합이 되므로 negative log-likelihood 학습에서는 각 예측 위치의 loss를 합할 수 있다.
+
+아래의 작은 token tree에서는 같은 다음 token도 prefix에 따라 다른 probability를 받는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A token tree conditioned on prefix A multiplies continuation probabilities and shows different probabilities for C after AB and AD](../../figures/assets/N05/N05-21-conditional-token-paths.svg)
+
+<figcaption>A가 이미 주어진 조건부 예시다. AB에서 C의 확률은 0.25, AD에서는 0.90이므로 독립을 가정하지 않는다. ABC 경로의 continuation 확률은 0.5×0.25=0.125이며 네 leaf 확률의 합은 1이다.</figcaption>
+</figure>
 
 ## 핵심 개념 2. shifted cross entropy
 
@@ -67,11 +78,44 @@ p_\theta(x_1,\ldots,x_T)
 
 이다. padding이나 무시할 label이 있으면 $\mathcal I$에 포함하지 않는다.
 
+앞 절은 예측할 token의 위치 $t$로 확률을 적었고, 이 절은 logit을 낸 위치 $t$로 loss를 적는다. 현재 위치까지 읽은 $x_{\le t}$가 다음 token $x_{t+1}$의 조건이 되므로 한 칸 shift한다. 같은 input ID를 같은 위치의 target으로 쓰면 이미 입력에서 본 token을 맞추는 다른 학습 문제가 된다.
+
+logit 행에서 다음 label로 향하는 화살표를 따라 한 칸 차이를 확인한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The first three logits of a four-token input align with the next three token IDs while the last logit has no supplied next label](../../figures/assets/N05/N05-21-next-token-shift.svg)
+
+<figcaption>그림의 position은 코드처럼 0부터 센다. logits[0], logits[1], logits[2]는 각각 label 4, 2, 7과 비교한다. 마지막 logit은 이 입력 밖의 다음 label이 없으므로 loss에서 제외한다.</figcaption>
+</figure>
+
+$\mathcal I$는 label이 있는 유효 예측 위치의 집합이며 $N=|\mathcal I|>0$이다. 제외하는 것은 그 위치의 loss이지 입력 tensor의 axis를 자동으로 삭제하는 것이 아니다. batch 전체 유효 token으로 평균하면 긴 sequence가 더 많은 항을 기여한다. sequence별 평균을 다시 같은 비중으로 평균하는 것과는 가중치가 다르다.
+
+같은 loss 값도 무엇을 하나의 평균 단위로 삼는지에 따라 결과가 달라진다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Three valid losses across two padded sequences yield a token mean of two but an equally weighted sequence mean of two point five](../../figures/assets/N05/N05-21-valid-token-reduction.svg)
+
+<figcaption>sequence A의 유효 loss는 1과 1, B의 유효 loss는 4인 별도 예시다. 유효 token 전체 평균은 2지만 sequence 평균을 같은 비중으로 합치면 2.5다. ignored 위치를 loss에서 빼도 tensor의 세 위치는 남는다.</figcaption>
+</figure>
+
 ## 핵심 개념 3. teacher forcing
 
 training에서는 각 position이 앞선 ground-truth token을 받는다. causal mask 덕분에 미래 label은 볼 수 없지만 모든 position의 forward를 병렬 계산할 수 있다.
 
 generation에서는 정답 다음 token이 없다. model이 선택한 token을 sequence 뒤에 붙이고 다시 다음 distribution을 계산한다. training input distribution과 생성 중 model-generated prefix가 다를 수 있다는 점도 구분해야 한다.
+
+training의 입력에는 뒤쪽 정답 token도 들어 있지만 위치 $t$의 logit을 계산하는 경로에는 causal mask로 들어오지 못한다. 뒤쪽 위치를 동시에 계산하는 것과 앞쪽 위치가 뒤쪽 정보를 사용하는 것은 다른 문제다. 정답 prefix를 미리 알기 때문에 training에서는 여러 행을 함께 계산할 수 있고, generation에서는 새로 선택한 token이 다음 행의 입력이 된다.
+
+아래에서는 알려진 정답 prefix와 앞서 선택한 token으로 생긴 prefix를 구분한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Ground-truth prefixes stay fixed for parallel teacher-forcing rows while illustrative generated choices are appended to later input prefixes](../../figures/assets/N05/N05-21-teacher-forcing-generation.svg)
+
+<figcaption>왼쪽은 정답 sequence [1,4,2,7]의 prefix를 사용하며 각 행은 causal mask 아래 함께 계산할 수 있다. 오른쪽의 5와 9는 설명용 선택값으로, 새 token을 정한 뒤에야 다음 prefix를 알 수 있다는 순서를 보여 준다. 실제 model 생성 결과는 아니다.</figcaption>
+</figure>
 
 ## 예제
 

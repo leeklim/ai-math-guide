@@ -63,6 +63,26 @@ x_t
 
 attention update는 같은 position의 현재 embedding뿐 아니라 causal prefix의 K·V를 통해 앞 token에도 의존한다. 한 token의 경로는 독립된 한 줄 계산이 아니라 다른 position과 연결된 graph의 선택 slice다.
 
+실습의 position 2가 어떤 prefix를 읽는지 token ID와 위치를 구분해 보자.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Selected position two with token ID two forms a query while embeddings for positions zero one and two supply allowed keys and values and future position three is blocked](../../figures/assets/N05/N05-28-selected-prefix-attention.svg)
+
+<figcaption>입력 ID는 [1,4,2,7]이고 선택 position은 2다. 현재 query는 E[2]에서 만들지만 K·V는 position 0·1·2의 embedding에서도 온다. position 3의 ID 7은 미래라 이 query의 가중합에 들어가지 않는다.</figcaption>
+</figure>
+
+계산 지도에서 첫 RMSNorm은 position별 attention 입력을 만들고, 이 입력의 projection과 RoPE가 attention에 사용할 Q·K를 만든다. prefix의 K·V도 각 위치의 입력에서 계산된 것이다. 두 번째 RMSNorm은 attention update를 더한 뒤의 stream을 MLP 입력으로 바꾼다. 이처럼 normalization에 들어가는 stream은 서로 다르며, 정규화된 branch 입력과 residual 덧셈에 남겨 둔 stream도 구분해서 추적해야 한다.
+
+두 branch의 normalization 입력과 덧셈에 남기는 skip stream을 나누어 읽는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The attention branch normalizes the original embedding and adds its update to that embedding while the later MLP branch normalizes residual mid and adds its update to residual mid before final normalization](../../figures/assets/N05/N05-28-two-residual-baselines.svg)
+
+<figcaption>첫 skip의 기준은 e₂이고 둘째 skip의 기준은 r_mid,₂다. RMSNorm은 각 branch의 입력을 만들며 skip의 원래 stream을 대신하지 않는다. attention과 MLP의 update를 더한 r_out,₂는 마지막 RMSNorm과 unembedding으로 보낸다.</figcaption>
+</figure>
+
 ## shape ledger
 
 실습은 $B=1$, $T=4$, $d_{model}=4$, head 1개, layer 1개와 vocabulary 16을 사용한다.
@@ -75,6 +95,17 @@ attention update는 같은 position의 현재 embedding뿐 아니라 causal pref
 | attention score | $(1,1,4,4)$ | allowed prefix 3개 |
 | logits | $(1,4,16)$ | $(16,)$ |
 | embedding gradient | $(1,4,4)$ | $(4,)$ |
+
+이 실습에서는 sequence length와 feature dimension이 모두 4여서 shape의 숫자만으로 축을 구별할 수 없다. embedding의 마지막 축은 feature 축이지만, attention score의 마지막 두 축은 각각 query와 key position이다. $t=2$의 score row도 길이는 4이며, 그중 position 0·1·2의 세 항만 허용되고 마지막 항은 mask된다. vocabulary 크기 16은 마지막 logit 축의 후보 수이지 실제로 입력한 token 수가 아니다.
+
+같은 4×4 배열에서 열이 가리키는 대상을 비교해 보자.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A four by four stream array has feature columns while a four by four causal score array has key position columns and masks the last column in query row two](../../figures/assets/N05/N05-28-axis-meaning-comparison.svg)
+
+<figcaption>왼쪽 행은 token position, 열은 feature다. 오른쪽 행은 query position, 열은 key position이다. t=2 행을 선택하면 왼쪽은 feature 네 개를 모두 남기고, 오른쪽은 네 key slot 중 앞 세 개만 허용한다. e와 s의 첨자는 위치를 설명하는 기호이며 실제 측정값이 아니다.</figcaption>
+</figure>
 
 ## residual 검산
 
@@ -90,6 +121,17 @@ attention update는 같은 position의 현재 embedding뿐 아니라 causal pref
 
 가 성립해야 한다. 이 equality는 component hook을 잘못 잡았는지 찾는 기본 검사다.
 
+첫 덧셈의 기준은 정규화된 attention 입력이 아니라 원래 embedding이고, 둘째 덧셈의 기준은 정규화된 MLP 입력이 아니라 $\mathbf r_{mid,t}$다. 따라서 attention update는 $\mathbf r_{mid,t}-\mathbf e_t$, MLP update는 $\mathbf r_{out,t}-\mathbf r_{mid,t}$와 대조할 수 있다. 모든 vector가 같은 shape여도 서로 같은 계산 지점인 것은 아니다. norm output이나 addition 뒤 stream을 update로 잘못 수집하면 이 관계를 만족하지 않을 수 있다.
+
+설명용 작은 vector를 더한 뒤, 각 덧셈의 기준을 빼서 update를 검산하자.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two toy four dimensional residual additions recover their respective attention and MLP updates by subtracting the original embedding or residual mid baseline](../../figures/assets/N05/N05-28-residual-difference-checks.svg)
+
+<figcaption>위쪽은 r_mid−e에서 attention update를, 아래쪽은 r_out−r_mid에서 MLP update를 복원한다. 숫자는 두 검산의 기준을 설명하는 예시이며 실습의 activation 출력이 아니다. 두 경우 모두 normalized branch 입력을 빼지 않는다.</figcaption>
+</figure>
+
 ## output과 gradient
 
 실습의 token index 2에서 greedy vocabulary index는 15다. 선택 target을 $\ell_{2,15}$로 두고
@@ -100,9 +142,31 @@ attention update는 같은 position의 현재 embedding뿐 아니라 causal pref
 
 를 backward로 구한다. 이 gradient는 같은 weight·input의 기준점에서 embedding perturbation에 대한 local sensitivity다. token 15가 왜 선택됐는지에 대한 완전한 설명은 아니다.
 
+여기서는 forward에서 선택된 index 15를 고정한 뒤 그 logit을 미분한다. `argmax`의 정수 index 자체를 미분하는 것이 아니다. position 2의 logit은 다음 token의 후보 점수이고, embedding gradient의 변수는 입력 token ID가 아니라 lookup 뒤의 연속 vector다. 이 vector의 작은 변화에 대한 민감도와 입력을 다른 token ID로 교체하는 유한 변화는 같지 않다. 또한 선택 logit만 높아지는 것과 대안 logit보다 더 높아져 선택이 유지되는 것은 다른 질문이다.
+
+index를 고르는 단계와 그 index의 scalar를 미분하는 단계를 분리한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The run selects vocabulary index fifteen from position two logits then fixes that logit as a scalar target for backward sensitivity to the continuous embedding vector rather than integer token IDs](../../figures/assets/N05/N05-28-fixed-logit-gradient.svg)
+
+<figcaption>이 실습에서 입력 ID 2의 lookup vector는 shape (4,)이고, position 2의 logit vector는 shape (16,)다. 먼저 선택된 vocabulary index 15를 고정한 뒤 ℓ₂,₁₅를 미분한다. 정수 ID나 argmax index를 미분하는 과정은 아니다.</figcaption>
+</figure>
+
 ## cache 대조
 
-full forward의 layer별 K·V shape는 `(1,1,4,4)`다. 같은 네 token을 하나씩 넣어 cache를 늘리고 각 step logit을 이어 붙였을 때 full logits와의 최대 절대 차이는 약 $1.19\times10^{-7}$이다. tolerance 아래 같은 causal function을 재현한다.
+full forward의 layer별 K·V shape는 `(1,1,4,4)`다. 같은 네 token을 하나씩 넣어 cache를 늘리고 각 step logit을 이어 붙였을 때 full logits와의 최대 절대 차이는 약 $1.19\times10^{-7}$이다. 이 입력에서 두 계산의 output이 tolerance 아래 일치한다.
+
+비교하는 것은 동일한 주어진 token 열이다. cached 경로도 model이 새로 고른 token을 넣는 것이 아니라 원래 입력의 다음 token을 넣어야 같은 prefix를 비교한다. full 경로의 position $t$가 보는 입력은 causal mask로 $0$부터 $t$까지 제한되므로, 같은 위치 정보를 사용하는 cached 경로와 맞출 수 있다. 이 대조는 해당 입력의 계산 재현성을 검사하며, cache의 shape가 같다는 사실만으로 logit 일치가 보장되지는 않는다.
+
+cached step에서 얻은 네 logit을 position 축으로 이어 붙여 full output과 맞춘다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Full causal logits for the given four token sequence are compared with four cached step logits concatenated along position under the same given input IDs](../../figures/assets/N05/N05-28-cache-stitched-logits.svg)
+
+<figcaption>두 경로 모두 주어진 ID [1,4,2,7]을 사용한다. cached 경로의 step별 shape (1,1,16) logit을 이어 붙이면 full output과 같은 (1,4,16)이 된다. 그림 아래의 최대 차이는 본문 실습의 보고값이며 같은 입력의 수치 재현성 검사다.</figcaption>
+</figure>
 
 ## 실행 실습
 
@@ -131,12 +195,14 @@ parameter 300개의 model에서 sequence length 4 full forward·backward와 toke
 
 ## 증거 층을 분리하기
 
-이 실습에서 얻는 증거는 다음처럼 구분한다.
+N05에서 다룬 증거는 다음처럼 구분한다.
 
 - forward trace: 실제로 관찰된 activation과 shape
 - gradient: 선택 target의 기준점 주변 local sensitivity
 - intervention: activation을 바꾼 뒤 측정한 conditional effect
 - checkpoint comparison: 학습 시점 사이의 state·behavior 차이
+
+이번 종합 실습은 forward trace와 gradient를 수집하고 cache 대조를 수행한다. activation을 교체하거나 서로 다른 학습 checkpoint를 비교하지는 않으므로, 이 증거 구분을 배웠다는 것과 이 실행에서 네 종류를 모두 측정했다는 것은 구별한다.
 
 한 층의 결과를 다른 층의 결론으로 자동 승격하지 않는다. 예를 들어 nonzero gradient는 feature의 필요성 증거가 아니고 checkpoint 차이는 특정 training example의 원인 효과가 아니다.
 
@@ -232,7 +298,7 @@ attention·residual·decoder 계산은 [Attention Is All You Need](https://arxiv
 
 ## 다음 단계
 
-- I06-01 행동 질문과 표현 질문은 Phase 3의 GPU·Pythia 기반을 만든 뒤 집필한다.
+- [I06-01 행동 질문과 표현 질문](../../part-3-interpretability/I06/I06-01-behavior-representation-question-design.md)
 
 ## 집필자 점검표
 

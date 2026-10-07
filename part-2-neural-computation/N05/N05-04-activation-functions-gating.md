@@ -65,6 +65,19 @@ affine layer만 여러 번 합성하면 전체 계산은 다시 하나의 affine
 
 가 된다. 일반적인 비선형 $\phi$에서는 이 식을 하나의 affine map으로 줄일 수 없다.
 
+위의 $\mathbf W'=\mathbf W_2\mathbf W_1$, $\mathbf b'=\mathbf W_2\mathbf b_1+\mathbf b_2$는 입력에 관계없이 고정된 값이다. 반면 ReLU를 넣으면 같은 unit도 입력에 따라 통과 구간과 0 출력 구간이 달라진다. 한 구간 안에서 affine 식으로 표현할 수 있는 것과 모든 입력에 같은 affine 식을 적용할 수 있는 것은 다르다.
+
+
+아래 scalar 곡선은 한 구간에서의 affine 식과 전체 입력에 적용되는 affine 식의 차이를 보여 준다.
+
+<figure class="lesson-figure" markdown="1">
+
+![A single affine line and a ReLU composite agree on one region but differ across the breakpoint](../../figures/assets/N05/N05-04-affine-composition.svg)
+
+<figcaption>관계를 보기 위한 scalar 예시다. 2(3x + 1) − 1은 한 직선인 반면, 2ReLU(3x + 1) − 1은 x = −1/3에서 기울기가 바뀐다. 오른쪽 한 구간의 affine 식이 전체 입력에 통하는 것은 아니다.</figcaption>
+
+</figure>
+
 ## 핵심 개념 2. 네 activation의 함수값과 기울기
 
 ReLU는
@@ -85,6 +98,8 @@ sigmoid는
 
 이다. 출력 범위가 $(0,1)$이어서 gate에 쓰기 쉽다. $|x|$가 커지면 derivative가 0에 가까워진다.
 
+분모를 미분하면 $\sigma'(x)=e^{-x}/(1+e^{-x})^2$이고 이를 $\sigma(x)$와 $1-\sigma(x)$의 곱으로 쓸 수 있다. 큰 양수 입력에서는 출력이 1에 가깝지만 기울기는 작다. 함수값이 크다는 것과 작은 입력 변화에 민감하다는 것은 같지 않다.
+
 GELU는
 
 \[
@@ -98,6 +113,41 @@ GELU는
 \]
 
 이다. 둘 다 매끄럽고 $x=0$에서 derivative가 $1/2$이다.
+
+SiLU에는 곱의 미분법을 적용해 $\operatorname{SiLU}'(x)=\sigma(x)+x\sigma(x)(1-\sigma(x))$를 얻는다. GELU도 $\operatorname{GELU}'(x)=\Phi(x)+x\Phi'(x)$다. 0에서는 두 번째 항이 사라지고 $\sigma(0)=\Phi(0)=1/2$이 남는다. 두 함수의 출력은 0이지만 기울기는 0이 아니다. sigmoid의 출력 $1/2$와 기울기 $1/4$도 따로 구분해야 한다.
+
+
+아래 출력 곡선에서 음수 구간과 큰 양수 구간을 비교한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![ReLU sigmoid exact GELU and SiLU curves distinguish negative outputs and bounded sigmoid outputs](../../figures/assets/N05/N05-04-activation-values.svg)
+
+<figcaption>실선·점선 패턴과 범례로 네 함수를 구분한다. ReLU의 음수 쪽은 0에 붙지만 GELU와 SiLU는 작은 음수값을 낸다. sigmoid는 입력이 커져도 1 아래에 머문다.</figcaption>
+
+</figure>
+
+
+아래 그림은 같은 입력의 local derivative를 별도 세로축으로 표시한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Local derivative curves include ReLU discontinuity and smooth GELU SiLU sigmoid slopes with explicit PyTorch zero convention](../../figures/assets/N05/N05-04-activation-derivatives.svg)
+
+<figcaption>이 그림의 세로축은 출력값이 아니라 기울기다. GELU와 SiLU는 x = 0에서 출력은 0이지만 기울기는 0.5다. ReLU의 열린 점은 오른쪽 기울기 1, 채운 점은 backward에서 쓰는 0 관례를 표시한다.</figcaption>
+
+</figure>
+
+
+아래 두 곡선을 같은 x에 맞춰 읽으면 큰 함수값과 작은 기울기가 함께 나타나는 구간을 찾을 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Sigmoid value rises toward one while its derivative falls toward zero at large positive inputs](../../figures/assets/N05/N05-04-sigmoid-saturation.svg)
+
+<figcaption>값 곡선과 기울기 곡선을 같은 x에 맞춰 읽는다. x = 4에서는 값이 약 0.982지만 local derivative는 약 0.0177이므로, 큰 활성값과 큰 민감도를 구분해야 한다.</figcaption>
+
+</figure>
 
 ## 핵심 개념 3. gate는 content와 조절값을 곱한다
 
@@ -118,6 +168,21 @@ SwiGLU에서는 sigmoid gate 대신 SiLU를 사용한다.
 \]
 
 SiLU는 음수도 내므로 SwiGLU의 gate는 단순한 비율이나 확률이 아니다. 실제 Transformer block은 같은 hidden state에서 두 affine projection을 만든 뒤 이 elementwise product를 계산한다.
+
+GLU의 한 위치를 $u=c\sigma(g)$로 쓰면 $\partial u/\partial c=\sigma(g)$, $\partial u/\partial g=c\sigma'(g)$다. content를 바꾸는 민감도와 gate 입력을 바꾸는 민감도가 다르다. $c=0$이면 gate만 바꾸어도 이 위치의 출력은 변하지 않지만, content에 대한 미분은 남는다. 두 경로가 같은 hidden state에서 나왔다면 그 hidden state의 gradient에는 두 경로의 기여를 모두 더한다.
+
+곱은 같은 위치끼리만 이루어져 다른 feature를 직접 섞지 않는다. 서로 다른 feature의 결합은 앞선 projection에서 생긴다. sigmoid gate는 유한한 입력에서 content의 절댓값을 줄이는 양수 계수인 반면, SiLU gate는 음수로 부호를 뒤집거나 1보다 큰 값으로 크기를 늘릴 수도 있다.
+
+
+아래 c = 0 계산에서 출력값과 두 local derivative를 따로 확인한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![At content zero and gate input zero GLU output is zero while derivative with respect to content is one half and gate-input derivative is zero](../../figures/assets/N05/N05-04-gate-zero-content.svg)
+
+<figcaption>본문의 c = 0 조건을 g = 0에서 계산하면 gate는 0.5, 출력은 0이다. c를 미분할 때에는 gate 0.5가 남고, g를 미분할 때에는 c = 0을 곱하므로 0이 된다.</figcaption>
+
+</figure>
 
 ## 예제 1. 네 activation 비교
 
@@ -164,6 +229,17 @@ $\mathbf c=(2,-1,0.5)$, $\mathbf g=(-1,0,1)$이라 하자. sigmoid gate는
 
 이다. 첫 성분의 부호가 달라지는 이유는 SiLU gate가 음수값을 허용하기 때문이다.
 
+
+아래 첫 성분 비교에서는 gate 함수를 바꾸는 위치에서 부호가 갈린다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Gate input minus one branches to positive sigmoid and negative SiLU gates then multiplies the same content two to produce opposite signed outputs](../../figures/assets/N05/N05-04-gate-sign.svg)
+
+<figcaption>예제의 첫 위치만 확대했다. 같은 g₁ = −1이 sigmoid에서는 양수, SiLU에서는 음수 gate가 된다. 동일한 content c₁ = 2를 곱하므로 출력 부호가 서로 달라진다.</figcaption>
+
+</figure>
+
 ## 실행 실습
 
 ### 실행 환경과 원본
@@ -194,7 +270,18 @@ site build는 아래 위치에 원본 코드와 실제 실행 결과를 삽입�
 
 activation을 수집할 때는 pre-activation, activation function 뒤의 값과 gated product 뒤의 값을 구분해야 한다. 같은 unit이라는 이름을 써도 hook 위치가 다르면 서로 다른 tensor를 얻는다.
 
-특정 입력에서 gate 값이 크다는 관찰은 그 위치의 content가 더 크게 통과했음을 보인다. 그 component가 모델 행동에 필요하다는 결론은 gate나 content 경로를 바꾸는 개입과 출력 비교를 요구한다.
+0이 아닌 같은 content를 고정하고 sigmoid gate를 비교하면 gate 값이 클수록 출력의 절댓값이 크다. 서로 다른 입력의 gate 값만 비교하면 content도 달라질 수 있으므로 gated product의 크기까지 바로 판단할 수는 없다. 그 component가 모델 행동에 필요하다는 결론은 gate나 content 경로를 바꾸는 개입과 출력 비교를 요구한다.
+
+
+아래 경로에서 projection의 feature 혼합과 gate의 위치별 곱을 구분한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![One hidden state branches to content and gate affine projections then transformed gate and content join in an elementwise product](../../figures/assets/N05/N05-04-shared-hidden-gate.svg)
+
+<figcaption>hidden에서 content와 gate 입력을 만드는 projection은 feature를 섞을 수 있다. 두 경로가 합류하는 elementwise product는 같은 위치끼리만 곱한다. 이 배치의 pre-activation·gate output·product는 서로 다른 관찰 위치다.</figcaption>
+
+</figure>
 
 ## 흔한 오해
 

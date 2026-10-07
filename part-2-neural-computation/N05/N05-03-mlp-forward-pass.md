@@ -65,6 +65,19 @@ hidden neuron이 $d_{\mathrm{hidden}}$개이고 각 neuron이 길이 $d_{\mathrm
 
 이다. $j$번째 행은 $j$번째 neuron의 dot product를 계산한다.
 
+성분으로 쓰면 $z_{1j}=\sum_{k=1}^{d_{\mathrm{in}}}(W_1)_{jk}x_k+(b_1)_j$다. 입력 위치 $k$를 합으로 소모하고 neuron 위치 $j$를 남기므로 출력 길이는 $d_{\mathrm{hidden}}$이다. 한 행 안에서는 여러 입력 성분을 섞고, 서로 다른 행은 같은 입력에 서로 다른 weight와 bias를 적용한다.
+
+
+아래 그림에서 W₁의 각 행이 동일한 입력을 사용해 서로 다른 hidden 위치를 만든다.
+
+<figure class="lesson-figure" markdown="1">
+
+![One input vector feeds three distinct weight rows each computing its own dot product and bias](../../figures/assets/N05/N05-03-neuron-rows.svg)
+
+<figcaption>동일한 입력 (1, 2)에 W₁의 세 행을 각각 적용한다. 행마다 input feature 두 개를 합산해 한 z 값을 만들므로, 세 행은 hidden 위치 세 개로 대응한다. 수치는 아래 예제의 첫째 sample과 같다.</figcaption>
+
+</figure>
+
 ## 핵심 개념 2. batch는 sample을 행으로 쌓는다
 
 $B$개 입력을 행으로 쌓으면
@@ -92,6 +105,30 @@ shape만 추적하면
 
 이다. 여기서 두 번째 factor는 $\mathbf W_1^\top$의 shape다.
 
+한 sample을 열벡터로 계산한 결과를 전치하면 $\mathbf z_1^\top=\mathbf x^\top\mathbf W_1^\top+\mathbf b_1^\top$이 된다. batch 식은 이 행 계산을 $B$번 쌓은 것이다. 합을 취하는 axis는 input feature이고 batch axis는 남으므로, 이 층의 한 행 출력은 다른 행 입력을 사용하지 않는다. sample마다 새 weight를 만드는 것이 아니라 같은 parameter를 공유한다.
+
+
+아래 두 실선 경로는 sample을 분리하고, 점선 경로는 공유 parameter의 사용을 표시한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Two sample rows pass through a shared weight and bias layer without a connection between sample lanes](../../figures/assets/N05/N05-03-batch-shared-weights.svg)
+
+<figcaption>두 sample의 행은 서로 섞지 않고 같은 W₁과 b₁을 사용한다. 파란 실선은 sample 값의 흐름, 보라 점선은 같은 parameter를 각 계산에서 사용함을 표시한다. batch axis 두 위치는 출력에도 남는다.</figcaption>
+
+</figure>
+
+
+아래 배열은 같은 bias가 batch의 각 행에 더해지는 방향을 보여 준다.
+
+<figure class="lesson-figure" markdown="1">
+
+![A single bias vector is reused for each sample row before addition yields the two by three pre-activation matrix](../../figures/assets/N05/N05-03-bias-broadcast.svg)
+
+<figcaption>b₁ = (0.5, −0.5, 0)을 두 sample의 각 행에 더한다. 아래 두 bias 행은 계산상 반복되는 값을 나타내며, 독립된 bias parameter 두 세트를 만든다는 뜻은 아니다.</figcaption>
+
+</figure>
+
 ## 핵심 개념 3. activation function은 원소별로 적용한다
 
 첫 층 pre-activation에 ReLU를 적용하면
@@ -109,6 +146,19 @@ shape만 추적하면
 
 단, 값과 gradient 경로는 바뀐다. 음수인 pre-activation은 0이 되고 그 위치의 ReLU local derivative도 0이 된다.
 
+0이 된 원소도 tensor 안의 위치는 그대로 차지한다. ReLU는 hidden unit을 삭제하거나 batch를 줄이는 연산이 아니다. 또 어느 위치가 0이 되는지는 각 sample의 pre-activation에 달려 있다. 같은 neuron이라도 서로 다른 sample에서 양수 구간과 음수 구간에 놓일 수 있다.
+
+
+아래 전후 배열의 같은 위치를 비교하면 값이 0이 되어도 위치는 없어지지 않음을 확인할 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Two by three matrices before and after ReLU retain all positions while three negative cells turn to zeros](../../figures/assets/N05/N05-03-relu-cell-map.svg)
+
+<figcaption>음수였던 세 위치만 0으로 바뀌며 행·열 위치는 그대로다. 특히 첫째 hidden unit은 첫째 sample에서 1.5를 유지하고 둘째 sample에서 0이 되어, gate 상태가 sample에 따라 달라짐을 보여 준다.</figcaption>
+
+</figure>
+
 ## 핵심 개념 4. 두 번째 affine layer
 
 출력 차원을 $d_{\mathrm{out}}$이라 하면
@@ -123,11 +173,26 @@ shape만 추적하면
 
 \[
 \operatorname{MLP}(\mathbf X)
-=operatorname{ReLU}(\mathbf X\mathbf W_1^\top+\mathbf b_1)
+=\operatorname{ReLU}(\mathbf X\mathbf W_1^\top+\mathbf b_1)
 \mathbf W_2^\top+\mathbf b_2
 \]
 
 로 쓸 수 있다. 이 식에서 “two-layer”는 학습 가능한 affine transformation 두 개를 센다.
+
+둘째 층은 원래 입력이 아니라 첫 층의 hidden activation을 입력 feature로 받는다. $\mathbf b_2$는 길이 $d_{\mathrm{out}}$인 bias이며 첫 층과 마찬가지로 각 sample 행에 더한다. 이 예제의 출력에는 ReLU를 다시 적용하지 않으므로 $\mathbf H$가 모두 음이 아니어도 $\mathbf Y$에는 음수가 나올 수 있다.
+
+중간 ReLU를 제거하면 한 sample의 출력은 $\mathbf W_2\mathbf W_1\mathbf x+\mathbf W_2\mathbf b_1+\mathbf b_2$가 되어 하나의 affine map으로 합쳐진다. 중간 activation이 있으면 입력에 따라 일부 hidden 값이 0이 되므로 이 합성식을 전체 입력 공간에서 그대로 사용할 수 없다. hidden dimension을 늘리는 것과 비선형 변환을 넣는 것은 서로 다른 역할이다.
+
+
+아래 두 readout은 음이 아닌 hidden에서도 출력층의 부호 있는 weight가 음수 출력을 만들 수 있음을 보여 준다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Two nonnegative hidden rows produce positive and negative outputs through signed output weights two minus one and one half](../../figures/assets/N05/N05-03-output-readout.svg)
+
+<figcaption>출력층의 weight (2, −1, 0.5)가 hidden 성분을 다시 조합한다. 둘째 sample은 2.5에 음수 weight −1을 곱하므로, 마지막 bias 0.25를 더해도 output −2.25가 된다.</figcaption>
+
+</figure>
 
 ## 예제 1. 두 sample의 forward pass
 
@@ -254,11 +319,33 @@ site build는 아래 위치에 직접 tensor 연산 코드와 실제 실행 결�
 
 를 확인할 수 있다. 이는 두 sample의 hidden activation을 batch axis로 합한 값이다. 테스트는 첫 층 weight·bias, 둘째 층 weight·bias와 입력 gradient까지 손계산 값에 대조한다.
 
+
+아래 합류 그림은 sample별 미분 기여가 하나의 공유 W₂에 더해지는 과정을 나타낸다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Two hidden activation rows each contribute to the shared output weight gradient and add componentwise to one point five four zero](../../figures/assets/N05/N05-03-batch-gradient-sum.svg)
+
+<figcaption>L = Y₁ + Y₂에서는 각 output의 upstream 미분값이 1이다. 같은 W₂를 사용한 두 sample의 기여 (1.5, 1.5, 0)과 (0, 2.5, 0)을 더해 하나의 weight gradient (1.5, 4, 0)을 만든다.</figcaption>
+
+</figure>
+
 ## 모델 해석과의 연결
 
 $\mathbf H$의 한 행은 한 sample의 hidden activation이고 한 열은 한 hidden unit이 batch의 여러 sample에서 낸 값을 모은다. 모델 해석 code에서 axis를 잘못 고르면 sample 비교와 neuron 비교가 뒤바뀐다.
 
 hidden activation에서 정보를 복원할 수 있다는 결과는 representation과 target 사이의 관련성을 보인다. 그러나 출력층이 그 정보를 실제로 사용한다는 주장은 $\mathbf H$를 바꾸었을 때 $\mathbf Y$가 어떻게 변하는지 확인하는 개입 증거를 요구한다.
+
+
+아래 그림에서 행 선택과 열 선택은 서로 다른 대상을 모은다.
+
+<figure class="lesson-figure" markdown="1">
+
+![The same hidden matrix is shown with a sample row outlined and a neuron column outlined to distinguish axis selections](../../figures/assets/N05/N05-03-hidden-row-column.svg)
+
+<figcaption>같은 H를 위에서는 첫째 행, 아래에서는 첫째 열을 선택해 읽는다. 행은 sample 하나의 hidden 값 전체이고, 열은 neuron 하나가 여러 sample에서 낸 값이다.</figcaption>
+
+</figure>
 
 ## 흔한 오해
 

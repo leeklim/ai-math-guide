@@ -46,6 +46,17 @@ learned absolute position embedding은 token embedding에 position vector를 더
 
 세 방식은 position을 표현하지만 parameter, extrapolation과 attention score에 들어가는 경로가 다르다.
 
+embedding lookup만 보면 같은 token ID는 어느 위치에서도 같은 vector를 받는다. absolute 방식은 여기에 위치별 vector를 더해 이후 층의 입력을 바꾼다. RoPE는 입력 embedding에 별도 vector를 더하는 대신, 뒤에서 배우는 query와 key의 비교에 들어갈 vector를 위치에 따라 회전한다. content 값이 무엇인지와 어느 위치에서 비교하는지를 서로 다른 계산으로 넣는 방식이다.
+
+아래 계산 경로에서는 position 정보가 더해지거나 회전으로 들어가는 위치를 비교한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Absolute position vectors are added to token embeddings before later computation while rotary positions act on projected queries and keys before their dot product](../../figures/assets/N05/N05-13-position-paths.svg)
+
+<figcaption>위 경로의 absolute 방식은 embedding과 position vector를 더한 값을 다음 계산에 보낸다. 아래 RoPE 경로는 Q/K projection 뒤, dot product 전에 위치별 회전을 넣는다. 두 위치정보를 동시에 적용하라는 구조도가 아니다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. RoPE는 2차원 pair를 회전한다
 
 \[
@@ -64,6 +75,19 @@ R(\theta)=
 
 를 만족한다.
 
+pair $\mathbf x_j=(a,b)$의 회전 후 성분은 $(a\cos(p\omega_j)-b\sin(p\omega_j),\ a\sin(p\omega_j)+b\cos(p\omega_j))$다. 같은 pair 안의 두 좌표를 섞지만 다른 pair와는 섞지 않는다. position이 한 칸 늘면 pair $j$의 각도는 $\omega_j$만큼 늘고, frequency가 다른 pair는 다른 속도로 돈다. 벡터의 각 성분에 같은 숫자를 더하는 연산이 아니다.
+
+$R(\theta)^\top R(\theta)=I$이므로 회전 후 길이의 제곱은 $\mathbf x^\top R^\top R\mathbf x=\mathbf x^\top\mathbf x$다. 여러 pair에도 이 결과를 각각 더할 수 있다. 일부 차원만 회전하고 나머지를 그대로 두어도 전체 norm은 유지되지만 방향은 달라질 수 있다.
+
+아래 pair 도식에서는 어떤 두 성분끼리 회전하고 어느 경계를 넘지 않는지 따라간다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Four input features one zero zero one split into pairs one zero and zero one rotate independently at angles one and zero point zero one and join as four output components without cross-pair mixing](../../figures/assets/N05/N05-13-independent-pairs.svg)
+
+<figcaption>예제의 네 좌표를 두 pair로 나눠 각각 회전한 뒤 같은 순서로 합친다. p = 1에서 첫 pair는 1 rad, 둘째 pair는 0.01 rad를 쓴다. pair 내부 두 성분은 섞이지만 두 pair 사이의 성분을 교환하지 않는다.</figcaption>
+</figure>
+
 ## 핵심 개념 3. attention dot product는 상대 위치를 담는다
 
 같은 frequency pair에서
@@ -75,6 +99,10 @@ R(\theta)=
 
 이다. absolute position 회전 두 개의 차이가 dot product에 들어간다. 이것이 RoPE가 relative displacement를 attention score에 반영하는 핵심 구조다.
 
+전치한 회전은 반대 각도의 회전이므로 $R(p\omega)^\top=R(-p\omega)$다. 이를 key의 회전과 합성하면 $R(-p\omega)R(r\omega)=R((r-p)\omega)$가 된다. query와 key가 같은 position이면 차이가 0이 되어 원래 dot product가 남고, 서로 다른 position이면 상대 각도가 남는다. 두 vector의 norm이 같게 유지되는 것만으로 서로의 dot product까지 유지되는 것은 아니다.
+
+상대 위치만 남는다는 설명은 content vector $\mathbf q,\mathbf k$를 고정한 이 회전 항에 관한 성질이다. 실제 모델의 query와 key는 입력과 앞선 층의 계산에 따라서도 달라진다. 따라서 전체 attention score나 모델 출력이 오직 position 차이로만 정해진다는 뜻은 아니다.
+
 ## 예제
 
 두 pair의 frequency를 $(1,0.01)$로 두고 vector $(1,0,0,1)$을 position 0과 1에서 회전한다. position 0은 그대로이고 position 1은
@@ -84,6 +112,42 @@ R(\theta)=
 \]
 
 이 된다. norm은 두 position 모두 $\sqrt2$다. 같은 position으로 두 vector를 회전하면 dot product 2가 유지되고 position 차이가 1이면 약 1.5403이 된다.
+
+아래 단위원에서는 첫 pair의 방향과 길이를 함께 비교한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Unit circle with grid shows pair one rotating from one zero to cosine one sine one while both arrows have length one](../../figures/assets/N05/N05-13-pair-one-rotation.svg)
+
+<figcaption>첫 pair의 원래 vector와 p = 1의 회전 결과가 같은 단위원에 닿는다. 방향은 1 rad만큼 바뀌지만 pair norm은 1이며, 좌표값은 약 (0.5403, 0.8415)다.</figcaption>
+</figure>
+
+둘째 pair를 그린 아래 두 패널은 작은 회전각을 과장하지 않고 같은 눈금으로 비교한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Two vertically separated unit-circle panels show original zero one and rotated minus sine zero point zero one cosine zero point zero one with the true small angle and unchanged unit norm](../../figures/assets/N05/N05-13-pair-two-small-angle.svg)
+
+<figcaption>두 패널은 같은 축 눈금을 쓴다. 0.01 rad의 작은 회전은 실제 크기로 표시해 거의 같은 방향으로 보인다. 둘째 pair는 (0, 1)에서 약 (−0.0100, 0.99995)로 바뀌며 pair norm은 1이다.</figcaption>
+</figure>
+
+아래 사영 그림에서는 상대 위치가 달라진 key를 query 방향으로 읽는다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Unit query along the horizontal axis and key rotated one radian have a dashed projection at cosine one equal to zero point five four zero three showing dot product is not the norm](../../figures/assets/N05/N05-13-relative-dot-projection.svg)
+
+<figcaption>첫 pair의 content를 고정하고 query position 0, key position 1을 비교했다. 두 norm은 1이지만 query 방향으로 읽는 key의 성분은 cos 1 ≈ 0.5403이다. 같은 position으로 함께 회전한 경우의 dot product 1과 다르다.</figcaption>
+</figure>
+
+두 pair의 dot product 기여는 아래 막대에서 따로 읽고 합할 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Grouped bars for two feature pairs compare same-position dot contributions one one against relative contributions cosine one and cosine zero point zero one which sum to one point five four zero three](../../figures/assets/N05/N05-13-pair-dot-contributions.svg)
+
+<figcaption>왼쪽 막대는 같은 position, 오른쪽 막대는 position 차이 1의 기여다. 각 pair의 dot product를 합하면 2와 cos 1 + cos 0.01 ≈ 1.5403이 된다. 각 vector norm √2가 같다는 사실과 서로의 dot product 보존은 다른 조건이다.</figcaption>
+</figure>
 
 ## 실행 실습
 
@@ -112,6 +176,15 @@ sequence length 2와 model dimension 4를 사용한다. parameter와 training st
 ## 공개 config 대조
 
 Pythia의 공개 training config는 `pos-emb: rotary`, `rotary-pct: 0.25`를 기록한다. Hugging Face config도 `rotary_pct: 0.25`, base 10000을 기록한다. Pythia가 head dimension 전체에 RoPE를 적용한다고 쓰면 틀린다. N05 tiny 기준 구현은 계산을 단순하게 보여주기 위해 네 차원 전체를 회전한다.
+
+아래 head 내부 배열에서는 rotary fraction을 차원 수로 센다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Sixty-four cells for one attention head contain sixteen rotary cells and forty-eight unchanged cells so fraction one quarter counts within the head not whole hidden dimension](../../figures/assets/N05/N05-13-partial-head-dimensions.svg)
+
+<figcaption>문제의 head dimension 64를 위치 셀로 표시하면 0.25는 16차원, 즉 8개 pair다. 나머지 48차원은 이 회전을 적용하지 않는다. 셀의 첫 16개 강조는 개수 설명이며 실제 pairing convention을 지정한 배열은 아니다.</figcaption>
+</figure>
 
 ## 모델 해석과의 연결
 

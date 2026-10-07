@@ -61,6 +61,17 @@ tensor는 여러 축을 따라 수를 배열한 객체다. 축 수를 rank 또�
 
 shape `(2, 3)`은 첫째 axis에 위치가 2개, 둘째 axis에 위치가 3개 있다는 뜻이다. 총 원소 수는 $2\cdot3=6$이다. axis의 의미는 shape만으로 정해지지 않는다. 같은 `(2, 3)`이라도 두 sample의 세 feature일 수도 있고, 두 token의 세 차원 표현일 수도 있다.
 
+
+아래 배열에서 행 index와 열 index가 한 위치를 고르는 과정을 확인한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Two indexed rows and three indexed columns select one of six tensor positions](../../figures/assets/N05/N05-01-indexed-axes.svg)
+
+<figcaption>첫째 index는 행을, 둘째 index는 열을 고른다. (1, 2)는 둘째 행의 셋째 위치이며, 이 위치가 sample·feature인지 token·차원인지는 별도로 정한다.</figcaption>
+
+</figure>
+
 ## 핵심 개념 2. dtype과 device는 shape와 다른 정보다
 
 shape는 원소 배치를, dtype은 각 원소의 표현 방식을, device는 저장·연산 위치를 말한다. 세 정보가 모두 같아야 한다는 뜻은 아니다. 예를 들어 같은 shape `(2,)`인 tensor도 하나는 `float32`, 다른 하나는 정수형일 수 있다.
@@ -86,6 +97,19 @@ w ─┘
 ```
 
 edge가 데이터 전체를 복사한다는 뜻은 아니다. 계산 그래프는 수학적 의존관계를 나타낸다. 실제 framework의 메모리 배치와 kernel 실행 방식은 별도 문제다.
+
+값과 연산을 모두 node로 그리는 위 방식에서는 곱 node가 두 입력 값을 받아 $\mathbf p$를 만들고, 합 node가 $\mathbf p$를 받아 $y$를 만든다. 값만 node로 표시하는 방식이라면 $\mathbf x\to\mathbf p$, $\mathbf w\to\mathbf p$와 $\mathbf p\to y$로 같은 의존관계를 쓰고 연결에 연산을 표시할 수 있다. 어느 표현을 쓰든 한 연산에 필요한 입력이 먼저 계산돼 있어야 다음 값을 구할 수 있다. node의 배치 순서보다 입력·출력의 연결이 계산 순서를 결정한다.
+
+
+아래 그래프의 합류 지점과 화살표를 따라가면 어떤 입력이 먼저 필요한지 볼 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Two input vectors join at elementwise multiplication then product flows through sum to scalar eleven](../../figures/assets/N05/N05-01-forward-graph.svg)
+
+<figcaption>x와 w가 모두 곱 연산에 들어가 p를 만든다. 합 연산은 p가 계산된 뒤에 실행되므로, 화살표는 필요한 값의 선행 관계를 보여 준다.</figcaption>
+
+</figure>
 
 ## 핵심 개념 4. forward value와 중간값
 
@@ -113,9 +137,22 @@ y=3+8=11
 
 마지막 `()`는 scalar tensor의 shape다. 숫자 하나라는 사실과 tensor가 아닌 Python scalar라는 사실은 같지 않다. PyTorch의 0차 tensor도 shape `()`와 dtype, device를 가진다.
 
+원소별 곱은 $i$를 정했을 때 $x_i$와 $w_i$를 곱하므로 결과에도 같은 index $i$가 남는다. 반면 전체 합은 두 $p_i$를 하나의 값으로 모아 더 이상 $i$로 고를 위치를 남기지 않는다. 이것이 shape에서 축 하나가 사라지는 이유다. 원소를 하나 담은 `(1,)`도 숫자는 하나지만 index를 갖는 vector이고, 모든 축을 합친 `()`와는 다른 shape다.
+
+
+아래 그림은 두 index가 남는 곱과 index가 사라지는 합을 나눠 보여 준다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Two elementwise products retain index positions before both feed a sum with no remaining index](../../figures/assets/N05/N05-01-reduction-axis.svg)
+
+<figcaption>i = 1과 i = 2의 곱은 서로 다른 위치에 남는다. 전체 합에서는 두 위치가 한 값으로 모이며, 숫자 하나를 담아도 index가 남는 [11]과 scalar 11은 shape가 다르다.</figcaption>
+
+</figure>
+
 ## 핵심 개념 5. 의존경로와 gradient
 
-$y$는 $p_1,p_2$에 의존하고 각 $p_i$는 $x_i,w_i$에 의존한다. 따라서 $y$에서 $\mathbf x$로 가는 경로가 있다. 미분하면
+$y$는 $p_1,p_2$에 의존하고 각 $p_i$는 $x_i,w_i$에 의존한다. 따라서 계산 그래프에는 $\mathbf x$에서 $y$로 가는 순방향 경로가 있다. gradient를 계산할 때에는 이 의존관계를 출력 쪽에서 거슬러 추적한다. 미분하면
 
 \[
 \frac{\partial y}{\partial x_i}=w_i
@@ -128,6 +165,30 @@ $y$는 $p_1,p_2$에 의존하고 각 $p_i$는 $x_i,w_i$에 의존한다. 따라�
 \]
 
 이다. gradient 값은 graph의 연결만으로 정해지지 않는다. 각 node가 수행한 함수와 forward 값도 필요하다.
+
+$y=p_1+p_2$이므로 각 중간값에 대한 $\partial y/\partial p_i$는 1이다. $p_i=x_iw_i$에서는 $w_i$를 고정하고 $x_i$로 미분하면 $w_i$가 남으며, 다른 위치의 $p_j$는 $x_i$에 의존하지 않는다. 연쇄법칙으로 두 local derivative를 곱하면 $1\cdot w_i$가 되어 위 gradient를 얻는다. 만약 $w_i=0$이면 graph의 연결은 그대로 있어도 해당 미분값은 0이다. 의존경로가 있다는 사실과 지금 입력에서 변화가 전달되는 크기를 구분해야 한다.
+
+
+아래 역방향 그림에서 합의 local derivative와 곱의 local derivative를 차례로 곱한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![A scalar output seed of one splits through the sum then multiplies by weights three and four to give input derivatives](../../figures/assets/N05/N05-01-reverse-local-derivatives.svg)
+
+<figcaption>출력의 미분 seed 1은 합의 각 입력에 1씩 전달된다. 각 곱에서는 저장된 w₁ = 3과 w₂ = 4를 곱하므로, x에 대한 두 미분값은 3과 4다.</figcaption>
+
+</figure>
+
+
+아래 그림에서 여러 입력이 같은 0으로 보내져도 계산 경로 자체는 남는다.
+
+<figure class="lesson-figure" markdown="1">
+
+![A connected multiplication by zero maps all shown input values to the same product zero while its local derivative is zero](../../figures/assets/N05/N05-01-connected-zero-gradient.svg)
+
+<figcaption>wᵢ = 0으로 고정하면 xᵢ의 여러 값이 모두 pᵢ = 0으로 연결된다. 계산 경로는 남아 있지만 이 위치의 local derivative와 최종 미분값은 0이다.</figcaption>
+
+</figure>
 
 ## 예제 1. 손으로 shape와 값을 추적하기
 

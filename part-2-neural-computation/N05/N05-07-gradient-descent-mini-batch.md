@@ -70,6 +70,30 @@ g_t=\nabla_\theta L_{\mathcal B_t}(\theta_t)
 
 이다. 미분의 선형성 때문에 mean loss의 gradient는 per-sample gradient의 평균과 같다.
 
+평균에 들어가는 모든 미분값은 같은 $\theta_t$에서 평가한다. sample 하나를 본 뒤 parameter를 바꾸고 다음 sample의 gradient를 계산하면 서로 다른 점의 미분값을 얻으므로 위의 평균과 같지 않다. 또한 여기서는 각 sample의 loss가 다른 sample에 의존하지 않는 경우를 다룬다. batch 안 sample을 함께 사용하는 loss에는 그 계산의 의존 관계를 반영해야 한다.
+
+
+아래 그림에서 두 sample의 미분값과 그 평균을 같은 성분 축으로 비교한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Two per-sample gradient vectors and their mean share the origin and fixed parameter evaluation point](../../figures/assets/N05/N05-07-sample-gradients.svg)
+
+<figcaption>각 vector의 성분 순서는 (w, b)의 미분값이다. 모두 (w, b) = (0, 0)에서 구한 두 vector (−6, −6), (−20, −10)의 성분별 평균이 (−13, −8)이다. parameter 공간의 이동량을 그린 그림은 아니다.</figcaption>
+
+</figure>
+
+
+아래 그림에서 평가점을 유지한 경우와 먼저 update한 경우를 구분한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![At the same starting parameters both sample gradients are fixed while a first sample update changes parameters and the second sample gradient](../../figures/assets/N05/N05-07-fixed-versus-sequential.svg)
+
+<figcaption>두 sample의 mean을 구할 때에는 둘 다 θ = (0, 0)을 사용한다. 비교 경로에서 sample 1의 gradient로 η = 0.1 update를 먼저 하면 θ = (0.6, 0.6)이 되어 sample 2의 미분값은 (−12.8, −6.4)로 달라진다.</figcaption>
+
+</figure>
+
 ## 핵심 개념 2. gradient descent update
 
 가장 단순한 update는
@@ -78,9 +102,22 @@ g_t=\nabla_\theta L_{\mathcal B_t}(\theta_t)
 \theta_{t+1}=\theta_t-\eta g_t
 \]
 
-이다. gradient는 loss가 증가하는 방향이므로 음의 방향으로 이동한다. learning rate $\eta$는 이동 크기를 조절한다.
+이다. gradient는 현재 점에서 loss의 일차 증가가 가장 큰 방향이므로 음의 방향으로 이동한다. learning rate $\eta$는 이동 크기를 조절한다.
+
+현재 batch를 고정하면 일차 근사에서 loss 변화는 $g_t^\top(\theta_{t+1}-\theta_t)=-\eta\|g_t\|_2^2$다. $g_t\ne0$일 때 이 값은 음수이지만 실제 loss에는 고차 변화도 남는다. update의 길이는 $\eta\|g_t\|_2$이므로 같은 learning rate라도 gradient 크기에 따라 이동 거리가 다르다.
 
 한 batch에서 loss가 줄었다고 전체 dataset의 loss도 줄었다고 보장할 수 없다. gradient는 현재 parameter와 선택한 batch에서 계산됐고, 큰 step에서는 일차 근사가 맞지 않을 수 있다.
+
+
+아래 그림에서 loss 등고선과 실제 parameter 이동을 함께 읽는다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Loss contours for the exact two sample regression loss show parameter update from zero zero to one point three zero point eight](../../figures/assets/N05/N05-07-loss-step.svg)
+
+<figcaption>격자 위 화살표는 gradient vector가 아니라 −0.1g = (1.3, 0.8)인 실제 update다. 회색 선은 이 batch의 같은 loss 높이이며, 주황 점 (2, 1)은 두 target에 맞는 parameter다. 한 step은 그 점까지 한 번에 가지 않는다.</figcaption>
+
+</figure>
 
 ## 핵심 개념 3. mean과 sum reduction
 
@@ -94,6 +131,19 @@ L^{\mathrm{sum}}_{\mathcal B_t}
 \]
 
 이다. 같은 learning rate를 사용하면 batch size가 update scale에 직접 들어간다. 실험을 재현할 때 loss definition과 reduction을 함께 기록해야 한다.
+
+같은 batch의 단순 gradient descent 한 step에서는 sum loss의 learning rate를 mean loss 때의 $1/B$로 줄이면 동일한 update가 된다. 이는 같은 sample과 같은 평가점을 비교한 관계다. batch 구성을 바꾸거나 optimizer가 과거 gradient를 사용하면 reduction의 배율만 맞추었다고 전체 학습 경로가 같아지는 것은 아니다.
+
+
+아래 그림에서 같은 출발점에서 reduction에 따른 두 이동 길이를 비교한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Mean and sum gradient steps from the same origin differ by batch size two while halving the sum learning rate gives the mean endpoint](../../figures/assets/N05/N05-07-reduction-step.svg)
+
+<figcaption>동일한 두 sample과 초기값에서 sum gradient는 mean의 2배다. 따라서 η = 0.1이면 이동량도 2배이고, sum의 η를 0.05로 낮추면 이 한 step의 endpoint가 mean과 같아진다.</figcaption>
+
+</figure>
 
 ## 예제 1. 두 sample의 gradient
 
@@ -137,6 +187,17 @@ b_1=0-0.1(-8)=0.8
 
 이다. 이 step에서는 batch loss가 17에서 1.685로 줄었다.
 
+
+아래 그림에서 고정된 target과 새 prediction 사이의 residual을 확인한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Before zero prediction line and updated linear prediction line compare two fixed target points and residual gaps](../../figures/assets/N05/N05-07-updated-predictions.svg)
+
+<figcaption>target 두 점은 그대로 두고 예측 선만 0에서 1.3x + 0.8로 바꿨다. 보라 점선은 새 prediction과 target 사이의 간격이며, residual은 (−0.9, −1.6)이 되어 같은 batch의 loss가 1.685가 된다.</figcaption>
+
+</figure>
+
 ## 실행 실습
 
 ### 실행 환경과 원본
@@ -165,9 +226,20 @@ site build는 아래 위치에 원본 코드와 실제 실행 결과를 삽입�
 
 ## sampling과 재현성
 
-mini-batch gradient를 전체 gradient의 estimate로 해석하려면 sampling scheme을 명시해야 한다. uniform sampling에서는 조건에 따라 기대 mini-batch gradient가 full-data gradient와 일치한다. class-balanced sampling, sequence packing과 중복 sample은 다른 estimand를 만들 수 있다.
+mini-batch gradient를 전체 gradient의 estimate로 해석하려면 sampling scheme을 명시해야 한다. 현재 parameter를 고정하고 $N$개 sample 중 크기 $B$의 부분집합을 균등하게 새로 뽑으면 각 sample의 포함 확률은 $B/N$이다. 평균 gradient의 기댓값을 취할 때 이 확률과 $1/B$가 곱해져 full-data gradient의 $1/N$ 가중치가 된다. 특정 batch의 값이 같다는 뜻은 아니다. class-balanced sampling, sequence packing과 중복 sample은 다른 estimand를 만들 수 있다.
 
 seed만 기록해도 충분하지 않다. dataset version, sample order, sampler 설정, batch size와 reduction을 함께 저장해야 같은 update sequence를 재생할 수 있다.
+
+
+아래 그림에서 한 번의 sampling 결과와 기댓값을 분리해 읽는다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Uniformly selecting one of two samples gives different gradient outcomes with probability one half and expected gradient equal to the full two sample mean](../../figures/assets/N05/N05-07-sampling-expectation.svg)
+
+<figcaption>예제의 두 sample에서 B = 1로 하나를 균등하게 고른 경우다. 실제 한 번의 gradient는 두 vector 중 하나지만, 포함 확률 1/2로 가중한 기댓값은 두 sample 전체의 mean gradient와 같다.</figcaption>
+
+</figure>
 
 ## 모델 해석과의 연결
 
@@ -179,7 +251,7 @@ per-example gradient는 어떤 training example이 현재 parameter update에 �
 
 ### 오해 1. mini-batch gradient는 full gradient와 같다
 
-특정 batch의 gradient는 full gradient의 estimate다. dataset 전체를 batch로 사용하거나 각 sample gradient가 우연히 같을 때만 값이 일치한다.
+특정 batch의 gradient는 sampling 조건에 따른 full gradient의 estimate다. dataset 전체를 batch로 사용하면 값이 일치한다. 부분집합에서도 평균이 우연히 같을 수 있지만 일반적으로 보장되지는 않는다.
 
 ### 오해 2. batch size를 바꿔도 update가 같다
 

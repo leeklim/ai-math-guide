@@ -58,6 +58,19 @@ z=\mathbf w^\top\mathbf x+b
 
 를 얻는다. $z$를 pre-activation이라고 한다. 각 $w_i$는 대응하는 입력 성분이 $z$에 기여하는 부호와 크기를 조절한다. $b$는 입력과 곱해지지 않고 전체 합을 이동시킨다.
 
+입력과 weight는 같은 길이를 가져야 각 위치의 곱을 정할 수 있다. 모든 곱을 더하면 feature index가 남지 않아 $z$는 scalar가 된다. 실제 기여값은 $w_ix_i$이므로 weight의 부호만으로 그 항의 부호를 판단하지 않는다. 다른 입력과 파라미터를 고정하고 $x_i$만 바꾸면 $\Delta z=w_i\Delta x_i$다. $w_i$는 이 조건에서의 입력 변화에 대한 계수이기도 하다.
+
+
+아래 수직 배치는 계산 순서를, 공통 수평 눈금은 각 기여값의 부호와 크기를 보여 준다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Signed number line accumulation moves from zero to three then back to two and a half and two](../../figures/assets/N05/N05-02-signed-contributions.svg)
+
+<figcaption>첫째 항은 1.5 × 2 = 3만큼 더하고, 둘째 항은 0.5 × (−1) = −0.5만큼 되돌린다. bias −0.5를 한 번 더 더하면 z = 2다. 화살표 길이는 각 기여값의 크기에 비례한다.</figcaption>
+
+</figure>
+
 ## 핵심 개념 2. affine transformation은 bias를 포함한다
 
 $\mathbf w^\top\mathbf x$는 $\mathbf x$에 대한 linear map이다. $b\ne0$이면
@@ -66,7 +79,20 @@ $\mathbf w^\top\mathbf x$는 $\mathbf x$에 대한 linear map이다. $b\ne0$이�
 f(\mathbf x)=\mathbf w^\top\mathbf x+b
 \]
 
-는 일반적으로 원점을 원점으로 보내지 않으므로 linear map이 아니다. 이런 형태를 affine transformation이라고 한다. 신경망 코드에서 `Linear` layer라는 이름을 쓰더라도 bias가 켜져 있으면 수학적 함수는 affine이다.
+는 원점을 원점으로 보내지 않으므로 linear map이 아니다. 이런 형태를 affine transformation이라고 한다. 신경망 코드에서 `Linear` layer라는 이름을 쓰더라도 bias가 켜져 있으면 수학적 함수는 affine이다.
+
+입력 두 개의 차이를 비교할 때에는 bias가 소거된다. 같은 $\mathbf w,b$에서 $f(\mathbf x+\Delta\mathbf x)-f(\mathbf x)=\mathbf w^\top\Delta\mathbf x$이므로 입력의 변화는 선형 부분으로 변환하고 출력의 기준 위치는 $b$로 이동시킨다. affine이라는 분류는 출력이 숫자 하나인지 여러 개인지가 아니라 이 상수 이동을 포함하는지에 따른다.
+
+
+아래 두 선을 비교하면 출력 기준의 이동과 같은 기울기를 구분할 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Parallel linear and affine curves along the input ray show bias offset minus one half and equal slopes](../../figures/assets/N05/N05-02-affine-offset.svg)
+
+<figcaption>x(s) = s(2, −1)로 입력을 움직이면 선형 부분은 2.5s, bias를 더한 affine 출력은 2.5s − 0.5다. 두 선은 같은 기울기를 갖지만 s = 0의 출력이 다르다.</figcaption>
+
+</figure>
 
 ## 핵심 개념 3. activation 전과 후를 구분한다
 
@@ -82,9 +108,22 @@ a=\phi(z)=\phi(\mathbf w^\top\mathbf x+b)
 \operatorname{ReLU}(z)=\max(0,z)
 \]
 
-를 사용한다. $z>0$이면 $a=z$, $z<0$이면 $a=0$이다. $z=0$에서는 미분값을 하나로 정할 수 없으며 PyTorch는 backward에서 0을 사용한다.
+를 사용한다. $z>0$이면 $a=z$, $z\le0$이면 $a=0$이다. $z=0$에서도 출력값은 0으로 정해져 있다. 다만 왼쪽 기울기 0과 오른쪽 기울기 1이 다르므로 그 점에서 통상적인 도함수는 존재하지 않으며, PyTorch는 backward에서 0을 사용한다.
 
 pre-activation $z$와 post-activation $a$를 둘 다 activation이라고 부르면 hook 위치와 gradient 해석이 불분명해진다. 이 책에서는 둘을 이름으로 구분한다.
+
+양수 구간에서는 두 값이 같지만 음수 구간에서는 서로 다른 $z$들이 모두 같은 $a=0$으로 보내진다. 따라서 post-activation만으로 음수 pre-activation의 크기를 복원할 수는 없다. 저장 위치를 구분하는 것은 이름을 다르게 붙이는 일이 아니라 비선형 변환 전후에 어떤 정보가 남았는지 구분하는 일이다.
+
+
+아래 ReLU 곡선에서 가로축의 서로 다른 음수들이 세로축 값 0으로 모인다.
+
+<figure class="lesson-figure" markdown="1">
+
+![ReLU curve shows pre-activation minus one half mapping to zero and pre-activation two mapping to two](../../figures/assets/N05/N05-02-relu-pre-post.svg)
+
+<figcaption>가로축 z와 세로축 a를 분리하면, z = −0.5는 a = 0으로, z = 2는 a = 2로 보낸다는 뜻이 드러난다. 음수 구간의 수평선에서는 여러 z가 같은 a에 대응한다.</figcaption>
+
+</figure>
 
 ## 핵심 개념 4. 하나의 손계산
 
@@ -119,6 +158,17 @@ target을 1로 둔 squared loss
 \]
 
 를 사용하면 $\mathcal L=1$이다.
+
+
+아래 그래프는 숫자가 같아도 z와 a의 저장 위치가 다르다는 점을 드러낸다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Weighted sum two passes through ReLU to activation two then target one gives squared loss one at distinct nodes](../../figures/assets/N05/N05-02-forward-loss.svg)
+
+<figcaption>z와 a가 모두 2여도 ReLU 앞뒤의 서로 다른 값 node다. target 1은 loss 계산에 합류하며 neuron의 입력이나 bias에 더하는 값이 아니다.</figcaption>
+
+</figure>
 
 ## 핵심 개념 5. gradient를 연쇄법칙으로 계산한다
 
@@ -156,6 +206,32 @@ $z=2>0$이므로 현재 점에서 $da/dz=1$이다. 따라서
 \]
 
 이다.
+
+이 예제에서 $\partial z/\partial w_i=x_i$, $\partial z/\partial x_i=w_i$, $\partial z/\partial b=1$이다. weight로 미분할 때에는 관측 입력을 계수로 남기고, 입력으로 미분할 때에는 weight를 계수로 남긴다. 입력 gradient와 weight gradient는 같은 upstream 미분값 $\partial\mathcal L/\partial z$에 서로 다른 대상을 미분한 local derivative를 곱해 계산한다. 특별한 값에서는 두 vector의 수치가 같을 수 있어도 미분 대상은 다르다.
+
+여기서는 loss가 $a$를 통해 $z$에 의존한다. $z<0$이면 ReLU의 local derivative가 0이므로 이 경로의 gradient도 0이다. 예제 1처럼 bias를 바꾸어 $a=0$이 되면 target 1에 대한 loss는 여전히 1인데 gradient 전달은 막힌다. 반대로 양수 구간이어도 $a$가 target과 같아 바깥 loss 미분이 0이면 전체 gradient가 0이다. activation의 구간과 loss의 오차가 연쇄법칙의 서로 다른 인자라는 점을 확인한다.
+
+
+아래 분기 그림에서 미분 대상을 먼저 고른 뒤 해당 local derivative를 곱한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Upstream derivative two branches to input derivatives multiplied by weights and parameter derivatives multiplied by inputs plus bias derivative](../../figures/assets/N05/N05-02-gradient-targets.svg)
+
+<figcaption>같은 dL/dz = 2에서 weight로 미분하면 x가, 입력으로 미분하면 w가 local derivative로 남는다. bias의 local derivative는 1이다. 세 가지 미분 대상이 갈라지는 지점을 추적한다.</figcaption>
+
+</figure>
+
+
+아래 두 경우의 loss와 local slope를 함께 비교하면 0 gradient의 원인을 찾을 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Two ReLU cases share loss one but pre-activation two has upstream derivative two while pre-activation minus one half has zero derivative](../../figures/assets/N05/N05-02-zero-gradient-loss.svg)
+
+<figcaption>원래 bias에서는 a = 2, 다른 bias에서는 a = 0이므로 target 1과의 squared loss는 둘 다 1이다. 그러나 후자의 ReLU slope는 0이라 바깥 미분 −2와 곱한 dL/dz는 0이다.</figcaption>
+
+</figure>
 
 ## 예제 1. bias의 역할 비교
 

@@ -49,7 +49,7 @@ estimated_time: "120~150분"
 
 ## 핵심 개념 1. logit은 정규화 전 점수다
 
-logit $z_k$에는 합이 1이라는 제약이 없다. 음수도 가능하고 모든 logit에 같은 상수를 더해도 class 순서는 바뀌지 않는다. softmax는
+여기서는 $K\ge2$이고 모든 logit이 유한한 실수인 경우를 다룬다. logit $z_k$에는 합이 1이라는 제약이 없다. 음수도 가능하고 모든 logit에 같은 상수를 더해도 class 순서는 바뀌지 않는다. softmax는
 
 \[
 p_k
@@ -58,6 +58,19 @@ p_k
 \]
 
 로 probability를 만든다. 각 $p_k$는 양수이고 $\sum_k p_k=1$이다.
+
+두 class의 비를 취하면 공통 분모가 사라져 $p_k/p_j=e^{z_k-z_j}$다. 따라서 $z_k-z_j=\log(p_k/p_j)$이며 큰 logit은 상대적으로 큰 확률을 받는다. 한 logit의 숫자 자체가 확률인 것이 아니라 class 사이의 점수 차이가 확률 비를 정한다. batch에서는 이 정규화를 각 sample의 class axis에 따로 적용한다.
+
+
+아래 두 막대 그래프의 세로축을 먼저 구분한 뒤 같은 class의 값을 비교한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Three raw logits two one zero and their normalized probabilities appear on separate labeled scales](../../figures/assets/N05/N05-05-logit-probability.svg)
+
+<figcaption>위쪽은 logit (2, 1, 0), 아래쪽은 같은 vector의 softmax 확률이다. 두 세로축의 단위가 다르며, 합이 1이라는 제약은 아래 확률에만 적용된다.</figcaption>
+
+</figure>
 
 ## 핵심 개념 2. max subtraction은 확률을 바꾸지 않는다
 
@@ -80,6 +93,19 @@ $m=\max_j z_j$를 모든 logit에서 빼면
 
 이다. softmax는 logit의 공통 offset보다 상대적 차이에 반응한다.
 
+max subtraction 뒤 모든 지수값은 1 이하이고 적어도 하나는 1이다. 매우 작은 지수값의 underflow까지 없애는 것은 아니므로, 수학적으로 양수인 확률도 유한 정밀도 계산에서는 0으로 반올림될 수 있다. target 확률을 먼저 계산한 뒤 로그를 취하는 것보다 다음 절의 loss를 shifted logit과 log-sum-exp로 직접 계산하는 편이 이 문제를 줄인다.
+
+
+아래 합류 경로에서 공통 offset을 제거하면 두 입력이 같은 shifted logit으로 모인다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Logit vectors two one zero and one hundred two one hundred one one hundred subtract their own maxima and converge to zero minus one minus two](../../figures/assets/N05/N05-05-offset-invariance.svg)
+
+<figcaption>두 vector는 공통 offset 100만 다르다. 각각 최댓값 2와 102를 빼면 같은 shifted logit (0, −1, −2)이 되므로 이후 softmax와 loss가 같다.</figcaption>
+
+</figure>
+
 ## 핵심 개념 3. cross entropy는 target의 log probability를 본다
 
 target class가 $y$인 one-hot 문제에서는
@@ -97,6 +123,21 @@ target class가 $y$인 one-hot 문제에서는
 
 이다. 첫 항은 target logit을 높일수록 loss를 낮추고, 둘째 항은 모든 class의 logit을 함께 정규화한다.
 
+one-hot target을 cross entropy의 합에 넣으면 target 위치의 항만 남아 $-\log p_y$가 된다. 여기에 softmax를 대입하고 로그의 몫을 차로 바꾸면 위의 두 항을 얻는다. target logit을 바꿀 때에는 정규화 항도 함께 변하므로 첫 항만으로 전체 변화량을 판단하지 않는다.
+
+$m=\max_jz_j$를 사용하면 같은 loss를 $(m-z_y)+\log\sum_j e^{z_j-m}$로 계산할 수 있다. target이 가장 큰 class여도 나머지 class에 확률이 남아 있으므로 유한 logit에서 loss는 0보다 크다. 정답 여부와 target 확률을 평가하는 loss가 다르다는 뜻이다.
+
+
+아래 곡선에서 target probability에 대응하는 높이가 loss다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Negative natural logarithm curve decreases with target probability and marks probability zero point six six five two loss zero point four zero seven six](../../figures/assets/N05/N05-05-target-loss.svg)
+
+<figcaption>target의 확률을 가로축에 놓으면 loss는 −log p 곡선 위의 높이다. 예제의 p₁ ≈ 0.6652에서는 loss ≈ 0.4076이며, target이 argmax여도 유한 logit에서는 loss가 0이 아니다.</figcaption>
+
+</figure>
+
 ## 핵심 개념 4. gradient는 probability에서 target을 뺀다
 
 softmax와 one-hot cross entropy를 합성하면 각 logit의 derivative는
@@ -112,7 +153,22 @@ softmax와 one-hot cross entropy를 합성하면 각 logit의 derivative는
 \nabla_{\mathbf z}\mathcal L=\mathbf p-\mathbf e_y
 \]
 
-이다. target 위치의 gradient는 음수이고 다른 위치는 양수다. gradient descent는 target logit을 올리고 다른 logit을 내리는 방향으로 움직인다.
+이다. target 위치의 gradient는 음수이고 다른 위치는 양수다. logit 자체를 독립적인 변수로 두고 gradient descent를 하면 target logit을 올리고 다른 logit을 내리는 방향으로 움직인다.
+
+정규화 항의 미분은 $e^{z_k}/\sum_j e^{z_j}=p_k$이고 $-z_y$의 미분은 target 위치에서만 $-1$이다. 두 미분을 더하면 위의 식이 된다. 성분 합은 $\sum_kp_k-1=0$이므로 공통 offset 방향의 변화에 loss가 반응하지 않는 성질과도 맞는다.
+
+실제 학습에서는 logit이 아니라 공유된 신경망 parameter를 바꾼다. 이 gradient는 parameter까지 chain rule로 전달되는 시작값이며, 한 parameter가 여러 logit에 영향을 줄 수 있다. 따라서 이 부호만으로 update 뒤 모든 sample의 target logit이 반드시 오를 것이라고 주장하지 않는다.
+
+
+아래 막대에서 0 기준선과 target 위치를 함께 확인한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Three signed logit-gradient bars show negative target derivative and positive other derivatives that sum to zero](../../figures/assets/N05/N05-05-logit-gradient.svg)
+
+<figcaption>첫째 class의 미분값 −0.3348과 다른 class의 양수 미분값을 0 기준선에서 비교한다. logit 자체를 독립 변수로 내려가는 경우에는 이 미분의 반대 방향으로 움직인다. 실제 parameter update는 추가 chain rule을 거친다.</figcaption>
+
+</figure>
 
 ## 예제 1. $[2,1,0]$의 stable softmax
 
@@ -141,6 +197,17 @@ Z\approx1.5032
 ### 결과의 의미
 
 첫 class가 가장 큰 확률을 받지만 확률 1은 아니다. logit 차이가 다른 class에 남기는 probability mass를 정한다.
+
+
+아래 계산 경로는 class index를 유지하면서 공통 합으로 나누는 순서를 보여 준다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Shifted scores zero minus one minus two exponentiate to one zero point three six seven nine zero point one three five three then divide by their sum](../../figures/assets/N05/N05-05-stable-softmax-flow.svg)
+
+<figcaption>shifted logit의 각 위치를 지수화하고, 세 값을 모두 더한 Z ≈ 1.5032로 각각 나눈다. 첫째 class가 최대여도 다른 class의 지수값이 남아 p₁은 1이 아니다.</figcaption>
+
+</figure>
 
 ## 예제 2. loss와 gradient
 
@@ -191,6 +258,17 @@ site build는 아래 위치에 원본 코드와 실제 실행 결과를 삽입�
 
 두 prompt가 같은 top-1 token을 내더라도 logit margin과 분포는 다를 수 있다. 출력 행동을 비교할 때는 argmax, target logit, logit difference, probability와 loss 중 어떤 quantity를 측정했는지 명시해야 한다.
 
+
+아래 두 분포의 최대 class와 target 확률을 따로 비교한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Two softmax distributions with the same top class compare different target probabilities and negative log losses](../../figures/assets/N05/N05-05-same-argmax.svg)
+
+<figcaption>비교용 두 logit (2, 1, 0)과 (1, 0.5, 0)은 모두 첫째 class가 최대다. 그러나 첫째 target의 loss는 약 0.4076과 0.6803으로 다르므로, argmax 일치와 분포 일치를 구분한다.</figcaption>
+
+</figure>
+
 ## 흔한 오해
 
 ### 오해 1. 가장 큰 logit은 probability다
@@ -200,6 +278,17 @@ logit은 정규화 전 실수 점수다. softmax를 적용한 뒤에만 합이 1
 ### 오해 2. softmax 전에 probability를 넣어야 한다
 
 softmax는 logit을 입력으로 받는다. 이미 합이 1인 값을 다시 softmax에 넣으면 분포를 다른 분포로 바꾼다.
+
+
+아래 좌우 막대는 한 번의 softmax와 두 번의 softmax를 구분한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Probability bars before and after an incorrect second softmax show reduced class one mass and increased lower-class mass](../../figures/assets/N05/N05-05-second-softmax.svg)
+
+<figcaption>각 class의 왼쪽 파란 막대는 원래 확률, 오른쪽 보라 막대는 그 확률 vector를 다시 softmax에 넣은 결과다. 두 번째 연산은 원래 logit을 재사용하지 않으며 이 예제의 class 간 차이를 줄여 다른 분포를 만든다.</figcaption>
+
+</figure>
 
 ### 오해 3. cross entropy와 accuracy는 같은 지표다
 

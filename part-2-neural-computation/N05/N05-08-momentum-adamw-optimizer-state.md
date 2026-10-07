@@ -58,6 +58,30 @@ u_t=\mu u_{t-1}+g_t,
 
 $u_t$는 이전 buffer와 현재 gradient를 합친다. library에 따라 $(1-\mu)$ factor, dampening과 Nesterov 계산의 배치가 다르므로 식과 구현을 함께 확인해야 한다.
 
+여기서는 $u_0=0$, $0\le\mu<1$로 두고 $g_t$를 update 전의 $\theta_{t-1}$에서 계산한다. 두 step을 펼치면 $u_2=\mu g_1+g_2$다. 과거 gradient의 영향은 더 오래될수록 $\mu$가 반복해서 곱해져 작아진다. 현재 gradient가 음수여도 과거의 양수 기여가 더 커 buffer가 양수이면 parameter는 계속 감소할 수 있다. momentum buffer는 현재 gradient 그 자체가 아니다.
+
+
+아래 그림에서 현재 gradient의 부호와 실제 buffer·parameter 이동을 구분한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Positive retained momentum contribution one point eight plus current negative gradient minus one yields positive buffer zero point eight and a negative parameter step](../../figures/assets/N05/N05-08-momentum-sign.svg)
+
+<figcaption>u_prev = 2, μ = 0.9, g = −1이면 이전 기여 1.8에 −1을 더해 u = 0.8을 만든다. 아래 parameter 눈금에서는 θ = 5, η = 0.1의 update −0.08을 표시했다. gradient와 parameter 눈금의 단위가 다르다.</figcaption>
+
+</figure>
+
+
+아래 그림에서 오래된 gradient에 붙은 가중치를 최근 값과 비교한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![At step five exponential history weights increase from the oldest gradient mu to the fourth to the newest gradient weight one](../../figures/assets/N05/N05-08-momentum-history.svg)
+
+<figcaption>u₀ = 0에서 다섯 step을 펼친 가중치다. 가로축은 gradient가 계산된 step이며, 현재 step 5에서 오래된 값일수록 μ가 더 많이 곱해진다. buffer 자체를 현재 gradient 하나로 볼 수 없는 이유다.</figcaption>
+
+</figure>
+
 ## 핵심 개념 2. Adam은 두 moment estimate를 저장한다
 
 Adam의 상태 update는
@@ -87,6 +111,32 @@ v_t=\beta_2v_{t-1}+(1-\beta_2)g_t^2
 
 이다.
 
+$m_0=v_0=0$에서 첫 moment를 펼치면 $m_t=(1-\beta_1)\sum_{s=1}^t\beta_1^{t-s}g_s$다. gradient에 붙은 가중치의 합은 $1-\beta_1^t$이므로 이를 분모로 나누어 초기의 빠진 가중치를 보정한다. second moment도 같은 논리로 $1-\beta_2^t$를 사용한다. gradient 분포가 계속 바뀌는 실제 학습에서 이 correction이 현재 gradient를 정확히 추정한다고 보장하는 것은 아니다.
+
+$v_t$는 gradient 제곱의 평균이지 평균에서 뺀 편차의 제곱 평균, 즉 variance가 아니다. adaptive 비율은 각 좌표의 signed first moment를 그 좌표의 제곱 크기에서 얻은 scale로 나눈다. $\epsilon>0$은 분모가 0이 되는 것을 막는다. 이때도 $m_t$가 과거 값을 포함하므로 update 방향을 현재 $g_t$의 부호만으로 정할 수 없다.
+
+
+아래 그림에서 first·second moment와 각 correction 분모를 차례로 추적한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Gradient three branches into first moment zero point three and second moment zero point zero zero nine then bias correction yields three and nine and adaptive displacement zero point one](../../figures/assets/N05/N05-08-adam-moments.svg)
+
+<figcaption>m₀ = v₀ = 0, β₁ = 0.9, β₂ = 0.999인 첫 step이다. signed gradient와 제곱을 서로 다른 상태에 넣고 각각 다른 분모로 correction한다. 작은 ε를 무시한 adaptive 이동량은 0.1이다.</figcaption>
+
+</figure>
+
+
+아래 그림에서 가중치 합이 correction 전후에 어떻게 바뀌는지 확인한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![First-moment gradient weights at step five sum to zero point four zero nine five one before correction and one after division by one minus beta to the fifth](../../figures/assets/N05/N05-08-bias-correction.svg)
+
+<figcaption>first moment를 다섯 step까지 펼친 예다. 각 step의 왼쪽 막대는 correction 전 가중치, 오른쪽 막대는 1 − 0.9⁵로 나눈 가중치다. 합이 0.40951에서 1이 되지만 gradient들이 실제로 같아진다는 뜻은 아니다.</figcaption>
+
+</figure>
+
 ## 핵심 개념 3. AdamW는 weight decay를 분리한다
 
 AdamW의 한 step을 단순화하면
@@ -100,11 +150,35 @@ AdamW의 한 step을 단순화하면
 
 이다. 마지막 항은 loss gradient에 섞이지 않고 parameter에 직접 적용된다. adaptive optimizer에서 loss에 $L_2$ penalty를 더하는 방식과 decoupled weight decay는 같은 update가 아니다.
 
+loss에 $\lambda\|\theta\|_2^2/2$를 더하면 gradient에 $\lambda\theta$가 추가되고 이 항까지 moment와 adaptive scale에 들어간다. AdamW에서는 이 항을 moment 계산에 넣지 않고 기존 parameter에 $1-\eta\lambda$를 곱하는 효과로 분리한다. $0<\eta\lambda<1$일 때 decay 부분만 보면 parameter를 0 쪽으로 줄인다. 전체 update에는 gradient 항도 있으므로 모든 parameter의 절댓값이 반드시 줄어드는 것은 아니다.
+
+
+아래 그림에서 moment 안으로 들어가는 항과 밖에서 적용되는 항을 구분한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![L2 regularization adds lambda theta to the gradient before moments while AdamW sends only loss gradient through moments and applies decay separately to the parameter update](../../figures/assets/N05/N05-08-l2-versus-adamw.svg)
+
+<figcaption>위쪽 L2 경로는 λθ를 loss gradient에 더한 뒤 moment와 adaptive scale을 계산한다. 아래 AdamW 경로는 loss gradient만 moment로 보내고, λθ에 η를 곱한 decay를 parameter update에서 따로 뺀다. 같은 λ라도 일반적으로 같은 결과가 아니다.</figcaption>
+
+</figure>
+
 ## 핵심 개념 4. optimizer state도 checkpoint의 일부다
 
 Adam 계열은 parameter 원소마다 $m_t$와 $v_t$를 저장하고 step도 기록한다. parameter가 $P$개면 이 두 tensor만으로도 대략 $2P$개의 state 원소가 추가된다. mixed precision 학습은 master weight나 scaler state를 더 가질 수 있다.
 
 inference에는 weight가 핵심이지만 학습을 같은 trajectory에서 재개하려면 optimizer, scheduler, step과 random state가 필요하다.
+
+
+아래 그림에서 parameter 위치와 두 state 위치의 대응을 센다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Three parameter coordinates align with three first-moment and three second-moment state entries plus a separate step record](../../figures/assets/N05/N05-08-state-entries.svg)
+
+<figcaption>P = 3인 경우를 배열 위치로 표시했다. parameter의 각 위치에 first·second moment 위치 하나씩이 대응해 state 원소가 6 = 2P개 추가된다. step 기록은 별도이며 moment는 forward parameter가 아니다.</figcaption>
+
+</figure>
 
 ## 예제 1. momentum 첫 step
 
@@ -135,6 +209,17 @@ v_1=0.001\cdot9=0.009
 \]
 
 이다.
+
+
+아래 그림에서 서로 다른 확대 눈금을 확인한 뒤 두 이동량을 읽는다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Two explicitly labeled parameter scales show adaptive displacement minus one tenth and a zoomed decay displacement minus two thousandths ending at one point eight nine eight](../../figures/assets/N05/N05-08-adamw-displacements.svg)
+
+<figcaption>위 눈금은 adaptive 항으로 2에서 1.9로 이동한 결과다. 아래는 1.9 부근을 확대해 decay 0.002를 표시했다. 아래 화살표가 길어 보이는 것은 다른 확대 눈금 때문이며 최종값은 1.898이다.</figcaption>
+
+</figure>
 
 ## 실행 실습
 
@@ -171,6 +256,17 @@ optimizer 이름만으로 정확한 update를 단정하지 않는다. epsilon의
 두 training checkpoint의 weight 차이는 그 구간의 gradient만 반영하지 않는다. 이전 step에서 누적된 optimizer state, learning-rate schedule과 batch order가 함께 작용한다.
 
 학습 동역학을 분석할 때 weight snapshot만 있으면 representation 변화는 관찰할 수 있다. 특정 update가 왜 일어났는지 재생하려면 optimizer state와 data order가 더 필요하다.
+
+
+아래 그림에서 다른 buffer를 가진 두 checkpoint의 다음 값을 비교한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Two momentum resumes share parameter five and current gradient minus one but buffers zero and two produce next parameters five point one and four point nine two](../../figures/assets/N05/N05-08-same-weight-state.svg)
+
+<figcaption>momentum convention, θ = 5, g = −1, μ = 0.9, η = 0.1을 모두 맞췄다. 이전 buffer만 0과 2로 다르면 새 buffer는 −1과 0.8, 다음 parameter는 5.1과 4.92가 된다. weight만으로 다음 update를 재생할 수 없다.</figcaption>
+
+</figure>
 
 ## 흔한 오해
 

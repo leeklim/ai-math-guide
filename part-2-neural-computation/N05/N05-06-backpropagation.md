@@ -64,6 +64,30 @@ h=z^2,
 
 forward pass는 $z$, $h$, $\hat y$와 $\mathcal L$을 순서대로 계산한다. backward pass는 local derivative에 필요한 forward 값을 사용한다. 예를 들어 $h=z^2$의 local derivative $2z$를 평가하려면 forward에서 얻은 $z$가 필요하다.
 
+backward는 출력값에서 입력값을 복원하는 역함수 계산이 아니다. 이미 계산한 입력과 parameter의 같은 평가점에서 미분값을 구한다. $h=z^2$는 $z$의 부호를 잃지만, forward의 $z$가 남아 있으면 local derivative의 부호를 정확히 정할 수 있다. forward 값과 연결 정보를 함께 사용하는 이유다.
+
+
+아래 그림에서 forward 값과 loss target의 합류를 추적한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Scalar forward chain computes z one h one prediction three and loss four with fixed input parameters and target](../../figures/assets/N05/N05-06-forward-values.svg)
+
+<figcaption>예제의 x = 2, w = 1, b = −1, v = 3, c = 0을 순서대로 사용한다. forward 값 z = 1과 h = 1은 숫자가 같아도 다른 연산의 결과이며, backward에서 서로 다른 local derivative를 정한다.</figcaption>
+
+</figure>
+
+
+아래 그림에서 같은 h에 대응하는 두 입력의 tangent를 비교한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![A square curve has value one at stored inputs minus one and plus one but tangent slopes minus two and plus two](../../figures/assets/N05/N05-06-stored-square-input.svg)
+
+<figcaption>z = −1과 z = 1은 모두 h = 1을 만들지만 tangent의 기울기는 −2와 2다. backward는 h에서 z를 복원하는 대신 저장된 z를 2z에 대입해 local derivative를 정한다.</figcaption>
+
+</figure>
+
 ## 핵심 개념 2. reverse mode는 loss에서 입력 방향으로 간다
 
 loss에서 시작하면
@@ -93,6 +117,19 @@ loss에서 시작하면
 
 이다. 각 단계는 upstream gradient와 local derivative의 곱이다.
 
+scalar loss 자체에 대한 미분값 1을 시작값으로 두고 역순으로 진행한다. upstream gradient는 현재 값의 변화가 최종 loss에 얼마나 전달되는지, local derivative는 이 연산 바로 앞의 변화가 현재 값에 얼마나 전달되는지를 나타낸다. 둘을 곱하면 한 단계 더 앞의 변화가 loss에 미치는 일차 효과를 얻는다. forward 식을 역으로 풀지 않고 미분의 의존 관계를 거슬러 계산하는 것이다.
+
+
+아래 그림에서 local derivative를 곱하며 loss의 미분값을 전달한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Reverse seed one multiplies squared error derivative four then affine factor three then square factor two to produce adjoints four twelve twenty four](../../figures/assets/N05/N05-06-reverse-chain.svg)
+
+<figcaption>loss seed 1에서 시작해 local derivative 2(ŷ − y) = 4, v = 3, 2z = 2를 차례로 곱한다. node에 표시한 4, 12, 24는 forward 값이 아니라 loss에 대한 미분값이다.</figcaption>
+
+</figure>
+
 ## 핵심 개념 3. parameter와 입력 gradient
 
 $z=wx+b$에서
@@ -117,6 +154,19 @@ $z=wx+b$에서
 
 이다. backpropagation은 parameter와 입력 양쪽의 gradient를 계산할 수 있다. optimizer는 이 가운데 학습 대상으로 등록한 parameter gradient를 사용해 값을 갱신한다.
 
+둘째 affine 연산도 같은 방식으로 $\partial\mathcal L/\partial v=(\partial\mathcal L/\partial\hat y)h$, $\partial\mathcal L/\partial c=\partial\mathcal L/\partial\hat y$를 얻는다. 이 계산에서는 target $y$를 고정한다. 미분 대상이 입력인지 parameter인지가 local derivative를 정하며, optimizer에 등록했는지가 이후 update 대상을 정한다. 입력 gradient를 계산했다고 입력 sample을 자동으로 학습시키는 것은 아니다.
+
+
+아래 그림에서 미분 대상마다 다른 local factor를 선택한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Adjoint twenty four branches to input weight bias derivatives while prediction adjoint four branches to output weight and bias derivatives](../../figures/assets/N05/N05-06-gradient-leaves.svg)
+
+<figcaption>z̄ = 24에서는 w·x·b로 미분하는 세 갈래가, ŷ̄ = 4에서는 v·c로 미분하는 두 갈래가 생긴다. 입력 x의 미분값도 계산하지만, optimizer에 등록한 parameter만 이후 update 대상이다.</figcaption>
+
+</figure>
+
 ## 핵심 개념 4. 갈라진 경로의 gradient는 더한다
 
 한 node $u$가 두 후속 계산 $a(u)$와 $b(u)$에 쓰이고 loss가 둘 모두에 의존하면
@@ -128,6 +178,30 @@ $z=wx+b$에서
 \]
 
 이다. reverse-mode autodiff는 각 outgoing path에서 돌아온 기여를 같은 node에 누적한다. residual connection의 backward 계산도 이 합 규칙을 따른다.
+
+$u$를 조금 바꾸면 $a$와 $b$가 동시에 바뀐다. loss의 일차 변화는 각 후속 값의 변화에 따른 기여를 더한 것이므로 두 경로 중 하나를 선택하거나 두 derivative를 곱하면 안 된다. 기여의 부호가 반대이면 서로 상쇄될 수도 있다. 따라서 합산 gradient가 0인 것과 후속 경로 자체가 없는 것은 다르다.
+
+
+아래 그림에서 경로마다 곱한 기여를 같은 입력에서 더한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![For a u squared branch and a three u branch at u one their local derivative contributions two and three join by addition to five](../../figures/assets/N05/N05-06-branch-gradient-sum.svg)
+
+<figcaption>u = 1에서 a = u², b = 3u, L = a + b인 작은 계산이다. 각 경로의 upstream 미분값 1에 local derivative를 곱해 2와 3을 얻고, 같은 u의 미분값으로 돌아온 두 기여를 더한다.</figcaption>
+
+</figure>
+
+
+아래 그림에서 두 경로의 부호가 상쇄되는 위치를 확인한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Two nonzero local derivative contributions plus one and minus one join to total zero without removing either path](../../figures/assets/N05/N05-06-path-cancellation.svg)
+
+<figcaption>상쇄를 보기 위해 a = u, b = −u, L = a + b로 두었다. 각 경로의 미분값은 1과 −1로 남지만 합은 0이다. 경로가 사라진 경우와 기여가 상쇄된 경우를 구분한다.</figcaption>
+
+</figure>
 
 ## 예제 1. forward 값 계산
 
@@ -221,6 +295,17 @@ site build는 아래 위치에 원본 코드와 실제 실행 결과를 삽입�
 
 실제 모델에서 모든 intermediate gradient를 보존하면 memory 사용량이 커진다. 분석할 layer와 token을 먼저 정하고 필요한 tensor만 수집해야 한다.
 
+
+아래 그림에서 미분 전달과 선택적 저장의 경로를 구분한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Intermediate adjoint is used to propagate to the input regardless of whether its optional grad storage is retained](../../figures/assets/N05/N05-06-intermediate-grad-storage.svg)
+
+<figcaption>z의 미분값을 계산해 입력 쪽으로 전달하는 실선과, z.grad에 값을 남기는 선택을 분리했다. 기본 동작에서 z.grad가 None이어도 backward 계산은 진행된다. retain_grad()는 이 중간 미분값의 저장을 요청한다.</figcaption>
+
+</figure>
+
 ## 모델 해석과의 연결
 
 gradient attribution은 선택한 scalar output이 input이나 activation에 얼마나 민감한지를 local derivative로 측정한다. gradient가 0이면 현재 입력점의 일차 변화가 0이라는 뜻이다. component가 모든 입력에서 쓸모없다는 결론은 아니다.
@@ -236,6 +321,17 @@ backward는 gradient를 계산하고 `.grad`에 누적한다. parameter update�
 ### 오해 2. `.grad`는 호출할 때마다 자동으로 0이 된다
 
 PyTorch는 leaf gradient를 누적한다. 반복 학습에서는 다음 backward 전에 gradient를 지우는 단계가 필요하다.
+
+
+아래 그림에서 parameter 값과 .grad 누적 값을 따로 읽는다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Two identical backward contributions forty eight accumulate in weight gradient from zero to forty eight to ninety six while parameter weight remains one without optimizer steps](../../figures/assets/N05/N05-06-gradient-accumulation.svg)
+
+<figcaption>w.grad를 0으로 둔 상태에서 예제의 forward 계산을 다시 만들어 같은 미분 기여 48을 두 번 더한다고 하자. 중간에 gradient를 지우지 않으면 w.grad는 48에서 96으로 누적된다. optimizer step이 없으므로 parameter w = 1은 그대로다.</figcaption>
+
+</figure>
 
 ### 오해 3. 큰 gradient는 큰 인과 효과를 보장한다
 

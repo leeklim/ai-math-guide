@@ -62,11 +62,48 @@ estimated_time: "120~150분"
 
 이다. 코드의 `inputs @ weight.T`에서 `.T`가 weight의 두 axis를 바꾼다.
 
+수축되는 input axis에서는 대응하는 값들을 곱해 더하고 batch와 output axis는 남긴다. $B$와 $d_{\mathrm{out}}$이 우연히 같은 숫자여도 두 axis가 같은 뜻은 아니다. 위 식의 첫 axis는 sample이고 둘째 axis는 output unit이다. shape의 숫자를 확인한 뒤 각 axis가 어느 입력에서 왔는지도 확인해야 한다.
+
+
+아래 그림에서 선택한 sample 행과 output 열의 feature 대응을 추적한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Input sample row one two three and transposed weight column one zero minus one contract to result entry minus two while sample and output axes remain](../../figures/assets/N05/N05-09-contract-feature-axis.svg)
+
+<figcaption>예제 1의 bias를 더하기 전 행렬곱이다. X의 한 sample 행과 Wᵀ의 한 output 열이 feature 세 위치에서 대응해 −2를 만든다. 결과의 행은 sample, 열은 output unit이다.</figcaption>
+
+</figure>
+
 ## 핵심 개념 2. broadcasting은 뒤 axis부터 맞춘다
 
 $(B,d_{\mathrm{out}})$ tensor에 $(d_{\mathrm{out}},)$ bias를 더하면 마지막 axis가 일치한다. bias에는 batch axis가 없으므로 각 batch row에 같은 vector를 더한다.
 
 두 axis를 뒤에서 비교할 때 크기가 같거나 한쪽이 1이거나 한쪽 axis가 없으면 broadcast할 수 있다. broadcast는 수학적 반복을 표현하지만 구현이 실제 data copy를 만들지 않을 수도 있다.
+
+비교할 때 없는 앞쪽 axis를 길이 1로 보면 결과의 각 axis 길이를 정하기 쉽다. $(d_{\mathrm{out}},)$ bias는 $(1,d_{\mathrm{out}})$처럼 맞춰져 batch 방향으로 반복된다. 반대로 sample마다 숫자 하나를 더하려면 $(B,1)$로 두어 output 방향으로 반복시킨다. $(B,)$만 쓰면 마지막 axis와 맞추므로, $B=d_{\mathrm{out}}$일 때 코드가 실행돼도 의도한 sample별 덧셈이 아닐 수 있다.
+
+
+아래 그림에서 같은 숫자가 반복되는 방향을 행·열로 비교한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Row-shaped offsets repeat across samples while column-shaped offsets repeat across output positions](../../figures/assets/N05/N05-09-row-versus-column-offset.svg)
+
+<figcaption>(0.25, −0.5)를 output별 숫자로 놓으면 같은 행이 각 sample에 반복된다. sample별 숫자로 놓으려면 (2, 1)이 필요해 각 행 안에서 같은 숫자가 반복된다. B와 d_out이 둘 다 2라서 잘못된 방향도 실행될 수 있다.</figcaption>
+
+</figure>
+
+
+아래 그림에서 오른쪽부터 맞춘 각 axis의 길이를 판정한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Trailing axis alignment compares shapes two one four and padded one three four yielding broadcast output two three four](../../figures/assets/N05/N05-09-trailing-broadcast.svg)
+
+<figcaption>둘째 tensor의 없는 앞쪽 axis를 1로 맞춰 (1, 3, 4)로 비교한다. 각 열에서 크기가 같거나 한쪽이 1이면 더 큰 길이를 쓰므로 결과는 (2, 3, 4)다. 전체 원소 수만 비교하는 규칙이 아니다.</figcaption>
+
+</figure>
 
 ## 핵심 개념 3. shape 연산은 원소 배치를 해석한다
 
@@ -74,11 +111,48 @@ $(B,d_{\mathrm{out}})$ tensor에 $(d_{\mathrm{out}},)$ bias를 더하면 마지�
 
 shape가 같다는 사실만으로 axis 의미가 같아지지는 않는다. `(B, T, d)`와 `(T, B, d)`는 원소 수가 같아도 batch와 token 위치가 바뀐다.
 
+transpose와 reshape는 결과 shape가 같다고 같은 값을 같은 위치에 놓는다고 보장하지 않는다. 두 행이 $(1,2,3)$과 $(4,5,6)$인 matrix를 전치하면 첫 행은 $(1,4)$가 된다. 반면 행 순서로 나열한 여섯 값을 $(3,2)$로 다시 묶으면 첫 행은 $(1,2)$다. axis의 역할을 교환하려는 경우와 순서대로 나열된 원소를 다시 묶으려는 경우를 구분한다.
+
+
+아래 그림에서 길이 1인 새 index를 추가해 같은 원소를 다시 읽는다.
+
+<figure class="lesson-figure" markdown="1">
+
+![A two by three tensor becomes two batches each containing one row of three unchanged values under unsqueeze one](../../figures/assets/N05/N05-09-unsqueeze-index.svg)
+
+<figcaption>기존 batch 두 위치 각각에 길이 1의 중간 axis를 넣는다. 새 axis의 index는 0 하나뿐이며, (0, 2)의 값 3은 (0, 0, 2)로 읽는다. 원소 복제는 일어나지 않는다.</figcaption>
+
+</figure>
+
+
+아래 그림에서 같은 숫자 4가 두 shape 연산 뒤에 놓이는 위치를 비교한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Source values one through six map to transposed rows one four two five three six versus reshaped rows one two three four five six](../../figures/assets/N05/N05-09-transpose-reshape.svg)
+
+<figcaption>source의 둘째 행 첫 위치에 있던 4를 추적한다. transpose에서는 첫째 행 둘째 위치, 행 순서 reshape에서는 둘째 행 둘째 위치가 된다. shape가 (3, 2)로 같아도 위치 대응은 다르다.</figcaption>
+
+</figure>
+
 ## 핵심 개념 4. dtype은 수치 결과에 들어간다
 
 float32와 float64는 같은 실수를 서로 다른 정밀도로 근사한다. 큰 수와 작은 수를 함께 계산하면 작은 값이 반올림으로 사라질 수 있다. 연산 순서도 결과에 영향을 준다.
 
 dtype 차이를 모델의 개념 차이로 해석하면 안 된다. 먼저 같은 수학 함수가 허용 오차 안에서 일치하는지 검사해야 한다.
+
+부동소수점은 크기가 달라도 일정한 절대 간격으로 모든 수를 저장하는 방식이 아니다. 큰 수 주변에서는 표현 가능한 이웃 값의 간격도 커져 작은 증가량이 같은 값으로 반올림될 수 있다. 그런 값들을 나중에 빼면 큰 부분만 소거되고 작은 증가량은 돌아오지 않는다. 이미 float32에서 사라진 값을 float64로 옮겨도 복구되지 않으며, 높은 precision도 처음부터 계산에 사용했을 때 반올림을 줄일 수 있을 뿐 정확한 실수 연산은 아니다.
+
+
+아래 그림에서 원하는 증가량과 저장 가능한 이웃 값의 간격을 구분한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Float32 representable neighbors at offsets minus eight zero eight surround requested offset plus one which rounds to zero offset](../../figures/assets/N05/N05-09-float-neighbors.svg)
+
+<figcaption>실제 float32에서 10⁸의 이웃 값은 8 간격이다. 주황 표식은 원하는 증가량 +1, 파란 점은 저장 가능한 값이다. +1을 더해도 가장 가까운 저장값이 원래 10⁸이므로 그 증가량이 남지 않는다.</figcaption>
+
+</figure>
 
 ## 예제 1. affine shape와 값
 
@@ -101,6 +175,17 @@ dtype 차이를 모델의 개념 차이로 해석하면 안 된다. 먼저 같�
 ## 예제 2. cancellation
 
 $(10^8,1,-10^8)$을 순서대로 더하면 float32 예제는 0을, float64 예제는 1을 낸다. float32에서 $10^8+1$을 저장하는 순간 1이 사라진다. 이 예제는 실수 덧셈의 결합법칙이 유한정밀도 계산에서 그대로 유지되지 않음을 보인다.
+
+
+아래 그림에서 반올림이 일어난 시점과 이후 cast·뺄셈의 결과를 확인한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Float32 rounds one hundred million plus one back to one hundred million then subtracts to zero while float64 from the start retains the increment and yields one](../../figures/assets/N05/N05-09-cancellation-cast.svg)
+
+<figcaption>같은 덧셈을 float32에서는 10⁸로, 처음부터 float64로 계산하면 100000001로 저장한다. 이후 10⁸을 빼면 각각 0과 1이다. float32에서 반올림된 10⁸을 나중에 float64로 cast해도 저장값은 그대로다.</figcaption>
+
+</figure>
 
 ## 실행 실습
 

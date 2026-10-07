@@ -31,7 +31,10 @@
 - 최종 `scripts/build_site.ps1`(기존 실행결과 재사용) exit 0: 환경 진단, 자동검사 187개 중 186통과·선택 GPU 검사 1 skip, figure audit 1,355개·개념 audit 976개, source audit KO/EN, strict build KO 17.41초/EN 6.66초, bilingual merge 모두 통과. 각 언어 199페이지·1,154 details·reading tables199. 링크/자산/fragment 오류 0. 학습 순서·고유 배치·ID 노출·페이지 description/OG/Twitter·locale·canonical/hreflang·205페이지 sitemap·Search Console meta tag 검사 통과. GA4 runtime 모의검사 언어별19개 통과(실제 Google 요청 아님).
 - 최종 병합 산출물 preview: `http://127.0.0.1:8006/ai-math-guide/` 및 `/en/`. 한영 홈페이지 실제 화면·description·canonical·인증 meta 확인. 로컬 동의 거부 후 읽기 가능, 가로 넘침 없음. 대표 화면을 `.build/release-proof/*-desktop-final.jpg`에 저장. 독립 전체 앵커 검토 및 공개 배포 검증은 다음 단계.
 - 실제 host-root `https://leeklim.github.io/robots.txt`는 GitHub Pages 404. 호스트 robots 차단 규칙은 발견하지 않았으며 호스트 루트 변경 없음. 공개 HTML의 noindex 검사는 배포 후 별도 확인한다.
+- 독립 최종 생성물 검토 통과: 398단원의 원래 본문 heading anchor 11,282개·기존 실습 포함 공개 anchor 11,778개·한영 참고 페이지 anchor128개 누락0. 410페이지 중복 ID·metadata/언어 대응·인증 tag·일반 읽기 텍스트 관리ID 노출 오류0. footer/head 이전·다음은 양언어199단원의 교육순서와 일치. 각 언어 formal nav205경로 고유, sitemap205개 정확. 원고/그림/lab diff0. 범위 참조의 끝점과 기존 href 보존.
+- 최종 모바일 재확인: 실제 `innerWidth=390, innerHeight=844`에서 A09-GEO-02 한영·밝은/어두운 테마 줄바꿈·가로 넘침0 확인. viewport 대상은 활성 탭으로 선택하여 실제 치수를 확인했다.
+- 로컬 커밋: `8dc09e9` 수행 명세·진행 기록, `8718842` 공통 탐색/표시/SEO/검증, `8382825` 기초·참고 설명76페이지, `1bdbf76` 신경망·해석·심화 설명129페이지. 이 단계는 로컬 준비 완료이며 공개 배포 완료와 구분한다.
 
 ## 다음 작업
 
-독립 최종 생성물 검토 확인 → 승인 범위의 main push·Pages 배포 → 실제 공개 주소·GA4 수신·Search Console 검증. 외부 계정 확인은 로컬 검사로 대체하지 않는다.
+승인 범위의 main push·Pages 배포 → 실제 공개 주소·GA4 수신·Search Console 검증. 외부 계정 확인은 로컬 검사로 대체하지 않는다.

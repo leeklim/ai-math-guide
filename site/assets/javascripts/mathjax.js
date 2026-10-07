@@ -1,4 +1,7 @@
 window.MathJax = {
+  startup: {
+    typeset: false
+  },
   loader: {
     load: ["[tex]/boldsymbol", "[tex]/mathtools"]
   },

@@ -15,6 +15,12 @@ class MathJaxConfigTests(unittest.TestCase):
         config = read_text(ROOT / "site" / "assets" / "javascripts" / "mathjax.js")
         self.assertIn('processHtmlClass: "arithmatex|md-ellipsis"', config)
 
+    def test_initial_typesetting_uses_the_document_subscription_only(self) -> None:
+        config = read_text(ROOT / "site" / "assets" / "javascripts" / "mathjax.js")
+        self.assertRegex(config, r"startup:\s*\{\s*typeset:\s*false\s*\}")
+        self.assertIn("document$.subscribe", config)
+        self.assertEqual(config.count("MathJax.typesetPromise()"), 1)
+
 
 if __name__ == "__main__":
     unittest.main()

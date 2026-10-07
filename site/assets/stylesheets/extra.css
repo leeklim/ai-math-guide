@@ -20,6 +20,11 @@
   letter-spacing: -0.02em;
 }
 
+html[lang="en"] .md-typeset {
+  font-family: var(--md-text-font), Arial, sans-serif;
+  word-break: normal;
+}
+
 .md-typeset h1 {
   margin-bottom: 1.25rem;
 }

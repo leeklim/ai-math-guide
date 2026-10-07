@@ -9,6 +9,7 @@ import json
 import os
 import re
 import shutil
+import subprocess
 import sys
 from collections import Counter
 from html.parser import HTMLParser
@@ -24,6 +25,41 @@ DOCS_DIR = BUILD_ROOT / "docs"
 SITE_DIR = BUILD_ROOT / "site"
 CONFIG_PATH = BUILD_ROOT / "mkdocs.yml"
 BASE_CONFIG = ROOT / "site" / "mkdocs.base.yml"
+CONTENT_ROOT = ROOT
+LANGUAGE = "ko"
+ALLOW_PARTIAL = False
+PUBLIC_ROOT = "https://leeklim.github.io/ai-math-guide/"
+PUBLIC_PATH = "/ai-math-guide/"
+PUBLIC_DOCUMENTS = {
+    "README.md": "index.md",
+    "01-CURRICULUM.md": "curriculum.md",
+    "04-GLOSSARY.md": "glossary.md",
+    "N05-ENVIRONMENT.md": "N05-ENVIRONMENT.md",
+    "GPU-ENVIRONMENT.md": "GPU-ENVIRONMENT.md",
+    "05-N05-ARCHITECTURE-BASELINE.md": "05-N05-ARCHITECTURE-BASELINE.md",
+}
+EN_STAGE_TITLES = {
+    "M00": "M00 Reading mathematical notation",
+    "M01": "M01 Change and calculus",
+    "M02": "M02 Vectors and matrices",
+    "M03": "M03 Abstract linear algebra and matrix calculus",
+    "M04": "M04 Probability, statistics, and information theory",
+    "N05": "N05 Neural computation",
+    "I06": "I06 Interpreting representations",
+    "I07": "I07 Attribution, causality, and mechanisms",
+    "I08": "I08 Learning dynamics",
+    "A09-GEO": "A09-GEO Differential geometry and representation spaces",
+    "A09-DYN": "A09-DYN Dynamical systems and stochastic processes",
+    "A09-SYM": "A09-SYM Groups, symmetry, and representation alignment",
+    "A09-LRN": "A09-LRN Statistical learning theory",
+    "A09-KER": "A09-KER Kernels, function spaces, and operators",
+    "A09-RMT": "A09-RMT Random matrices and high-dimensional statistics",
+    "A09-CAU": "A09-CAU Advanced causal inference",
+}
+EN_SPOKEN_READING_CHECKLIST = (
+    "Common spoken reading uses actual English academic speech, without Korean "
+    "transliteration or mechanical descriptions of symbol placement."
+)
 
 STAGE_COUNTS = {
     "M00": 10,
@@ -117,6 +153,116 @@ def read_text(path: Path) -> str:
 def write_text(path: Path, text: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text, encoding="utf-8", newline="\n")
+
+
+def select_language(language: str, *, allow_partial: bool = False, isolated: bool = False) -> None:
+    """Select content/output locations without moving the shared repository root."""
+    global LANGUAGE, ALLOW_PARTIAL, CONTENT_ROOT, DOCS_DIR, SITE_DIR, CONFIG_PATH
+    if language not in {"ko", "en"} or (allow_partial and language != "en"):
+        raise SiteError("--allow-partial is only available with --lang en")
+    LANGUAGE, ALLOW_PARTIAL = language, allow_partial
+    CONTENT_ROOT = ROOT if language == "ko" else ROOT / "translations" / "en"
+    locale_build = BUILD_ROOT / language if language == "en" or isolated else BUILD_ROOT
+    DOCS_DIR, SITE_DIR = locale_build / "docs", locale_build / "site"
+    CONFIG_PATH = locale_build / "mkdocs.yml"
+
+
+def checklist_title() -> str:
+    return "Author checklist" if LANGUAGE == "en" else "집필자 점검표"
+
+
+def page_url(relative: str) -> str:
+    path = Path(relative)
+    return "" if path.name == "index.md" else path.with_suffix("").as_posix() + "/"
+
+
+def english_pages() -> list[str]:
+    root = ROOT / "translations" / "en"
+    pages = [page_url(target) for source, target in PUBLIC_DOCUMENTS.items() if (root / source).is_file()]
+    pages.extend(page_url(path.relative_to(root).as_posix()) for path in root.glob("part-*/*/*.md"))
+    if ALLOW_PARTIAL and "" not in pages:
+        pages.append("")  # Explicit preview landing page, not a translated lesson.
+    return sorted(set(pages))
+
+
+def localized_config() -> dict[str, object]:
+    config = yaml.safe_load(read_text(BASE_CONFIG))
+    config["theme"]["custom_dir"] = Path(os.path.relpath(ROOT / "site" / "overrides", CONFIG_PATH.parent)).as_posix()
+    config["extra"]["bilingual"] = {
+        "root": PUBLIC_PATH, "en_pages": english_pages(),
+        "partial_preview": LANGUAGE == "en" and ALLOW_PARTIAL,
+    }
+    if LANGUAGE == "en":
+        config["site_name"] = "Mathematics and Methods for Model Interpretability"
+        config["site_description"] = "Mathematics for reading AI papers and designing model interpretability experiments"
+        config["site_url"] = PUBLIC_ROOT + "en/"
+        config["theme"]["language"] = "en"
+        for palette in config["theme"]["palette"]:
+            palette["toggle"]["name"] = (
+                "Switch to dark mode" if palette["scheme"] == "default" else "Switch to light mode"
+            )
+        config["extra"]["consent"].update({
+            "title": "Visitor analytics consent",
+            "description": (
+                "The site uses Google Analytics 4 to understand visits and page usage. "
+                "If you consent, visit information is sent to Google and analytics cookies are used. "
+                "Select the checkbox below and choose Accept to allow analytics. "
+                "You can reject analytics and still read every lesson. "
+                "Change your choice using Analytics cookie settings in the footer. "
+                '<a href="https://policies.google.com/privacy?hl=en" target="_blank" rel="noopener">Google Privacy Policy</a>'
+            ),
+        })
+        config["extra"]["consent"]["cookies"]["analytics"]["name"] = "Visitor analytics (Google Analytics 4)"
+        config["copyright"] = '<a href="#__consent">Analytics cookie settings</a>'
+        config["plugins"] = [{"search": {"lang": "en"}}]
+    return config
+
+
+def source_snapshot(lessons: list[dict[str, object]]) -> dict[str, object]:
+    sources = [Path(lesson["path"]) for lesson in lessons]
+    sources.extend(CONTENT_ROOT / source for source in PUBLIC_DOCUMENTS if (CONTENT_ROOT / source).is_file())
+    sources.extend([BASE_CONFIG, Path(__file__).resolve()])
+    sources.extend(path for directory in (ROOT / "site" / "assets", ROOT / "site" / "overrides", ROOT / "figures" / "assets") for path in directory.rglob("*") if path.is_file())
+    registries: dict[str, object] = {}
+    stages = {str(lesson["stage"]) for lesson in lessons if "stage" in lesson}
+    for stage in stages & {"N05", "I06", "I07", "I08"}:
+        registry = load_n05_example_registry() if stage == "N05" else load_stage_example_registry(stage)
+        for lesson in lessons:
+            lesson_id = str(lesson["id"])
+            if lesson.get("stage") != stage or lesson_id not in registry:
+                continue
+            entry = registry[lesson_id]
+            code = Path(str(entry["source_path"]))
+            registries[lesson_id] = {**entry, "source_path": code.relative_to(ROOT).as_posix()}
+            sources.extend([code, BUILD_ROOT / stage.lower() / "results" / f"{entry['example_id']}.json"])
+    gpu_results = os.environ.get("AI_MATH_GPU_RESULTS") == "1"
+    models, experiments = load_gpu_registries()
+    lesson_ids = {str(lesson["id"]) for lesson in lessons if "id" in lesson}
+    for experiment_id, experiment in experiments.items():
+        if experiment["lesson_id"] not in lesson_ids:
+            continue
+        registries[experiment_id] = {"experiment": experiment, "model": models[str(experiment["model_key"])]}
+        sources.append(GPU_RUNNER_PATH)
+        if gpu_results:
+            manifest = BUILD_ROOT / "gpu" / "results" / experiment_id / "manifest.json"
+            sources.append(manifest)
+            if manifest.exists():
+                for artifact in json.loads(read_text(manifest))["artifacts"]:
+                    path = (ROOT / str(artifact["path"])).resolve()
+                    if not path.is_relative_to(BUILD_ROOT.resolve()):
+                        raise SiteError(f"unsafe GPU artifact path: {experiment_id}")
+                    sources.append(path)
+    return {
+        "language": LANGUAGE, "partial_preview": ALLOW_PARTIAL,
+        "english_pages": english_pages(), "gpu_result_mode": gpu_results, "consumed_registries": registries,
+        "sources": {path.relative_to(ROOT).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest() if path.is_file() else None for path in set(sources)},
+    }
+
+
+def assert_current_sources(lessons: list[dict[str, object]]) -> None:
+    snapshot = CONFIG_PATH.parent / "source-snapshot.json"
+    if not snapshot.exists() or json.loads(read_text(snapshot)) != source_snapshot(lessons):
+        raise SiteError("locale staging is stale; run prepare and strict build again")
 
 
 def load_n05_example_registry() -> dict[str, dict[str, object]]:
@@ -258,8 +404,12 @@ def find_raw_math_pipes_in_tables(path: Path, text: str) -> list[str]:
 
 def lint_english_readings(
     sources: list[tuple[Path, str]] | None = None,
+    *, language: str | None = None,
 ) -> tuple[list[str], int, int]:
     """Validate notation-table readings and return issues, table count, and cell count."""
+    language = language or LANGUAGE
+    if sources is None and language == "en":
+        sources = [(path, read_text(path)) for path in sorted(CONTENT_ROOT.glob("part-*/*/*.md"))]
     if sources is None:
         foundation_sources = [
             (path, read_text(path))
@@ -292,7 +442,8 @@ def lint_english_readings(
             if not line.startswith("|"):
                 continue
             header = split_markdown_table_row(line)
-            if not header or header[0] not in {"기호·용어", "표기·용어"}:
+            first_headers = {"Symbol or term"} if language == "en" else {"기호·용어", "표기·용어"}
+            if not header or header[0] not in first_headers:
                 continue
 
             file_table_count += 1
@@ -304,6 +455,8 @@ def lint_english_readings(
                     "expected='Common spoken reading'"
                 )
                 continue
+            if language == "en" and header != ["Symbol or term", "Common spoken reading", "Meaning", "Shape and conditions"]:
+                issues.append(f"{path}:{index + 1}: English notation-table headers differ from the standard")
 
             row_index = index + 2
             while row_index < len(lines) and lines[row_index].startswith("|"):
@@ -343,7 +496,8 @@ def lint_english_readings(
 
         if file_table_count == 0:
             issues.append(f"{path}: notation table is missing")
-        if SPOKEN_READING_CHECKLIST not in text:
+        required_check = EN_SPOKEN_READING_CHECKLIST if language == "en" else SPOKEN_READING_CHECKLIST
+        if required_check not in text:
             issues.append(f"{path}: Common spoken reading checklist item is missing")
 
     for symbol, uses in entries.items():
@@ -358,7 +512,131 @@ def lint_english_readings(
     return issues, table_count, cell_count
 
 
+def discover_english_stage(stage: str, directory: str) -> list[dict[str, object]]:
+    """Audit actual translations against the unchanged Korean lesson inventory."""
+    lessons: list[dict[str, object]] = []
+    issues: list[str] = []
+    originals = sorted((ROOT / directory).glob(f"{stage}-*.md"))
+    known = {path.name for path in originals}
+    for extra in (CONTENT_ROOT / directory).glob("*.md"):
+        if extra.name not in known:
+            issues.append(f"unknown English lesson: {extra.relative_to(CONTENT_ROOT)}")
+    for original in originals:
+        relative = original.relative_to(ROOT).as_posix()
+        path = CONTENT_ROOT / relative
+        if not path.exists():
+            if not ALLOW_PARTIAL:
+                issues.append(f"missing English lesson: {relative}")
+            continue
+        source, text = read_text(original), read_text(path)
+        ko_meta, meta = parse_frontmatter(original, source), parse_frontmatter(path, text)
+        lesson_id, title = str(ko_meta["id"]), str(meta.get("title", ""))
+        for field in ("id", "part", "stage", "prerequisites"):
+            if meta.get(field) != ko_meta.get(field):
+                issues.append(f"English frontmatter differs: {lesson_id}/{field}")
+        if meta.get("status") != "complete":
+            issues.append(f"English source status is not complete: {lesson_id}")
+        if not title or HANGUL_RE.search(title) or H1_RE.findall(text) != [f"{lesson_id}. {title}"]:
+            issues.append(f"English title/H1 mismatch: {lesson_id}")
+        if len(re.findall(r"^##\s+Author checklist\s*$", text, re.MULTILINE)) != 1:
+            issues.append(f"English Author checklist count is not one: {lesson_id}")
+        if source.count("<details>") != text.count("<details>"):
+            issues.append(f"English solution count differs: {lesson_id}")
+        if text.count("<summary>Show solution</summary>") != text.count("<details>"):
+            issues.append(f"English solution summaries differ: {lesson_id}")
+        headings = lambda value: re.findall(r"^(#{2,4})\s", value, re.MULTILINE)
+        if headings(source) != headings(text):
+            issues.append(f"English heading structure differs: {lesson_id}")
+        images = lambda value: re.findall(r"!\[[^\]]*\]\(([^)]+)\)", value)
+        if images(source) != images(text):
+            issues.append(f"English figure paths/order differ: {lesson_id}")
+        markers = lambda value: re.findall(r"<!--\s*((?:N05|I06|I07|I08)_EXAMPLE|GPU_EXPERIMENT):\s*([^>]+?)\s*-->", value)
+        if markers(source) != markers(text):
+            issues.append(f"English example markers differ: {lesson_id}")
+        if len(re.findall(r"^\\\[$", text, re.MULTILINE)) != len(re.findall(r"^\\\]$", text, re.MULTILINE)):
+            issues.append(f"English display math mismatch: {lesson_id}")
+        for number, line in enumerate(text.splitlines(), 1):
+            if len(re.findall(r"(?<!\\)\$", line)) % 2:
+                issues.append(f"English inline math mismatch: {lesson_id}:{number}")
+                break
+        for href in LINK_RE.findall(strip_editor_checklist(text, lesson_id)):
+            parsed = urlsplit(href)
+            if parsed.scheme or parsed.netloc or not parsed.path:
+                continue
+            shared = (original.parent / unquote(parsed.path)).resolve()
+            if not shared.is_relative_to(ROOT) or not shared.exists():
+                issues.append(f"broken English source link: {lesson_id} -> {href}")
+            elif shared.suffix == ".md" and not ALLOW_PARTIAL:
+                if not (CONTENT_ROOT / shared.relative_to(ROOT)).exists():
+                    issues.append(f"English link points to untranslated document: {lesson_id} -> {href}")
+        lessons.append({"id": lesson_id, "title": title, "stage": stage, "path": path, "relative_path": relative})
+    sources = [(Path(lesson["path"]), read_text(Path(lesson["path"]))) for lesson in lessons]
+    reading_issues, tables, _ = lint_english_readings(sources, language="en")
+    issues.extend(reading_issues)
+    for lesson in lessons:
+        original = ROOT / str(lesson["relative_path"])
+        ko_rows = spoken_reading_rows(read_text(original), language="ko")
+        en_rows = spoken_reading_rows(read_text(Path(lesson["path"])), language="en")
+        if len(ko_rows) != len(en_rows) or any(
+            ko_reading != en_reading or (
+                re.findall(r"\$[^$]*\$|\\\(.*?\\\)", ko_symbol) != re.findall(r"\$[^$]*\$|\\\(.*?\\\)", en_symbol)
+                if HANGUL_RE.search(ko_symbol) else ko_symbol != en_symbol
+            )
+            for (ko_symbol, ko_reading), (en_symbol, en_reading) in zip(ko_rows, en_rows)
+        ):
+            issues.append(f"English symbols/spoken readings differ: {lesson['id']}")
+        diagnostics = find_korean_prose(Path(lesson["path"]), read_text(Path(lesson["path"])))
+        if diagnostics:
+            print("English prose review required:\n  " + "\n  ".join(diagnostics), file=sys.stderr)
+    if tables != len(lessons):
+        issues.append(f"English reading table count={tables}, expected={len(lessons)}")
+    if issues:
+        raise SiteError("English source audit failed:\n- " + "\n- ".join(issues))
+    return lessons
+
+
+def spoken_reading_rows(text: str, *, language: str) -> list[tuple[str, str]]:
+    rows: list[tuple[str, str]] = []
+    in_table = False
+    for line in text.splitlines():
+        if not line.startswith("|"):
+            in_table = False
+            continue
+        cells = split_markdown_table_row(line)
+        if cells and cells[0] in ({"Symbol or term"} if language == "en" else {"기호·용어", "표기·용어"}):
+            in_table = True
+        elif in_table and len(cells) > 1 and not re.fullmatch(r":?-+:?", cells[0]):
+            rows.append((cells[0], cells[1]))
+    return rows
+
+
+def find_korean_prose(path: Path, text: str) -> list[str]:
+    """Report residual Korean outside code/stdout; intentional quotations need review."""
+    text = FRONTMATTER_RE.sub(lambda match: "\n" * match.group(0).count("\n"), text, count=1)
+    diagnostics: list[str] = []
+    fence: str | None = None
+    hidden = False
+    for number, line in enumerate(text.splitlines(), 1):
+        marker = re.match(r"\s*(`{3,}|~{3,})", line)
+        if marker:
+            token = marker.group(1)[0]
+            fence = None if fence == token else fence or token
+            continue
+        if fence:
+            continue
+        if re.fullmatch(r"##\s+Author checklist\s*", line):
+            hidden = True
+        elif re.match(r"#{1,2}\s", line):
+            hidden = False
+        if not hidden and HANGUL_RE.search(line):
+            name = path.relative_to(CONTENT_ROOT).as_posix() if path.is_relative_to(CONTENT_ROOT) else path.name
+            diagnostics.append(f"{name}:{number}: {line.strip()[:180]}")
+    return diagnostics
+
+
 def discover_lessons() -> list[dict[str, object]]:
+    if LANGUAGE == "en":
+        return [lesson for stage in STAGE_COUNTS for lesson in discover_english_stage(stage, f"part-1-foundations/{stage}")]
     lessons: list[dict[str, object]] = []
     seen_ids: set[str] = set()
     issues: list[str] = []
@@ -442,6 +720,8 @@ def discover_lessons() -> list[dict[str, object]]:
 
 
 def discover_n05_lessons() -> list[dict[str, object]]:
+    if LANGUAGE == "en":
+        return discover_english_stage("N05", "part-2-neural-computation/N05")
     stage_dir = ROOT / "part-2-neural-computation" / "N05"
     paths = sorted(stage_dir.glob("N05-*.md"))
     registry = load_n05_example_registry()
@@ -525,6 +805,8 @@ def discover_n05_lessons() -> list[dict[str, object]]:
 
 def discover_post_n05_stage(stage: str) -> list[dict[str, object]]:
     spec = POST_N05_STAGE_SPECS[stage]
+    if LANGUAGE == "en":
+        return discover_english_stage(stage, str(spec["directory"]))
     stage_dir = ROOT / str(spec["directory"])
     paths = sorted(stage_dir.glob(f"{stage}-*.md")) if stage_dir.exists() else []
     _, experiments = load_gpu_registries()
@@ -671,6 +953,18 @@ def remove_h2_sections(text: str, section_names: set[str], *, required: bool = F
 
 
 def prepare_homepage() -> str:
+    if LANGUAGE == "en":
+        path = CONTENT_ROOT / "README.md"
+        if not path.exists():
+            if not ALLOW_PARTIAL:
+                raise SiteError("missing English public document: README.md")
+            return (
+                "# Mathematics and Methods for Model Interpretability\n\n"
+                "This is a partial English preview. Only the translated lessons are included. "
+                "Untranslated links open the Korean edition; no Korean lesson is presented as an English translation.\n\n"
+                f"[Read the Korean edition]({PUBLIC_PATH})\n"
+            )
+        return read_text(path)
     source = read_text(ROOT / "README.md")
     source = remove_h2_sections(source, {"기준 문서", "현재 상태", "로컬 HTML 검수"}, required=True)
     return (
@@ -683,9 +977,10 @@ def prepare_homepage() -> str:
 
 
 def strip_editor_checklist(text: str, lesson_id: str) -> str:
-    if len(re.findall(r"^##\s+집필자 점검표\s*$", text, flags=re.MULTILINE)) != 1:
+    title = checklist_title()
+    if len(re.findall(rf"^##\s+{re.escape(title)}\s*$", text, flags=re.MULTILINE)) != 1:
         raise SiteError(f"집필자 점검표 section 수가 1이 아니다: {lesson_id}")
-    return remove_h2_sections(text, {"집필자 점검표"}, required=True)
+    return remove_h2_sections(text, {title}, required=True)
 
 
 def enable_markdown_in_details(text: str, lesson_id: str) -> str:
@@ -697,7 +992,7 @@ def enable_markdown_in_details(text: str, lesson_id: str) -> str:
 
 
 def add_search_alias(text: str, lesson_id: str) -> str:
-    if lesson_id != "M03-11":
+    if LANGUAGE == "en" or lesson_id != "M03-11":
         return text
     lines = text.splitlines(keepends=True)
     for index, line in enumerate(lines):
@@ -705,6 +1000,42 @@ def add_search_alias(text: str, lesson_id: str) -> str:
             lines.insert(index + 1, "\n<span class=\"search-alias\">자코비안 야코비안</span>\n")
             return "".join(lines)
     raise SiteError("M03-11 H1 뒤에 검색 별칭을 넣지 못했다")
+
+
+def localize_execution_prose(text: str) -> str:
+    """Translate generated labels, never executable code or actual stdout."""
+    if LANGUAGE != "en":
+        return text
+    labels = {
+        "#### 실제 실행 코드": "#### Executed source code",
+        "#### 실행 명령": "#### Run command",
+        "#### 실제 실행 결과": "#### Actual execution output",
+        "#### 자동 확인 기록": "#### Automated verification record",
+        "#### 실제 모델 실험 계약": "#### Real-model experiment contract",
+        "#### 검증된 로컬 GPU 결과": "#### Verified local GPU results",
+        "| 자동 확인 항목 | 값 |": "| Automated check | Value |",
+        "| 검증 항목 | 값 |": "| Verified item | Value |",
+        "| 항목 | 값 |": "| Item | Value |",
+        "| 환경 |": "| Environment |",
+        "| 학습 step |": "| Training steps |",
+        "| 계산시간 |": "| Compute time |",
+        "| process 시작 포함 |": "| Including process startup |",
+        "| 코드 원본 |": "| Source code |",
+        "| sequence 상한 |": "| Sequence limit |",
+        "| peak VRAM 상한 |": "| Peak VRAM limit |",
+        "| 실행 timeout |": "| Execution timeout |",
+        "| artifact 크기 |": "| Artifact size |",
+        "| 실행시간 |": "| Execution time |",
+        "로컬 GPU 결과가 삽입되지 않음. 위 명령으로 고정된 실험을 재현할 수 있다.":
+            "Local GPU results are not included. The command above reproduces the fixed experiment.",
+    }
+    parts = re.split(r"(```[^\n]*\n.*?```)", text, flags=re.DOTALL)
+    for index in range(0, len(parts), 2):
+        for original, translation in labels.items():
+            parts[index] = parts[index].replace(original, translation)
+        parts[index] = re.sub(r"(?<=`)초(?=\s*\|)", " seconds", parts[index])
+        parts[index] = re.sub(r"(?<=\d)초(?=`\s*\|)", " seconds", parts[index])
+    return "".join(parts)
 
 
 def expand_n05_example(text: str, lesson_id: str) -> str:
@@ -788,7 +1119,7 @@ def expand_n05_example(text: str, lesson_id: str) -> str:
 | 계산시간 | `{result['compute_seconds']:.6f}`초 |
 | process 시작 포함 | `{result['process_seconds']:.6f}`초 |
 """
-    return text.replace(marker, generated.rstrip())
+    return text.replace(marker, localize_execution_prose(generated).rstrip())
 
 
 def expand_stage_example(text: str, lesson_id: str) -> str:
@@ -845,7 +1176,7 @@ def expand_stage_example(text: str, lesson_id: str) -> str:
 | device | `{result['device']}` |
 | process 시작 포함 | `{result['process_seconds']:.6f}`초 |
 """
-    return text.replace(marker, generated.rstrip())
+    return text.replace(marker, localize_execution_prose(generated).rstrip())
 
 
 def expand_i06_example(text: str, lesson_id: str) -> str:
@@ -892,7 +1223,7 @@ def expand_gpu_experiments(text: str, lesson_id: str) -> str:
 """
         if not include_results:
             generated += "\n> 로컬 GPU 결과가 삽입되지 않음. 위 명령으로 고정된 실험을 재현할 수 있다.\n"
-            text = text.replace(marker, generated.rstrip())
+            text = text.replace(marker, localize_execution_prose(generated).rstrip())
             continue
 
         manifest_path = BUILD_ROOT / "gpu" / "results" / experiment_id / "manifest.json"
@@ -946,17 +1277,23 @@ def expand_gpu_experiments(text: str, lesson_id: str) -> str:
 | artifact 크기 | `{resources['artifact_bytes']} bytes` |
 | 실행시간 | `{manifest['timestamps']['seconds']:.3f}초` |
 """
-        text = text.replace(marker, generated.rstrip())
+        text = text.replace(marker, localize_execution_prose(generated).rstrip())
     return text
 
 
 def build_nav(lessons: list[dict[str, object]]) -> list[dict[str, object]]:
+    titles = EN_STAGE_TITLES if LANGUAGE == "en" else STAGE_TITLES
+    def nav_path(source: str) -> str:
+        target = PUBLIC_DOCUMENTS[source]
+        if LANGUAGE == "en" and ALLOW_PARTIAL and not (CONTENT_ROOT / source).exists():
+            return PUBLIC_PATH + page_url(target)
+        return target
     nav: list[dict[str, object]] = [
-        {"홈": "index.md"},
-        {"전체 학습경로": "curriculum.md"},
-        {"N05 실행 환경": "N05-ENVIRONMENT.md"},
-        {"N05 아키텍처 기준": "05-N05-ARCHITECTURE-BASELINE.md"},
-        {"GPU·Pythia 실행 환경": "GPU-ENVIRONMENT.md"},
+        {"Home" if LANGUAGE == "en" else "홈": "index.md"},
+        {"Learning path" if LANGUAGE == "en" else "전체 학습경로": nav_path("01-CURRICULUM.md")},
+        {"N05 environment" if LANGUAGE == "en" else "N05 실행 환경": nav_path("N05-ENVIRONMENT.md")},
+        {"N05 architecture baseline" if LANGUAGE == "en" else "N05 아키텍처 기준": nav_path("05-N05-ARCHITECTURE-BASELINE.md")},
+        {"GPU and Pythia environment" if LANGUAGE == "en" else "GPU·Pythia 실행 환경": nav_path("GPU-ENVIRONMENT.md")},
     ]
     for stage in STAGE_COUNTS:
         stage_items: list[dict[str, str]] = []
@@ -965,7 +1302,8 @@ def build_nav(lessons: list[dict[str, object]]) -> list[dict[str, object]]:
                 continue
             label = f"{lesson['id']} {lesson['title']}"
             stage_items.append({label: str(lesson["relative_path"])})
-        nav.append({STAGE_TITLES[stage]: stage_items})
+        if stage_items or LANGUAGE == "ko":
+            nav.append({titles[stage]: stage_items})
     n05_items: list[dict[str, str]] = []
     for lesson in lessons:
         if lesson["stage"] != "N05":
@@ -973,7 +1311,7 @@ def build_nav(lessons: list[dict[str, object]]) -> list[dict[str, object]]:
         label = f"{lesson['id']} {lesson['title']}"
         n05_items.append({label: str(lesson["relative_path"])})
     if n05_items:
-        nav.append({STAGE_TITLES["N05"]: n05_items})
+        nav.append({titles["N05"]: n05_items})
     for stage in POST_N05_STAGE_SPECS:
         stage_items: list[dict[str, str]] = []
         for lesson in lessons:
@@ -982,9 +1320,38 @@ def build_nav(lessons: list[dict[str, object]]) -> list[dict[str, object]]:
             label = f"{lesson['id']} {lesson['title']}"
             stage_items.append({label: str(lesson["relative_path"])})
         if stage_items:
-            nav.append({STAGE_TITLES[stage]: stage_items})
-    nav.append({"용어집": "glossary.md"})
+            nav.append({titles[stage]: stage_items})
+    nav.append({"Glossary" if LANGUAGE == "en" else "용어집": nav_path("04-GLOSSARY.md")})
     return nav
+
+
+def rewrite_partial_links(text: str, relative_source: str) -> str:
+    """Keep missing translations explicit links to the local Korean edition."""
+    if LANGUAGE != "en":
+        return text
+    def replace(match: re.Match[str]) -> str:
+        label_text, href = match.groups()
+        label = "[" + label_text + "]"
+        parsed = urlsplit(href)
+        if parsed.scheme or parsed.netloc or not parsed.path or not parsed.path.endswith(".md"):
+            return match.group(0)
+        shared = (ROOT / relative_source).parent / unquote(parsed.path)
+        shared = shared.resolve()
+        if not shared.is_relative_to(ROOT) or not shared.exists():
+            return match.group(0)  # The source audit reports the actual error.
+        source = shared.relative_to(ROOT).as_posix()
+        target = PUBLIC_DOCUMENTS.get(source, source)
+        if (CONTENT_ROOT / source).exists():
+            rewritten = Path(os.path.relpath(DOCS_DIR / target, (DOCS_DIR / PUBLIC_DOCUMENTS.get(relative_source, relative_source)).parent)).as_posix()
+        elif ALLOW_PARTIAL:
+            rewritten = PUBLIC_PATH + page_url(target)
+            label = label[:-1] + " (Korean; not yet translated)]"
+        else:
+            raise SiteError(f"missing English link target: {relative_source} -> {source}")
+        if parsed.fragment:
+            rewritten += "#" + parsed.fragment
+        return f"{label}({rewritten})"
+    return re.sub(r"(?<!!)\[([^\]]*)\]\(([^)]+)\)", replace, text)
 
 
 def assert_safe_build_root() -> None:
@@ -996,7 +1363,14 @@ def assert_safe_build_root() -> None:
 
 def prepare() -> None:
     lessons = discover_all_lessons()
+    initial_snapshot = source_snapshot(lessons)
     assert_safe_build_root()
+    if LANGUAGE == "en":
+        for source in PUBLIC_DOCUMENTS:
+            if not (CONTENT_ROOT / source).is_file() and not ALLOW_PARTIAL:
+                raise SiteError(f"missing English public document: {source}")
+    if not DOCS_DIR.resolve().is_relative_to(BUILD_ROOT.resolve()) or not SITE_DIR.resolve().is_relative_to(BUILD_ROOT.resolve()):
+        raise SiteError("unsafe locale build path")
     if DOCS_DIR.exists():
         shutil.rmtree(DOCS_DIR)
     if SITE_DIR.exists():
@@ -1005,15 +1379,12 @@ def prepare() -> None:
         CONFIG_PATH.unlink()
     DOCS_DIR.mkdir(parents=True)
 
-    write_text(DOCS_DIR / "index.md", prepare_homepage())
-    write_text(DOCS_DIR / "curriculum.md", read_text(ROOT / "01-CURRICULUM.md"))
-    write_text(DOCS_DIR / "N05-ENVIRONMENT.md", read_text(ROOT / "N05-ENVIRONMENT.md"))
-    write_text(DOCS_DIR / "GPU-ENVIRONMENT.md", read_text(ROOT / "GPU-ENVIRONMENT.md"))
-    write_text(
-        DOCS_DIR / "05-N05-ARCHITECTURE-BASELINE.md",
-        read_text(ROOT / "05-N05-ARCHITECTURE-BASELINE.md"),
-    )
-    write_text(DOCS_DIR / "glossary.md", read_text(ROOT / "04-GLOSSARY.md"))
+    write_text(DOCS_DIR / "index.md", rewrite_partial_links(prepare_homepage(), "README.md"))
+    for source, target in PUBLIC_DOCUMENTS.items():
+        if source == "README.md" or not (CONTENT_ROOT / source).exists():
+            continue
+        text = read_text(CONTENT_ROOT / source)
+        write_text(DOCS_DIR / target, rewrite_partial_links(text, source))
 
     for lesson in lessons:
         source_path = lesson["path"]
@@ -1025,6 +1396,7 @@ def prepare() -> None:
         text = expand_n05_example(text, str(lesson["id"]))
         text = expand_stage_example(text, str(lesson["id"]))
         text = expand_gpu_experiments(text, str(lesson["id"]))
+        text = rewrite_partial_links(text, str(lesson["relative_path"]))
         destination = DOCS_DIR / str(lesson["relative_path"])
         write_text(destination, text)
 
@@ -1035,11 +1407,14 @@ def prepare() -> None:
     if figure_assets_source.exists():
         shutil.copytree(figure_assets_source, DOCS_DIR / "figures" / "assets")
 
-    config = yaml.safe_load(read_text(BASE_CONFIG))
+    config = localized_config()
     config["docs_dir"] = "docs"
     config["site_dir"] = "site"
     config["nav"] = build_nav(lessons)
+    if source_snapshot(lessons) != initial_snapshot:
+        raise SiteError("locale sources changed during prepare; run prepare again")
     write_text(CONFIG_PATH, yaml.safe_dump(config, allow_unicode=True, sort_keys=False))
+    write_text(CONFIG_PATH.parent / "source-snapshot.json", json.dumps(initial_snapshot, ensure_ascii=False, indent=2) + "\n")
 
     print(f"prepared lessons={len(lessons)} docs_dir={DOCS_DIR}")
 
@@ -1088,7 +1463,13 @@ def resolve_generated_url(page: Path, url: str) -> Path | None:
     if parsed.scheme or parsed.netloc or not parsed.path:
         return None
     path = unquote(parsed.path)
-    if path.startswith("/ai-math-guide/"):
+    if LANGUAGE == "ko" and path.startswith("/ai-math-guide/en/"):
+        return None  # Cross-language targets are checked after artifact assembly.
+    if LANGUAGE == "en" and path.startswith("/ai-math-guide/en/"):
+        target = SITE_DIR / path.removeprefix("/ai-math-guide/en/")
+    elif LANGUAGE == "en" and path.startswith("/ai-math-guide/"):
+        return None
+    elif path.startswith("/ai-math-guide/"):
         target = SITE_DIR / path.removeprefix("/ai-math-guide/")
     elif path.startswith("/"):
         target = SITE_DIR / path.lstrip("/")
@@ -1120,6 +1501,7 @@ def validate() -> None:
 
     if not CONFIG_PATH.exists() or not SITE_DIR.exists():
         raise SiteError("prepare와 MkDocs build를 먼저 실행해야 한다")
+    assert_current_sources(lessons)
 
     staged_foundations = sorted(
         (DOCS_DIR / "part-1-foundations").glob("M0[0-4]/M0[0-4]-*.md")
@@ -1133,8 +1515,8 @@ def validate() -> None:
         for path in sorted((DOCS_DIR / str(spec["directory"])).glob(f"{stage}-*.md"))
     ]
     staged_lessons = staged_foundations + staged_n05 + staged_post_n05
-    if len(staged_foundations) != 70:
-        issues.append(f"staged foundation lesson count={len(staged_foundations)}, expected=70")
+    if len(staged_foundations) != len(foundation_lessons):
+        issues.append(f"staged foundation lesson count={len(staged_foundations)}, expected={len(foundation_lessons)}")
     if len(staged_n05) != len(n05_lessons):
         issues.append(f"staged N05 lesson count={len(staged_n05)}, expected={len(n05_lessons)}")
     if len(staged_post_n05) != len(post_n05_lessons):
@@ -1143,7 +1525,7 @@ def validate() -> None:
         )
 
     original_checklists = sum(
-        len(re.findall(r"^##\s+집필자 점검표\s*$", read_text(Path(str(lesson["path"]))), flags=re.MULTILINE))
+        len(re.findall(rf"^##\s+{re.escape(checklist_title())}\s*$", read_text(Path(str(lesson["path"]))), flags=re.MULTILINE))
         for lesson in lessons
     )
     if original_checklists != len(lessons):
@@ -1158,7 +1540,7 @@ def validate() -> None:
             f"staged Common spoken reading headers={staged_reading_headers}, "
             f"expected={len(lessons)}"
         )
-    if "집필자 점검표" in staged_text:
+    if "집필자 점검표" in staged_text or "Author checklist" in staged_text:
         issues.append("staging에 집필자 점검표가 남았다")
     if "<details>" in staged_text:
         issues.append("staging에 Markdown 처리가 꺼진 details가 남았다")
@@ -1168,9 +1550,11 @@ def validate() -> None:
             issues.append(f"internal doc staged: {internal}")
 
     config = yaml.safe_load(read_text(CONFIG_PATH))
+    if config["extra"].get("scope") != PUBLIC_PATH:
+        issues.append("analytics consent storage scope is not shared")
     nav_paths = flatten_nav_paths(config.get("nav", []))
     lesson_nav_paths = [path for path in nav_paths if re.match(r"part-1-foundations/M0[0-4]/M0[0-4]-", path)]
-    if len(lesson_nav_paths) != 70 or len(set(lesson_nav_paths)) != 70:
+    if len(lesson_nav_paths) != len(foundation_lessons) or len(set(lesson_nav_paths)) != len(foundation_lessons):
         issues.append(f"lesson nav count/unique={len(lesson_nav_paths)}/{len(set(lesson_nav_paths))}")
     n05_nav_paths = [
         path for path in nav_paths if re.match(r"part-2-neural-computation/N05/N05-", path)
@@ -1232,7 +1616,7 @@ def validate() -> None:
             source_hash = hashlib.sha256(GPU_RUNNER_PATH.read_bytes()).hexdigest()
             if f"GPU_SOURCE_SHA256: {experiment_id} {source_hash}" not in staged_source:
                 issues.append(f"GPU source hash marker missing from staging: {lesson_id}/{experiment_id}")
-            placeholder = "로컬 GPU 결과가 삽입되지 않음"
+            placeholder = "Local GPU results are not included" if LANGUAGE == "en" else "로컬 GPU 결과가 삽입되지 않음"
             if include_gpu_results and placeholder in staged_source:
                 issues.append(f"GPU result mode still has placeholder: {lesson_id}/{experiment_id}")
             if not include_gpu_results and placeholder not in staged_source:
@@ -1256,7 +1640,7 @@ def validate() -> None:
         SITE_DIR / "GPU-ENVIRONMENT" / "index.html",
         SITE_DIR / "glossary" / "index.html",
     ):
-        if not path.exists():
+        if not path.exists() and not (LANGUAGE == "en" and ALLOW_PARTIAL):
             issues.append(f"missing public page: {path.relative_to(SITE_DIR)}")
 
     html_paths = sorted(SITE_DIR.rglob("*.html"))
@@ -1275,10 +1659,25 @@ def validate() -> None:
         "the expectation of X",
         "K L divergence from p to q",
     ):
-        if f"<code>{spoken_reading}</code>" not in combined_html:
+        if not ALLOW_PARTIAL and f"<code>{spoken_reading}</code>" not in combined_html:
             issues.append(f"spoken reading missing from HTML: {spoken_reading}")
-    if "집필자 점검표" in combined_html:
+    if "집필자 점검표" in combined_html or "Author checklist" in combined_html:
         issues.append("generated HTML에 집필자 점검표가 남았다")
+    for relative in [str(lesson["relative_path"]) for lesson in lessons] + list(PUBLIC_DOCUMENTS.values()):
+        page = output_html_for(relative)
+        if not page.exists():
+            continue
+        html = read_text(page)
+        suffix = page_url(relative)
+        expected_url = PUBLIC_ROOT + ("en/" if LANGUAGE == "en" else "") + suffix
+        if f'<html lang="{LANGUAGE}"' not in html or f'<link rel="canonical" href="{expected_url}">' not in html:
+            issues.append(f"wrong HTML language/self canonical: {relative}")
+        if suffix in config["extra"]["bilingual"]["en_pages"]:
+            for language, prefix in (("ko", ""), ("en", "en/")):
+                if f'hreflang="{language}" href="{PUBLIC_ROOT}{prefix}{suffix}"' not in html:
+                    issues.append(f"missing page-specific hreflang: {relative}/{language}")
+                if f'href="{PUBLIC_PATH}{prefix}{suffix}" target="_self" hreflang="{language}"' not in html:
+                    issues.append(f"wrong same-page language switch: {relative}/{language}")
     for lesson in n05_lessons:
         lesson_id = str(lesson["id"])
         example_spec = n05_registry.get(lesson_id)
@@ -1342,7 +1741,14 @@ def validate() -> None:
     else:
         search_data = json.loads(read_text(search_path))
         documents = search_data.get("docs", [])
-        for term, expected_id in SEARCH_TERMS.items():
+        search_terms = SEARCH_TERMS if LANGUAGE == "ko" else {
+            "Jacobian": "M03-11", "singular value decomposition": "M02-13",
+            "mutual information": "M04-14", "chain rule": "M01-06", "calibration": "M04-15",
+        }
+        available_ids = {str(lesson["id"]) for lesson in lessons}
+        for term, expected_id in search_terms.items():
+            if ALLOW_PARTIAL and expected_id not in available_ids:
+                continue
             hits = [
                 str(document.get("location", ""))
                 for document in documents
@@ -1372,7 +1778,7 @@ def validate() -> None:
         "source_details": source_details,
         "generated_details": html_details,
         "arithmatex_wrappers": arithmatex_count,
-        "checklist_exposure": combined_html.count("집필자 점검표"),
+        "checklist_exposure": combined_html.count(checklist_title()),
         "n05_generated_results": sum(
             (
                 BUILD_ROOT
@@ -1398,18 +1804,89 @@ def validate() -> None:
         "gpu_registered_experiments": len(gpu_experiments),
         "search_hits": {term: len(hits) for term, hits in search_hits.items()},
     }
-    write_text(BUILD_ROOT / "validation.json", json.dumps(summary, ensure_ascii=False, indent=2) + "\n")
+    summary["language"] = LANGUAGE
+    summary["partial_preview"] = ALLOW_PARTIAL
+    if LANGUAGE == "en":
+        prose_sources = [Path(lesson["path"]) for lesson in lessons]
+        prose_sources.extend(CONTENT_ROOT / source for source in PUBLIC_DOCUMENTS if (CONTENT_ROOT / source).is_file())
+        summary["korean_prose_diagnostics"] = [diagnostic for path in prose_sources for diagnostic in find_korean_prose(path, read_text(path))]
+    write_text(CONFIG_PATH.parent / "validation.json", json.dumps(summary, ensure_ascii=False, indent=2) + "\n")
 
     if issues:
         raise SiteError("generated-site validation 실패:\n- " + "\n- ".join(issues))
     print(json.dumps(summary, ensure_ascii=False, indent=2))
 
 
+def merge_sites(*, allow_partial: bool = False) -> None:
+    """Assemble locally verified locale outputs without touching the existing preview."""
+    gate = [sys.executable, str(ROOT / "scripts" / "concepts.py"), "check-translations"]
+    if not allow_partial:
+        gate.append("--require-verified")
+    result = subprocess.run(gate, cwd=ROOT, capture_output=True, text=True, encoding="utf-8")
+    if result.returncode:
+        raise SiteError(result.stderr.strip() or result.stdout.strip())
+    for language in ("ko", "en"):
+        select_language(language, allow_partial=allow_partial and language == "en", isolated=True)
+        validate()
+    destination = BUILD_ROOT / "bilingual" / "site"
+    if destination.resolve().parent != (BUILD_ROOT / "bilingual").resolve() or not destination.resolve().is_relative_to(BUILD_ROOT.resolve()):
+        raise SiteError("unsafe bilingual output path")
+    if destination.exists():
+        shutil.rmtree(destination)
+    shutil.copytree(BUILD_ROOT / "ko" / "site", destination)
+    shutil.copytree(BUILD_ROOT / "en" / "site", destination / "en")
+    broken: list[str] = []
+    for page in destination.rglob("*.html"):
+        collector = LinkCollector()
+        collector.feed(read_text(page))
+        for href in collector.urls:
+            parsed = urlsplit(href)
+            if parsed.scheme or parsed.netloc or not parsed.path:
+                continue
+            path = unquote(parsed.path)
+            target = destination / path.removeprefix(PUBLIC_PATH) if path.startswith(PUBLIC_PATH) else page.parent / path
+            target = target.resolve()
+            if not target.is_relative_to(destination.resolve()):
+                broken.append(f"{page.relative_to(destination)} -> {href} (outside artifact)")
+                continue
+            if path.endswith("/") or target.is_dir():
+                target = target / "index.html"
+            if not target.exists():
+                broken.append(f"{page.relative_to(destination)} -> {href}")
+    for prefix in ("", "en"):
+        output = destination / prefix
+        if not (output / "search" / "search_index.json").exists() or not (output / "sitemap.xml").exists():
+            broken.append(f"missing locale search index/sitemap: {prefix or 'ko'}")
+            continue
+        search = json.loads(read_text(output / "search" / "search_index.json"))
+        for item in search.get("docs", []):
+            path = urlsplit(str(item["location"])).path
+            target = output / unquote(path)
+            if path.endswith("/") or target.is_dir():
+                target /= "index.html"
+            if not target.exists():
+                broken.append(f"missing locale search target: {prefix}/{path}")
+    summary = {"partial_preview": allow_partial, "output": destination.relative_to(ROOT).as_posix(),
+               "broken_links_or_assets": len(broken), "translation_audit": json.loads(result.stdout)}
+    write_text(destination.parent / "validation.json", json.dumps(summary, ensure_ascii=False, indent=2) + "\n")
+    if broken:
+        raise SiteError("bilingual artifact validation failed:\n- " + "\n- ".join(broken[:30]))
+    print(json.dumps(summary, ensure_ascii=False, indent=2))
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("command", choices=("audit", "prepare", "validate"))
+    parser.add_argument("command", choices=("audit", "prepare", "validate", "merge"))
+    parser.add_argument("--lang", choices=("ko", "en"), default="ko")
+    parser.add_argument("--allow-partial", action="store_true", help="Local English preview only; final checks require every translation")
+    parser.add_argument("--isolated", action="store_true", help="Keep the legacy Korean preview; write under .build/ko instead")
     args = parser.parse_args()
     try:
+        if args.command == "merge":
+            merge_sites(allow_partial=args.allow_partial)
+            return 0
+        else:
+            select_language(args.lang, allow_partial=args.allow_partial, isolated=args.isolated)
         if args.command == "audit":
             foundation_lessons = discover_lessons()
             n05_lessons = discover_n05_lessons()

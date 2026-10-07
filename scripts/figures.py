@@ -49,9 +49,10 @@ def load_manifest() -> list[dict[str, object]]:
     return data["figures"]
 
 
-def lesson_paths() -> list[Path]:
+def lesson_paths(lang: str = "ko") -> list[Path]:
     paths: list[Path] = []
-    for root in LESSON_ROOTS:
+    roots = LESSON_ROOTS if lang == "ko" else tuple(ROOT / "translations" / "en" / root.relative_to(ROOT) for root in LESSON_ROOTS)
+    for root in roots:
         paths.extend(root.rglob("*.md"))
     return sorted(paths)
 
@@ -101,10 +102,10 @@ def validate_svg(path: Path, *, min_font_size: float | None = None) -> list[str]
     return issues
 
 
-def collect_lesson_references() -> tuple[dict[str, tuple[str, Path]], list[str]]:
+def collect_lesson_references(lang: str = "ko") -> tuple[dict[str, tuple[str, Path]], list[str]]:
     references: dict[str, tuple[str, Path]] = {}
     issues: list[str] = []
-    for lesson_path in lesson_paths():
+    for lesson_path in lesson_paths(lang):
         text = read_text(lesson_path)
         lesson_match = FRONTMATTER_ID_RE.search(text)
         if lesson_match is None:
@@ -124,9 +125,13 @@ def collect_lesson_references() -> tuple[dict[str, tuple[str, Path]], list[str]]
                 issues.append(f"대체 텍스트에 한글이 있다: {lesson_path.relative_to(ROOT)} -> {alt}")
             if len(alt.split()) < 5:
                 issues.append(f"대체 텍스트가 지나치게 짧다: {lesson_path.relative_to(ROOT)} -> {alt}")
-            if caption_match is None or not HANGUL_RE.search(caption_match.group("caption")):
+            caption = caption_match.group("caption").strip() if caption_match else ""
+            if lang == "ko" and not HANGUL_RE.search(caption):
                 issues.append(f"한국어 figcaption이 없다: {lesson_path.relative_to(ROOT)}")
-            resolved = (lesson_path.parent / raw_path).resolve()
+            elif lang == "en" and (not caption or HANGUL_RE.search(caption)):
+                issues.append(f"English figcaption is missing or contains Hangul: {lesson_path.relative_to(ROOT)}")
+            source_path = lesson_path if lang == "ko" else ROOT / lesson_path.relative_to(ROOT / "translations" / "en")
+            resolved = (source_path.parent / raw_path).resolve()
             if not resolved.is_relative_to(ROOT / "figures" / "assets"):
                 issues.append(f"figure 경로가 figures/assets 밖이다: {lesson_path.relative_to(ROOT)}")
                 continue
@@ -139,9 +144,9 @@ def collect_lesson_references() -> tuple[dict[str, tuple[str, Path]], list[str]]
     return references, issues
 
 
-def validate_manifest(*, reproduce: bool) -> dict[str, int]:
+def validate_manifest(*, reproduce: bool, lang: str = "ko", allow_partial: bool = False) -> dict[str, int]:
     entries = load_manifest()
-    references, issues = collect_lesson_references()
+    references, issues = collect_lesson_references(lang)
     manifest_paths: set[str] = set()
     figure_ids: set[str] = set()
     lesson_ids = {
@@ -219,7 +224,7 @@ def validate_manifest(*, reproduce: bool) -> dict[str, int]:
     unused_manifest_assets = manifest_paths - set(references)
     if missing_from_manifest:
         issues.append("manifest에 없는 본문 그림: " + ", ".join(sorted(missing_from_manifest)))
-    if unused_manifest_assets:
+    if unused_manifest_assets and not (lang == "en" and allow_partial):
         issues.append("본문에서 참조하지 않는 manifest 그림: " + ", ".join(sorted(unused_manifest_assets)))
 
     tracked_assets = {
@@ -257,11 +262,13 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("command", choices=("check", "generate"))
     parser.add_argument("--reproduce", action="store_true")
+    parser.add_argument("--lang", choices=("ko", "en"), default="ko")
+    parser.add_argument("--allow-partial", action="store_true")
     args = parser.parse_args()
     try:
         if args.command == "generate":
             generate()
-        summary = validate_manifest(reproduce=args.reproduce)
+        summary = validate_manifest(reproduce=args.reproduce, lang=args.lang, allow_partial=args.allow_partial)
         print(json.dumps(summary, ensure_ascii=False))
     except (FigureError, subprocess.CalledProcessError) as error:
         print(str(error), file=sys.stderr)

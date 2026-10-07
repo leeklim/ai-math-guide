@@ -1,0 +1,21 @@
+{# Explicit same-page links avoid Material's nested-prefix language inference. #}
+{% set root = config.extra.bilingual.root %}
+{% set suffix = page.url if page else "" %}
+{% set translated = suffix in config.extra.bilingual.en_pages %}
+<div class="md-header__option">
+  <div class="md-select">
+    <button class="md-header__button md-icon" aria-label="{{ lang.t('select.language') }}">
+      {% include ".icons/material/translate.svg" %}
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        <li class="md-select__item">
+          <a href="{{ root }}{{ suffix }}" target="_self" hreflang="ko" class="md-select__link">한국어</a>
+        </li>
+        <li class="md-select__item">
+          <a href="{{ root }}en/{{ suffix if translated else '' }}" target="_self" hreflang="en" class="md-select__link">English{% if not translated %} (preview){% endif %}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

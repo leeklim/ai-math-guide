@@ -643,7 +643,7 @@ A09-GEO-04-pullback-metric.md
 
 ## 10. 예외와 변경 기록
 
-현재 예외는 없다.
+한국어 문체·한국어 캡션 규칙은 한국어판에 적용한다. 영문판의 언어별 적용은 제11절을 따른다. 수학 표기 규칙은 양언어에 공통이다.
 
 표기나 문체 규칙을 바꿀 때는 다음을 기록한다.
 
@@ -658,3 +658,20 @@ A09-GEO-04-pullback-metric.md
 | 2026-10-02 | 생략된 이해 과정 보충을 개정 기준으로 고정; 항목 충족과 분량 확대율 요구 제외 | 승인된 M00-03~05처럼 개념 자체를 충분히 설명하고 주변 사례의 기계적 확장 방지 | 전체 |
 | 2026-10-06 | 완료 본문을 보존하며 개념별 풍부한 SVG 보강·기존 양식 재사용 | 이해와 비교에 도움이 되는 관계를 그림 수 제한 없이 보여 주고 중복 제작을 줄임 | 전체 |
 | 2026-10-06 | 반복 배치 오류의 원본/페이지 원인 구분과 검증된 해결책 공유 | 실제 HTML에서 확인한 글자·촉·여백 문제의 재발 방지 | 신규·검수 중 그림; 완료 그림은 같은 결함 발견 시 |
+| 2026-10-07 | 원문 기반 영문 재서술·언어별 제목/캡션/점검표·대조 검수 기준 추가 | 교육 내용을 보존하고 영어 문장과 UI를 분리 관리 | 영문판 전체와 공통 사이트 처리 |
+
+## 11. 영문판 문체와 보존 기준
+
+`translations/en/`에는 같은 한국어 내용을 미국식 영어 교재 문체로 재서술한다. `ko-en-academic-writing`의 `english_prose.md`와 `editorial_protocol.md`가 주 기준이며 stop-slop은 빈말·과장·내용 없는 반복에만 보조 적용한다. 필요한 수동태·명사화·유보·전문 용어 반복·긴 설명을 일괄 삭제하지 않는다. 학술지 형식이나 새로운 논증 구조를 교재에 강제하지 않는다.
+
+- 문장을 합치거나 나누고 영어 어순으로 쓸 수 있지만 기존 단원/절/문단의 역할·순서·내용·논리 관계를 보존한다. 분량이나 문장 길이를 목표로 삼지 않는다.
+- 정의·조건·부정·양화·관측/개입·정보 복원/실제 사용·필요/충분·상관/인과를 대조한다. `may`, `can`, `shows`, `suggests` 등은 문체용 동의어가 아니다.
+- 용어집의 확정된 영어를 사용하되 다의어는 문맥을 확인한다. 같은 개념에 동의어를 번갈아 쓰지 않는다. 수학 객체, 열벡터/행 데이터, Jacobian 행/열, differential/metric-dependent gradient의 구분을 유지한다.
+- 영어 표 헤더는 `Symbol or term | Common spoken reading | Meaning | Shape and conditions`를 기본으로 한다. 마지막 열은 문맥에 맞게 바꿀 수 있다. 읽기 열의 내용과 백틱은 한국어판과 동일하게 유지한다.
+- 공통 절은 `Why this lesson matters`, `Learning objectives`, `Prerequisite check`, `Symbols and terms`, `Core concepts`, `Common misconceptions`, `Exercises`, `Lesson summary`, `Pass criteria`, `Next lesson`, `Author checklist`로 옮긴다. 실제 하위 절·예제 제목은 원문의 뜻을 영어로 쓰며 새 절을 만들지 않는다.
+- 번호가 붙은 개별 핵심 개념 제목은 `Core concept 1. ...`처럼 단수로 쓴다. `Core concepts`는 여러 개념을 묶는 총괄 절에 사용한다.
+- 문제는 `Calculate`, `Explain`, `Determine`, `Design`처럼 묻는 행동을 밝힌다. 번호·위치·수치·조건·정답과 해설 논리를 보존하며 `<summary>Show solution</summary>`을 사용한다.
+- figure의 위치·class·SVG 경로·영어 alt를 유지하고 캡션만 영어로 쓴다. figcaption에는 raw LaTeX를 넣지 않는다. 영어 길이에 따른 표시 보정은 해당 언어에만 최소 적용한다.
+- frontmatter의 `id`, `part`, `stage`, `prerequisites`와 파일명은 유지한다. `title`·`estimated_time`은 영어화하며 `status`의 `완료`는 영어에서 `complete`로 쓴다. 이 상태는 원본 집필 완료를 뜻하며 번역 검수 완료는 translation audit으로 별도 판정한다.
+- 내부 점검표는 영문 `Author checklist`로 유지하고 공개 build에서 제거한다. 읽기 점검 문장은 `Common spoken reading uses actual English academic speech, without Korean transliteration or mechanical descriptions of symbol placement.`로 쓴다.
+- 원문 오류·번역 오류·문체 문제·화면 문제를 구분하여 기록한다. 원문 오류를 재서술에서 몰래 고치거나 검토한 것처럼 처리하지 않는다.

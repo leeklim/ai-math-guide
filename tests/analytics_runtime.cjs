@@ -44,11 +44,16 @@ function check(url, consent, expected, scriptSource = source) {
 const publicUrl = "https://leeklim.github.io/ai-math-guide/";
 check(publicUrl, { analytics: true }, true);
 check(publicUrl + "part-1-foundations/M00/M00-01-symbols/?q=private#section", { analytics: true }, true);
+check(publicUrl + "en/", { analytics: true }, true);
+check(publicUrl + "en/part-2-neural-computation/N05/N05-15-causal-scaled-dot-product-attention/?q=private#section", { analytics: true }, true);
+check(publicUrl + "en/", undefined, false);
+check(publicUrl + "en/", { analytics: false }, false);
 check(publicUrl, undefined, false);
 check(publicUrl, {}, false);
 check(publicUrl, { analytics: false }, false);
 check(publicUrl, { analytics: "true" }, false);
 check("http://127.0.0.1:8001/ai-math-guide/", { analytics: true }, false);
+check("http://127.0.0.1:8003/ai-math-guide/en/", { analytics: true }, false);
 check("http://localhost:8001/ai-math-guide/", { analytics: true }, false);
 check("http://leeklim.github.io/ai-math-guide/", { analytics: true }, false);
 check("https://example.org/ai-math-guide/", { analytics: true }, false);

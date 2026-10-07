@@ -10,6 +10,8 @@ estimated_time: "60~90분"
 
 # M00-00. 단원 제목
 
+<!-- 영문판은 이 템플릿의 단원/절/문단 역할과 순서를 보존하여 translations/en/에 작성한다. 실제 번역에는 02-STYLE-AND-NOTATION.md 제11절과 ko-en-academic-writing을 적용한다. 표 첫 열은 Symbol or term, 읽기 열은 Common spoken reading을 유지한다. 해설 summary는 Show solution, 내부 점검표 제목은 Author checklist로 쓴다. SVG/alt/class/위치는 공유하고 캡션과 독자용 서술만 영어화한다. 수학적 정의·조건·수치·문제/해설 의미는 보존하며 새 설명 범위를 추가하지 않는다. -->
+
 ## 이 단원이 필요한 이유
 
 이 개념이 뒤의 수학이나 모델 해석에서 어떤 문제를 해결하는지 1~3문단으로 설명한다. 중요하다고 선언하는 대신 실제 사용처를 제시한다.

@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 import re
 import sys
@@ -14,6 +15,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 AUDIT_PATH = ROOT / "revision" / "concept-audit.csv"
 MANIFEST_PATH = ROOT / "figures" / "manifest.json"
+TRANSLATION_AUDIT_PATH = ROOT / "revision" / "translation-audit.csv"
+TRANSLATION_FIELDS = (
+    "document_id", "source_ko_path", "translation_en_path",
+    "reviewed_source_sha256", "reviewed_translation_sha256",
+    "status", "reviewer", "review_notes",
+)
 LESSON_ROOTS = (
     ROOT / "part-1-foundations",
     ROOT / "part-2-neural-computation",
@@ -59,6 +66,128 @@ def lesson_sources() -> dict[str, str]:
 def manifest_assets() -> set[str]:
     data = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
     return {str(entry["asset"]) for entry in data["figures"]}
+
+
+def translation_inventory() -> dict[str, str]:
+    documents: dict[str, str] = {}
+    for path in sorted(ROOT.glob("part-*/*/*.md")):
+        match = FRONTMATTER_ID_RE.search(path.read_text(encoding="utf-8"))
+        if match:
+            document_id = match.group("id")
+            if document_id in documents:
+                raise ConceptAuditError(f"duplicate translation source ID: {document_id}")
+            documents[document_id] = path.relative_to(ROOT).as_posix()
+    documents.update({
+        "HOME": "README.md", "CURRICULUM": "01-CURRICULUM.md",
+        "GLOSSARY": "04-GLOSSARY.md",
+        "N05-ARCHITECTURE": "05-N05-ARCHITECTURE-BASELINE.md",
+        "N05-ENVIRONMENT": "N05-ENVIRONMENT.md", "GPU-ENVIRONMENT": "GPU-ENVIRONMENT.md",
+    })
+    return documents
+
+
+def translation_hash(path: Path) -> str:
+    return hashlib.sha256(path.read_text(encoding="utf-8").replace("\r\n", "\n").encode("utf-8")).hexdigest()
+
+
+def read_translation_rows() -> list[dict[str, str]]:
+    with TRANSLATION_AUDIT_PATH.open(encoding="utf-8", newline="") as handle:
+        reader = csv.DictReader(handle)
+        if tuple(reader.fieldnames or ()) != TRANSLATION_FIELDS:
+            raise ConceptAuditError("translation audit columns do not match the schema")
+        return list(reader)
+
+
+def write_translation_rows(rows: list[dict[str, str]]) -> None:
+    TRANSLATION_AUDIT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with TRANSLATION_AUDIT_PATH.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=TRANSLATION_FIELDS, lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def initialize_translation_audit() -> dict[str, int]:
+    if TRANSLATION_AUDIT_PATH.exists():
+        return validate_translations()
+    rows = []
+    for document_id, source in translation_inventory().items():
+        row = dict.fromkeys(TRANSLATION_FIELDS, "")
+        row.update(document_id=document_id, source_ko_path=source,
+                   translation_en_path=f"translations/en/{source}", status="planned")
+        rows.append(row)
+    write_translation_rows(rows)
+    return validate_translations()
+
+
+def record_translation(document_id: str, status: str, reviewer: str, notes: str) -> dict[str, int]:
+    if status not in {"drafted", "reviewed", "verified"} or not reviewer.strip() or not notes.strip():
+        raise ConceptAuditError("recording a translation requires status, reviewer and concrete notes")
+    validate_translations()
+    rows = read_translation_rows()
+    row = next((row for row in rows if row["document_id"] == document_id), None)
+    if row is None:
+        raise ConceptAuditError(f"unknown translation ID: {document_id}")
+    source = ROOT / row["source_ko_path"]
+    translation = ROOT / row["translation_en_path"]
+    if not translation.exists():
+        raise ConceptAuditError(f"missing English source: {row['translation_en_path']}")
+    if status == "verified" and (
+        row["status"] not in {"reviewed", "verified"}
+        or row["reviewed_source_sha256"] != translation_hash(source)
+        or row["reviewed_translation_sha256"] != translation_hash(translation)
+    ):
+        raise ConceptAuditError(f"HTML verification requires a fresh independent review: {document_id}")
+    row.update(status=status, reviewer=reviewer.strip(), review_notes=notes.strip())
+    if status == "reviewed":
+        row.update(reviewed_source_sha256=translation_hash(source),
+                   reviewed_translation_sha256=translation_hash(translation))
+    elif status == "drafted":
+        row.update(reviewed_source_sha256="", reviewed_translation_sha256="")
+    write_translation_rows(rows)
+    return validate_translations()
+
+
+def validate_translations(*, require_verified: bool = False) -> dict[str, int]:
+    inventory = translation_inventory()
+    rows = read_translation_rows()
+    issues: list[str] = []
+    seen: set[str] = set()
+    present = reviewed = verified = stale = 0
+    for row in rows:
+        document_id = row["document_id"]
+        source = inventory.get(document_id)
+        if source is None or document_id in seen:
+            issues.append(f"unknown or duplicate translation ID: {document_id}")
+            continue
+        seen.add(document_id)
+        if row["source_ko_path"] != source or row["translation_en_path"] != f"translations/en/{source}":
+            issues.append(f"translation pairing path mismatch: {document_id}")
+            continue
+        status = row["status"]
+        if status not in {"planned", "drafted", "reviewed", "verified"}:
+            issues.append(f"invalid translation status: {document_id}/{status}")
+        translation = ROOT / row["translation_en_path"]
+        exists = translation.is_file()
+        present += exists
+        if status != "planned" and (not exists or not row["reviewer"].strip() or not row["review_notes"].strip()):
+            issues.append(f"translation status lacks file/reviewer/evidence: {document_id}")
+        if status in {"reviewed", "verified"}:
+            hashes = (row["reviewed_source_sha256"], row["reviewed_translation_sha256"])
+            if not all(re.fullmatch(r"[0-9a-f]{64}", value) for value in hashes):
+                issues.append(f"reviewed translation lacks valid hashes: {document_id}")
+            elif not exists or hashes != (translation_hash(ROOT / source), translation_hash(translation)):
+                stale += 1
+            else:
+                reviewed += 1
+                verified += status == "verified"
+    if seen != set(inventory):
+        issues.append(f"translation audit inventory mismatch: missing={sorted(set(inventory) - seen)}")
+    if require_verified and (verified != len(inventory) or stale):
+        issues.append(f"translations are not fully verified: verified={verified}/{len(inventory)}, stale={stale}")
+    if issues:
+        raise ConceptAuditError("translation audit failed:\n- " + "\n- ".join(issues))
+    return {"documents": len(inventory), "present": present, "missing": len(inventory) - present,
+            "reviewed": reviewed, "verified": verified, "unreviewed": present - reviewed, "stale": stale}
 
 
 def validate_audit(
@@ -159,14 +288,25 @@ def validate_audit(
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("command", choices=("check",))
+    parser.add_argument("command", choices=("check", "init-translations", "check-translations", "record-translation"))
     parser.add_argument("--require-verified", action="store_true")
     parser.add_argument("--require-explanations", action="store_true")
+    parser.add_argument("--document-id")
+    parser.add_argument("--status", choices=("drafted", "reviewed", "verified"))
+    parser.add_argument("--reviewer")
+    parser.add_argument("--notes")
     args = parser.parse_args()
     try:
-        summary = validate_audit(
-            require_verified=args.require_verified, require_explanations=args.require_explanations
-        )
+        if args.command == "init-translations":
+            summary = initialize_translation_audit()
+        elif args.command == "check-translations":
+            summary = validate_translations(require_verified=args.require_verified)
+        elif args.command == "record-translation":
+            summary = record_translation(args.document_id, args.status, args.reviewer or "", args.notes or "")
+        else:
+            summary = validate_audit(
+                require_verified=args.require_verified, require_explanations=args.require_explanations
+            )
         print(json.dumps(summary, ensure_ascii=False))
     except (ConceptAuditError, OSError, KeyError, json.JSONDecodeError) as error:
         print(str(error), file=sys.stderr)

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 550" role="img" aria-labelledby="title desc">
+  <title id="title">Identical directions can have nonzero Euclidean distance</title>
+  <desc id="desc">A coordinate grid shows h equal to one one, a equal to two two and b equal to one minus one. The first pair has cosine one but distance square root two, while h and b are perpendicular and have cosine zero.</desc>
+  <defs><pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse"><path d="M80 0H0V80" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="640" height="550" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="320" y="42" text-anchor="middle" font-size="24" font-weight="700">Compare direction with endpoint distance</text>
+    <rect x="80" y="80" width="400" height="360" fill="url(#grid)"/>
+    <path d="M65 320H495M240 455V65" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M240 320L400 160" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M240 320L320 240" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#arrow)"/>
+    <path d="M240 320L320 400" fill="none" stroke="#7C3AED" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M344 264L424 184M337 257L351 271M417 177L431 191" fill="none" stroke="#D97706" stroke-width="2"/>
+    <text x="420" y="150" font-size="20" font-weight="700" fill="#1E3A8A">a = (2, 2)</text><text x="84" y="249" font-size="20" font-weight="700" fill="#065F46">h = (1, 1)</text><text x="346" y="420" font-size="20" font-weight="700" fill="#5B21B6">b = (1, −1)</text>
+    <text x="457" y="257" font-size="18" fill="#9A3412">distance √2</text>
+    <text x="213" y="346" font-size="16" fill="#475569">0</text><text x="507" y="326" font-size="16" fill="#475569">x₁</text><text x="240" y="74" text-anchor="middle" font-size="16" fill="#475569">x₂</text>
+    <text x="320" y="498" text-anchor="middle" font-size="20" fill="#334155">cosim(h, a) = 1, but d(h, a) = √2</text>
+    <text x="320" y="530" text-anchor="middle" font-size="18" fill="#334155">cosim(h, b) = 0</text>
+  </g>
+</svg>

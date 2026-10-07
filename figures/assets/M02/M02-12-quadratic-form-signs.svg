@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 570" role="img" aria-labelledby="title desc">
+  <title id="title">Eigenvalue signs determine whether a quadratic form is nonnegative in every direction</title>
+  <desc id="desc">Three eigenbasis coefficient planes compare positive definite c one squared plus c two squared, positive semidefinite c one squared with a zero vertical direction, and indefinite c one squared minus c two squared with positive horizontal and negative vertical sectors separated by zero diagonal lines.</desc>
+  <defs><pattern id="grid" width="50" height="50" x="30" patternUnits="userSpaceOnUse"><path d="M50 0H0V50" fill="none" stroke="#E2E8F0"/></pattern><pattern id="grid2" width="50" height="50" x="40" patternUnits="userSpaceOnUse"><path d="M50 0H0V50" fill="none" stroke="#E2E8F0"/></pattern><pattern id="grid3" width="50" height="50" x="0" patternUnits="userSpaceOnUse"><path d="M50 0H0V50" fill="none" stroke="#E2E8F0"/></pattern></defs>
+  <rect width="1080" height="570" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="540" y="40" text-anchor="middle" font-size="24" font-weight="700">xᵀAx = Σ λᵢcᵢ²: test all coefficient directions</text>
+    <g font-size="20" font-weight="700" text-anchor="middle"><text x="180" y="98" fill="#065F46">Positive definite</text><text x="540" y="98" fill="#065F46">Positive semidefinite</text><text x="900" y="98" fill="#92400E">Indefinite</text></g>
+    <g font-size="19" text-anchor="middle" fill="#334155"><text x="180" y="144">c₁² + c₂²</text><text x="540" y="144">c₁² + 0·c₂²</text><text x="900" y="144">c₁² − c₂²</text></g>
+    <rect x="80" y="200" width="200" height="200" fill="#D1FAE5"/><rect x="440" y="200" width="200" height="200" fill="#D1FAE5"/>
+    <path d="M800 200L900 300L800 400ZM1000 200L900 300L1000 400Z" fill="#D1FAE5"/><path d="M800 200H1000L900 300ZM800 400H1000L900 300Z" fill="#FEF3C7"/>
+    <rect x="80" y="200" width="200" height="200" fill="url(#grid)"/><rect x="440" y="200" width="200" height="200" fill="url(#grid2)"/><rect x="800" y="200" width="200" height="200" fill="url(#grid3)"/>
+    <path d="M60 300H300M180 420V180M420 300H660M540 420V180M780 300H1020M900 420V180" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M540 200V400M800 200L1000 400M800 400L1000 200" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-dasharray="5 4"/>
+    <circle cx="230" cy="300" r="4" fill="#059669"/><circle cx="180" cy="250" r="4" fill="#059669"/><circle cx="590" cy="300" r="4" fill="#059669"/><circle cx="540" cy="250" r="4" fill="#7C3AED"/><circle cx="950" cy="300" r="4" fill="#059669"/><circle cx="900" cy="250" r="4" fill="#D97706"/>
+    <g font-size="18" font-weight="700"><text x="244" y="337" fill="#065F46">+1</text><text x="206" y="235" fill="#065F46">+1</text><text x="599" y="337" fill="#065F46">+1</text><text x="566" y="235" fill="#5B21B6">0</text><text x="965" y="337" fill="#065F46">+1</text><text x="926" y="235" fill="#92400E">−1</text></g>
+    <g fill="#F8FAFC" stroke="#7C3AED" stroke-width="2"><circle cx="180" cy="300" r="4"/><circle cx="540" cy="300" r="4"/><circle cx="900" cy="300" r="4"/></g>
+    <g font-size="18" text-anchor="middle" fill="#334155"><text x="180" y="466">All nonzero directions are positive.</text><text x="540" y="466">Zero along the c₂ direction.</text><text x="900" y="466">A negative direction rules out PSD.</text></g>
+    <text x="540" y="518" text-anchor="middle" font-size="18" fill="#475569">Purple dashed lines and open origins have value zero.</text>
+    <text x="540" y="550" text-anchor="middle" font-size="18" fill="#475569">Green and amber sectors are positive and negative.</text>
+    <g font-size="16" fill="#475569"><text x="310" y="306">c₁</text><text x="670" y="306">c₁</text><text x="1030" y="306">c₁</text><text x="173" y="167">c₂</text><text x="533" y="167">c₂</text><text x="893" y="167">c₂</text></g>
+  </g>
+</svg>

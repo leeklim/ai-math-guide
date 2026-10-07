@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 570" role="img" aria-labelledby="title desc">
+  <title id="title">Repeated eigenvalue scaling changes magnitude and sometimes direction</title>
+  <desc id="desc">Three rows of vector arrows show four iterations along one eigenline. With eigenvalue two, lengths double each step. With one half, lengths halve. With minus one half, lengths halve and directions alternate. Each row uses a fixed coordinate scale.</desc>
+  <defs><marker id="small" markerUnits="userSpaceOnUse" markerWidth="5" markerHeight="7" refX="4.5" refY="3.5" orient="auto"><path d="M0.5 0.5L4.5 3.5L0.5 6.5L1.7 3.5Z" fill="context-stroke"/></marker></defs>
+  <rect width="1080" height="570" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="540" y="40" text-anchor="middle" font-size="24" font-weight="700">Aᵏv = λᵏv: apply the same multiplier at every step</text>
+    <g font-size="20" font-weight="700" text-anchor="middle"><text x="150" y="102">k = 0</text><text x="390" y="102">k = 1</text><text x="630" y="102">k = 2</text><text x="870" y="102">k = 3</text></g>
+    <g stroke="#CBD5E1" stroke-width="1.5"><path d="M45 190H265M285 190H505M525 190H745M765 190H985M45 320H265M285 320H505M525 320H745M765 320H985M45 450H265M285 450H505M525 450H745M765 450H985"/></g>
+    <g stroke="#94A3B8" stroke-width="1.5"><path d="M150 182V198M390 182V198M630 182V198M870 182V198M150 312V328M390 312V328M630 312V328M870 312V328M150 442V458M390 442V458M630 442V458M870 442V458"/></g>
+    <g fill="none" stroke-width="3" marker-end="url(#small)"><path d="M150 190H162" stroke="#2563EB"/><path d="M390 190H414" stroke="#2563EB"/><path d="M630 190H678" stroke="#2563EB"/><path d="M870 190H966" stroke="#2563EB"/><path d="M150 320H246" stroke="#059669"/><path d="M390 320H438" stroke="#059669"/><path d="M630 320H654" stroke="#059669"/><path d="M870 320H882" stroke="#059669"/><path d="M150 450H246" stroke="#7C3AED"/><path d="M390 450H342" stroke="#7C3AED"/><path d="M630 450H654" stroke="#7C3AED"/><path d="M870 450H858" stroke="#7C3AED"/></g>
+    <text x="55" y="153" font-size="20" font-weight="700" fill="#1E3A8A">λ = 2: grow</text><text x="55" y="283" font-size="20" font-weight="700" fill="#065F46">λ = ½: shrink</text><text x="55" y="413" font-size="20" font-weight="700" fill="#5B21B6">λ = −½: shrink and alternate</text>
+    <g font-size="18" fill="#334155" text-anchor="middle"><text x="150" y="231">v</text><text x="390" y="231">2v</text><text x="630" y="231">4v</text><text x="870" y="231">8v</text><text x="150" y="361">v</text><text x="390" y="361">½v</text><text x="630" y="361">¼v</text><text x="870" y="361">⅛v</text><text x="150" y="491">v</text><text x="390" y="491">−½v</text><text x="630" y="491">¼v</text><text x="870" y="491">−⅛v</text></g>
+    <text x="540" y="548" text-anchor="middle" font-size="18" fill="#475569">Within each row, arrow lengths share one scale; the initial lengths differ across rows.</text>
+  </g>
+</svg>

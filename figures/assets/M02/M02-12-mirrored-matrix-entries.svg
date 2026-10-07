@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 510" role="img" aria-labelledby="title desc">
+  <title id="title">Symmetric matrix entries match across the main diagonal</title>
+  <desc id="desc">A three by three matrix highlights the pairs minus one, four, and zero on opposite sides of the main diagonal. Swapping row and column indices selects the corresponding equal entry.</desc>
+  <rect width="680" height="510" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="340" y="40" text-anchor="middle" font-size="24" font-weight="700">Transpose swaps indices: aᵢⱼ = aⱼᵢ</text>
+    <g font-size="18" fill="#475569" text-anchor="middle"><text x="230" y="126">Column 1</text><text x="340" y="126">Column 2</text><text x="450" y="126">Column 3</text></g>
+    <g font-size="18" fill="#475569"><text x="79" y="199">Row 1</text><text x="79" y="289">Row 2</text><text x="79" y="379">Row 3</text></g>
+    <g stroke="#CBD5E1"><rect x="185" y="151" width="90" height="76" rx="8" fill="#E2E8F0"/><rect x="295" y="241" width="90" height="76" rx="8" fill="#E2E8F0"/><rect x="405" y="331" width="90" height="76" rx="8" fill="#E2E8F0"/></g>
+    <g stroke="#93C5FD" fill="#DBEAFE"><rect x="295" y="151" width="90" height="76" rx="8"/><rect x="185" y="241" width="90" height="76" rx="8"/></g>
+    <g stroke="#C4B5FD" fill="#EDE9FE"><rect x="405" y="151" width="90" height="76" rx="8"/><rect x="185" y="331" width="90" height="76" rx="8"/></g>
+    <g stroke="#6EE7B7" fill="#D1FAE5"><rect x="405" y="241" width="90" height="76" rx="8"/><rect x="295" y="331" width="90" height="76" rx="8"/></g>
+    <path d="M167 146H155V412H167M513 146H525V412H513" fill="none" stroke="#334155" stroke-width="2"/>
+    <g font-size="27" text-anchor="middle"><text x="230" y="199">2</text><text x="340" y="199" fill="#1E3A8A">−1</text><text x="450" y="199" fill="#5B21B6">4</text><text x="230" y="289" fill="#1E3A8A">−1</text><text x="340" y="289">3</text><text x="450" y="289" fill="#065F46">0</text><text x="230" y="379" fill="#5B21B6">4</text><text x="340" y="379" fill="#065F46">0</text><text x="450" y="379">5</text></g>
+    <text x="340" y="473" text-anchor="middle" font-size="19" fill="#334155">Matched pairs: (1,2) ↔ (2,1), (1,3) ↔ (3,1), (2,3) ↔ (3,2)</text>
+  </g>
+</svg>

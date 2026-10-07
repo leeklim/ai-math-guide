@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 580" role="img" aria-labelledby="title desc">
+  <title id="title">A rectangular SVD maps two input directions to a plane in three-dimensional output space</title>
+  <desc id="desc">The three-by-two matrix with diagonal entries three and one maps input e one to three u one and e two to u two. All outputs have third coordinate zero. Full SVD includes an unused third output basis vector; compact SVD drops it without changing the map.</desc>
+  <defs><pattern id="grid" width="45" height="45" x="15" y="15" patternUnits="userSpaceOnUse"><path d="M45 0H0V45" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="1060" height="580" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="530" y="42" text-anchor="middle" font-size="24" font-weight="700">Different input and output dimensions, two surviving directions</text>
+    <text x="190" y="101" text-anchor="middle" font-size="22" fill="#1E3A8A">Input R²</text><text x="775" y="101" text-anchor="middle" font-size="22" fill="#065F46">Output R³</text>
+    <rect x="105" y="150" width="180" height="225" fill="url(#grid)"/><path d="M75 285H310M150 395V130" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M150 285H195" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/><path d="M150 285V240" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/>
+    <text x="210" y="272" font-size="20" fill="#1E3A8A">e₁</text><text x="112" y="219" font-size="20" fill="#1E3A8A">e₂</text>
+    <path d="M360 270H560" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#arrow)"/><text x="460" y="222" text-anchor="middle" font-size="20" fill="#5B21B6">A(x₁, x₂) = (3x₁, x₂, 0)</text><text x="460" y="310" text-anchor="middle" font-size="18" fill="#475569">A has shape 3 × 2</text>
+    <path d="M660 310L885 422.5L825 472.5L600 360Z" fill="#D1FAE5" fill-opacity=".75" stroke="#6EE7B7"/>
+    <path d="M600 320L930 485M810 305L630 455M720 380V160" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M630 335L855 447.5M660 310L600 360M705 332.5L645 382.5M750 355L690 405M795 377.5L735 427.5M840 400L780 450M885 422.5L825 472.5" fill="none" stroke="#A7F3D0"/>
+    <path d="M720 380L855 447.5" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/><path d="M720 380L690 405" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/><path d="M720 380V330" stroke="#64748B" stroke-width="2.5" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+    <text x="895" y="430" font-size="20" fill="#065F46">3u₁</text><text x="627" y="432" font-size="20" fill="#065F46">u₂</text><text x="750" y="210" font-size="18" fill="#475569">u₃: never produced</text>
+    <text x="530" y="510" text-anchor="middle" font-size="18" fill="#334155">Full: U is 3 × 3. Compact: Uᵣ is 3 × 2. Both give exactly the same A, with rank 2.</text>
+    <text x="530" y="550" text-anchor="middle" font-size="16" fill="#475569">Output plane: y₃ = 0. Schematic perspective, not an angle measurement.</text>
+  </g>
+</svg>

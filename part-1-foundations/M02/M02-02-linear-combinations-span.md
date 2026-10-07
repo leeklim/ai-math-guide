@@ -65,6 +65,15 @@ c_1\mathbf v_1
 
 계수 $c_i$는 각 벡터를 얼마나, 어느 방향으로 사용할지 정한다. 양수는 같은 방향, 음수는 반대 방향, 0은 해당 벡터를 사용하지 않는 경우다.
 
+아래 그림은 예제 1의 $2\mathbf v_1-\mathbf v_2$를 이동으로 나타낸다. 첫 이동을 두 배로 늘리고 둘째 이동의 방향을 뒤집은 뒤 이어 붙인다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A path joins twice the first vector and the negative of the second vector to reach minus one five](../../figures/assets/M02/M02-02-linear-combination.svg)
+
+<figcaption>파란색 2v₁을 따라 (2,4)에 도착한 뒤 보라색 −v₂만큼 이동하면 (-1,5)에 도착한다. 초록색 화살표가 이 선형결합의 전체 변위다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. span은 가능한 모든 계수를 허용한다
 
 벡터 $\mathbf v_1,\ldots,\mathbf v_k$의 생성공간은
@@ -82,6 +91,8 @@ c_1,\ldots,c_k\in\mathbb R
 이다.
 
 이 식은 특정 계수로 만든 벡터 하나가 아니라, 모든 실수 계수를 바꾸어 만들 수 있는 벡터 전체를 뜻한다. 중괄호 오른쪽의 조건은 계수를 실수 범위에서 자유롭게 고른다는 뜻이다.
+
+여기서 고정하는 것은 재료인 $\mathbf v_1,\ldots,\mathbf v_k$이고, 바꾸는 것은 계수다. 모든 계수를 0으로 고르면 영벡터가 나오므로 영벡터는 어떤 span에도 속한다. 한 계수만 1로 두고 나머지를 0으로 두면 해당 생성 벡터가 나오므로 재료 벡터 자신도 span의 원소다.
 
 ## 핵심 개념 3. 벡터 하나의 span은 원점을 지나는 직선이다
 
@@ -104,6 +115,15 @@ $\mathbf v\ne\mathbf 0$이면
 \]
 
 이다. 어떤 실수를 곱해도 영벡터이기 때문이다.
+
+아래 그림에서 계수의 표시는 직선 위의 몇 가지 예일 뿐이다. 실수 계수를 연속해서 바꾸면 직선 전체를 얻지만, 영벡터를 재료로 삼으면 원점 한 점만 남는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Real multiples of a fixed nonzero vector fill a line through the origin while multiples of zero remain one point](../../figures/assets/M02/M02-02-line-and-zero-span.svg)
+
+<figcaption>왼쪽은 같은 생성 벡터 (1,2)ᵀ에 음수·0·양수 계수를 곱한 결과들이다. 오른쪽은 어떤 계수에도 결과가 영벡터이므로 직선을 만들지 못한다.</figcaption>
+</figure>
 
 ## 핵심 개념 4. 서로 다른 두 방향은 평면을 만들 수 있다
 
@@ -133,7 +153,9 @@ $\mathbb R^2$에서 두 벡터가 같은 직선 위에 있지 않으면 두 방�
 
 이다.
 
-두 벡터가 같은 방향의 배수라면 두 번째 벡터는 새 방향을 추가하지 않는다. 생성공간은 여전히 한 직선이다.
+표준 좌표축이 아닌 두 방향도 같은 역할을 할 수 있다. 예제 2의 $(1,1)^\top$과 $(1,-1)^\top$를 사용해 임의의 목표 $(b_1,b_2)^\top$를 만들려면 $c_1+c_2=b_1$, $c_1-c_2=b_2$를 맞춘다. 두 식을 더하고 빼면 $c_1=(b_1+b_2)/2$, $c_2=(b_1-b_2)/2$를 얻는다. 어떤 실수 목표 좌표에도 이 계수를 정할 수 있어 두 방향의 span은 $\mathbb R^2$ 전체다.
+
+반면 첫 번째 벡터가 영이 아니고 두 번째 벡터가 그 실수배라면 새 방향을 추가하지 않는다. 배수의 부호가 음수여서 화살표가 반대쪽을 향해도 한 직선의 다른 쪽일 뿐이다. 생성 벡터 중 하나만 영벡터인 경우에도 나머지 벡터가 만드는 한 직선만 얻는다. 두 생성 벡터가 모두 영벡터이면 영벡터 하나만 남는다.
 
 ## 핵심 개념 5. span 소속 여부는 계수를 찾는 문제다
 
@@ -146,6 +168,15 @@ c_1\mathbf v_1+\cdots+c_k\mathbf v_k=\mathbf b
 를 만족하는 실수 계수 $c_1,\ldots,c_k$가 있는지 찾는다.
 
 성분별 등식을 쓰면 연립방정식이 된다. 해가 하나라도 있으면 $\mathbf b$는 span에 속하고, 해가 없으면 속하지 않는다. 연립방정식의 체계적인 해법은 M02-06에서 다룬다.
+
+아래 그림은 예제 2의 목표 $(4,2)^\top$를 만드는 경로와 계수 방정식을 연결한다. 두 방향이 평면 전체를 만들 수 있다는 설명과, 특정 목표를 만드는 계수의 계산을 구분해서 읽는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two nonparallel generators reach the target four two using coefficients three and one obtained from component equations](../../figures/assets/M02/M02-02-plane-and-coefficients.svg)
+
+<figcaption>3v₁ 뒤에 v₂를 이어 붙이면 목표 b에 도달한다. 옅은 초록색 영역은 전체 평면의 일부이며, 다른 목표에도 계수를 정할 수 있다.</figcaption>
+</figure>
 
 ## 핵심 개념 6. span은 덧셈과 스칼라곱에 닫혀 있다
 
@@ -177,6 +208,15 @@ $\mathbf x$와 $\mathbf y$가 같은 생성공간에 속한다고 하자.
 
 이처럼 덧셈과 스칼라곱의 결과가 집합 밖으로 나가지 않는 성질을 닫힘이라고 한다. 생성공간은 부분공간의 대표적인 예다. 부분공간의 조건은 M03-05에서 더 일반적으로 다룬다.
 
+아래 그림의 두 점을 더하거나 한 점에 음수 계수를 곱해도 결과는 같은 직선 위에 있다. 각각의 결과를 새 방향의 생성 없이 나타낼 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The sum and a negative scalar multiple of vectors on one span line remain on that same line](../../figures/assets/M02/M02-02-span-closure.svg)
+
+<figcaption>(1,1)ᵀ의 span에서 x+y=(3,3)ᵀ와 −2x=(-2,-2)ᵀ도 같은 직선 위에 놓인다. 계수만 바꾸므로 결과가 생성공간 밖으로 나가지 않는다.</figcaption>
+</figure>
+
 ## 핵심 개념 7. 생성 벡터가 많아도 표현이 유일하지 않을 수 있다
 
 \[
@@ -197,7 +237,18 @@ $\mathbf x$와 $\mathbf y$가 같은 생성공간에 속한다고 하자.
 
 로 표현할 수 있다. 생성 벡터 사이에 중복된 방향이 있으면 계수가 여러 가지일 수 있다.
 
+같은 생성 벡터 목록 $(\mathbf v_1,\mathbf v_2,\mathbf v_3)$에 대해 첫 표현의 계수는 $(0,0,1)$이고 둘째 표현의 계수는 $(1,1,0)$이다. 계수 목록은 다르지만 합으로 얻은 벡터는 같다. 또 $\mathbf v_3$를 재료에 추가해도 이미 $\mathbf v_1,\mathbf v_2$로 만들 수 있는 벡터이므로 span 자체는 넓어지지 않는다.
+
 span은 만들 수 있는 벡터의 집합만 말한다. 표현의 유일성은 생성 벡터의 선형독립성과 관련되며 M02-07에서 다룬다.
+
+아래 그림은 표준 좌표축 방향과 그 합을 재료로 쓴다. 같은 끝점에 도착하는 두 경로를 각각 다른 계수 목록과 대응시킨다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![One endpoint is reached by the third generator alone or by the first two generators with different coefficient lists](../../figures/assets/M02/M02-02-redundant-generators.svg)
+
+<figcaption>v₃=v₁+v₂이면 계수 (0,0,1)과 (1,1,0)이 같은 벡터를 나타낸다. 이미 만들 수 있는 v₃를 추가해도 span은 넓어지지 않는다.</figcaption>
+</figure>
 
 ## 예제 1. 선형결합 계산
 
@@ -306,6 +357,15 @@ a_1\mathbf v_1+a_2\mathbf v_2+a_3\mathbf v_3
 이다.
 
 attention에서는 가중치가 보통 음이 아니고 합이 1이라는 추가 제약을 갖는다. 그러므로 실제 가능한 출력은 전체 span보다 좁을 수 있다. span 소속은 어떤 벡터들로 표현할 수 있음을 말할 뿐, 모델이 특정 의미를 사용한다는 인과 증거는 아니다.
+
+아래 그림은 이 제약을 2차원 value 벡터 세 개로 나타낸 설명용 예다. 자유로운 실수 계수로 얻는 평면과, 음이 아니며 합이 1인 가중치로 얻는 삼각형 영역을 비교한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Three value vectors span the plane but their nonnegative weighted averages with weights summing to one stay inside their triangle](../../figures/assets/M02/M02-02-constrained-weights.svg)
+
+<figcaption>세 벡터를 같은 가중치로 섞은 z=(7/3,2)ᵀ는 삼각형 안에 있다. 영벡터를 포함한 평면의 다른 점도 전체 span에는 속하지만, 이 가중치 제약으로는 삼각형 밖에 도달하지 못한다.</figcaption>
+</figure>
 
 ## 흔한 오해
 

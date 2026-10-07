@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 480" role="img" aria-labelledby="title desc">
+  <title id="title">Orthogonal vectors need not lie along the coordinate axes</title>
+  <desc id="desc">A coordinate grid shows one two and two minus one meeting at a right angle. Their matching component products two and minus two cancel to zero.</desc>
+  <defs><pattern id="grid" width="60" height="60" x="40" y="40" patternUnits="userSpaceOnUse"><path d="M60 0H0V60" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="600" height="480" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="300" y="42" text-anchor="middle" font-size="24" font-weight="700">A right angle can be tilted relative to the axes</text>
+    <rect x="100" y="100" width="360" height="300" fill="url(#grid)"/>
+    <path d="M85 280H475M220 415V85" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M220 280L280 160" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M220 280L340 340" fill="none" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M227 266L241 273L234 287" fill="none" stroke="#D97706" stroke-width="2"/>
+    <text x="305" y="150" font-size="20" font-weight="700" fill="#1E3A8A">u = (1, 2)</text><text x="356" y="373" font-size="20" font-weight="700" fill="#065F46">v = (2, −1)</text>
+    <text x="283" y="248" font-size="18" fill="#9A3412">90°</text><text x="193" y="306" font-size="16" fill="#475569">0</text><text x="487" y="286" font-size="16" fill="#475569">x₁</text><text x="220" y="77" text-anchor="middle" font-size="16" fill="#475569">x₂</text>
+    <text x="300" y="450" text-anchor="middle" font-size="20" fill="#334155">uᵀv = 1·2 + 2·(−1) = 0</text>
+  </g>
+</svg>

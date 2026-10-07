@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 530" role="img" aria-labelledby="title desc">
+  <title id="title">Eigenvectors stay on their original line while a general vector can change line</title>
+  <desc id="desc">For D diagonal four minus two, the first coordinate basis vector stretches fourfold, the second reverses and doubles, and a general vector one one maps to four minus two on a different line. Gray dashed arrows show the inputs.</desc>
+  <defs><pattern id="grid" width="35" height="35" x="15" y="20" patternUnits="userSpaceOnUse"><path d="M35 0H0V35" fill="none" stroke="#E2E8F0"/></pattern><pattern id="grid2" width="35" height="35" x="0" y="20" patternUnits="userSpaceOnUse"><path d="M35 0H0V35" fill="none" stroke="#E2E8F0"/></pattern><pattern id="grid3" width="35" height="35" x="20" y="20" patternUnits="userSpaceOnUse"><path d="M35 0H0V35" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker><marker id="small" markerUnits="userSpaceOnUse" markerWidth="5" markerHeight="7" refX="4.5" refY="3.5" orient="auto"><path d="M0.5 0.5L4.5 3.5L0.5 6.5L1.7 3.5Z" fill="context-stroke"/></marker></defs>
+  <rect width="1080" height="530" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="540" y="40" text-anchor="middle" font-size="24" font-weight="700">D = diag(4, −2): compare eigen and general directions</text>
+    <text x="180" y="100" text-anchor="middle" font-size="20" font-weight="700" fill="#065F46">Eigenvector e₁: λ = 4</text><text x="540" y="100" text-anchor="middle" font-size="20" font-weight="700" fill="#065F46">Eigenvector e₂: λ = −2</text><text x="900" y="100" text-anchor="middle" font-size="20" font-weight="700">w = (1, 1): not an eigenvector</text>
+    <rect x="85" y="195" width="210" height="245" fill="url(#grid)"/><rect x="455" y="195" width="210" height="245" fill="url(#grid2)"/><rect x="825" y="195" width="210" height="245" fill="url(#grid3)"/>
+    <path d="M65 300H315M120 460V175M435 300H685M560 460V175M805 300H1055M860 460V175" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M120 300H260" fill="none" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/><path d="M120 300H155" fill="none" stroke="#64748B" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#small)"/>
+    <path d="M560 300V265" fill="none" stroke="#64748B" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#small)"/><path d="M560 300V370" fill="none" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M860 300L895 265" fill="none" stroke="#64748B" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#small)"/><path d="M860 300L1000 370" fill="none" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/>
+    <text x="189" y="270" font-size="20" fill="#065F46">4e₁</text><text x="585" y="410" font-size="20" fill="#065F46">−2e₂</text><text x="920" y="412" font-size="20" fill="#065F46">Dw = (4, −2)</text>
+    <text x="180" y="491" text-anchor="middle" font-size="18" fill="#334155">Same line, larger magnitude.</text><text x="540" y="491" text-anchor="middle" font-size="18" fill="#334155">Same line, opposite direction.</text><text x="900" y="491" text-anchor="middle" font-size="18" fill="#334155">A different line through zero.</text>
+  </g>
+</svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 550" role="img" aria-labelledby="title desc">
+  <title id="title">Row elimination preserves column dependence but can change the actual image</title>
+  <desc id="desc">The original matrix with rows one two and two four has image the line y two equals twice y one. Its reduced matrix with rows one two and zero zero has image the horizontal axis. Both have pivot column one and rank one, but the basis of the original image is the original first column one two.</desc>
+  <defs><pattern id="grid" width="40" height="40" x="20" y="30" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#E2E8F0"/></pattern><pattern id="grid2" width="40" height="40" x="0" y="30" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="960" height="550" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="480" y="40" text-anchor="middle" font-size="24" font-weight="700">Use the pivot index to select an original column</text>
+    <text x="230" y="96" text-anchor="middle" font-size="20" font-weight="700" fill="#1E3A8A">A = [[1, 2], [2, 4]]</text><text x="720" y="96" text-anchor="middle" font-size="20" font-weight="700" fill="#5B21B6">Reduced: [[1, 2], [0, 0]]</text>
+    <rect x="100" y="190" width="200" height="200" fill="url(#grid)"/><rect x="560" y="190" width="240" height="200" fill="url(#grid2)"/>
+    <path d="M80 350H320M180 420V160M540 350H820M640 420V160" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M160 390L260 190" fill="none" stroke="#A7F3D0" stroke-width="4"/><path d="M560 350H800" fill="none" stroke="#DDD6FE" stroke-width="5"/>
+    <path d="M180 350L260 190" fill="none" stroke="#7C3AED" stroke-width="3" stroke-dasharray="5 5" marker-end="url(#arrow)"/><path d="M180 350L220 270" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M640 350H720" fill="none" stroke="#7C3AED" stroke-width="3" stroke-dasharray="5 5" marker-end="url(#arrow)"/><path d="M640 350H680" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/>
+    <text x="105" y="260" font-size="19" fill="#1E3A8A">a₁ = (1, 2)</text><text x="264" y="172" font-size="19" fill="#5B21B6">a₂ = 2a₁</text><text x="605" y="314" font-size="19" fill="#1E3A8A">r₁ = (1, 0)</text><text x="730" y="391" font-size="19" fill="#5B21B6">r₂ = 2r₁</text>
+    <path d="M360 279H475" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/><text x="417" y="244" text-anchor="middle" font-size="18" fill="#5B21B6">Eliminate</text>
+    <text x="230" y="466" text-anchor="middle" font-size="19" font-weight="700" fill="#065F46">Original image basis: (1, 2)</text><text x="720" y="466" text-anchor="middle" font-size="19" fill="#334155">Reduced column is not that basis.</text>
+    <text x="480" y="519" text-anchor="middle" font-size="18" fill="#475569">Both matrices have pivot column 1 and rank 1; their images are different lines.</text>
+    <g font-size="16" fill="#475569"><text x="330" y="356">y₁</text><text x="830" y="356">y₁</text><text x="173" y="147">y₂</text><text x="633" y="147">y₂</text></g>
+  </g>
+</svg>

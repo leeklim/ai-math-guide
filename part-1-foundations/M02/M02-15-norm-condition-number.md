@@ -49,7 +49,7 @@ condition number는 가역 선형계의 입력 오차가 해에서 얼마나 증
 | $\|\mathbf x\|_\infty$ | `the L infinity norm of x` | 성분 절댓값의 최댓값 | maximum norm |
 | $\|\mathbf A\|_F$ | `the Frobenius norm of A` | 모든 원소 제곱합의 제곱근 | Frobenius norm |
 | $\|\mathbf A\|_2$ | `the L two norm of A` | 단위 입력의 최대 증폭률 | spectral norm |
-| $\kappa_2(\mathbf A)$ | `the L two condition number of A` | 최댓값과 최솟값 방향의 증폭률 비 | 이 단원에서는 가역 정사각행렬 |
+| $\kappa_2(\mathbf A)$ | `the L two condition number of A` | 최댓값과 최솟값 방향의 증폭률 비 | 가역 정사각행렬; 직사각 확장은 핵심 개념 8 |
 | 상대오차 | `relative error` | 오차 크기를 기준값 크기로 나눈 비 | 기준값이 0이 아니어야 한다. |
 
 ## 핵심 개념 1. norm은 벡터 크기의 규칙이다
@@ -87,6 +87,15 @@ $\mathbf x=(x_1,\ldots,x_n)^\top$에 대해
 이다.
 
 L1 norm은 모든 성분의 절댓값을 합한다. L2 norm은 Euclidean 길이를 재고, infinity norm은 가장 큰 성분 하나의 크기를 잰다. 논문에서 오차나 정규화를 비교할 때 norm 종류를 확인해야 한다.
+
+아래 그림은 예제 1에서 0인 셋째 성분을 제외하고 같은 방향의 벡터를 각 norm으로 정규화한다. unit boundary의 모양이 다르기 때문에 같은 벡터를 크기 1로 만드는 나눗셈의 값도 달라진다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The same vector direction normalized onto the L one diamond L two circle and infinity norm square](../../figures/assets/M02/M02-15-unit-norm-boundaries.svg)
+
+<figcaption>(3,−4)를 각각 7, 5, 4로 나누면 해당 norm이 1인 경계에 닿는다. 마름모·원·정사각형은 서로 다른 크기 규칙이며, 그림의 화살표는 원래 벡터가 아니라 정규화한 벡터다.</figcaption>
+</figure>
 
 ## 핵심 개념 3. Frobenius norm은 행렬 원소 전체의 크기를 잰다
 
@@ -127,7 +136,14 @@ SVD의 특이값으로는
 \sigma_{\max}(\mathbf A)
 \]
 
-이다. 단위벡터 중 가장 크게 늘어나는 오른쪽 특이벡터에서 최댓값을 얻는다.
+이다. 비영 입력을 $\mathbf u=\mathbf x/\|\mathbf x\|_2$로 정규화하면 $\mathbf u$는 단위벡터이고
+
+\[
+\frac{\|\mathbf A\mathbf x\|_2}{\|\mathbf x\|_2}
+=\|\mathbf A\mathbf u\|_2
+\]
+
+이다. 따라서 비영 입력의 배율을 비교하는 것과 단위 입력의 출력 norm을 비교하는 것은 같다. M02-13에서 본 가장 큰 오른쪽 특이방향에서 최댓값을 얻는다.
 
 모든 $\mathbf x$에 대해
 
@@ -137,7 +153,16 @@ SVD의 특이값으로는
 \|\mathbf A\|_2\|\mathbf x\|_2
 \]
 
-이다. 이 부등식은 입력 크기에서 출력 크기의 최악 상한을 준다.
+이다. 비영 입력에서는 배율이 최댓값을 넘지 않는다는 식에 $\|\mathbf x\|_2$를 곱해 얻는다. 영 입력에서는 양변이 0이므로 그대로 성립한다. 이 부등식은 입력 크기에서 출력 크기의 최악 상한을 준다.
+
+아래 그림은 예제 2의 행렬에서 spectral norm의 상한과 Frobenius norm의 합산을 구분한다. 왼쪽은 단위 입력들이 실제로 만드는 출력 집합이며, 오른쪽의 정사각형 면적은 특이값 제곱을 나타낸다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A transformed unit circle fits inside the spectral norm bound while two squares visualize the sum of squared singular gains for the Frobenius norm](../../figures/assets/M02/M02-15-matrix-norm-geometry.svg)
+
+<figcaption>출력 타원의 가장 긴 반지름 3이 spectral norm이다. 두 배율의 제곱 9와 1을 합해 얻는 √10은 Frobenius norm이며, 단위 입력의 최대 출력 길이를 뜻하지 않는다.</figcaption>
+</figure>
 
 ## 핵심 개념 5. condition number는 방향별 배율의 불균형을 잰다
 
@@ -158,13 +183,13 @@ SVD의 특이값으로는
 {\sigma_{\min}(\mathbf A)}
 \]
 
-이다.
+이다. 가역행렬의 특이값은 모두 양수다. SVD의 입력·출력 변환을 역순으로 되돌리면 각 특이방향의 배율은 $1/\sigma_i$가 된다. 이 중 가장 큰 역배율은 $1/\sigma_{\min}$이므로 $\|\mathbf A^{-1}\|_2=1/\sigma_{\min}$이다. 이를 앞의 norm 곱에 대입하면 특이값의 비를 얻는다.
 
 \[
 \kappa_2(\mathbf A)\ge1
 \]
 
-이며 모든 방향의 길이를 보존하는 직교행렬은 condition number가 1이다. 특이행렬에서는 $\sigma_{\min}=0$이므로 condition number를 무한대로 본다.
+이며 모든 방향의 길이를 보존하는 직교행렬은 condition number가 1이다. 모든 특이값이 같은 경우에도 비는 1이므로 균일 확대·축소 행렬 역시 condition number가 1일 수 있다. 이는 길이 보존의 판정이 아니라 방향별 배율의 균일성이다. 특이행렬에서는 $\sigma_{\min}=0$이므로 유한한 역이 없고 condition number를 무한대로 본다.
 
 scalar $c\ne0$에 대해
 
@@ -172,7 +197,16 @@ scalar $c\ne0$에 대해
 \kappa_2(c\mathbf A)=\kappa_2(\mathbf A)
 \]
 
-이다. condition number는 행렬 전체의 크기가 아니라 방향별 배율의 비를 잰다.
+이다. 전체에 $c$를 곱하면 모든 특이값이 $|c|$배가 되어 분자와 분모에서 약분된다. condition number는 행렬 전체의 크기가 아니라 방향별 배율의 비를 잰다.
+
+아래 그림은 균일 확대와 방향별로 다른 확대를 같은 길이 척도로 비교한다. 첫 장면과 마지막 장면은 determinant가 같지만 타원의 길이 비율은 다르다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Identity uniform scaling and anisotropic scaling produce circles or an ellipse with condition numbers one one and four](../../figures/assets/M02/M02-15-uniform-anisotropic-gains.svg)
+
+<figcaption>2I는 모든 방향을 두 배 늘려도 배율 비가 1이다. diag(2,1/2)는 면적을 유지하면서 한 방향을 늘리고 다른 방향을 줄여 condition number가 4가 된다.</figcaption>
+</figure>
 
 ## 핵심 개념 6. condition number는 선형계 오차의 증폭 경계를 준다
 
@@ -180,7 +214,9 @@ scalar $c\ne0$에 대해
 \mathbf A\mathbf x=\mathbf b
 \]
 
-에서 $\mathbf A$는 정확하고 우변만 $\delta\mathbf b$만큼 변한다고 하자. 해의 변화는
+에서 $\mathbf A$는 가역이고 정확하며 우변만 $\delta\mathbf b$만큼 변한다고 하자. 원래 우변 $\mathbf b$는 영벡터가 아니어서 원래 해 $\mathbf x$도 영벡터가 아니다. 이 조건에서 두 상대오차의 분모를 사용할 수 있다.
+
+바뀐 식 $\mathbf A(\mathbf x+\delta\mathbf x)=\mathbf b+\delta\mathbf b$에서 원래 식을 빼면 $\mathbf A\delta\mathbf x=\delta\mathbf b$다. 따라서 해의 변화는
 
 \[
 \delta\mathbf x
@@ -190,7 +226,16 @@ scalar $c\ne0$에 대해
 
 이다.
 
-2-norm에서
+앞 절의 norm 상한을 역행렬과 원래 행렬에 각각 적용하면
+
+\[
+\|\delta\mathbf x\|_2
+\le\|\mathbf A^{-1}\|_2\|\delta\mathbf b\|_2,
+\qquad
+\|\mathbf b\|_2\le\|\mathbf A\|_2\|\mathbf x\|_2
+\]
+
+이다. 두 번째 부등식을 양의 분모로 나누면 $1/\|\mathbf x\|_2\le\|\mathbf A\|_2/\|\mathbf b\|_2$다. 첫 번째 부등식의 상대오차 분모에 이 상한을 적용하면
 
 \[
 \frac{\|\delta\mathbf x\|_2}{\|\mathbf x\|_2}
@@ -203,9 +248,18 @@ scalar $c\ne0$에 대해
 
 이 식은 최악 방향의 상한이다. 특정 오차가 반드시 그만큼 증폭된다는 뜻은 아니다. $\mathbf A$ 자체에도 오차가 있을 때는 별도의 perturbation 경계가 필요하다.
 
+아래 그림은 작은 비교 예시에서 같은 크기의 우변 오차를 두 방향에 가한다. 좌표에는 원래 우변과 해가 아니라 그 변화량만 확대해 그렸으며, 기준 norm이 모두 1이라 오차 길이가 상대오차와도 일치한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two equal magnitude right hand side errors mapped through an inverse to solution errors with amplification factors one and four](../../figures/assets/M02/M02-15-inverse-error-directions.svg)
+
+<figcaption>diag(1,1/4)의 역변환은 첫 방향의 오차를 유지하고 둘째 방향은 4배 한다. condition number 4는 가능한 상대 증폭의 상한이며, 파란 오차는 그 상한에 도달하지 않는다.</figcaption>
+</figure>
+
 ## 핵심 개념 7. determinant와 condition number는 다른 정보를 준다
 
-determinant 절댓값은 모든 특이값의 곱이다.
+정사각행렬에서 determinant 절댓값은 모든 특이값의 곱이다.
 
 \[
 |\det(\mathbf A)|
@@ -213,7 +267,7 @@ determinant 절댓값은 모든 특이값의 곱이다.
 \prod_{i=1}^{n}\sigma_i
 \]
 
-condition number는 가장 큰 특이값과 가장 작은 특이값의 비다.
+SVD의 직교행렬 $\mathbf U$와 $\mathbf V^\top$는 부피를 유지하므로 determinant 절댓값이 1이다. 대각행렬 $\boldsymbol\Sigma$의 determinant는 대각의 특이값 곱이다. 합성의 determinant 곱 규칙으로 위 식을 얻는다. condition number는 같은 값들을 곱하는 대신 가장 큰 값과 가장 작은 값의 비를 사용한다.
 
 \[
 \mathbf A=
@@ -243,7 +297,7 @@ condition number는 가장 큰 특이값과 가장 작은 특이값의 비다.
 
 ## 핵심 개념 8. 정규방정식은 condition number를 제곱한다
 
-full column rank 행렬 $\mathbf A$의 최소제곱 정규방정식은
+full column rank 행렬 $\mathbf A\in\mathbb R^{m\times n}$의 최소제곱 정규방정식은
 
 \[
 \mathbf A^\top\mathbf A\widehat{\mathbf x}
@@ -251,7 +305,9 @@ full column rank 행렬 $\mathbf A$의 최소제곱 정규방정식은
 \mathbf A^\top\mathbf b
 \]
 
-이다. $\mathbf A^\top\mathbf A$의 고유값은 $\sigma_i^2$이므로
+이다. 여기서는 직사각행렬에도 양의 특이값의 최대·최소 비 $\sigma_{\max}/\sigma_{\min}$을 $\kappa_2(\mathbf A)$로 사용한다. 일반 역행렬이 없는 직사각행렬에 $\mathbf A^{-1}$을 쓰는 것은 아니다. full column rank이므로 $n$개의 특이값은 모두 양수이고 $\mathbf A^\top\mathbf A$는 가역이다.
+
+$\mathbf A^\top\mathbf A$는 대칭 PSD이고 고유값은 $\sigma_i^2$다. 이 행렬의 특이값도 그 양의 고유값과 같으므로
 
 \[
 \kappa_2(\mathbf A^\top\mathbf A)
@@ -259,9 +315,18 @@ full column rank 행렬 $\mathbf A$의 최소제곱 정규방정식은
 \kappa_2(\mathbf A)^2
 \]
 
-이다.
+이다. 가장 큰 값과 가장 작은 값의 비를 쓰면 $(\sigma_{\max}^2/\sigma_{\min}^2)=(\sigma_{\max}/\sigma_{\min})^2$가 된다.
 
-따라서 condition number가 큰 문제에서 정규방정식을 직접 만들면 수치 민감도가 더 커진다. QR 분해나 SVD를 사용한 풀이가 안정적인 대안이 될 수 있다.
+원래 최소제곱의 최적해가 바뀌는 것은 아니지만, 정규방정식을 만들어 풀 때 사용하는 계수행렬의 배율 비가 더 커진다. 따라서 condition number가 큰 문제에서 정규방정식을 직접 만들면 계산 과정의 오차에 더 민감해질 수 있다. QR 분해나 SVD를 사용한 풀이가 안정적인 대안이 될 수 있다.
+
+아래 그림은 같은 단위원에 $\mathbf A$와 $\mathbf A^\top\mathbf A$를 각각 적용한 결과다. 타원의 긴 축과 짧은 축의 비를 비교하면 특이값을 제곱할 때 condition number도 제곱되는 것을 볼 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A unit circle mapped separately by A and A transpose A gives ellipses whose axis ratios are two and four](../../figures/assets/M02/M02-15-normal-equation-gains.svg)
+
+<figcaption>예시에서 배율 2와 1은 4와 1이 되어 비율이 2에서 4로 바뀐다. 이는 같은 최소제곱 문제에서 사용하는 계수행렬의 민감도가 달라진다는 뜻이며, 최적해 자체가 달라진다는 뜻은 아니다.</figcaption>
+</figure>
 
 ## 예제 1. 세 벡터 norm 비교
 
@@ -376,11 +441,11 @@ Frobenius norm은 모든 특이값을 합성하고 spectral norm은 가장 큰 �
 
 ### 오해 3. 가역이면 수치적으로 안정하다
 
-가역성은 가장 작은 특이값이 0이 아님을 뜻한다. 그 값이 0에 가까우면 condition number가 커져 역문제가 민감할 수 있다.
+가역성은 가장 작은 특이값이 0이 아님을 뜻한다. 그 값이 가장 큰 특이값에 비해 작으면 condition number가 커져 역문제가 상대오차에 민감할 수 있다. 모든 특이값이 함께 작아진 경우에는 전체 크기는 작아져도 그 비는 변하지 않는다.
 
 ### 오해 4. condition number가 크면 특정 모델 입력에서 큰 변화가 발생한다
 
-condition number는 선형변환의 최악 방향 상한이다. 주어진 입력 perturbation과 전체 비선형 모델의 실제 변화는 직접 측정해야 한다.
+condition number는 정확한 행렬을 고정한 역문제에서 우변의 상대오차가 해의 상대오차로 증폭되는 상한이다. 정방향 출력의 절대오차 배율은 spectral norm으로 구분한다. 주어진 perturbation과 전체 비선형 모델의 실제 변화는 직접 측정해야 한다.
 
 ## 연습문제
 

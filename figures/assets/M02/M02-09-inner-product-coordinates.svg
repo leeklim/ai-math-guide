@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 730 560" role="img" aria-labelledby="title desc">
+  <title id="title">Inner products measure the two orthonormal basis components</title>
+  <desc id="desc">For x three one, the component along normalized one one is two two and the component along normalized one minus one is one minus one. Their coefficients are two square root two and square root two, and their head-to-tail sum returns x.</desc>
+  <defs><pattern id="grid" width="60" height="60" x="20" y="50" patternUnits="userSpaceOnUse"><path d="M60 0H0V60" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="730" height="560" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="365" y="40" text-anchor="middle" font-size="24" font-weight="700">Read each coordinate along its orthonormal direction</text>
+    <rect x="140" y="170" width="300" height="300" fill="url(#grid)"/>
+    <path d="M120 350H465M200 490V140" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M140 410L380 170M140 290L320 470" fill="none" stroke="#CBD5E1" stroke-width="1.5"/>
+    <path d="M200 350L320 230" fill="none" stroke="#2563EB" stroke-width="3.5" marker-end="url(#arrow)"/><path d="M320 230L380 290" fill="none" stroke="#7C3AED" stroke-width="3.5" marker-end="url(#arrow)"/><path d="M200 350L380 290" fill="none" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M311 239L321 249L331 239" fill="none" stroke="#D97706" stroke-width="2"/>
+    <text x="487" y="199" font-size="20" fill="#1E3A8A">c₁q₁ = (2, 2)</text><text x="487" y="247" font-size="20" fill="#5B21B6">c₂q₂ = (1, −1)</text><text x="405" y="319" font-size="20" font-weight="700" fill="#065F46">x = (3, 1)</text>
+    <text x="487" y="399" font-size="20" fill="#1E3A8A">c₁ = q₁ᵀx = 2√2</text><text x="487" y="436" font-size="20" fill="#5B21B6">c₂ = q₂ᵀx = √2</text>
+    <text x="365" y="515" text-anchor="middle" font-size="19" fill="#334155">Unit basis vectors make coefficient magnitudes</text>
+    <text x="365" y="545" text-anchor="middle" font-size="19" fill="#334155">equal the lengths of their direction components.</text>
+    <g font-size="16" fill="#475569"><text x="475" y="356">x₁</text><text x="193" y="127">x₂</text></g>
+  </g>
+</svg>

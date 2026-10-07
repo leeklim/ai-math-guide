@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 530" role="img" aria-labelledby="title desc">
+  <title id="title">A matrix and its inverse restore the original vector</title>
+  <desc id="desc">Three equal-scale coordinate plots trace input two one through the matrix with rows two one and one one to output five three, then through its inverse back to two one.</desc>
+  <defs><pattern id="grid" width="35" height="35" x="20" patternUnits="userSpaceOnUse"><path d="M35 0H0V35" fill="none" stroke="#E2E8F0"/></pattern><pattern id="grid2" width="35" height="35" x="30" patternUnits="userSpaceOnUse"><path d="M35 0H0V35" fill="none" stroke="#E2E8F0"/></pattern><pattern id="grid3" width="35" height="35" x="20" patternUnits="userSpaceOnUse"><path d="M35 0H0V35" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="1020" height="530" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="510" y="40" text-anchor="middle" font-size="24" font-weight="700">A⁻¹(Ax) = x: a round trip returns the input</text>
+    <text x="200" y="100" text-anchor="middle" font-size="21" font-weight="700" fill="#1E3A8A">Input x = (2, 1)</text><text x="520" y="100" text-anchor="middle" font-size="21" font-weight="700" fill="#5B21B6">Output b = (5, 3)</text><text x="850" y="100" text-anchor="middle" font-size="21" font-weight="700" fill="#065F46">Restored x = (2, 1)</text>
+    <rect x="125" y="210" width="140" height="175" fill="url(#grid)"/><rect x="415" y="210" width="210" height="175" fill="url(#grid2)"/><rect x="790" y="210" width="140" height="175" fill="url(#grid3)"/>
+    <path d="M105 350H285M160 405V190M395 350H645M450 405V190M770 350H950M825 405V190" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M160 350L230 315" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/><path d="M450 350L625 245" fill="none" stroke="#7C3AED" stroke-width="4" marker-end="url(#arrow)"/><path d="M825 350L895 315" fill="none" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M305 292H370" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/><path d="M675 292H750" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="337" y="262" text-anchor="middle" font-size="20" fill="#5B21B6">A</text><text x="712" y="262" text-anchor="middle" font-size="20" fill="#5B21B6">A⁻¹</text>
+    <text x="510" y="454" text-anchor="middle" font-size="20" fill="#334155">A = [[2, 1], [1, 1]]     A⁻¹ = [[1, −1], [−1, 2]]</text>
+    <text x="510" y="497" text-anchor="middle" font-size="18" fill="#475569">Same coordinate scale in all panels; one grid step = 1.</text>
+    <g font-size="16" fill="#475569"><text x="294" y="356">x₁</text><text x="654" y="356">y₁</text><text x="960" y="356">x₁</text><text x="153" y="176">x₂</text><text x="443" y="176">y₂</text><text x="818" y="176">x₂</text></g>
+  </g>
+</svg>

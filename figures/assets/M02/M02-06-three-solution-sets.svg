@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 540" role="img" aria-labelledby="title desc">
+  <title id="title">One solution, no solution, and infinitely many solutions</title>
+  <desc id="desc">Three coordinate panels compare intersecting lines with a single common point, distinct parallel lines with no common point, and coincident lines whose entire line is the solution set.</desc>
+  <defs><pattern id="grid" width="45" height="45" x="10" y="30" patternUnits="userSpaceOnUse"><path d="M45 0H0V45" fill="none" stroke="#E2E8F0"/></pattern><pattern id="grid2" width="45" height="45" x="0" y="30" patternUnits="userSpaceOnUse"><path d="M45 0H0V45" fill="none" stroke="#E2E8F0"/></pattern><pattern id="grid3" width="45" height="45" x="35" y="30" patternUnits="userSpaceOnUse"><path d="M45 0H0V45" fill="none" stroke="#E2E8F0"/></pattern></defs>
+  <rect width="1050" height="540" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="525" y="40" text-anchor="middle" font-size="24" font-weight="700">A solution must lie on every equation at once</text>
+    <text x="200" y="92" text-anchor="middle" font-size="21" font-weight="700" fill="#065F46">One common point</text><text x="530" y="92" text-anchor="middle" font-size="21" font-weight="700" fill="#5B21B6">No common point</text><text x="870" y="92" text-anchor="middle" font-size="21" font-weight="700" fill="#065F46">A whole common line</text>
+    <rect x="100" y="165" width="180" height="225" fill="url(#grid)"/><rect x="450" y="165" width="180" height="225" fill="url(#grid2)"/><rect x="800" y="165" width="180" height="225" fill="url(#grid3)"/>
+    <path d="M80 345H300M100 400V145M430 345H650M450 400V145M780 345H1000M800 400V145" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M100 210L235 345" fill="none" stroke="#2563EB" stroke-width="3"/><path d="M145 345L280 210" fill="none" stroke="#7C3AED" stroke-width="3"/>
+    <circle cx="190" cy="300" r="5" fill="#059669"/><text x="220" y="294" font-size="18" font-weight="700" fill="#065F46">(2, 1)</text>
+    <path d="M450 255L540 345" fill="none" stroke="#2563EB" stroke-width="3"/><path d="M450 210L585 345" fill="none" stroke="#7C3AED" stroke-width="3"/>
+    <path d="M800 277.5L935 345" fill="none" stroke="#2563EB" stroke-width="5"/><path d="M800 277.5L935 345" fill="none" stroke="#7C3AED" stroke-width="3" stroke-dasharray="8 8"/>
+    <circle cx="890" cy="322.5" r="5" fill="#059669"/><circle cx="845" cy="300" r="5" fill="#059669"/><circle cx="800" cy="277.5" r="5" fill="#059669"/>
+    <text x="200" y="438" text-anchor="middle" font-size="18" fill="#1E3A8A">x + y = 3</text><text x="200" y="468" text-anchor="middle" font-size="18" fill="#5B21B6">x − y = 1</text>
+    <text x="530" y="438" text-anchor="middle" font-size="18" fill="#1E3A8A">x + y = 2</text><text x="530" y="468" text-anchor="middle" font-size="18" fill="#5B21B6">x + y = 3</text>
+    <text x="870" y="438" text-anchor="middle" font-size="18" fill="#1E3A8A">x + 2y = 3</text><text x="870" y="468" text-anchor="middle" font-size="18" fill="#5B21B6">2x + 4y = 6</text>
+    <text x="200" y="511" text-anchor="middle" font-size="18" fill="#334155">Every variable is determined.</text><text x="530" y="511" text-anchor="middle" font-size="18" fill="#334155">The constraints conflict.</text><text x="870" y="511" text-anchor="middle" font-size="18" fill="#334155">(x, y) = (3 − 2t, t)</text>
+    <g font-size="16" fill="#475569"><text x="310" y="351">x</text><text x="660" y="351">x</text><text x="1010" y="351">x</text><text x="96" y="132">y</text><text x="446" y="132">y</text><text x="796" y="132">y</text></g>
+  </g>
+</svg>

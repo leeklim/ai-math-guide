@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 440" role="img" aria-labelledby="title desc">
+  <title id="title">The order of vector components changes the displacement</title>
+  <desc id="desc">A coordinate grid compares the vectors u equal to two five and v equal to five two. Dashed projections match each ordered column component to its coordinate axis.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="640" height="440" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="320" y="42" text-anchor="middle" font-size="24" font-weight="700">Same numbers, different component order</text>
+    <g stroke="#E2E8F0" stroke-width="1" fill="none">
+      <path d="M100 100V340M140 100V340M180 100V340M220 100V340M260 100V340M300 100V340M340 100V340"/>
+      <path d="M100 100H340M100 140H340M100 180H340M100 220H340M100 260H340M100 300H340M100 340H340"/>
+    </g>
+    <path d="M80 340H360M100 360V80" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <g font-size="16" fill="#475569" text-anchor="middle">
+      <text x="85" y="364">0</text><text x="140" y="364">1</text><text x="180" y="364">2</text><text x="220" y="364">3</text><text x="260" y="364">4</text><text x="300" y="364">5</text>
+      <text x="78" y="306">1</text><text x="78" y="266">2</text><text x="78" y="226">3</text><text x="78" y="186">4</text><text x="78" y="146">5</text>
+      <text x="370" y="345" font-size="18">x₁</text><text x="100" y="72" font-size="18">x₂</text>
+    </g>
+    <path d="M100 140H180V340" fill="none" stroke="#2563EB" stroke-width="2" stroke-dasharray="5 6"/>
+    <path d="M100 260H300V340" fill="none" stroke="#7C3AED" stroke-width="2" stroke-dasharray="2 6"/>
+    <path d="M100 340L180 140" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M100 340L300 260" fill="none" stroke="#7C3AED" stroke-width="4" marker-end="url(#arrow)"/>
+    <text x="195" y="126" font-size="20" font-weight="700" fill="#1E3A8A">u = (2, 5)</text>
+    <text x="240" y="230" font-size="20" font-weight="700" fill="#5B21B6">v = (5, 2)</text>
+    <text x="480" y="100" text-anchor="middle" font-size="20" font-weight="700">Column components</text>
+    <text x="412" y="150" font-size="20" font-weight="700" fill="#1E3A8A">u =</text>
+    <path d="M462 125H452V190H462M517 125H527V190H517" fill="none" stroke="#2563EB" stroke-width="2"/>
+    <text x="490" y="150" text-anchor="middle" font-size="22" fill="#1E3A8A">2</text><text x="490" y="180" text-anchor="middle" font-size="22" fill="#1E3A8A">5</text>
+    <text x="556" y="150" font-size="16" fill="#475569">first</text><text x="556" y="180" font-size="16" fill="#475569">second</text>
+    <text x="412" y="250" font-size="20" font-weight="700" fill="#5B21B6">v =</text>
+    <path d="M462 225H452V290H462M517 225H527V290H517" fill="none" stroke="#7C3AED" stroke-width="2"/>
+    <text x="490" y="250" text-anchor="middle" font-size="22" fill="#5B21B6">5</text><text x="490" y="280" text-anchor="middle" font-size="22" fill="#5B21B6">2</text>
+    <text x="500" y="340" text-anchor="middle" font-size="18">dimension = 2</text>
+    <text x="320" y="408" text-anchor="middle" font-size="18" fill="#334155">The first component belongs to x₁; the second belongs to x₂.</text>
+  </g>
+</svg>

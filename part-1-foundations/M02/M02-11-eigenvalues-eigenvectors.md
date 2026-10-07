@@ -67,6 +67,15 @@ $\lambda>0$이면 같은 방향에서 $|\lambda|$배 되고, $\lambda<0$이면 �
 
 영벡터는 모든 $\lambda$에 대해 식을 만족하므로 고유벡터에서 제외한다.
 
+아래 그림은 예제 1의 같은 행렬에 두 고유벡터와 일반 벡터를 넣는다. 고유값이 음수인 경우에도 같은 직선 위에 남는다는 조건은 유지된다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A diagonal matrix stretching the first eigenvector, reversing the second, and changing the line of a general input vector](../../figures/assets/M02/M02-11-eigen-and-general-directions.svg)
+
+<figcaption>회색 점선은 입력, 초록색 화살표는 출력이다. e₁은 4배, e₂는 반대 방향으로 2배 변하지만 각각 자기 직선에 남는다. 반면 (1,1)의 출력 (4,−2)는 원래 입력의 scalar배가 아니어서 이 입력은 고유벡터가 아니다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. 고유값은 특성방정식으로 찾는다
 
 \[
@@ -79,7 +88,9 @@ $\lambda>0$이면 같은 방향에서 $|\lambda|$배 되고, $\lambda<0$이면 �
 (\mathbf A-\lambda\mathbf I)\mathbf v=\mathbf 0
 \]
 
-이다. 0이 아닌 해 $\mathbf v$가 존재하려면 $\mathbf A-\lambda\mathbf I$가 특이행렬이어야 한다. 따라서
+이다. 오른쪽의 $\lambda\mathbf v$를 $\lambda\mathbf I\mathbf v$로 썼기 때문에 같은 벡터를 묶을 수 있다. $\mathbf A-\lambda\mathbf I$에서는 대각 원소만 $\lambda$씩 줄고 대각 밖 원소는 그대로다.
+
+0이 아닌 해 $\mathbf v$가 존재할 조건은 이 행렬의 kernel이 $\{\mathbf 0\}$이 아니라는 것이다. M02-10에서 이는 determinant가 0인 특이행렬 조건과 같았다. 따라서
 
 \[
 \det(\mathbf A-\lambda\mathbf I)=0
@@ -115,6 +126,15 @@ E_\lambda
 
 한 고유벡터의 0이 아닌 scalar배도 같은 고유값의 고유벡터다. 고유벡터 하나의 숫자 목록보다 고유공간 전체가 변환의 방향 구조를 나타낸다.
 
+아래 그림은 예제 2의 각 고유값을 대입한 kernel을 원래 입력공간에 그린다. 고유벡터 한 개를 계산하는 것과 그 배수들을 포함한 고유공간을 구하는 것을 구분한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two eigenspace lines computed as kernels for eigenvalues two and three, with zero marked as excluded from eigenvectors](../../figures/assets/M02/M02-11-eigenspaces-as-kernels.svg)
+
+<figcaption>고유값 2의 kernel은 수평선이고 고유값 3의 kernel은 대각선이다. 각 직선의 비영벡터가 해당 고유벡터이며, 원점은 두 고유공간에 포함되지만 고유벡터에서 제외된다.</figcaption>
+</figure>
+
 ## 핵심 개념 4. 반복 적용에서는 고유값이 거듭제곱된다
 
 \[
@@ -139,13 +159,22 @@ E_\lambda
 \lambda^k\mathbf v
 \]
 
-이다.
+이다. 두 번째 적용에서도 선형성으로 scalar $\lambda$를 행렬 밖으로 꺼내고, 남은 $\mathbf A\mathbf v$를 다시 $\lambda\mathbf v$로 바꾼다. 한 번 적용할 때마다 같은 계수 $\lambda$가 하나씩 더 곱해진다.
 
 - $|\lambda|>1$이면 반복할수록 해당 방향 성분의 크기가 커진다.
 - $|\lambda|<1$이면 해당 방향 성분이 줄어든다.
 - $\lambda<0$이면 반복 횟수에 따라 방향이 번갈아 뒤집힌다.
 
 $|\lambda|=1$에서는 크기가 유지되지만 비대각화 행렬의 다른 성분은 커질 수 있다. 고유값 크기만으로 일반 행렬의 모든 반복 동작을 판단하지 않는다.
+
+아래 그림은 고유방향 하나에서 반복마다 같은 배율을 곱하는 과정을 비교한다. 각 행 안에서 화살표 길이의 척도는 같으며, 행 사이의 첫 벡터 길이는 화면에 맞게 다르게 잡았다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Four repeated eigenvalue scalings showing growth, shrinkage, and alternating shrinking directions along an eigenline](../../figures/assets/M02/M02-11-eigenvalue-powers.svg)
+
+<figcaption>양의 배율은 방향을 유지하며 크기를 바꾸고, 음의 배율은 적용할 때마다 방향을 뒤집는다. 같은 배율의 반복 곱이 λ의 거듭제곱이므로 크기와 부호를 함께 추적해야 한다.</figcaption>
+</figure>
 
 ## 핵심 개념 5. 고유벡터 기저가 있으면 행렬을 대각화할 수 있다
 
@@ -171,7 +200,7 @@ $n$개의 선형독립 고유벡터 $\mathbf v_1,\ldots,\mathbf v_n$이 있고 �
 \mathbf A\mathbf V=\mathbf V\boldsymbol\Lambda
 \]
 
-이고 $\mathbf V$가 가역이므로
+이다. 왼쪽의 $i$번째 열은 $\mathbf A\mathbf v_i$이고 오른쪽의 $i$번째 열은 $\lambda_i\mathbf v_i$이므로, 각 고유벡터 식을 하나의 행렬 식으로 모은 것이다. 독립인 $n$개의 열은 $\mathbb R^n$의 기저여서 $\mathbf V$가 가역이다. 양변 오른쪽에 $\mathbf V^{-1}$을 곱하면
 
 \[
 \mathbf A
@@ -181,7 +210,9 @@ $n$개의 선형독립 고유벡터 $\mathbf v_1,\ldots,\mathbf v_n$이 있고 �
 
 이다. 이를 대각화라고 한다.
 
-고유벡터 기저의 좌표에서는 $\mathbf A$가 각 좌표에 고유값만 곱한다. 또한
+입력 $\mathbf x$를 $\mathbf x=\mathbf V\mathbf c$로 쓰면 $\mathbf c=\mathbf V^{-1}\mathbf x$는 고유기저 좌표다. $\mathbf A\mathbf x=\mathbf V\boldsymbol\Lambda\mathbf c$이므로 이 좌표에서는 각 성분에 고유값만 곱하고, $\mathbf V$로 원래 좌표에 돌아온다.
+
+같은 변환을 두 번 적용하면 중간의 $\mathbf V^{-1}\mathbf V$가 항등행렬로 약분된다. 이를 반복하면
 
 \[
 \mathbf A^k
@@ -190,6 +221,23 @@ $n$개의 선형독립 고유벡터 $\mathbf v_1,\ldots,\mathbf v_n$이 있고 �
 \]
 
 로 거듭제곱을 계산할 수 있다.
+
+서로 다른 실수 고유값이 $n$개 있으면 독립인 고유벡터를 $n$개 얻을 수 있다. 두 고유값 $\lambda_1\ne\lambda_2$에 대해 $c_1\mathbf v_1+c_2\mathbf v_2=\mathbf 0$이라고 하자. 이 식에 $\mathbf A$를 적용한 뒤 원래 식의 $\lambda_2$배를 빼면
+
+\[
+c_1(\lambda_1-\lambda_2)\mathbf v_1=\mathbf 0
+\]
+
+이다. 고유값 차이와 $\mathbf v_1$이 모두 0이 아니므로 $c_1=0$이고 원래 식에서 $c_2=0$이다. 벡터가 더 많을 때도 $\mathbf A$를 적용하고 한 고유값 배의 식을 빼는 과정을 반복하여 한 계수씩 분리할 수 있다. 같은 고유값이 반복되는 경우에는 이 차이가 0이므로, 독립 고유벡터 수를 고유공간에서 따로 확인해야 한다.
+
+아래 그림은 예제 2의 고유기저에서 예제 3의 입력을 표현한 뒤 한 번 변환한다. 가운데 두 그림의 축은 고유기저 계수이며 처음과 마지막 그림의 축은 표준 좌표다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Four coordinate stages converting a vector to eigenbasis coefficients, scaling them by eigenvalues, and reconstructing the output](../../figures/assets/M02/M02-11-diagonalization-coordinates.svg)
+
+<figcaption>입력 (3,1)의 고유기저 계수 (2,1)에 고유값 (2,3)을 각각 곱하면 (4,3)이 된다. 이 계수를 원래 고유벡터들과 다시 결합한 출력은 (7,3)이며, 좌표 변환 자체를 물리적 벡터의 추가 이동으로 읽지 않는다.</figcaption>
+</figure>
 
 ## 핵심 개념 6. 모든 정사각행렬이 실수에서 대각화되지는 않는다
 
@@ -214,6 +262,8 @@ $n$개의 선형독립 고유벡터 $\mathbf v_1,\ldots,\mathbf v_n$이 있고 �
 
 이므로 독립 고유벡터가 하나뿐이다. $\mathbb R^2$의 고유벡터 기저를 만들 수 없어 대각화되지 않는다.
 
+이 행렬은 $(x,y)^\top$를 $(x+y,y)^\top$로 보낸다. 반복할 때마다 둘째 성분을 첫째 성분에 더하므로 $k$번 뒤에는 $(x+ky,y)^\top$가 된다. $y\ne0$인 입력의 첫째 성분은 커질 수 있지만 고유벡터는 $y=0$인 방향뿐이고, 그 방향의 고유값은 1이다. 고유방향에서의 반복 배율만으로 고유방향 밖의 동작까지 판단할 수 없는 이유다.
+
 $90^\circ$ 회전행렬
 
 \[
@@ -221,6 +271,24 @@ $90^\circ$ 회전행렬
 \]
 
 은 0이 아닌 실수 벡터의 방향을 모두 바꾸므로 실수 고유벡터가 없다. 복소수까지 허용하면 고유값을 찾을 수 있지만 이 단원에서는 실수 공간을 다룬다.
+
+아래 그림은 고유값이 1뿐인 전단에서도 고유공간 밖의 입력이 반복에 따라 커질 수 있음을 보여 준다. 수평 고유방향에서의 불변성과 다른 입력에서의 이동을 나누어 본다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Successive shear outputs zero one through three one outside the single horizontal eigenspace of eigenvalue one](../../figures/assets/M02/M02-11-defective-shear-iterates.svg)
+
+<figcaption>수평 방향의 고유벡터는 그대로지만, 입력 (0,1)은 반복할 때마다 첫 성분이 1씩 늘어난다. 독립 고유벡터가 하나뿐이어서 평면 전체를 고유기저로 분해할 수 없고, 고유값 1만으로 모든 입력의 크기 보존을 주장할 수 없다.</figcaption>
+</figure>
+
+아래 그림은 90도 회전에서 원래 직선과 출력 방향이 직교한다는 다른 실패 원인을 보여 준다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A nonzero real vector rotated ninety degrees to a perpendicular direction outside its original line](../../figures/assets/M02/M02-11-rotation-no-real-eigenvector.svg)
+
+<figcaption>90도 회전은 모든 비영 실수 벡터를 자기 직선 밖으로 보낸다. 따라서 실수 고유벡터가 없으며, 특성방정식 λ²+1=0에도 실수 근이 없다.</figcaption>
+</figure>
 
 ## 핵심 개념 7. 고유값은 정사각 선형변환의 방향별 구조다
 

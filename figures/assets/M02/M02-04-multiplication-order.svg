@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 450" role="img" aria-labelledby="title desc">
+  <title id="title">Changing matrix order changes which operation runs first</title>
+  <desc id="desc">For the shear A with rows one one and zero one and scale B with diagonal two three, input one one becomes two three then five three under B then A. Under A then B it becomes two one then four three.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="880" height="450" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="440" y="42" text-anchor="middle" font-size="24" font-weight="700">ABx applies B first; BAx applies A first</text>
+    <text x="440" y="85" text-anchor="middle" font-size="18" fill="#475569">A(x₁, x₂) = (x₁ + x₂, x₂), B(x₁, x₂) = (2x₁, 3x₂)</text>
+    <g font-size="22" text-anchor="middle"><text x="130" y="187">x = (1, 1)</text><text x="440" y="187" fill="#1E3A8A">Bx = (2, 3)</text><text x="750" y="187" fill="#065F46">ABx = (5, 3)</text><text x="130" y="304">x = (1, 1)</text><text x="440" y="304" fill="#1E3A8A">Ax = (2, 1)</text><text x="750" y="304" fill="#065F46">BAx = (4, 3)</text></g>
+    <path d="M230 179H329" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/><path d="M550 179H637" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/><path d="M230 296H329" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/><path d="M550 296H637" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+    <g font-size="19" font-weight="700" text-anchor="middle" fill="#5B21B6"><text x="280" y="150">B</text><text x="593" y="150">A</text><text x="280" y="267">A</text><text x="593" y="267">B</text></g>
+    <text x="440" y="392" text-anchor="middle" font-size="20" fill="#334155">Grouping can change: (AB)x = A(Bx). Operation order cannot.</text>
+  </g>
+</svg>

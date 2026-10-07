@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 510" role="img" aria-labelledby="title desc">
+  <title id="title">Projection maps distinct vertical positions to the same output</title>
+  <desc id="desc">The input vectors two two and two minus one both project to two zero on the horizontal axis. Reapplying the projection leaves that output unchanged.</desc>
+  <defs><pattern id="grid" width="60" height="60" x="20" y="40" patternUnits="userSpaceOnUse"><path d="M60 0H0V60" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="640" height="510" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="320" y="42" text-anchor="middle" font-size="24" font-weight="700">Projection removes the vertical coordinate</text>
+    <rect x="80" y="100" width="420" height="320" fill="url(#grid)"/>
+    <path d="M65 340H515M140 437V85" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M140 340L260 220" fill="none" stroke="#2563EB" stroke-width="3.5" stroke-dasharray="7 5" marker-end="url(#arrow)"/><path d="M140 340L260 400" fill="none" stroke="#2563EB" stroke-width="3.5" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+    <path d="M260 220V329" fill="none" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#arrow)"/><path d="M260 400V351" fill="none" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <path d="M140 340H255" fill="none" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/><circle cx="260" cy="340" r="3" fill="#059669"/>
+    <text x="288" y="208" font-size="20" font-weight="700" fill="#1E3A8A">a = (2, 2)</text><text x="288" y="424" font-size="20" font-weight="700" fill="#1E3A8A">b = (2, −1)</text><text x="311" y="304" font-size="20" font-weight="700" fill="#065F46">Pₓa = Pₓb = (2, 0)</text>
+    <text x="114" y="365" font-size="16" fill="#475569">0</text><text x="527" y="346" font-size="16" fill="#475569">x₁</text><text x="140" y="77" text-anchor="middle" font-size="16" fill="#475569">x₂</text>
+    <text x="320" y="478" text-anchor="middle" font-size="19" fill="#334155">Pₓ(2, 0) = (2, 0): a second projection changes nothing.</text>
+  </g>
+</svg>

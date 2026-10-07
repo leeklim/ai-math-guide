@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 550" role="img" aria-labelledby="title desc">
+  <title id="title">Equal singular values allow paired input and output bases to rotate together</title>
+  <desc id="desc">For A equal to twice the identity, one SVD uses standard basis directions and another uses both bases rotated forty-five degrees. The same input one zero still maps to two zero. Flipping both members of one singular-vector pair also keeps their outer product unchanged.</desc>
+  <defs><pattern id="grid" width="40" height="40" x="20" y="20" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="960" height="550" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="480" y="42" text-anchor="middle" font-size="24" font-weight="700">A = 2I: the map is fixed, the paired singular bases are not</text>
+    <text x="230" y="104" text-anchor="middle" font-size="21" font-weight="700">Standard paired directions</text><text x="720" y="104" text-anchor="middle" font-size="21" font-weight="700">Both bases rotated by 45°</text>
+    <rect x="100" y="180" width="240" height="220" fill="url(#grid)"/><rect x="580" y="180" width="280" height="220" fill="url(#grid)"/><path d="M80 300H370M180 420V155M560 300H880M660 420V155" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M180 300H220" stroke="#2563EB" stroke-width="3" marker-end="url(#arrow)"/><path d="M180 300V260" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/><path d="M180 300H260" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/><path d="M180 300V220" stroke="#059669" stroke-width="3" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+    <path d="M660 300L688.284 271.716" stroke="#2563EB" stroke-width="3" marker-end="url(#arrow)"/><path d="M660 300L631.716 271.716" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/><path d="M660 300L716.569 243.431" stroke="#059669" stroke-width="3" stroke-dasharray="6 4" marker-end="url(#arrow)"/><path d="M660 300L603.431 243.431" stroke="#059669" stroke-width="3" stroke-dasharray="6 4" marker-end="url(#arrow)"/><path d="M660 300H740" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/>
+    <g font-size="19"><text x="268" y="329" fill="#065F46">Ax = (2, 0)</text><text x="748" y="329" fill="#065F46">Ax = (2, 0)</text><text x="200" y="210" fill="#065F46">2u₂</text><text x="730" y="232" fill="#065F46">2u′₁</text><text x="548" y="230" fill="#065F46">2u′₂</text><text x="112" y="385" fill="#475569">σ₁ = σ₂ = 2</text><text x="600" y="385" fill="#475569">Same two-dimensional subspace</text></g>
+    <text x="480" y="452" text-anchor="middle" font-size="19" fill="#334155">Input and output bases change together: (UR)(VR)ᵀ = UVᵀ.</text>
+    <text x="480" y="499" text-anchor="middle" font-size="18" fill="#475569">Paired sign flip: σ(−u)(−v)ᵀ = σuvᵀ. Individual signs do not identify a unique feature.</text>
+  </g>
+</svg>

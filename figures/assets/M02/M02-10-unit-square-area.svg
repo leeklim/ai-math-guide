@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">The columns of a matrix turn a unit square into a parallelogram of determinant area</title>
+  <desc id="desc">Equal-scale grids show a unit square mapped by A with rows three one and zero two to a parallelogram whose base is three and height two. The original area is one and the output area is six.</desc>
+  <defs><pattern id="grid" width="55" height="55" x="30" y="40" patternUnits="userSpaceOnUse"><path d="M55 0H0V55" fill="none" stroke="#E2E8F0"/></pattern><pattern id="grid2" width="55" height="55" x="40" y="40" patternUnits="userSpaceOnUse"><path d="M55 0H0V55" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="960" height="540" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="480" y="40" text-anchor="middle" font-size="24" font-weight="700">det(A) = 3·2 − 1·0 = 6</text>
+    <text x="225" y="97" text-anchor="middle" font-size="21" font-weight="700" fill="#1E3A8A">Unit square: area 1</text><text x="700" y="97" text-anchor="middle" font-size="21" font-weight="700" fill="#065F46">Parallelogram: area 6</text>
+    <rect x="140" y="205" width="220" height="220" fill="url(#grid)"/><rect x="590" y="205" width="275" height="220" fill="url(#grid2)"/>
+    <path d="M120 370H380M195 440V180M570 370H885M590 440V180" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M195 370H250V315H195Z" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+    <path d="M590 370H755L810 260H645Z" fill="#D1FAE5" stroke="#059669" stroke-width="2"/>
+    <path d="M590 370H755" fill="none" stroke="#2563EB" stroke-width="3" marker-end="url(#arrow)"/><path d="M590 370L645 260" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+    <path d="M810 260V370" fill="none" stroke="#D97706" stroke-width="2" stroke-dasharray="5 5"/><path d="M797 357H810" fill="none" stroke="#D97706" stroke-width="2"/>
+    <text x="655" y="405" font-size="20" fill="#1E3A8A">Base = 3</text><text x="832" y="318" font-size="19" fill="#92400E">2</text><text x="618" y="231" font-size="19" fill="#5B21B6">a₂ = (1, 2)</text><text x="224" y="294" font-size="19" fill="#1E3A8A">1 × 1</text>
+    <path d="M410 308H520" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/><text x="465" y="278" text-anchor="middle" font-size="20" fill="#5B21B6">A</text>
+    <text x="480" y="486" text-anchor="middle" font-size="20" fill="#334155">A = [[3, 1], [0, 2]]; base × perpendicular height = 3 × 2.</text><text x="480" y="523" text-anchor="middle" font-size="18" fill="#475569">One grid step = 1 in both panels; all transformed shapes scale their area by 6.</text>
+  </g>
+</svg>

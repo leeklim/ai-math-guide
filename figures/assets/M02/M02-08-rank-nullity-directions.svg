@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 590" role="img" aria-labelledby="title desc">
+  <title id="title">Rank and nullity count output and input directions in different spaces</title>
+  <desc id="desc">For A with rows one two zero and zero zero one, three independent input directions e one, minus two one zero, and e three map respectively to the two output basis vectors and zero. Two independent image directions plus one independent kernel direction account for the input dimension three.</desc>
+  <defs><pattern id="grid" width="65" height="65" x="20" y="30" patternUnits="userSpaceOnUse"><path d="M65 0H0V65" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="1160" height="590" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="580" y="40" text-anchor="middle" font-size="24" font-weight="700">rank 2 + nullity 1 = input dimension 3</text>
+    <text x="250" y="97" text-anchor="middle" font-size="21" font-weight="700" fill="#1E3A8A">Three independent inputs in R³</text><text x="685" y="97" text-anchor="middle" font-size="21" font-weight="700" fill="#065F46">Their outputs</text><text x="990" y="97" text-anchor="middle" font-size="21" font-weight="700" fill="#065F46">Image in R²</text>
+    <rect x="80" y="143" width="320" height="70" rx="10" fill="#DBEAFE" stroke="#93C5FD"/><text x="240" y="185" text-anchor="middle" font-size="21" fill="#1E3A8A">e₁ = (1, 0, 0)</text>
+    <rect x="80" y="263" width="320" height="70" rx="10" fill="#DBEAFE" stroke="#93C5FD"/><text x="240" y="305" text-anchor="middle" font-size="21" fill="#1E3A8A">e₃ = (0, 0, 1)</text>
+    <rect x="80" y="383" width="320" height="70" rx="10" fill="#EDE9FE" stroke="#C4B5FD"/><text x="240" y="425" text-anchor="middle" font-size="21" fill="#5B21B6">k = (−2, 1, 0) ∈ ker(A)</text>
+    <path d="M425 178H575" fill="none" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#arrow)"/><path d="M425 298H575" fill="none" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#arrow)"/><path d="M425 418H575" fill="none" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <text x="508" y="150" text-anchor="middle" font-size="18" fill="#5B21B6">A</text><text x="508" y="270" text-anchor="middle" font-size="18" fill="#5B21B6">A</text><text x="508" y="390" text-anchor="middle" font-size="18" fill="#5B21B6">A</text>
+    <rect x="600" y="143" width="170" height="70" rx="10" fill="#D1FAE5" stroke="#6EE7B7"/><text x="685" y="185" text-anchor="middle" font-size="21" fill="#065F46">(1, 0)</text>
+    <rect x="600" y="263" width="170" height="70" rx="10" fill="#D1FAE5" stroke="#6EE7B7"/><text x="685" y="305" text-anchor="middle" font-size="21" fill="#065F46">(0, 1)</text>
+    <rect x="600" y="383" width="170" height="70" rx="10" fill="#EDE9FE" stroke="#C4B5FD"/><text x="685" y="425" text-anchor="middle" font-size="21" fill="#5B21B6">0 = (0, 0)</text>
+    <rect x="865" y="225" width="195" height="195" fill="#D1FAE5"/><rect x="865" y="225" width="195" height="195" fill="url(#grid)"/>
+    <path d="M840 355H1090M930 440V200" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M930 355H995" fill="none" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/><path d="M930 355V290" fill="none" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/>
+    <text x="1002" y="390" font-size="19" fill="#065F46">(1, 0)</text><text x="964" y="270" font-size="19" fill="#065F46">(0, 1)</text>
+    <text x="250" y="507" text-anchor="middle" font-size="19" fill="#334155">Kernel is a line in the input R³.</text><text x="915" y="507" text-anchor="middle" font-size="19" fill="#334155">The image is the whole output R².</text>
+    <text x="580" y="558" text-anchor="middle" font-size="18" fill="#475569">A(x, y, z) = (x + 2y, z). Kernel and image are not two pieces of one space.</text>
+  </g>
+</svg>

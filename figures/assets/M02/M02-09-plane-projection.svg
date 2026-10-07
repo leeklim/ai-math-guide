@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 730 570" role="img" aria-labelledby="title desc">
+  <title id="title">Projection onto a plane keeps two basis components and removes the orthogonal residual</title>
+  <desc id="desc">A schematic perspective shows x two minus one four, its projection two minus one zero onto the coordinate plane, and the residual zero zero four perpendicular to that plane. The plane basis vectors are e one and e two.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="730" height="570" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="365" y="40" text-anchor="middle" font-size="24" font-weight="700">Project onto V = span{e₁, e₂}</text>
+    <path d="M230 268L410 340L270 432L90 360Z" fill="#D1FAE5" stroke="#A7F3D0" stroke-width="1.5"/>
+    <path d="M275 286L135 378M320 304L180 396M365 322L225 414M125 337L305 409M160 314L340 386M195 291L375 363" fill="none" stroke="#A7F3D0" stroke-width="1"/>
+    <path d="M137.5 305L430 422M337.5 292.5L162.5 407.5M250 460V135" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M250 350L375 203" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/><path d="M250 350L375 363" fill="none" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/><path d="M375 363V203" fill="none" stroke="#7C3AED" stroke-width="3" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+    <text x="400" y="195" font-size="20" font-weight="700" fill="#1E3A8A">x = (2, −1, 4)</text><text x="408" y="294" font-size="20" fill="#5B21B6">r = (0, 0, 4)</text><text x="410" y="382" font-size="20" font-weight="700" fill="#065F46">x̂ = (2, −1, 0)</text>
+    <text x="445" y="448" font-size="19" fill="#065F46">V: third coordinate = 0</text><text x="365" y="504" text-anchor="middle" font-size="20" fill="#334155">Qᵀ reads (2, −1); Q rebuilds (2, −1, 0).</text><text x="365" y="546" text-anchor="middle" font-size="18" fill="#475569">Projecting x̂ again leaves x̂ unchanged. Schematic perspective.</text>
+    <g font-size="16" fill="#475569"><text x="439" y="431">x₁</text><text x="130" y="432">x₂</text><text x="243" y="122">x₃</text></g>
+  </g>
+</svg>

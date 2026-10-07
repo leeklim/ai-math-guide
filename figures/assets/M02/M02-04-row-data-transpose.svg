@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 640" role="img" aria-labelledby="title desc">
+  <title id="title">Transposing the weights preserves a column vector calculation for row stacked samples</title>
+  <desc id="desc">The weight matrix has rows one zero two and minus one three zero. Its product with sample two one zero gives two one. Stacking samples two one zero and one zero one in rows and multiplying by the transposed weights yields rows two one and three minus one.</desc>
+  <rect width="940" height="640" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="470" y="42" text-anchor="middle" font-size="24" font-weight="700">Same weights and samples, different storage orientation</text>
+    <text x="470" y="91" text-anchor="middle" font-size="21" font-weight="700">Column sample: y₁ = Wx₁</text>
+    <g font-size="19" text-anchor="middle" fill="#475569"><text x="215" y="133">W: 2 × 3</text><text x="505" y="133">x₁: 3 × 1</text><text x="779" y="133">y₁: 2 × 1</text></g>
+    <path d="M107 157H95V266H107M323 157H335V266H323M478 144H466V284H478M532 144H544V284H532M752 157H740V266H752M806 157H818V266H806" fill="none" stroke="#64748B" stroke-width="2"/>
+    <g font-size="23" text-anchor="middle"><text x="135" y="193">1</text><text x="215" y="193">0</text><text x="295" y="193">2</text><text x="135" y="251">−1</text><text x="215" y="251">3</text><text x="295" y="251">0</text><text x="505" y="182" fill="#1E3A8A">2</text><text x="505" y="225" fill="#1E3A8A">1</text><text x="505" y="268" fill="#1E3A8A">0</text><text x="779" y="193" fill="#065F46">2</text><text x="779" y="251" fill="#065F46">1</text></g>
+    <text x="641" y="226" text-anchor="middle" font-size="28">=</text>
+    <text x="470" y="337" text-anchor="middle" font-size="21" font-weight="700">Row samples: Y = XWᵀ</text>
+    <g font-size="19" text-anchor="middle" fill="#475569"><text x="215" y="377">X: 2 × 3</text><text x="505" y="377">Wᵀ: 3 × 2</text><text x="779" y="377">Y: 2 × 2</text></g>
+    <rect x="100" y="403" width="228" height="50" fill="#DBEAFE"/><rect x="695" y="403" width="169" height="50" fill="#D1FAE5"/>
+    <path d="M107 400H95V523H107M323 400H335V523H323M424 388H412V551H424M586 388H598V551H586M701 400H689V523H701M857 400H869V523H857" fill="none" stroke="#64748B" stroke-width="2"/>
+    <g font-size="23" text-anchor="middle"><text x="135" y="436">2</text><text x="215" y="436">1</text><text x="295" y="436">0</text><text x="135" y="505">1</text><text x="215" y="505">0</text><text x="295" y="505">1</text><text x="457" y="428">1</text><text x="553" y="428">−1</text><text x="457" y="481">0</text><text x="553" y="481">3</text><text x="457" y="534">2</text><text x="553" y="534">0</text><text x="738" y="436" fill="#065F46">2</text><text x="822" y="436" fill="#065F46">1</text><text x="738" y="505">3</text><text x="822" y="505">−1</text></g>
+    <text x="641" y="476" text-anchor="middle" font-size="28">=</text>
+    <text x="470" y="596" text-anchor="middle" font-size="19" fill="#334155">The highlighted first row is x₁ᵀ on the input and y₁ᵀ on the output.</text>
+  </g>
+</svg>

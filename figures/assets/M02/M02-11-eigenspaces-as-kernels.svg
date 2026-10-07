@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 520" role="img" aria-labelledby="title desc">
+  <title id="title">Each eigenvalue selects a kernel that contains an entire eigenspace</title>
+  <desc id="desc">For A with rows two one and zero three, eigenvalue two selects the horizontal line v two equals zero, and eigenvalue three selects the diagonal line v one equals v two. The origin belongs to both eigenspaces but is not an eigenvector.</desc>
+  <defs><pattern id="grid" width="60" height="60" x="0" patternUnits="userSpaceOnUse"><path d="M60 0H0V60" fill="none" stroke="#E2E8F0"/></pattern><pattern id="grid2" width="60" height="60" x="40" patternUnits="userSpaceOnUse"><path d="M60 0H0V60" fill="none" stroke="#E2E8F0"/></pattern></defs>
+  <rect width="920" height="520" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="460" y="40" text-anchor="middle" font-size="24" font-weight="700">A = [[2, 1], [0, 3]]: two eigenvalues, two kernels</text>
+    <text x="240" y="99" text-anchor="middle" font-size="20" font-weight="700" fill="#1E3A8A">E₂ = ker(A − 2I)</text><text x="700" y="99" text-anchor="middle" font-size="20" font-weight="700" fill="#065F46">E₃ = ker(A − 3I)</text>
+    <rect x="120" y="180" width="240" height="240" fill="url(#grid)"/><rect x="580" y="180" width="240" height="240" fill="url(#grid2)"/>
+    <path d="M100 300H380M240 440V160M560 300H840M700 440V160" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M120 300H360" fill="none" stroke="#2563EB" stroke-width="4"/><path d="M580 420L820 180" fill="none" stroke="#059669" stroke-width="4"/>
+    <circle cx="180" cy="300" r="4" fill="#2563EB"/><circle cx="300" cy="300" r="4" fill="#2563EB"/><circle cx="640" cy="360" r="4" fill="#059669"/><circle cx="760" cy="240" r="4" fill="#059669"/>
+    <circle cx="240" cy="300" r="5" fill="#F8FAFC" stroke="#0F172A" stroke-width="2"/><circle cx="700" cy="300" r="5" fill="#F8FAFC" stroke="#0F172A" stroke-width="2"/>
+    <text x="240" y="459" text-anchor="middle" font-size="20" fill="#1E3A8A">v₂ = 0: span{(1, 0)}</text><text x="700" y="459" text-anchor="middle" font-size="20" fill="#065F46">v₁ = v₂: span{(1, 1)}</text>
+    <text x="460" y="503" text-anchor="middle" font-size="18" fill="#475569">Open points mark zero: in the eigenspaces, excluded from the eigenvectors.</text>
+    <g font-size="16" fill="#475569"><text x="390" y="306">v₁</text><text x="850" y="306">v₁</text><text x="233" y="147">v₂</text><text x="693" y="147">v₂</text></g>
+  </g>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 430" role="img" aria-labelledby="title desc">
+  <title id="title">The inner product multiplies matching components and sums the products</title>
+  <desc id="desc">A three row calculation pairs components one two minus one with three zero four. Their products three zero minus four are added to the scalar minus one.</desc>
+  <rect width="660" height="430" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="330" y="42" text-anchor="middle" font-size="24" font-weight="700">Matching products become one scalar</text>
+    <g font-size="20" font-weight="700" text-anchor="middle"><text x="100" y="107">i</text><text x="225" y="107" fill="#1E3A8A">uᵢ</text><text x="365" y="107" fill="#1E3A8A">vᵢ</text><text x="540" y="107" fill="#5B21B6">uᵢvᵢ</text></g>
+    <path d="M60 128H600M60 290H600" stroke="#CBD5E1" stroke-width="1.5"/>
+    <g font-size="22" text-anchor="middle"><text x="100" y="169">1</text><text x="225" y="169">1</text><text x="295" y="169">×</text><text x="365" y="169">3</text><text x="447" y="169">=</text><text x="540" y="169" fill="#065F46">3</text><text x="100" y="222">2</text><text x="225" y="222">2</text><text x="295" y="222">×</text><text x="365" y="222">0</text><text x="447" y="222">=</text><text x="540" y="222">0</text><text x="100" y="275">3</text><text x="225" y="275">−1</text><text x="295" y="275">×</text><text x="365" y="275">4</text><text x="447" y="275">=</text><text x="540" y="275" fill="#5B21B6">−4</text></g>
+    <text x="330" y="344" text-anchor="middle" font-size="24" font-weight="700">uᵀv = 3 + 0 − 4 = −1</text>
+    <text x="330" y="395" text-anchor="middle" font-size="18" fill="#334155">Elementwise products: three numbers. Inner product: their sum.</text>
+  </g>
+</svg>

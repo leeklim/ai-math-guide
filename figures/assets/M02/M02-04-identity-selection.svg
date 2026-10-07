@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 390" role="img" aria-labelledby="title desc">
+  <title id="title">Each identity matrix row selects the matching input component</title>
+  <desc id="desc">The three by three identity matrix has a single one in each row. Multiplying by the column four five six keeps four five six because all nonmatching component coefficients are zero.</desc>
+  <rect width="640" height="390" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="320" y="42" text-anchor="middle" font-size="24" font-weight="700">The diagonal ones select matching components</text>
+    <g font-size="20" font-weight="700" text-anchor="middle"><text x="215" y="103">I₃</text><text x="401" y="103" fill="#1E3A8A">x</text><text x="553" y="103" fill="#065F46">I₃x</text></g>
+    <path d="M120 121H110V287H120M306 121H316V287H306M374 121H364V287H374M428 121H438V287H428M526 121H516V287H526M580 121H590V287H580" fill="none" stroke="#64748B" stroke-width="2"/>
+    <g font-size="23" text-anchor="middle"><text x="150" y="158" font-weight="700" fill="#065F46">1</text><text x="215" y="158">0</text><text x="280" y="158">0</text><text x="150" y="214">0</text><text x="215" y="214" font-weight="700" fill="#065F46">1</text><text x="280" y="214">0</text><text x="150" y="270">0</text><text x="215" y="270">0</text><text x="280" y="270" font-weight="700" fill="#065F46">1</text><text x="401" y="158">4</text><text x="401" y="214">5</text><text x="401" y="270">6</text><text x="553" y="158" fill="#065F46">4</text><text x="553" y="214" fill="#065F46">5</text><text x="553" y="270" fill="#065F46">6</text></g>
+    <text x="477" y="214" text-anchor="middle" font-size="26">=</text>
+    <text x="320" y="345" text-anchor="middle" font-size="19" fill="#334155">Row i keeps xᵢ and assigns zero weight to the other components.</text>
+  </g>
+</svg>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 510" role="img" aria-labelledby="title desc">
+  <title id="title">Independent basis vectors give one coefficient pair for a target vector</title>
+  <desc id="desc">In coefficient space, the equations c one plus c two equals four and c one minus c two equals two intersect only at three one. For redundant generators e one and twice e one, representing four e one requires just the single equation c one plus two c two equals four, leaving a whole line of coefficient pairs.</desc>
+  <defs><pattern id="grid" width="45" height="45" x="20" y="35" patternUnits="userSpaceOnUse"><path d="M45 0H0V45" fill="none" stroke="#E2E8F0"/></pattern><pattern id="grid2" width="45" height="45" x="40" y="35" patternUnits="userSpaceOnUse"><path d="M45 0H0V45" fill="none" stroke="#E2E8F0"/></pattern></defs>
+  <rect width="900" height="510" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="450" y="40" text-anchor="middle" font-size="24" font-weight="700">These axes are coefficients, not vector positions</text>
+    <text x="230" y="96" text-anchor="middle" font-size="20" font-weight="700" fill="#065F46">Basis: (1,1), (1,−1)</text><text x="670" y="96" text-anchor="middle" font-size="20" font-weight="700" fill="#5B21B6">Redundant: (1,0), (2,0)</text>
+    <rect x="110" y="170" width="225" height="225" fill="url(#grid)"/><rect x="580" y="170" width="225" height="225" fill="url(#grid2)"/>
+    <path d="M90 350H355M110 415V150M560 350H825M580 415V150" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M110 170L335 395" fill="none" stroke="#2563EB" stroke-width="3"/><path d="M155 395L335 215" fill="none" stroke="#7C3AED" stroke-width="3"/><circle cx="245" cy="305" r="5" fill="#059669"/>
+    <text x="300" y="324" font-size="20" font-weight="700" fill="#065F46">(3, 1)</text>
+    <path d="M580 260L805 372.5" fill="none" stroke="#7C3AED" stroke-width="3"/><circle cx="580" cy="260" r="5" fill="#059669"/><circle cx="670" cy="305" r="5" fill="#059669"/><circle cx="760" cy="350" r="5" fill="#059669"/>
+    <text x="230" y="451" text-anchor="middle" font-size="18" fill="#334155">Target v = (4, 2): one pair (3, 1).</text><text x="670" y="451" text-anchor="middle" font-size="18" fill="#334155">Target v = (4, 0): many pairs.</text>
+    <text x="230" y="487" text-anchor="middle" font-size="18" fill="#475569">c₁ + c₂ = 4; c₁ − c₂ = 2</text><text x="670" y="487" text-anchor="middle" font-size="18" fill="#475569">c₁ + 2c₂ = 4</text>
+    <g font-size="16" fill="#475569"><text x="365" y="356">c₁</text><text x="835" y="356">c₁</text><text x="103" y="137">c₂</text><text x="573" y="137">c₂</text></g>
+  </g>
+</svg>

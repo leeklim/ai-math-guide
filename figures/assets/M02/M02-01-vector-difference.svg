@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 550" role="img" aria-labelledby="title desc">
+  <title id="title">Subtracting v gives the displacement from the tip of v to the tip of u</title>
+  <desc id="desc">The left coordinate grid shows u at two minus one, v at minus three four, and a difference arrow from v to u with displacement five minus five. The right grid translates minus v to the tip of u and reaches the same difference vector from the origin.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="840" height="550" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="420" y="42" text-anchor="middle" font-size="24" font-weight="700">Two ways to read u − v = (5, −5)</text>
+    <text x="230" y="92" text-anchor="middle" font-size="20" font-weight="700">1. From the tip of v to the tip of u</text>
+    <text x="640" y="92" text-anchor="middle" font-size="20" font-weight="700">2. Add the opposite displacement</text>
+    <g stroke="#E2E8F0" stroke-width="1" fill="none">
+      <path d="M78 130V434M116 130V434M154 130V434M192 130V434M230 130V434M268 130V434M306 130V434M344 130V434"/>
+      <path d="M78 130H344M78 168H344M78 206H344M78 244H344M78 282H344M78 320H344M78 358H344M78 396H344M78 434H344"/>
+      <path d="M516 130V434M554 130V434M592 130V434M630 130V434M668 130V434M706 130V434M744 130V434M782 130V434"/>
+      <path d="M516 130H782M516 168H782M516 206H782M516 244H782M516 282H782M516 320H782M516 358H782M516 396H782M516 434H782"/>
+    </g>
+    <path d="M66 358H364M230 446V118M504 244H800M592 446V118" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <g font-size="16" fill="#475569">
+      <text x="370" y="364">x₁</text><text x="230" y="116" text-anchor="middle">x₂</text><text x="210" y="381">0</text>
+      <text x="770" y="230">x₁</text><text x="592" y="116" text-anchor="middle">x₂</text><text x="570" y="267">0</text>
+    </g>
+    <path d="M230 358L306 396" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M116 206L306 396" fill="none" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M230 358L116 206" fill="none" stroke="#2563EB" stroke-width="4" stroke-dasharray="8 5" marker-end="url(#arrow)"/>
+    <text x="80" y="180" font-size="18" font-weight="700" fill="#1E3A8A">v = (−3, 4)</text>
+    <text x="235" y="429" font-size="18" font-weight="700" fill="#1E3A8A">u = (2, −1)</text>
+    <text x="258" y="273" font-size="18" font-weight="700" fill="#065F46">u − v</text>
+    <text x="262" y="299" font-size="16" fill="#065F46">(+5, −5)</text>
+    <path d="M592 244L668 282" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M668 282L782 434" fill="none" stroke="#7C3AED" stroke-width="4" stroke-dasharray="8 5" marker-end="url(#arrow)"/>
+    <path d="M592 244L782 434" fill="none" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/>
+    <text x="674" y="267" font-size="18" font-weight="700" fill="#1E3A8A">u</text>
+    <text x="738" y="338" font-size="18" font-weight="700" fill="#5B21B6">−v</text>
+    <text x="514" y="386" font-size="18" font-weight="700" fill="#065F46">u + (−v)</text>
+    <text x="716" y="469" font-size="18" font-weight="700" fill="#065F46">(5, −5)</text>
+    <text x="420" y="514" text-anchor="middle" font-size="18" fill="#334155">The difference is a displacement: endpoint minus starting point.</text>
+  </g>
+</svg>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 570" role="img" aria-labelledby="title desc">
+  <title id="title">Rescaling one feature changes the covariance and the principal direction</title>
+  <desc id="desc">The same four centered samples are shown before and after the second coordinate is multiplied by three. Covariance two one one two becomes two three three eighteen; the first principal direction changes from forty-five degrees to roughly eighty degrees in the plotted feature coordinates.</desc>
+  <defs><pattern id="grid" width="30" height="30" x="10" y="20" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" fill="none" stroke="#E2E8F0"/></pattern><pattern id="grid2" width="30" height="30" x="20" y="20" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="1000" height="570" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="500" y="42" text-anchor="middle" font-size="24" font-weight="700">Changing one feature's unit changes PCA's geometry</text>
+    <text x="250" y="100" text-anchor="middle" font-size="21" font-weight="700">S = [2, 1; 1, 2]</text><text x="750" y="100" text-anchor="middle" font-size="21" font-weight="700">S′ = [2, 3; 3, 18]</text>
+    <rect x="100" y="170" width="300" height="300" fill="url(#grid)"/><rect x="600" y="170" width="300" height="300" fill="url(#grid2)"/><path d="M80 320H420M250 490V150M580 320H920M740 490V150" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <g fill="#2563EB"><circle cx="295" cy="275" r="6"/><circle cx="205" cy="365" r="6"/><circle cx="275.981" cy="345.981" r="6"/><circle cx="224.019" cy="294.019" r="6"/></g><g fill="#2563EB"><circle cx="785" cy="185" r="6"/><circle cx="695" cy="455" r="6"/><circle cx="765.981" cy="397.942" r="6"/><circle cx="714.019" cy="242.058" r="6"/></g>
+    <path d="M250 320L356.066 213.934" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/><path d="M740 320L766.813 172.417" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/>
+    <text x="360" y="202" font-size="19" fill="#065F46">PC1</text><text x="790" y="153" font-size="19" fill="#065F46">New PC1</text>
+    <path d="M450 320H545" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#arrow)"/><text x="497" y="278" text-anchor="middle" font-size="20" fill="#5B21B6">x₂ → 3x₂</text>
+    <text x="500" y="515" text-anchor="middle" font-size="19" fill="#334155">Variance of feature 2 becomes 9 times larger; cross-covariance becomes 3 times larger.</text>
+    <text x="500" y="550" text-anchor="middle" font-size="16" fill="#475569">Same four samples as the projection figure. Common scale: 30 px per unit. Green arrows show direction only.</text>
+  </g>
+</svg>

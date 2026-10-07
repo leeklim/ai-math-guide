@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 560" role="img" aria-labelledby="title desc">
+  <title id="title">Condition number measures unequal directional gains, not overall scale or area</title>
+  <desc id="desc">The images of a unit circle under the identity, twice the identity, and diagonal two one half are respectively a unit circle, a radius two circle, and an ellipse with radii two and one half. Condition numbers are one one and four, while determinants are one four and one.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="7" markerHeight="10" refX="6.5" refY="5" orient="auto"><path d="M0.5 0.8L6.5 5L0.5 9.2L2.5 5Z" fill="context-stroke"/></marker></defs>
+  <rect width="1060" height="560" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="530" y="42" text-anchor="middle" font-size="24" font-weight="700">Equal gains can enlarge a circle without increasing condition number</text>
+    <g font-size="21" font-weight="700" text-anchor="middle"><text x="180" y="106">I</text><text x="530" y="106">2I</text><text x="880" y="106">diag(2, 1/2)</text></g>
+    <path d="M80 290H280M180 395V170M425 290H635M530 395V170M775 290H985M880 395V170" fill="none" stroke="#CBD5E1" stroke-width="2"/>
+    <circle cx="180" cy="290" r="40" fill="#EFF6FF" stroke="#2563EB" stroke-width="2.5"/><circle cx="530" cy="290" r="80" fill="#EFF6FF" stroke="#2563EB" stroke-width="2.5"/><ellipse cx="880" cy="290" rx="80" ry="20" fill="#ECFDF5" stroke="#059669" stroke-width="2.5"/>
+    <path d="M180 290H220" stroke="#2563EB" stroke-width="3" marker-end="url(#arrow)"/><path d="M180 290V250" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/><path d="M530 290H610" stroke="#2563EB" stroke-width="3" marker-end="url(#arrow)"/><path d="M530 290V210" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/><path d="M880 290H960" stroke="#059669" stroke-width="3" marker-end="url(#arrow)"/><path d="M880 290V270" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+    <g font-size="18" fill="#475569" text-anchor="middle"><text x="180" y="152">Gains 1 and 1</text><text x="530" y="152">Gains 2 and 2</text><text x="880" y="152">Gains 2 and 1/2</text></g>
+    <g font-size="21" text-anchor="middle" fill="#334155"><text x="180" y="437">κ₂ = 1/1 = 1</text><text x="530" y="437">κ₂ = 2/2 = 1</text><text x="880" y="437">κ₂ = 2/(1/2) = 4</text></g>
+    <g font-size="19" text-anchor="middle" fill="#475569"><text x="180" y="477">det = 1</text><text x="530" y="477">det = 4</text><text x="880" y="477">det = 1</text></g>
+    <text x="530" y="532" text-anchor="middle" font-size="17" fill="#475569">Common scale: 40 px per unit. Same determinant does not imply the same shape or sensitivity.</text>
+  </g>
+</svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 550" role="img" aria-labelledby="title desc">
+  <title id="title">Gram Schmidt subtracts the existing component and normalizes the residual</title>
+  <desc id="desc">For initial vectors one one and one zero, the component of the second vector along the first normalized direction is one half one half. Subtracting it leaves one half minus one half. Normalizing this residual yields a unit direction perpendicular to q one, preserving the spanned plane.</desc>
+  <defs><pattern id="grid" width="80" height="80" x="40" y="30" patternUnits="userSpaceOnUse"><path d="M80 0H0V80" fill="none" stroke="#E2E8F0"/></pattern><pattern id="grid2" width="80" height="80" x="50" y="30" patternUnits="userSpaceOnUse"><path d="M80 0H0V80" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="960" height="550" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="480" y="40" text-anchor="middle" font-size="24" font-weight="700">Subtract the old direction before creating the new one</text>
+    <text x="240" y="100" text-anchor="middle" font-size="21" font-weight="700">1. Remove the projection</text><text x="715" y="100" text-anchor="middle" font-size="21" font-weight="700">2. Normalize the residual</text>
+    <rect x="120" y="190" width="240" height="240" fill="url(#grid)"/><rect x="610" y="190" width="240" height="240" fill="url(#grid2)"/>
+    <path d="M100 350H380M200 460V170M590 350H870M690 460V170" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M120 430L360 190" fill="none" stroke="#CBD5E1" stroke-width="1.5"/>
+    <path d="M200 350H280" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/><path d="M200 350L240 310" fill="none" stroke="#059669" stroke-width="3.5" marker-end="url(#arrow)"/><path d="M240 310L280 350" fill="none" stroke="#7C3AED" stroke-width="3.5" marker-end="url(#arrow)"/>
+    <text x="302" y="389" font-size="19" fill="#1E3A8A">v₂ = (1, 0)</text><text x="64" y="238" font-size="19" fill="#065F46">Projection</text><text x="77" y="266" font-size="19" fill="#065F46">(½, ½)</text><text x="290" y="291" font-size="19" fill="#5B21B6">u₂ = (½, −½)</text>
+    <path d="M690 350L730 390" fill="none" stroke="#CBD5E1" stroke-width="3" stroke-dasharray="5 5"/><path d="M690 350L746.568 293.432" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/><path d="M690 350L746.568 406.568" fill="none" stroke="#7C3AED" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M700 340L710 350L700 360" fill="none" stroke="#D97706" stroke-width="2"/>
+    <text x="779" y="285" font-size="20" fill="#1E3A8A">q₁</text><text x="779" y="421" font-size="20" fill="#5B21B6">q₂</text>
+    <path d="M420 338H520" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/><text x="470" y="302" text-anchor="middle" font-size="18" fill="#5B21B6">÷ ‖u₂‖</text>
+    <text x="480" y="507" text-anchor="middle" font-size="19" fill="#334155">q₁ = (1,1)/√2; q₂ = (1,−1)/√2. Both are unit length and perpendicular.</text>
+    <g font-size="16" fill="#475569"><text x="390" y="356">x₁</text><text x="880" y="356">x₁</text><text x="193" y="157">x₂</text><text x="683" y="157">x₂</text></g>
+  </g>
+</svg>

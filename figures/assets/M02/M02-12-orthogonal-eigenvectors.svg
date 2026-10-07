@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 730 550" role="img" aria-labelledby="title desc">
+  <title id="title">A symmetric matrix has perpendicular eigenvector directions</title>
+  <desc id="desc">For A with rows two one and one two, normalized eigenvectors along one one and one minus one meet at a right angle. The first grows by eigenvalue three while the second stays unchanged with eigenvalue one.</desc>
+  <defs><pattern id="grid" width="55" height="55" x="30" y="20" patternUnits="userSpaceOnUse"><path d="M55 0H0V55" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="730" height="550" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="365" y="40" text-anchor="middle" font-size="24" font-weight="700">A = [[2, 1], [1, 2]]: q₁ᵀq₂ = 0</text>
+    <rect x="195" y="185" width="275" height="275" fill="url(#grid)"/>
+    <path d="M170 350H495M250 480V155" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M250 350L366.673 233.327" fill="none" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/><path d="M250 350L288.891 311.109" fill="none" stroke="#2563EB" stroke-width="3" stroke-dasharray="4 4" marker-end="url(#arrow)"/><path d="M250 350L288.891 388.891" fill="none" stroke="#7C3AED" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M260 340L270 350L260 360" fill="none" stroke="#D97706" stroke-width="2"/>
+    <text x="389" y="218" font-size="20" fill="#065F46">Aq₁ = 3q₁</text><text x="132" y="286" font-size="20" fill="#1E3A8A">q₁</text><text x="309" y="419" font-size="20" fill="#5B21B6">Aq₂ = q₂</text>
+    <text x="365" y="500" text-anchor="middle" font-size="19" fill="#334155">q₁ = (1,1)/√2; q₂ = (1,−1)/√2</text><text x="365" y="535" text-anchor="middle" font-size="18" fill="#475569">Different multipliers leave the eigenvector directions perpendicular.</text>
+    <g font-size="16" fill="#475569"><text x="505" y="356">x₁</text><text x="243" y="142">x₂</text></g>
+  </g>
+</svg>

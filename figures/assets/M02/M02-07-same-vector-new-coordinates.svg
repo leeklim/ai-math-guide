@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">The same vector has different coordinate lists in different bases</title>
+  <desc id="desc">Two copies of the same standard coordinate plane show vector four two. On the left it is reached as four e one plus two e two. On the right it is reached as three b one plus b two, where b one is one one and b two is one minus one. The arrow endpoint remains unchanged.</desc>
+  <defs><pattern id="grid" width="45" height="45" x="10" y="10" patternUnits="userSpaceOnUse"><path d="M45 0H0V45" fill="none" stroke="#E2E8F0"/></pattern><pattern id="grid2" width="45" height="45" x="15" y="10" patternUnits="userSpaceOnUse"><path d="M45 0H0V45" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="960" height="540" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="480" y="40" text-anchor="middle" font-size="24" font-weight="700">Change the basis, not the vector</text>
+    <text x="250" y="98" text-anchor="middle" font-size="21" font-weight="700" fill="#1E3A8A">Standard basis: coordinates (4, 2)</text><text x="710" y="98" text-anchor="middle" font-size="21" font-weight="700" fill="#5B21B6">Basis B: coordinates (3, 1)</text>
+    <rect x="100" y="190" width="225" height="225" fill="url(#grid)"/><rect x="600" y="190" width="225" height="225" fill="url(#grid2)"/>
+    <path d="M80 370H350M100 435V160M580 370H850M600 435V160" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M100 370H280" fill="none" stroke="#2563EB" stroke-width="3" stroke-dasharray="6 5" marker-end="url(#arrow)"/><path d="M280 370V280" fill="none" stroke="#7C3AED" stroke-width="3" stroke-dasharray="6 5" marker-end="url(#arrow)"/><path d="M100 370L280 280" fill="none" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M600 370L735 235" fill="none" stroke="#2563EB" stroke-width="3" stroke-dasharray="6 5" marker-end="url(#arrow)"/><path d="M735 235L780 280" fill="none" stroke="#7C3AED" stroke-width="3" stroke-dasharray="6 5" marker-end="url(#arrow)"/><path d="M600 370L780 280" fill="none" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/>
+    <text x="168" y="402" font-size="20" fill="#1E3A8A">4e₁</text><text x="306" y="337" font-size="20" fill="#5B21B6">2e₂</text><text x="634" y="270" font-size="20" fill="#1E3A8A">3b₁</text><text x="785" y="243" font-size="20" fill="#5B21B6">b₂</text>
+    <text x="247" y="254" font-size="20" font-weight="700" fill="#065F46">v = (4, 2)</text><text x="805" y="311" font-size="20" font-weight="700" fill="#065F46">v = (4, 2)</text>
+    <text x="480" y="471" text-anchor="middle" font-size="20" fill="#334155">b₁ = (1, 1), b₂ = (1, −1); 3b₁ + b₂ = 4e₁ + 2e₂</text>
+    <text x="480" y="512" text-anchor="middle" font-size="18" fill="#475569">The green vector is identical in both panels; its coefficients are not.</text>
+    <g font-size="16" fill="#475569"><text x="360" y="376">x₁</text><text x="860" y="376">x₁</text><text x="93" y="145">x₂</text><text x="593" y="145">x₂</text></g>
+  </g>
+</svg>

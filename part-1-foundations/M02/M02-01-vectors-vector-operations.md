@@ -68,6 +68,15 @@ v_n
 
 좌표는 벡터를 나타내는 수의 목록이다. 이후 M02-07과 M03-03에서는 같은 벡터도 기저를 바꾸면 다른 좌표로 나타날 수 있음을 배운다. 지금은 표준 좌표를 사용한다.
 
+아래 그림에서 첫째 성분을 가로축, 둘째 성분을 세로축과 대응시키면 성분 순서를 바꿀 때 이동이 어떻게 달라지는지 확인할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two vectors with reversed component order reach different endpoints on the same coordinate grid](../../figures/assets/M02/M02-01-ordered-components.svg)
+
+<figcaption>두 벡터 모두 dimension은 2이지만, (2,5)ᵀ와 (5,2)ᵀ는 각 축의 이동량이 달라 서로 다른 끝점에 도달한다. 점선으로 축과 열벡터의 대응 성분을 확인한다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. 벡터의 등식은 대응 성분을 비교한다
 
 \[
@@ -83,6 +92,15 @@ v_n
 \]
 
 이다. 마지막 성분이 다르기 때문이다.
+
+아래 그림에서는 같은 행의 성분끼리 비교한다. 처음 두 성분이 일치해도 마지막 비교에서 벡터의 등식이 성립하지 않음을 확인할 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Corresponding components match in the first two rows but differ in the third row of two column vectors](../../figures/assets/M02/M02-01-component-equality.svg)
+
+<figcaption>dimension이 같은지 확인한 뒤 모든 대응 성분을 비교한다. 셋째 성분의 3≠4가 두 벡터의 불일치를 결정한다.</figcaption>
+</figure>
 
 ## 핵심 개념 3. 벡터 덧셈과 뺄셈은 성분별로 계산한다
 
@@ -111,9 +129,31 @@ u_n+v_n
 
 여기서 $-\mathbf v$는 모든 성분의 부호를 바꾼 벡터다.
 
+두 벡터를 같은 원점에서 출발하는 화살표로 놓으면 $\mathbf u-\mathbf v$는 $\mathbf v$의 끝점에서 $\mathbf u$의 끝점으로 가는 변위다. $\mathbf v+(\mathbf u-\mathbf v)=\mathbf u$이므로, 현재 위치벡터 $\mathbf v$에 이 차이를 더하면 목표 위치벡터 $\mathbf u$에 도달한다. 뺄셈 순서를 바꾸면 이동 방향도 반대로 바뀐다.
+
+아래 두 장면은 예제 1의 차벡터를 나타낸다. 왼쪽에서는 $\mathbf v$의 끝점에서 $\mathbf u$의 끝점으로 이동하고, 오른쪽에서는 원점에서 $\mathbf u$를 따라간 뒤 $-\mathbf v$를 이어 붙인다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The difference from the tip of v to the tip of u equals the vector obtained by adding minus v after u](../../figures/assets/M02/M02-01-vector-difference.svg)
+
+<figcaption>(2,-1)ᵀ−(-3,4)ᵀ=(5,-5)ᵀ다. 왼쪽 초록색 화살표의 시작점은 원점이 아니지만, 오른쪽 초록색 화살표와 같은 변위 (5,-5)ᵀ를 나타낸다.</figcaption>
+</figure>
+
 ## 핵심 개념 4. 덧셈은 이동을 이어 붙인다
 
 $\mathbb R^2$의 벡터를 화살표로 나타내자. $\mathbf u$의 끝점에서 $\mathbf v$만큼 다시 이동하면 전체 이동은 $\mathbf u+\mathbf v$다. 시작점을 같게 놓으면 두 화살표가 만드는 평행사변형의 대각선이 합벡터다.
+
+여기서 두 번째 화살표를 옮겨 그려도 벡터 $\mathbf v$의 성분은 바뀌지 않는다. 성분은 끝점의 절대 위치가 아니라 시작점에서 끝점까지의 좌표별 변화량이기 때문이다. 예제 1의 $\mathbf u=(2,-1)^\top$, $\mathbf v=(-3,4)^\top$를 이어 붙이면 원점에서 $(2,-1)$로 간 뒤 첫 좌표는 3만큼 감소하고 둘째 좌표는 4만큼 증가해 $(-1,3)$에 도착한다. 성분별 덧셈과 이동의 합성이 같은 결과를 나타낸다.
+
+아래 그림의 보라색 점선은 끝점으로 옮긴 화살표다. 두 가지 이동 순서가 평행사변형의 같은 꼭짓점에 도착하고, 초록색 대각선이 전체 이동을 나타낸다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Translated copies of u and v form a parallelogram whose diagonal reaches their sum minus one three](../../figures/assets/M02/M02-01-vector-addition.svg)
+
+<figcaption>u 뒤에 v를 이어 붙이든 v 뒤에 u를 이어 붙이든 합벡터의 끝점은 (-1,3)이다. 옮겨 그린 화살표는 위치만 달라지고 성분은 유지된다.</figcaption>
+</figure>
 
 벡터 덧셈은 다음 법칙을 만족한다.
 
@@ -144,14 +184,25 @@ $\alpha\in\mathbb R$와 $\mathbf v\in\mathbb R^n$에 대해
 \end{bmatrix}
 \]
 
-이다.
+이다. 다음 방향 설명은 $\mathbf v\ne\mathbf 0$일 때 적용한다.
 
 - $\alpha>1$이면 같은 방향으로 늘어난다.
 - $0<\alpha<1$이면 같은 방향으로 줄어든다.
 - $\alpha<0$이면 방향이 반대로 바뀌고 $|\alpha|$에 따라 늘거나 줄어든다.
 - $\alpha=0$이면 영벡터가 된다.
 
+$\alpha=1$이면 원래 벡터를 유지한다. 모든 성분에 같은 수를 곱하므로 좌표별 이동의 비율을 유지한 채 전체 크기를 바꾼다. 예를 들어 $(1,-2)^\top$에 3을 곱하면 두 성분을 모두 세 배로 바꾼 $(3,-6)^\top$를 얻는다. 성분 하나만 바꾸면 이 스칼라곱과 달리 방향도 달라질 수 있다.
+
 여기서 스칼라곱은 스칼라와 벡터의 곱이다. 두 벡터를 스칼라로 보내는 내적과 구분한다.
+
+아래 그림은 같은 좌표 축척에서 $\mathbf v=(1,-2)^\top$와 네 가지 스칼라곱을 비교한다. 회색 점선과 결과 화살표를 비교하면 배율의 크기와 부호가 각각 무엇을 바꾸는지 볼 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Four equally scaled grids compare positive enlargement, positive shrinkage, negative reversal and the zero scalar applied to one vector](../../figures/assets/M02/M02-01-scalar-multiplication.svg)
+
+<figcaption>3v는 같은 방향으로 세 배, (1/2)v는 같은 방향으로 절반 크기다. −(1/2)v는 반대 방향으로 절반 크기이며, 0v는 방향이 없는 영벡터다.</figcaption>
+</figure>
 
 ## 핵심 개념 6. 영벡터와 덧셈 역원은 이동을 되돌린다
 
@@ -175,13 +226,24 @@ $\alpha\in\mathbb R$와 $\mathbf v\in\mathbb R^n$에 대해
 
 를 만족한다.
 
-$-\mathbf v$는 $\mathbf v$와 반대 방향의 벡터이며
+$\mathbf v$가 영벡터가 아니면 $-\mathbf v$는 $\mathbf v$와 반대 방향의 벡터이며
 
 \[
 \mathbf v+(-\mathbf v)=\mathbf 0
 \]
 
 이다. 한 이동 뒤에 정확히 반대 이동을 하면 시작 위치로 돌아오는 것과 같다.
+
+영벡터는 이동량이 0이므로 방향을 정하지 않는다. 영벡터에 어떤 스칼라를 곱해도 각 성분은 0이고, 덧셈 역원도 영벡터 자신이다.
+
+아래 그림에서 파란색 이동을 한 뒤 같은 선분을 보라색 점선의 반대 방향으로 되돌아가면 출발점에 도착한다. 영벡터를 더할 때는 이 출발·도착 위치를 바꾸는 이동이 없다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A solid outward vector and its dashed additive inverse follow the same segment in opposite directions and give zero net displacement](../../figures/assets/M02/M02-01-zero-and-inverse.svg)
+
+<figcaption>v+(−v)=0은 왕복 뒤의 전체 변위가 영벡터임을 뜻한다. v+0=v에서는 추가 이동이 없어 원래 벡터를 유지한다.</figcaption>
+</figure>
 
 ## 핵심 개념 7. 덧셈과 스칼라곱은 서로 분배된다
 
@@ -199,7 +261,16 @@ $-\mathbf v$는 $\mathbf v$와 반대 방향의 벡터이며
 \alpha\mathbf v+\beta\mathbf v
 \]
 
-각 식의 양변을 성분별로 계산하면 실수의 분배법칙으로 확인할 수 있다. 이 법칙 덕분에 여러 벡터에 계수를 곱해 더하는 선형결합을 일관되게 계산할 수 있다.
+첫 식의 $i$번째 성분은 왼쪽에서 $\alpha(u_i+v_i)$, 오른쪽에서 $\alpha u_i+\alpha v_i$다. 실수의 분배법칙으로 이 둘이 같다. 둘째 식도 $i$번째 성분끼리 $(\alpha+\beta)v_i=\alpha v_i+\beta v_i$로 일치한다. 모든 대응 성분이 같으므로 두 벡터의 등식이 성립한다. 이 법칙 덕분에 여러 벡터에 계수를 곱해 더하는 선형결합을 일관되게 계산할 수 있다.
+
+아래 그림은 연습문제 5의 두 계산 순서를 좌표에서 비교한다. 합벡터를 두 배로 늘리는 경로와 각 벡터를 두 배로 늘린 뒤 이어 붙이는 경로의 최종 변위가 같다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Doubling the sum and joining the doubled vectors both reach the endpoint eight two on matched coordinate grids](../../figures/assets/M02/M02-01-distributive-scaling.svg)
+
+<figcaption>왼쪽은 (4,1)ᵀ를 두 배로 늘려 (8,2)ᵀ를 얻는다. 오른쪽은 (2,4)ᵀ와 (6,-2)ᵀ를 이어 붙여 같은 끝점에 도달한다.</figcaption>
+</figure>
 
 ## 예제 1. 벡터의 덧셈과 뺄셈
 
@@ -280,6 +351,15 @@ $-\mathbf v$는 $\mathbf v$와 반대 방향의 벡터이며
 \]
 
 점은 위치를 나타내고 벡터는 이동을 나타낸다. 표준 좌표에서는 둘 다 수의 순서쌍으로 적을 수 있지만 역할은 다르다.
+
+아래 그림에서 파란 점은 위치 $P,Q$, 초록색 화살표는 그 사이의 변위다. 보라색 점선을 따라 각 좌표의 변화량을 읽으면 끝점과 시작점의 차이를 확인할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![An arrow from P at one two to Q at four minus one has displacement three minus three with horizontal and vertical changes marked](../../figures/assets/M02/M02-01-point-displacement.svg)
+
+<figcaption>P에서 Q로 이동하면 첫 좌표는 3만큼 증가하고 둘째 좌표는 3만큼 감소한다. 변위 (3,-3)ᵀ는 점 P나 Q의 좌표와 구분한다.</figcaption>
+</figure>
 
 ## 예제 4. 잔차 연결에서의 벡터 덧셈
 

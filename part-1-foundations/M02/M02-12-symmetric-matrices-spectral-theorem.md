@@ -74,6 +74,15 @@ a_{ij}=a_{ji}
 
 는 대칭행렬이다. 주대각선 위의 원소를 뒤집어 아래쪽 원소를 얻는다.
 
+아래 그림은 행과 열 번호를 서로 바꾸었을 때 선택되는 두 원소를 짝지어 표시한다. 숫자 크기나 부호가 아니라 대응 위치의 일치가 대칭성 조건이다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A symmetric three-by-three matrix with matching off-diagonal entry pairs highlighted by their swapped row and column indices](../../figures/assets/M02/M02-12-mirrored-matrix-entries.svg)
+
+<figcaption>행 1·열 2와 행 2·열 1은 모두 −1이며 나머지 대각 밖 원소도 같은 방식으로 대응한다. 전치가 이 위치들을 바꾸어도 원소값이 같아 행렬 전체가 그대로다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. 대칭행렬의 고유값은 실수다
 
 실수 대칭행렬은 복소수까지 고려해도 모든 고유값이 실수다. M02-11의 $90^\circ$ 회전행렬처럼 실수 고유값이 없는 경우가 대칭행렬에서는 생기지 않는다.
@@ -93,10 +102,12 @@ a_{ij}=a_{ji}
 \[
 \mathbf u^\top\mathbf A\mathbf v
 =
+(\mathbf A^\top\mathbf u)^\top\mathbf v
+=
 (\mathbf A\mathbf u)^\top\mathbf v
 \]
 
-이다. 양쪽에 고유값 식을 대입하면
+이다. 행렬곱의 전치 규칙으로 첫 등식을 얻고, $\mathbf A^\top=\mathbf A$로 두 번째 등식을 얻는다. 왼쪽에서는 $\mathbf A\mathbf v$를, 오른쪽에서는 $\mathbf A\mathbf u$를 고유값 식으로 바꾸면
 
 \[
 \mu\mathbf u^\top\mathbf v
@@ -118,7 +129,16 @@ a_{ij}=a_{ji}
 
 이다.
 
-고유값이 반복되는 고유공간 안에서도 직교기저를 선택할 수 있다.
+고유값이 같으면 $\mu-\lambda=0$이므로 이 계산에서 직교성을 얻을 수 없다. 같은 고유공간 안의 벡터들이 처음부터 모두 직교하는 것은 아니다. 다만 그 공간의 기저에 Gram-Schmidt를 적용해 정규직교기저를 선택할 수 있다. 이 과정에서 같은 고유값의 벡터들을 선형결합하므로 결과도 같은 고유공간에 남는다.
+
+아래 그림은 예제 1의 서로 다른 두 고유값에 대응하는 직교 방향을 그린다. 고유방향 사이의 직각과 각 방향 안에서의 배율을 나누어 읽는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Perpendicular normalized eigenvectors of a symmetric matrix, with eigenvalue three stretching one and eigenvalue one preserving the other](../../figures/assets/M02/M02-12-orthogonal-eigenvectors.svg)
+
+<figcaption>첫 고유방향은 3배 늘고 둘째 고유방향은 그대로지만 두 방향은 직교한다. 같은 고유값의 공간에서는 아무 벡터쌍이나 직교한다는 뜻이 아니며, 그 안에서 정규직교기저를 선택한다.</figcaption>
+</figure>
 
 ## 핵심 개념 4. 스펙트럼 정리는 정규직교 고유기저를 보장한다
 
@@ -153,9 +173,9 @@ a_{ij}=a_{ji}
 
 이다. 이것이 실수 대칭행렬의 스펙트럼 분해다.
 
-일반 대각화의 $\mathbf V^{-1}$ 자리에 $\mathbf Q^\top$이 놓인다. 정규직교 행렬의 역이 전치이기 때문이다.
+일반 대각화의 $\mathbf V^{-1}$ 자리에 $\mathbf Q^\top$이 놓인다. 여기서는 정규직교 열이 $n$개인 정사각행렬이므로 $\mathbf Q^\top\mathbf Q=\mathbf I_n$과 함께 $\mathbf Q\mathbf Q^\top=\mathbf I_n$도 성립한다. 따라서 역행렬은 전치다. M02-09의 열이 $k<n$개인 부분공간 기저와 달리, 여기서는 전체 공간의 좌표를 읽고 모두 복원한다.
 
-## 핵심 개념 5. 변환은 회전, 축별 배율, 역회전으로 나뉜다
+## 핵심 개념 5. 변환은 직교 좌표변환과 축별 배율로 나뉜다
 
 \[
 \mathbf A\mathbf x
@@ -169,7 +189,18 @@ a_{ij}=a_{ji}
 2. $\boldsymbol\Lambda$: 각 고유방향 성분에 $\lambda_i$를 곱한다.
 3. $\mathbf Q$: 원래 표준 좌표로 돌아온다.
 
-대칭행렬은 직교 좌표계를 선택하면 방향을 섞지 않고 좌표별로 배율만 적용한다.
+첫 단계와 마지막 단계는 좌표를 읽고 복원하는 서로 역인 연산이다. 두 단계만 이어서 적용하면 $\mathbf Q\mathbf Q^\top\mathbf x=\mathbf x$다. 가운데 고유값 배율이 실제 변환의 효과를 담당한다.
+
+대칭행렬은 직교 좌표계를 선택하면 방향을 섞지 않고 좌표별로 배율만 적용한다. 직교 좌표변환은 길이와 각도를 보존하지만 회전뿐 아니라 반사를 포함할 수 있다. 따라서 일반적으로 세 단계를 회전·배율·역회전으로만 부르는 것은 정확하지 않다. 예제의 고유기저도 정규직교 조건을 확인해서 사용하며, determinant가 양수일 필요는 없다.
+
+아래 그림은 예제 2의 스펙트럼 분해를 좌표값과 norm으로 추적한다. 고유기저 좌표를 읽고 복원하는 두 단계는 norm을 바꾸지 않으며, 가운데 배율만 실제 변환 효과를 만든다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Four spectral-decomposition coordinate plots with equal norms before and after the eigenvalue-scaling stage](../../figures/assets/M02/M02-12-spectral-coordinate-stages.svg)
+
+<figcaption>표준 좌표 (2,0)와 고유기저 좌표 (√2,√2)는 모두 norm 2다. 고유값 배율을 적용한 뒤의 계수와 복원된 출력 (4,2)는 모두 norm √20이며, 좌표변환 자체가 길이를 늘린 것은 아니다.</figcaption>
+</figure>
 
 ## 핵심 개념 6. quadratic form은 고유방향별 기여의 합이다
 
@@ -182,6 +213,10 @@ a_{ij}=a_{ji}
 \[
 \mathbf x^\top\mathbf A\mathbf x
 =
+\mathbf c^\top\mathbf Q^\top
+(\mathbf Q\boldsymbol\Lambda\mathbf Q^\top)
+\mathbf Q\mathbf c
+=
 \mathbf c^\top\boldsymbol\Lambda\mathbf c
 =
 \sum_{i=1}^{n}\lambda_i c_i^2
@@ -189,13 +224,24 @@ a_{ij}=a_{ji}
 
 이다.
 
+양쪽의 $\mathbf Q^\top\mathbf Q$를 항등행렬로 바꿔 가운데 식을 얻는다. 대각행렬 $\boldsymbol\Lambda$는 서로 다른 좌표를 곱하는 교차항을 만들지 않으므로 마지막 합에는 $c_i^2$만 남는다.
+
 각 고유값은 해당 고유방향 성분의 제곱에 붙는 계수다. 모든 고유값이 0 이상이면
 
 \[
 \mathbf x^\top\mathbf A\mathbf x\ge0
 \]
 
-이므로 $\mathbf A$는 양의 준정부호다. 고유값이 하나라도 음수이면 그 고유벡터 방향에서 quadratic form이 음수가 된다.
+가 모든 $\mathbf x$에서 성립하므로 $\mathbf A$는 양의 준정부호다. 고유값 $\lambda_j$가 음수이면 $\mathbf x=\mathbf q_j$를 선택할 때 $c_j=1$이고 나머지 좌표가 0이어서 quadratic form은 $\lambda_j<0$이다. 따라서 벡터 하나에서 양수가 나왔다는 것만으로 PSD라고 판단할 수 없다. PSD는 모든 벡터에 관한 조건이다.
+
+아래 그림은 고유기저 계수 평면에서 quadratic form의 부호가 방향에 따라 어떻게 달라지는지 비교한다. 한 방향의 양수 관찰이 아니라 모든 방향의 조건으로 PSD를 판정한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Coefficient-plane sign regions for positive definite, semidefinite, and indefinite quadratic forms with zero directions marked](../../figures/assets/M02/M02-12-quadratic-form-signs.svg)
+
+<figcaption>두 고유값이 양수이면 모든 비영 방향에서 양수다. 고유값 0을 허용하면 해당 방향의 값은 0이지만 음수는 없을 수 있다. 한 고유값이 음수이면 오른쪽의 세로 방향처럼 음의 값이 생겨 PSD가 아니다.</figcaption>
+</figure>
 
 ## 핵심 개념 7. 스펙트럼 분해는 행렬함수를 방향별로 계산한다
 
@@ -215,9 +261,9 @@ f(\mathbf A)
 \mathbf Q f(\boldsymbol\Lambda)\mathbf Q^\top
 \]
 
-형태로 행렬함수를 정의할 수 있다.
+형태로 행렬함수를 정의할 수 있다. 여기서 $f(\boldsymbol\Lambda)$는 대각에 $f(\lambda_i)$를 놓고 나머지 원소는 0으로 둔 행렬이다. $f$가 각 고유값에서 정의되어 있어야 이 식을 쓸 수 있다. 행렬 원소마다 scalar 함수를 적용하는 계산과는 구분한다.
 
-고유값이 0이 아니면 역행렬도
+모든 고유값이 0이 아니면 역행렬도
 
 \[
 \mathbf A^{-1}
@@ -225,7 +271,7 @@ f(\mathbf A)
 \mathbf Q\boldsymbol\Lambda^{-1}\mathbf Q^\top
 \]
 
-로 계산한다.
+로 계산한다. $\boldsymbol\Lambda^{-1}$의 대각 원소는 $1/\lambda_i$다. 한 고유값이라도 0이면 그 방향을 되돌릴 수 없어 이 역행렬 식을 사용할 수 없다.
 
 ## 예제 1. 대칭행렬의 고유쌍
 
@@ -358,7 +404,7 @@ f(\mathbf A)
 
 ### 오해 4. 가장 큰 고유값 방향은 자동으로 가장 중요한 모델 feature다
 
-가장 큰 고유값은 해당 행렬이 정한 양의 변화가 큰 방향이다. 인간 해석 가능성과 모델의 기능적 사용은 데이터와 개입 증거가 더 필요하다.
+가장 큰 고유값은 방향별 계수 중 대수적 값이 가장 큰 것이다. 반드시 양수이거나 절댓값이 가장 큰 것은 아니다. 인간 해석 가능성과 모델의 기능적 사용은 데이터와 개입 증거가 더 필요하다.
 
 ## 연습문제
 

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" role="img" aria-labelledby="title desc">
+  <title id="title">Solving for one right-hand side does not require the full inverse</title>
+  <desc id="desc">A split diagram compares the single solve A x equals b with building every inverse column by solving for all standard basis right-hand sides. The columns are assembled into A inverse only on the lower route.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="900" height="500" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="450" y="40" text-anchor="middle" font-size="24" font-weight="700">One requested solution versus a full inverse</text>
+    <text x="50" y="106" font-size="20" font-weight="700" fill="#1E3A8A">Solve for one b</text>
+    <rect x="50" y="135" width="180" height="70" rx="10" fill="#DBEAFE" stroke="#93C5FD"/><text x="140" y="178" text-anchor="middle" font-size="21" fill="#1E3A8A">A, b</text>
+    <path d="M255 170H355" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="380" y="135" width="200" height="70" rx="10" fill="#EDE9FE" stroke="#C4B5FD"/><text x="480" y="178" text-anchor="middle" font-size="21" fill="#5B21B6">Solve Ax = b</text>
+    <path d="M605 170H705" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="730" y="135" width="120" height="70" rx="10" fill="#D1FAE5" stroke="#6EE7B7"/><text x="790" y="178" text-anchor="middle" font-size="21" fill="#065F46">x</text>
+    <path d="M50 242H850" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="5 5"/>
+    <text x="50" y="292" font-size="20" font-weight="700" fill="#1E3A8A">Build every inverse column</text>
+    <rect x="50" y="322" width="180" height="88" rx="10" fill="#DBEAFE" stroke="#93C5FD"/><text x="140" y="357" text-anchor="middle" font-size="20" fill="#1E3A8A">e₁, e₂, …, eₙ</text><text x="140" y="391" text-anchor="middle" font-size="18" fill="#475569">n right-hand sides</text>
+    <path d="M255 365H355" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="380" y="322" width="200" height="88" rx="10" fill="#EDE9FE" stroke="#C4B5FD"/><text x="480" y="357" text-anchor="middle" font-size="20" fill="#5B21B6">Solve Azᵢ = eᵢ</text><text x="480" y="391" text-anchor="middle" font-size="18" fill="#475569">for each i</text>
+    <path d="M605 365H705" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="730" y="322" width="120" height="88" rx="10" fill="#D1FAE5" stroke="#6EE7B7"/><text x="790" y="355" text-anchor="middle" font-size="21" fill="#065F46">A⁻¹</text><text x="790" y="388" text-anchor="middle" font-size="18" fill="#065F46">[z₁ … zₙ]</text>
+    <text x="450" y="467" text-anchor="middle" font-size="18" fill="#334155">The top route asks for one vector, not every column of the inverse.</text>
+  </g>
+</svg>

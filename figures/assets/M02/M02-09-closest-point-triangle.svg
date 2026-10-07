@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 560" role="img" aria-labelledby="title desc">
+  <title id="title">Every other point on the subspace adds a nonnegative squared distance</title>
+  <desc id="desc">For x two three and subspace the horizontal axis, the projection two zero is distance three away. A different candidate four zero creates a right triangle with horizontal leg two and vertical leg three, increasing squared distance from nine to thirteen.</desc>
+  <defs><pattern id="grid" width="60" height="60" x="20" y="20" patternUnits="userSpaceOnUse"><path d="M60 0H0V60" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="750" height="560" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="375" y="40" text-anchor="middle" font-size="24" font-weight="700">The perpendicular residual is the shortest route</text>
+    <rect x="140" y="140" width="300" height="300" fill="url(#grid)"/>
+    <path d="M115 380H475M140 460V120" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M115 380H475" fill="none" stroke="#A7F3D0" stroke-width="5"/>
+    <path d="M260 380V200" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#arrow)"/><path d="M380 380L260 200" fill="none" stroke="#2563EB" stroke-width="3" stroke-dasharray="6 5" marker-end="url(#arrow)"/><path d="M260 380H380" fill="none" stroke="#D97706" stroke-width="3"/>
+    <path d="M260 362H278V380" fill="none" stroke="#D97706" stroke-width="2"/>
+    <circle cx="260" cy="200" r="4" fill="#2563EB"/><circle cx="260" cy="380" r="4" fill="#059669"/><circle cx="380" cy="380" r="4" fill="#D97706"/>
+    <text x="290" y="184" font-size="20" font-weight="700" fill="#1E3A8A">x = (2, 3)</text><text x="180" y="421" font-size="20" fill="#065F46">x̂ = (2, 0)</text><text x="355" y="455" font-size="20" fill="#92400E">y = (4, 0)</text>
+    <text x="215" y="300" font-size="20" fill="#065F46">3</text><text x="312" y="354" font-size="20" fill="#92400E">2</text>
+    <text x="520" y="263" font-size="20" fill="#065F46">‖x − x̂‖² = 9</text><text x="520" y="305" font-size="20" fill="#1E3A8A">‖x − y‖² = 13</text><text x="520" y="347" font-size="20" fill="#334155">= 9 + 4</text>
+    <text x="375" y="521" text-anchor="middle" font-size="19" fill="#334155">Any movement away from x̂ inside V adds ‖x̂ − y‖² to the squared distance.</text>
+    <g font-size="16" fill="#475569"><text x="485" y="386">V</text><text x="133" y="107">x₂</text></g>
+  </g>
+</svg>

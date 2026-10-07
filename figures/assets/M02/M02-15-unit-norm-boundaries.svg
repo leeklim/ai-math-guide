@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 550" role="img" aria-labelledby="title desc">
+  <title id="title">Three norms assign different unit boundaries along the same vector direction</title>
+  <desc id="desc">For vector three minus four, dividing by its L one norm seven reaches the diamond, dividing by L two norm five reaches the circle, and dividing by infinity norm four reaches the square. All coordinates use seventy pixels per unit.</desc>
+  <defs><pattern id="grid" width="35" height="35" x="5" y="20" patternUnits="userSpaceOnUse"><path d="M35 0H0V35" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="1060" height="550" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="530" y="42" text-anchor="middle" font-size="24" font-weight="700">Same direction x = (3, −4), three different meanings of “unit size”</text>
+    <g font-size="22" font-weight="700" text-anchor="middle"><text x="180" y="108">L1: ‖x‖₁ = 7</text><text x="530" y="108">L2: ‖x‖₂ = 5</text><text x="880" y="108">Infinity: ‖x‖∞ = 4</text></g>
+    <rect x="75" y="160" width="210" height="245" fill="url(#grid)"/><rect x="425" y="160" width="210" height="245" fill="url(#grid)"/><rect x="775" y="160" width="210" height="245" fill="url(#grid)"/>
+    <path d="M55 300H305M180 425V140M405 300H655M530 425V140M755 300H1005M880 425V140" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M180 230L250 300L180 370L110 300Z" fill="#EFF6FF" stroke="#2563EB" stroke-width="2.5"/><circle cx="530" cy="300" r="70" fill="#F5F3FF" stroke="#7C3AED" stroke-width="2.5"/><rect x="810" y="230" width="140" height="140" fill="#ECFDF5" stroke="#059669" stroke-width="2.5"/>
+    <path d="M180 300L210 340" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/><path d="M530 300L572 356" stroke="#7C3AED" stroke-width="4" marker-end="url(#arrow)"/><path d="M880 300L932.5 370" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/>
+    <g font-size="19" text-anchor="middle" fill="#334155"><text x="180" y="467">x/7 = (3/7, −4/7)</text><text x="530" y="467">x/5 = (3/5, −4/5)</text><text x="880" y="467">x/4 = (3/4, −1)</text></g>
+    <text x="530" y="518" text-anchor="middle" font-size="17" fill="#475569">Each colored boundary contains vectors with that norm equal to 1. Common scale: 70 px per unit.</text>
+  </g>
+</svg>

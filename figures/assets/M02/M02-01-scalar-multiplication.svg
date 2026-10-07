@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 770" role="img" aria-labelledby="title desc">
+  <title id="title">Positive, negative and zero scalars change a vector in different ways</title>
+  <desc id="desc">Four equally scaled coordinate grids compare v equal to one minus two with three v, one half v, minus one half v and zero v. Dashed gray arrows show the original displacement; colored arrows show the scaled vector, and a point shows the zero vector.</desc>
+  <defs>
+    <marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker>
+    <marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="5" markerHeight="8" refX="4.5" refY="4" orient="auto"><path d="M0.5 0.6L4.5 4L0.5 7.4L1.7 4Z" fill="context-stroke"/></marker>
+  </defs>
+  <rect width="800" height="770" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700">Scale every component of v = (1, −2)</text>
+    <text x="400" y="75" text-anchor="middle" font-size="18" fill="#475569">Same coordinate scale in all four panels</text>
+    <g transform="translate(40 106)">
+      <text x="170" y="24" text-anchor="middle" font-size="22" font-weight="700" fill="#065F46">α = 3</text>
+      <g stroke="#E2E8F0" stroke-width="1" fill="none"><path d="M40 60V285M70 60V285M100 60V285M130 60V285M160 60V285M190 60V285M220 60V285M250 60V285M280 60V285M310 60V285"/><path d="M40 65H310M40 95H310M40 125H310M40 155H310M40 185H310M40 215H310M40 245H310M40 275H310"/></g>
+      <path d="M28 95H323M100 292V48" fill="none" stroke="#94A3B8" stroke-width="2"/>
+      <path d="M100 95L130 155" fill="none" stroke="#64748B" stroke-width="5" stroke-dasharray="5 6" marker-end="url(#arrow)"/>
+      <path d="M100 95L190 275" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#arrow)"/>
+      <text x="142" y="148" font-size="18" fill="#475569">v</text><text x="211" y="273" font-size="18" font-weight="700" fill="#065F46">(3, −6)</text>
+      <text x="79" y="120" font-size="16" fill="#475569">0</text><text x="327" y="101" font-size="16" fill="#475569">x₁</text><text x="100" y="48" text-anchor="middle" font-size="16" fill="#475569">x₂</text>
+    </g>
+    <g transform="translate(420 106)">
+      <text x="170" y="24" text-anchor="middle" font-size="22" font-weight="700" fill="#065F46">α = 1/2</text>
+      <g stroke="#E2E8F0" stroke-width="1" fill="none"><path d="M40 60V285M70 60V285M100 60V285M130 60V285M160 60V285M190 60V285M220 60V285M250 60V285M280 60V285M310 60V285"/><path d="M40 65H310M40 95H310M40 125H310M40 155H310M40 185H310M40 215H310M40 245H310M40 275H310"/></g>
+      <path d="M28 95H323M100 292V48" fill="none" stroke="#94A3B8" stroke-width="2"/>
+      <path d="M100 95L130 155" fill="none" stroke="#64748B" stroke-width="3" stroke-dasharray="5 6" marker-end="url(#arrow)"/>
+      <path d="M100 95L115 125" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#small-arrow)"/>
+      <text x="145" y="171" font-size="18" fill="#475569">v = (1, −2)</text><text x="145" y="123" font-size="18" font-weight="700" fill="#065F46">(1/2, −1)</text>
+      <text x="79" y="120" font-size="16" fill="#475569">0</text><text x="327" y="101" font-size="16" fill="#475569">x₁</text><text x="100" y="48" text-anchor="middle" font-size="16" fill="#475569">x₂</text>
+    </g>
+    <g transform="translate(40 430)">
+      <text x="170" y="24" text-anchor="middle" font-size="22" font-weight="700" fill="#5B21B6">α = −1/2</text>
+      <g stroke="#E2E8F0" stroke-width="1" fill="none"><path d="M40 60V285M70 60V285M100 60V285M130 60V285M160 60V285M190 60V285M220 60V285M250 60V285M280 60V285M310 60V285"/><path d="M40 65H310M40 95H310M40 125H310M40 155H310M40 185H310M40 215H310M40 245H310M40 275H310"/></g>
+      <path d="M28 95H323M100 292V48" fill="none" stroke="#94A3B8" stroke-width="2"/>
+      <path d="M100 95L130 155" fill="none" stroke="#64748B" stroke-width="3" stroke-dasharray="5 6" marker-end="url(#arrow)"/>
+      <path d="M100 95L85 65" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#small-arrow)"/>
+      <text x="123" y="71" font-size="18" font-weight="700" fill="#5B21B6">(−1/2, 1)</text><text x="145" y="171" font-size="18" fill="#475569">v = (1, −2)</text>
+      <text x="79" y="120" font-size="16" fill="#475569">0</text><text x="327" y="101" font-size="16" fill="#475569">x₁</text><text x="100" y="48" text-anchor="middle" font-size="16" fill="#475569">x₂</text>
+    </g>
+    <g transform="translate(420 430)">
+      <text x="170" y="24" text-anchor="middle" font-size="22" font-weight="700">α = 0</text>
+      <g stroke="#E2E8F0" stroke-width="1" fill="none"><path d="M40 60V285M70 60V285M100 60V285M130 60V285M160 60V285M190 60V285M220 60V285M250 60V285M280 60V285M310 60V285"/><path d="M40 65H310M40 95H310M40 125H310M40 155H310M40 185H310M40 215H310M40 245H310M40 275H310"/></g>
+      <path d="M28 95H323M100 292V48" fill="none" stroke="#94A3B8" stroke-width="2"/>
+      <path d="M100 95L130 155" fill="none" stroke="#64748B" stroke-width="3" stroke-dasharray="5 6" marker-end="url(#arrow)"/>
+      <circle cx="100" cy="95" r="5" fill="#0F172A"/>
+      <text x="145" y="65" font-size="18" font-weight="700">0v = (0, 0)</text><text x="145" y="140" font-size="16" fill="#475569">No direction</text><text x="145" y="197" font-size="18" fill="#475569">v = (1, −2)</text>
+      <text x="79" y="120" font-size="16" fill="#475569">0</text><text x="327" y="101" font-size="16" fill="#475569">x₁</text><text x="100" y="48" text-anchor="middle" font-size="16" fill="#475569">x₂</text>
+    </g>
+    <text x="400" y="738" text-anchor="middle" font-size="18" fill="#334155">Gray dashed: original v. Colored: scaled vector αv.</text>
+  </g>
+</svg>

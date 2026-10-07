@@ -71,6 +71,15 @@ a_{m1}&a_{m2}&\cdots&a_{mn}
 
 shape의 순서는 행 수 다음 열 수다. $\mathbb R^{2\times3}$ 행렬은 행이 2개이고 열이 3개이며 원소는 6개다.
 
+아래 그림은 연습문제 1의 행렬에서 둘째 행과 셋째 열을 찾는다. 두 표시가 만나는 원소가 $a_{23}$이다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Row two and column three intersect at entry five in a two by three matrix](../../figures/assets/M02/M02-04-rows-columns-entry.svg)
+
+<figcaption>첫 첨자는 행, 둘째 첨자는 열을 정한다. a₂₃=5이며 shape (2,3)은 이 원소의 위치가 아니라 전체 행·열의 수다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. 행렬과 벡터의 곱은 행별 내적이다
 
 $\mathbf A\in\mathbb R^{m\times n}$과 $\mathbf x\in\mathbb R^n$을 곱하면
@@ -90,6 +99,15 @@ y_i
 이다. $\mathbf A$의 $i$번째 행과 $\mathbf x$의 내적을 계산한 값이다.
 
 입력의 dimension $n$은 행렬의 열 수와 같아야 한다. 출력 dimension은 행렬의 행 수 $m$이다.
+
+아래 그림에서는 예제 1의 같은 입력을 행마다 다시 사용한다. 각 행의 내적은 출력 벡터의 성분 하나를 만든다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Each matrix row is dotted with the same input four five to produce output components fourteen and eleven](../../figures/assets/M02/M02-04-row-inner-products.svg)
+
+<figcaption>첫 행은 y₁=14, 둘째 행은 y₂=11을 만든다. 행마다 scalar 하나를 계산한 뒤 이 값들을 출력 열벡터로 모은다.</figcaption>
+</figure>
 
 ## 핵심 개념 3. 같은 곱을 열벡터의 선형결합으로 볼 수 있다
 
@@ -114,6 +132,17 @@ x_1\mathbf a_1+\cdots+x_n\mathbf a_n
 이다.
 
 입력 성분 $x_j$가 $\mathbf A$의 $j$번째 열에 곱해지고, 모든 열을 더해 출력 벡터를 만든다. 따라서 $\mathbf A\mathbf x$는 $\mathbf A$의 열들이 만드는 span에 속한다.
+
+이 선형결합의 $i$번째 성분만 보면 $x_1a_{i1}+\cdots+x_na_{in}$이다. 앞 절의 행별 내적 $\sum_j a_{ij}x_j$와 같은 항을 더한다. 행 관점에서는 출력 성분 하나를, 열 관점에서는 출력 벡터 전체를 한 번에 계산하므로 서로 다른 연산이 아니라 같은 곱의 두 표현이다.
+
+아래 그림은 같은 예제의 열벡터에 입력 성분 4와 5를 계수로 곱한다. 두 이동을 이어 붙인 끝점은 행별 내적에서 얻은 $(14,11)$과 같다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Four times the first matrix column followed by five times the second column reaches the output fourteen eleven](../../figures/assets/M02/M02-04-column-combination.svg)
+
+<figcaption>4(1,-1)ᵀ+5(2,3)ᵀ=(14,11)ᵀ다. 격자 한 칸은 두 단위이며, 파란색과 보라색 이동의 합을 초록색 출력 벡터와 비교한다.</figcaption>
+</figure>
 
 ## 핵심 개념 4. 행렬곱은 가운데 dimension을 합산한다
 
@@ -141,6 +170,15 @@ c_{ij}
 
 이다. $\mathbf A$의 $i$번째 행과 $\mathbf B$의 $j$번째 열을 내적한다. $k$는 곱에서 합산되어 사라지는 안쪽 인덱스다.
 
+아래 그림은 예제 2에서 출력 원소 $c_{22}$를 고르는 과정을 나타낸다. 왼쪽 둘째 행과 오른쪽 둘째 열의 세 원소를 대응시켜 곱하고 더한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The second row of a two by three matrix and second column of a three by two matrix yield output entry nine](../../figures/assets/M02/M02-04-row-column-product.svg)
+
+<figcaption>합산하는 안쪽 dimension은 3이고, 결과에 남는 바깥 dimension은 2×2다. 표시한 행·열의 내적은 −1+12−2=9로 출력의 둘째 행 둘째 열에 들어간다.</figcaption>
+</figure>
+
 ## 핵심 개념 5. 행렬곱은 여러 행렬-벡터 곱을 묶는다
 
 $\mathbf B$의 열을 $\mathbf b_1,\ldots,\mathbf b_p$라고 하면
@@ -160,6 +198,15 @@ $\mathbf B$의 열을 $\mathbf b_1,\ldots,\mathbf b_p$라고 하면
 
 반대로 $\mathbf A\mathbf B$의 각 열은 $\mathbf A$의 열들의 선형결합이다. 계수는 $\mathbf B$의 해당 열에서 온다.
 
+아래 그림은 예제 2의 두 입력 열에 같은 행렬을 적용한다. 출력 열을 입력과 같은 순서로 쌓으면 행렬곱 전체를 얻는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two input columns pass through the same numeric matrix and become the two corresponding output columns](../../figures/assets/M02/M02-04-column-batch.svg)
+
+<figcaption>b₁은 (2,3)ᵀ, b₂는 (9,9)ᵀ로 바뀐다. 각 열을 따로 계산하는 방식과 한 번에 AB를 계산하는 방식이 같은 결과를 낸다.</figcaption>
+</figure>
+
 ## 핵심 개념 6. 행렬곱은 결합할 수 있지만 순서를 바꿀 수 없다
 
 shape이 맞으면
@@ -172,6 +219,15 @@ shape이 맞으면
 
 이다. 행렬곱은 결합법칙을 만족한다.
 
+원소별 계산에서 확인할 수도 있다. 중간 인덱스를 $k,r$로 두면 $(\mathbf A\mathbf B)\mathbf C$의 $i,j$ 원소와 $\mathbf A(\mathbf B\mathbf C)$의 $i,j$ 원소는 각각
+
+\[
+\sum_r\left(\sum_k a_{ik}b_{kr}\right)c_{rj}
+=\sum_k a_{ik}\left(\sum_r b_{kr}c_{rj}\right)
+\]
+
+로 같다. 양쪽 모두 모든 중간 인덱스 쌍에 대해 $a_{ik}b_{kr}c_{rj}$를 더한다. 유한 합의 분배·결합법칙으로 묶는 위치를 바꾸었으며, 행렬의 나열 순서 $\mathbf A,\mathbf B,\mathbf C$는 유지했다.
+
 일반적으로
 
 \[
@@ -179,6 +235,17 @@ shape이 맞으면
 \]
 
 이다. 한쪽 곱만 정의될 수도 있고, 두 곱이 모두 정의돼도 값이나 shape이 다를 수 있다. 신경망 계산에서 행렬의 순서는 연산 적용 순서를 정한다.
+
+열벡터에 $(\mathbf A\mathbf B)\mathbf x=\mathbf A(\mathbf B\mathbf x)$를 적용하면 오른쪽의 $\mathbf B$를 먼저 쓰고 그 결과에 $\mathbf A$를 쓴다. $\mathbf B\mathbf A$로 순서를 바꾸면 먼저 수행하는 계산부터 달라진다. 결합법칙은 중간 곱을 계산하는 묶음만 바꾸는 성질이다.
+
+아래 그림은 예제 3의 두 행렬을 입력 $(1,1)^\top$에 적용한다. 행렬 나열 순서를 바꾸면 중간 벡터부터 달라진다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Applying scale B then shear A produces five three while applying shear A then scale B produces four three](../../figures/assets/M02/M02-04-multiplication-order.svg)
+
+<figcaption>ABx에서는 B를 먼저 적용해 (2,3)ᵀ를 얻고 최종 출력은 (5,3)ᵀ다. 반대 순서의 최종 출력은 (4,3)ᵀ이므로 결합과 순서 교환을 구분한다.</figcaption>
+</figure>
 
 ## 핵심 개념 7. 항등행렬은 벡터와 행렬을 바꾸지 않는다
 
@@ -210,6 +277,17 @@ $n\times n$ 항등행렬은
 \]
 
 이다. 항등행렬의 크기는 곱의 위치에 맞춰야 한다.
+
+$\mathbf I_n\mathbf x$의 $i$번째 성분에서는 $i$번째 계수만 1이고 나머지는 0이므로 $x_i$만 남는다. 같은 선택이 행렬에도 적용된다. $\mathbf I_m\mathbf A$는 행을 바꾸지 않고, $\mathbf A\mathbf I_n$은 열을 바꾸지 않는다. 행 수 $m$과 열 수 $n$이 다르면 왼쪽과 오른쪽에 쓰는 항등행렬의 크기도 다르다.
+
+아래 그림에서 대각선의 1은 대응 입력 성분을 남기고 다른 0들은 나머지 성분의 기여를 없앤다. 행별 내적을 계산하면 입력과 같은 벡터를 얻는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The diagonal ones of the identity matrix select each matching component and preserve the input column four five six](../../figures/assets/M02/M02-04-identity-selection.svg)
+
+<figcaption>첫 행은 4, 둘째 행은 5, 셋째 행은 6만 남긴다. 이 선택 구조가 항등행렬이 벡터를 바꾸지 않는 이유다.</figcaption>
+</figure>
 
 ## 핵심 개념 8. 행 단위 데이터에서는 전치가 들어간다
 
@@ -243,7 +321,16 @@ $N$개 입력의 전치를 행으로 쌓아
 \in\mathbb R^{N\times d_{\mathrm{out}}}
 \]
 
-가 된다. 벡터를 열로 쓰는 이론 관례와 표본을 행으로 쌓는 데이터 관례를 혼합하지 않아야 한다.
+가 된다. $\mathbf W$의 $i$행 $j$열 원소를 $w_{ij}$로 쓰면 $n$번째 표본의 $i$번째 출력은 원래 열벡터 식에서 $\sum_j w_{ij}(x_n)_j$다. 행 데이터 곱의 같은 위치에서는 $\sum_j X_{nj}(W^\top)_{ji}$를 계산한다. $X_{nj}=(x_n)_j$이고 $(W^\top)_{ji}=w_{ij}$이므로 각 출력 성분이 일치한다. 전치는 각 출력의 가중치 행을 행렬곱이 읽는 열 위치에 배치한다. 벡터를 열로 쓰는 이론 관례와 표본을 행으로 쌓는 데이터 관례를 혼합하지 않아야 한다.
+
+아래 그림은 같은 가중치와 입력을 두 저장 방식으로 계산한다. 위쪽 출력 열벡터의 두 값이 아래쪽 출력 행렬의 첫 행에서 같은 순서로 나타난다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The same sample produces the same output under column multiplication W x and row stacked multiplication X W transpose](../../figures/assets/M02/M02-04-row-data-transpose.svg)
+
+<figcaption>위쪽은 Wx₁=(2,1)ᵀ다. 아래쪽은 두 입력을 행으로 쌓고 Wᵀ를 곱하며, 첫 출력 행은 (2,1)로 일치한다. 표본 수 2는 유지되고 feature 수는 3에서 2로 바뀐다.</figcaption>
+</figure>
 
 ## 예제 1. 행렬-벡터 곱
 

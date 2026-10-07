@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 500" role="img" aria-labelledby="title desc">
+  <title id="title">Pivot columns determine whether a homogeneous coefficient system is independent</title>
+  <desc id="desc">The left reduced matrix is the two by two identity with a pivot in every coefficient column. The right matrix has a third nonpivot column, allowing c three to be a free parameter and giving a nonzero combination of the original columns that equals zero.</desc>
+  <rect width="960" height="500" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="480" y="40" text-anchor="middle" font-size="24" font-weight="700">Look for a pivot in every coefficient column</text>
+    <text x="230" y="99" text-anchor="middle" font-size="21" font-weight="700" fill="#065F46">Two independent columns</text><text x="715" y="99" text-anchor="middle" font-size="21" font-weight="700" fill="#5B21B6">Three columns in two rows</text>
+    <g font-size="18" fill="#475569"><text x="175" y="156" text-anchor="middle">c₁</text><text x="245" y="156" text-anchor="middle">c₂</text><text x="320" y="156" text-anchor="middle">0</text><text x="600" y="156" text-anchor="middle">c₁</text><text x="670" y="156" text-anchor="middle">c₂</text><text x="740" y="156" text-anchor="middle">c₃</text><text x="815" y="156" text-anchor="middle">0</text></g>
+    <rect x="151" y="188" width="48" height="48" rx="8" fill="#D1FAE5" stroke="#059669"/><rect x="221" y="258" width="48" height="48" rx="8" fill="#D1FAE5" stroke="#059669"/>
+    <rect x="576" y="188" width="48" height="48" rx="8" fill="#D1FAE5" stroke="#059669"/><rect x="646" y="258" width="48" height="48" rx="8" fill="#D1FAE5" stroke="#059669"/><rect x="716" y="181" width="48" height="133" rx="8" fill="#EDE9FE" stroke="#C4B5FD"/>
+    <path d="M130 180H118V315H130M343 180H355V315H343M560 180H548V315H560M838 180H850V315H838M285 180V315M780 180V315" fill="none" stroke="#334155" stroke-width="2"/>
+    <g font-size="25" text-anchor="middle"><text x="175" y="222">1</text><text x="245" y="222">0</text><text x="320" y="222">0</text><text x="175" y="292">0</text><text x="245" y="292">1</text><text x="320" y="292">0</text><text x="600" y="222">1</text><text x="670" y="222">0</text><text x="740" y="222">1</text><text x="815" y="222">0</text><text x="600" y="292">0</text><text x="670" y="292">1</text><text x="740" y="292">1</text><text x="815" y="292">0</text></g>
+    <text x="230" y="366" text-anchor="middle" font-size="20" fill="#065F46">Only c₁ = c₂ = 0</text><text x="715" y="366" text-anchor="middle" font-size="20" fill="#5B21B6">c₃ = t, c₁ = −t, c₂ = −t</text>
+    <text x="230" y="405" text-anchor="middle" font-size="18" fill="#334155">Every coefficient is determined.</text><text x="715" y="405" text-anchor="middle" font-size="18" fill="#334155">Choose t = 1: (−1, −1, 1) ≠ 0.</text>
+    <text x="480" y="468" text-anchor="middle" font-size="18" fill="#475569">Green outlined cells are pivots; the purple column has a free coefficient.</text>
+  </g>
+</svg>

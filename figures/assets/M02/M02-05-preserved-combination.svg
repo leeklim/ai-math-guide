@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 510" role="img" aria-labelledby="title desc">
+  <title id="title">Transforming a sum equals summing the transformed vectors</title>
+  <desc id="desc">The left coordinate grid joins standard vectors one zero and zero one to their sum one one. The right grid joins their images two zero and one three to three three. The matrix map sends the original sum to that same output.</desc>
+  <defs><pattern id="left-grid" width="60" height="60" x="20" patternUnits="userSpaceOnUse"><path d="M60 0H0V60" fill="none" stroke="#E2E8F0"/></pattern><pattern id="right-grid" width="40" height="40" x="20" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="900" height="510" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="450" y="42" text-anchor="middle" font-size="24" font-weight="700">A(u + v) = Au + Av</text>
+    <text x="450" y="78" text-anchor="middle" font-size="18" fill="#475569">A(x₁, x₂) = (2x₁ + x₂, 3x₂)</text>
+    <text x="220" y="126" text-anchor="middle" font-size="21" font-weight="700" fill="#1E3A8A">Combine the inputs</text><text x="670" y="126" text-anchor="middle" font-size="21" font-weight="700" fill="#065F46">Combine their images</text>
+    <rect x="80" y="180" width="240" height="240" fill="url(#left-grid)"/><rect x="540" y="160" width="280" height="240" fill="url(#right-grid)"/>
+    <path d="M65 360H335M200 435V160M525 360H835M620 415V145" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M200 360L260 360" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/><path d="M200 360L200 300" fill="none" stroke="#2563EB" stroke-width="4" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+    <path d="M260 360L260 300" fill="none" stroke="#7C3AED" stroke-width="3" stroke-dasharray="7 5" marker-end="url(#arrow)"/><path d="M200 360L260 300" fill="none" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M620 360L700 360" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/><path d="M620 360L660 240" fill="none" stroke="#2563EB" stroke-width="4" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+    <path d="M660 240L740 240" fill="none" stroke="#7C3AED" stroke-width="3" stroke-dasharray="7 5" marker-end="url(#arrow)"/><path d="M700 360L740 240" fill="none" stroke="#7C3AED" stroke-width="3" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+    <path d="M620 360L740 240" fill="none" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M365 282H480" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/><text x="420" y="249" text-anchor="middle" font-size="21" font-weight="700" fill="#5B21B6">A</text>
+    <g font-size="18" font-weight="700"><text x="271" y="397" fill="#1E3A8A">u = (1, 0)</text><text x="84" y="285" fill="#1E3A8A">v = (0, 1)</text><text x="268" y="265" fill="#065F46">u + v</text><text x="653" y="397" fill="#1E3A8A">Au = (2, 0)</text><text x="534" y="207" fill="#1E3A8A">Av = (1, 3)</text><text x="766" y="263" fill="#065F46">(3, 3)</text></g>
+    <text x="450" y="470" text-anchor="middle" font-size="19" fill="#334155">The two calculation orders reach the same output vector.</text>
+  </g>
+</svg>

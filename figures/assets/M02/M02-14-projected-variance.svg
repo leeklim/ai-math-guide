@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 600" role="img" aria-labelledby="title desc">
+  <title id="title">PCA compares sample spread along orthogonal unit directions</title>
+  <desc id="desc">Four exact centered points with covariance two one one two project to first-component scores plus or minus three over square root two and two zeros, or second-component scores plus or minus square root three over square root two and two zeros. Their sample variances are three and one.</desc>
+  <defs><pattern id="grid" width="50" height="50" x="30" y="0" patternUnits="userSpaceOnUse"><path d="M50 0H0V50" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="1080" height="600" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="540" y="42" text-anchor="middle" font-size="24" font-weight="700">The same centered samples produce different projection variances</text>
+    <text x="230" y="108" text-anchor="middle" font-size="21" font-weight="700">S = [2, 1; 1, 2]</text><text x="725" y="108" text-anchor="middle" font-size="21" font-weight="700">One scalar score per sample</text>
+    <rect x="80" y="180" width="300" height="300" fill="url(#grid)"/><path d="M60 350H400M230 490V160" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M120 460L340 240M120 240L340 460" fill="none" stroke="#CBD5E1" stroke-width="2" stroke-dasharray="6 5"/>
+    <g fill="#2563EB"><circle cx="305" cy="275" r="6"/><circle cx="155" cy="425" r="6"/><circle cx="273.301" cy="393.301" r="6"/><circle cx="186.699" cy="306.699" r="6"/></g>
+    <path d="M230 350L265.355 314.645" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/><path d="M230 350L265.355 385.355" stroke="#7C3AED" stroke-width="4" marker-end="url(#arrow)"/>
+    <text x="325" y="248" font-size="19" fill="#065F46">v₁</text><text x="330" y="456" font-size="19" fill="#5B21B6">v₂</text>
+    <path d="M510 250H1000M510 385H1000" fill="none" stroke="#94A3B8" stroke-width="2"/><path d="M755 229V271M755 364V406" stroke="#94A3B8" stroke-width="2"/>
+    <g fill="#059669"><circle cx="648.934" cy="250" r="6"/><circle cx="861.066" cy="250" r="6"/><circle cx="755" cy="240" r="6"/><circle cx="755" cy="260" r="6"/></g><g fill="#7C3AED"><circle cx="693.763" cy="385" r="6"/><circle cx="816.237" cy="385" r="6"/><circle cx="755" cy="375" r="6"/><circle cx="755" cy="395" r="6"/></g>
+    <g font-size="19" text-anchor="middle"><text x="755" y="199" fill="#065F46">PC1: (3/√2, −3/√2, 0, 0)</text><text x="755" y="334" fill="#5B21B6">PC2: (0, 0, √3/√2, −√3/√2)</text><text x="755" y="292" fill="#065F46">Variance = 9/(4 − 1) = 3</text><text x="755" y="433" fill="#5B21B6">Variance = 3/(4 − 1) = 1</text></g>
+    <text x="540" y="509" text-anchor="middle" font-size="20" fill="#334155">PC1 preserves 3/(3 + 1) = 75% of variance. PC2 preserves the remaining 25%.</text>
+    <text x="540" y="552" text-anchor="middle" font-size="17" fill="#475569">Points: ±(3/2, 3/2) and ±(√3/2, −√3/2). Directions v₁ and v₂ are unit vectors.</text>
+    <text x="540" y="581" text-anchor="middle" font-size="16" fill="#475569">All length scales: 50 px per unit. Two zero scores are offset vertically only to distinguish the samples.</text>
+  </g>
+</svg>

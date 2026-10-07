@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1220 570" role="img" aria-labelledby="title desc">
+  <title id="title">Spectral decomposition uses norm-preserving coordinates around the eigenvalue scaling</title>
+  <desc id="desc">Four common-scale plots trace x two zero to orthonormal eigenbasis coefficients square root two square root two, scaled coefficients three square root two square root two, and output four two. Norms are two before scaling and square root twenty after scaling.</desc>
+  <defs><pattern id="grid" width="30" height="30" x="10" y="20" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" fill="none" stroke="#E2E8F0"/></pattern><pattern id="grid2" width="30" height="30" x="15" y="20" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" fill="none" stroke="#E2E8F0"/></pattern><pattern id="grid3" width="30" height="30" x="20" y="20" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="1220" height="570" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="610" y="40" text-anchor="middle" font-size="24" font-weight="700">Ax = QΛQᵀx: orthogonal coordinates isolate the actual scaling</text>
+    <g font-size="20" font-weight="700" text-anchor="middle"><text x="145" y="102" fill="#1E3A8A">x = (2, 0)</text><text x="430" y="102" fill="#5B21B6">c = (√2, √2)</text><text x="735" y="102" fill="#5B21B6">Λc = (3√2, √2)</text><text x="1060" y="102" fill="#065F46">Ax = (4, 2)</text></g>
+    <g font-size="17" fill="#475569" text-anchor="middle"><text x="145" y="143">Standard coordinates</text><text x="430" y="143">Eigenbasis coefficients</text><text x="735" y="143">Eigenbasis coefficients</text><text x="1060" y="143">Standard coordinates</text></g>
+    <rect x="70" y="200" width="150" height="210" fill="url(#grid)"/><rect x="345" y="200" width="180" height="210" fill="url(#grid2)"/><rect x="650" y="200" width="210" height="210" fill="url(#grid3)"/><rect x="960" y="200" width="180" height="210" fill="url(#grid)"/>
+    <path d="M50 350H240M100 430V175M325 350H545M375 430V175M630 350H880M680 430V175M940 350H1160M1000 430V175" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M100 350H160" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/><path d="M375 350L417.426 307.574" fill="none" stroke="#7C3AED" stroke-width="4" marker-end="url(#arrow)"/><path d="M680 350L807.279 307.574" fill="none" stroke="#7C3AED" stroke-width="4" marker-end="url(#arrow)"/><path d="M1000 350L1120 290" fill="none" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M262 290H300" fill="none" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#arrow)"/><path d="M560 290H603" fill="none" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#arrow)"/><path d="M900 290H925" fill="none" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <text x="281" y="258" text-anchor="middle" font-size="20" fill="#5B21B6">Qᵀ</text><text x="582" y="258" text-anchor="middle" font-size="20" fill="#5B21B6">Λ</text><text x="913" y="258" text-anchor="middle" font-size="20" fill="#5B21B6">Q</text>
+    <g font-size="19" text-anchor="middle" fill="#334155"><text x="145" y="471">Norm 2</text><text x="430" y="471">Norm 2</text><text x="735" y="471">Norm √20</text><text x="1060" y="471">Norm √20</text></g>
+    <text x="610" y="538" text-anchor="middle" font-size="18" fill="#475569">Q and Qᵀ preserve lengths. Only Λ changes them here. Orthogonal coordinates may include reflection.</text>
+  </g>
+</svg>

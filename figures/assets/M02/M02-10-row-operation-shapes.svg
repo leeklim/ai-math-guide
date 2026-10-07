@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 540" role="img" aria-labelledby="title desc">
+  <title id="title">Elementary row operations have different effects on area and orientation</title>
+  <desc id="desc">Three transformed unit squares visualize swapping output axes, doubling the first output coordinate, and adding the second coordinate to the first. Their determinant multipliers are minus one, two, and one.</desc>
+  <defs><pattern id="grid" width="50" height="50" x="20" patternUnits="userSpaceOnUse"><path d="M50 0H0V50" fill="none" stroke="#E2E8F0"/></pattern><pattern id="grid2" width="50" height="50" x="30" patternUnits="userSpaceOnUse"><path d="M50 0H0V50" fill="none" stroke="#E2E8F0"/></pattern><pattern id="grid3" width="50" height="50" x="40" patternUnits="userSpaceOnUse"><path d="M50 0H0V50" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="1080" height="540" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="540" y="40" text-anchor="middle" font-size="24" font-weight="700">Reversible row operations do not all preserve determinant</text>
+    <text x="180" y="100" text-anchor="middle" font-size="20" font-weight="700">Swap R₁ and R₂</text><text x="540" y="100" text-anchor="middle" font-size="20" font-weight="700">R₁ ← 2R₁</text><text x="900" y="100" text-anchor="middle" font-size="20" font-weight="700">R₁ ← R₁ + R₂</text>
+    <rect x="70" y="180" width="200" height="200" fill="url(#grid)"/><rect x="430" y="180" width="200" height="200" fill="url(#grid2)"/><rect x="790" y="180" width="200" height="200" fill="url(#grid3)"/>
+    <path d="M50 350H290M120 410V155M410 350H650M480 410V155M770 350H1010M840 410V155" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <rect x="120" y="300" width="50" height="50" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/><rect x="480" y="300" width="100" height="50" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/><path d="M840 350H890L940 300H890Z" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+    <path d="M120 350V300" fill="none" stroke="#2563EB" stroke-width="3" marker-end="url(#arrow)"/><path d="M120 350H170" fill="none" stroke="#D97706" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="75" y="279" font-size="18" fill="#1E3A8A">1st</text><text x="185" y="379" font-size="18" fill="#92400E">2nd</text>
+    <text x="180" y="449" text-anchor="middle" font-size="20" fill="#5B21B6">det multiplier: −1</text><text x="540" y="449" text-anchor="middle" font-size="20" fill="#5B21B6">det multiplier: 2</text><text x="900" y="449" text-anchor="middle" font-size="20" fill="#5B21B6">det multiplier: 1</text>
+    <text x="180" y="491" text-anchor="middle" font-size="18" fill="#334155">Area 1, reversed order.</text><text x="540" y="491" text-anchor="middle" font-size="18" fill="#334155">Area 2.</text><text x="900" y="491" text-anchor="middle" font-size="18" fill="#334155">Shear changes shape, not area.</text>
+  </g>
+</svg>

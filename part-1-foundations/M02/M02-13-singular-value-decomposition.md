@@ -86,9 +86,18 @@ $\mathbf U$와 $\mathbf V$는 직교행렬이다.
 \mathbf V^\top\mathbf V=\mathbf I_n
 \]
 
-$\boldsymbol\Sigma$는 주대각에 특이값을 놓고 나머지 원소를 0으로 둔 직사각 대각행렬이다.
+$\boldsymbol\Sigma$는 주대각에 특이값을 놓고 나머지 원소를 0으로 둔 직사각 대각행렬이다. 대각 위치는 $\min(m,n)$개이므로 그만큼의 특이값을 0까지 포함해 나열할 수 있다. 세 인자의 곱은 $(m\times m)(m\times n)(n\times n)$이어서 원래 $m\times n$ 행렬을 만든다. 입력과 출력의 기저를 각각 갖기 때문에 두 차원이 달라도 분해할 수 있다.
 
-## 핵심 개념 2. SVD는 입력 회전, 축별 배율과 출력 회전이다
+아래 그림은 예제 1의 $3\times2$ 행렬이 두 입력 방향을 세 출력 좌표 중 한 평면으로 보내는 모습을 나타낸다. 출력공간이 3차원이라는 사실과 실제 image의 dimension이 2라는 사실을 구분해서 본다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two input basis directions mapped into a rank two plane in three dimensional output space by a rectangular SVD](../../figures/assets/M02/M02-13-rectangular-singular-map.svg)
+
+<figcaption>입력 e₁은 3u₁으로, e₂는 u₂로 가고 모든 출력의 셋째 성분은 0이다. compact SVD는 쓰이지 않는 출력 기저 열을 빼되 원래 변환을 정확히 유지한다.</figcaption>
+</figure>
+
+## 핵심 개념 2. SVD는 입력 좌표변환, 축별 배율과 출력 좌표변환이다
 
 \[
 \mathbf A\mathbf x
@@ -110,9 +119,13 @@ $\boldsymbol\Sigma$는 주대각에 특이값을 놓고 나머지 원소를 0으
 
 이다. $\mathbf v_i$ 방향의 단위 입력이 $\mathbf u_i$ 방향으로 가며 길이가 $\sigma_i$배 된다.
 
+$\mathbf V^\top\mathbf v_i=\mathbf e_i$이므로 이 입력은 특이기저에서 $i$번째 좌표만 1이다. $\boldsymbol\Sigma$가 그 좌표에 $\sigma_i$를 곱하고 $\mathbf U$가 대응하는 출력 기저 벡터로 결합한다. 일반 입력은 이런 방향 성분들의 합이므로 각 성분의 출력을 더해 구한다.
+
+dimension 변경도 $\boldsymbol\Sigma$에서 일어난다. $m<n$이면 대각 위치를 넘는 입력 좌표들은 출력에 기여하지 않는다. $m>n$이면 대각 위치를 넘는 출력 기저 좌표들은 0이다. 어느 경우든 특이값 0에 대응하는 입력 성분은 출력에서 사라진다. $\mathbf U$와 $\mathbf V^\top$ 자체는 길이를 유지하는 직교 좌표변환이며 회전뿐 아니라 반사를 포함할 수 있다.
+
 ### 시각적 직관: 단위원이 타원으로 바뀌는 세 단계
 
-<figure class="lesson-figure" markdown="1">
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
 
 ![A unit circle transformed by V transpose Sigma and U into a rotated ellipse](../../figures/assets/M02/M02-13-svd-three-stage.svg)
 
@@ -136,10 +149,13 @@ $\boldsymbol\Sigma$는 주대각에 특이값을 놓고 나머지 원소를 0으
 \[
 \mathbf A^\top\mathbf A
 =
+\mathbf V\boldsymbol\Sigma^\top\mathbf U^\top
+\mathbf U\boldsymbol\Sigma\mathbf V^\top
+=
 \mathbf V\boldsymbol\Sigma^\top\boldsymbol\Sigma\mathbf V^\top
 \]
 
-이다. 따라서 $\mathbf v_i$는 $\mathbf A^\top\mathbf A$의 고유벡터이고
+이다. 전치에서 인자의 순서를 뒤집은 뒤 $\mathbf U^\top\mathbf U=\mathbf I_m$을 적용했다. $\boldsymbol\Sigma^\top\boldsymbol\Sigma$의 대각에는 특이값의 제곱이 놓인다. 따라서 대각 위치에 대응하는 $\mathbf v_i$는 $\mathbf A^\top\mathbf A$의 고유벡터이고
 
 \[
 \mathbf A^\top\mathbf A\mathbf v_i
@@ -157,7 +173,27 @@ $\boldsymbol\Sigma$는 주대각에 특이값을 놓고 나머지 원소를 0으
 \sigma_i^2\mathbf u_i
 \]
 
-이다. $\mathbf A^\top\mathbf A$와 $\mathbf A\mathbf A^\top$은 대칭 PSD 행렬이므로 고유값이 0 이상이고 정규직교 고유기저를 갖는다.
+이다. $\mathbf A^\top\mathbf A$는 $n\times n$, $\mathbf A\mathbf A^\top$은 $m\times m$이어서 각각 입력과 출력 공간의 방향을 다룬다. 두 행렬의 양의 고유값은 같은 $\sigma_i^2$들이지만, 차원이 다르면 0인 고유값의 개수는 다를 수 있다.
+
+이 행렬들이 PSD인 이유는 제곱 norm으로 확인한다.
+
+\[
+\mathbf x^\top\mathbf A^\top\mathbf A\mathbf x
+=(\mathbf A\mathbf x)^\top(\mathbf A\mathbf x)
+=\|\mathbf A\mathbf x\|_2^2
+\ge0
+\]
+
+$\mathbf A\mathbf A^\top$에서도 $\mathbf A^\top$를 적용한 출력 공간 벡터의 제곱 norm으로 같은 결론을 얻는다. 두 행렬은 대칭이기도 하므로 M02-12의 스펙트럼 정리를 쓸 수 있다. 양의 고유값의 제곱근이 특이값이며, 오른쪽 특이벡터를 골랐다면 $\mathbf u_i=\mathbf A\mathbf v_i/\sigma_i$로 대응하는 왼쪽 방향을 정할 수 있다. 위 식에서 $\|\mathbf A\mathbf v_i\|_2^2=\sigma_i^2$이므로 이렇게 얻은 벡터는 길이 1이다. 특이값이 0인 경우에는 이 나눗셈을 사용하지 않는다.
+
+아래 그림은 $\mathbf A=\operatorname{diag}(3,1)$에서 입력 특이방향을 따라 $\mathbf A$와 $\mathbf A^\top$를 차례로 적용한다. 첫 변환의 배율 3은 합성에서 9가 되지만, 두 norm이 요약하는 원래 행렬의 배율은 여전히 3과 1이다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Singular direction arrows with gains three and one followed by squared gains nine and one under A transpose A](../../figures/assets/M02/M02-13-gram-squared-gains.svg)
+
+<figcaption>각 행의 화살표 길이는 같은 특이방향에서의 배율을 비교한다. AᵀA의 고유값은 배율의 제곱이며, spectral norm은 최대 배율, Frobenius norm은 모든 배율의 제곱합을 요약한다.</figcaption>
+</figure>
 
 ## 핵심 개념 4. compact SVD는 0이 아닌 성분만 남긴다
 
@@ -190,11 +226,29 @@ compact SVD를 합으로 쓰면
 \sigma_i\mathbf u_i\mathbf v_i^\top
 \]
 
-이다. 각 항은 rank 1 행렬이다. 양의 특이값 수가 rank와 같다.
+이다. 각 항을 입력에 적용하면
+
+\[
+(\sigma_i\mathbf u_i\mathbf v_i^\top)\mathbf x
+=\sigma_i\mathbf u_i(\mathbf v_i^\top\mathbf x)
+\]
+
+이다. 입력에서 방향 계수 하나를 읽어 출력 방향 하나에 실어 보내므로 각 양의 특이성분은 rank 1이다. 행렬의 image는 이 $r$개의 $\mathbf u_i$가 생성하고, 서로 직교하는 이 방향들을 각각 $\mathbf v_i$ 입력으로 만들 수 있다. 따라서 양의 특이값 수가 rank다.
+
+특이값 0인 항은 어떤 입력에서도 출력에 기여하지 않는다. 그 항을 빼는 compact SVD는 근사가 아니라 원래 행렬의 정확한 표현이다. 원소를 일부 생략했지만 세 인자의 곱은 여전히 $m\times n$이다. 영행렬에서는 양의 특이성분이 없고 합도 영행렬이다.
 
 ## 핵심 개념 5. 특이값은 행렬의 크기와 증폭을 나타낸다
 
-가장 큰 특이값은 단위벡터를 가장 크게 늘리는 배율이다.
+입력 특이기저 좌표를 $\mathbf c=\mathbf V^\top\mathbf x$라고 하자. 직교 변환은 norm을 유지하므로 단위 입력에서는 $\sum_{i=1}^{n}c_i^2=1$이다. 출력은 서로 직교하는 $\mathbf u_i$ 방향의 합이어서
+
+\[
+\|\mathbf A\mathbf x\|_2^2
+=\sum_{i=1}^{r}\sigma_i^2c_i^2
+\le\sigma_1^2\sum_{i=1}^{n}c_i^2
+=\sigma_1^2
+\]
+
+이다. $\mathbf x=\mathbf v_1$을 고르면 가장 큰 배율을 갖는 항만 남아 등호가 된다. 영행렬에서는 모든 입력의 출력 norm이 0이다. 따라서 가장 큰 특이값은 단위벡터를 가장 크게 늘리는 배율이다.
 
 \[
 \|\mathbf A\|_2
@@ -215,6 +269,8 @@ Frobenius norm은 모든 특이값 제곱합의 제곱근이다.
 \sqrt{\sum_{i=1}^{r}\sigma_i^2}
 \]
 
+왼쪽에 직교행렬을 곱하면 각 열의 norm이 유지되고, 오른쪽에 직교행렬을 곱하면 각 행의 norm이 유지된다. 어느 경우든 모든 원소의 제곱합은 같다. 따라서 SVD에서 $\mathbf U$와 $\mathbf V^\top$는 Frobenius norm을 바꾸지 않으며, $\boldsymbol\Sigma$의 0이 아닌 대각 원소 제곱합만 계산하면 된다.
+
 두 norm은 서로 다른 질문에 답한다. spectral norm은 가장 큰 방향별 증폭을, Frobenius norm은 행렬 전체 성분의 제곱 크기를 요약한다.
 
 ## 핵심 개념 6. truncated SVD는 최적 저랭크 근사를 준다
@@ -228,9 +284,9 @@ Frobenius norm은 모든 특이값 제곱합의 제곱근이다.
 \sigma_i\mathbf u_i\mathbf v_i^\top
 \]
 
-이다. $\mathbf A_k$의 rank는 많아도 $k$다.
+이다. $1\le k\le r$이면 양의 특이성분 $k$개가 남으므로 $\mathbf A_k$의 rank는 $k$다. compact SVD에서 양의 성분까지 버리는 것이므로 $k<r$일 때는 원래 행렬과 다른 근사다.
 
-Eckart-Young 정리에 따르면 $\mathbf A_k$는 spectral norm이나 Frobenius norm에서 $\mathbf A$에 가장 가까운 rank-$k$ 행렬이다. 오차는
+Eckart-Young 정리에 따르면 $\mathbf A_k$는 rank가 $k$ 이하인 모든 행렬 중 spectral norm이나 Frobenius norm에서 $\mathbf A$에 가장 가까운 행렬이다. 잔차 $\mathbf A-\mathbf A_k$에는 버린 특이성분만 남는다. 따라서 앞 절의 두 norm 식을 이 잔차에 적용하면 오차는
 
 \[
 \|\mathbf A-\mathbf A_k\|_2
@@ -244,7 +300,16 @@ Eckart-Young 정리에 따르면 $\mathbf A_k$는 spectral norm이나 Frobenius 
 \sum_{i=k+1}^{r}\sigma_i^2
 \]
 
-이다.
+이다. $k=r$이면 모든 양의 성분을 남겨 잔차가 0이다. 이때 spectral 오차 식의 $\sigma_{r+1}$은 남은 양의 특이값이 없다는 뜻으로 0으로 둔다. 최적이라는 말은 여기서 지정한 행렬 norm의 오차에 관한 정리이며, 임의의 과제 성능을 최적화한다는 뜻은 아니다.
+
+아래 그림은 입력 $(1,2)^\top$를 두 rank-1 성분이 각각 읽어 낸 뒤 출력을 더하는 과정과, 둘째 성분을 버린 결과를 비교한다. 버린 행렬의 norm과 특정 입력에서의 잔차 길이는 서로 다른 양이다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two rank one singular components produce perpendicular output vectors and rank one truncation removes the second component](../../figures/assets/M02/M02-13-singular-components-truncation.svg)
+
+<figcaption>각 성분은 입력 계수 하나를 읽어 출력 방향 하나로 보낸다. 첫 성분만 남기면 출력 (3,2)에서 (0,2)가 사라지며, 그 길이 2는 버린 특이값 1에 이 입력의 둘째 계수 2를 곱한 값이다.</figcaption>
+</figure>
 
 ## 핵심 개념 7. 특이벡터의 부호와 반복 특이값에는 자유도가 있다
 
@@ -254,7 +319,24 @@ Eckart-Young 정리에 따르면 $\mathbf A_k$는 spectral norm이나 Frobenius 
 
 에서 $\mathbf u_i$와 $\mathbf v_i$의 부호를 동시에 바꾸어도 같은 행렬을 얻는다. 따라서 특이벡터의 부호 자체에는 고정된 의미가 없다.
 
-같은 특이값이 반복되면 해당 특이부분공간 안에서 정규직교기저를 회전해도 SVD를 만들 수 있다. 개별 특이벡터를 feature로 해석할 때는 seed, 표본과 반복 특이값에 따른 안정성을 확인해야 한다.
+같은 양의 특이값이 반복되면 해당 입력·출력 부분공간의 정규직교기저를 같은 직교 변환으로 바꾸어도 SVD를 만들 수 있다. 이 열들을 각각 $\mathbf U_*$, $\mathbf V_*$에 모으고 공통 특이값을 $\sigma$라고 하면 해당 부분은 $\sigma\mathbf U_*\mathbf V_*^\top$다. 같은 크기의 직교행렬 $\mathbf R$로 두 기저를 바꾸면
+
+\[
+\sigma(\mathbf U_*\mathbf R)(\mathbf V_*\mathbf R)^\top
+=\sigma\mathbf U_*\mathbf R\mathbf R^\top\mathbf V_*^\top
+=\sigma\mathbf U_*\mathbf V_*^\top
+\]
+
+이다. 독립적으로 아무 방향이나 선택하는 것이 아니라 입력과 출력의 대응을 함께 바꾸는 것이다. 반복 특이값 사이에서 잘라 근사하면 남기는 방향을 다르게 골라도 같은 최적 오차를 얻을 수 있다. 개별 특이벡터를 feature로 해석할 때는 seed, 표본과 반복 특이값에 따른 안정성을 확인해야 한다.
+
+아래 그림은 $\mathbf A=2\mathbf I_2$에서 입력·출력 특이기저를 함께 바꿔도 같은 입력의 출력이 같음을 보여 준다. 점선은 선택한 특이방향의 출력이고, 실선은 비교 대상으로 고정한 입력 $(1,0)^\top$의 출력이다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Paired singular bases rotate together for twice the identity while the same input still maps to the same output](../../figures/assets/M02/M02-13-paired-basis-freedom.svg)
+
+<figcaption>반복 특이값의 부분공간 안에서는 기저 방향을 바꿀 수 있다. 바뀌는 것은 분해에 쓰는 방향이며, 행렬과 고정한 입력의 출력은 바뀌지 않는다.</figcaption>
+</figure>
 
 ## 예제 1. 직사각 대각행렬의 SVD
 

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 510" role="img" aria-labelledby="title desc">
+  <title id="title">The kernel is a set of inputs whose entire output is zero</title>
+  <desc id="desc">For A mapping x y to x plus two y, zero, the input kernel is the line through minus two one and the origin. Several points on this line all map to the single zero point in the output plane.</desc>
+  <defs><pattern id="grid" width="55" height="55" x="15" y="25" patternUnits="userSpaceOnUse"><path d="M55 0H0V55" fill="none" stroke="#E2E8F0"/></pattern><pattern id="grid2" width="55" height="55" x="0" y="25" patternUnits="userSpaceOnUse"><path d="M55 0H0V55" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="900" height="510" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="450" y="40" text-anchor="middle" font-size="24" font-weight="700">A(x, y) = (x + 2y, 0)</text>
+    <text x="235" y="95" text-anchor="middle" font-size="21" font-weight="700" fill="#1E3A8A">Kernel in the input plane</text><text x="665" y="95" text-anchor="middle" font-size="21" font-weight="700" fill="#065F46">Zero in the output plane</text>
+    <rect x="125" y="190" width="220" height="220" fill="url(#grid)"/><rect x="550" y="190" width="220" height="220" fill="url(#grid2)"/>
+    <path d="M105 300H365M235 430V170M530 300H790M660 430V170" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M125 245L345 355" fill="none" stroke="#2563EB" stroke-width="3"/><circle cx="125" cy="245" r="4" fill="#2563EB"/><circle cx="235" cy="300" r="4" fill="#2563EB"/><circle cx="345" cy="355" r="4" fill="#2563EB"/>
+    <text x="110" y="217" font-size="19" font-weight="700" fill="#1E3A8A">(−2, 1)</text><text x="249" y="280" font-size="18" fill="#1E3A8A">0</text><text x="276" y="393" font-size="19" fill="#1E3A8A">(2, −1)</text>
+    <path d="M390 290H500" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/><text x="445" y="261" text-anchor="middle" font-size="20" fill="#5B21B6">A</text>
+    <circle cx="660" cy="300" r="6" fill="#059669"/><text x="691" y="337" font-size="20" font-weight="700" fill="#065F46">(0, 0)</text>
+    <text x="235" y="466" text-anchor="middle" font-size="19" fill="#334155">ker(A) = span{(−2, 1)}</text><text x="665" y="466" text-anchor="middle" font-size="19" fill="#334155">All kernel inputs map to this point.</text>
+    <g font-size="16" fill="#475569"><text x="375" y="306">x</text><text x="800" y="306">y₁</text><text x="230" y="157">y</text><text x="653" y="157">y₂</text></g>
+  </g>
+</svg>

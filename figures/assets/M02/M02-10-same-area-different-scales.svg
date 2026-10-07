@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 520" role="img" aria-labelledby="title desc">
+  <title id="title">Determinant one can hide large differences in directional scaling</title>
+  <desc id="desc">At a common coordinate scale, a unit square becomes a thin rectangle ten units wide and one tenth of a unit high. Both areas are one, but one direction stretches by ten and the other shrinks by ten.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="930" height="520" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="465" y="40" text-anchor="middle" font-size="24" font-weight="700">Equal area does not imply equal directional scales</text>
+    <text x="180" y="102" text-anchor="middle" font-size="21" font-weight="700" fill="#1E3A8A">Area 1</text><text x="630" y="102" text-anchor="middle" font-size="21" font-weight="700" fill="#065F46">Area 10 × 0.1 = 1</text>
+    <path d="M90 350H235M140 390V235M310 350H865M340 390V235" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <rect x="140" y="300" width="50" height="50" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/><rect x="340" y="345" width="500" height="5" fill="#059669" stroke="#059669" stroke-width="1"/>
+    <path d="M255 325H290" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+    <path d="M340 409V420H840V409" fill="none" stroke="#059669" stroke-width="1.5"/><text x="590" y="449" text-anchor="middle" font-size="20" fill="#065F46">Width = 10</text>
+    <path d="M635 330V280" fill="none" stroke="#94A3B8" stroke-width="1.5"/><text x="635" y="255" text-anchor="middle" font-size="20" fill="#065F46">Height = 0.1</text>
+    <text x="465" y="485" text-anchor="middle" font-size="18" fill="#475569">Illustrative scales 10 and 0.1; same coordinate scale. The main-text example is more extreme.</text>
+  </g>
+</svg>

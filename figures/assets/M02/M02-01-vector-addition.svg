@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 600" role="img" aria-labelledby="title desc">
+  <title id="title">Vector addition joins displacements and forms a parallelogram</title>
+  <desc id="desc">On a coordinate grid u is two minus one and v is minus three four. Translating v to the tip of u or translating u to the tip of v reaches minus one three. The sum is the diagonal from the origin to that common endpoint.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="700" height="600" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="350" y="42" text-anchor="middle" font-size="24" font-weight="700">Head-to-tail paths share the same endpoint</text>
+    <g stroke="#E2E8F0" stroke-width="1" fill="none">
+      <path d="M140 120V480M190 120V480M240 120V480M290 120V480M340 120V480M390 120V480M440 120V480M490 120V480M540 120V480"/>
+      <path d="M140 130H540M140 180H540M140 230H540M140 280H540M140 330H540M140 380H540M140 430H540M140 480H540"/>
+    </g>
+    <path d="M120 380H560M340 500V105" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <g font-size="16" fill="#475569"><text x="574" y="386">x₁</text><text x="340" y="96" text-anchor="middle">x₂</text><text x="321" y="406">0</text><text x="190" y="406" text-anchor="middle">−3</text><text x="440" y="406" text-anchor="middle">2</text><text x="317" y="186">4</text></g>
+    <path d="M340 380L440 430" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M340 380L190 180" fill="none" stroke="#2563EB" stroke-width="4" stroke-dasharray="8 5" marker-end="url(#arrow)"/>
+    <path d="M440 430L290 230" fill="none" stroke="#7C3AED" stroke-width="3.5" stroke-dasharray="8 5" marker-end="url(#arrow)"/>
+    <path d="M190 180L290 230" fill="none" stroke="#7C3AED" stroke-width="3.5" stroke-dasharray="2 6" marker-end="url(#arrow)"/>
+    <path d="M340 380L290 230" fill="none" stroke="#059669" stroke-width="4.5" marker-end="url(#arrow)"/>
+    <text x="456" y="466" font-size="19" font-weight="700" fill="#1E3A8A">u = (2, −1)</text>
+    <text x="76" y="150" font-size="19" font-weight="700" fill="#1E3A8A">v = (−3, 4)</text>
+    <text x="366" y="210" font-size="19" font-weight="700" fill="#065F46">u + v = (−1, 3)</text>
+    <text x="437" y="282" font-size="18" font-weight="700" fill="#5B21B6">translated v</text>
+    <text x="90" y="310" font-size="18" font-weight="700" fill="#5B21B6">translated u</text>
+    <text x="350" y="548" text-anchor="middle" font-size="18" fill="#334155">Moving an arrow changes its location, not its displacement.</text>
+    <text x="350" y="575" text-anchor="middle" font-size="18" fill="#334155">u + v = v + u = (−1, 3)</text>
+  </g>
+</svg>

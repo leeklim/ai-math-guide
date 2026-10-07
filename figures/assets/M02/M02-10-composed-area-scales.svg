@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 510" role="img" aria-labelledby="title desc">
+  <title id="title">Area multipliers compose multiplicatively</title>
+  <desc id="desc">At one common coordinate scale, a unit square becomes a two by one rectangle under horizontal scaling B and a two by three rectangle under vertical scaling A. Areas one, two, and six show determinant multiplication.</desc>
+  <defs><pattern id="grid" width="50" height="50" x="20" patternUnits="userSpaceOnUse"><path d="M50 0H0V50" fill="none" stroke="#E2E8F0"/></pattern><pattern id="grid2" width="50" height="50" x="0" patternUnits="userSpaceOnUse"><path d="M50 0H0V50" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="1080" height="510" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="540" y="40" text-anchor="middle" font-size="24" font-weight="700">First multiply area by 2, then by 3</text>
+    <text x="190" y="99" text-anchor="middle" font-size="21" font-weight="700">Area 1</text><text x="545" y="99" text-anchor="middle" font-size="21" font-weight="700" fill="#5B21B6">Area 2</text><text x="900" y="99" text-anchor="middle" font-size="21" font-weight="700" fill="#065F46">Area 6</text>
+    <rect x="120" y="150" width="150" height="250" fill="url(#grid)"/><rect x="450" y="150" width="200" height="250" fill="url(#grid2)"/><rect x="800" y="150" width="200" height="250" fill="url(#grid2)"/>
+    <path d="M100 350H290M170 425V130M430 350H670M500 425V130M780 350H1020M850 425V130" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <rect x="170" y="300" width="50" height="50" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/><rect x="500" y="300" width="100" height="50" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/><rect x="850" y="200" width="100" height="150" fill="#D1FAE5" stroke="#059669" stroke-width="2"/>
+    <path d="M315 282H405" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/><path d="M690 282H755" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="360" y="249" text-anchor="middle" font-size="19" fill="#5B21B6">B: x₁ × 2</text><text x="723" y="249" text-anchor="middle" font-size="19" fill="#5B21B6">A: x₂ × 3</text>
+    <text x="540" y="464" text-anchor="middle" font-size="20" fill="#334155">det(AB) = det(A) det(B) = 3 × 2 = 6</text><text x="540" y="497" text-anchor="middle" font-size="18" fill="#475569">The inverse restores area with multiplier 1/6. All panels use the same grid scale.</text>
+  </g>
+</svg>

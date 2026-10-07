@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 450" role="img" aria-labelledby="title desc">
+  <title id="title">The additive inverse returns to the starting point</title>
+  <desc id="desc">A coordinate grid shows v equal to two minus one from the origin and minus v returning along the same segment. The solid blue outward arrow and dashed purple return arrow add to a zero displacement at the origin.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="700" height="450" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="350" y="42" text-anchor="middle" font-size="24" font-weight="700">Opposite displacements return to the origin</text>
+    <g stroke="#E2E8F0" stroke-width="1" fill="none"><path d="M80 110V350M140 110V350M200 110V350M260 110V350M320 110V350M380 110V350"/><path d="M80 110H380M80 170H380M80 230H380M80 290H380M80 350H380"/></g>
+    <path d="M65 230H397M140 367V95" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M140 230L260 290" fill="none" stroke="#2563EB" stroke-width="5" marker-end="url(#arrow)"/>
+    <path d="M260 290L140 230" fill="none" stroke="#7C3AED" stroke-width="3" stroke-dasharray="7 7" marker-end="url(#arrow)"/>
+    <text x="167" y="210" font-size="19" font-weight="700" fill="#1E3A8A">outward: v</text>
+    <text x="162" y="329" font-size="19" font-weight="700" fill="#5B21B6">return: −v</text>
+    <text x="277" y="279" font-size="18" fill="#1E3A8A">(2, −1)</text>
+    <text x="95" y="263" font-size="18">0</text><text x="410" y="236" font-size="16" fill="#475569">x₁</text><text x="140" y="87" text-anchor="middle" font-size="16" fill="#475569">x₂</text>
+    <text x="536" y="153" text-anchor="middle" font-size="20" font-weight="700">v + (−v) = 0</text>
+    <text x="536" y="205" text-anchor="middle" font-size="18">Net displacement: (0, 0)</text>
+    <text x="536" y="257" text-anchor="middle" font-size="20" font-weight="700">v + 0 = v</text>
+    <text x="536" y="309" text-anchor="middle" font-size="18">Zero adds no movement.</text>
+    <text x="350" y="408" text-anchor="middle" font-size="18" fill="#334155">Both arrows follow the same segment in opposite directions.</text>
+  </g>
+</svg>

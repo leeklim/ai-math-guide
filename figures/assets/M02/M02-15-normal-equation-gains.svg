@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1140 550" role="img" aria-labelledby="title desc">
+  <title id="title">Normal equations square singular gains and therefore square their ratio</title>
+  <desc id="desc">A unit circle becomes an ellipse with radii two and one under A equal to diagonal two one. Under A transpose A equal to diagonal four one the radii are four and one. At a common scale the condition number grows from two to four.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="1140" height="550" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="570" y="42" text-anchor="middle" font-size="24" font-weight="700">Squaring every positive singular gain also squares the gain ratio</text>
+    <g font-size="21" font-weight="700" text-anchor="middle"><text x="180" y="109">Unit input</text><text x="500" y="109">A = diag(2, 1)</text><text x="910" y="109">AᵀA = diag(4, 1)</text></g>
+    <path d="M90 290H270M180 390V180M380 290H620M500 390V180M730 290H1090M910 390V180" fill="none" stroke="#CBD5E1" stroke-width="2"/>
+    <circle cx="180" cy="290" r="40" fill="#EFF6FF" stroke="#2563EB" stroke-width="2.5"/><ellipse cx="500" cy="290" rx="80" ry="40" fill="#F5F3FF" stroke="#7C3AED" stroke-width="2.5"/><ellipse cx="910" cy="290" rx="160" ry="40" fill="#ECFDF5" stroke="#059669" stroke-width="2.5"/>
+    <path d="M180 290H220" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/><path d="M500 290H580" stroke="#7C3AED" stroke-width="4" marker-end="url(#arrow)"/><path d="M910 290H1070" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/>
+    <g font-size="20" text-anchor="middle" fill="#334155"><text x="180" y="431">Radius 1</text><text x="500" y="431">κ₂(A) = 2/1 = 2</text><text x="910" y="431">κ₂(AᵀA) = 4/1 = 4 = 2²</text></g>
+    <text x="570" y="486" text-anchor="middle" font-size="18" fill="#475569">The ellipses describe two different maps on the same unit circle, not successive inputs.</text>
+    <text x="570" y="524" text-anchor="middle" font-size="17" fill="#475569">Common scale: 40 px per unit. For full column rank, the general relation is (σmax/σmin)².</text>
+  </g>
+</svg>

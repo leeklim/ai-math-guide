@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 530" role="img" aria-labelledby="title desc">
+  <title id="title">A ninety-degree rotation has no nonzero real eigenvector</title>
+  <desc id="desc">A coordinate plot shows real vector one one rotated to minus one one. The rotated vector is perpendicular to the original line rather than a scalar multiple on it. The same ninety-degree relation holds for every nonzero real vector.</desc>
+  <defs><pattern id="grid" width="70" height="70" y="50" patternUnits="userSpaceOnUse"><path d="M70 0H0V70" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="700" height="530" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="350" y="40" text-anchor="middle" font-size="24" font-weight="700">A real eigenvector must stay on the same line</text>
+    <rect x="140" y="190" width="280" height="210" fill="url(#grid)"/>
+    <path d="M120 330H440M280 420V165" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M210 400L420 190" fill="none" stroke="#CBD5E1" stroke-width="1.5"/>
+    <path d="M280 330L350 260" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/><path d="M280 330L210 260" fill="none" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M290 320L280 310L270 320" fill="none" stroke="#D97706" stroke-width="2"/>
+    <text x="370" y="245" font-size="20" fill="#1E3A8A">v = (1, 1)</text><text x="84" y="231" font-size="20" fill="#065F46">Rv = (−1, 1)</text>
+    <text x="350" y="465" text-anchor="middle" font-size="20" fill="#334155">For every real v ≠ 0, Rv ⟂ v; Rv cannot equal λv.</text><text x="350" y="509" text-anchor="middle" font-size="18" fill="#475569">det(R − λI) = λ² + 1 has no real root.</text>
+    <g font-size="16" fill="#475569"><text x="450" y="336">x₁</text><text x="273" y="152">x₂</text></g>
+  </g>
+</svg>

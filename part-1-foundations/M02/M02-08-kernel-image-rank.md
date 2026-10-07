@@ -80,7 +80,26 @@ $T(\mathbf x)=\mathbf A\mathbf x$이면
 
 로 쓴다. 동차연립방정식을 풀어 kernel의 벡터를 찾는다.
 
-kernel은 영벡터를 포함하고 벡터 덧셈과 스칼라곱에 닫혀 있으므로 정의역의 부분공간이다.
+집합 안의 조건은 출력이 영벡터인지를 검사한다. 이 조건을 통과한 대상은 입력 벡터이므로 kernel은 $\mathbb R^n$ 안에 있다. 입력의 어떤 성분이 0이어야 한다는 뜻은 아니다. 여러 성분의 기여가 상쇄되어 출력 전체가 0이 되는 입력도 포함한다.
+
+선형성에 의해 $T(\mathbf 0)=\mathbf 0$이므로 영벡터는 kernel에 속한다. 두 kernel 벡터 $\mathbf u,\mathbf v$와 실수 $c$에 대해
+
+\[
+T(\mathbf u+\mathbf v)=T(\mathbf u)+T(\mathbf v)=\mathbf 0,
+\qquad
+T(c\mathbf u)=cT(\mathbf u)=\mathbf 0
+\]
+
+이다. 따라서 kernel은 벡터 덧셈과 스칼라곱에 닫혀 있는 입력공간의 부분공간이다.
+
+아래 그림은 두 입력 성분의 기여가 상쇄되는 kernel 직선을 입력공간에 그린다. 직선 위 점들의 성분은 서로 다르지만 출력 조건은 모두 같다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A kernel line in the input plane whose every point maps to zero in a separate output plane](../../figures/assets/M02/M02-08-kernel-input-line.svg)
+
+<figcaption>A(x,y)=(x+2y,0)에서 x+2y=0인 입력들은 모두 영출력을 만든다. kernel은 오른쪽 영점 자체가 아니라 왼쪽 입력 직선 전체이며, 입력 성분이 각각 0일 필요는 없다.</figcaption>
+</figure>
 
 ## 핵심 개념 2. kernel은 입력 구별 가능성을 결정한다
 
@@ -102,7 +121,24 @@ kernel은 영벡터를 포함하고 벡터 덧셈과 스칼라곱에 닫혀 있�
 \ker(\mathbf A)=\{\mathbf 0\}
 \]
 
-이면 서로 다른 두 입력이 같은 출력으로 갈 수 없으므로 변환은 일대일이다. kernel에 0이 아닌 벡터가 있으면 그 방향으로 이동한 입력들을 변환이 구별하지 못한다.
+이면 서로 다른 두 입력이 같은 출력으로 갈 수 없으므로 변환은 일대일이다. 반대로 $\mathbf z\ne\mathbf 0$이 kernel에 속하면
+
+\[
+\mathbf A(\mathbf x+\mathbf z)
+=\mathbf A\mathbf x+\mathbf A\mathbf z
+=\mathbf A\mathbf x
+\]
+
+이다. $\mathbf x$와 $\mathbf x+\mathbf z$는 다른 입력이지만 출력은 같다. kernel의 모든 배수도 kernel에 속하므로 이 방향으로 얼마를 이동하든 출력이 유지된다.
+
+아래 그림은 kernel에 평행한 서로 다른 입력 직선을 비교한다. 한 직선 안에서는 입력을 움직여도 출력이 고정되고, 다른 직선으로 옮기면 출력이 달라진다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Parallel translated kernel lines in the input plane mapped to distinct fixed points in the output plane](../../figures/assets/M02/M02-08-parallel-input-fibres.svg)
+
+<figcaption>각 입력 직선은 한 특정 입력 x₀에 kernel의 벡터들을 더한 집합이다. 같은 직선 위의 입력 차이는 kernel에 속하므로 출력에서 구별되지 않으며, 색과 선 모양이 같은 출력 대응을 나타낸다.</figcaption>
+</figure>
 
 ## 핵심 개념 3. image는 가능한 출력을 모은다
 
@@ -136,7 +172,18 @@ x_1\mathbf a_1+\cdots+x_n\mathbf a_n
 \operatorname{span}\{\mathbf a_1,\ldots,\mathbf a_n\}
 \]
 
-이다. image는 행렬의 열공간이며 공역 $\mathbb R^m$의 부분공간이다.
+이다. 한쪽으로는 모든 출력이 열벡터의 선형결합이다. 다른 쪽으로는 열벡터의 선형결합에서 사용한 계수를 입력 $\mathbf x$의 성분으로 선택하면 그 결합이 실제 출력이 된다. 두 집합이 같다는 것은 이 두 방향을 모두 포함한다.
+
+image는 행렬의 열공간이며 공역 $\mathbb R^m$의 부분공간이다. kernel에서처럼 입력을 모으는 것이 아니라, 입력을 바꾸어 도달할 수 있는 출력을 모은다. 공역의 벡터라고 해서 모두 image에 속하는 것은 아니며, 해당 벡터를 출력으로 만드는 입력이 있어야 한다.
+
+아래 그림은 예제 3의 image를 출력공간 안에 그린다. 목표 벡터가 공역에 포함된다는 사실과 실제 출력으로 만들 수 있다는 사실은 다르다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A line of reachable outputs in R three and an unreachable target displaced in its third component](../../figures/assets/M02/M02-08-image-and-unreachable-target.svg)
+
+<figcaption>B의 두 열은 (1,2,0)의 배수이므로 image는 초록색 직선이다. 목표 (1,2,1)은 같은 공역 R³에 있지만 셋째 성분이 1이어서 그 직선에 속하지 않으며, 이 목표를 만드는 입력은 없다.</figcaption>
+</figure>
 
 ## 핵심 개념 4. rank는 살아남은 출력 방향의 수다
 
@@ -148,7 +195,11 @@ x_1\mathbf a_1+\cdots+x_n\mathbf a_n
 \dim\operatorname{im}(\mathbf A)
 \]
 
-행 소거에서 pivot 열의 수와 같다. 원래 행렬의 pivot 열에 해당하는 열벡터들이 열공간의 기저를 이룬다. 행 소거된 행렬의 열을 그대로 원래 image의 기저로 사용하면 안 된다. 행 기본변환은 열벡터가 놓인 출력공간을 바꾸기 때문이다.
+image의 기저를 찾으려면 열 중에서 서로 독립이면서 나머지 열을 생성하는 벡터들을 골라야 한다. 행 소거를 한 행 사다리꼴에서는 pivot 열들이 서로 다른 선도 위치를 가져 독립이다. 나머지 열은 pivot 열의 선형결합으로 만들 수 있다. 아래쪽 pivot 행부터 계수를 맞추어 올라가면 각 비영 행의 성분을 맞출 수 있고, 영 행에서는 맞출 성분이 남지 않는다. 따라서 pivot 열의 수가 rank다.
+
+행 기본변환은 되돌릴 수 있으므로 열 사이의 선형결합 관계를 보존한다. 원래 행렬의 열들이 어떤 계수로 합쳐져 영벡터가 되는지는 소거 뒤에도 같다. 따라서 원래 행렬에서 pivot 열에 해당하는 열벡터들을 고르면 원래 열공간의 기저를 얻는다.
+
+다만 소거된 열벡터 자체를 원래 image의 기저로 사용하면 안 된다. 행 기본변환은 열의 성분, 즉 출력 벡터의 좌표를 바꾼다. 독립 방향의 수와 열 사이의 관계는 같아도 실제 image가 같은 집합일 필요는 없다.
 
 $\mathbf A\in\mathbb R^{m\times n}$이면
 
@@ -158,7 +209,16 @@ $\mathbf A\in\mathbb R^{m\times n}$이면
 \min(m,n)
 \]
 
-이다.
+이다. 출력이 $\mathbb R^m$에 있으므로 독립 출력 방향은 $m$개를 넘을 수 없다. 또한 $n$개의 열이 생성하는 공간이므로 독립 열 방향은 $n$개를 넘을 수 없다.
+
+아래 그림은 행 소거가 열 사이의 배수 관계는 보존해도 image의 위치까지 보존하지는 않음을 보여 준다. pivot의 열 번호를 찾은 다음에는 원래 행렬의 해당 열로 돌아가야 한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Original and row-reduced matrices with rank one but different output lines and matching pivot column index](../../figures/assets/M02/M02-08-original-pivot-column.svg)
+
+<figcaption>두 행렬 모두 둘째 열이 첫째 열의 2배이고 pivot 열은 첫째 열이다. 그러나 소거 뒤의 image는 수평선으로 바뀌므로, 원래 image의 기저는 소거된 (1,0)이 아니라 원래 첫 열 (1,2)에서 골라야 한다.</figcaption>
+</figure>
 
 ## 핵심 개념 5. rank-nullity 정리는 남은 방향과 사라진 방향을 센다
 
@@ -182,7 +242,18 @@ n
 
 이다. 입력공간의 dimension $n$은 image에 독립적으로 남은 방향 수와 kernel로 사라진 방향 수의 합이다.
 
-행 소거에서 rank는 pivot 변수 수이고 nullity는 자유변수 수다. 두 수의 합은 전체 미지수 수 $n$이다.
+이 차원 관계는 동차연립방정식의 자유변수에서 확인할 수 있다. 자유변수의 값을 먼저 정하면 pivot 변수는 역대입으로 정해진다. 자유변수 하나만 1이고 나머지는 0인 해를 각각 만들면, 임의의 해는 이 해들의 선형결합이다. 또한 이 해들의 자유변수 성분을 보면 서로 독립임을 확인할 수 있다. 따라서 자유변수 수가 kernel의 기저 벡터 수, 즉 nullity다.
+
+rank는 pivot 변수 수다. 전체 미지수 $n$개는 pivot 변수와 자유변수로 나뉘므로 두 수의 합이 $n$이 된다. 이 식은 입력공간의 차원과 출력 image의 차원을 연결한다. kernel과 image가 같은 공간 안의 두 부분이라는 뜻은 아니다. kernel은 $\mathbb R^n$에, image는 $\mathbb R^m$에 놓인다.
+
+아래 그림은 예제 1의 입력공간에서 서로 독립인 세 방향을 고르고 각 출력을 비교한다. 사라지는 방향과 살아남는 방향의 수를 세되, kernel과 image가 놓인 공간을 구분한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Three independent directions in input R three mapping to two output basis directions and zero in R two](../../figures/assets/M02/M02-08-rank-nullity-directions.svg)
+
+<figcaption>입력 e₁과 e₃는 출력의 두 독립 방향으로 가고, 입력 (−2,1,0)은 영출력으로 간다. rank 2와 nullity 1의 합은 입력 차원 3이며, 출력 전체에 도달하더라도 이 비영 kernel 방향 때문에 입력 복원은 유일하지 않다.</figcaption>
+</figure>
 
 ## 핵심 개념 6. image는 해의 존재를, kernel은 유일성을 결정한다
 
@@ -218,7 +289,15 @@ n
 \mathbf b
 \]
 
-이다.
+이다. 반대로 어떤 해 $\mathbf x$를 골라도
+
+\[
+\mathbf A(\mathbf x-\mathbf x_0)
+=\mathbf b-\mathbf b
+=\mathbf 0
+\]
+
+이므로 $\mathbf x-\mathbf x_0$는 kernel에 속한다. kernel 벡터를 더해 만든 것이 해라는 사실과, 모든 해를 그렇게 쓸 수 있다는 사실이 함께 성립한다.
 
 따라서 kernel이 $\{\mathbf 0\}$이면 존재하는 해가 유일하다. kernel에 0이 아닌 벡터가 있으면 한 해에 kernel 벡터를 더해 다른 해를 만들 수 있다.
 
@@ -232,7 +311,9 @@ n
 - $\operatorname{rank}(\mathbf A)=n$이다.
 - 모든 $\mathbf b\in\mathbb R^n$에 대해 $\mathbf A\mathbf x=\mathbf b$의 해가 하나다.
 
-직사각행렬에서는 일대일과 모든 공역 출력을 만드는 성질이 따로 갈릴 수 있다. $\operatorname{rank}(\mathbf A)=n$이면 열이 독립이어서 일대일이고, $\operatorname{rank}(\mathbf A)=m$이면 image가 $\mathbb R^m$ 전체다.
+rank-nullity 정리에서 rank가 $n$이면 nullity는 0이다. kernel은 영벡터만 포함하고, 모든 열이 독립이다. 정사각행렬에서는 출력공간의 차원도 $n$이므로 이 $n$개의 독립 열이 출력공간 전체의 기저가 된다. 따라서 모든 목표 출력에 해가 존재하고 그 해는 유일하다. M02-06의 역행렬은 각 출력을 이 유일한 입력으로 되돌리는 변환이다.
+
+직사각행렬에서는 입력 차원 $n$과 출력 차원 $m$이 다를 수 있어 두 조건이 갈린다. $\operatorname{rank}(\mathbf A)=n$이면 nullity가 0이어서 일대일이다. $\operatorname{rank}(\mathbf A)=m$이면 image가 $\mathbb R^m$ 전체다. 예를 들어 $m<n$이면 rank가 최대 $m$이므로 nullity는 적어도 $n-m$이다. 모든 출력을 만들 수 있더라도 입력을 유일하게 복원하지 못할 수 있다.
 
 ## 예제 1. kernel, image와 rank를 함께 구하기
 

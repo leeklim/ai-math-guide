@@ -80,6 +80,8 @@ T(\alpha\mathbf u+\beta\mathbf v)
 
 를 만족하면 선형변환이라고 한다.
 
+왼쪽은 입력 벡터를 먼저 같은 계수로 결합한 뒤 변환한 결과이고, 오른쪽은 각 벡터를 변환한 뒤 같은 계수로 결합한 결과다. 이 두 순서가 입력과 계수의 모든 선택에서 같아야 한다. 특정 벡터 하나나 계수 한 쌍에서만 등식이 맞는 것으로는 선형성을 확인할 수 없다.
+
 $T(\mathbf x)=\mathbf A\mathbf x$는 행렬곱의 분배법칙 때문에 이 조건을 만족한다.
 
 \[
@@ -88,13 +90,30 @@ $T(\mathbf x)=\mathbf A\mathbf x$는 행렬곱의 분배법칙 때문에 이 조
 \alpha\mathbf A\mathbf u+\beta\mathbf A\mathbf v
 \]
 
-이다. 특히
+이다. $i$번째 성분에서는 실수의 분배법칙으로
+
+\[
+\sum_j a_{ij}(\alpha u_j+\beta v_j)
+=\alpha\sum_j a_{ij}u_j
++\beta\sum_j a_{ij}v_j
+\]
+
+가 된다. 모든 출력 성분에 이 등식이 적용되므로 행렬 변환은 선형결합을 보존한다. 특히
 
 \[
 T(\mathbf 0)=\mathbf 0
 \]
 
-이다. 영벡터를 영벡터가 아닌 곳으로 보내는 변환은 선형변환이 아니다.
+이다. 정의에서 두 계수를 0으로 두면 왼쪽이 $T(\mathbf 0)$, 오른쪽이 영벡터다. 영벡터를 영벡터가 아닌 곳으로 보내는 변환은 선형변환이 아니다. 반대로 영벡터를 고정한다는 조건 하나만으로 선형성을 보장하지는 않는다. $f(x)=x^2$도 $f(0)=0$이지만 $f(1+1)=4$와 $f(1)+f(1)=2$가 다르다.
+
+아래 그림은 입력 두 개를 더한 뒤 변환하는 계산과, 각 입력을 변환한 뒤 더하는 계산을 비교한다. 두 순서에서 같은 초록색 출력 벡터를 얻는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Adding two inputs before a matrix transformation reaches the same endpoint as adding their transformed images](../../figures/assets/M02/M02-05-preserved-combination.svg)
+
+<figcaption>입력 (1,1)ᵀ의 변환 결과는 (3,3)ᵀ다. 변환한 두 방향 (2,0)ᵀ와 (1,3)ᵀ를 더해도 같은 벡터를 얻는다. 이 예는 선형결합 보존을 보여 주는 한 사례이며, 정의는 모든 입력과 계수에 요구한다.</figcaption>
+</figure>
 
 ## 핵심 개념 3. 행렬의 열은 표준기저의 도착점이다
 
@@ -108,7 +127,7 @@ T(\mathbf e_j)
 \mathbf a_j
 \]
 
-이다.
+이다. $\mathbf e_j$의 $j$번째 성분만 1이므로 열의 선형결합에서 $\mathbf a_j$만 남고 다른 열은 0배가 된다.
 
 임의의 입력은
 
@@ -127,6 +146,8 @@ x_1\mathbf a_1+\cdots+x_n\mathbf a_n
 \]
 
 이다. 표준기저의 도착점을 알면 모든 입력의 출력을 정할 수 있다.
+
+입력 직선을 $\mathbf x=t\mathbf v$로 쓰면 출력은 $t\mathbf A\mathbf v$다. $\mathbf A\mathbf v\ne\mathbf 0$이면 이 출력들도 한 직선을 이루지만, $\mathbf A\mathbf v=\mathbf 0$이면 입력 직선 전체가 원점 하나로 간다. 선형변환은 직선 방향을 위치에 따라 휘게 만들지 않지만, 방향을 없애거나 여러 방향을 겹치게 할 수 있다.
 
 ### 시각적 직관: 기저벡터의 도착점이 변환 전체를 정한다
 
@@ -150,7 +171,7 @@ x_1\mathbf a_1+\cdots+x_n\mathbf a_n
 
 출력 격자의 파란 방향은 첫째 열 $\mathbf a_1$, 주황 방향은 둘째 열 $\mathbf a_2$를 따른다. 임의의 입력점 $(x_1,x_2)$은 출력에서 $x_1\mathbf a_1+x_2\mathbf a_2$에 놓인다. 행렬의 두 열을 알면 격자의 모든 점을 하나씩 계산하지 않아도 전체 변형을 예측할 수 있다.
 
-여기서 휘어지는 것은 좌표선이 아니다. 하나의 고정 행렬이 수행하는 선형변환은 원점을 지나는 직선을 다시 직선으로 보낸다. 비선형함수를 뒤에 적용하거나 위치마다 서로 다른 Jacobian을 사용해 국소 변환을 이어 붙일 때에야 전체 mapping이 직선을 곡선으로 보낼 수 있다.
+하나의 고정 행렬이 수행하는 선형변환은 원점을 지나는 직선을 직선 또는 한 점으로 보낸다. 이 예시의 격자처럼 방향이 사라지지 않는 경우에는 직선 격자가 유지된다. 비선형함수는 위치에 따라 변환 규칙이 달라져 입력 직선을 곡선으로 보낼 수 있다. 뒤에서 Jacobian을 배우면 한 점 근처의 변환과 전체 mapping을 구분한다.
 
 ## 핵심 개념 4. 대각행렬은 좌표축별로 확대하거나 줄인다
 
@@ -173,6 +194,8 @@ s_x&0\\
 
 이다. 첫 좌표축은 $s_x$, 둘째 좌표축은 $s_y$배 된다.
 
+대각선 밖의 원소가 0이므로 새 가로 좌표에는 원래 세로 좌표가 섞이지 않고, 새 세로 좌표에도 원래 가로 좌표가 섞이지 않는다. 각 축의 길이 배율은 $|s_x|,|s_y|$이고 부호는 해당 축의 방향을 정한다. 두 배율이 다르면 임의의 벡터는 좌표별 비율도 달라져 방향이 바뀔 수 있다. 어떤 배율이 0이면 그 좌표의 모든 값이 0으로 가므로 해당 방향은 출력에서 사라진다.
+
 $s_x$나 $s_y$가 음수이면 해당 좌표축 방향이 뒤집힌다. 예를 들어
 
 \[
@@ -183,6 +206,15 @@ $s_x$나 $s_y$가 음수이면 해당 좌표축 방향이 뒤집힌다. 예를 �
 \]
 
 은 $y$축에 대한 반사를 나타낸다.
+
+아래 그림은 음의 대각 원소가 첫 좌표의 부호만 바꾸는 모습을 나타낸다. 세로 좌표를 유지한 두 끝점이 반사축을 사이에 두고 놓인다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The diagonal matrix minus one one reflects three one to minus three one across the vertical coordinate axis](../../figures/assets/M02/M02-05-axis-reflection.svg)
+
+<figcaption>(3,1)ᵀ는 (-3,1)ᵀ로 바뀐다. 음의 배율은 해당 좌표축 방향을 뒤집으며, 이 예에서는 두 축의 절대 배율이 1이어서 길이는 유지된다.</figcaption>
+</figure>
 
 ## 핵심 개념 5. 회전과 투영도 행렬로 표현한다
 
@@ -197,7 +229,9 @@ $s_x$나 $s_y$가 음수이면 해당 좌표축 방향이 뒤집힌다. 예를 �
 \end{bmatrix}
 \]
 
-이다. $\theta=90^\circ$이면
+이다. 원점에서 길이 1인 가로 방향을 $\theta$만큼 회전하면 끝점은 $(\cos\theta,\sin\theta)$다. 이때 cosine은 가로 좌표, sine은 세로 좌표이며 두 제곱의 합은 1이다. 세로 방향은 가로 방향보다 $90^\circ$ 앞에 있으므로 회전한 세로 방향은 $(-\sin\theta,\cos\theta)$가 된다. 두 도착점을 열로 놓아 위 행렬을 만든다.
+
+$\theta=90^\circ$이면 cosine은 0, sine은 1이므로
 
 \[
 \mathbf R_{90^\circ}
@@ -232,6 +266,8 @@ $x$축 위로 투영하는 행렬은
 
 이므로 세로 성분을 없애고 가로 성분을 남긴다.
 
+회전의 두 열은 모두 길이 1이고 내적이 0이어서 두 표준 방향의 길이와 직교 관계를 유지한다. 출력 벡터의 제곱 길이를 계산해도 두 열 사이의 교차항이 내적 0으로 없어져 원래의 $x^2+y^2$가 남는다. 투영은 첫째 열을 $(1,0)^\top$로 유지하지만 둘째 열은 영벡터로 보낸다. 그래서 $(x,y_1)$과 $(x,y_2)$처럼 세로 좌표만 다른 입력들이 같은 $(x,0)$으로 간다. 좌표를 섞는 회전과 좌표를 없애는 투영의 차이를 열에서도 확인할 수 있다.
+
 같은 입력 벡터를 확대, 회전, 투영하면 결과의 길이와 방향이 서로 다르게 바뀐다.
 
 <figure class="lesson-figure lesson-figure--wide" markdown="1">
@@ -242,6 +278,15 @@ $x$축 위로 투영하는 행렬은
 </figure>
 
 회전은 두 좌표를 섞으면서 길이를 보존한다. 투영은 한 방향의 성분을 버리므로 서로 다른 여러 입력이 같은 출력으로 갈 수 있다. 행렬이라는 공통 표현을 쓰더라도 보존되는 정보와 사라지는 정보는 변환마다 다르다.
+
+아래 그림은 세로 좌표만 다른 두 입력을 같은 출력으로 보낸다. 이미 가로축 위에 있는 출력에는 같은 투영을 다시 적용해도 변화가 없다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two vectors with the same horizontal coordinate project to the same point and remain unchanged under a second projection](../../figures/assets/M02/M02-05-projection-collapse.svg)
+
+<figcaption>(2,2)ᵀ와 (2,-1)ᵀ를 가로축에 투영하면 모두 (2,0)ᵀ가 된다. 이 출력에 다시 투영하면 그대로이므로 예제 3의 Pₓ²=Pₓ를 확인할 수 있다.</figcaption>
+</figure>
 
 ## 핵심 개념 6. 행렬곱은 변환의 합성을 나타낸다
 
@@ -267,6 +312,15 @@ S(T(\mathbf x))
 
 먼저 적용하는 변환의 행렬이 오른쪽에 놓인다. $\mathbf A\mathbf B$와 $\mathbf B\mathbf A$가 다른 이유를 기하적으로 보면 변환 적용 순서가 다르기 때문이다.
 
+아래 그림은 예제 2의 회전과 확대를 같은 좌표 축척에서 차례로 적용한다. 각 중간 벡터를 확인하면 합성행렬 $\mathbf D\mathbf R$의 오른쪽부터 계산하는 순서를 읽을 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Three matched coordinate grids follow one three through ninety degree rotation to minus three one and doubling to minus six two](../../figures/assets/M02/M02-05-composition-stages.svg)
+
+<figcaption>(1,3)ᵀ를 먼저 회전해 (-3,1)ᵀ를 얻고, 두 배로 늘려 (-6,2)ᵀ를 얻는다. 회전 전후에는 길이를 유지하고, 그다음 확대에서 길이를 두 배로 바꾼다.</figcaption>
+</figure>
+
 ## 핵심 개념 7. 편향을 더하면 아핀변환이 된다
 
 신경망 층의 pre-activation은
@@ -285,6 +339,8 @@ T(\mathbf 0)=\mathbf b
 
 이므로 이 전체 변환은 선형변환 조건을 만족하지 않는다. 이를 아핀변환이라고 한다.
 
+입력을 더하는 경우에도 차이가 드러난다. $F(\mathbf x)=\mathbf W\mathbf x+\mathbf b$로 쓰면 $F(\mathbf u+\mathbf v)$에는 편향이 한 번 들어가지만 $F(\mathbf u)+F(\mathbf v)$에는 두 번 들어간다. $\mathbf b\ne\mathbf 0$일 때 두 결과가 달라 선형결합을 보존하지 않는다. 고정된 편향이 모든 입력에 같은 이동을 더한다는 것과 선형성이 성립한다는 것은 구분한다.
+
 ReLU 같은 활성화함수를 추가한
 
 \[
@@ -292,6 +348,8 @@ ReLU 같은 활성화함수를 추가한
 \]
 
 는 일반적으로 비선형 함수다. 행렬이 공간을 선형적으로 바꾼다는 설명은 $\mathbf W\mathbf x$ 부분에 적용된다.
+
+ReLU 자체도 영점을 고정하지만 덧셈을 보존하지 않는다. 스칼라에서 $\operatorname{ReLU}(1+(-1))=0$인 반면 $\operatorname{ReLU}(1)+\operatorname{ReLU}(-1)=1$이다. 어떤 구간에서는 같은 선형 규칙처럼 보이더라도 입력 전체에서 선형변환인 것은 아니다.
 
 <figure class="lesson-figure lesson-figure--wide" markdown="1">
 

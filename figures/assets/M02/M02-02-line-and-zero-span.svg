@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 510" role="img" aria-labelledby="title desc">
+  <title id="title">A nonzero generator spans a line but the zero vector spans one point</title>
+  <desc id="desc">The left coordinate grid marks several positive, negative and zero multiples of one two on a line through the origin. The right grid marks only the origin, since every multiple of the zero vector is zero.</desc>
+  <defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="820" height="510" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="410" y="42" text-anchor="middle" font-size="24" font-weight="700">Keep the generator fixed; vary every real coefficient</text>
+    <text x="230" y="90" text-anchor="middle" font-size="21" font-weight="700">span{v}, v = (1, 2)</text><text x="620" y="90" text-anchor="middle" font-size="21" font-weight="700">span{0} = {0}</text>
+    <rect x="80" y="120" width="320" height="320" fill="url(#grid)"/><rect x="480" y="120" width="280" height="320" fill="url(#grid)"/>
+    <path d="M65 320H415M240 455V105M465 320H775M600 455V105" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M180 440L340 120" fill="none" stroke="#059669" stroke-width="3"/>
+    <path d="M240 320L280 240" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/>
+    <g fill="#059669"><circle cx="200" cy="400" r="4"/><circle cx="240" cy="320" r="4"/><circle cx="260" cy="280" r="4"/><circle cx="320" cy="160" r="4"/></g>
+    <g font-size="18" fill="#065F46"><text x="89" y="408">c = −1</text><text x="122" y="350">c = 0</text><text x="293" y="285">c = 1/2</text><text x="344" y="167">c = 2</text></g>
+    <text x="307" y="236" font-size="18" font-weight="700" fill="#1E3A8A">c = 1: v</text>
+    <circle cx="600" cy="320" r="5" fill="#0F172A"/>
+    <text x="647" y="301" font-size="19" font-weight="700">c0 = 0</text><text x="710" y="395" text-anchor="middle" font-size="18">Any real c</text><text x="710" y="426" text-anchor="middle" font-size="18">gives zero.</text>
+    <g font-size="16" fill="#475569"><text x="423" y="326">x₁</text><text x="240" y="112" text-anchor="middle">x₂</text><text x="742" y="348">x₁</text><text x="600" y="112" text-anchor="middle">x₂</text></g>
+    <text x="410" y="476" text-anchor="middle" font-size="18" fill="#334155">The marked coefficients are samples; the entire line belongs to the span.</text>
+  </g>
+</svg>

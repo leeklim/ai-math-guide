@@ -116,7 +116,16 @@ c_j\|\mathbf v_j\|_2^2=0
 \mathbf Q^\top\mathbf Q=\mathbf I_k
 \]
 
-를 만족한다.
+를 만족한다. 이 곱의 $(i,j)$ 원소는 $\mathbf q_i^\top\mathbf q_j$다. 따라서 대각 원소는 각 열의 제곱 norm인 1이고, 대각 밖 원소는 서로 다른 열의 내적인 0이다. 정규화는 양의 norm으로 나누므로 방향과 span을 유지하며, 원래 0이던 두 벡터의 내적도 그대로 0이다.
+
+아래 그림은 같은 척도의 좌표계에서 직교 벡터를 정규화하기 전후로 비교한다. 직각은 그대로이고 각 화살표의 끝만 단위 원으로 당겨진다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Perpendicular vectors of length square root two and their normalized unit vectors on equal-scale coordinate grids](../../figures/assets/M02/M02-09-normalize-orthogonal-directions.svg)
+
+<figcaption>(1,1)과 (1,−1)은 서로 직교하지만 길이는 √2다. 각각 √2로 나누면 방향과 span은 유지한 채 길이가 1이 되어, 직교 조건에 단위 길이 조건까지 갖춘다.</figcaption>
+</figure>
 
 ## 핵심 개념 3. 정규직교기저의 좌표는 내적이다
 
@@ -150,6 +159,15 @@ c_1\mathbf q_1+\cdots+c_k\mathbf q_k
 
 로 복원된다.
 
+아래 그림은 예제 1의 두 정규직교 방향에서 읽은 계수를 실제 방향 성분으로 되돌린다. 파란 성분과 보라색 성분은 직교하며 두 성분의 합이 원래 벡터다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Vector three one reconstructed from perpendicular components two two and one minus one along an orthonormal basis](../../figures/assets/M02/M02-09-inner-product-coordinates.svg)
+
+<figcaption>내적으로 읽은 계수 2√2와 √2를 각 단위 기저 벡터에 곱하면 (2,2)와 (1,−1)을 얻는다. 좌표 계수는 방향 성분의 길이를 나타내고, 두 방향 성분을 합치면 (3,1)을 복원한다.</figcaption>
+</figure>
+
 ## 핵심 개념 4. 부분공간 정사영은 각 기저 방향 성분을 더한다
 
 $\mathbf x\in\mathbb R^n$이 $V$ 밖에 있어도 각 정규직교 기저 방향의 계수
@@ -167,7 +185,9 @@ c_i=\mathbf q_i^\top\mathbf x
 (\mathbf q_i^\top\mathbf x)\mathbf q_i
 \]
 
-이다. 행렬로는
+이다. 각 항은 $\mathbf x$의 한 기저 방향 성분이다. 서로 직교하는 방향들이므로 한 방향의 계수를 정할 때 다른 기저 방향의 성분이 끼어들지 않는다. 여러 방향의 성분을 더한 결과는 $V$ 안에 있고, 다음 절에서 잔차가 $V$에 수직임을 확인한다.
+
+행렬로는
 
 \[
 \widehat{\mathbf x}
@@ -183,7 +203,16 @@ c_i=\mathbf q_i^\top\mathbf x
 \mathbf P=\mathbf Q\mathbf Q^\top
 \]
 
-로 두면 $\widehat{\mathbf x}=\mathbf P\mathbf x$다.
+로 두면 $\widehat{\mathbf x}=\mathbf P\mathbf x$다. $\mathbf Q^\top$는 $n$성분 벡터에서 $k$개의 방향 계수를 읽고, $\mathbf Q$는 그 계수들을 기저 벡터와 결합해 $n$성분 벡터를 만든다. $\mathbf x\in V$이면 원래 벡터가 복원된다. $\mathbf x\notin V$이면 $\mathbf Q^\top\mathbf x$는 $\mathbf x$ 전체의 좌표가 아니라 정사영된 벡터의 좌표다. $V$ 밖의 성분은 이 $k$개 계수에 담기지 않는다.
+
+아래 그림은 예제 2의 평면 정사영에서 남는 두 방향 성분과 사라지는 잔차를 분리한다. $\mathbf Q^\top$로 읽은 두 계수는 전체 입력이 아니라 평면 위 근삿값을 복원한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A three-dimensional vector decomposed into its coordinate-plane projection and a vertical orthogonal residual](../../figures/assets/M02/M02-09-plane-projection.svg)
+
+<figcaption>입력 (2,−1,4)의 정사영은 (2,−1,0)이고 잔차는 (0,0,4)다. 초록색 평면 안의 두 계수에는 잔차 성분이 담기지 않는다. 정사영 결과는 이미 평면에 있으므로 같은 정사영을 다시 적용해도 변하지 않는다.</figcaption>
+</figure>
 
 ## 핵심 개념 5. 잔차는 부분공간과 직교하며 정사영은 가장 가깝다
 
@@ -195,13 +224,17 @@ c_i=\mathbf q_i^\top\mathbf x
 \mathbf x-\widehat{\mathbf x}
 \]
 
-라고 하자. 정규직교 기저 행렬에 대해
+라고 하자. 정사영 식과 $\mathbf Q^\top\mathbf Q=\mathbf I_k$를 대입하면
 
 \[
-\mathbf Q^\top\mathbf r=\mathbf 0
+\mathbf Q^\top\mathbf r
+=\mathbf Q^\top\mathbf x
+-\mathbf Q^\top\mathbf Q\mathbf Q^\top\mathbf x
+=\mathbf Q^\top\mathbf x-\mathbf Q^\top\mathbf x
+=\mathbf 0
 \]
 
-이므로 잔차는 $V$의 모든 벡터와 직교한다.
+이다. 이 벡터의 각 성분이 0이라는 것은 잔차가 각 기저 벡터와 직교한다는 뜻이다. $V$의 벡터는 이 기저들의 선형결합이므로 그 벡터와 잔차의 내적도 0이다. 따라서 잔차는 $V$ 전체에 수직이다.
 
 임의의 $\mathbf y\in V$에 대해
 
@@ -211,7 +244,7 @@ c_i=\mathbf q_i^\top\mathbf x
 \mathbf r+(\widehat{\mathbf x}-\mathbf y)
 \]
 
-이고 두 항은 직교한다. 피타고라스 정리에 따라
+이고 두 항은 직교한다. 두 번째 항은 $V$ 안의 벡터 두 개의 차이여서 $V$에 속하고, 첫 번째 항은 $V$와 직교하기 때문이다. 제곱 norm을 내적으로 전개하면 두 항의 교차 내적이 0이 되어 피타고라스 식을 얻는다.
 
 \[
 \|\mathbf x-\mathbf y\|_2^2
@@ -223,7 +256,16 @@ c_i=\mathbf q_i^\top\mathbf x
 \|\mathbf r\|_2^2
 \]
 
-이다. 따라서 $\widehat{\mathbf x}$는 $V$에서 $\mathbf x$와 가장 가까운 벡터다.
+이다. 오른쪽의 두 번째 제곱 norm은 음수가 될 수 없고 $\mathbf y=\widehat{\mathbf x}$일 때만 0이다. 따라서 $\widehat{\mathbf x}$는 $V$에서 $\mathbf x$와 가장 가까운 벡터이며, 이 벡터는 유일하다.
+
+아래 그림은 정사영점과 다른 후보점을 함께 놓아 거리 제곱의 두 항을 직각삼각형의 두 변으로 비교한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A right triangle showing the perpendicular residual distance and the extra in-subspace distance to another candidate](../../figures/assets/M02/M02-09-closest-point-triangle.svg)
+
+<figcaption>(2,3)에서 수평 부분공간까지의 가장 짧은 거리는 3이다. 후보점을 (2,0)에서 (4,0)으로 옮기면 부분공간 안의 거리 2가 더해져 거리 제곱은 9에서 13으로 늘어난다.</figcaption>
+</figure>
 
 ## 핵심 개념 6. 정사영 행렬은 대칭이고 멱등이다
 
@@ -287,9 +329,29 @@ c_i=\mathbf q_i^\top\mathbf x
 \frac{\mathbf u_2}{\|\mathbf u_2\|_2}
 \]
 
-로 정규화한다. 이후 벡터에서도 앞에서 만든 모든 $\mathbf q_i$ 방향 성분을 뺀다.
+로 정규화한다. 성분을 뺀 이유는 내적으로 확인할 수 있다.
+
+\[
+\mathbf q_1^\top\mathbf u_2
+=\mathbf q_1^\top\mathbf v_2
+-(\mathbf q_1^\top\mathbf v_2)(\mathbf q_1^\top\mathbf q_1)
+=0
+\]
+
+또한 $\mathbf u_2=\mathbf 0$이면 $\mathbf v_2$가 $\mathbf q_1$, 즉 $\mathbf v_1$의 배수다. 처음에 두 벡터가 독립이라고 했으므로 그런 일은 없고 norm으로 나눌 수 있다.
+
+$\mathbf u_2$는 원래 두 벡터의 선형결합이며, 거꾸로 $\mathbf v_2$도 $\mathbf u_2$와 $\mathbf q_1$의 선형결합이다. 따라서 성분을 빼고 정규화해도 두 벡터가 생성하는 공간은 바뀌지 않는다. 이후 벡터에서도 앞에서 만든 모든 $\mathbf q_i$ 방향 성분을 뺀다. 이때 새 잔차가 0이라면 그 벡터가 이전 벡터들의 span에 있었다는 뜻이므로, 독립인 입력에서는 각 단계의 잔차가 0이 아니다.
 
 이 과정은 span을 유지하면서 정규직교기저를 만든다. 수치 계산에서는 수정 Gram-Schmidt나 QR 분해가 안정성을 개선한다.
+
+아래 그림은 예제 3의 둘째 벡터에서 기존 방향 성분을 뺀 뒤 남은 벡터를 정규화한다. 성분을 빼는 단계와 길이를 1로 맞추는 단계는 서로 다른 역할이다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Gram Schmidt stages subtracting the projection from one zero and normalizing the remaining one half minus one half vector](../../figures/assets/M02/M02-09-gram-schmidt-stages.svg)
+
+<figcaption>왼쪽의 잔차 (½,−½)는 이미 첫 기저 방향과 직교한다. 오른쪽에서는 이 잔차를 길이로 나누어 단위벡터로 만들며, 첫 방향과 새 방향이 생성하는 평면은 원래 두 벡터의 span과 같다.</figcaption>
+</figure>
 
 ## 핵심 개념 8. 최소제곱은 열공간 위의 정사영이다
 
@@ -300,7 +362,7 @@ $\mathbf A\mathbf c=\mathbf b$에 정확한 해가 없으면 $\mathbf A\mathbf c
 \|\mathbf A\mathbf c-\mathbf b\|_2^2
 \]
 
-를 푼다. $\mathbf A\mathbf c$는 $\operatorname{im}(\mathbf A)$에 속하므로 최적 근삿값은 $\mathbf b$를 열공간에 정사영한 벡터다.
+를 푼다. $\mathbf A\mathbf c$는 $\operatorname{im}(\mathbf A)$에 속하고, 열공간의 모든 벡터를 어떤 $\mathbf c$로 만들 수 있다. 따라서 계수를 바꾸는 것은 열공간 안의 후보 벡터들을 비교하는 것과 같다. 앞 절의 가장 가까운 벡터 성질에 따라 최적 근삿값은 $\mathbf b$를 열공간에 정사영한 벡터다. 정확한 해가 있는 경우에도 같은 최소화 문제를 정의할 수 있으며, 그때 최소 잔차는 0이다.
 
 최적 잔차
 
@@ -322,7 +384,18 @@ $\mathbf A\mathbf c=\mathbf b$에 정확한 해가 없으면 $\mathbf A\mathbf c
 \mathbf A^\top\mathbf b
 \]
 
-라는 정규방정식을 얻는다. $\mathbf A$의 열이 독립이면 해가 하나다.
+라는 정규방정식을 얻는다. 이 식은 목표와 근삿값의 차이가 모든 열 방향에 수직이어야 한다는 조건이다. 잔차의 직교 조건을 만족하면 앞 절의 거리 분해를 적용할 수 있으므로 이 조건은 최적성을 보장한다.
+
+최적 출력 $\mathbf A\widehat{\mathbf c}$는 유일하지만 계수 $\widehat{\mathbf c}$까지 유일한지는 별도 문제다. $\mathbf A$의 kernel에 0이 아닌 벡터가 있으면 그 벡터를 계수에 더해도 같은 최적 출력이 된다. 열이 독립이면 kernel이 $\{\mathbf 0\}$이므로 계수도 유일하다.
+
+아래 그림은 계수 하나를 바꾸면 열공간의 직선 위 출력이 움직이는 최소제곱 문제다. 목표가 직선 밖에 있으면 정확한 도달 대신 가장 가까운 출력을 고른다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Least squares on a diagonal column-space line with target three one, projected output two two, and perpendicular residual one minus one](../../figures/assets/M02/M02-09-least-squares-column-line.svg)
+
+<figcaption>A=(1,1)ᵀ가 만들 수 있는 출력은 (c,c)뿐이다. 목표 (3,1)의 가장 가까운 출력은 계수 c=2에서의 (2,2)이며, 잔차 (1,−1)은 A의 열과 직교한다.</figcaption>
+</figure>
 
 ## 예제 1. 정규직교기저의 좌표
 
@@ -476,7 +549,7 @@ c_2
 {\|\mathbf h\|_2^2}
 \]
 
-는 해당 부분공간이 이 벡터의 제곱 norm 중 차지하는 비율이다. 이 값은 기하학적 분해를 나타낸다. 부분공간의 의미와 모델의 기능적 사용은 데이터 대조와 개입으로 따로 확인해야 한다.
+는 $\mathbf h\ne\mathbf 0$일 때 해당 부분공간이 이 벡터의 제곱 norm 중 차지하는 비율이다. 정사영과 잔차가 직교하므로 전체 제곱 norm은 두 성분의 제곱 norm의 합이고, 이 비율은 0과 1 사이에 있다. 영벡터에서는 분모도 0이므로 비율을 정의하지 않는다. 이 값은 기하학적 분해를 나타낸다. 부분공간의 의미와 모델의 기능적 사용은 데이터 대조와 개입으로 따로 확인해야 한다.
 
 ## 흔한 오해
 

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" role="img" aria-labelledby="title desc">
+  <title id="title">The sign of an inner product distinguishes acute, right and obtuse angles</title>
+  <desc id="desc">Three coordinate panels compare the reference vector two zero with one one, zero two and minus one one. Their inner products are two, zero and minus two, corresponding to forty five, ninety and one hundred thirty five degrees.</desc>
+  <defs><pattern id="grid" width="40" height="40" y="30" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="800" height="420" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700">Same reference direction, different angles</text>
+    <g text-anchor="middle" font-size="20" font-weight="700"><text x="140" y="101" fill="#065F46">Acute: 45°</text><text x="400" y="101">Right: 90°</text><text x="660" y="101" fill="#5B21B6">Obtuse: 135°</text></g>
+    <rect x="60" y="150" width="160" height="160" fill="url(#grid)"/><rect x="300" y="150" width="180" height="160" fill="url(#grid)"/><rect x="560" y="150" width="180" height="160" fill="url(#grid)"/>
+    <path d="M48 270H235M120 317V138M288 270H495M380 317V138M548 270H755M640 317V138" fill="none" stroke="#94A3B8" stroke-width="1.5"/>
+    <path d="M120 270L200 270" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/><path d="M380 270L460 270" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/><path d="M640 270L720 270" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M120 270L160 230" fill="none" stroke="#059669" stroke-width="3.5" marker-end="url(#arrow)"/><path d="M380 270L380 190" fill="none" stroke="#059669" stroke-width="3.5" marker-end="url(#arrow)"/><path d="M640 270L600 230" fill="none" stroke="#7C3AED" stroke-width="3.5" marker-end="url(#arrow)"/>
+    <path d="M147 270A27 27 0 0 0 139 251M400 270V250H380M667 270A27 27 0 0 0 621 251" fill="none" stroke="#D97706" stroke-width="2"/>
+    <g font-size="17" font-weight="700"><text x="171" y="209" fill="#065F46">(1, 1)</text><text x="403" y="181" fill="#065F46">(0, 2)</text><text x="552" y="209" fill="#5B21B6">(−1, 1)</text></g>
+    <g font-size="18" text-anchor="middle"><text x="140" y="352">uᵀv = 2 &gt; 0</text><text x="400" y="352">uᵀv = 0</text><text x="660" y="352">uᵀv = −2 &lt; 0</text></g>
+    <text x="400" y="394" text-anchor="middle" font-size="18" fill="#334155">Blue reference v = (2, 0). Both vectors must be nonzero for an angle.</text>
+  </g>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 530" role="img" aria-labelledby="title desc">
+  <title id="title">A basis requires both independence and spanning the target space</title>
+  <desc id="desc">For the target plane R two, a single nonzero vector is independent but spans only a line. Three vectors including e one, e two, and their sum span the plane but are dependent. The pair e one and e two satisfies both requirements.</desc>
+  <defs><pattern id="grid" width="45" height="45" x="10" patternUnits="userSpaceOnUse"><path d="M45 0H0V45" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="1080" height="530" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="540" y="40" text-anchor="middle" font-size="24" font-weight="700">Target space: the whole plane R²</text>
+    <text x="190" y="97" text-anchor="middle" font-size="21" font-weight="700">Independent only</text><text x="550" y="97" text-anchor="middle" font-size="21" font-weight="700">Spanning only</text><text x="910" y="97" text-anchor="middle" font-size="21" font-weight="700" fill="#065F46">Both: a basis</text>
+    <rect x="100" y="180" width="180" height="180" fill="url(#grid)"/><rect x="460" y="180" width="180" height="180" fill="#D1FAE5"/><rect x="820" y="180" width="180" height="180" fill="#D1FAE5"/><rect x="460" y="180" width="180" height="180" fill="url(#grid)"/><rect x="820" y="180" width="180" height="180" fill="url(#grid)"/>
+    <path d="M100 315L280 225" fill="none" stroke="#A7F3D0" stroke-width="5"/>
+    <path d="M80 270H300M190 380V160M440 270H660M550 380V160M800 270H1020M910 380V160" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M190 270L235 247.5" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M550 270H595" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/><path d="M550 270V225" fill="none" stroke="#7C3AED" stroke-width="4" marker-end="url(#arrow)"/><path d="M550 270L595 225" fill="none" stroke="#D97706" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M910 270H955" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/><path d="M910 270V225" fill="none" stroke="#7C3AED" stroke-width="4" marker-end="url(#arrow)"/>
+    <text x="190" y="425" text-anchor="middle" font-size="19" fill="#334155">One direction makes a line.</text><text x="550" y="425" text-anchor="middle" font-size="19" fill="#334155">The diagonal is redundant.</text><text x="910" y="425" text-anchor="middle" font-size="19" fill="#334155">Two independent directions.</text>
+    <text x="190" y="468" text-anchor="middle" font-size="19" fill="#5B21B6">Does not span R²</text><text x="550" y="468" text-anchor="middle" font-size="19" fill="#5B21B6">Not independent</text><text x="910" y="468" text-anchor="middle" font-size="19" fill="#065F46">Spans R² and is independent</text>
+    <text x="540" y="508" text-anchor="middle" font-size="16" fill="#475569">Light green marks the span; arrows mark the selected generators.</text>
+  </g>
+</svg>

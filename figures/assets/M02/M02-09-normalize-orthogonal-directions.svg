@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" role="img" aria-labelledby="title desc">
+  <title id="title">Normalization changes length while preserving orthogonal directions</title>
+  <desc id="desc">Equal-scale coordinate panels compare perpendicular vectors one one and one minus one of length square root two with their normalized counterparts of length one. A unit circle makes the length requirement visible.</desc>
+  <defs><pattern id="grid" width="65" height="65" x="45" y="40" patternUnits="userSpaceOnUse"><path d="M65 0H0V65" fill="none" stroke="#E2E8F0"/></pattern><pattern id="grid2" width="65" height="65" x="25" y="40" patternUnits="userSpaceOnUse"><path d="M65 0H0V65" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="900" height="500" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="450" y="40" text-anchor="middle" font-size="24" font-weight="700">Orthogonal does not yet mean unit length</text>
+    <text x="240" y="98" text-anchor="middle" font-size="21" font-weight="700" fill="#1E3A8A">Orthogonal: length √2</text><text x="675" y="98" text-anchor="middle" font-size="21" font-weight="700" fill="#065F46">Orthonormal: length 1</text>
+    <rect x="110" y="170" width="260" height="260" fill="url(#grid)"/><rect x="545" y="170" width="260" height="260" fill="url(#grid2)"/>
+    <path d="M90 300H390M240 445V150M525 300H825M675 445V150" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <circle cx="240" cy="300" r="65" fill="none" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="4 4"/><circle cx="675" cy="300" r="65" fill="none" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <path d="M240 300L305 235" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/><path d="M240 300L305 365" fill="none" stroke="#7C3AED" stroke-width="4" marker-end="url(#arrow)"/><path d="M675 300L720.962 254.038" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/><path d="M675 300L720.962 345.962" fill="none" stroke="#7C3AED" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M250 290L260 300L250 310M685 290L695 300L685 310" fill="none" stroke="#D97706" stroke-width="2"/>
+    <text x="304" y="205" font-size="19" fill="#1E3A8A">v₁ = (1, 1)</text><text x="306" y="401" font-size="19" fill="#5B21B6">v₂ = (1, −1)</text><text x="739" y="245" font-size="20" fill="#1E3A8A">q₁</text><text x="739" y="377" font-size="20" fill="#5B21B6">q₂</text>
+    <text x="450" y="473" text-anchor="middle" font-size="18" fill="#475569">The dashed circles have radius 1; dividing each vector by √2 reaches that circle.</text>
+  </g>
+</svg>

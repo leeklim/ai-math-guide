@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 540" role="img" aria-labelledby="title desc">
+  <title id="title">A linear combination joins scaled and reversed displacements</title>
+  <desc id="desc">For v one equal to one two and v two equal to three minus one, the path first follows twice v one to two four and then minus v two to minus one five.</desc>
+  <defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#E2E8F0"/></pattern><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="640" height="540" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="320" y="42" text-anchor="middle" font-size="24" font-weight="700">2v₁ − v₂: scale, reverse, then join</text>
+    <text x="320" y="76" text-anchor="middle" font-size="18" fill="#475569">v₁ = (1, 2), v₂ = (3, −1)</text>
+    <rect x="80" y="120" width="400" height="320" fill="url(#grid)"/>
+    <path d="M65 360H495M280 455V105" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M280 360L360 200" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M360 200L240 160" fill="none" stroke="#7C3AED" stroke-width="4" stroke-dasharray="8 5" marker-end="url(#arrow)"/>
+    <path d="M280 360L240 160" fill="none" stroke="#059669" stroke-width="4" marker-end="url(#arrow)"/>
+    <text x="386" y="228" font-size="20" font-weight="700" fill="#1E3A8A">2v₁ = (2, 4)</text>
+    <text x="330" y="144" font-size="20" font-weight="700" fill="#5B21B6">−v₂ = (−3, 1)</text>
+    <text x="65" y="183" font-size="20" font-weight="700" fill="#065F46">(−1, 5)</text>
+    <text x="259" y="385" font-size="16" fill="#475569">0</text><text x="507" y="366" font-size="16" fill="#475569">x₁</text><text x="280" y="100" text-anchor="middle" font-size="16" fill="#475569">x₂</text>
+    <text x="320" y="493" text-anchor="middle" font-size="19" fill="#334155">(2, 4) + (−3, 1) = (−1, 5)</text>
+  </g>
+</svg>

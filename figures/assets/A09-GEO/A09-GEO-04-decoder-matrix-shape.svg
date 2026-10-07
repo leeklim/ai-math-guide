@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="1080" viewBox="0 0 520 1080" role="img" aria-labelledby="title desc">
+  <title id="title">A three by two decoder Jacobian gives a two by two pullback matrix</title>
+  <desc id="desc">The Jacobian of the decoder two z one comma z two comma zero has two input columns and three output rows. Squared column lengths four and one and cross column inner product zero give the two by two pullback matrix.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0 0L9 4L0 8L2.6 4Z" fill="context-stroke"/></marker></defs>
+  <rect width="520" height="1080" fill="#F8FAFC"/>
+  <g font-family="sans-serif" font-size="26" fill="#0F172A" text-anchor="middle">
+    <text x="260" y="58" font-size="28">Decoder F(z)=(2z₁,z₂,0)</text>
+    <text x="260" y="114">J: 3 output rows × 2 input columns</text>
+    <text x="230" y="180" fill="#2563EB">input z₁</text>
+    <text x="350" y="180" fill="#7C3AED">input z₂</text>
+    <rect x="170" y="208" width="120" height="210" fill="#DBEAFE"/>
+    <rect x="290" y="208" width="120" height="210" fill="#EDE9FE"/>
+    <path d="M170 208H410V418H170Z M170 278H410 M170 348H410 M290 208V418" stroke="#94A3B8" fill="none" stroke-width="1.5"/>
+    <g font-size="24" text-anchor="start"><text x="47" y="252">output 1</text><text x="47" y="322">output 2</text><text x="47" y="392">output 3</text></g>
+    <g font-size="31"><text x="230" y="252">2</text><text x="350" y="252">0</text><text x="230" y="322">0</text><text x="350" y="322">1</text><text x="230" y="392">0</text><text x="350" y="392">0</text></g>
+    <text x="260" y="484">Column norms squared: 4 and 1</text>
+    <text x="260" y="534">Column inner product: 0</text>
+    <path d="M260 565V620" stroke="#059669" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <text x="260" y="678" fill="#059669">G_Z=JᵀJ: 2 × 2 input metric</text>
+    <text x="230" y="736" fill="#2563EB">z₁</text><text x="350" y="736" fill="#7C3AED">z₂</text>
+    <rect x="170" y="758" width="120" height="80" fill="#DBEAFE"/>
+    <rect x="290" y="838" width="120" height="80" fill="#EDE9FE"/>
+    <path d="M170 758H410V918H170Z M170 838H410 M290 758V918" stroke="#94A3B8" fill="none" stroke-width="1.5"/>
+    <text x="110" y="810" fill="#2563EB">z₁</text><text x="110" y="890" fill="#7C3AED">z₂</text>
+    <g font-size="31"><text x="230" y="810">4</text><text x="350" y="810">0</text><text x="230" y="890">0</text><text x="350" y="890">1</text></g>
+    <text x="260" y="990">The output has three coordinates.</text>
+    <text x="260" y="1034">The input metric has two axes.</text>
+  </g>
+</svg>

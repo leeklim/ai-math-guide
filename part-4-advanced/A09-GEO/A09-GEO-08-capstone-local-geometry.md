@@ -47,16 +47,74 @@ claim은 “고정한 layer와 token 위치에서 condition별 activation은 반
 4. local dimension threshold와 bootstrap 횟수
 5. random-label·matched Gaussian·random-subspace control
 
+아래 bootstrap에서는 prompt ID를 다시 뽑되 분석할 token 위치를 유지한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Prompt-level bootstrap duplicates whole prompt groups P2 P2 P1 while retaining the same selected token position and keeping dependent tokens together](../../figures/assets/A09-GEO/A09-GEO-08-prompt-bootstrap.svg)
+
+<figcaption>각 행은 독립 prompt이고 같은 행의 token들은 종속된 한 묶음이다. 녹색 t2는 고정한 분석 위치다. bootstrap에서 P2가 두 번 뽑히면 그 prompt의 묶음이 두 번 들어간다. token을 흩어 독립 반복처럼 다시 뽑는 방식과 구분한다.</figcaption>
+</figure>
+
 ## 측정 절차
 
-각 anchor $x$에서 neighborhood covariance를 만들고 leading eigenvector $U_r(x)$를 구한다. downstream map $h$가 미분 가능하면 $U_r^\top J_h^\top J_hU_r$로 tangent-restricted pullback metric을 계산한다. 이산 경로 $x_0,\ldots,x_T$의 길이는
+각 anchor $x$에서 neighborhood covariance를 만들고 leading eigenvector $U_r(x)$를 구한다. $U_r(x)$의 열은 서로 직교하는 unit eigenvector $r$개이며, 선택한 local tangent 근사의 basis다. 이것이 실제 tangent space라는 판단에는 GEO-07의 표본·noise·scale 조건이 남아 있다.
+
+다른 입력과 model 상태를 고정한 downstream map $h:\mathbb R^D\to\mathbb R^m$이 미분 가능하고 출력 metric이 Euclidean이면 $U_r^\top J_h^\top J_hU_r$로 tangent-restricted pullback metric을 계산한다. tangent의 좌표 $c\in\mathbb R^r$를 ambient 방향 $U_rc$로 보내고, 이를 다시 출력 속도 $J_hU_rc$로 보내는 계산이다. 따라서
+
+$$
+\|J_hU_rc\|_2^2
+=c^\top\bigl(U_r^\top J_h^\top J_hU_r\bigr)c
+$$
+
+다. $J_h$는 $m\times D$, restricted matrix는 $r\times r$이며 모두 같은 anchor에서 평가한다. PCA 좌표에서 Euclidean norm이 1인 eigenvector $c$의 eigenvalue는 출력 squared gain이고 길이 gain은 그 제곱근이다. 다른 입력 metric에서 길이가 1인 방향의 gain을 묻는 경우에는 그 metric의 입력 norm도 반영해야 한다. $J_hU_r$가 full column rank일 때에만 이 제한 행렬이 positive definite이다. 일부 tangent 근사 방향이 출력에서 1차적으로 사라지면 semidefinite이다.
+
+아래 숫자 행렬에서 U의 tangent 열이 J의 ambient 열을 거쳐 어디로 가는지 확인한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A three by two tangent basis and two by three Jacobian compose into a two by two restricted Jacobian whose Gram matrix has squared gains four and one](../../figures/assets/A09-GEO/A09-GEO-08-restricted-shape.svg)
+
+<figcaption>이 합성 예의 U는 R³ 안의 두 tangent 방향을 선택하고 J는 R³의 방향을 R² 출력 속도로 보낸다. JU의 행은 출력 좌표, 열은 tangent 좌표다. restricted metric의 두 축은 모두 tangent 좌표이며, c=(1,0)의 출력 속도 (2,0)는 squared gain 4와 length gain 2에 대응한다.</figcaption>
+</figure>
+
+아래에서는 J를 고정한 채 선택한 tangent 근사 부분공간만 바꾼다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The same downstream Jacobian yields positive definite restricted gains two and one on one subspace but gains two and zero on a subspace containing its null direction](../../figures/assets/A09-GEO/A09-GEO-08-restricted-gain-rank.svg)
+
+<figcaption>U=[e₁,e₂]에서는 JU가 두 방향을 모두 구분해 restricted eigenvalue가 4,1이고 length gain은 2,1이다. U=[e₁,e₃]에서는 두 번째 방향이 출력에서 1차적으로 사라져 eigenvalue가 4,0이다. ambient J의 rank뿐 아니라 실제 선택한 JU의 full column rank를 확인해야 한다.</figcaption>
+</figure>
+
+이산 경로 $x_0,\ldots,x_T$에서는 $\Delta x_t=x_{t+1}-x_t$로 두고 길이를
 
 $$
 \widehat L(\gamma)=\sum_{t=0}^{T-1}
 \sqrt{\Delta x_t^\top G(x_t)\Delta x_t}
 $$
 
-로 근사한다. prompt bootstrap으로 median과 interval을 보고하고, 같은 절차를 null data에 적용한다.
+로 근사한다. $T+1$개의 점 사이에 $T$개의 구간이 있으며 각 변위를 구간 시작점의 metric으로 잰다. 같은 좌표 표현의 충분히 작은 구간에서 metric 속도의 적분을 이 합으로 근사하는 것이다. 구간이 길거나 metric이 크게 바뀌면 더 잘게 나눈 결과와 비교해야 한다. 임의의 activation 점들을 이은 합이 manifold 위 실제 경로의 길이나 두 점 사이 최단 거리와 자동으로 같아지는 것은 아니다.
+
+아래 같은 경로에서 구간 시작점의 metric을 적용하는 위치를 읽는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The same piecewise path has start-metric length estimates two and two point two five when its horizontal part is divided into one or two intervals](../../figures/assets/A09-GEO/A09-GEO-08-start-metric-sum.svg)
+
+<figcaption>합성 metric G(x,y)=diag((1+x)²,1)에서 (0,0)→(1,0)→(1,1)을 따라간다. 왼쪽의 구간 길이 근사는 1+1=2다. 오른쪽은 수평 구간을 둘로 나누어 시작점 x=0과 x=0.5의 metric을 적용하므로 0.5+0.75+1=2.25다. 점 3개는 구간 2개, 점 4개는 구간 3개다.</figcaption>
+</figure>
+
+아래에서는 같은 synthetic path를 더 잘게 나누어 근사값을 비교한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Left-endpoint metric length sums for the same synthetic path approach the integral length two point five as the horizontal subdivision count increases](../../figures/assets/A09-GEO/A09-GEO-08-path-refinement.svg)
+
+<figcaption>앞 그림의 수평 부분을 n등분하면 L̂ₙ=2.5−1/(2n)이다. 구간을 줄일수록 근사값이 같은 경로의 적분 길이 2.5에 접근한다. 이는 합성 metric의 수치 확인이며 임의 activation 점들의 연결이 manifold 경로나 geodesic이라는 증거는 아니다.</figcaption>
+</figure>
+
+prompt bootstrap으로 median과 interval을 보고하고, 같은 절차를 null data에 적용한다. 같은 prompt에서 나온 activation들은 하나의 재표집 묶음으로 다룬다. 이웃 covariance나 tangent basis도 재추정했는지, 이미 구한 anchor별 측정값만 재표집했는지를 구분해 기록한다. 두 방식의 interval은 포함하는 추정 변동이 다르다.
 
 ## 결과 기록표
 
@@ -64,8 +122,30 @@ $$
 |---|---|---|---|---|
 | local dimension | condition별 median $d$ | local PCA spectrum | Gaussian·shuffle | 기술적 차이 |
 | tangent alignment | subspace similarity | principal angles | random subspace | 정렬 차이 |
-| pullback sensitivity | tangent direction별 gain | restricted metric eigenvalue | matched norm | 국소 민감도 |
+| pullback sensitivity | tangent direction별 gain | restricted metric eigenvalue의 제곱근 | matched norm | 국소 민감도 |
 | path length | condition별 metric length | discrete sum | permuted path | 경로 구조 |
+
+local dimension의 label shuffle은 계산한 차원과 condition 이름의 대응을 검토한다. label을 쓰지 않는 이웃 구조 자체가 검증되는 것은 아니다. tangent alignment는 같은 ambient 좌표와 metric에서 부분공간을 비교한 결과이고, pullback sensitivity는 고정한 downstream map의 출력 속도 크기다. 서로 다른 측정량을 모두 semantic feature의 사용 증거로 합치지 않는다.
+
+permuted path는 점들의 순서를 바꿔 다른 경로를 만든다. 따라서 길이 차이는 순서에 대한 경로 구조의 증거이지, manifold의 intrinsic dimension이나 geodesic 여부를 직접 판정한 결과가 아니다. 각 행의 허용 주장은 그 행에서 계산한 estimand와 control의 범위로 제한한다.
+
+아래에서 부분공간의 정렬과 출력 속도 gain이 측정하는 대상을 나누어 읽는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Orthogonal input subspaces have a principal angle of ninety degrees while a fixed anisotropic downstream Jacobian maps their unit directions to gains two and one](../../figures/assets/A09-GEO/A09-GEO-08-alignment-versus-gain.svg)
+
+<figcaption>왼쪽의 principal angle 90°는 같은 ambient 내적에서 두 부분공간의 방향 관계다. 오른쪽의 고정 J=diag(2,1)는 unit 방향의 출력 속도 크기를 각각 2와 1로 만든다. 정렬과 gain은 다른 측정량이며, 어느 쪽도 그 자체로 semantic feature의 사용을 입증하지 않는다.</figcaption>
+</figure>
+
+아래에서는 같은 점들과 끝점을 유지하면서 중간 순서만 바꾼다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Permuting the middle points of a square changes the path length from three to one plus two square root two while preserving the same points and endpoints](../../figures/assets/A09-GEO/A09-GEO-08-permuted-path.svg)
+
+<figcaption>Euclidean metric에서 A→B→C→D의 길이는 3이고 A→C→B→D는 1+2√2다. 표본점 집합과 끝점은 같지만 순서를 바꾸면 다른 경로가 된다. permuted path와의 길이 차이를 intrinsic dimension이나 geodesic 판정으로 읽을 수 없다.</figcaption>
+</figure>
 
 ## 흔한 오해
 

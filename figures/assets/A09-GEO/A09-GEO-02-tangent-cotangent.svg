@@ -1,25 +1,36 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
-  <title id="title">Tangent vectors covectors and gradients at one point of a manifold</title>
-  <desc id="desc">At point p on a curved manifold, a tangent vector follows an allowed curve velocity, a covector df maps that vector to a scalar rate, and a metric identifies df with a gradient vector.</desc>
-  <defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="context-stroke"/></marker></defs>
-  <rect width="960" height="540" rx="18" fill="#F8FAFC"/>
-  <text x="480" y="48" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#0F172A">Tangent and cotangent objects have different types</text>
-  <path d="M45 335C170 170 330 170 455 335C575 485 760 455 915 280" fill="#DBEAFE" stroke="#3B82F6" stroke-width="3" opacity="0.85"/>
-  <text x="140" y="420" font-family="sans-serif" font-size="19" fill="#1E3A8A">manifold M</text>
-  <circle cx="450" cy="329" r="9" fill="#0F172A"/><text x="430" y="360" font-family="sans-serif" font-size="19" fill="#0F172A">p</text>
-  <path d="M450 329L640 380" stroke="#2563EB" stroke-width="5" marker-end="url(#arrow)"/>
-  <text x="610" y="415" font-family="sans-serif" font-size="18" font-weight="600" fill="#1D4ED8">v ∈ TₚM</text>
-  <path d="M450 329L535 185" stroke="#DC2626" stroke-width="5" marker-end="url(#arrow)"/>
-  <text x="540" y="183" font-family="sans-serif" font-size="18" font-weight="600" fill="#991B1B">grad f</text>
-  <g transform="translate(665 95)">
-    <rect width="245" height="145" rx="16" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
-    <text x="122" y="38" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="700" fill="#78350F">covector dfₚ</text>
-    <text x="122" y="73" text-anchor="middle" font-family="sans-serif" font-size="17" fill="#475569">input: tangent vector v</text>
-    <text x="122" y="101" text-anchor="middle" font-family="sans-serif" font-size="17" fill="#475569">output: rate dfₚ(v)</text>
-    <text x="122" y="128" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#475569">linear functional</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="780" viewBox="0 0 960 780" role="img" aria-labelledby="title desc">
+  <title id="title">Tangent vectors, covectors, and metric-dependent gradients</title>
+  <desc id="desc">Both v and gradient f lie in a two dimensional tangent coordinate plane at p. A separate covector functional reads v to a scalar. A metric identifies the functional with the gradient, without turning a covector into an unqualified arrow.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0 0L9 4L0 8L2.6 4Z" fill="context-stroke"/></marker></defs>
+  <rect width="960" height="780" fill="#F8FAFC"/>
+  <g font-family="sans-serif" fill="#0F172A" font-size="25">
+    <text x="480" y="58" text-anchor="middle" font-size="29">Tangent vectors and covectors have different types</text>
+    <text x="295" y="120" text-anchor="middle" fill="#1E3A8A">2D coordinate display of TₚM</text>
+    <rect x="75" y="150" width="465" height="390" rx="10" fill="#DBEAFE" fill-opacity="0.35" stroke="#94A3B8" stroke-width="1.5"/>
+    <path d="M110 170V520 M170 170V520 M230 170V520 M290 170V520 M350 170V520 M410 170V520 M470 170V520 M95 210H520 M95 270H520 M95 330H520 M95 390H520 M95 450H520 M95 510H520" stroke="#CBD5E1" stroke-width="1"/>
+    <path d="M100 450H510" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    <path d="M230 510V180" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="440" y="490" font-size="24">basis 1</text>
+    <text x="255" y="196" font-size="24">basis 2</text>
+    <path d="M230 450L410 360" stroke="#2563EB" stroke-width="3.5" marker-end="url(#arrow)"/>
+    <path d="M230 450L305 255" stroke="#DC2626" stroke-width="3.5" marker-end="url(#arrow)"/>
+    <circle cx="230" cy="450" r="5" fill="#0F172A"/>
+    <text x="194" y="488">p</text>
+    <text x="388" y="325" fill="#1D4ED8">v ∈ TₚM</text>
+    <text x="330" y="252" fill="#991B1B">grad f ∈ TₚM</text>
+    <text x="295" y="592" text-anchor="middle" font-size="24">Both arrows are tangent vectors.</text>
+    <rect x="595" y="120" width="310" height="150" rx="12" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="2"/>
+    <text x="750" y="160" text-anchor="middle" fill="#5B21B6">metric gₚ</text>
+    <text x="750" y="202" text-anchor="middle" font-size="24" fill="#5B21B6">dfₚ ↔ grad f</text>
+    <text x="750" y="242" text-anchor="middle" font-size="23" fill="#5B21B6">gₚ(grad f,v)=dfₚ(v)</text>
+    <rect x="595" y="340" width="310" height="175" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+    <text x="750" y="382" text-anchor="middle" fill="#78350F">covector dfₚ</text>
+    <text x="750" y="427" text-anchor="middle" font-size="24">input: tangent vector v</text>
+    <text x="750" y="474" text-anchor="middle" font-size="24">linear functional</text>
+    <path d="M430 360H562V428H584" stroke="#D97706" stroke-width="2.5" stroke-dasharray="7 5" fill="none" marker-end="url(#arrow)"/>
+    <path d="M750 516V565" stroke="#D97706" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <rect x="630" y="580" width="240" height="65" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="2"/>
+    <text x="750" y="622" text-anchor="middle" fill="#065F46">scalar rate dfₚ(v)</text>
+    <text x="480" y="710" text-anchor="middle" font-size="25">Pairing needs no metric; the gradient does.</text>
   </g>
-  <path d="M640 365C735 350 755 300 780 250" fill="none" stroke="#D97706" stroke-width="3" stroke-dasharray="8 6" marker-end="url(#arrow)"/>
-  <rect x="310" y="105" width="250" height="62" rx="12" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="2"/>
-  <text x="435" y="143" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#5B21B6">metric gₚ converts dfₚ ↔ grad f</text>
-  <text x="480" y="500" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#334155">The differential exists without a metric; the gradient vector depends on the chosen metric.</text>
 </svg>

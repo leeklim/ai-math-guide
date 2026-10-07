@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="1050" viewBox="0 0 520 1050" role="img" aria-labelledby="title desc">
+  <title id="title">Prompt-level bootstrap keeps dependent tokens together</title>
+  <desc id="desc">Three prompt groups contain three token positions each with the second position selected. A bootstrap sample P2 P2 P1 duplicates entire prompt groups while preserving the fixed token position.</desc>
+  <defs><marker id="dart" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 6 4 0 8 2 4Z" fill="context-stroke"/></marker></defs>
+  <rect width="520" height="1050" rx="18" fill="#F8FAFC"/>
+  <g font-family="Arial,sans-serif" fill="#0F172A">
+    <g text-anchor="middle"><text x="260" y="64" font-size="28">Independent units: prompts</text><text x="260" y="108" font-size="25">Analyze one fixed token position</text></g>
+    <g font-size="26" text-anchor="middle">
+      <text x="74" y="197">P1</text><text x="74" y="297">P2</text><text x="74" y="397">P3</text>
+      <text x="74" y="597">P2</text><text x="74" y="697">P2</text><text x="74" y="797">P1</text>
+    </g>
+    <g fill="#EFF6FF" stroke="#2563EB" stroke-width="2">
+      <rect x="136" y="154" width="84" height="66" rx="8"/><rect x="242" y="154" width="84" height="66" rx="8"/><rect x="348" y="154" width="84" height="66" rx="8"/>
+      <rect x="136" y="254" width="84" height="66" rx="8"/><rect x="242" y="254" width="84" height="66" rx="8"/><rect x="348" y="254" width="84" height="66" rx="8"/>
+      <rect x="136" y="354" width="84" height="66" rx="8"/><rect x="242" y="354" width="84" height="66" rx="8"/><rect x="348" y="354" width="84" height="66" rx="8"/>
+      <rect x="136" y="554" width="84" height="66" rx="8"/><rect x="242" y="554" width="84" height="66" rx="8"/><rect x="348" y="554" width="84" height="66" rx="8"/>
+      <rect x="136" y="654" width="84" height="66" rx="8"/><rect x="242" y="654" width="84" height="66" rx="8"/><rect x="348" y="654" width="84" height="66" rx="8"/>
+      <rect x="136" y="754" width="84" height="66" rx="8"/><rect x="242" y="754" width="84" height="66" rx="8"/><rect x="348" y="754" width="84" height="66" rx="8"/>
+    </g>
+    <g fill="none" stroke="#059669" stroke-width="4"><rect x="238" y="146" width="92" height="282" rx="9"/><rect x="238" y="546" width="92" height="282" rx="9"/></g>
+    <g font-size="25" fill="#2563EB" text-anchor="middle">
+      <text x="178" y="196">t1</text><text x="284" y="196">t2</text><text x="390" y="196">t3</text>
+      <text x="178" y="296">t1</text><text x="284" y="296">t2</text><text x="390" y="296">t3</text>
+      <text x="178" y="396">t1</text><text x="284" y="396">t2</text><text x="390" y="396">t3</text>
+      <text x="178" y="596">t1</text><text x="284" y="596">t2</text><text x="390" y="596">t3</text>
+      <text x="178" y="696">t1</text><text x="284" y="696">t2</text><text x="390" y="696">t3</text>
+      <text x="178" y="796">t1</text><text x="284" y="796">t2</text><text x="390" y="796">t3</text>
+    </g>
+    <path d="M178 442V484" fill="none" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#dart)"/>
+    <g text-anchor="middle"><text x="320" y="475" font-size="25" fill="#7C3AED">Resample prompt IDs</text><text x="260" y="526" font-size="26">Bootstrap sample: P2, P2, P1</text>
+      <text x="260" y="885" font-size="26" fill="#059669">Green: fixed token position t2</text><text x="260" y="934" font-size="26">Do not resample dependent</text><text x="260" y="981" font-size="26">tokens as independent units.</text>
+    </g>
+  </g>
+</svg>

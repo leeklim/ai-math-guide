@@ -56,6 +56,8 @@ estimated_time: "120~150분"
 \Delta_b=\mathbb E[b(X)\mid C_1]-\mathbb E[b(X)\mid C_0].
 \]
 
+각 기대값은 해당 조건에 속한 입력들에서 같은 행동값 $b$를 평균한 것이다. 두 조건의 차이를 비교하려면 정답·대안 token, 측정 위치와 점수 정의를 일관되게 적용해야 한다. 조건마다 입력의 길이·문맥도 함께 달라졌다면 $\Delta_b$에는 그 차이의 영향도 섞인다. 조건별 평균의 뺄셈만으로 어느 요인이 행동을 바꿨는지를 분리하지는 못한다.
+
 표현 질문은 내부 위치를 포함한다. 같은 입력이라도 layer $l$, token $t$와 component가 달라지면 다른 tensor를 관찰한다. 따라서 `중간 표현을 본다`는 문장은 질문이 아니다. 적어도 다음을 정해야 한다.
 
 1. model과 checkpoint
@@ -64,6 +66,15 @@ estimated_time: "120~150분"
 4. token 위치를 정하는 규칙
 5. 입력 조건과 대조 조건
 6. activation에서 계산할 통계량
+
+같은 prompt의 내부 관측과 출력 측정을 계산 위치로 구분하자.
+
+<figure class="lesson-figure" markdown="1">
+
+![The same prompt is measured by an output logit margin and by a vector at a specified internal layer and token.](../../figures/assets/I06/I06-01-behavior-internal-measurements.svg)
+
+<figcaption>같은 입력에서도 행동값은 출력에서 계산하고 표현값은 지정한 내부 위치에서 읽는다. 비교 조건을 바꾸더라도 각각의 측정 정의는 유지한다.</figcaption>
+</figure>
 
 ## 2. claim, estimand, measurement
 
@@ -77,6 +88,17 @@ estimated_time: "120~150분"
 
 measurement가 estimand를 잘 근사하려면 입력 표본과 측정 절차가 질문에 맞아야 한다. 여덟 문장만 측정한 결과를 모든 언어·문장 형식·checkpoint에 일반화할 수 없다. 반대로 좁은 파일럿임을 밝히면 작은 실험도 hook 위치와 분석 절차를 검증하는 데 유용하다.
 
+표의 estimand는 분포 전체 가운데 평균의 차이만 선택한다. 두 모평균이 다르면 두 분포도 같을 수 없지만, 모평균이 같다고 두 분포가 같아지는 것은 아니다. 분산이나 값이 모이는 영역의 비중이 다를 수 있다. 표본평균 차이는 이 모평균 차이를 추정한 결과다. 따라서 claim에서 말하는 분포 차이의 어느 부분을 measurement로 확인할지 좁혀야 결과와 결론을 연결할 수 있다.
+
+입력 모집단에서 선택한 파일럿 표본의 위치를 비교하자.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two input populations contain a selected four place and four animal prompts; population mean difference and sample mean difference are distinct targets.](../../figures/assets/I06/I06-01-population-pilot.svg)
+
+<figcaption>모집단의 평균 차이와 네 개씩 고른 prompt의 표본평균 차이는 서로 다른 양이다. 파일럿의 표본 결과를 전체 분포 차이로 확장하려면 표본 선택과 측정 범위를 검토해야 한다.</figcaption>
+</figure>
+
 ## 3. 분석 단위와 반복 측정
 
 입력 문장 하나에서 12개 layer와 20개 token을 측정했다고 해서 독립 표본이 240개가 되는 것은 아니다. 같은 입력에서 나온 측정값은 공통 원인을 공유한다. 입력이 experimental unit이면 layer와 token은 그 입력 안의 반복 측정이다.
@@ -88,6 +110,22 @@ d_i=b(x_i)-b(x'_i)
 \]
 
 를 입력 쌍마다 구한 뒤 $d_i$의 분포를 분석한다. 이 방식은 문장마다 다른 난이도를 일부 상쇄한다.
+
+입력 안의 반복 측정과 입력 쌍별 차이를 그림으로 구분하자.
+
+<figure class="lesson-figure" markdown="1">
+
+![A single input encloses a layer by token measurement grid; its twelve layers and twenty tokens give 240 repeated measurements but one experimental unit.](../../figures/assets/I06/I06-01-repeated-measurements.svg)
+
+<figcaption>12개 layer와 20개 token의 240개 측정값은 한 입력 안에 묶인다. 이 격자의 칸 수를 독립 입력 수로 세면 문장 내 의존성을 무시한다.</figcaption>
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![An original prompt and its minimally modified control produce two behavioral measurements whose difference is computed before pooling input pairs.](../../figures/assets/I06/I06-01-paired-inputs.svg)
+
+<figcaption>먼저 원문과 최소 수정한 대조문을 한 쌍으로 묶고 행동값 차이 dᵢ를 구한다. 여러 쌍을 분석할 때도 같은 쌍의 두 측정값이 연결돼 있다는 점을 유지한다.</figcaption>
+</figure>
 
 ## 4. 내부 위치를 계산 의미로 적기
 
@@ -101,6 +139,22 @@ gpt_neox.layers.0.mlp.dense_4h_to_h
 
 token도 문자열 위치가 아니라 tokenizer 결과로 정의한다. 이 단원의 smoke test는 prompt를 tokenize한 뒤 attention mask가 가리키는 마지막 실제 token을 선택한다.
 
+관측한 update의 계산 위치와 token 선택 규칙을 따로 확인하자.
+
+<figure class="lesson-figure" markdown="1">
+
+![A hook reads the MLP down projection output before its update is added to the previous residual stream, distinguishing the update from the block output.](../../figures/assets/I06/I06-01-update-versus-stream.svg)
+
+<figcaption>hook이 읽는 down projection output은 더하기 전의 MLP update다. 이 update를 residual에 더해 얻는 값은 다른 내부량이다. 실제 block 출력에는 해당 구조의 다른 update도 반영된다.</figcaption>
+</figure>
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![An attention mask with real tokens followed by padding identifies the last one-valued mask position rather than the final array position for activation selection.](../../figures/assets/I06/I06-01-last-real-token.svg)
+
+<figcaption>마지막 실제 token은 attention mask가 1인 마지막 위치로 정한다. padding이 뒤에 붙은 배열에서는 마지막 칸을 고르는 규칙과 결과가 달라질 수 있다.</figcaption>
+</figure>
+
 ## 5. 주장 사다리
 
 모델 해석 결과는 증거 수준에 따라 문장을 달리 쓴다.
@@ -112,6 +166,17 @@ token도 문자열 위치가 아니라 tokenizer 결과로 정의한다. 이 단
 5. **일반화**: 다른 입력·seed·checkpoint·model에서도 결과가 유지됐다.
 
 1단계 결과만으로 3단계나 4단계 문장을 쓰면 안 된다. activation 차이는 representation에 정보가 존재할 가능성을 보여주지만, 모델이 그 차이를 출력에 사용한다는 보장은 없다.
+
+이 목록은 모든 결과가 반드시 다섯 계단을 차례로 오르는 절차를 뜻하지는 않는다. 일반화는 관찰이나 복원 결과에도 따로 물을 수 있으며, 개입으로 어떤 component의 효과를 확인했다고 그 효과가 특정 label 정보의 사용에서 왔다는 결론까지 얻는 것은 아니다. 관찰 대상·복원한 정보·개입 대상이 어떤 계산으로 연결되는지에 맞춰 주장한다.
+
+각 증거가 검사하는 경로를 모델 계산 위에 표시하자.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A model representation connects to an observational statistic, an external label decoder, and an intervention on the model path; generalization evaluates these results on new conditions separately.](../../figures/assets/I06/I06-01-evidence-routes.svg)
+
+<figcaption>관찰 통계, 외부 decoder의 label 복원과 모델 경로의 개입은 서로 다른 계산을 검사한다. 일반화는 이 결과를 다른 입력·seed·checkpoint에 다시 평가하는 별도 질문이다.</figcaption>
+</figure>
 
 ## 6. 질문 명세 한 줄 쓰기
 

@@ -55,6 +55,8 @@ s_j^2=\frac{1}{n-1}\sum_{i=1}^{n}(a_{ij}-\bar a_j)^2
 
 다. 분모 $n-1$은 모집단 분산을 표본으로 추정하는 관례다. 현재 고정된 데이터 자체의 평균제곱편차를 기술하려는 경우에는 분모 $n$을 쓸 수도 있으므로 어떤 정의를 썼는지 적는다.
 
+평균 식의 덧셈은 같은 좌표끼리 수행한다. 분산 식에서도 $j$를 고정하고 입력 index $i$만 바꾸므로, $s_j^2$는 vector 전체의 분산 하나가 아니라 한 좌표의 변동이다. 표본분산에는 $n>1$이 필요하며, $n-1$을 쓴 불편추정의 성질은 같은 모집단에서 독립적으로 뽑은 표본 같은 가정 아래 성립한다. 같은 문장의 여러 token을 모아 분모만 $n-1$로 바꾼다고 독립 표본이 되지는 않는다.
+
 두 activation이 $a_1=(1,0)$, $a_2=(3,4)$라면
 
 \[
@@ -62,6 +64,22 @@ s_j^2=\frac{1}{n-1}\sum_{i=1}^{n}(a_{ij}-\bar a_j)^2
 \]
 
 이다. 둘째 좌표가 이 두 표본에서 더 많이 변했다. 표본이 둘뿐이므로 일반적인 분포 결론을 내릴 수는 없다.
+
+같은 두 vector의 중심과 좌표별 퍼짐을 나누어 확인하자.
+
+<figure class="lesson-figure" markdown="1">
+
+![The points one zero and three four have coordinatewise mean two two at their geometric midpoint.](../../figures/assets/I06/I06-03-coordinate-mean.svg)
+
+<figcaption>각 좌표끼리 평균하면 두 점의 중점 (2,2)가 된다. 중심을 나타내는 이 점이 실제 입력의 activation으로 나타날 필요는 없다.</figcaption>
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![The first coordinate values one and three deviate one unit from their mean; second coordinates zero and four deviate two units, giving sample variances two and eight.](../../figures/assets/I06/I06-03-coordinate-variance.svg)
+
+<figcaption>같은 두 입력에서 첫 좌표의 편차는 ±1, 둘째는 ±2다. 각 좌표의 제곱편차 합을 n−1=1로 나누면 분산 2와 8을 얻는다.</figcaption>
+</figure>
 
 ## 2. norm 분포와 평균 vector
 
@@ -75,6 +93,15 @@ r_i=\lVert a_i\rVert_2
 
 예를 들어 $a_1=(1,0)$, $a_2=(-1,0)$이면 평균 vector의 norm은 0이고 norm 평균은 1이다. 따라서 `activation이 크다`는 말은 좌표 평균, vector norm, 특정 방향 projection 중 무엇을 뜻하는지 밝혀야 한다.
 
+방향의 상쇄가 두 통계량에 다르게 반영되는 이유를 그림으로 보자.
+
+<figure class="lesson-figure" markdown="1">
+
+![Opposite unit vectors have zero mean vector but each retains unit norm, distinguishing norm of the mean from mean of norms.](../../figures/assets/I06/I06-03-norm-cancellation.svg)
+
+<figcaption>반대 방향 activation은 vector 평균에서 상쇄된다. 개별 norm은 둘 다 1이므로 평균 vector의 norm 0과 norm 평균 1은 다른 요약이다.</figcaption>
+</figure>
+
 ## 3. 이상치 후보 찾기
 
 norm 값이 $1,3,5$라면 표본평균은 3, 표본표준편차는 2다. 표본표준편차를 사용한 z-score는 $-1,0,1$이다.
@@ -83,9 +110,29 @@ norm 값이 $1,3,5$라면 표본평균은 3, 표본표준편차는 2다. 표본�
 z_i=\frac{r_i-\bar r}{s_r}.
 \]
 
+분자는 중심에서의 차이이고 분모는 norm 값들 사이의 변동 크기다. 따라서 $z_i=1$은 평균보다 표준편차 하나만큼 큰 위치를 뜻한다. $s_r=0$이면 모든 norm이 같아 이 식으로 나눌 수 없으므로, 그 경우를 별도로 처리해야 한다.
+
 z-score가 크다고 자동으로 오류는 아니다. 긴 문장, 특수 token, 잘못된 token index, domain 차이 또는 실제로 드문 입력일 수 있다. 원인을 확인하고 포함·제외 기준을 기록한다.
 
 평균과 표준편차 자체가 극단값에 민감할 때는 median과 median absolute deviation을 함께 본다. robust statistic도 이상치의 의미를 대신 결정하지는 않는다.
+
+median absolute deviation은 각 값이 median에서 떨어진 절댓값들을 구한 뒤 그 값들의 median을 취한 것이다. 평균과 달리 소수의 큰 편차가 합 전체를 끌어올리지 않지만, 같은 값이 많이 반복되면 이 값도 0이 될 수 있다. robust한 중심·scale을 쓰는 일과 수집 오류를 판별하는 일은 구분한다.
+
+z-score의 단위와 극단값을 옮겼을 때의 robust 요약을 비교하자.
+
+<figure class="lesson-figure" markdown="1">
+
+![Norm values one three and five become z scores minus one zero and one under mean three and sample standard deviation two.](../../figures/assets/I06/I06-03-z-score-scale.svg)
+
+<figcaption>norm 1,3,5의 평균 3에서 각각 −2,0,2만큼 떨어져 있다. 표본표준편차 2로 나눈 z-score는 −1,0,1이며, 값의 오류 여부를 판정한 결과는 아니다.</figcaption>
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![In the illustrative norms one, three, and five, moving only the largest value to R at least five leaves the median at three and MAD at two while the mean moves.](../../figures/assets/I06/I06-03-robust-largest-value.svg)
+
+<figcaption>본문의 1,3,5에서 가장 큰 값만 R≥5로 옮긴 개념 예다. median은 3, 절대편차의 median은 2로 유지되지만 평균은 (1+3+R)/3으로 달라진다. 이런 요약만으로 값의 오류 여부를 결정하지는 않는다.</figcaption>
+</figure>
 
 ## 4. 조건별 차이
 
@@ -97,6 +144,8 @@ z-score가 크다고 자동으로 오류는 아니다. 긴 문장, 특수 token,
 
 $\lVert\Delta_a\rVert_2$는 하나의 scalar 요약이지만 방향 정보를 버린다. 또한 activation 전체 scale이 큰 layer에서는 거리도 커질 수 있다. cosine, whitened distance나 standardized effect를 쓰면 다른 불변성을 얻지만, 어느 것도 자동으로 더 옳은 것은 아니다. 질문에 맞는 척도를 사전에 정한다.
 
+평균 차이 vector는 두 집단의 중심을 잇는 방향과 크기를 나타내고, 조건 내 변동은 그 중심 주위에 입력들이 얼마나 퍼졌는지를 측정한다. 같은 평균 차이라도 집단 안의 변동이 크면 새 입력의 조건을 구별하기 어려울 수 있다. activation을 같은 양수 배로 키우면 평균 차이와 Euclidean 거리도 그 배로 커진다. 표준화한 비교에서는 이 차이를 변동 크기와 함께 읽지만, 그 변동을 어느 집단과 좌표에서 추정했는지도 명시해야 한다.
+
 조건별 차이를 보고할 때는 다음을 함께 적는다.
 
 - 각 조건의 입력 수와 입력 선정 규칙
@@ -107,6 +156,22 @@ $\lVert\Delta_a\rVert_2$는 하나의 scalar 요약이지만 방향 정보를 �
 - 제외한 이상치와 제외 기준
 
 표본이 네 개씩인 파일럿에서는 confidence interval이 넓을 수 있다. 이 결과의 주된 목적은 수집과 통계 절차를 확인하는 것이다.
+
+평균 차이에 남지 않는 조건 내 변동과 전체 scale의 영향을 따로 보자.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two schematic coordinate plots have equal mean separation vectors but small versus large within-condition spreads, so the same contrast hides different variation.](../../figures/assets/I06/I06-03-contrast-versus-spread.svg)
+
+<figcaption>두 패널은 같은 평균 차이 Δa를 갖지만 조건 안의 퍼짐이 다르다. 점들은 관계를 보여 주는 개념도이며 실제 모델 표본이 아니다. 거리 하나에는 이 분포 차이가 남지 않는다.</figcaption>
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![An activation scale multiplier alpha greater than one increases the length of the same raw mean-contrast vector to alpha times its original length.](../../figures/assets/I06/I06-03-contrast-scale.svg)
+
+<figcaption>activation 전체에 같은 양수 α를 곱하면 평균 차이도 αΔa가 된다. 그림은 α>1인 경우의 길이 변화로, 더 긴 raw 거리가 더 뚜렷한 조건 구분을 뜻하지는 않는다.</figcaption>
+</figure>
 
 ## 5. 좌표를 많이 보면 생기는 문제
 
@@ -124,6 +189,15 @@ $\lVert\Delta_a\rVert_2$는 하나의 scalar 요약이지만 방향 정보를 �
 Pythia 160M의 hidden size는 768이고 410M은 1,024다. 두 model의 activation은 차원뿐 아니라 학습된 기저와 layer 의미도 다르다. raw vector를 빼거나 같은 좌표 번호를 대응시키면 안 된다.
 
 규모 비교를 하려면 먼저 비교 가능한 대상을 정한다. norm 분포처럼 scalar summary를 비교할 수는 있지만, model별 scale 차이를 고려해야 한다. 표현 구조를 비교하려면 후속 단원의 CKA, CCA나 RSA처럼 허용할 불변성을 명시한 방법이 필요하다.
+
+입력 행이 같아도 model의 좌표열은 대응하지 않을 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Eight input rows from 160M have 768 coordinates while eight rows from 410M have 1024 coordinates; equal coordinate numbers do not align learned bases or layers.](../../figures/assets/I06/I06-03-model-coordinate-mismatch.svg)
+
+<figcaption>같은 여덟 입력을 사용해도 160M과 410M의 열 수와 학습된 기저는 다르다. 같은 좌표 번호를 대응시키거나 raw vector를 직접 빼는 비교는 성립하지 않는다.</figcaption>
+</figure>
 
 ## 실제 모델 실습과의 연결
 

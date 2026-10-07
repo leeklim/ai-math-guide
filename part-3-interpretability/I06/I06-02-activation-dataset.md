@@ -67,11 +67,22 @@ D_A=\{(i,x_i,c_i,l,t_i,a_i)\}_{i=1}^{n},
 
 dataset 전체에 공통인 값도 manifest에 한 번은 남겨야 한다. 각 행에 반복할지 별도 table로 둘지는 저장 형식의 선택이다.
 
+식을 행렬로 옮기면 activation은 $n\times d$ 배열이 된다. 행 index $i$는 입력을, 열은 같은 내부 공간의 좌표를 가리킨다. 행 순서를 바꿀 때에는 condition과 sample ID도 함께 바꿔야 한다. vector의 숫자가 그대로여도 label과의 대응이 달라지면 다른 분석 자료가 된다. 입력마다 선택 token index $t_i$가 달라도, 마지막 실제 token 같은 동일한 선택 규칙으로 모았다면 그 규칙이 행들의 비교 의미를 정한다.
+
+행렬의 행과 metadata의 대응을 같은 높이에 놓으면 무엇을 함께 정렬해야 하는지 보인다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Eight input rows keep sample identifiers, condition labels, and activation coordinates aligned in an eight by 768 matrix.](../../figures/assets/I06/I06-02-row-metadata-alignment.svg)
+
+<figcaption>8×768 activation의 한 행은 한 입력과 연결된다. 행을 옮길 때 sample ID와 condition도 함께 옮겨야 동일한 관측 자료를 유지한다.</figcaption>
+</figure>
+
 ## 2. 입력과 조건을 먼저 고정하기
 
 조건 label은 activation을 본 뒤 붙이지 않는다. 예를 들어 장소 네 문장과 동물 네 문장을 비교한다면 문장 목록, label과 제외 기준을 수집 전에 고정한다. 문장 길이, 문법 틀과 마지막 token이 조건과 함께 달라지면 activation 차이가 의미 차이 때문인지 형식 차이 때문인지 분리하기 어렵다.
 
-좋은 최소 대조는 한 요소만 바꾼 paired input이다.
+paired input에서는 비교하려는 요소 외의 문장 형식을 가능한 범위에서 맞춘다. 다음 두 문장은 장소·동물 조건을 구체적으로 지정한 예다.
 
 ```text
 The animal near the river is a salmon.
@@ -79,6 +90,17 @@ The city near the river is Berlin.
 ```
 
 그러나 단어 수가 같아도 tokenizer token 수는 달라질 수 있다. tokenization 결과를 실제로 기록해야 한다.
+
+위 두 문장은 주어뿐 아니라 마지막 이름과 관사도 다르므로, 의미 조건 하나만 바꾼 완전한 matched pair는 아니다. 두 입력을 한 쌍으로 묶는 것과 조건 외의 차이를 통제하는 것은 별개의 판단이다. 두 조건에서 함께 달라진 요소를 기록해야 activation 차이의 해석 범위를 정할 수 있다.
+
+두 입력에서 함께 달라진 부분을 표시해 비교 조건을 확인하자.
+
+<figure class="lesson-figure" markdown="1">
+
+![The paired animal and city sentences differ in the subject, article, and final name; pairing alone does not isolate a single semantic change.](../../figures/assets/I06/I06-02-paired-versus-matched.svg)
+
+<figcaption>두 문장을 쌍으로 묶어도 animal/city와 마지막 이름·관사가 함께 달라진다. 색과 밑줄로 표시한 차이를 조건 하나의 효과와 혼동하지 않는다.</figcaption>
+</figure>
 
 ## 3. layer·token·component를 고정하기
 
@@ -90,11 +112,47 @@ The city near the river is Berlin.
 
 마지막 token을 선택한다면 문자열의 마지막 공백 기준이 아니라 attention mask에서 마지막 유효 위치를 계산한다. padding이 있으면 tensor의 마지막 열과 마지막 실제 token이 다를 수 있다.
 
+유효 token 개수에서 1을 빼는 계산은 token이 앞에서부터 연속으로 놓이고 뒤에 padding을 붙인 경우에 맞는다. 왼쪽 padding이나 다른 배치에서는 유효 개수가 tensor index와 같지 않다. 선택 규칙은 attention mask가 1인 위치 가운데 마지막 index로 정의하고, 그 위치의 token ID도 함께 확인한다.
+
+padding 위치의 차이와 탐색·확인 절차의 분리를 따로 보자.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Right-padded and left-padded masks have three valid tokens but different last valid indices; selection uses the last one-valued mask index.](../../figures/assets/I06/I06-02-padding-index-rules.svg)
+
+<figcaption>유효 token 수가 같은 두 mask에서도 마지막 유효 index는 다르다. 오른쪽 padding에서만 count−1을 그대로 index로 쓸 수 있다.</figcaption>
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![An exploration split selects a layer and component, after which a disjoint confirmation split evaluates the fixed selection without feeding back into it.](../../figures/assets/I06/I06-02-explore-confirm-split.svg)
+
+<figcaption>탐색 split에서 위치를 고른 뒤 별도 확인 split으로 평가한다. 확인 결과를 다시 위치 선택에 사용하면 두 단계의 분리가 사라진다.</figcaption>
+</figure>
+
 ## 4. 수집 시 gradient와 저장 수명
 
 관찰만 할 때는 필요한 slice를 `detach`한 뒤 CPU로 옮긴다. gradient가 필요한 한 실험에서는 hook output을 선택 target과 연결한 채 유지한다. 두 목적을 같은 수집 loop에 섞으면 불필요한 graph를 오래 붙잡을 수 있다.
 
 이 프로젝트의 160M 실험은 첫 입력에서만 선택 activation gradient를 계산한다. hook output을 그 위치에서 분리한 leaf로 바꿔 downstream gradient만 구하므로 model parameter gradient와 optimizer state를 만들지 않는다. 나머지 일곱 입력은 `no_grad`에서 수집한다.
+
+이 leaf는 기존 output과 같은 값을 downstream에 전달하되, 그 값 이전의 계산 그래프와는 연결하지 않은 미분 변수다. 그래서 구하는 gradient는 고정한 weight와 입력에서 해당 내부량을 조금 바꾸면 선택 target이 어떻게 변하는지를 나타낸다. 원래 token embedding이나 upstream parameter까지 거슬러 올라가는 gradient와는 대상이 다르다. 관찰용으로 분리해 저장하기만 한 사본과 달리, 이 leaf는 실제 downstream 계산에 사용되어야 한다.
+
+저장용 사본과 downstream 미분 변수의 연결을 비교하자.
+
+<figure class="lesson-figure" markdown="1">
+
+![An observed activation is detached and copied to a CPU artifact; the stored copy has no upstream gradient path.](../../figures/assets/I06/I06-02-detach-observation.svg)
+
+<figcaption>관찰용 사본은 detach한 뒤 CPU에 저장한다. 이 사본의 저장 수명은 forward 계산 그래프의 수명과 분리된다.</figcaption>
+</figure>
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A same-valued detached leaf activation participates in the downstream model; a target gradient returns to that leaf but stops before upstream parameters.](../../figures/assets/I06/I06-02-downstream-leaf-gradient.svg)
+
+<figcaption>leaf는 원래 activation과 같은 값을 downstream에 전달한다. target에서 돌아온 gradient는 이 leaf에서 끝나므로 upstream parameter의 gradient와 대상이 다르다.</figcaption>
+</figure>
 
 ## 5. 저장량 계산
 
@@ -114,11 +172,29 @@ $n$개 입력에서 $d$차원 float32 activation 하나씩 저장하면 raw arra
 
 반면 12개 layer, 128개 token을 모두 저장하면 $12\times128=1{,}536$배의 좌표가 생긴다. 질문이 한 위치에 관한 것이라면 이 증가는 정보가 아니라 불필요한 저장과 선택 기회다.
 
+한 위치의 배열과 전체 layer·token의 배열 수를 비교하자.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A selected eight by 768 activation slab is contrasted with twelve layers times 128 token slabs, showing a 1536-fold storage multiplier.](../../figures/assets/I06/I06-02-selected-slice-storage.svg)
+
+<figcaption>한 위치의 8×768 float32 배열은 24,576 bytes다. 같은 값을 12개 layer·128개 token 위치마다 저장하면 좌표 수가 1,536배로 늘어난다.</figcaption>
+</figure>
+
 ## 6. split과 leakage
 
 probe를 학습할 계획이라면 activation을 모으기 전에 train, validation과 test의 분리 단위를 정한다. 같은 원문에서 만든 paraphrase가 서로 다른 split에 들어가면 문장 내용이 새어 들어갈 수 있다. token 행을 무작위로 나누는 것도 같은 문장의 다른 token이 양쪽에 들어가는 leakage를 만든다.
 
 group ID가 있다면 원문, 문서, 화자 또는 생성 template 단위로 묶어서 split한다. test activation을 보고 layer를 고른 뒤 같은 test에서 최종 성능을 보고하면 test가 model selection에 사용된 것이다.
+
+같은 원문을 공유하는 변형들이 split 경계를 넘는지 확인하자.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Paraphrases from one source input leak when divided across train and test, whereas grouping keeps all variants together and tests on another input group.](../../figures/assets/I06/I06-02-group-split-leakage.svg)
+
+<figcaption>왼쪽은 같은 원문에서 만든 변형을 train과 test로 나눠 내용이 겹친다. 오른쪽은 원문 group을 함께 배치하고 다른 group으로 평가한다.</figcaption>
+</figure>
 
 ## 실제 모델 실습
 

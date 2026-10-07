@@ -43,6 +43,15 @@ $X$와 $Y$의 $i$번째 행은 같은 입력, 같은 token 선택 규칙을 나�
 
 각 matrix는 열별로 중심화한다. model별 scale, whitening과 dimension reduction을 적용했다면 그 선택도 비교 방법의 일부다.
 
+비교 전에 같은 입력이 같은 pair의 자리를 차지하도록 정렬한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![X rows A B C and Y rows C A B are matched by input ID with distinct routed paths before geometry comparison.](../../figures/assets/I06/I06-08-input-row-join.svg)
+
+<figcaption>좌표 열 수가 달라도 같은 입력 ID를 같은 행으로 맞춰야 한다. 표시한 A/B/C는 join의 개념 예이며 token 선택 규칙도 동일한 비교 단위로 정해야 한다.</figcaption>
+</figure>
+
 ## 2. CCA
 
 CCA는 projection $u,v$를 골라
@@ -52,6 +61,17 @@ CCA는 projection $u,v$를 골라
 \]
 
 를 최대화하고 직교 조건 아래 다음 쌍을 찾는다. 다른 좌표 수를 허용하고 선형 subspace 관계를 본다. 그러나 $p,q$가 $n$보다 매우 크면 regularization과 dimension reduction 없이 상관이 과대평가되거나 비유일해질 수 있다.
+
+$u$는 $p$차원, $v$는 $q$차원 weight이고 $Xu,Yv$는 같은 $n$개 입력에 대한 scalar score 열이다. 상관을 정의하려면 두 score의 분산이 0보다 커야 한다. 다음 쌍을 찾을 때의 직교 조건은 $u,v$ 자체의 Euclidean 직교가 아니라, 각 representation 안에서 이전에 얻은 score들과 새 score가 무상관이 되도록 하는 조건이다. feature가 많으면 표본에서 같은 score를 만드는 projection을 찾기 쉬워져, 높은 상관이 새로운 입력에서도 유지된다는 보장은 없다. [CCA의 표본·불변성 경계](https://proceedings.mlr.press/v97/kornblith19a.html)
+
+좌표 수가 달라도 projection 뒤에는 같은 입력 수의 score 두 열이 남는다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Two representations with n aligned rows but different p and q coordinates are projected by u and v to two length n score columns whose correlation is maximized.](../../figures/assets/I06/I06-08-cca-score-columns.svg)
+
+<figcaption>u,v가 각각 다른 좌표 공간을 읽어도 Xu,Yv는 같은 n개 입력의 score 열이다. 분산이 양수인 score들의 상관을 최대화하며 다음 score는 기존 score와 무상관이 되도록 한다.</figcaption>
+</figure>
 
 ## 3. linear CKA
 
@@ -65,11 +85,57 @@ CCA는 projection $u,v$를 골라
 
 로 계산할 수 있다. 직교변환과 등방 scale에 불변이다. 모든 invertible linear transform에 불변인 것은 아니다. 이 제한은 representation의 geometry 차이를 남겨 두려는 선택이다.
 
+$X^TY$는 $p\times q$의 교차 행렬이지만, 같은 계산을 입력 간 Gram matrix의 비교로도 쓸 수 있다.
+
+\[
+\operatorname{CKA}(X,Y)=
+\frac{\langle XX^T,YY^T\rangle_F}
+{\lVert XX^T\rVert_F\lVert YY^T\rVert_F}.
+\]
+
+두 Gram matrix는 모두 $n\times n$이고, 각 원소는 중심화한 입력 두 개의 내적이다. Frobenius 내적은 같은 위치의 원소를 곱해 모두 더하므로, 같은 입력 쌍들의 유사도 구조를 비교하는 식이다. 분모가 0이면 CKA는 정의되지 않는다.
+
+정사각 직교행렬 $Q$에서는 $(XQ)(XQ)^T=XQQ^TX^T=XX^T$여서 Gram matrix가 그대로다. 행렬 전체를 0이 아닌 scalar 배로 키우면 Gram matrix가 그 scalar의 제곱 배가 되고, 정규화한 비율에서 약분된다. 좌표마다 다른 배율을 주면 이 공통 인수가 없어져 값이 달라질 수 있다.
+
+Gram의 대응 칸과 무시하려는 geometry 변화를 분리해서 보자.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Different coordinate dimensions produce two n by n Gram matrices; one highlighted i j entry in each corresponds to the same input pair.](../../figures/assets/I06/I06-08-cka-gram-pairs.svg)
+
+<figcaption>XXᵀ와 YYᵀ는 hidden dimension이 아니라 같은 입력 쌍의 내적을 담는다. 초록 칸의 pair (i,j)를 포함한 모든 대응 칸의 Frobenius alignment를 정규화한다.</figcaption>
+</figure>
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![An analytic unit circle under orthogonal rotation, uniform scale three, and unequal coordinate scales becomes a rotated circle, larger circle, and ellipse; CKA ignores the first two types but not all unequal scaling.](../../figures/assets/I06/I06-08-invariance-geometry.svg)
+
+<figcaption>기준 unit circle의 수학적 개념도다. 직교회전은 Gram을 보존하고 등방 scale은 정규화에서 약분된다. 좌표마다 다른 scale은 원을 타원으로 바꾸듯 geometry를 달리할 수 있다. 실제 모델 data나 CKA 측정값은 아니다.</figcaption>
+</figure>
+
 ## 4. RSA
 
 RSA는 각 representation에서 입력 쌍의 거리 또는 비유사도 matrix를 만든다. upper triangle을 vector로 펼쳐 두 vector의 Pearson 또는 Spearman correlation을 계산한다. metric과 correlation 종류를 명시해야 한다.
 
 RSA는 hidden dimension이 달라도 입력 쌍 구조를 비교할 수 있다. 반면 $n$이 작으면 쌍이 $n(n-1)/2$개여도 같은 입력을 공유하므로 완전히 독립인 관측이 아니다.
+
+대각선은 자기 자신과의 거리이고, 아래·위 삼각형은 같은 쌍을 반복하므로 한쪽 삼각형만 사용한다. 두 vector에서 같은 index는 반드시 같은 입력 쌍이어야 한다. Pearson은 거리값 사이의 선형 관계를, Spearman은 거리 순서의 관계를 비교한다. 한쪽 거리 vector의 변동이 0이면 상관을 정의할 수 없고, 높은 상관도 개별 feature의 일대일 대응을 뜻하지는 않는다.
+
+삼각형을 펼칠 때의 pair 순서와 pair들이 공유하는 입력을 함께 확인한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![A symmetric four-input distance matrix keeps the six strictly upper-triangle pairs and discards diagonal and mirrored lower entries before vectorizing in shared order.](../../figures/assets/I06/I06-08-rsa-upper-triangle.svg)
+
+<figcaption>대각선과 중복된 아래 삼각형을 제외하고 위 삼각형을 같은 pair 순서로 펼친다. 네 입력의 여섯 pair는 구조를 보여 주는 개념 예이며 본문의 8개 입력은 28개 pair를 갖는다.</figcaption>
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![Distances AB and AC both depend on input A, showing why pair counts are not counts of independent inputs.](../../figures/assets/I06/I06-08-pair-dependence.svg)
+
+<figcaption>AB와 AC는 A를 공유한다. pair 수가 많아져도 독립 입력이 그만큼 늘지 않으므로 uncertainty를 평가할 때 입력 단위를 보존한다.</figcaption>
+</figure>
 
 ## 5. 어떤 방법을 고를까
 
@@ -99,7 +165,7 @@ I06-02의 Pythia 160M과 같은 여덟 prompt를 Pythia 410M layer 11에서도 �
 
 ### 오해 1. 유사도 1이면 두 model이 같은 계산을 한다
 
-정한 불변성 아래 representation geometry가 같다는 뜻이다. downstream algorithm이나 행동이 같다는 보장은 없다.
+선택한 방법이 요약한 관계를 먼저 밝혀야 한다. CCA의 projection 상관, linear CKA의 Gram 정렬과 RSA의 거리 상관은 서로 다른 양이다. 그 값이 1이라는 사실에서 downstream algorithm이나 행동의 동일성이 나오지는 않는다.
 
 ### 오해 2. RSA의 모든 pair는 독립 표본이다
 

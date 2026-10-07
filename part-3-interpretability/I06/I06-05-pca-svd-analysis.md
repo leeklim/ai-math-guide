@@ -53,6 +53,15 @@ X_c=X-\mathbf 1\bar a^T
 
 를 만든다. 중심화하지 않으면 원점에서 평균까지의 방향이 변동 방향처럼 나타날 수 있다.
 
+두 행에서 같은 평균을 빼면 점들 사이의 차이는 그대로이고 평균의 위치만 바뀐다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The prerequisite vectors one zero and three four move by subtracting their common mean two two; the centered pair has zero mean.](../../figures/assets/I06/I06-05-centering-two-vectors.svg)
+
+<figcaption>중심화의 역할을 선수 단원의 두 vector로 확인한 예다. 두 행에서 같은 평균 (2,2)를 빼면 (−1,−2),(1,2)가 되고 새 평균은 원점으로 옮겨진다.</figcaption>
+</figure>
+
 ## 2. SVD에서 PCA 읽기
 
 \[
@@ -67,6 +76,16 @@ Z=X_cV=U\Sigma
 
 다. 첫 두 score를 scatter plot에 쓰면 각 입력을 변동이 큰 두 방향에 투영한 그림을 얻는다.
 
+thin SVD에서는 $U$의 shape가 $n\times\min(n,d)$, $\Sigma$가 $\min(n,d)\times\min(n,d)$, $V$가 $d\times\min(n,d)$다. full SVD는 $U$와 $V$를 각각 $n\times n$, $d\times d$의 완전한 직교기저로 확장한다. 이 단원의 $Z=U\Sigma$는 thin 형태의 score를 뜻하며, 구현에서 반환하는 $V^T$의 행들이 principal direction이다. 예를 들어 $n=100$, $d=768$이면 thin $V$는 $768\times100$이고 full $V$는 $768\times768$이다.
+
+$k$번째 score는 각 중심화된 입력의 $v_k$ 방향 성분이다. $X_cv_k=\sigma_ku_k$이고 $u_k$의 제곱 norm은 1이므로, 그 score들의 제곱합은 $\sigma_k^2$다. 표본 공분산에서도
+
+\[
+\frac{X_c^TX_c}{n-1}=V\frac{\Sigma^2}{n-1}V^T
+\]
+
+가 되어, $v_k$ 방향의 표본분산은 $\sigma_k^2/(n-1)$이다. 이 식에는 $n>1$이 필요하다.
+
 $k$번째 성분의 explained variance ratio는
 
 \[
@@ -74,6 +93,24 @@ $k$번째 성분의 explained variance ratio는
 \]
 
 다. 상위 두 비율의 합이 0.8이면 표본의 centered squared variation 중 80%를 두 방향이 설명한다.
+
+분산 비율에서는 공통 분모 $n-1$이 소거되므로 singular value의 제곱 비율만 남는다. 모든 centered activation이 0이면 제곱합도 0이어서 이 비율은 정의되지 않는다. 방향의 부호를 뒤집어도 score의 제곱합은 같으므로 explained variance는 바뀌지 않는다.
+
+방향의 개수와 각 방향이 설명하는 제곱 변동을 따로 확인해 보자.
+
+<figure class="lesson-figure" markdown="1">
+
+![Singular values three two and one contribute squared amounts nine four and one, totaling fourteen and giving first explained variance nine fourteenths.](../../figures/assets/I06/I06-05-squared-singular-energy.svg)
+
+<figcaption>기존 문제의 singular value 3,2,1은 제곱 변동 9,4,1에 대응한다. 첫 성분의 비율은 3/6이 아니라 9/14다.</figcaption>
+</figure>
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![For a 100 by 768 centered matrix, the thin right singular basis has 768 by 100 shape while the full basis is 768 by 768, and thin scores have one row per input.](../../figures/assets/I06/I06-05-thin-full-directions.svg)
+
+<figcaption>본문의 100×768 예에서 thin V는 100개 방향을, full V는 768개 방향의 완전한 기저를 담는다. thin score Z=UΣ의 행 수는 입력 수 100이며, principal direction은 구현이 돌려주는 Vᵀ의 행이다.</figcaption>
+</figure>
 
 ## 3. 저랭크 근사와 오차
 
@@ -91,11 +128,51 @@ X_{c,k}=U_{:,1:k}\Sigma_{1:k,1:k}V_{:,1:k}^T
 
 를 보고 압축 손실을 확인한다.
 
+직교한 singular 성분들의 제곱 오차는 더할 수 있으므로, 버린 성분의 오차는
+
+\[
+\lVert X_c-X_{c,k}\rVert_F^2=\sum_{j>k}\sigma_j^2
+\]
+
+다. 따라서 $\lVert X_c\rVert_F>0$일 때 상대오차는 $\sqrt{1-\sum_{j=1}^k\rho_j}$다. explained variance가 80%라는 말은 제곱 변동의 20%를 버렸다는 뜻이며, 상대 norm 오차 자체가 20%라는 뜻은 아니다. 원래 activation을 근사하려면 $X_{c,k}$에 뺐던 평균 $\mathbf 1\bar a^T$를 다시 더한다.
+
+남긴 제곱 변동의 비율과 norm 오차는 다음 곡선으로 연결된다.
+
+<figure class="lesson-figure" markdown="1">
+
+![The exact relative norm error curve equals square root of one minus retained squared variation; retaining eighty percent gives about 0.447 norm error.](../../figures/assets/I06/I06-05-retained-variation-error.svg)
+
+<figcaption>제곱 변동의 80%를 남기면 상대 norm 오차는 √0.2≈0.447이다. 남기지 않은 제곱 비율 0.2와 norm 오차를 구분한다. 원래 값의 근사에는 평균을 다시 더해야 한다.</figcaption>
+</figure>
+
 ## 4. 해석의 한계
 
 PCA는 label을 보지 않고 분산을 크게 만드는 방향을 찾는다. 문장 길이, token position이나 norm scale이 가장 큰 변동이면 첫 성분이 그것을 반영할 수 있다. 작은 분산 방향도 행동에 중요할 수 있다.
 
 principal direction의 부호는 임의다. $v$와 $-v$는 같은 축이다. seed나 표본이 바뀌면 근접한 singular value에 해당하는 개별 direction은 회전할 수 있으므로 subspace 안정성을 함께 본다.
+
+축의 부호, 큰 변동, 개별 방향의 안정성은 서로 구분해야 한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Opposite vectors v and minus v span the same line; flipping the direction flips scores but keeps squared variation unchanged.](../../figures/assets/I06/I06-05-direction-sign.svg)
+
+<figcaption>v와 −v는 같은 1차원 축을 정한다. direction과 score의 부호를 함께 뒤집으면 score의 제곱합과 explained variance는 유지된다.</figcaption>
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![A schematic point cloud has much wider horizontal variation than vertical label separation, so the largest variance direction need not be the label direction.](../../figures/assets/I06/I06-05-variance-label-direction.svg)
+
+<figcaption>가로 변동이 큰 두 집단을 그린 개념도다. PC1이 큰 변동을 요약해도 label을 구분하는 세로 방향은 다른 역할을 한다. 실제 모델의 사용 여부를 이 그림으로 판정하지 않는다.</figcaption>
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![Two orthogonal pairs of directions form different bases of the same shaded plane; near-equal singular values make individual direction comparisons less stable than their span.](../../figures/assets/I06/I06-05-near-singular-subspace.svg)
+
+<figcaption>파란 방향과 보라 방향은 같은 평면의 서로 다른 직교기저다. singular value가 같으면 같은 재구성 성능을 내고, 값이 가까우면 개별 direction 비교가 불안정할 수 있어 span을 함께 본다.</figcaption>
+</figure>
 
 ## CPU 실습
 

@@ -54,6 +54,17 @@ $$
 
 여기서 $A_{\mathrm{task}}$와 $A_{\mathrm{control}}$은 같은 split과 tuning budget에서 얻은 held-out accuracy이다. 표본에서 계산한 차이는 $\Delta_{\mathrm{sel}}$의 estimate이며 estimand 자체와 구분한다.
 
+기댓값을 쓸 때는 무엇을 반복해서 평균하는지도 명세에 포함한다. 예를 들어 같은 절차로 train·test 입력을 뽑고 control label을 무작위화하는 반복인지, 고정 데이터에서 학습 seed만 바꾸는 반복인지에 따라 목표량이 달라진다. 각 반복 안에서는 task와 control의 split을 맞춰 차이를 계산하고, 그 차이의 uncertainty를 추정한다. 두 score를 서로 다른 입력 집합에서 얻어 빼면 입력 구성 차이까지 selectivity에 섞인다. 차이만 보고하지 않고 task·control accuracy도 함께 남겨야 같은 차이가 어떤 성능 수준에서 나왔는지 알 수 있다.
+
+기댓값을 말하기 전에 같은 반복 안의 task·control 대응을 맞춘다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Task and control accuracies arise from the same input split in repetition r and feed a paired difference, while the expectation depends on which inputs labels or seeds repeat.](../../figures/assets/I06/I06-15-paired-selectivity-estimand.svg)
+
+<figcaption>각 반복 r 안에서 같은 split의 task·control 차이 Δʳ를 구한다. 어떤 입력·control label·seed를 반복하는지에 따라 기댓값의 대상이 달라진다. 그림은 반복 계약이며 새 accuracy 결과를 만들지 않는다.</figcaption>
+</figure>
+
 ## 2. 필수 보고서 구조
 
 ### A. 데이터와 측정
@@ -101,6 +112,17 @@ $$
 
 실패를 다음 분석으로 덮지 않는다.
 
+이 항목들의 실패가 모두 같은 종류는 아니다. 행 대응이 깨지거나 split이 겹치면 정한 데이터·평가 계약을 위반하므로 해당 수집이나 평가부터 바로잡아야 한다. 반면 수집과 평가가 적절한데 결과가 seed나 이상치에 민감하면, 그 민감성 자체가 보고할 결과다. 유리한 seed나 이상치를 사후에 골라 없애는 대신, uncertainty와 결론 범위를 조정한다.
+
+계약이 깨진 경우와 정당한 분석에서 민감성이 나타난 경우는 다음 조치가 다르다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Contract violations route to stopping and fixing collection or evaluation, whereas valid analyses with seed or outlier sensitivity route to reporting uncertainty and narrower claims.](../../figures/assets/I06/I06-15-failure-versus-sensitivity.svg)
+
+<figcaption>hook·행·split 계약이 깨진 경우에는 수집이나 평가부터 고친다. 계약은 적절하지만 결과가 seed·이상치에 민감하면 그 민감성을 보고하고 uncertainty와 claim scope를 조정한다. 같은 실패 처리로 합치지 않는다.</figcaption>
+</figure>
+
 ## 4. CPU 종합 실습
 
 80×8 합성 representation에서 조건별 평균 차이, held-out probe, shuffled-label control, selectivity와 회전 CKA를 한 report object로 만든다.
@@ -120,6 +142,15 @@ $$
 - peak VRAM, 실행시간과 artifact byte
 
 SHA는 현재 파일럿의 식별자이며 `step143000` branch가 영구히 같은 대상을 가리킨다고 가정하지 않는다. local manifest가 실제 재현 기록의 기준이다.
+
+수치가 어느 입력·model·hook·artifact에서 나왔는지 연결을 남긴다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Shared prompt and source hashes feed the two resolved Pythia model and hook contracts, yielding eight by 768 and eight by 1024 local artifacts linked to local comparison and resource records.](../../figures/assets/I06/I06-15-pilot-provenance-links.svg)
+
+<figcaption>같은 여덟 prompt의 hash와 각 resolved SHA·hook 위치를 activation artifact와 local manifest에 연결한다. SHA는 본문의 전체 식별자 앞부분이며 값·자원 통계는 새로 실행하거나 Git에 넣지 않는다. 파일럿 provenance는 모집단 일반화 증거가 아니다.</figcaption>
+</figure>
 
 ## 6. 보고서 판단표
 
@@ -202,7 +233,7 @@ task accuracy 0.88, control 0.85가 나왔다. 결론은 무엇인가?
 
 ## 다음 단계
 
-- I07-01 gradient 기반 귀인
+- [I07-01 민감도와 귀인](../I07/I07-01-sensitivity-attribution.md)
 
 ## 집필자 점검표
 

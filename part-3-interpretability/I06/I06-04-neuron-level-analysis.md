@@ -39,7 +39,7 @@ activation vector의 한 좌표는 구현에서 바로 접근할 수 있어 분�
 
 ## 1. 분석 대상 고정
 
-neuron 분석에서 좌표는 다음 네 값으로 식별한다.
+neuron 분석에서 좌표는 다음 정보로 식별한다.
 
 ```text
 model@revision / module / layer / token rule / coordinate j
@@ -55,11 +55,29 @@ model@revision / module / layer / token rule / coordinate j
 - 입력 길이·token ID와의 관계
 - 여러 seed나 paraphrase에서의 반복성
 
+좌표 번호가 같은 세 component도 서로 다른 vector다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Coordinate 37 is highlighted in separate residual, MLP intermediate, and MLP output vectors, whose component definitions and dimensions differ.](../../figures/assets/I06/I06-04-coordinate-location.svg)
+
+<figcaption>같은 coordinate 37도 어느 tensor에서 선택했는지에 따라 다른 측정이다. layer와 token을 고정한 뒤 component와 좌표 번호를 함께 적는다.</figcaption>
+</figure>
+
 ## 2. top example은 가설 생성 도구다
 
 $a_j(x)$가 큰 입력을 정렬하면 좌표가 반응하는 패턴의 가설을 만들 수 있다. 하지만 상위 예만 보면 base rate를 잃는다. `Paris`, `Berlin`이 상위권이어도 모든 도시 문장에 반응하는지, 도시가 아닌 문장에도 반응하는지 확인해야 한다.
 
 가설은 positive set, hard negative set과 counterexample로 검사한다. 상위 예에서 만든 설명을 같은 상위 예로 평가하지 않는다.
+
+상위 예로 만든 가설과 그다음 검사할 입력을 분리하자.
+
+<figure class="lesson-figure" markdown="1">
+
+![Top activation examples Paris and Berlin generate a city hypothesis that is tested on new positives, hard negatives, and counterexamples rather than on the ranked examples alone.](../../figures/assets/I06/I06-04-top-examples-to-tests.svg)
+
+<figcaption>상위 activation 예로 도시 반응 가설을 만든다. 다음에는 그 예들을 재사용해 확증하지 않고 새 positive·hard negative·counterexample에서 반응을 확인한다.</figcaption>
+</figure>
 
 ## 3. 기저 의존성
 
@@ -75,7 +93,40 @@ A'=AQ
 \lVert a_iQ-a_kQ\rVert_2=\lVert a_i-a_k\rVert_2.
 \]
 
-그러나 $A$의 coordinate 0과 $A'$의 coordinate 0은 다른 방향이다. 따라서 특정 좌표와 label의 상관은 바뀔 수 있다. 학습된 architecture가 MLP nonlinearity처럼 특별한 좌표 기저를 부여하는 경우에도, 좌표 하나를 완전한 개념과 동일시하는 결론은 별도 증거가 필요하다.
+행 vector의 차이에 먼저 $Q$를 곱한 것이므로, 제곱 norm을 전개하면
+
+\[
+\lVert(a_i-a_k)Q\rVert_2^2
+=(a_i-a_k)QQ^\top(a_i-a_k)^\top
+=\lVert a_i-a_k\rVert_2^2
+\]
+
+이다. 정사각 직교행렬에서는 $QQ^\top=I$가 되어 회전 항이 사라진다. 반면 $A'$의 한 열은 $Q$의 해당 열에 적힌 계수로 원래 좌표들을 섞은 값이다. 거리 보존은 vector 전체의 성질이고, 특정 열의 크기나 label과의 상관을 보존한다는 뜻은 아니다.
+
+일반적인 회전에서 $A$의 coordinate 0과 $A'$의 coordinate 0은 다른 방향을 읽는다. 따라서 특정 좌표와 label의 상관은 바뀔 수 있다. 학습된 architecture가 MLP nonlinearity처럼 특별한 좌표 기저를 부여하는 경우에도, 좌표 하나를 완전한 개념과 동일시하는 결론은 별도 증거가 필요하다.
+
+기존 합성 실습에서 좌표별 상관과 전체 거리의 보존을 나누어 확인하자.
+
+<figure class="lesson-figure" markdown="1">
+
+![Exact correlations in the existing 60 by four synthetic lab fixture are redistributed over coordinates after an orthogonal rotation.](../../figures/assets/I06/I06-04-coordinate-correlations.svg)
+
+<figcaption>기존 합성 실습의 60×4 activation을 그대로 회전한 결과다. 같은 signal이 남아 있어도 어느 좌표가 가장 강하게 상관되는지는 달라진다.</figcaption>
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![All 1770 pairwise distances among the 60 synthetic lab inputs lie on the equal distance line before and after orthogonal rotation.](../../figures/assets/I06/I06-04-pairwise-distance-invariance.svg)
+
+<figcaption>같은 합성 실습의 입력 쌍 1,770개에서 회전 전후 거리를 비교했다. 각 거리에는 네 좌표 전체가 들어가며, 좌표 하나의 반응이 달라져도 이 기하는 보존된다.</figcaption>
+</figure>
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Rotating a collected activation for analysis branches off an unchanged model path, whereas inserting a rotation into the model changes the downstream computation and needs compensation.](../../figures/assets/I06/I06-04-analysis-versus-rewiring.svg)
+
+<figcaption>왼쪽의 Q는 수집한 activation에 적용하는 분석 좌표변환이다. 오른쪽처럼 model 경로에 삽입하면 downstream 연산도 대응시켜야 한다. 원소별 비선형함수는 임의의 회전과 교환되지 않는다.</figcaption>
+</figure>
 
 ## 4. polysemanticity와 대안 설명
 
@@ -87,6 +138,15 @@ A'=AQ
 - 더 높은 차원의 한 방향을 좌표 하나로 잘못 잘랐다.
 
 neuron 분석은 이 후보를 좁히는 탐색이다. 인과적 기능은 후속 개입으로 검사한다.
+
+의미와 문장 끝 마침표가 함께 변한 경우에는 두 조건을 교차해 검사할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A two by two proposed input design crosses city versus noncity examples with terminal punctuation versus no punctuation and leaves all activations unmeasured.](../../figures/assets/I06/I06-04-city-punctuation-controls.svg)
+
+<figcaption>도시 조건과 문장 끝 마침표를 교차한 검사 입력의 구조다. 각 칸의 aⱼ는 아직 측정할 값이다. 한 조건에서 함께 나타난 패턴을 분리하려면 이런 대조가 필요하다.</figcaption>
+</figure>
 
 ## CPU 실습
 
@@ -108,7 +168,7 @@ neuron 분석은 이 후보를 좁히는 탐색이다. 인과적 기능은 후�
 
 ### 오해 3. 회전 뒤 model이 같은 행동을 하므로 좌표는 쓸모없다
 
-좌표별 계산을 실제 model 안에서 임의로 회전하면 다음 weight도 함께 변환해야 함수가 유지된다. 사고실험은 좌표 해석의 비유일성을 보여준다.
+수집한 activation의 좌표를 분석용으로 회전하는 것과 model의 내부 계산을 바꾸는 것은 다르다. model 안에서 좌표를 바꾸면 그 좌표를 읽고 쓰는 연산도 대응시켜야 한다. 선형 projection은 weight의 기저변환으로 맞출 수 있지만, 원소별 nonlinearity는 일반적인 회전과 교환되지 않으므로 weight만 바꾼다고 같은 함수가 보장되지는 않는다. 사고실험에서 보존한 기하와 실제 architecture의 좌표별 계산을 구분한다.
 
 ## 연습문제
 

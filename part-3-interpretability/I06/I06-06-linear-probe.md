@@ -47,13 +47,40 @@ s_i=w^Th_i+b
 
 이고 threshold나 logistic probability로 class를 정한다. model weight는 바꾸지 않고 probe parameter만 학습한다.
 
+내적은 각 activation 좌표에 $w$의 계수를 곱해 더한다. 따라서 probe가 읽는 것은 좌표 하나가 아니라 여러 좌표의 선형 조합이다. $w\ne0$이면 $w^Th+b=0$은 두 class를 나누는 hyperplane이고, logistic probability를 쓸 때에는 이 score를 sigmoid에 넣는다. 확률 변환이 nonlinear이어도 0.5를 기준으로 나누는 경계는 같은 hyperplane이다. 최소제곱 score를 쓰는 경우에는 label을 어떻게 숫자로 표현했는지에 맞춰 threshold를 정한다.
+
 질문은 `representation에 정보가 있는가`보다 좁다. 정확히는 **선택한 표본·위치·전처리·선형 함수족에서 label이 held-out 표본으로 복원되는가**이다.
+
+별도 readout과 선형 경계를 나누어 보면 probe가 측정하는 질문이 분명해진다.
+
+<figure class="lesson-figure" markdown="1">
+
+![A frozen activation branches to the original model readout and to a separately learned probe; only the probe parameters change.](../../figures/assets/I06/I06-06-external-readout.svg)
+
+<figcaption>같은 activation을 원래 모델과 별도 probe가 읽는다. probe가 label을 복원해도 원래 readout이 같은 방향을 사용한다는 뜻은 아니다.</figcaption>
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![In a two-dimensional schematic, a score-zero boundary separates positive and negative half-spaces and its normal vector w is perpendicular.](../../figures/assets/I06/I06-06-score-hyperplane.svg)
+
+<figcaption>2차원 경계의 개념도다. w는 경계에 수직이고 score의 부호가 두 쪽을 나눈다. sigmoid의 0.5 경계도 같은 score=0 경계다.</figcaption>
+</figure>
 
 ## 2. split과 전처리
 
 split은 입력 group 단위로 만든다. train 평균과 표준편차로 standardization하고 그 값을 validation·test에 적용한다. 전체 dataset 통계를 먼저 계산하면 test 정보가 전처리에 들어간다.
 
 layer, regularization과 threshold는 train·validation에서 고른다. test는 마지막 평가에 한 번 사용한다. 여러 layer를 test accuracy로 비교했다면 그 test는 selection set이 됐다.
+
+데이터마다 새 통계를 맞추는 것이 아니라, train에서 정한 변환을 그대로 전달한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Training groups fit mean and scale once, then the frozen preprocessing transforms train, validation, and test before their distinct roles.](../../figures/assets/I06/I06-06-train-only-preprocessing.svg)
+
+<figcaption>전처리 통계는 train에서만 맞추고 세 split에 같은 값을 적용한다. validation은 선택용이고 test는 최종 평가용이다. 이 도식은 3-split 평가 계약이며 CPU 예제의 2-split 결과를 바꾸지 않는다.</figcaption>
+</figure>
 
 ## 3. regularization과 probe 용량
 
@@ -65,9 +92,31 @@ layer, regularization과 threshold는 train·validation에서 고른다. test는
 
 처럼 쓸 수 있다. $\lambda$는 probe 용량과 수치 안정성에 영향을 준다. 하나의 성능값만 보고 representation과 probe의 기여를 분리할 수 없다.
 
+첫 항은 train 표본의 예측 오차를 합하고, 둘째 항은 weight의 제곱 크기에 비용을 붙인다. 위 최소식은 bias를 생략한 형태다. $\lambda=0$이고 feature 수가 표본 수보다 많으면 train 오차가 같은 여러 weight가 남을 수 있다. $\lambda>0$에서는 $H^TH+\lambda I$가 양의 정부호여서 이 최소제곱 문제의 weight를 유일하게 정할 수 있다. 여기서 $H$의 각 행은 train activation의 전치다. 큰 weight로 train 오차만 줄이는 선택을 제한하지만, label signal까지 줄일 수 있어 held-out 평가가 필요하다.
+
+train 예측에 나타나지 않는 방향에도 ridge 비용은 부과된다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Along a unit null direction v of the training design, predictions do not change; from a minimum-norm base weight w zero orthogonal to v, the added ridge cost is lambda times t squared.](../../figures/assets/I06/I06-06-ridge-null-direction.svg)
+
+<figcaption>H v=0인 unit direction에 t v를 더하면 train 예측이 바뀌지 않는다. 여기서는 minimum-norm base weight w₀가 v와 직교하여 ⟨w₀,v⟩=0이라고 두었다. 이 조건에서 추가 ridge 비용은 λt²이므로 λ=0의 flat 비용과 λ=1의 t²를 비교할 수 있다. 일반 base weight w에서는 추가 비용이 λ(2t⟨w,v⟩+t²)이다. λ>0의 strict convexity는 이런 비유일성을 없애지만 held-out 성능을 보장하지 않는다.</figcaption>
+</figure>
+
 ## 4. baseline과 metric
 
 class가 불균형하면 accuracy만으로 부족하다. majority baseline, balanced accuracy와 confusion matrix를 함께 본다. input 길이나 token identity만으로 label이 예측되면 activation probe가 새로운 정보를 보여준 것인지 불명확하다. input-only baseline도 필요하다.
+
+accuracy는 모든 입력을 한데 세므로 표본이 많은 class의 결과를 더 크게 반영한다. balanced accuracy는 class별 recall을 같은 비중으로 평균한다. 따라서 다수 class만 맞히는 예측과 두 class를 모두 구별하는 예측을 분리해서 볼 수 있다. input-only baseline과 activation probe를 비교할 때에도 같은 split과 평가 단위를 써야 복원 성능의 차이를 읽을 수 있다.
+
+다수 class의 비중과 두 class를 같은 비중으로 보는 평가를 비교해 보자.
+
+<figure class="lesson-figure" markdown="1">
+
+![A normalized 100-input grid has ninety majority examples predicted correctly and ten minority examples marked wrong; pooled accuracy is ninety percent but equal-weight class recall is fifty percent.](../../figures/assets/I06/I06-06-imbalance-weighting.svg)
+
+<figcaption>기존 문제의 90% 다수 class를 100칸으로 정규화한 그림이다. 다수 class만 예측하면 accuracy는 90%지만 두 class의 recall은 100%,0%여서 balanced accuracy는 50%다.</figcaption>
+</figure>
 
 ## 5. 허용되는 결론
 

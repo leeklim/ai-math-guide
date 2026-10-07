@@ -47,6 +47,24 @@ a=Dz
 
 로 dense activation을 만들 수 있다. $m>d$이면 feature가 coordinate보다 많다. 각 feature를 별도 coordinate에 놓는 monosemantic 배치는 불가능하지만, 동시에 활성화되는 feature가 적다면 비직교 방향으로 저장할 수 있다.
 
+$D$의 열 하나가 feature 하나의 방향이고, $z_j$가 그 방향의 기여량이다. neuron 좌표는 활성화된 방향들의 같은 좌표 성분을 더한 값이므로, sparse한 $z$도 dense한 $a$를 만들 수 있다. 서로 직교한 nonzero 방향들은 선형독립이어서 $d$차원에는 최대 $d$개만 둘 수 있다. $m>d$인 dictionary에는 선형종속이 남으므로 제약 없는 $z$를 $a$에서 유일하게 복원할 수는 없다. sparsity는 그 많은 후보 가운데 어떤 조합을 고려할지를 제한하는 추가 조건이다.
+
+같은 toy에서 coefficient의 자리와 합벡터의 좌표를 구분해 보자.
+
+<figure class="lesson-figure" markdown="1">
+
+![The existing toy code one zero point eight uses two of three features in a two-coordinate dictionary, yielding a dense two-coordinate activation.](../../figures/assets/I06/I06-10-feature-coordinate-shapes.svg)
+
+<figcaption>기존 CPU code z=(1,0,0.8)는 세 feature 중 두 개를 쓰지만 두 neuron 좌표 모두에 값이 생긴다. feature coefficient의 sparsity와 activation coordinate의 sparsity는 같은 성질이 아니다.</figcaption>
+</figure>
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The existing 120-degree dictionary has three directions with two active contributions; head-to-tail one d one plus point eight d three produces the two-coordinate activation.](../../figures/assets/I06/I06-10-weighted-vector-sum.svg)
+
+<figcaption>같은 CPU dictionary의 방향과 합벡터다. d₂의 coefficient는 0이고 d₁+0.8d₃가 a를 만든다. sparse feature 조합이 dense neuron coordinate를 만들 수 있음을 보인다.</figcaption>
+</figure>
+
 ## 2. Gram matrix와 간섭
 
 dictionary column이 unit norm일 때 $G=D^TD$의 대각은 1이다. 비대각 $G_{jk}=d_j^Td_k$는 두 feature direction의 겹침이다. 단순 dot-product decoder는
@@ -57,6 +75,30 @@ D^Ta=D^TDz=Gz
 
 를 낸다. $G=I$이면 정확하지만 overcomplete dictionary에서는 모든 비대각을 0으로 만들 수 없다. $Gz-z$가 간섭을 보여준다.
 
+unit column 조건에서 decoder의 $j$번째 출력을 풀면
+
+\[
+(D^Ta)_j=z_j+\sum_{k\ne j}G_{jk}z_k
+\]
+
+다. 첫 항은 읽으려는 coefficient이고 나머지는 다른 active feature가 섞인 양이다. $z_j=0$인 feature도 다른 항 때문에 출력이 0이 아닐 수 있다. 따라서 $D^Ta$는 direction별 반응을 읽은 결과이며, 일반적인 overcomplete dictionary의 정확한 sparse coefficient 복원과 같지는 않다.
+
+Gram의 비대각이 참 code와 단순 decoder 출력의 차이를 만든다.
+
+<figure class="lesson-figure" markdown="1">
+
+![The actual three by three Gram matrix of the 120-degree unit dictionary has diagonal one and all off-diagonals minus half; inactive feature two receives response minus point nine.](../../figures/assets/I06/I06-10-gram-interference.svg)
+
+<figcaption>세 unit direction의 Gram 비대각은 모두 −0.5다. z₂=0이어도 두 active feature가 섞여 dot-product response₂=−0.9가 된다. 이것은 정확한 sparse coefficient 복원이 아니다.</figcaption>
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![Grouped bars compare the actual toy true coefficients one zero point eight with naive dot responses point six minus point nine point three, exposing a nonzero response to an inactive feature.](../../figures/assets/I06/I06-10-dot-response-vs-code.svg)
+
+<figcaption>기존 toy의 참 coefficient와 dot response를 같은 축에서 비교했다. 두 번째 feature가 inactive인데 음수 반응이 생기고 다른 두 값도 줄어든다. active support의 복원과 단순 내적 반응은 다르다.</figcaption>
+</figure>
+
 ## 3. sparsity가 주는 여지
 
 모든 feature가 항상 동시에 활성화되면 간섭이 누적된다. 각 입력에서 소수 feature만 켜지면 동시에 충돌하는 방향 수가 줄어든다. feature importance, sparsity와 상관구조에 따라 어떤 direction을 거의 직교하게 둘지 달라질 수 있다.
@@ -65,7 +107,7 @@ D^Ta=D^TDz=Gz
 
 ### 시각적 직관: 좌표축보다 많은 방향을 공유한다
 
-<figure class="lesson-figure" markdown="1">
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
 
 ![Two orthogonal feature directions compared with four nonorthogonal sparse feature directions in two dimensions](../../figures/assets/I06/I06-10-superposition.svg)
 
@@ -89,6 +131,15 @@ d_1^\top a
 ReLU처럼 coordinate-wise nonlinearity가 있으면 neuron basis가 계산에서 특별한 역할을 갖는다. 그렇더라도 입력 feature가 반드시 개별 neuron과 일치하지는 않는다. `기저 의존적이다`와 `실제 기저가 중요하지 않다`는 다른 문장이다.
 
 임의의 직교회전은 선형 층 사이에서 상쇄시킬 수 있는 경우가 있지만, coordinate-wise ReLU 앞뒤에 같은 방식으로 삽입하면 일반적으로 원래 함수가 보존되지 않는다. 따라서 representation을 분석할 때는 basis-free한 부분공간 주장과 실제 neuron 좌표에서만 성립하는 sparsity·gating 주장을 구분해야 한다.
+
+순서를 바꾼 두 계산의 출력 vector를 직접 비교하면 차이가 드러난다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Applying a 120-degree rotation after coordinate ReLU keeps a negative first component, while ReLU after rotation zeros it; the outputs differ.](../../figures/assets/I06/I06-10-relu-basis-order.svg)
+
+<figcaption>기존 toy의 d₁와 120° 회전을 사용한 수학적 순서 비교다. Q ReLU(a)의 첫 성분은 −0.5지만 ReLU(Qa)는 이를 0으로 만든다. neuron basis의 coordinate-wise 연산이 일반 회전과 commute하지 않음을 보인다.</figcaption>
+</figure>
 
 ## CPU 실습
 

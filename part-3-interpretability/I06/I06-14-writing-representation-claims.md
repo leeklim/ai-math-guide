@@ -49,6 +49,17 @@ estimated_time: "90~120분"
 
 아래 단계의 성공이 위 단계를 자동으로 포함하지는 않는다. 예를 들어 개입이 행동을 바꿔도 feature 설명이 틀렸다면 특정 개념의 인과 효과라고 부를 수 없다.
 
+이 표를 모든 연구가 차례대로 올라가야 하는 하나의 사다리로 읽지는 않는다. 특히 일반화는 관찰·복원·개입 중 어느 결과든 별도로 확인할 수 있는 적용 범위다. 여러 model에서 관찰 차이가 반복돼도 그 차이의 인과적 사용이 입증된 것은 아니며, 한 입력에서 통제된 개입 효과를 얻어도 다른 입력까지 검증한 것은 아니다. evidence ledger에는 주장 종류와 검증 범위를 따로 적는다.
+
+주장 종류와 검증 범위는 서로 다른 축에 놓을 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A two-axis matrix separates claim kind observed recoverable used causal from replication scope one setting new inputs new models; A is repeated observation and B is a single-setting intervention.](../../figures/assets/I06/I06-14-claim-kind-scope.svg)
+
+<figcaption>A는 여러 model에서 반복된 관찰이고 B는 한 setting의 개입이다. A가 인과적 사용을, B가 새 입력에서의 일반화를 자동으로 증명하지 않는다. 두 축은 본문 사례의 개념 구분이지 측정 결과 표가 아니다.</figcaption>
+</figure>
+
 ## 2. 결과 문장의 구성
 
 좋은 결과 문장은 다음을 포함한다.
@@ -77,6 +88,19 @@ estimated_time: "90~120분"
 ## 4. negative result도 쓴다
 
 probe control이 높거나 feature matching이 불안정한 결과는 삭제할 실패가 아니다. 가능한 결론의 상한을 낮춘다. 사전 기준, 제외와 중단 규칙을 공개하면 선택적 보고를 줄인다.
+
+다만 어떤 검사가 실패했는지에 따라 약해지는 주장도 다르다. task와 control accuracy가 함께 높으면 representation에 특화된 복원이라는 근거가 약해진다. 그것이 label을 읽을 수 없다는 결과는 아니다. 개별 feature matching이 낮아도 subspace 안정성은 별도로 남을 수 있다. 실패한 검사의 대상 밖으로 부정적 결론을 넓히지 않는다.
+
+개입 뒤 변화가 검출되지 않았다는 결과도 곧바로 기능적 사용이 전혀 없다는 뜻은 아니다. 측정한 effect의 크기와 uncertainty, 개입 위치·강도·입력 범위를 함께 보고해야 한다. 넓은 불확실성 때문에 작은 효과를 구분하지 못한 경우와, 정한 범위의 효과를 배제할 만큼 정밀한 경우는 다르다.
+
+변화가 검출되지 않았다는 말만으로는 어느 효과 크기를 배제했는지 알 수 없다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Two schematic intervals centered on zero share reference effect thresholds minus delta and plus delta; the wide interval includes relevant effects while the narrow interval excludes effects beyond those thresholds.](../../figures/assets/I06/I06-14-null-effect-uncertainty.svg)
+
+<figcaption>같은 0 중심 결과라도 uncertainty가 넓으면 ±δ 크기의 관련 효과가 남고, 충분히 좁으면 그 범위를 벗어나는 효과를 배제할 수 있다. δ는 사전 정의 효과 기준이다. 정확히 0인 효과나 기능적 사용의 완전한 부재를 확정하는 그림은 아니다.</figcaption>
+</figure>
 
 ## CPU 실습
 

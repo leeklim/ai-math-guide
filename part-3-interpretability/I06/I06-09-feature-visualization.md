@@ -47,6 +47,24 @@ s_f(x)=v^Ta(x)
 
 로 projection을 사용한다. token별 activation이라면 max, mean, 특정 token 중 무엇을 score로 썼는지 적는다. 부호가 중요한 direction에서는 top과 bottom을 모두 본다.
 
+$v$가 단위 vector이면 내적은 그 방향으로 잰 signed 성분이다. $v$를 같은 양수 배로 키우면 입력들의 순위는 같아도 score 크기는 달라지므로, 여러 direction의 raw score를 비교할 때에는 norm 기준을 맞춰야 한다. 또 같은 방향을 향해도 activation 자체의 norm이 큰 입력은 score가 더 클 수 있다. direction 반응과 전체 activation 크기 중 무엇을 비교하는지 구분한다.
+
+direction의 투영과 token 집계가 각각 score를 어떻게 정하는지 보자.
+
+<figure class="lesson-figure" markdown="1">
+
+![The problem activation two three is projected onto unit direction one zero; its horizontal signed component is two while its second coordinate does not contribute.](../../figures/assets/I06/I06-09-direction-projection.svg)
+
+<figcaption>기존 문제의 unit direction v=(1,0)는 a=(2,3)의 첫 성분 2를 읽는다. 같은 방향이라도 v의 norm이나 a의 전체 크기를 바꾸면 score 크기는 달라질 수 있다.</figcaption>
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![Three token-level feature scores feed alternative maximum, mean, or selected-token reducers; the reducer is chosen before ranking inputs.](../../figures/assets/I06/I06-09-token-score-aggregation.svg)
+
+<figcaption>token별 score가 있어도 max,mean,특정 token은 서로 다른 측정량이다. 그림은 세 token의 계산 역할을 보여 주는 개념도이며 값을 임의로 측정하지 않는다.</figcaption>
+</figure>
+
 ## 2. dataset example
 
 고정 dataset에서 score를 계산해 top-$k$, bottom-$k$와 무작위 예를 나란히 본다. 상위 예만 제시하면 전체 base rate와 feature의 비선택성을 숨길 수 있다. 입력 text뿐 아니라 어느 token에서 score가 측정됐는지 표시한다.
@@ -58,6 +76,22 @@ s_f(x)=v^Ta(x)
 - paraphrase와 position 변경에 유지되는가?
 - 특정 token ID나 길이만 추적한 것은 아닌가?
 
+순위의 양쪽 끝과 전체 dataset의 비율은 서로 다른 정보를 준다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Ten top-example cells contain eight question marks while a normalized dataset proportion has nine of ten bins marked questions, so eighty percent top is below ninety percent overall.](../../figures/assets/I06/I06-09-top-versus-base-rate.svg)
+
+<figcaption>기존 문제에서 top의 질문문 비율 80%는 전체 90%보다 낮다. 아래 열 칸은 전체 dataset의 비율을 정규화한 것이며 실제 dataset 크기가 10이라는 뜻은 아니다.</figcaption>
+</figure>
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The existing twenty-row synthetic fixture is ordered by its normalized direction score, with blue hatched bottom five and green top five on opposite signed ends; labels did not determine order.](../../figures/assets/I06/I06-09-signed-ranking.svg)
+
+<figcaption>기존 CPU 입력 20×6과 같은 seed·direction으로 score를 정렬했다. 파란 hatched bottom 5와 초록 top 5가 축의 양쪽을 드러낸다. label은 순위 선택에 쓰지 않았으며 실제 언어 model의 입력은 아니다.</figcaption>
+</figure>
+
 ## 3. 입력 최적화
 
 미분 가능한 입력 $x$에서는
@@ -66,13 +100,42 @@ s_f(x)=v^Ta(x)
 \max_x\ s_f(x)-\lambda R(x)
 \]
 
-를 풀 수 있다. $R(x)$는 natural image prior, norm, smoothness 같은 제약이다. 제약이 없으면 model이 강하게 반응하지만 데이터 분포에서는 보기 어려운 artifact가 나올 수 있다.
+를 풀 수 있다. $R(x)$는 norm이나 smoothness, natural image prior에 따른 비용을 수치로 나타낸 penalty이고 $\lambda\ge0$가 그 비중을 정한다. 이 항을 넣지 않으면 model이 강하게 반응하지만 데이터 분포에서는 보기 어려운 artifact가 나올 수 있다.
+
+최적화는 model weight를 고정한 채 입력을 바꾼다. 미분 가능한 경우 gradient ascent의 방향은 $\nabla_x s_f(x)-\lambda\nabla_x R(x)$이므로, activation을 키우는 변화와 penalty를 낮추는 변화가 함께 반영된다. 유한한 penalty는 비용을 내고도 높은 score를 택할 수 있는 soft 제약이다. 입력의 허용 범위를 반드시 지키려면 최적화할 영역도 별도로 제한해야 한다.
 
 언어 model의 discrete token은 직접 gradient ascent하기 어렵다. embedding 최적화, token search와 생성 model을 이용한 후보 생성은 각각 다른 허용 입력 공간을 만든다. 결과가 자연어처럼 보여도 훈련 분포 위에 있다는 보장은 없다.
+
+embedding vector를 연속적으로 움직여 얻은 값이 실제 token table의 어느 row와도 일치하지 않을 수 있다. 그 값을 가까운 token으로 바꾸는 순간 입력과 score가 다시 달라질 수 있으므로, 최종 token sequence에서 score를 재측정해야 한다. dataset에서 찾은 예와 최적화로 만든 입력은 반응을 관찰한 입력 공간부터 다르다.
+
+입력의 변화와 고정된 weight를 구분하고, 연속 embedding에서 실제 token으로 돌아오는 단계도 확인한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![A variable input goes through a fixed-weight model; feature-score ascent and negative penalty gradient jointly update the input, while hard bounds require an explicit domain.](../../figures/assets/I06/I06-09-input-optimization.svg)
+
+<figcaption>학습하는 대상은 model weight가 아니라 입력 x다. score gradient와 penalty를 줄이는 방향을 함께 반영하며, 유한 penalty만으로 허용 영역을 반드시 지키지는 않는다.</figcaption>
+</figure>
+
+<figure class="lesson-figure" markdown="1">
+
+![An optimized continuous embedding lies between three discrete token embeddings, then snapping to a token changes the point and requires rescoring.](../../figures/assets/I06/I06-09-embedding-to-token.svg)
+
+<figcaption>연속 embedding의 최적화 결과 x*가 token table의 row와 같다는 보장은 없다. 실제 token으로 바꾼 최종 입력에서 score를 다시 측정해야 한다. 좌표는 이 차이를 보여 주는 개념도다.</figcaption>
+</figure>
 
 ## 4. visualization과 기능
 
 feature가 특정 예에 반응한다는 사실은 관찰이다. 해당 feature를 제거하거나 증폭했을 때 행동이 예측대로 바뀌는지는 개입 질문이다. visualization 설명을 개입 target으로 사용할 수 있지만 두 결과를 같은 증거로 합치지 않는다.
+
+반응을 관찰하는 경로와 행동을 개입으로 시험하는 경로를 분리한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Observed activating examples support a reaction hypothesis; removing or amplifying a feature and comparing controlled behavior is a separate intervention route.](../../figures/assets/I06/I06-09-observation-intervention.svg)
+
+<figcaption>상위·하위 예는 반응 조건의 가설을 만든다. 제거·증폭 뒤 행동이 바뀌는지는 별도의 통제된 개입 질문이다. 두 경로를 같은 증거로 합치지 않는다.</figcaption>
+</figure>
 
 ## CPU 실습
 

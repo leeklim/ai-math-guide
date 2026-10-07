@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="1200pt" height="1040pt" viewBox="0 0 1200 1040" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>ai-math-guide</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 1040 
+L 1200 1040 
+L 1200 0 
+L 0 0 
+z
+" style="fill: #f8fafc"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 96 748.8 
+L 531 748.8 
+L 531 249.6 
+L 96 249.6 
+z
+" style="fill: #f8fafc"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <path d="M 96 748.8 
+L 96 249.6 
+" clip-path="url(#pfbca86aae7)" style="fill: none; stroke: #cbd5e1; stroke-opacity: 0.55; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_2">
+      <defs>
+       <path id="mcd8e56d1c9" d="M 0 0 
+L 0 3.5 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#mcd8e56d1c9" x="96" y="748.8" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="font-size: 22px; font-family: 'DejaVu Sans'; text-anchor: middle" x="96" y="772.516562" transform="rotate(-0 96 772.516562)">0.0</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_3">
+      <path d="M 313.5 748.8 
+L 313.5 249.6 
+" clip-path="url(#pfbca86aae7)" style="fill: none; stroke: #cbd5e1; stroke-opacity: 0.55; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#mcd8e56d1c9" x="313.5" y="748.8" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="font-size: 22px; font-family: 'DejaVu Sans'; text-anchor: middle" x="313.5" y="772.516562" transform="rotate(-0 313.5 772.516562)">0.5</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_5">
+      <path d="M 531 748.8 
+L 531 249.6 
+" clip-path="url(#pfbca86aae7)" style="fill: none; stroke: #cbd5e1; stroke-opacity: 0.55; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#mcd8e56d1c9" x="531" y="748.8" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="font-size: 22px; font-family: 'DejaVu Sans'; text-anchor: middle" x="531" y="772.516562" transform="rotate(-0 531 772.516562)">1.0</text>
+     </g>
+    </g>
+    <g id="text_4">
+     <text style="font-size: 24px; font-family: 'DejaVu Sans'; text-anchor: middle" x="313.5" y="799.328125" transform="rotate(-0 313.5 799.328125)">Cumulative population mass</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_7">
+      <path d="M 96 748.8 
+L 531 748.8 
+" clip-path="url(#pfbca86aae7)" style="fill: none; stroke: #cbd5e1; stroke-opacity: 0.55; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_8">
+      <defs>
+       <path id="ma30e872c93" d="M 0 0 
+L -3.5 0 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#ma30e872c93" x="96" y="748.8" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="font-size: 22px; font-family: 'DejaVu Sans'; text-anchor: end" x="89" y="757.158281" transform="rotate(-0 89 757.158281)">0.0</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_9">
+      <path d="M 96 572.611765 
+L 531 572.611765 
+" clip-path="url(#pfbca86aae7)" style="fill: none; stroke: #cbd5e1; stroke-opacity: 0.55; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#ma30e872c93" x="96" y="572.611765" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <text style="font-size: 22px; font-family: 'DejaVu Sans'; text-anchor: end" x="89" y="580.970046" transform="rotate(-0 89 580.970046)">0.6</text>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_11">
+      <path d="M 96 396.423529 
+L 531 396.423529 
+" clip-path="url(#pfbca86aae7)" style="fill: none; stroke: #cbd5e1; stroke-opacity: 0.55; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_12">
+      <g>
+       <use xlink:href="#ma30e872c93" x="96" y="396.423529" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <text style="font-size: 22px; font-family: 'DejaVu Sans'; text-anchor: end" x="89" y="404.781811" transform="rotate(-0 89 404.781811)">1.2</text>
+     </g>
+    </g>
+    <g id="text_8">
+     <text style="font-size: 24px; font-family: 'DejaVu Sans'; text-anchor: middle" x="45.021875" y="499.2" transform="rotate(-90 45.021875 499.2)">Conditional effect</text>
+    </g>
+   </g>
+   <g id="patch_3">
+    <path d="M 96 748.8 
+L 313.5 748.8 
+L 313.5 396.423529 
+L 96 396.423529 
+z
+" clip-path="url(#pfbca86aae7)" style="fill: #2563eb; opacity: 0.18; stroke: #2563eb; stroke-width: 3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 313.5 748.8 
+L 531 748.8 
+L 531 719.435294 
+L 313.5 719.435294 
+z
+" clip-path="url(#pfbca86aae7)" style="fill: #059669; opacity: 0.18; stroke: #059669; stroke-width: 3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 96 748.8 
+L 96 249.6 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 96 748.8 
+L 531 748.8 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 25px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2563eb" x="204.75" y="343.567059" transform="rotate(-0 204.75 343.567059)">A: width 0.5</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 25px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #059669" x="422.25" y="666.578824" transform="rotate(-0 422.25 666.578824)">B: width 0.5</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 27px; font-family: 'DejaVu Sans'; text-anchor: middle" x="313.5" y="223.6" transform="rotate(-0 313.5 223.6)">Source mean = 0.65</text>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_7">
+    <path d="M 705 748.8 
+L 1140 748.8 
+L 1140 249.6 
+L 705 249.6 
+z
+" style="fill: #f8fafc"/>
+   </g>
+   <g id="matplotlib.axis_3">
+    <g id="xtick_4">
+     <g id="line2d_13">
+      <path d="M 705 748.8 
+L 705 249.6 
+" clip-path="url(#pcc343bb5c4)" style="fill: none; stroke: #cbd5e1; stroke-opacity: 0.55; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_14">
+      <g>
+       <use xlink:href="#mcd8e56d1c9" x="705" y="748.8" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_12">
+      <text style="font-size: 22px; font-family: 'DejaVu Sans'; text-anchor: middle" x="705" y="772.516562" transform="rotate(-0 705 772.516562)">0.0</text>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_15">
+      <path d="M 792 748.8 
+L 792 249.6 
+" clip-path="url(#pcc343bb5c4)" style="fill: none; stroke: #cbd5e1; stroke-opacity: 0.55; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_16">
+      <g>
+       <use xlink:href="#mcd8e56d1c9" x="792" y="748.8" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_13">
+      <text style="font-size: 22px; font-family: 'DejaVu Sans'; text-anchor: middle" x="792" y="772.516562" transform="rotate(-0 792 772.516562)">0.2</text>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_17">
+      <path d="M 1140 748.8 
+L 1140 249.6 
+" clip-path="url(#pcc343bb5c4)" style="fill: none; stroke: #cbd5e1; stroke-opacity: 0.55; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_18">
+      <g>
+       <use xlink:href="#mcd8e56d1c9" x="1140" y="748.8" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_14">
+      <text style="font-size: 22px; font-family: 'DejaVu Sans'; text-anchor: middle" x="1140" y="772.516562" transform="rotate(-0 1140 772.516562)">1.0</text>
+     </g>
+    </g>
+    <g id="text_15">
+     <text style="font-size: 24px; font-family: 'DejaVu Sans'; text-anchor: middle" x="922.5" y="799.328125" transform="rotate(-0 922.5 799.328125)">Cumulative population mass</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_4">
+    <g id="ytick_4">
+     <g id="line2d_19">
+      <path d="M 705 748.8 
+L 1140 748.8 
+" clip-path="url(#pcc343bb5c4)" style="fill: none; stroke: #cbd5e1; stroke-opacity: 0.55; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_20">
+      <g>
+       <use xlink:href="#ma30e872c93" x="705" y="748.8" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_16">
+      <text style="font-size: 22px; font-family: 'DejaVu Sans'; text-anchor: end" x="698" y="757.158281" transform="rotate(-0 698 757.158281)">0.0</text>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_21">
+      <path d="M 705 572.611765 
+L 1140 572.611765 
+" clip-path="url(#pcc343bb5c4)" style="fill: none; stroke: #cbd5e1; stroke-opacity: 0.55; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_22">
+      <g>
+       <use xlink:href="#ma30e872c93" x="705" y="572.611765" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_17">
+      <text style="font-size: 22px; font-family: 'DejaVu Sans'; text-anchor: end" x="698" y="580.970046" transform="rotate(-0 698 580.970046)">0.6</text>
+     </g>
+    </g>
+    <g id="ytick_6">
+     <g id="line2d_23">
+      <path d="M 705 396.423529 
+L 1140 396.423529 
+" clip-path="url(#pcc343bb5c4)" style="fill: none; stroke: #cbd5e1; stroke-opacity: 0.55; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_24">
+      <g>
+       <use xlink:href="#ma30e872c93" x="705" y="396.423529" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_18">
+      <text style="font-size: 22px; font-family: 'DejaVu Sans'; text-anchor: end" x="698" y="404.781811" transform="rotate(-0 698 404.781811)">1.2</text>
+     </g>
+    </g>
+    <g id="text_19">
+     <text style="font-size: 24px; font-family: 'DejaVu Sans'; text-anchor: middle" x="654.021875" y="499.2" transform="rotate(-90 654.021875 499.2)">Conditional effect</text>
+    </g>
+   </g>
+   <g id="patch_8">
+    <path d="M 705 748.8 
+L 792 748.8 
+L 792 396.423529 
+L 705 396.423529 
+z
+" clip-path="url(#pcc343bb5c4)" style="fill: #2563eb; opacity: 0.18; stroke: #2563eb; stroke-width: 3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 792 748.8 
+L 1140 748.8 
+L 1140 719.435294 
+L 792 719.435294 
+z
+" clip-path="url(#pcc343bb5c4)" style="fill: #059669; opacity: 0.18; stroke: #059669; stroke-width: 3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 705 748.8 
+L 705 249.6 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 705 748.8 
+L 1140 748.8 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_20">
+    <text style="font-size: 25px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2563eb" x="748.5" y="343.567059" transform="rotate(-0 748.5 343.567059)">A: width 0.2</text>
+   </g>
+   <g id="text_21">
+    <text style="font-size: 25px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #059669" x="966" y="666.578824" transform="rotate(-0 966 666.578824)">B: width 0.8</text>
+   </g>
+   <g id="text_22">
+    <text style="font-size: 27px; font-family: 'DejaVu Sans'; text-anchor: middle" x="922.5" y="223.6" transform="rotate(-0 922.5 223.6)">Target mean = 0.32</text>
+   </g>
+  </g>
+  <g id="text_23">
+   <text style="font-size: 28px; font-family: 'DejaVu Sans'; text-anchor: middle" x="600" y="73.275625" transform="rotate(-0 600 73.275625)">Stable conditional heights, changed population widths</text>
+  </g>
+  <g id="text_24">
+   <text style="font-size: 25px; font-family: 'DejaVu Sans'; fill: #475569" transform="translate(289.222656 931.013281)">Illustrative body values: A effect 1.2; B effect 0.1.</text>
+   <text style="font-size: 25px; font-family: 'DejaVu Sans'; fill: #475569" transform="translate(216.392578 964.706641)">Area is mass × effect. Source: 0.60+0.05; target: 0.24+0.08.</text>
+   <text style="font-size: 25px; font-family: 'DejaVu Sans'; fill: #475569" transform="translate(127.839844 998.4)">A changed mixture can change the average without changing either effect.</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pfbca86aae7">
+   <rect x="96" y="249.6" width="435" height="499.2"/>
+  </clipPath>
+  <clipPath id="pcc343bb5c4">
+   <rect x="705" y="249.6" width="435" height="499.2"/>
+  </clipPath>
+ </defs>
+</svg>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="520pt" height="980pt" viewBox="0 0 520 980" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>ai-math-guide</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 980 
+L 520 980 
+L 520 0 
+L 0 0 
+z
+" style="fill: #f8fafc"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 98.8 633.1 
+L 473.2 633.1 
+L 473.2 258.7 
+L 98.8 258.7 
+z
+" style="fill: #f8fafc"/>
+   </g>
+   <g id="QuadMesh_1">
+    <path d="M 98.8 633.1 
+L 286 633.1 
+L 286 445.9 
+L 98.8 445.9 
+L 98.8 633.1 
+" clip-path="url(#pfb3186ca39)" style="fill: #6aaed6"/>
+    <path d="M 286 633.1 
+L 473.2 633.1 
+L 473.2 445.9 
+L 286 445.9 
+L 286 633.1 
+" clip-path="url(#pfb3186ca39)" style="fill: #6aaed6"/>
+    <path d="M 98.8 445.9 
+L 286 445.9 
+L 286 258.7 
+L 98.8 258.7 
+L 98.8 445.9 
+" clip-path="url(#pfb3186ca39)" style="fill: #f7fbff"/>
+    <path d="M 286 445.9 
+L 473.2 445.9 
+L 473.2 258.7 
+L 286 258.7 
+L 286 445.9 
+" clip-path="url(#pfb3186ca39)" style="fill: #08306b"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 98.8 445.9 
+L 286 445.9 
+L 286 258.7 
+L 98.8 258.7 
+L 98.8 445.9 
+z
+" clip-path="url(#pfb3186ca39)" style="fill: none; stroke: #dc2626; stroke-width: 4; stroke-linejoin: miter"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <defs>
+       <path id="md80a18321e" d="M 0 0 
+L 0 3.5 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#md80a18321e" x="192.4" y="633.1" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="font-size: 22px; font-family: 'DejaVu Sans'; text-anchor: middle" x="192.4" y="656.816562" transform="rotate(-0 192.4 656.816562)">0</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2">
+      <g>
+       <use xlink:href="#md80a18321e" x="379.6" y="633.1" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="font-size: 22px; font-family: 'DejaVu Sans'; text-anchor: middle" x="379.6" y="656.816562" transform="rotate(-0 379.6 656.816562)">1</text>
+     </g>
+    </g>
+    <g id="text_3">
+     <text style="font-size: 24px; font-family: 'DejaVu Sans'; text-anchor: middle" x="286" y="683.628125" transform="rotate(-0 286 683.628125)">X</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_3">
+      <defs>
+       <path id="md109555560" d="M 0 0 
+L -3.5 0 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#md109555560" x="98.8" y="539.5" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="font-size: 22px; font-family: 'DejaVu Sans'; text-anchor: end" x="91.8" y="547.858281" transform="rotate(-0 91.8 547.858281)">0</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#md109555560" x="98.8" y="352.3" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="font-size: 22px; font-family: 'DejaVu Sans'; text-anchor: end" x="91.8" y="360.658281" transform="rotate(-0 91.8 360.658281)">1</text>
+     </g>
+    </g>
+    <g id="text_6">
+     <text style="font-size: 24px; font-family: 'DejaVu Sans'; text-anchor: middle" x="68.81125" y="445.9" transform="rotate(-90 68.81125 445.9)">Z</text>
+    </g>
+   </g>
+   <g id="patch_4">
+    <path d="M 98.8 633.1 
+L 98.8 258.7 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 473.2 633.1 
+L 473.2 258.7 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 98.8 633.1 
+L 473.2 633.1 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 98.8 258.7 
+L 473.2 258.7 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 30px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="192.4" y="547.778125" transform="rotate(-0 192.4 547.778125)">0.5</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 30px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="379.6" y="547.778125" transform="rotate(-0 379.6 547.778125)">0.5</text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 30px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #0f172a" x="192.4" y="360.578125" transform="rotate(-0 192.4 360.578125)">0</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 30px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="379.6" y="360.578125" transform="rotate(-0 379.6 360.578125)">1</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 25px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #dc2626" x="286" y="193.18" transform="rotate(-0 286 193.18)">P(X=0 | Z=1)=0</text>
+   </g>
+  </g>
+  <g id="text_12">
+   <text style="font-size: 28px; font-family: 'DejaVu Sans'" transform="translate(74.922187 70.275625)">Missing treatment support</text>
+   <text style="font-size: 28px; font-family: 'DejaVu Sans'" transform="translate(111.549687 104.820844)">in a required stratum</text>
+  </g>
+  <g id="text_13">
+   <text style="font-size: 24px; font-family: 'DejaVu Sans'; fill: #475569" transform="translate(138.494375 810.5925)">Each row sums to 1.</text>
+   <text style="font-size: 24px; font-family: 'DejaVu Sans'; fill: #475569" transform="translate(58.48625 843.095625)">These are P(X | Z), not outcomes.</text>
+   <text style="font-size: 24px; font-family: 'DejaVu Sans'; fill: #475569" transform="translate(97.555625 876.10875)">An X=0 intervention needs</text>
+   <text style="font-size: 24px; font-family: 'DejaVu Sans'; fill: #475569" transform="translate(84.119375 908.454375)">the Z=1 outcome conditional</text>
+   <text style="font-size: 24px; font-family: 'DejaVu Sans'; fill: #475569" transform="translate(72.0125 940.8)">that this sample cannot supply.</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pfb3186ca39">
+   <rect x="98.8" y="258.7" width="374.4" height="374.4"/>
+  </clipPath>
+ </defs>
+</svg>

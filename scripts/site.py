@@ -647,8 +647,20 @@ def remove_h2_sections(text: str, section_names: set[str], *, required: bool = F
 
         removed.add(match.group(1))
         index += 1
+        fence_marker: str | None = None
         while index < len(lines):
-            if re.match(r"^#{1,2}\s+", lines[index]):
+            fence = re.match(r"^ {0,3}(`{3,}|~{3,})", lines[index])
+            if fence:
+                marker = fence.group(1)
+                if fence_marker is None:
+                    fence_marker = marker
+                elif (
+                    marker[0] == fence_marker[0]
+                    and len(marker) >= len(fence_marker)
+                    and not lines[index][fence.end():].strip()
+                ):
+                    fence_marker = None
+            elif fence_marker is None and re.match(r"^#{1,2}\s+", lines[index]):
                 break
             index += 1
 
@@ -660,7 +672,7 @@ def remove_h2_sections(text: str, section_names: set[str], *, required: bool = F
 
 def prepare_homepage() -> str:
     source = read_text(ROOT / "README.md")
-    source = remove_h2_sections(source, {"기준 문서", "현재 상태"}, required=True)
+    source = remove_h2_sections(source, {"기준 문서", "현재 상태", "로컬 HTML 검수"}, required=True)
     return (
         source.rstrip()
         + "\n\n## 읽기 시작\n\n"

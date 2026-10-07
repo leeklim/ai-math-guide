@@ -21,7 +21,16 @@ LESSON_ROOTS = (
     ROOT / "part-3-interpretability",
     ROOT / "part-4-advanced",
 )
-PRESERVED_LESSONS = {"M02-05", "M03-11", "N05-15"}
+PRESERVED_LESSONS = {
+    "M00-01",
+    "M00-02",
+    "M00-03",
+    "M00-04",
+    "M00-05",
+    "M02-05",
+    "M03-11",
+    "N05-15",
+}
 FIELDNAMES = (
     "lesson_id",
     "concept_id",
@@ -34,6 +43,11 @@ FIELDNAMES = (
     "planned_asset",
     "status",
     "rationale",
+    "explanation_status",
+    "explanation_gap",
+    "revised_sections",
+    "explanation_role",
+    "verification_result",
 )
 FRONTMATTER_ID_RE = re.compile(r'^id:\s*"(?P<id>[A-Z0-9-]+)"\s*$', re.MULTILINE)
 FRONTMATTER_TITLE_RE = re.compile(r'^title:\s*"(?P<title>[^"]+)"\s*$', re.MULTILINE)
@@ -233,6 +247,11 @@ def load_existing_rows() -> dict[str, list[dict[str, str]]]:
     rows: dict[str, list[dict[str, str]]] = defaultdict(list)
     with AUDIT_PATH.open(encoding="utf-8", newline="") as handle:
         for row in csv.DictReader(handle):
+            if "explanation_status" not in row:
+                row.update({field: "" for field in FIELDNAMES[-5:]})
+                row["explanation_status"] = "planned"
+                if row["status"] == "verified":
+                    row["status"] = "drafting"
             rows[row["lesson_id"]].append(row)
     return rows
 
@@ -304,7 +323,11 @@ def build_rows() -> list[dict[str, str]]:
     output: list[dict[str, str]] = []
 
     for lesson_id, lesson_title, path in candidate_lessons():
-        if lesson_id in PRESERVED_LESSONS:
+        if lesson_id in PRESERVED_LESSONS or any(
+            row["status"] != "planned" or row["explanation_status"] != "planned"
+            or any(row.get(field) for field in FIELDNAMES[-4:])
+            for row in existing_rows.get(lesson_id, [])
+        ):
             output.extend(existing_rows[lesson_id])
             continue
         text = path.read_text(encoding="utf-8")
@@ -350,6 +373,11 @@ def build_rows() -> list[dict[str, str]]:
                     "planned_asset": asset,
                     "status": "planned",
                     "rationale": rationale,
+                    "explanation_status": "planned",
+                    "explanation_gap": "",
+                    "revised_sections": "",
+                    "explanation_role": "",
+                    "verification_result": "",
                 }
             )
     return output

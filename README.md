@@ -63,7 +63,19 @@ py -3.12 -m venv .venv
 
 개념도와 생성된 그래프의 최종 SVG는 `figures/assets`에 있으며, `figures/manifest.json`이 단원과 생성 코드를 연결한다. 전권 단원 등급은 `revision/visual-audit.csv`에, 실제 개념별 설명·그림 필요성과 진행 상태는 `revision/concept-audit.csv`에 기록한다.
 
-자동 검사 테스트, 원본 감사, production build와 생성물 검증을 한 번에 실행한다.
+전권 199개 단원·976개 핵심개념의 본문 설명과 시각화 통합 검증을 완료했다. 기존 본문과 문제·해설 1,154쌍을 보존하며 교재용 SVG 1,355개를 배치했다. 개념도 661개는 SVG 자체가 원본이며, 수치 그림 694개는 저장된 코드로 재생성할 수 있다. 그림·캡션과 필요한 짧은 연결 문장은 해당 설명 가까이에 두었으며, 그림 필요성과 제외 근거는 개념 대장에 기록했다. 본문 상태는 `explanation_status`, 본문과 그림의 통합 상태는 `status`로 구분한다.
+
+그림 단계에서는 단원 담당자가 읽기·진단·설계·제작·자체 검수를 이어가고 서로 다른 단원을 병렬 진행한다. 조정자가 공유 자산 목록과 대장·빌드를 통합한다. 신규·수정 그림은 모두 직접 렌더링하고 변경 페이지의 HTML 반영을 확인한다. 공통 유형의 대표 페이지에서 데스크톱·모바일과 밝은·어두운 화면을 확인하며, 넓고 복잡하거나 새로운 배치는 개별 검수를 추가한다. M00~M04 각각, N05의 전·후반 각각, I06~I08 각각, A09의 7개 모듈 각각이 끝나면 상세 대장과 사이트 준비·strict HTML build를 수행한다. 전권 검사는 최종 통합 단계에서 수행하며 작은 파일 묶음마다 반복하지 않는다.
+
+```powershell
+.\.venv\Scripts\python.exe scripts/concepts.py check
+# 전권 본문 완료 시 사용한다. 미완료 개념이 남아 있으면 실패한다.
+.\.venv\Scripts\python.exe scripts/concepts.py check --require-explanations
+# 필수 그림 검수까지 포함한 전권 통합 완료 시 사용한다.
+.\.venv\Scripts\python.exe scripts/concepts.py check --require-verified
+```
+
+자동 검사 테스트, 원본 감사, production build와 생성물 검증을 한 번에 실행하는 통합 검사 명령은 다음과 같다.
 
 ```powershell
 .\scripts\build_site.ps1
@@ -75,4 +87,4 @@ py -3.12 -m venv .venv
 .\scripts\preview_site.ps1 -SkipBuild
 ```
 
-GitHub Actions는 같은 build와 검증만 수행한다. GitHub Pages deployment는 비활성 상태이며, 검수가 끝날 때까지 사이트를 공개하지 않는다.
+GitHub Actions는 build와 검증을 수행한다. `main`의 push와 수동 실행에서 검증을 통과하면 `.build/site`만 GitHub Pages에 배포한다. Pull request에서는 검사만 수행한다. 공개 주소는 https://leeklim.github.io/ai-math-guide/ 이며, 운영 설정과 배포 기록은 [사이트 운영 안내](site/README.md)에 둔다.

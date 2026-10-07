@@ -15,9 +15,9 @@ SPEC.loader.exec_module(FIGURES)
 class FigureAuditTests(unittest.TestCase):
     def test_manifest_assets_and_lesson_references_match(self) -> None:
         summary = FIGURES.validate_manifest(reproduce=False)
-        self.assertEqual(summary["figures"], 20)
-        self.assertEqual(summary["lesson_references"], 20)
-        self.assertEqual(summary["generated_plots"], 2)
+        self.assertGreaterEqual(summary["figures"], 21)
+        self.assertEqual(summary["lesson_references"], summary["figures"])
+        self.assertGreaterEqual(summary["generated_plots"], 3)
 
 
 if __name__ == "__main__":

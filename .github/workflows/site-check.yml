@@ -1,8 +1,9 @@
-name: Private review site build check
+name: Site checks and GitHub Pages deployment
 
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -38,8 +39,26 @@ jobs:
       - name: Run required N05 examples
         run: python scripts/run_n05_examples.py
 
+      - name: Run required I06 examples
+        run: python scripts/run_i06_examples.py
+
+      - name: Run required I07 examples
+        run: python scripts/run_i07_examples.py
+
+      - name: Run required I08 examples
+        run: python scripts/run_i08_examples.py
+
       - name: Audit canonical Markdown
         run: python scripts/site.py audit
+
+      - name: Audit stored figures
+        run: python scripts/figures.py check
+
+      - name: Audit completed explanations
+        run: python scripts/concepts.py check --require-explanations
+
+      - name: Audit completed concept revisions
+        run: python scripts/concepts.py check --require-verified
 
       - name: Prepare generated source
         run: python scripts/site.py prepare
@@ -49,3 +68,34 @@ jobs:
 
       - name: Validate generated site
         run: python scripts/site.py validate
+
+      - name: Test analytics runtime guards
+        run: node tests/analytics_runtime.cjs
+
+      - name: Upload GitHub Pages artifact
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: .build/site
+
+  deploy:
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+    steps:
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

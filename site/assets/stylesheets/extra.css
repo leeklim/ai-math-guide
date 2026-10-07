@@ -111,6 +111,15 @@
   margin: 0;
 }
 
+.md-typeset .lesson-figure--wide > p > img {
+  max-height: none;
+}
+
+.md-typeset .lesson-figure--tall > p > img {
+  max-width: 26rem;
+  max-height: none;
+}
+
 .md-typeset .lesson-figure figcaption {
   margin-top: 0.75rem;
   color: var(--md-default-fg-color--light);
@@ -154,5 +163,6 @@
   .md-typeset .lesson-figure--wide > p > img {
     width: 54rem;
     max-width: none;
+    max-height: none;
   }
 }

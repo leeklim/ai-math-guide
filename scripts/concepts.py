@@ -33,6 +33,11 @@ REQUIRED_COLUMNS = {
     "planned_asset",
     "status",
     "rationale",
+    "explanation_status",
+    "explanation_gap",
+    "revised_sections",
+    "explanation_role",
+    "verification_result",
 }
 
 
@@ -40,13 +45,14 @@ class ConceptAuditError(RuntimeError):
     """Raised when the concept audit violates its schema."""
 
 
-def lesson_ids() -> set[str]:
-    found: set[str] = set()
+def lesson_sources() -> dict[str, str]:
+    found: dict[str, str] = {}
     for root in LESSON_ROOTS:
         for path in root.rglob("*.md"):
-            match = FRONTMATTER_ID_RE.search(path.read_text(encoding="utf-8"))
+            source = path.read_text(encoding="utf-8")
+            match = FRONTMATTER_ID_RE.search(source)
             if match:
-                found.add(match.group("id"))
+                found[match.group("id")] = source
     return found
 
 
@@ -55,7 +61,9 @@ def manifest_assets() -> set[str]:
     return {str(entry["asset"]) for entry in data["figures"]}
 
 
-def validate_audit(*, require_verified: bool = False) -> dict[str, int]:
+def validate_audit(
+    *, require_verified: bool = False, require_explanations: bool = False
+) -> dict[str, int]:
     issues: list[str] = []
     with AUDIT_PATH.open(encoding="utf-8", newline="") as handle:
         reader = csv.DictReader(handle)
@@ -66,7 +74,8 @@ def validate_audit(*, require_verified: bool = False) -> dict[str, int]:
             raise ConceptAuditError(f"concept audit 열이 맞지 않는다: missing={missing}, extra={extra}")
         rows = list(reader)
 
-    known_lessons = lesson_ids()
+    sources = lesson_sources()
+    known_lessons = set(sources)
     known_assets = manifest_assets()
     seen: set[tuple[str, str]] = set()
     covered_lessons: set[str] = set()
@@ -86,6 +95,22 @@ def validate_audit(*, require_verified: bool = False) -> dict[str, int]:
             issues.append(f"{line_number}행 visual_required가 잘못됐다")
         if row["status"] not in {"planned", "drafting", "verified"}:
             issues.append(f"{line_number}행 status가 잘못됐다")
+        if row["explanation_status"] not in {"planned", "drafting", "verified"}:
+            issues.append(f"{line_number}행 explanation_status가 잘못됐다")
+        if row["status"] == "verified" and row["explanation_status"] != "verified":
+            issues.append(f"{line_number}행 통합 완료에 본문 검증이 빠졌다: {key}")
+        if require_explanations and row["explanation_status"] != "verified":
+            issues.append(f"{line_number}행 본문이 verified가 아니다: {key}")
+        if row["explanation_status"] == "verified":
+            for field in ("explanation_gap", "revised_sections", "explanation_role", "verification_result"):
+                if not row[field].strip():
+                    issues.append(f"{line_number}행 본문 검증 근거가 비어 있다: {field}/{key}")
+            headings = set(re.findall(r"^#{2,3} (.+?)\s*$", sources.get(row["lesson_id"], ""), re.MULTILINE))
+            for heading in filter(None, (value.strip() for value in row["revised_sections"].split(";"))):
+                if heading not in headings:
+                    issues.append(f"{line_number}행 본문 절이 없다: {heading}/{key}")
+                if heading in {"시각적 직관", "연습문제", "집필자 점검표"}:
+                    issues.append(f"{line_number}행 본문 설명 근거로 사용할 수 없는 절이다: {heading}/{key}")
         if require_verified and row["status"] != "verified":
             issues.append(f"{line_number}행이 verified가 아니다: {key}")
         if row["visual_required"] == "yes":
@@ -120,16 +145,28 @@ def validate_audit(*, require_verified: bool = False) -> dict[str, int]:
 
     if issues:
         raise ConceptAuditError("concept audit 실패:\n- " + "\n- ".join(issues))
-    return {"concepts": len(rows), "lessons": len(covered_lessons), "visual_concepts": visual_rows}
+    return {
+        "concepts": len(rows),
+        "lessons": len(covered_lessons),
+        "visual_concepts": visual_rows,
+        "explanations_verified": sum(row["explanation_status"] == "verified" for row in rows),
+        "explanation_lessons_verified": sum(
+            all(row["explanation_status"] == "verified" for row in rows if row["lesson_id"] == lesson_id)
+            for lesson_id in covered_lessons
+        ),
+    }
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("command", choices=("check",))
     parser.add_argument("--require-verified", action="store_true")
+    parser.add_argument("--require-explanations", action="store_true")
     args = parser.parse_args()
     try:
-        summary = validate_audit(require_verified=args.require_verified)
+        summary = validate_audit(
+            require_verified=args.require_verified, require_explanations=args.require_explanations
+        )
         print(json.dumps(summary, ensure_ascii=False))
     except (ConceptAuditError, OSError, KeyError, json.JSONDecodeError) as error:
         print(str(error), file=sys.stderr)

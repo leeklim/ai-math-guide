@@ -250,3 +250,5 @@
 | 2026-10-01 | A09-CAU 모듈 감사 | 8개 단원, 문제·해설 32쌍, 117개 test, 199개 HTML 페이지, broken link·asset·checklist 노출 0개와 첫·종합 단원 브라우저 검수 통과 | 전체 통합 감사 |
 | 2026-10-01 | 전권 통합 감사 | 199개 source·HTML, 문제·해설 1,154쌍, 용어 638개, 117개 test, CPU 예제 70개, Pythia 실험 10개, broken link·asset·checklist 노출 0개와 단계별·종합 단원 35개 브라우저 검수 통과 | 프로젝트 완료 |
 | 2026-10-01 | 전권 LaTeX 렌더링 감사 | MathJax mathtools·목차 처리 보완, 표 내부 raw pipe 7개와 M03-15 brace 오류 1개 수정, 199개 페이지 mjx-merror·미처리 구분자 0개 검증 | 완료 |
+| 2026-10-06 | 전권 본문 설명 보강 | 199개 단원·976개 개념의 본문 검증, 문제·해설 1,154쌍 내용 보존, source·reading·concept·figure audit·수치 그림 재생성·strict HTML build·생성물 검증 통과. 기존 132개 테스트 중 131개 통과·선택적 GPU artifact 1개 skip. 상세 기록은 revision/explanation-progress.md | 본문 Goal 완료·그림 작업은 별도 |
+| 2026-10-07 | 전권 풍부한 SVG 보강 | 199개 단원·976개 개념의 그림 판단과 HTML 통합 검수 완료. SVG1,355개·본문 참조1,355개 일치, 수치694개 임시 재현 일치, 원본문·문제/해설1,154쌍 보존. source/reading/concept/figure audit·기존 테스트131통과/1skip·CPU예제70개·strict build·생성물 검증 통과. 반복 배치 오류는 원본/페이지 원인별 국소 교정과 실제 대표 화면 검증으로 처리. 상세 기록은 revision/visual-progress.md | 그림 Goal 완료 |

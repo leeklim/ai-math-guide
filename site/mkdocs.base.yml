@@ -6,6 +6,7 @@ use_directory_urls: true
 
 theme:
   name: material
+  custom_dir: ../site/overrides
   language: ko
   features:
     - navigation.sections
@@ -53,3 +54,26 @@ extra_css:
 extra_javascript:
   - assets/javascripts/mathjax.js
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
+extra:
+  analytics:
+    provider: google
+    property: G-VXDGRXQFT3
+    public_url: https://leeklim.github.io/ai-math-guide/
+  consent:
+    title: 방문 통계 수집 동의
+    description: >-
+      운영자는 방문자 수와 페이지 이용 현황을 확인하기 위해 Google Analytics 4를 사용합니다.
+      동의하면 Google에 방문 정보가 전송되고 통계 쿠키를 사용합니다.
+      허용하려면 아래 항목을 체크한 뒤 동의를 눌러 주세요. 거부해도 모든 교재를 읽을 수 있습니다.
+      하단의 통계 쿠키 설정에서 동의를 변경할 수 있습니다.
+      <a href="https://policies.google.com/privacy?hl=ko" target="_blank" rel="noopener">Google 개인정보처리방침</a>
+    cookies:
+      analytics:
+        name: 방문 통계 (Google Analytics 4)
+        checked: false
+    actions:
+      - accept
+      - reject
+
+copyright: '<a href="#__consent">통계 쿠키 설정</a>'

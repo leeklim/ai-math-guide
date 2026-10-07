@@ -148,10 +148,21 @@
 - 8개 모두 독립 전문 대조를 교정 없이 통과했다. 메인은07~08 KO/EN 전문과 캡션·4문제/해설을 직접 대조했고 수식31/18·figure8/9·읽기5개씩·metadata/제목/링크/코드/숫자·각4쌍/check 보존 검사와 lint2표10셀 오류0건을 확인했다. min과 미달성 infimum, 반복 singular-value 기저와 실제 최적해의 자유도, held-out 고정, row 정렬에서 column 개입 방향으로 옮기는 transpose·raw scaling·seed별 baseline을 원문대로 유지한다. 8개는 reviewed이며 단위 HTML 검증은 아직 미완료다.
 - SYM 전체8개는32문제/해설·60figure 참조·38읽기 셀을 보존한다. KO199/1154와 EN167/1026·읽기987의 prepare·source audit·English-reading lint·strict build·validate/부분 병합이 통과했다. 실제8페이지 수식 wrapper/MathJax424개씩·그림60개·해설32개, 수식 오류·중복 assistive 렌더링·그림 로딩 실패0건을 확인했다. CPU·GPU·모델·그림 재생성을 실행하지 않았다.
 - 대표07을1440×900·390×844 및 밝은·어두운 테마에서 본문·최소화식·읽기 표·그림·영문 캡션·열린 held-out 해설로 검수했다. 모바일 문서 폭375/375px, 표375/746·넓은 그림320/1080은 내부 가로 이동을 유지하고 그림 ArrowRight 이동40px를 확인했다. 동일 단원 한영 전환은 양방향 상단으로 이동하며 Model alignment 검색으로 실제 EN07에 연결됐다. 화면은 `.build/qa/english-sym-desktop.jpg`에 보관했다. 최신 양언어 HTML GA4 mock19개씩이 통과하고 Google 요청·공통 코드 변경·원격 작업은 없다. 새8개를 verified로 기록해 총173개(167단원+6부속 문서) 완료다.
+- SYM 완료본을 로컬 commit `5b0fb0b`로 저장했다. 진행 중인 LRN 원고와 무관한 사용자 파일은 제외했다.
 
 ## 2026-10-07 — A09-LRN 진행 중
 
 - SYM 병합 snapshot 성공 후8개 영문 집필을 시작했다. 두 작성자와 독립 검토자는 소유 한국어 원문·인접 문맥·확정 용어를 끝까지 읽어 준비했다. 별도 검토자는01~06, 작성하지 않은 메인은07~08을 대조한다. class와 algorithm, 고정 predictor와 data-selected predictor, 조건부 test 불확실성과 재학습, complexity 측정과 risk bound를 원문의 조건에 맞춰 구분한다.
+
+## 2026-10-07 — A09-LRN 완료
+
+- 독립 검토자가01~06을 전문 대조하고 메인이07~08의 KO/EN 본문·캡션·4문제/해설씩을 끝까지 대조했다. EN 교정0건이다. 07의 class-relative recovery, 비계층적인 split 축, refit/transfer, nested selection·preprocessing·exchangeability·prompt weights와 native-use 한계를 보존했다. 08의 실제 class inclusion, objective/evaluation loss, 선택 후 refit, paired gap 보정, conditional/pipeline interval, 서로 다른 control null, complexity/risk bound 조건과 미측정 cell을 보존했다. 메인07~08 국소 검사 math6/11·figure9/8·reading4씩·metadata/구조/link/code/수치·4쌍·lint0이 통과했다.
+- LRN 전체8개는32문제/해설·60figure 참조·33읽기 셀을 보존한다. KO199/1154와 EN175/1058·읽기1020의 prepare·source audit·English-reading lint·strict build·validate/부분 병합이 통과했다. 실제8페이지 수식 wrapper/MathJax265개씩·그림60개·해설32개, 수식 오류·중복 assistive 렌더링·그림 로딩 실패0건을 확인했다. CPU·GPU·모델·그림 재생성을 실행하지 않았다.
+- 대표06 PAC를1440×900·390×844 및 밝은·어두운 테마에서 본문·확률식·읽기 표·그림·영문 캡션·열린 excess-risk 해설로 검수했다. 모바일 문서 폭375/375px이며 표375/705는 내부 가로 이동을 유지한다. 동일 단원 한영 전환은 양방향 상단으로 이동하고 PAC learning 검색으로 실제 EN06에 연결됐다. 화면은 `.build/qa/english-lrn-desktop.jpg`에 보관했다. 최신 양언어 HTML GA4 mock19개씩이 통과하고 Google 요청·공통 코드 변경·원격 작업은 없다. 새8개를 verified로 기록해 총181개(175단원+6부속 문서) 완료다.
+
+## 2026-10-07 — A09-KER 진행 중
+
+- LRN 병합 snapshot 성공 후8개 영문 집필을 시작했다. 소유 원문·선수 문맥·확정 용어의 전문 읽기를 마친 두 작성자와 독립 검토자를 유지한다. 별도 검토자는01~06, 작성하지 않은 메인은07~08을 대조한다. 함수와 좌표/평가값, universal Gram PSD와 표본 검사, bounded evaluation, Mercer 추가 조건, 정확한 current-NTK flow와 frozen 근사를 구분한다.
 
 ## 작업 단위
 

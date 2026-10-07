@@ -72,6 +72,15 @@ f(2,3)=2^2+2\cdot3=10
 
 일변수 함수의 그래프가 평면의 곡선이라면, 두 변수 함수의 그래프 $z=f(x,y)$는 삼차원 좌표에서 곡면으로 나타낼 수 있다. 편미분은 이 곡면을 한 좌표 방향으로 잘라 얻은 곡선의 기울기다.
 
+입력점 $(x,y)$는 입력 평면에 놓이고, 그래프를 그릴 때는 출력 높이 $z$를 추가해 $(x,y,f(x,y))$로 표시한다. $y=b$를 고정하면 그래프 위의 점들은 $(x,b,f(x,b))$가 된다. 이 단면에서는 $x$만 움직이므로 $x$에 대한 변화율을 일변수 곡선의 기울기로 읽을 수 있다.
+
+입력 평면 위의 위치와 출력 높이를 함께 그리면, 좌표쌍을 받는 함수가 어떻게 곡면을 만드는지 확인할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Surface of x squared plus x y with a highlighted slice fixing y at three and the point two three ten](../../figures/assets/M01/M01-10-surface-and-slice.svg)
+  <figcaption>초록색 곡면은 z=x²+xy이고 파란색 곡선은 y=3인 단면이다. 입력 (2,3)의 출력 10은 곡면 위의 점 (2,3,10)의 높이로 표시된다. 파란 곡선을 따라 이동할 때 바뀌는 입력은 x뿐이다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. $x$에 대한 편미분은 다른 변수를 고정한다
 
 점 $(a,b)$에서 $x$에 대한 편미분계수는
@@ -96,7 +105,16 @@ $y$에 대한 편미분계수는
 
 이다. 이번에는 $x=a$를 고정한다.
 
+각 극한이 유한한 실수로 존재할 때 해당 편미분계수를 얻는다. 첫 정의에서는 $g(x)=f(x,b)$라는 일변수 함수를 만든 뒤 $g'(a)$를 구한 것과 같다. 고정한다는 말은 두 함수값에서 $b$를 같은 값으로 사용한다는 뜻이지, $b$를 $0$으로 바꾸거나 식에서 없앤다는 뜻이 아니다. $x$를 바꿀 때 $y$도 함께 바꾸면 다른 경로의 변화율을 구하게 된다.
+
 두 정의는 서로 다른 입력 방향을 측정한다. 같은 점에서도 값과 부호가 다를 수 있다.
+
+어느 입력을 고정했는지는 출력 그래프를 보기 전에도 입력 평면에서 구분할 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+  ![Horizontal and vertical input-coordinate moves from point two comma three holding the other coordinate fixed](../../figures/assets/M01/M01-10-input-directions.svg)
+  <figcaption>가로 이동은 y=3을 유지하고 x만 바꾼다. 세로 이동은 x=2를 유지하고 y만 바꾼다. 이 그림은 입력의 이동을 보여 주며, 함수값의 높이나 변화율을 표시한 것은 아니다.</figcaption>
+</figure>
 
 ## 핵심 개념 3. 계산할 때 나머지 변수를 상수로 취급한다
 
@@ -114,6 +132,8 @@ f(x,y)=x^2y+3y^2
 
 $3y^2$은 $x$와 무관하므로 $x$에 대한 변화율이 $0$이다.
 
+반면 $x^2y$에서는 고정한 $y$가 $x^2$의 계수다. 상수배 규칙으로 $y\cdot2x=2xy$가 된다. 고정한 변수가 곱의 계수로 남는 경우와 그 변수만으로 이루어진 항이 미분되어 $0$이 되는 경우를 구분해야 한다.
+
 $y$에 대해 편미분할 때 $x$를 상수로 둔다.
 
 \[
@@ -123,6 +143,15 @@ x^2+6y
 \]
 
 두 편도함수는 입력 $(x,y)$에 따라 값이 달라지는 함수다.
+
+상수로 취급한다는 판단은 어느 변수로 미분하는지에 달려 있다. $y$로 미분할 때 $x^2y$의 $x^2$는 계수로 남고, $y$의 도함수가 $1$이므로 첫 항이 $x^2$다. 또 $x$에 대한 편도함수에 $y$가 남아 있다는 것은 모순이 아니다. 한 단면에서 $y$를 고정해 미분한 뒤, 다른 단면을 조사하면 고정값 $y$도 달라질 수 있다.
+
+서로 다른 고정값을 선택하면 서로 다른 일변수 단면이 생긴다. 고정한 변수는 각 단면에서 계수로 남는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Three x-direction slices of x squared y plus three y squared with fixed y values one two and three](../../figures/assets/M01/M01-10-fixed-slice-family.svg)
+  <figcaption>y를 1, 2, 3으로 고정하면 단면은 각각 x²+3, 2x²+12, 3x²+27이다. 같은 x=1에서도 기울기는 2, 4, 6으로 달라진다. y를 고정한다는 것은 y를 지우는 것이 아니다.</figcaption>
+</figure>
 
 ## 핵심 개념 4. 점에서 평가하면 좌표 방향의 기울기를 얻는다
 
@@ -147,6 +176,13 @@ x^2+6y
 이다.
 
 첫 값은 $y=2$를 고정한 채 $x$를 늘릴 때의 국소 변화율이다. 둘째 값은 $x=1$을 고정한 채 $y$를 늘릴 때의 국소 변화율이다. 두 수의 크기를 비교하려면 $x$와 $y$의 단위와 척도를 함께 확인해야 한다.
+
+같은 입력점의 출력 높이는 하나지만, 어느 좌표를 바꾸는지에 따라 단면의 접선 기울기는 달라진다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Two coordinate slices through input point one comma two with common output fourteen and tangent slopes four and thirteen](../../figures/assets/M01/M01-10-coordinate-slopes.svg)
+  <figcaption>두 그래프의 주황색 점은 모두 원래 입력 (1,2)의 출력 14를 나타낸다. 위에서는 y=2를 고정한 x 방향 기울기가 4이고, 아래에서는 x=1을 고정한 y 방향 기울기가 13이다. 가로축이 서로 다른 입력임에 주의한다.</figcaption>
+</figure>
 
 ## 핵심 개념 5. $d$와 $\partial$은 입력 구조를 구분한다
 
@@ -223,6 +259,15 @@ x\exp(xy)
 
 입력 재척도도 편도함숫값을 바꾼다. 미터 대신 센티미터를 사용하면 좌표 숫자가 100배 달라지고 그 좌표에 대한 변화율은 반대 비율로 달라진다. 민감도 비교에는 단위와 허용 변화 범위를 명시해야 한다.
 
+센티미터 좌표를 $1$만큼 늘리는 것은 미터 좌표를 $0.01$만큼 늘리는 것과 같은 물리적 변화다. 같은 출력 변화량을 센티미터의 변화량으로 나누면 미터의 변화량으로 나눴을 때보다 $1/100$인 변화율을 얻는다. 함수의 물리적 반응이 달라진 것이 아니라 변화량을 재는 입력 단위가 달라진 것이다.
+
+같은 물리적 입력을 서로 다른 단위로 표시하면, 그래프의 가로축 척도와 기울기의 숫자가 함께 달라진다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![The same score versus distance drawn once in meters and once in centimeters with slopes four and zero point zero four](../../figures/assets/M01/M01-10-rescaled-input.svg)
+  <figcaption>설명용 점수는 거리를 미터로 표시하면 기울기 4, 센티미터로 표시하면 기울기 0.04다. 두 주황색 점은 같은 거리 1m=100cm와 같은 점수 4를 나타낸다. 출력의 반응이 바뀐 것이 아니라 입력 숫자의 척도가 바뀌었다.</figcaption>
+</figure>
+
 ## 핵심 개념 8. 한 좌표의 편미분은 다른 방향을 설명하지 않는다
 
 \[
@@ -232,6 +277,13 @@ x\exp(xy)
 은 $y=b$를 고정한 $x$ 방향의 일차 변화율이 $0$이라는 뜻이다. $y$ 방향이나 $x$와 $y$를 함께 바꾸는 방향의 변화율은 이 값에서 알 수 없다.
 
 편미분이 $0$이어도 유한한 크기의 변화 뒤에는 함수값이 달라질 수 있다. 예를 들어 $f(x,y)=x^2+y^2$에서 원점의 두 편미분은 $0$이지만 원점에서 떨어진 점의 함수값은 양수다.
+
+일차 변화율이 0이라는 것과 유한한 이동 뒤 함수값이 같다는 것은 다른 주장이다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![A quadratic slice of x squared plus y squared with zero tangent slope at the origin but positive values away from it](../../figures/assets/M01/M01-10-zero-local-slope.svg)
+  <figcaption>원점에서 두 편미분은 0이다. 그중 y=0인 단면을 보면 원점의 접선은 수평이지만, x를 1만큼 이동한 함수값은 1이다. 접선은 국소 일차 변화만 나타낸다.</figcaption>
+</figure>
 
 ## 예제 1. 다항식의 편도함수
 
@@ -335,6 +387,13 @@ $x=2$, $y=5$, $w=1$, $b=1$이면 $e=2+1-5=-2$다. 따라서
 
 이다.
 
+손실에서도 다른 파라미터를 고정한 두 단면을 그리면, 두 편미분이 각각 어느 기울기인지 확인할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Weight and bias slices of the same squared loss through parameter point one comma one with tangent slopes minus eight and minus four](../../figures/assets/M01/M01-10-loss-slices.svg)
+  <figcaption>입력과 정답을 고정한 상태에서 (w,b)=(1,1)의 손실은 4다. 위 그래프는 b를 고정하고 w만 바꾸며 기울기는 −8이다. 아래는 w를 고정하고 b만 바꾸며 기울기는 −4다. 두 점은 같은 파라미터 상태에서 얻었다.</figcaption>
+</figure>
+
 ## 예제 4. 같은 함수에서 다른 좌표 민감도
 
 \[
@@ -350,6 +409,13 @@ s(x,y)=x+100y
 \]
 
 이다. 수치만 보면 $y$ 방향이 더 민감해 보인다. 그러나 $x$의 자연스러운 변화 범위가 $100$이고 $y$의 변화 범위가 $0.01$이라면 허용 범위에서의 출력 변화는 다른 비교를 만든다. 편도함숫값과 입력 척도를 함께 제시해야 한다.
+
+이 선형 함수에서는 기울기에 실제 입력 변화량을 곱한 출력 변화가 정확하다. 허용 범위를 붙이면 숫자 기울기만 비교했을 때와 순서가 달라진다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Numeric partial slopes one and one hundred compared with output changes one hundred and one over stated input ranges](../../figures/assets/M01/M01-10-range-comparison.svg)
+  <figcaption>위에서는 y의 편도함숫값 100이 x의 값 1보다 크다. 아래에서는 x를 100만큼 바꾼 출력 변화 100이 y를 0.01만큼 바꾼 변화 1보다 크다. 막대의 비교 대상과 가로축이 위아래에서 다르다.</figcaption>
+</figure>
 
 ## 흔한 오해
 

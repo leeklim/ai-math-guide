@@ -76,7 +76,18 @@ f'(3)=6
 
 이다. 도함수 그래프의 세로 좌표는 원래 함수의 높이가 아니라 같은 $x$에서 원래 함수가 가진 접선 기울기다.
 
+아래 두 그래프에서 같은 입력의 세로 점선을 따라가면 함수의 높이와 도함숫값을 구분할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Aligned graphs of x squared and its derivative two x show the original heights and slopes at the same input coordinates](../../figures/assets/M01/M01-04-function-and-slopes.svg)
+
+<figcaption>위 그래프의 높이는 함수값이고 아래 그래프의 높이는 위 곡선의 접선 기울기이다. x=−2, 0, 3에서 기울기는 각각 −4, 0, 6이다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. 도함수의 부호가 변화 방향을 나타낸다
+
+구간에서 증가한다는 것은 그 구간의 두 입력 $x_1<x_2$를 비교할 때 $f(x_1)<f(x_2)$라는 뜻이다. 감소한다는 것은 같은 입력 순서에서 $f(x_1)>f(x_2)$라는 뜻이다. 한 점의 기울기를 읽는 판단과 구간의 두 입력을 비교하는 판단을 구분해야 한다.
 
 구간에서 $f'(x)>0$이면 접선 기울기가 양수다. 입력이 증가할 때 함수값도 증가하는 방향을 가진다. 구간 전체에서 이 조건이 유지되면 함수는 그 구간에서 증가한다.
 
@@ -90,7 +101,11 @@ f'(3)=6
 
 한 점의 부호는 그 점 주변의 방향을 알려 준다. 구간 전체의 증가·감소를 말하려면 구간 안에서 도함수 부호를 확인해야 한다.
 
+$f'(a)>0$이면 충분히 작은 $h\ne0$에서 차분몫 $[f(a+h)-f(a)]/h$도 양수다. $h>0$일 때는 출력 변화량도 양수이고, $h<0$일 때는 출력 변화량도 음수다. 따라서 기준점보다 조금 오른쪽의 값은 $f(a)$보다 크고 조금 왼쪽의 값은 작다. 이는 기준점과 주변 값을 비교한 결과다. 주변 구간의 다른 두 점 사이에서도 증가한다고 말하려면 그 점들의 기울기도 확인해야 한다.
+
 ## 핵심 개념 3. 임계점은 극값 후보다
+
+국소 최댓값은 충분히 작은 주변 구간의 함수값들과 비교하여 $f(c)$가 가장 큰 경우다. 국소 최솟값은 같은 비교에서 $f(c)$가 가장 작은 경우다. 비교 대상은 점 $c$ 가까이의 값들이며, 정의역 전체에서 가장 크거나 작아야 하는 것은 아니다.
 
 정의역 안의 점 $c$에서
 
@@ -102,15 +117,26 @@ f'(c)=0
 
 정의역 내부의 점 $c$에서 함수가 미분 가능하고 국소 최댓값이나 국소 최솟값을 가지면 $f'(c)=0$이다. 모서리에서 극값을 가지면 도함수가 존재하지 않을 수도 있다. 따라서 두 경우를 모두 극값 후보로 조사한다.
 
+국소 최댓값에서는 작은 $h$에 대해 $f(c+h)-f(c)\le0$이다. 이를 양수 $h$로 나눈 오른쪽 변화율은 $0$ 이하이고, 음수 $h$로 나눈 왼쪽 변화율은 $0$ 이상이다. 양쪽 극한이 같은 유한한 값이어야 미분 가능하므로, 그 값은 $0$일 수밖에 없다. 국소 최솟값에서도 두 부등호의 방향만 바뀌어 같은 결론을 얻는다. 이 논리는 양쪽으로 접근할 수 있는 내부 점을 전제로 한다.
+
 임계점이라는 사실만으로 극값이 되지는 않는다. $f(x)=x^3$은 $f'(0)=0$이지만, $x=0$의 양쪽에서 계속 증가한다.
+
+아래 그림의 원점은 접선이 수평이어도 곡선이 증가 방향을 유지하는 정지점이다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The cubic x cubed passes through a horizontal tangent at zero while continuing to increase on both sides](../../figures/assets/M01/M01-04-stationary-cubic.svg)
+
+<figcaption>원점의 도함숫값은 0이지만 왼쪽 값은 0보다 작고 오른쪽 값은 0보다 크다. 따라서 원점은 국소 최댓값이나 국소 최솟값이 아니다.</figcaption>
+</figure>
 
 ## 핵심 개념 4. 도함수의 부호 변화로 국소 극값을 판단한다
 
-함수가 임계점 $c$에서 연속이라고 하자. $c$의 왼쪽과 오른쪽 구간에서 도함수 부호를 비교한다.
+함수가 임계점 $c$에서 연속이고, $c$를 제외한 양쪽의 작은 구간에서는 미분 가능하다고 하자. 각 구간에서 도함수의 부호가 유지되는지 비교한다.
 
 - $+$에서 $-$로 바뀌면 함수가 증가하다 감소하므로 $f(c)$는 국소 최댓값이다.
 - $-$에서 $+$로 바뀌면 함수가 감소하다 증가하므로 $f(c)$는 국소 최솟값이다.
-- 부호가 바뀌지 않으면 이 검사로는 극값이 아니다.
+- 양쪽 모두 양수이거나 양쪽 모두 음수이면 함수가 같은 방향으로 $c$를 통과하므로 극값이 아니다.
 
 이를 일차 도함수 판정법(first derivative test)이라고 한다. $c$에서 함수가 끊기면 부호 변화만으로 $f(c)$가 주변 함수값보다 큰지 작은지 판단할 수 없으므로 연속 조건을 따로 확인한다.
 
@@ -135,6 +161,15 @@ f'(-1)=-2<0
 이다. 그래프는 $x$축 위에 있으면서 감소할 수 있다.
 
 반대로 함수값이 음수여도 도함수가 양수면 그래프는 $x$축 아래에서 증가한다. 함수값과 변화율을 같은 부호 판단으로 읽지 않는다.
+
+아래 그림에서 주황색 점의 높이와 그 점을 지나는 보라색 접선의 방향을 따로 읽는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![At input minus one the parabola has positive height one while its tangent slopes downward with derivative minus two](../../figures/assets/M01/M01-04-height-versus-slope.svg)
+
+<figcaption>x=−1에서 함수값 1은 x축 위의 위치를 뜻한다. 접선 기울기 −2는 입력이 증가할 때 감소하는 국소 방향을 뜻한다.</figcaption>
+</figure>
 
 ## 핵심 개념 6. 함수 그래프에서 도함수 그래프를 추정한다
 
@@ -164,6 +199,8 @@ f'(-1)=-2<0
 \]
 
 $\eta$는 학습률이다. 도함숫값의 반대 방향으로 이동한다. 큰 학습률은 국소 변화 정보를 벗어날 수 있으므로 이 식 한 번이 손실 감소를 보장하지는 않는다.
+
+갱신식에서 파라미터 변화량은 $-\eta\mathcal L'(\theta)$다. 도함수가 양수면 양의 양을 빼서 $\theta$를 줄이고, 음수면 음의 양을 빼서 $\theta$를 늘린다. 이동량의 크기는 $\eta|\mathcal L'(\theta)|$이므로 학습률은 방향보다 한 번에 움직이는 크기를 조절한다. 도함수가 $0$이면 이 식의 이동량도 $0$이지만, 앞의 정지점 반례처럼 그것만으로 최솟값임을 알 수는 없다.
 
 ## 예제 1. 이차함수의 증가·감소와 최솟값
 
@@ -198,6 +235,15 @@ f(2)=4-8+3=-1
 
 이다.
 
+아래 그림에서 최솟점의 양쪽을 비교하면 도함수의 부호가 바뀌는 방향을 확인할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The parabola x squared minus four x plus three decreases before input two and increases after it, reaching minus one at the minimum](../../figures/assets/M01/M01-04-sign-test-minimum.svg)
+
+<figcaption>x=2 왼쪽에서는 도함수가 음수이고 오른쪽에서는 양수이다. 곡선은 감소하다 증가하므로 (2, −1)에서 최솟값을 가진다.</figcaption>
+</figure>
+
 ## 예제 2. 정지점이 극값이 아닌 경우
 
 $g(x)=x^3$의 도함수는 차분몫을 전개하면
@@ -228,6 +274,15 @@ r'(x)
 \]
 
 $0$의 왼쪽에서 감소하고 오른쪽에서 증가하므로 $r(0)=0$은 국소 최솟값이다. 극값 후보를 찾을 때 $f'(x)=0$인 점만 조사하면 이 점을 놓친다.
+
+아래 그림의 원점에서는 기울기 하나를 정할 수 없지만, 양쪽의 감소·증가 방향으로 최솟값을 확인할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The absolute value function decreases with slope minus one and increases with slope plus one around its nondifferentiable minimum at zero](../../figures/assets/M01/M01-04-corner-minimum.svg)
+
+<figcaption>원점은 모서리라서 도함수가 없지만 어느 쪽의 가까운 점보다도 함수값이 작다. 미분 불가능한 임계점도 극값 후보에 포함한다.</figcaption>
+</figure>
 
 ## 예제 4. 한 번의 파라미터 갱신
 
@@ -265,6 +320,15 @@ $0$의 왼쪽에서 감소하고 오른쪽에서 증가하므로 $r(0)=0$은 국
 \]
 
 이다. 이 예에서는 손실이 줄었다. 다른 함수나 큰 학습률에서도 같은 결과가 나온다고 일반화할 수는 없다.
+
+아래 그림에서 파라미터의 왼쪽 이동과 실제 손실값의 감소를 함께 확인한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A gradient step moves the parameter from five to four point six on the squared loss centered at three and lowers loss from four to two point five six](../../figures/assets/M01/M01-04-gradient-step.svg)
+
+<figcaption>현재 기울기 4의 반대 방향으로 0.4 이동하면 파라미터는 4.6이 된다. 새 점의 손실을 계산하면 2.56으로, 원래 손실 4보다 작다.</figcaption>
+</figure>
 
 ## 흔한 오해
 

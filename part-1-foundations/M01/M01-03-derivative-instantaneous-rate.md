@@ -70,6 +70,8 @@ f'(a)
 
 분자 $f(a+h)-f(a)$는 출력 변화량이고 분모 $h$는 입력 변화량이다. 이 식은 두 변화량의 비를 한 점 주변까지 좁힌다.
 
+극한을 구하는 동안 기준점 $a$는 고정하고 간격 $h$만 바꾼다. $h>0$이면 $a$의 오른쪽을, $h<0$이면 왼쪽을 조사한다. 미분 가능한 점에서는 입력 변화량과 출력 변화량이 모두 $0$에 가까워지지만, 두 변화량의 비까지 $0$이 될 필요는 없다. 미분계수는 출력이 사라지는지를 묻는 값이 아니라 입력 변화에 비해 출력이 얼마나 변하는지를 나타내는 값이다.
+
 $h=0$을 분수에 대입하지 않는다. 각 $h\ne0$에서 변화율을 계산한 뒤, 그 값들이 $h\to0$에서 어디로 가는지 확인한다.
 
 ## 핵심 개념 2. 미분 기호는 같은 값을 여러 관점에서 나타낸다
@@ -93,6 +95,8 @@ f'(a)
 \]
 
 로 쓴다.
+
+$\left.\frac{df}{dx}\right|_{x=a}$의 오른쪽 세로선은 계산한 도함수에 $x=a$를 대입한다는 표시다. 절댓값을 취한다는 뜻이 아니다. 먼저 입력에 따른 변화율을 구하고, 그중 기준점 $a$에 해당하는 값을 선택한다.
 
 $\frac{df}{dx}$는 이 단계에서 보통 분수처럼 보이지만 하나의 미분 기호로 읽는다. 뒤에서 연쇄법칙을 배울 때 분수와 닮은 계산 규칙이 나타나더라도, 아무 식에서나 $df$와 $dx$를 독립된 수처럼 약분해서는 안 된다.
 
@@ -120,7 +124,9 @@ $x=a$에서 접선의 방정식은
 y-f(a)=f'(a)(x-a)
 \]
 
-이다. 접선은 곡선 전체를 나타내지 않는다. $a$에 가까운 구간에서 함수의 방향을 직선으로 나타낸다.
+이다. 접선 위의 점 $(x,y)$를 기준점 $(a,f(a))$와 비교하면 수평 변화량은 $x-a$, 수직 변화량은 $y-f(a)$다. 직선에서는 수직 변화량이 기울기와 수평 변화량의 곱이므로 위 식을 얻는다. $x=a$를 넣으면 $y=f(a)$가 되어 접선이 기준점을 지난다는 것도 확인할 수 있다. 여기의 $y$는 접선 위의 높이이며, 다른 입력에서도 원래 함수값 $f(x)$와 일치해야 하는 것은 아니다.
+
+접선은 곡선 전체를 나타내지 않는다. $a$에 가까운 구간에서 함수의 방향을 직선으로 나타낸다.
 
 ### 시각적 직관: 할선이 접선에 가까워지는 과정
 
@@ -213,6 +219,15 @@ f'(x)=m
 
 이다. 직선의 기울기는 모든 점에서 같다.
 
+아래 그림에서 수평선과 기울어진 직선을 비교한다. 기준점을 옮겨도 각 직선의 기울기는 그대로다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A constant function has slope zero at every point and a linear function two x plus one has slope two at every point](../../figures/assets/M01/M01-03-constant-and-linear.svg)
+
+<figcaption>상수함수의 두 출력값은 항상 같아서 변화량이 0이다. 일차함수에서는 입력 변화에 대한 출력 변화의 비가 기준점과 무관하게 일정하다.</figcaption>
+</figure>
+
 ## 핵심 개념 6. 미분 가능하면 연속이다
 
 $f'(a)$가 존재한다고 하자. $h\ne0$에서 출력 변화량을
@@ -269,9 +284,29 @@ ReLU를 $r(x)=\max(0,x)$라고 하자. $r(0)=0$이다. $h<0$이면 $r(h)=0$이�
 
 신경망 구현은 ReLU의 $0$에서 역전파할 값을 하나 정해 사용한다. 이는 수학적 미분계수가 존재한다는 뜻이 아니라 구현이 선택한 규칙이다.
 
+아래 그림에서는 함수값의 연결과 양쪽 선분의 기울기를 따로 확인한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![ReLU joins continuously at zero while the left slope is zero and the right slope is one](../../figures/assets/M01/M01-03-relu-corner.svg)
+
+<figcaption>좌우 함수값은 모두 0으로 접근하므로 ReLU는 연속이다. 그러나 왼쪽 기울기 0과 오른쪽 기울기 1은 달라서 원점의 미분계수는 없다.</figcaption>
+</figure>
+
 ## 핵심 개념 8. 미분계수는 국소 민감도를 나타낸다
 
 모델 점수를 $s(x)$라고 하자. $s'(a)=4$이면 $a$ 주변에서 입력을 작은 양 $\Delta x$만큼 바꿀 때 출력 변화량은 대략 $4\Delta x$ 규모로 움직인다. 정확한 근사식은 Taylor 근사 단원에서 다룬다.
+
+이 해석은 평균변화율이 $4$에 가까워진다는 정의에서 나온다. 출력 변화량을 입력 변화량으로 나눈 비가 약 $4$라면, 출력 변화량은 입력 변화량에 약 $4$를 곱한 값이다. 반대로 $s'(a)=0$은 이 비가 $0$으로 간다는 뜻이며 함수가 주변에서 상수라는 뜻은 아니다. $s(x)=x^2$은 $s'(0)=0$이지만 $0$이 아닌 입력에서는 출력이 달라진다.
+
+아래 그림의 수평 접선과 위로 휘는 곡선을 비교하면 도함숫값 0이 말하는 범위를 구분할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The parabola x squared has a horizontal tangent at zero but nonzero neighboring outputs at inputs plus or minus one half](../../figures/assets/M01/M01-03-zero-slope-not-constant.svg)
+
+<figcaption>원점에서 접선의 기울기는 0이지만 x=±0.5에서 함수값은 0.25이다. 도함숫값 0은 주변 함수 전체가 수평선이라는 뜻이 아니다.</figcaption>
+</figure>
 
 도함수의 단위는 출력 단위를 입력 단위로 나눈 것이다. 입력이 섭씨 온도이고 출력이 점수라면 $s'(a)$의 단위는 `점수/섭씨도`다.
 
@@ -300,6 +335,15 @@ y=6x-9
 \]
 
 이다. 이 직선은 점 $(3,9)$를 지나고 기울기가 $6$이다.
+
+아래 그림에서 접선이 기준점을 지나면서도 다른 입력에서는 곡선과 떨어지는지 확인한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The tangent six x minus nine touches x squared at three comma nine and differs from the curve away from that base point](../../figures/assets/M01/M01-03-tangent-at-three.svg)
+
+<figcaption>주황색 기준점 (3, 9)과 기울기 6으로 보라색 접선을 정한다. 접선은 그 점에서 곡선과 같은 기울기를 가지지만 곡선 전체를 대신하지 않는다.</figcaption>
+</figure>
 
 ## 예제 2. 순간속도
 

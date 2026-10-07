@@ -86,6 +86,15 @@ f(x)h
 
 따라서 변화율은 $f(x)$에 가까워진다. $h\to0$의 극한을 취하면 정확한 등식이 된다.
 
+오른쪽의 $h>0$에서 적분을 폭 $h$로 나눈 값은 짧은 구간의 평균 높이다. 연속성 때문에 그 구간의 모든 높이를 $f(x)$에 원하는 만큼 가깝게 할 수 있으면, 평균 높이도 같은 범위 안에 놓인다. 그래서 넓이를 $h$로 나눈 뒤의 오차도 $0$으로 간다. $h<0$에서는 적분 방향과 분모의 부호가 함께 바뀌어 왼쪽 짧은 구간의 평균 높이를 얻는다. 양쪽 극한이 모두 $f(x)$이므로 누적함수의 미분계수가 정해진다.
+
+얇은 조각의 넓이를 폭으로 나누면 그 구간의 평균 높이를 얻는다. 아래 그림은 작은 양의 폭에서 이 평균이 시작점 높이에 가까워지는 관계를 보여 준다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![A thin strip under t plus one compared with its starting-height rectangle and average height](../../figures/assets/M01/M01-09-thin-strip-average.svg)
+  <figcaption>시작점이 1이고 폭이 0.3이면 실제 넓이는 0.645, 평균 높이는 2.15다. 점선 직사각형의 높이는 시작점 함수값 2이며, 폭이 줄어들수록 평균 높이도 이 값에 가까워진다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. 기본정리 제1부는 누적을 미분한다
 
 $f$가 $[a,b]$에서 연속이고
@@ -111,6 +120,16 @@ A'(x)=f(x)
 \]
 
 누적함수는 시작점 $a$에서 $A(a)=0$을 만족한다. 원시함수 가운데 이 초기값을 만족하는 하나를 적분이 선택한다.
+
+예제 1의 적분함수와 누적함수를 같은 입력 위치에 맞춰 놓으면, 위 그래프의 높이가 아래 그래프의 기울기로 바뀌는 것을 확인할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![An integrand t squared plus two above its accumulation function with tangent slope six at upper endpoint two](../../figures/assets/M01/M01-09-accumulation-derivative.svg)
+
+<figcaption>위 그림에서 입력 2의 높이는 6이다. 아래 누적함수는 시작점 1에서 0이고, 입력 2의 접선 기울기는 같은 값 6이다. 누적값 자체인 13/3과 이 기울기는 다른 양이다.</figcaption>
+
+</figure>
 
 ## 핵심 개념 3. 원시함수는 미분하면 적분함수가 되는 함수다
 
@@ -140,9 +159,18 @@ F(x)+C
 
 부정적분은 끝점이 정해진 스칼라가 아니다. 적분상수만 다른 함수들의 모음이다. 정적분은 아래끝과 위끝이 있고 결과가 스칼라라는 점에서 다르다.
 
+다른 원시함수 $G$가 있으면 $(G-F)'=f-f=0$이다. 한 구간의 모든 점에서 도함수가 $0$인 함수는 그 구간에서 상수이므로 $G-F=C$다. 따라서 $F+C$는 일부 원시함수만 나열하는 식이 아니라 같은 구간의 원시함수 전체를 나타낸다. 미분은 높이를 상수만큼 올린 차이를 구별하지 못하므로, 원래 높이까지 복원하려면 한 점의 값 같은 추가 조건이 필요하다.
+
+원시함수의 높이를 옮겨도 같은 입력에서의 기울기는 변하지 않는다. 초기값을 지정하면 이 함수들 중 하나를 고른다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Three vertically shifted parabolas with equal tangent slopes and the zero initial value selecting x squared minus one](../../figures/assets/M01/M01-09-antiderivative-family.svg)
+  <figcaption>세 함수는 모두 미분하면 2x가 된다. 입력 1의 짧은 접선들은 기울기 2로 평행하다. 시작점 1에서 누적값이 0이라는 조건은 x²−1을 선택한다.</figcaption>
+</figure>
+
 ## 핵심 개념 4. 기본정리 제2부는 끝점 값의 차이로 정적분을 계산한다
 
-$f$가 $[a,b]$에서 연속이고 $F'(x)=f(x)$이면
+$f$와 $F$가 $[a,b]$에서 연속이고 내부에서 $F'(x)=f(x)$이면
 
 \[
 \int_a^b f(x)\,dx
@@ -160,6 +188,14 @@ F(b)-F(a)
 
 이다.
 
+제1부에서 만든 누적함수 $A$도 $A'=f$이므로 $F-A$는 상수다. 시작점에서는 $A(a)=0$이므로 그 상수는 $F(a)$다. 따라서
+
+\[
+A(x)=F(x)-F(a)
+\]
+
+이고 $x=b$를 넣으면 끝점 차이 공식을 얻는다. 원시함수의 높이 자체가 아니라 시작점에서 끝점까지 높이가 얼마나 달라졌는지를 계산하는 것이다.
+
 원시함수에 적분상수 $C$를 더해도
 
 \[
@@ -174,7 +210,7 @@ F(b)-F(a)
 
 ## 핵심 개념 5. 기본 원시함수를 미분으로 검산한다
 
-$n\ne-1$이면
+$n\ne-1$이고 해당 구간에서 거듭제곱이 실수로 정의되며 거듭제곱 미분법을 적용할 수 있으면
 
 \[
 \int x^n\,dx
@@ -193,6 +229,8 @@ x^n
 
 이므로 원래 적분함수를 얻는다.
 
+지수를 하나 높이면 미분할 때 $n+1$이 앞으로 나오므로, 이를 상쇄하려고 $n+1$로 나눈다. 이 단원의 다항식 계산에서는 $n$이 $0$ 이상의 정수다. $n=-1$에서는 $n+1$이 $0$이 되어 이 식을 쓸 수 없으며 아래의 로그 원시함수를 사용한다.
+
 지수와 로그의 기본 원시함수는
 
 \[
@@ -207,6 +245,15 @@ x^n
 \]
 
 이다. $1/x$의 경우 $0$을 가로지르지 않는 구간에서 사용한다. $x>0$에서는 $\log|x|=\log x$다.
+
+$x<0$에서는 $|x|=-x$이므로 $\log|x|=\log(-x)$다. 연쇄법칙으로 미분하면 $(1/(-x))(-1)=1/x$를 얻는다. 따라서 양수 구간과 음수 구간에서 모두 원시함수로 쓸 수 있지만, $0$을 포함해 하나의 적분 구간으로 계산하는 공식은 아니다.
+
+로그 원시함수에서는 같은 공식으로 그려진 두 곡선이라도 정의역이 0에서 나뉜다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Separate negative and positive branches of log absolute x with zero excluded from the domain](../../figures/assets/M01/M01-09-log-branches.svg)
+  <figcaption>log|x|의 양쪽 가지는 각각 미분하면 1/x가 된다. 세로 점선 위치인 0에서는 함수가 정의되지 않으므로, 이 원시함수 공식을 사용해 0을 가로지르는 정적분을 계산할 수 없다.</figcaption>
+</figure>
 
 ## 핵심 개념 6. 변화율을 적분하면 전체 변화량이 된다
 
@@ -230,6 +277,13 @@ p(t_1)-p(t_0)
 
 속도가 음수인 구간은 위치 변화에 음수로 기여한다. 이동한 총거리에는 $|v(t)|$를 적분해야 한다.
 
+위치의 순변화와 이동한 총거리는 되돌아오는 움직임에서 구분된다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![A sign-changing velocity above a position curve that returns to its starting value](../../figures/assets/M01/M01-09-net-change.svg)
+  <figcaption>설명용 속도 v(t)=t−1을 0부터 2까지 누적하면 위치는 먼저 감소한 뒤 시작값으로 돌아온다. 부호 있는 누적은 0이지만, 음수와 양수 구간의 이동량 크기를 더한 총거리는 1이다.</figcaption>
+</figure>
+
 ## 핵심 개념 7. 경로의 국소 변화율을 누적하면 양 끝의 출력 차이를 얻는다
 
 스칼라 경로 파라미터를 $\alpha\in[0,1]$이라 하고 모델 점수를 $s(\alpha)$라고 하자. $s$가 필요한 조건을 만족하면
@@ -243,6 +297,15 @@ s(1)-s(0)
 이다.
 
 이 식은 한 경로에서 국소 변화율을 누적한 값이 양 끝의 점수 차이와 같다는 뜻이다. 여러 입력 성분으로 기여를 나누려면 경로와 분해 규칙을 더 정해야 한다. 한 경로에서 등식이 성립한다는 사실만으로 각 성분의 인과효과나 다른 경로에서 같은 분해가 나온다고 결론 내릴 수는 없다.
+
+변화율의 누적이 알려 주는 것은 $s(1)$ 하나가 아니라 $s(1)-s(0)$이다. 끝점 점수 자체를 구하려면 시작점 점수 $s(0)$도 알아야 한다. 원시함수의 적분상수처럼, 변화율만으로는 점수 곡선의 전체 높이를 정할 수 없다.
+
+서로 다른 변화율 곡선이 같은 끝점 차이를 만들 수 있다. 다음 비교는 출력 차이의 등식이 중간 계산을 정하지 못하는 이유를 보여 주는 설명용 함수들이다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Different constant and linear score derivatives integrating to equal endpoint changes with different intermediate score curves](../../figures/assets/M01/M01-09-same-integral-paths.svg)
+  <figcaption>변화율 2와 4α는 모두 구간 [0,1]에서 적분하면 2가 된다. 시작값을 0으로 정한 점수 곡선은 2α와 2α²로, 양 끝은 같지만 중간 점수와 국소 변화율은 다르다. 실제 모델의 내부 계산을 측정한 그림은 아니다.</figcaption>
+</figure>
 
 ## 핵심 개념 8. 정리의 두 방향을 구분한다
 
@@ -308,6 +371,13 @@ F(x)=x^3-x^2+x
 
 이다.
 
+정적분의 넓이와 원시함수의 끝점 차이는 아래처럼 서로 다른 그래프에서 같은 값을 나타낸다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Area six under a quadratic integrand above an antiderivative whose endpoint values differ by six](../../figures/assets/M01/M01-09-area-endpoints.svg)
+  <figcaption>위 그림의 적분값 6은 아래 원시함수 그래프의 높이 차이 F(2)−F(0)=6과 같다. 아래 곡선의 넓이를 다시 계산하는 것이 아니라, 양 끝의 높이를 빼는 것이다.</figcaption>
+</figure>
+
 ## 예제 3. 지수함수의 정적분
 
 \[
@@ -331,6 +401,13 @@ e^{\log2}-e^0
 \]
 
 이다.
+
+지수함수는 자기 자신의 원시함수이므로, 곡선 아래의 넓이를 두 높이의 차이로 구한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Shaded area one under the exponential between zero and log two with endpoint heights one and two](../../figures/assets/M01/M01-09-exponential-area.svg)
+  <figcaption>입력 0과 log 2에서 원시함수 eˣ의 높이는 각각 1과 2다. 초록색 곡선 아래의 넓이는 그 차이인 1이며, 밑변 길이 log 2와는 구분한다.</figcaption>
+</figure>
 
 ## 예제 4. 변화율로 끝점 차이 계산하기
 

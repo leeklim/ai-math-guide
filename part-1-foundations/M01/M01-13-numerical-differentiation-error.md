@@ -43,7 +43,7 @@ estimated_time: "115~140분"
 
 | 기호·용어 | Common spoken reading | 의미 | 조건 |
 |---|---|---|---|
-| $h$ | `h` | 함수값을 평가할 두 점 사이의 간격 | $h>0$으로 둔다. |
+| $h$ | `h` | 기준점에서 앞이나 뒤의 평가점까지 이동하는 간격 | $h>0$으로 둔다. 중앙차분의 두 평가점 사이는 $2h$다. |
 | 전진차분 | `forward difference` | $x$와 $x+h$를 사용하는 도함수 근사 | 한쪽 값만 앞으로 이동한다. |
 | 후진차분 | `backward difference` | $x-h$와 $x$를 사용하는 도함수 근사 | 한쪽 값만 뒤로 이동한다. |
 | 중앙차분 | `central difference` | $x-h$와 $x+h$를 대칭으로 사용하는 도함수 근사 | 함수 평가가 두 번 필요하다. |
@@ -74,6 +74,13 @@ f'(x)
 
 이다. 함수값 $f(x)$와 $f(x+h)$ 두 개가 필요하다.
 
+전진차분이 고르는 두 점과 출력 차이는 예제 1의 숫자로 확인할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Forward finite difference of x squared using inputs two and two point one with width zero point one and output change zero point four one](../../figures/assets/M01/M01-13-forward-points.svg)
+  <figcaption>주황색 두 점은 기준점 2와 오른쪽 평가점 2.1이다. 점선 가로 길이 0.1과 세로 길이 0.41을 나누면 4.1이다. 기준점의 정확한 미분값 4가 아니라 이 두 점 사이의 평균변화율을 계산한다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. 후진차분은 반대쪽 값을 사용한다
 
 후진차분은
@@ -84,9 +91,16 @@ f'(x)
 \frac{f(x)-f(x-h)}{h}
 \]
 
-이다. 전진차분은 오른쪽, 후진차분은 왼쪽의 유한한 구간을 사용한다.
+이다. 왼쪽 점 $x-h$에서 기준점 $x$로 이동하는 입력 변화량은 $x-(x-h)=h$다. 그래서 출력 차이도 $f(x)-f(x-h)$ 순서로 뺀다. 분자와 분모의 이동 방향을 맞춘 평균변화율이다. 전진차분은 오른쪽, 후진차분은 왼쪽의 유한한 구간을 사용한다.
 
 정의역 경계에서는 한쪽 차분이 필요할 수 있다. 예를 들어 $x\ge0$에서만 정의된 함수의 $x=0$ 근처에서는 $x-h<0$이 정의역을 벗어나므로 전진차분을 선택한다.
+
+후진차분은 같은 기준점의 왼쪽 구간을 고르므로 출력 차이도 왼쪽에서 기준점으로 향하는 순서로 뺀다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Backward finite difference of x squared using inputs one point nine and two with width zero point one and output change zero point three nine](../../figures/assets/M01/M01-13-backward-points.svg)
+  <figcaption>평가점은 1.9와 2다. 가로 변화 0.1에 대응하는 출력 변화는 4−3.61=0.39이므로 차분몫은 3.9다. 전진차분과 기준점은 같지만 조사한 구간이 다르다.</figcaption>
+</figure>
 
 ## 핵심 개념 3. 중앙차분은 대칭점 두 개를 사용한다
 
@@ -98,7 +112,17 @@ f'(x)
 \frac{f(x+h)-f(x-h)}{2h}
 \]
 
-이다. $x$의 양쪽을 대칭으로 사용한다.
+이다. $x$의 양쪽을 대칭으로 사용한다. 두 평가점 사이의 거리는 $(x+h)-(x-h)=2h$이므로 분모는 $h$가 아닌 $2h$다. 두 한쪽 차분을 평균해도 같은 식을 얻는다.
+
+\[
+\frac12\left(
+\frac{f(x+h)-f(x)}{h}
++\frac{f(x)-f(x-h)}{h}
+\right)
+=\frac{f(x+h)-f(x-h)}{2h}
+\]
+
+가운데 값 $f(x)$는 더하는 과정에서 소거된다.
 
 Taylor 식을 쓰면
 
@@ -114,7 +138,16 @@ f(x-h)
 f(x)-f'(x)h+\frac12f''(x)h^2+\cdots
 \]
 
-이다. 두 식을 빼면 같은 부호의 이차항이 소거된다. 필요한 구간에서 세 번 미분할 수 있는 함수라면 전진·후진차분의 주된 절단오차는 $h$에 비례하고, 중앙차분의 주된 절단오차는 $h^2$에 비례한다. 같은 크기의 작은 $h$에서는 중앙차분이 더 정확한 경우가 많다.
+이다. $h$를 $-h$로 바꾸면 일차항의 부호는 바뀌고 이차항의 부호는 유지된다. 두 식을 빼면 상수항과 이차항이 없어지고 일차항 $2f'(x)h$가 남는다. 이를 $2h$로 나누면 목표인 $f'(x)$를 얻는다.
+
+이차도함수를 한 번 더 미분한 것이 삼차도함수다. 기준점 주변에서 삼차도함수까지 연속이면, 이차항 다음에 남는 주된 항은 $h^3$ 크기다. 중앙차분에서는 이 항을 $2h$로 나누므로 오차의 주된 크기가 $h^2$가 된다. 전진·후진차분은 이차항이 남은 분자를 $h$로 나누므로 주된 오차가 $h$ 크기다. 이 설명은 작은 $h$에서의 절단오차에 관한 것이며, 해당 계수가 0인 함수에서는 오차가 더 작거나 아예 없을 수 있다.
+
+중앙차분은 기준점 자체 대신 양옆 두 점을 잇는다. 두 점 사이의 폭은 한쪽 이동량의 두 배다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Central finite difference of x squared between inputs one point nine and two point one spanning twice the one-sided interval](../../figures/assets/M01/M01-13-central-points.svg)
+  <figcaption>두 주황색 점 사이의 폭은 2h=0.2이고 출력 차이는 4.41−3.61=0.8이다. 차분몫은 4다. 이차함수에서 기울기가 정확해지는 것이며, 이 두 점을 잇는 할선이 기준점의 함수값까지 반드시 지나는 것은 아니다.</figcaption>
+</figure>
 
 ## 핵심 개념 4. $h$가 크면 절단오차가 커진다
 
@@ -128,13 +161,36 @@ f(x)-f'(x)h+\frac12f''(x)h^2+\cdots
 f'(x)+\frac12f''(x)h+\cdots
 \]
 
-이다. $h$에 비례하는 항이 절단오차의 주된 부분이다. 함수의 곡률이 크면 같은 $h$에서도 오차가 커질 수 있다.
+이다. 원래 함수값에서 $h^2$에 곱해졌던 항도 차분몫에서는 $h$로 한 번 나누어져 남는다. 이 항을 버리고 $f'(x)$와 같다고 취급하는 데서 절단오차가 생긴다. 함수값을 무한한 정밀도로 계산하더라도 유한한 간격 때문에 생기는 차이다. 함수의 곡률이 크면 같은 $h$에서도 오차가 커질 수 있다.
+
+매끄러운 함수의 절단오차만 비교하면 중앙차분에서 대칭성이 제거한 항의 효과가 보인다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Log-scale forward and central truncation errors for the exponential at zero decreasing with first and second powers of interval h](../../figures/assets/M01/M01-13-truncation-orders.svg)
+  <figcaption>eˣ의 입력 0에서 참 미분값은 1이다. 전진차분의 오차는 작은 h에서 h 크기, 중앙차분의 오차는 h² 크기로 줄어든다. 이 그림은 안정된 식으로 평가한 절단오차 비교이며, 지나치게 작은 h의 뺄셈 불안정까지 포함한 것은 아니다.</figcaption>
+</figure>
 
 ## 핵심 개념 5. $h$가 너무 작으면 반올림오차가 커질 수 있다
 
 컴퓨터는 실수를 유한한 비트로 저장한다. $h$가 매우 작으면 $f(x+h)$와 $f(x)$가 저장된 값에서 거의 같아진다. 비슷한 두 수를 빼면 유효한 숫자가 사라지고, 그 작은 차이를 다시 $h$로 나누면서 오차가 확대될 수 있다.
 
+예를 들어 두 함수값이 각각 약 1이고 차이는 $10^{-8}$이라고 하자. 각 평가값에 $10^{-12}$ 정도의 저장·계산 오차가 있다면, 차이 자체의 오차도 $10^{-12}$ 정도일 수 있다. 이를 $h=10^{-8}$로 나누면 도함수 근삿값에는 $10^{-4}$ 정도의 오차가 들어간다. 각 함수값에 비해 작은 오차도 차분몫에서는 무시하기 어려워진다. 간격을 더 줄이면 컴퓨터가 $x+h$를 $x$와 같은 값으로 저장하거나 두 함수값을 같은 값으로 반올림할 수도 있다.
+
 따라서 $h$를 줄인다고 오차가 계속 감소하지 않는다. 여러 $h$에서 결과를 계산하면 보통 처음에는 절단오차가 줄어들다가 작은 $h$에서 반올림오차가 커지는 형태가 나타난다. 안정된 구간에서 여러 자릿수가 일치하는지 확인한다.
+
+작은 차이 안의 오차는 그 차이를 h로 나누면서 확대된다. 확대 비율 자체는 오차의 원인이 저장 정밀도인지 함수 평가의 잡음인지와 별개다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![A fixed difference error of one e minus twelve divided by varying h producing larger quotient error for smaller intervals](../../figures/assets/M01/M01-13-error-amplification.svg)
+  <figcaption>분자 차이의 오차를 10⁻¹²로 고정한 설명용 관계다. h=10⁻⁸로 나누면 근사 변화율의 오차는 10⁻⁴가 된다. 실제 반올림오차나 잡음이 모든 h에서 일정하다는 가정은 아니다.</figcaption>
+</figure>
+
+직접적인 float64 뺄셈으로 지수함수를 차분하면 큰 h와 매우 작은 h가 서로 다른 이유로 오차를 만드는 모습을 확인할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Actual NumPy float64 derivative errors of the exponential across interval sizes with rounding error dominating very small intervals](../../figures/assets/M01/M01-13-float64-error.svg)
+  <figcaption>NumPy float64로 입력 1의 eˣ를 전진·중앙차분하고 참값 e와의 차이를 계산했다. 오른쪽의 큰 h에서는 절단오차가 보이고, 왼쪽의 아주 작은 h에서는 수치 오차가 커진다. 가장 작은 h가 가장 좋은 선택은 아니며 세부 곡선은 수치 구현에 의존한다.</figcaption>
+</figure>
 
 ## 핵심 개념 6. 다변수 함수는 좌표별로 차분한다
 
@@ -146,7 +202,7 @@ $f:\mathbb R^n\to\mathbb R$에서 $i$번째 좌표 단위벡터를 $\mathbf e_i$
 \frac{f(\mathbf x+h\mathbf e_i)-f(\mathbf x-h\mathbf e_i)}{2h}
 \]
 
-이다.
+이다. $\mathbf e_i$는 $i$번째 성분만 1이고 나머지는 0이다. 따라서 $\mathbf x\pm h\mathbf e_i$는 $i$번째 좌표만 $\pm h$만큼 바꾸고 다른 좌표는 고정한 입력이다. 편미분의 조건을 두 함수 평가에 그대로 적용한다.
 
 각 좌표에 이 계산을 반복해 수치 그래디언트를 만든다.
 
@@ -161,6 +217,13 @@ $f:\mathbb R^n\to\mathbb R$에서 $i$번째 좌표 단위벡터를 $\mathbf e_i$
 \]
 
 함수 평가가 좌표마다 두 번 필요하므로 입력 차원이 크면 비용이 커진다.
+
+예제 2의 중앙차분은 같은 입력점 주변에서 좌표마다 별도의 평가점 쌍을 만든다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Two coordinate slices with symmetric sample pairs around input point one comma two producing numerical gradient eight three](../../figures/assets/M01/M01-13-coordinate-samples.svg)
+  <figcaption>위에서는 y=2를 고정한 두 x 입력의 출력 차이 1.6을 0.2로 나누어 8을 얻는다. 아래에서는 x=1을 고정한 두 y 입력의 출력 차이 0.6을 같은 폭으로 나누어 3을 얻는다. 두 결과를 같은 평가점 (1,2)의 그래디언트로 모은다.</figcaption>
+</figure>
 
 ## 핵심 개념 7. 그래디언트 검사는 같은 함수와 점을 비교한다
 
@@ -208,6 +271,13 @@ ReLU $r(x)=\max(0,x)$를 $x=0$에서 차분하자.
 이다. 세 값이 다르며 어느 값도 수학적 도함수의 존재를 뜻하지 않는다. 좌우미분계수가 다르기 때문이다.
 
 함수 평가에 잡음이 있으면 분자의 작은 차이가 잡음에 묻힐 수 있다. 반복 평가의 변동, seed와 평균 방식까지 기록해야 수치미분 결과를 해석할 수 있다.
+
+ReLU 원점에서는 선택한 점 쌍마다 서로 다른 할선 기울기를 얻는다. 중앙차분의 숫자는 좌우 기울기의 불일치를 없애 주지 않는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Forward backward and central secants at the ReLU corner yielding slopes one zero and one half](../../figures/assets/M01/M01-13-relu-three-rates.svg)
+  <figcaption>오른쪽 두 점의 기울기는 1, 왼쪽 두 점은 0이다. 양옆 점을 잇는 보라색 중앙 할선의 기울기는 0.5다. 그림은 h=0.5이며 세 차분 값은 어떤 양의 h에서도 같지만, 원점의 수학적 도함수는 존재하지 않는다.</figcaption>
+</figure>
 
 ## 예제 1. 제곱함수에서 세 차분 비교
 

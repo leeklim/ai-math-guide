@@ -96,6 +96,15 @@ $x$가 $4$에서 $9$로 변하면 끝값은 $9$이고 변화량은
 
 다. 변화량은 끝값 자체가 아니라 두 값의 차이다.
 
+아래 그림에서 같은 두 값의 시작·끝 순서를 바꾸면 화살표 방향과 변화량의 부호가 바뀐다. 마지막 수직 눈금의 값과 화살표에 적힌 변화량도 구분해 읽는다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Number lines show changes from two to five, five to two, and four to nine, separating signed change from endpoint value](../../figures/assets/M01/M01-01-directed-changes.svg)
+
+<figcaption>2에서 5로 이동하면 변화량은 +3이고 순서를 뒤집으면 −3이다. 4에서 9로 이동할 때 끝값 9와 변화량 5는 서로 다른 값이다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. 평균변화율은 두 변화량의 비다
 
 $x_1\ne x_2$일 때 함수 $f$의 $x_1$부터 $x_2$까지 평균변화율은
@@ -109,6 +118,8 @@ $x_1\ne x_2$일 때 함수 $f$의 $x_1$부터 $x_2$까지 평균변화율은
 이다.
 
 이 식은 입력이 한 단위 변할 때 출력이 평균적으로 얼마나 변했는지 나타낸다.
+
+출력 변화량만 비교하면 입력이 얼마나 변했는지 놓친다. 입력 변화량으로 나누면 서로 길이가 다른 구간도 입력 한 단위당 변화로 나타낼 수 있다. 여기서 “한 단위당”은 전체 변화량을 입력의 변화량으로 나누었다는 뜻이며, 구간 안의 매 단위에서 실제로 같은 변화가 일어났다는 뜻은 아니다.
 
 예를 들어 시간 $t$가 $2$초에서 $5$초로 변하는 동안 위치 $s(t)$가 $10$미터에서 $22$미터로 변했다면
 
@@ -131,6 +142,15 @@ $x_1\ne x_2$일 때 함수 $f$의 $x_1$부터 $x_2$까지 평균변화율은
 \]
 
 다. 이 문맥에서는 평균속도다.
+
+아래 그림은 같은 구간의 시간 변화와 위치 변화를 따로 표시한다. 두 화살표의 수치뿐 아니라 미터와 초의 단위도 함께 나눈다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Time increases from two to five seconds while position changes from ten to twenty-two meters, giving twelve meters divided by three seconds](../../figures/assets/M01/M01-01-average-speed-units.svg)
+
+<figcaption>시간 변화 3초와 위치 변화 12미터를 나누면 평균속도는 4미터/초이다. 그림은 두 끝값만 표시하며 중간 시각의 위치는 정하지 않는다.</figcaption>
+</figure>
 
 ### 분모가 0이면 계산할 수 없다
 
@@ -168,6 +188,17 @@ f(-1)=f(1)=1
 \]
 
 이다. 그러나 구간 안의 $f(0)=0$은 끝점 값과 다르다.
+
+두 점의 시작·끝 순서를 함께 뒤집으면 $\Delta x$와 $\Delta y$의 부호가 모두 바뀐다. 비는 $(-\Delta y)/(-\Delta x)=\Delta y/\Delta x$로 같으므로 같은 두 점의 평균변화율은 바뀌지 않는다. 따라서 변화량의 부호와 평균변화율의 부호를 같은 방식으로 해석하지 않는다.
+
+아래 그림에서 수평 할선과 곡선의 가운데를 비교하면 평균변화율 0이 구간 내부의 일정함을 보장하지 않는 이유를 볼 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![The parabola x squared has equal values at minus one and one but a lower midpoint, while its horizontal secant has zero slope](../../figures/assets/M01/M01-01-zero-net-change.svg)
+
+<figcaption>두 끝점의 높이가 1로 같으므로 할선의 기울기는 0이다. 곡선은 구간 안에서 높이 0까지 내려갔다가 다시 올라온다.</figcaption>
+</figure>
 
 ## 핵심 개념 4. 평균변화율에는 단위가 있다
 
@@ -223,7 +254,18 @@ f(x_2)-f(x_1)
 \frac{f(x_2)-f(x_1)}{x_2-x_1}
 \]
 
+할선은 두 끝점을 연결한 직선이고, 그 사이의 함수 그래프는 곡선일 수 있다. 할선과 함수 그래프는 선택한 두 점에서는 만나지만 중간의 모든 점에서 같을 필요는 없다. 평균변화율은 이 할선의 일정한 기울기를 나타내므로 실제 함수의 구간 내부 변화까지 일정하다고 정하지 않는다.
+
 두 점 사이의 구간을 좁히면 할선의 기울기가 한 점에서의 접선 기울기에 가까워질 수 있다. 이 과정에 극한을 적용하면 미분을 정의할 수 있다.
+
+아래 그림에서 가로 변화 2와 세로 변화 8이 만드는 직각삼각형을 따라가면 할선의 기울기 4를 읽을 수 있다. $x=2$에서 할선과 곡선의 높이도 비교한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A secant through one comma one and three comma nine has run two and rise eight, and differs from x squared at input two](../../figures/assets/M01/M01-01-secant-triangle.svg)
+
+<figcaption>할선의 기울기는 세로 변화 8을 가로 변화 2로 나눈 4이다. 두 끝점 사이의 x=2에서는 할선의 높이가 5이고 함수값은 4이므로 할선이 실제 함수 그래프와 같지는 않다.</figcaption>
+</figure>
 
 ## 예제 1. 이차함수의 평균변화율
 
@@ -297,6 +339,15 @@ x_2+1
 
 $x_2\ne1$에서 약분할 수 있고, $x_2$가 $1$에 가까워지면 $x_2+1$은 $2$에 가까워진다.
 
+아래 그림은 표의 끝 입력 $x_2$를 가로축, 평균변화율을 세로축에 놓는다. 빈 점은 $x_2=1$에서 원래 분수의 분모가 0이 된다는 조건을 표시한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Average slopes for x squared from input one are two point one, two point five, three, and four at end inputs one point one, one point five, two, and three](../../figures/assets/M01/M01-01-shrinking-intervals.svg)
+
+<figcaption>끝 입력이 3, 2, 1.5, 1.1로 시작점 1에 가까워지면 할선의 기울기는 4, 3, 2.5, 2.1로 변한다. 빈 점 (1, 2)은 가까워지는 값을 표시하며 x₂=1에서 평균변화율을 계산했다는 뜻은 아니다.</figcaption>
+</figure>
+
 ## 예제 3. 학습 곡선의 평균 변화
 
 어떤 모델의 훈련 loss를 기록했다고 하자.
@@ -329,6 +380,15 @@ $x_2\ne1$에서 약분할 수 있고, $x_2$가 $1$에 가까워지면 $x_2+1$은
 이다.
 
 이 구간에서 훈련 loss는 step 하나당 평균 $0.003$ 감소했다. 두 끝점만 사용했으므로 중간 step에서 loss가 매번 같은 양만큼 감소했다고 말할 수는 없다.
+
+아래 그림의 점선과 회색 경로는 같은 두 끝점을 잇는다. 회색 선은 가능한 중간 변화의 설명용 예시이며 실제 측정 결과가 아니다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two loss observations at steps one hundred and three hundred share a secant and a different illustrative intermediate path, so the average does not determine each step](../../figures/assets/M01/M01-01-loss-endpoints.svg)
+
+<figcaption>관찰한 값은 두 주황색 점이다. 보라색 할선은 −0.003 loss/step을 요약하지만 회색 경로처럼 중간 변화가 일정하지 않아도 같은 두 끝점과 평균변화율을 가질 수 있다.</figcaption>
+</figure>
 
 ## 예제 4. 입력 교란과 출력 변화
 

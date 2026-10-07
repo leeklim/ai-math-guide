@@ -99,6 +99,14 @@ f'(g(x))g'(x)
 
 $f'(g(x))$는 바깥 함수 $f$의 도함수에 중간값 $g(x)$를 넣은 값이다. $g'(x)$는 안쪽 함수가 입력 변화를 중간값 변화로 바꾸는 비율이다.
 
+작은 입력 변화량을 $\Delta x$라고 하면, 미분계수의 뜻에 따라 중간값의 변화량은 $\Delta u\approx g'(x)\Delta x$다. 바깥 함수에서는 $\Delta y\approx f'(u)\Delta u$이므로 앞의 관계를 넣으면
+
+\[
+\Delta y\approx f'(g(x))g'(x)\Delta x
+\]
+
+를 얻는다. 두 단계가 입력 변화를 차례로 전달하므로 변화율을 곱한다. $f'$를 평가할 입력이 $x$가 아니라 $g(x)$인 이유도 여기에 있다. 바깥 함수는 원래 입력을 직접 받지 않고 안쪽 함수가 만든 값을 받는다. 이 변화량 설명은 미분 가능할 때의 국소 근사이며, 유한한 간격에서 두 근삿값을 정확한 등식으로 바꾸는 주장은 아니다.
+
 미분 기호가 분수처럼 이어져 보이지만, 이 식은 연쇄법칙이 보장하는 관계다. 기호 모양만 보고 임의의 식에서 $du$를 약분하는 규칙으로 사용하지 않는다.
 
 ## 핵심 개념 3. 계산 순서를 분리하면 항을 빠뜨리지 않는다
@@ -152,7 +160,16 @@ $x$의 단위가 초, 중간값 $u$의 단위가 미터, 출력 $y$의 단위가
 \quad\text{단위: 점수/초}
 \]
 
-가 된다. 중간 단위인 미터가 연결되고 전체 입력과 출력의 단위가 남는다. 단위 검사는 곱의 순서나 누락을 찾는 데 도움이 된다.
+가 된다. 중간 단위인 미터가 연결되고 전체 입력과 출력의 단위가 남는다. 단위 검사는 변수의 연결이나 단계 누락을 찾는 데 도움이 된다. 스칼라 변화율의 곱은 순서를 바꿔도 같은 값이므로 단위만으로 계산 경로의 순서까지 정할 수는 없다.
+
+아래 그림에서 중간값의 단위가 두 국소 변화율에 각각 나타나는 위치를 확인한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Input seconds connect through intermediate meters to output score, while meters per second and score per meter multiply to score per second](../../figures/assets/M01/M01-06-unit-chain.svg)
+
+<figcaption>입력에서 중간값까지는 미터/초이고 중간값에서 출력까지는 점수/미터이다. 두 비율을 곱하면 중간 단위가 연결되어 점수/초가 남는다.</figcaption>
+</figure>
 
 ## 핵심 개념 5. 세 단계 이상에서도 경로의 도함수를 모두 곱한다
 
@@ -185,6 +202,15 @@ g'(x)
 이다.
 
 중간 단계 하나의 도함수가 $0$이면 전체 곱도 $0$이 된다. 여러 단계의 도함수 절댓값이 계속 $1$보다 작으면 전체 곱이 작아질 수 있고, 계속 크면 커질 수 있다. 깊은 신경망의 기울기 소실과 폭주를 이해할 때 이 곱 구조를 다시 사용한다.
+
+아래 그림은 단계별 변화율을 0.5 또는 2로 고정한 스칼라 한 경로의 곱을 비교한다. 세로축은 곱의 큰 범위를 읽기 위한 로그 눈금이다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Products of repeated local slopes one half shrink with stage count while products of repeated slope two grow](../../figures/assets/M01/M01-06-depth-products.svg)
+
+<figcaption>8단계에서 0.5의 곱은 1/256이고 2의 곱은 256이다. 이 그림은 스칼라 경로의 곱 구조를 설명하며 전체 신경망의 기울기를 측정한 결과가 아니다.</figcaption>
+</figure>
 
 ## 핵심 개념 6. 연쇄법칙과 곱의 미분법을 구분한다
 
@@ -219,6 +245,15 @@ x^2(x+1)^3
 \]
 
 에서는 바깥쪽 곱에 곱의 미분법을 적용하고, $(x+1)^3$을 미분할 때 연쇄법칙을 적용한다.
+
+아래 그림은 같은 입력을 두 함수가 각각 받는 곱의 계산 구조다. 한 함수의 출력이 다음 함수의 입력이 되는 합성과 경로를 비교한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Input three branches into x squared and two x plus one before multiplying their outputs nine and seven to obtain sixty-three](../../figures/assets/M01/M01-06-product-branches.svg)
+
+<figcaption>두 갈래의 값 9와 7을 곱하면 63이다. 입력 변화는 두 갈래를 모두 바꾸므로 도함수는 두 기여 6×7과 9×2를 더한 60이다.</figcaption>
+</figure>
 
 ## 핵심 개념 7. 계산 그래프에서 순방향 값과 국소 도함수를 분리한다
 
@@ -256,6 +291,15 @@ y=7^2=49
 
 신경망의 역전파는 출력 쪽에서 시작해 이 국소 도함수들을 역순으로 곱한다. 스칼라 한 경로에서는 곱셈 순서가 수치에 영향을 주지 않지만, 뒤에서 벡터와 행렬 도함수를 다룰 때는 shape과 곱셈 순서를 지켜야 한다.
 
+아래 그림에서 상자 안의 계산값과 상자 사이의 국소 변화율을 구분해 읽는다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Forward values three seven and forty-nine pass through two stages while local derivatives two and fourteen multiply to the total derivative twenty-eight](../../figures/assets/M01/M01-06-values-and-derivatives.svg)
+
+<figcaption>순방향 값은 3→7→49이고 전체 변화율은 14×2=28이다. 바깥 제곱 함수의 도함수 2u는 원래 입력 3이 아니라 중간값 u=7에서 평가한다.</figcaption>
+</figure>
+
 ## 핵심 개념 8. 연쇄법칙에는 미분 가능 조건이 필요하다
 
 $g$가 $x=a$에서 미분 가능하고 $f$가 $u=g(a)$에서 미분 가능하면 $f\circ g$도 $a$에서 미분 가능하며 연쇄법칙을 적용할 수 있다.
@@ -267,6 +311,17 @@ y=\operatorname{ReLU}(2x)
 \]
 
 는 $x=0$에서 안쪽 값이 ReLU의 모서리 $0$에 도달한다. 수학적 도함수는 그 점에서 존재하지 않는다. 프레임워크가 $0$에서 사용할 값을 정했더라도 그 선택과 수학적 미분 가능성을 구분한다.
+
+위 조건은 연쇄법칙 공식을 적용할 수 있는 충분한 조건이다. 한 단계가 미분 불가능하다고 해서 모든 합성 결과가 미분 불가능한 것은 아니다. 예를 들어 $g(x)=|x|$와 $f(u)=u^2$의 합성은 $f(g(x))=x^2$이므로 $0$에서도 미분 가능하다. 이때는 $g'(0)$을 공식에 넣을 수 없지만, 합성한 함수 자체를 미분해 답을 구할 수 있다.
+
+아래 그림에서 안쪽 절댓값의 모서리와 합성한 제곱의 매끈한 원점을 비교한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The inner absolute value curve has a corner at zero while its square is the smooth parabola x squared](../../figures/assets/M01/M01-06-smooth-composite.svg)
+
+<figcaption>|x|은 원점에서 미분 불가능하지만 (|x|)²=x²은 미분 가능하다. 안쪽 도함수가 없는 점에서 공식을 적용하지 못한다는 사실과 합성 함수 자체의 미분 가능성은 구분한다.</figcaption>
+</figure>
 
 ## 예제 1. 이차함수 안의 일차함수
 

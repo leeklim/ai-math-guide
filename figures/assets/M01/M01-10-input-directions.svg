@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="550" viewBox="0 0 520 550" role="img" aria-labelledby="title desc">
+<title id="title">Change one input coordinate at a time</title><desc id="desc">Horizontal and vertical moves from input point two comma three keep the other coordinate unchanged.</desc>
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+<rect width="520" height="550" rx="16" fill="#F8FAFC"/>
+<g font-family="Arial,sans-serif" font-size="22" fill="#0F172A">
+<text x="260" y="51" text-anchor="middle" font-size="26" font-weight="700">One coordinate changes</text>
+<g fill="none" stroke="#CBD5E1" stroke-width="1"><path d="M160 110V410M240 110V410M320 110V410M400 110V410M80 170H420M80 250H420M80 330H420"/></g>
+<g fill="none" stroke="#94A3B8" stroke-width="1.5"><path d="M80 100V410H430"/></g>
+<text x="438" y="420">x</text><text x="66" y="96">y</text>
+<text x="72" y="438">0</text><text x="153" y="438">1</text><text x="233" y="438">2</text><text x="313" y="438">3</text>
+<text x="51" y="178">3</text><text x="51" y="258">2</text><text x="51" y="338">1</text>
+<circle cx="240" cy="170" r="6" fill="#D97706"/>
+<path d="M248 170H319" fill="none" stroke="#2563EB" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M240 162V111" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="213" y="214" fill="#D97706">(2,3)</text><text x="331" y="181" fill="#2563EB">(3,3)</text>
+<text x="146" y="105" fill="#7C3AED">(2,4)</text>
+<text x="260" y="483" text-anchor="middle" fill="#2563EB">Horizontal: y stays 3</text>
+<text x="260" y="518" text-anchor="middle" fill="#7C3AED">Vertical: x stays 2</text>
+</g></svg>

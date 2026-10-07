@@ -64,7 +64,26 @@ estimated_time: "100~120분"
 
 이다.
 
+이 성질을 차분몫으로 읽으면 밑의 역할이 드러난다. 지수법칙 $e^{x+h}=e^xe^h$를 적용하면
+
+\[
+\frac{e^{x+h}-e^x}{h}
+=
+e^x\frac{e^h-1}{h}
+\]
+
+이다. 기준 입력 $x$를 고정하면 $e^x$는 $h$와 무관하다. 자연상수 $e$에서는 $(e^h-1)/h$의 $h\to0$ 극한이 $1$이므로 전체 극한이 $e^x$가 된다. 즉, 입력 위치에 따른 함수값 $e^x$와 밑에 따른 변화율 계수를 분리했을 때 그 계수가 $1$인 경우다.
+
 $x=0$에서는 $e^0=1$이므로 접선 기울기도 $1$이다. $x$가 커져 함수값이 커지면 도함숫값도 같은 크기로 커진다. 자연지수함수는 모든 실수에서 양수이므로 도함수도 양수이고 함수는 증가한다.
+
+아래 그림에서는 원점의 함수 높이와 그 점에서 접선의 기울기가 모두 1인 경우를 확인한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The exponential curve passes through zero comma one and has a tangent of slope one there, matching the function value with its derivative](../../figures/assets/M01/M01-07-exp-height-slope.svg)
+
+<figcaption>x=0에서 초록색 곡선의 높이는 1이고 보라색 접선의 기울기도 1이다. 다른 입력에서도 자연지수함수의 값과 도함숫값은 같다.</figcaption>
+</figure>
 
 ## 핵심 개념 2. 일반 지수함수에는 $\log a$가 붙는다
 
@@ -74,7 +93,7 @@ $a>0$일 때
 a^x=e^{x\log a}
 \]
 
-로 쓸 수 있다. 연쇄법칙을 적용하면
+로 쓸 수 있다. $\log(a^x)=x\log a$라는 로그 법칙에 지수함수를 적용하여 원래 양수 값 $a^x$를 되찾은 식이다. 여기서 안쪽 함수는 $x\log a$다. 밑 $a$를 고정하면 $\log a$는 상수이므로 안쪽 도함수는 $\log a$이고, 연쇄법칙을 적용하면
 
 \[
 \frac{d}{dx}a^x
@@ -94,6 +113,15 @@ a^x\log a
 
 $a=e$이면 $\log e=1$이므로 자연지수함수의 공식과 같아진다. $a>1$이면 $\log a>0$이라 도함수가 양수다. $0<a<1$이면 $\log a<0$이라 도함수가 음수이고 함수는 감소한다.
 
+아래 그림에서 밑이 1보다 큰 경우와 작은 경우의 변화 방향을 비교한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Exponential functions with bases two and one half both equal one at zero but increase and decrease respectively](../../figures/assets/M01/M01-07-base-and-direction.svg)
+
+<figcaption>2ˣ은 log 2가 양수라 증가하고 0.5ˣ은 log 0.5가 음수라 감소한다. 두 함수가 x=0에서 같은 값을 가져도 기울기 방향은 다르다.</figcaption>
+</figure>
+
 ## 핵심 개념 3. 자연로그의 도함수는 $1/x$다
 
 $y=\log x$라고 하자. 지수와 로그의 역관계에서
@@ -102,7 +130,7 @@ $y=\log x$라고 하자. 지수와 로그의 역관계에서
 e^y=x
 \]
 
-이다. 양변을 $x$에 대해 미분한다.
+이다. $y$는 $x$에 따라 변하는 $\log x$이므로 왼쪽은 합성함수 $\exp(y(x))$다. 양변을 $x$에 대해 미분할 때 바깥 지수함수의 도함수 $e^y$에 안쪽 도함수 $dy/dx$를 곱한다. 오른쪽 $x$의 도함수는 $1$이다.
 
 \[
 e^y\frac{dy}{dx}=1
@@ -127,9 +155,18 @@ x\frac{dy}{dx}=1
 
 $x$가 $0$의 오른쪽에 가까워지면 $1/x$가 커진다. 로그함수는 작은 양수 영역에서 입력 변화에 민감하다. $x\le0$에서는 실수 자연로그가 정의되지 않으므로 이 공식도 적용하지 않는다.
 
+아래 두 그래프에서 같은 입력의 로그값과 기울기를 대응시켜 읽는다. 0 이하의 입력에는 로그 곡선을 그리지 않는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Aligned graphs of log x and its derivative one over x show steeper slopes at smaller positive inputs](../../figures/assets/M01/M01-07-log-and-slope.svg)
+
+<figcaption>x=0.2, 1, 3에서 로그의 기울기는 각각 5, 1, 1/3이다. 로그의 높이가 작아지는 것과 기울기가 커지는 것은 서로 다른 양의 변화이다.</figcaption>
+</figure>
+
 ## 핵심 개념 4. 합성된 지수와 로그에는 연쇄법칙을 적용한다
 
-$u=g(x)$라고 두자. 지수함수의 합성은
+$g$가 필요한 점에서 미분 가능하다고 하고 $u=g(x)$라고 두자. 지수함수의 합성은
 
 \[
 \frac{d}{dx}\exp(g(x))
@@ -157,6 +194,8 @@ g(x)>0
 
 로그 미분식의 $g'(x)/g(x)$는 출력의 절대 변화보다 입력값에 대한 상대 변화와 연결된다. 같은 $g'(x)$라도 $g(x)$가 작으면 로그의 변화율 절댓값이 커진다.
 
+여기서 상대 변화는 $g$의 변화량을 현재 값 $g(x)$로 나눈 양이다. 작은 $\Delta x$에서 $\Delta g\approx g'(x)\Delta x$이므로 상대 변화는 약 $[g'(x)/g(x)]\Delta x$다. 로그의 변화량도 같은 일차 근사를 갖는다. 분모는 원래 입력 $x$가 아니라 로그에 들어가는 현재 값 $g(x)$라는 점을 구분한다.
+
 ## 핵심 개념 5. 로그는 곱의 도함수를 합으로 바꿔 읽게 한다
 
 $u(x)>0$, $v(x)>0$이면
@@ -176,6 +215,8 @@ $u(x)>0$, $v(x)>0$이면
 \]
 
 가 된다.
+
+왼쪽은 곱 $uv$에 로그를 취했으므로 곱의 도함수 $u'v+uv'$를 현재 곱의 값 $uv$로 나눈 결과다. 이를 두 항으로 나누면 $u'v/(uv)=u'/u$, $uv'/(uv)=v'/v$다. 따라서 곱 전체의 상대 변화율이 각 인자의 상대 변화율을 더한 값이 된다. 로그 법칙과 미분 규칙이 같은 관계를 서로 다른 순서로 계산한 것이다.
 
 여러 양수 항의 곱에도 같은 구조가 이어진다. 곱 기호는
 
@@ -234,6 +275,15 @@ $p$가 다시 파라미터 $\theta$의 함수라면 연쇄법칙으로
 
 이다. 확률에 대한 민감도와 파라미터가 확률을 바꾸는 비율을 곱한다.
 
+아래 그림은 확률에 대한 음의 로그 손실 도함수의 절댓값을 그린다. 작은 확률의 넓은 범위를 표시하기 위해 두 축에 로그 눈금을 사용한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The magnitude one over p of the negative log loss derivative is one hundred at probability zero point zero one and two at probability one half](../../figures/assets/M01/M01-07-negative-log-sensitivity.svg)
+
+<figcaption>p가 0.5에서 0.01로 작아지면 확률에 대한 민감도 크기는 2에서 100으로 커진다. 실제 도함수는 음수이며 파라미터에 대한 변화율에는 dp/dθ도 필요하다.</figcaption>
+</figure>
+
 ## 핵심 개념 7. 로그합지수의 도함수에 소프트맥스 비율이 나타난다
 
 상수 $c$를 고정하고
@@ -244,13 +294,15 @@ F(x)=\log\left(e^x+e^c\right)
 
 라고 하자. 연쇄법칙과 합의 미분법을 적용한다.
 
+안쪽 함수는 $u(x)=e^x+e^c$다. $c$를 고정했으므로 $e^c$의 $x$에 대한 도함수는 $0$이고, $u'(x)=e^x$다. 바깥 로그의 도함수 $1/u$에 이를 곱하면
+
 \[
 F'(x)
 =
 \frac{e^x}{e^x+e^c}
 \]
 
-분자와 분모가 양수이므로
+분자는 양수이고 분모에는 양수 $e^c$가 추가로 들어 있어 분자보다 크므로
 
 \[
 0<F'(x)<1
@@ -338,6 +390,15 @@ F'(0)=\frac{1}{2}
 \]
 
 다. 두 로짓이 같으므로 소프트맥스가 두 class에 같은 확률을 준다. 이 계산은 다른 로짓을 $0$으로 고정한 일변수 결과다.
+
+아래 그림은 로그합지수의 높이와 해당 입력에서의 소프트맥스 비율을 위아래로 나누어 표시한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![With the other logit fixed at zero the derivative of log exp x plus one ranges between zero and one and equals one half at input zero](../../figures/assets/M01/M01-07-logsumexp-and-probability.svg)
+
+<figcaption>위 그래프는 F의 값이고 아래 그래프는 F′이다. 아래 값은 첫 class의 확률이며 x=0에서 1/2, 다른 유한한 입력에서도 0과 1 사이에 있다.</figcaption>
+</figure>
 
 ## 흔한 오해
 

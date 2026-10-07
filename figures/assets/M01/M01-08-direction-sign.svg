@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 590" role="img" aria-labelledby="title desc">
+  <title id="title">Reversing integration direction reverses the sign</title>
+  <desc id="desc">The triangle under y equals x from zero to two has area two. A forward arrow gives integral plus two and a reverse arrow gives minus two.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="520" height="590" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" font-size="22" fill="#0F172A">
+    <text x="260" y="64" text-anchor="middle" font-size="26" font-weight="700">Direction changes the sign</text>
+    <polygon points="100,280 400,280 400,100" fill="#D1FAE5"/>
+    <path d="M100 280L400 100" stroke="#059669" stroke-width="3"/>
+    <path d="M90 280H420M100 295V90" stroke="#94A3B8" stroke-width="2"/>
+    <path d="M250 100V280M100 190H400" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="420" y="314">x</text><text x="110" y="111">f(x) = x</text>
+    <text x="100" y="315" text-anchor="middle">0</text><text x="400" y="315" text-anchor="middle">2</text>
+    <text x="70" y="110">2</text><text x="268" y="239">area = 2</text>
+    <path d="M100 369H400" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="260" y="408" text-anchor="middle" fill="#5B21B6">0 → 2: integral = +2</text>
+    <path d="M400 465H100" stroke="#2563EB" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="260" y="505" text-anchor="middle" fill="#1E3A8A">2 → 0: integral = −2</text>
+    <text x="260" y="549" text-anchor="middle">The function itself has not changed.</text>
+  </g>
+</svg>

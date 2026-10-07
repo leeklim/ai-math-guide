@@ -59,6 +59,8 @@ estimated_time: "100~120분"
 
 $i$번째 작은 구간에서 표본점 $x_i^*$를 하나 고른다. 함수값 $f(x_i^*)$에 폭 $\Delta x$를 곱하면 그 조각의 누적량을 직사각형으로 근사할 수 있다.
 
+이 근사에서는 한 조각 안의 함수값을 표본점의 값으로 고정한다. 실제 함수는 그 조각에서도 변할 수 있지만, 높이를 하나로 대표하면 높이와 폭의 곱으로 조각의 양을 계산할 수 있다. 표본점은 그 조각 안에서 고른 입력 위치이고 $f(x_i^*)$는 그 위치의 높이이므로 둘의 역할도 다르다.
+
 \[
 f(x_i^*)\Delta x
 \]
@@ -73,6 +75,17 @@ f(x_i^*)\Delta x
 \]
 
 $n$을 늘리면 $\Delta x$가 작아진다. 함수가 적절한 조건을 만족하고 리만 합이 표본점 선택과 무관한 한 값에 가까워지면 그 값을 정적분으로 정의한다.
+
+닫힌 유한 구간에서 연속인 함수는 이 조건을 만족한다. 조각이 좁아지면 같은 조각 안에서 대표 높이와 실제 함수값의 차이를 작게 할 수 있어 전체 근사 오차도 줄어든다. 조각 수를 늘려도 전체 폭 $n\Delta x=b-a$는 그대로다. 따라서 더 많은 함수값을 폭 없이 더하는 계산과는 다르다.
+
+아래 그림은 x²의 [0, 1] 구간을 네 조각으로 나누고 오른쪽 끝점의 높이로 직사각형을 만든다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Four right-end rectangles approximate x squared on zero to one, each using width one quarter and the sampled function height](../../figures/assets/M01/M01-08-riemann-four.svg)
+
+<figcaption>주황색 점의 입력 위치에서 높이를 정하고 각 높이에 폭 1/4을 곱한다. 증가하는 곡선에서 오른쪽 끝점을 골라 직사각형이 곡선보다 높은 부분을 포함한다.</figcaption>
+</figure>
 
 ## 핵심 개념 2. 정적분은 리만 합의 극한이다
 
@@ -92,6 +105,8 @@ f(x_i^*)\Delta x
 - $f(x)$는 적분함수다.
 - $dx$는 $x$를 적분변수로 사용해 작은 폭을 누적한다는 표기다.
 
+정의에서 $n\to\infty$로 보내는 동안 각 분할의 폭은 $\Delta x>0$이다. $dx$를 수 $0$으로 대입하거나, 폭을 생략하고 함수값만 더한다는 뜻이 아니다. 어떤 표본점을 고르더라도 분할을 잘게 할수록 같은 값으로 가야 하며, 특정 표본점으로 만든 리만 합 하나만으로 적분의 존재나 정확한 값을 확인할 수는 없다.
+
 정적분의 결과는 구간 전체를 요약한 스칼라다. $x$는 합의 더미 인덱스처럼 적분 안에서만 역할을 하므로
 
 \[
@@ -101,6 +116,15 @@ f(x_i^*)\Delta x
 \]
 
 이다.
+
+아래 그림에서는 같은 구간을 16조각으로 나눈다. 직사각형 수가 늘어나도 전체 구간의 폭은 1이다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Sixteen narrower right-end rectangles follow x squared more closely over the same unit interval](../../figures/assets/M01/M01-08-riemann-refinement.svg)
+
+<figcaption>폭이 1/16인 직사각형은 네 조각의 경우보다 곡선을 더 가까이 따른다. 유한한 분할은 여전히 근사이며, 정적분은 분할 폭을 줄이는 극한이다.</figcaption>
+</figure>
 
 ## 핵심 개념 3. 정적분은 부호 있는 넓이다
 
@@ -124,6 +148,8 @@ $f(x)\ge0$인 구간에서 정적분은 함수 그래프와 $x$축 사이의 넓
 
 를 사용한다. 정적분과 절댓값을 적분한 값은 구분해야 한다.
 
+기본 방향 $a<b$에서는 각 조각의 폭이 양수이므로 조각의 기여는 높이 $f(x_i^*)$의 부호를 따른다. 실제 넓이를 구할 때는 이 높이에 절댓값을 먼저 취해 조각마다 양수로 센다. 이미 양·음의 기여를 상쇄한 정적분에 나중에 절댓값을 취하는 것은 같은 계산이 아니다. 아래 예제 3에서는 적분이 $0$이라 그 절댓값도 $0$이지만 실제 넓이의 합은 $1$이다.
+
 ## 핵심 개념 4. 구간 방향과 분할에는 일관된 규칙이 있다
 
 같은 점에서 시작하고 끝나면 누적 구간의 길이가 $0$이다.
@@ -140,6 +166,8 @@ $f(x)\ge0$인 구간에서 정적분은 함수 그래프와 $x$축 사이의 넓
 -\int_a^b f(x)\,dx
 \]
 
+여기서는 함수값의 부호를 바꾼 것이 아니라 구간을 읽는 방향을 바꿨다. 입력이 줄어드는 방향의 폭에 음의 부호를 붙여 누적하는 규칙이다. 계산할 때는 작은 끝점부터 큰 끝점까지의 적분을 구한 뒤 방향이 반대이면 전체에 음의 부호를 붙인다.
+
 $a<c<b$이면 구간을 $c$에서 나누어 더할 수 있다.
 
 \[
@@ -151,6 +179,15 @@ $a<c<b$이면 구간을 $c$에서 나누어 더할 수 있다.
 \]
 
 이를 구간 가법성(interval additivity)이라고 한다. 누적값을 여러 구간에서 계산한 뒤 합칠 수 있다.
+
+아래 그림에서 같은 함수와 같은 구간을 두 방향으로 읽는다. 부호가 바뀌는 것은 함수의 높이가 아니라 적분 방향이다.
+
+<figure class="lesson-figure" markdown="1">
+
+![The same triangular area two under x from zero to two gives positive two in the forward integration direction and negative two in reverse](../../figures/assets/M01/M01-08-direction-sign.svg)
+
+<figcaption>0에서 2로 읽으면 누적값은 +2이고 2에서 0으로 읽으면 −2이다. 초록색 함수 그래프와 도형의 실제 넓이 2는 두 경우에 동일하다.</figcaption>
+</figure>
 
 ## 핵심 개념 5. 적분은 합과 상수배에 선형적으로 작용한다
 
@@ -168,6 +205,15 @@ $\alpha$와 $\beta$가 상수이면
 이다. 리만 합에서 각 항을 나누고 상수를 합 밖으로 꺼낼 수 있기 때문이다.
 
 선형성은 여러 신호나 손실 항의 누적을 분리해 계산하게 해 준다. 각 항의 적분이 양수와 음수로 상쇄될 수 있으므로 전체값만으로 개별 항의 크기를 알 수는 없다.
+
+아래 그림은 f(x)=1과 g(x)=x를 더했을 때 두 함수의 넓이 기여를 층으로 나눈다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The area under one plus x on zero to two splits into a rectangle contributed by one and a triangle contributed by x](../../figures/assets/M01/M01-08-linearity-areas.svg)
+
+<figcaption>상수 1의 직사각형 넓이 2와 x의 삼각형 넓이 2를 더하면 1+x 아래의 전체 넓이 4가 된다. 합을 먼저 적분하거나 각 기여를 적분해 더한 결과가 같다.</figcaption>
+</figure>
 
 ## 핵심 개념 6. 단위는 함수값과 입력 폭의 곱이다
 
@@ -201,7 +247,26 @@ A(x)
 
 라는 누적함수를 얻는다. $t$는 적분 안에서 사용하는 변수이고 $x$는 누적의 끝점이다.
 
+끝점 $x$를 하나 정하면 $A(x)$는 그 구간의 누적을 요약한 수이고, 끝점을 바꿔 가며 이 수를 대응시키면 함수 $A$가 된다. $A(x)$와 $f(x)$는 같은 입력을 쓰지만 각각 시작점부터의 누적과 끝점에서의 함수값이라는 다른 양이다. 구간 가법성을 적용하면
+
+\[
+A(x+h)-A(x)
+=
+\int_x^{x+h}f(t)\,dt
+\]
+
+이다. 시작점부터 $x$까지의 공통 누적은 빼면 사라지고 두 끝점 사이의 누적만 남는다. 적분변수 $t$를 다른 이름으로 바꿔도 이 값은 같지만, 끝점 $x$를 바꾸면 실제 누적 구간이 바뀐다.
+
 $x$가 조금 늘어나면 $A(x)$에는 새로 붙은 짧은 구간의 누적이 더해진다. 그 변화율이 $f(x)$와 연결된다는 사실을 다음 단원의 미적분 기본정리에서 다룬다.
+
+아래 두 그래프에서 끝점의 함수값과 시작점부터의 누적값을 구분한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The integrand t has a common area from zero to one and an added area from one to two, while the accumulation function increases from one half to two](../../figures/assets/M01/M01-08-moving-endpoint.svg)
+
+<figcaption>시작점 0은 고정되어 있고 끝점이 1에서 2로 움직인다. 누적값은 0.5에서 2로 변하며 두 값의 차이 1.5는 새 구간 [1, 2]의 넓이이다.</figcaption>
+</figure>
 
 ## 핵심 개념 8. 이산 합과 연속 적분을 구분한다
 
@@ -239,6 +304,15 @@ $0$초부터 $4$초까지 속도가 초당 $3$미터로 일정하다고 하자.
 \]
 
 따라서 부호 있는 이동량은 $12$미터다.
+
+아래 그림에서 속도의 높이와 시간 구간의 폭을 곱하면 단위도 함께 바뀐다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Constant velocity three meters per second over four seconds forms a rectangle whose accumulated displacement is twelve meters](../../figures/assets/M01/M01-08-constant-speed.svg)
+
+<figcaption>세로축은 미터/초이고 가로축은 초이므로 직사각형의 누적량은 미터이다. 속도 3과 누적 이동량 12는 서로 다른 양이다.</figcaption>
+</figure>
 
 ## 예제 2. 삼각형 넓이로 적분 계산
 
@@ -279,6 +353,15 @@ f(x)=x-1
 \]
 
 이다.
+
+아래 그림에서 x축 위아래의 삼각형을 부호와 함께 센다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![For x minus one on zero to two the negative area minus one half and positive area plus one half cancel despite nonzero geometric area](../../figures/assets/M01/M01-08-signed-area.svg)
+
+<figcaption>빗금 영역은 −1/2, 초록색 영역은 +1/2로 정적분에서 상쇄된다. 실제 넓이를 모두 양수로 세면 1이고, 정적분 0에 절댓값을 취한 결과와 다르다.</figcaption>
+</figure>
 
 ## 예제 4. 네 개의 오른쪽 끝점으로 리만 합 만들기
 
@@ -336,6 +419,15 @@ S_4
 는 시간에 따른 손실의 누적이며 단위는 `손실·시간`이다. 같은 최종 손실을 가진 두 실행도 초반 손실 곡선이 다르면 이 적분값이 다를 수 있다.
 
 이 값이 작다는 사실만으로 일반화 성능이나 학습된 내부 메커니즘이 낫다고 결론 내릴 수는 없다. 비교하려면 시간 구간, 기록 간격, 손실 정의와 데이터 조건을 맞춰야 한다.
+
+아래 그림은 같은 끝값을 가진 두 설명용 손실 함수를 비교한다. 실제 모델의 학습 결과를 그린 것이 아니다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two illustrative loss curves end at zero but one has an additional shaded area over time and therefore greater accumulated loss](../../figures/assets/M01/M01-08-same-final-different-area.svg)
+
+<figcaption>두 곡선의 최종 손실은 0으로 같지만 A에는 빗금 영역의 누적이 추가된다. 최종 함수값과 시간 구간 전체의 적분은 서로 다른 비교 기준이다.</figcaption>
+</figure>
 
 ## 흔한 오해
 

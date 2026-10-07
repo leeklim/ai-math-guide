@@ -70,6 +70,8 @@ $x=1$에서는 원래 식의 분모가 0이므로 정의되지 않는다. 극한
 
 $x$는 $a$와 같을 필요가 없다. 오히려 극한을 살필 때는 $a$ 주변의 다른 값들을 사용한다. $a$보다 작은 값과 큰 값에서 접근하며 함수값이 한 값에 모이는지 확인한다.
 
+“가까워진다”는 말은 함수값에 원하는 오차 범위를 정하면, 입력을 $a$에 충분히 가깝게 제한해 그 범위 안의 모든 허용 입력에서 함수값을 $L$의 오차 범위 안에 둘 수 있다는 뜻이다. 더 작은 출력 오차를 요구하면 입력의 범위도 그에 맞게 좁힐 수 있어야 한다. 이 과정에서는 $x=a$인 한 점을 제외한다. 함수값이 한 번 $L$ 근처에 왔다는 사실만으로 극한을 정하지 않는다.
+
 예를 들어
 
 \[
@@ -83,6 +85,15 @@ f(x)=2x+1
 \]
 
 이 함수에서는 $x=3$을 바로 대입해도 같은 값을 얻는다. 모든 극한이 대입만으로 계산되는 것은 아니다.
+
+아래 그림은 입력을 3 주변으로 제한했을 때 함수값도 7 주변에 놓이는 관계를 보여 준다. 파란 입력 범위와 초록 출력 범위를 함께 읽는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A blue input window around three maps through two x plus one into a green output window around seven](../../figures/assets/M01/M01-02-approach-window.svg)
+
+<figcaption>입력이 2.75와 3.25 사이에 있으면 출력은 6.5와 7.5 사이에 있다. 극한에서는 중앙 한 점의 값보다 그 점을 제외한 주변 입력들의 출력을 확인한다.</figcaption>
+</figure>
 
 ## 핵심 개념 2. 함수값과 극한값은 다른 질문이다
 
@@ -115,6 +126,8 @@ f(1)\text{은 정의되지 않음},
 
 두 문장은 함께 성립한다. 극한은 점에서의 값보다 주변에서의 행동을 묻는다.
 
+약분한 식 $x+1$은 $x=1$에서도 계산할 수 있지만, 그 사실이 원래 분수의 $f(1)$을 새로 정의하지는 않는다. 극한 계산에 약분한 식을 사용하는 이유는 $x=1$을 제외한 주변 입력에서 두 식의 값이 같기 때문이다. 점의 함수값은 달라도 주변 값이 같으면 그 점으로 접근하는 극한은 같다.
+
 ### 점의 값을 바꿔도 극한은 유지될 수 있다
 
 함수 $g$를
@@ -140,6 +153,15 @@ g(1)=7
 \]
 
 이다. 한 점의 함수값을 바꾸는 일은 그 점 주변의 극한을 바꾸지 않는다.
+
+아래 그림의 빈 점은 주변 값이 가까워지는 높이이고, 주황색 점은 따로 정의한 함수값이다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The line x plus one approaches an open point at one comma two while a separate filled point defines g of one as seven](../../figures/assets/M01/M01-02-hole-and-value.svg)
+
+<figcaption>왼쪽과 오른쪽에서 선을 따라 접근하면 높이 2에 가까워진다. g(1)=7인 주황색 점을 추가해도 x=1 주변의 값과 극한 2는 그대로다.</figcaption>
+</figure>
 
 ## 핵심 개념 3. 표에서 양쪽의 경향을 본다
 
@@ -202,6 +224,8 @@ f(x)=\frac{x^2-1}{x-1},
 
 이다.
 
+양쪽 극한은 접근 방향을 한쪽으로 제한하지 않는다. 입력을 같은 점에 가깝게 골라도 왼쪽에서는 한 값, 오른쪽에서는 다른 값으로 향한다면 주변의 모든 입력에서 가까워질 공통 값 하나를 정할 수 없다. 그래서 한쪽 극한이 존재하는지만 확인하지 않고 두 값이 일치하는지도 확인한다.
+
 ### 좌우 값이 다른 예
 
 \[
@@ -238,6 +262,15 @@ $0$보다 큰 쪽에서 접근하면 함수값은 $1$이므로
 
 함수값은 $s(0)=1$로 정의되어 있지만 양쪽 극한의 존재 여부를 바꾸지 않는다.
 
+아래 그림에서는 왼쪽 수평선과 오른쪽 수평선의 높이가 다르다. 한 점의 함수값을 정해도 이 차이는 남는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A step function approaches zero from the left and one from the right with a filled value one at input zero](../../figures/assets/M01/M01-02-one-sided-jump.svg)
+
+<figcaption>좌극한은 0이고 우극한은 1이므로 두 방향에서 가까워질 공통 값이 없다. 주황색 점은 s(0)=1을 표시한다.</figcaption>
+</figure>
+
 ## 핵심 개념 5. 연속성은 극한과 함수값을 연결한다
 
 함수 $f$가 점 $a$에서 연속(continuous)이라는 말은 다음 세 조건을 만족한다는 뜻이다.
@@ -262,6 +295,15 @@ $0$보다 큰 쪽에서 접근하면 함수값은 $1$이므로
 
 은 $x=1$에서 정의되지 않으므로 그 점에서 연속이 아니다. 극한값 $2$로 함수값을 새로 정의하면 구멍을 메워 연속으로 만들 수 있다.
 
+아래 그림은 앞의 빈 점에 극한값과 같은 높이의 함수값을 추가한 경우다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Filling the missing point at one comma two makes the extended x plus one function continuous at input one](../../figures/assets/M01/M01-02-continuity-repair.svg)
+
+<figcaption>새로 정의한 f(1)=2는 주변 값의 극한 2와 같다. 이 경우 함수값의 존재, 극한의 존재, 두 값의 일치라는 세 조건을 모두 만족한다.</figcaption>
+</figure>
+
 ## 핵심 개념 6. 무한히 커지는 경우
 
 \[
@@ -278,11 +320,31 @@ f(x)=\frac1{x^2}
 
 $+\infty$는 실수 하나가 아니다. 이 표기는 함수값이 임의로 큰 양수보다 커질 수 있음을 나타낸다. 따라서 “극한값이 실수 $+\infty$다”라고 읽기보다 “함수값이 양의 방향으로 제한 없이 커진다”고 읽는다.
 
+큰 기준값을 하나 정하면 $0$에 충분히 가까운 모든 0이 아닌 입력에서 함수값이 그 기준보다 커야 한다. 기준값을 더 크게 잡아도 입력을 더 좁혀 이 조건을 만족할 수 있어야 한다. 일부 입력에서 큰 값이 나온다는 사실만으로는 이 극한을 주장할 수 없다.
+
+아래 그림의 위쪽 잘림은 함수값의 상한이 아니다. 0에 더 가깝게 접근하면 표시 범위보다 더 큰 값이 나온다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The reciprocal of x squared rises beyond the plotting window from both sides as nonzero input approaches zero](../../figures/assets/M01/M01-02-unbounded-square.svg)
+
+<figcaption>1/x²은 양쪽에서 양수인 채 커진다. 가로축의 0에 함수값을 찍지 않으며, 그림 밖에서도 그래프가 위쪽으로 계속 이어진다.</figcaption>
+</figure>
+
 \[
 \frac1x
 \]
 
 에서는 $x\to0^+$일 때 $+\infty$로, $x\to0^-$일 때 $-\infty$로 향한다. 좌우 행동이 다르므로 하나의 양쪽 실수 극한이 존재하지 않는다.
+
+아래 그림은 제곱을 하지 않은 역수에서 왼쪽과 오른쪽의 부호가 달라지는 모습을 보여 준다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The reciprocal of x falls without bound on the left of zero and rises without bound on the right](../../figures/assets/M01/M01-02-unbounded-reciprocal.svg)
+
+<figcaption>1/x은 0의 왼쪽에서 음의 방향, 오른쪽에서 양의 방향으로 제한 없이 커진다. 따라서 1/x²과 같은 양쪽 행동으로 읽을 수 없다.</figcaption>
+</figure>
 
 ## 핵심 개념 7. 평균변화율의 구간을 0에 가깝게 만든다
 
@@ -304,12 +366,23 @@ $x=a$에서 시작해 입력을 $h$만큼 바꾸면 끝점은 $a+h$다.
 
 이다. $h=0$이면 분모가 0이므로 계산할 수 없다. $h$가 0과 다른 값을 유지한 채 0에 가까워질 때의 극한을 생각한다.
 
+여기서는 시작점 $a$를 고정하고 간격 $h$만 바꾼다. 각 $h\ne0$에 대해 평균변화율 하나를 계산하므로, 평균변화율 자체를 $h$에 따라 달라지는 함수로 보는 것이다. $h>0$이면 끝점이 $a$의 오른쪽에 있고 $h<0$이면 왼쪽에 있다. 두 방향에서 같은 값에 가까워지는지를 확인해야 한다.
+
 \[
 \lim_{h\to0}
 \frac{f(a+h)-f(a)}{h}
 \]
 
-이 극한이 존재하면 $a$에서의 순간변화율을 정의할 수 있다. 다음 단원에서는 이 값을 도함수 기호로 나타낸다.
+이 극한이 유한한 실수로 존재하면 $a$에서의 순간변화율을 정의할 수 있다. 다음 단원에서는 이 값을 도함수 기호로 나타낸다.
+
+아래 그림에서는 기준점을 1로 고정한 x²의 평균변화율을 h의 함수로 그린다. 왼쪽과 오른쪽의 비가 같은 높이로 접근하는지 확인한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![For x squared at base input one the difference quotient two plus h approaches two from both sides with an open point at h zero](../../figures/assets/M01/M01-02-difference-quotient.svg)
+
+<figcaption>h가 음수이거나 양수여도 0에 가까워지면 평균변화율 2+h는 2에 가까워진다. 빈 점은 h=0에서 원래 차분몫을 계산할 수 없음을 표시한다.</figcaption>
+</figure>
 
 ## 예제 1. 식을 정리해 극한 구하기
 

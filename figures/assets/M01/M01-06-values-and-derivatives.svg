@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 820" role="img" aria-labelledby="title desc">
+  <title id="title">Forward values and local derivatives play different roles</title>
+  <desc id="desc">Input three produces intermediate seven through two x plus one, then output forty-nine through a square. Local derivatives two and fourteen multiply to twenty-eight.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="520" height="820" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" font-size="28" fill="#0F172A">
+    <text x="260" y="64" text-anchor="middle" font-weight="700">Forward values</text>
+    <text x="260" y="102" text-anchor="middle" font-weight="700">and local derivatives</text>
+    <rect x="110" y="146" width="240" height="94" rx="10" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+    <text x="230" y="186" text-anchor="middle">Input x</text><text x="230" y="222" text-anchor="middle" font-size="32" font-weight="700">3</text>
+    <path d="M230 254V343" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="278" y="286">u = 2x + 1</text><text x="278" y="328" fill="#5B21B6">du/dx = 2</text>
+    <rect x="110" y="362" width="240" height="94" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+    <text x="230" y="402" text-anchor="middle">Intermediate u</text><text x="230" y="438" text-anchor="middle" font-size="32" font-weight="700">7</text>
+    <path d="M230 470V559" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="278" y="502">y = u²</text><text x="278" y="544" fill="#5B21B6">dy/du = 14</text>
+    <rect x="110" y="578" width="240" height="94" rx="10" fill="#D1FAE5" stroke="#059669" stroke-width="2"/>
+    <text x="230" y="618" text-anchor="middle">Output y</text><text x="230" y="654" text-anchor="middle" font-size="32" font-weight="700">49</text>
+    <text x="260" y="770" text-anchor="middle" fill="#5B21B6">dy/dx = 14 × 2 = 28</text>
+  </g>
+</svg>

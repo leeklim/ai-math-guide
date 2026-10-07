@@ -52,9 +52,9 @@ estimated_time: "100~120분"
 $c$를 $x$와 무관한 상수라고 하자. 상수배 규칙은
 
 \[
-\frac{d}{dx}\bigl[c,u(x)\bigr]
+\frac{d}{dx}\bigl[c\,u(x)\bigr]
 =
-c,u'(x)
+c\,u'(x)
 \]
 
 이다. 상수는 그대로 두고 함수의 변화율에 곱한다.
@@ -82,11 +82,21 @@ u'(x)-v'(x)
 \sum_{i=1}^{N}u_i'(x)
 \]
 
-$N$은 고정된 유한한 정수라고 가정한다.
+$N$은 고정된 유한한 정수라고 가정한다. 이 규칙은 합 전체의 출력 변화량이 각 항의 출력 변화량을 더한 값이라는 사실에서 나온다. 두 함수의 합에 대해 차분몫을 쓰면
+
+\[
+\frac{[u(x+h)+v(x+h)]-[u(x)+v(x)]}{h}
+=
+\frac{u(x+h)-u(x)}{h}
++
+\frac{v(x+h)-v(x)}{h}
+\]
+
+이다. 각 함수가 미분 가능하면 오른쪽 두 항의 극한이 $u'(x)$와 $v'(x)$이므로 이들을 더한다. 상수배에서는 출력 변화량과 차분몫이 모두 $c$배가 되므로 극한도 $c$배다. 여기서 상수라는 말은 입력 $x$를 바꾸는 동안 $c$를 고정한다는 뜻이다. $c$도 $x$에 따라 변하면 다음의 곱의 미분법을 사용해야 한다.
 
 ## 핵심 개념 2. 곱에서는 두 함수의 변화를 모두 센다
 
-$u$와 $v$가 모두 $x$에 따라 변한다고 하자. $x$를 조금 바꾸면 곱의 변화량은
+$u$와 $v$가 모두 $x$에 따라 변한다고 하자. 기준 입력에서의 값을 $u=u(x)$, $v=v(x)$로 줄여 쓰고, 입력을 $x+h$로 바꿨을 때의 변화량을 $\Delta u=u(x+h)-u(x)$, $\Delta v=v(x+h)-v(x)$로 둔다. 곱의 변화량은
 
 \[
 (u+\Delta u)(v+\Delta v)-uv
@@ -98,7 +108,15 @@ $u$와 $v$가 모두 $x$에 따라 변한다고 하자. $x$를 조금 바꾸면 
 u\Delta v+v\Delta u+\Delta u\Delta v
 \]
 
-가 된다. 입력 변화량으로 나누고 그 변화량을 $0$에 가깝게 보내면 마지막 교차항의 기여는 사라진다. 두 일차 변화가 남아 곱의 미분법을 이룬다.
+가 된다. 앞의 두 항은 각각 한 함수만 바뀔 때의 기여이고, 마지막 항은 두 함수가 함께 바뀌면서 추가되는 기여다. 미분에서는 이 출력 변화량을 입력 변화량 $h$로 나눈다. 마지막 교차항은
+
+\[
+\frac{\Delta u\Delta v}{h}
+=
+\frac{\Delta u}{h}\,\Delta v
+\]
+
+로 쓸 수 있다. $u$가 미분 가능하면 $\Delta u/h$는 유한한 값 $u'(x)$로 간다. $v$도 미분 가능하므로 연속이고 $\Delta v$는 $0$으로 간다. 따라서 교차항의 극한은 $0$이다. 나머지 두 항을 $h$로 나눈 극한은 $uv'$와 $vu'$이며, 이를 더하면 곱의 미분법을 얻는다.
 
 \[
 \frac{d}{dx}\bigl[u(x)v(x)\bigr]
@@ -115,6 +133,24 @@ u'(x)v(x)+u(x)v'(x)
 로 쓴다. 첫 항은 $u$의 변화가 만드는 기여이고, 둘째 항은 $v$의 변화가 만드는 기여다.
 
 각 도함수만 곱한 $u'v'$는 곱의 미분 결과가 아니다. 예를 들어 $u(x)=v(x)=x$이면 $uv=x^2$의 도함수는 $2x$이지만 $u'v'=1$이다.
+
+아래 넓이 그림은 양수인 두 길이와 양의 변화량을 사용해 곱의 변화량을 세 조각으로 나눈다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Growing a rectangle in two directions adds strips v delta u and u delta v plus a corner delta u delta v](../../figures/assets/M01/M01-05-product-area.svg)
+
+<figcaption>오른쪽 띠는 u가 변할 때의 기여이고 위쪽 띠는 v가 변할 때의 기여이다. 모서리 조각 ΔuΔv도 유한한 변화량에는 포함되지만 h로 나눈 뒤 극한을 취하면 사라진다.</figcaption>
+</figure>
+
+다음 그래프는 두 함수가 모두 x인 경우의 올바른 도함수와 각 도함수만 곱한 결과를 비교한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The correct derivative two x of x times x differs from the constant one obtained by multiplying the two individual derivatives](../../figures/assets/M01/M01-05-product-rule-versus-wrong.svg)
+
+<figcaption>x²의 도함수는 2x이므로 입력에 따라 달라진다. 잘못된 계산 x′·x′=1은 이 변화를 표현하지 못한다.</figcaption>
+</figure>
 
 ## 핵심 개념 3. 몫에서는 분모의 변화를 빼서 반영한다
 
@@ -134,6 +170,16 @@ q'v+qv'=u'
 \[
 q'
 =
+\frac{u'-qv'}{v}
+=
+\frac{u'}{v}-\frac{uv'}{v^2}
+\]
+
+두 항을 공통 분모 $v^2$로 맞추면
+
+\[
+q'
+=
 \frac{u'v-uv'}{v^2}
 \]
 
@@ -148,11 +194,24 @@ q'
 
 이다.
 
+분모의 제곱은 $q$ 안에 있던 나눗셈 $u/v$와 $q'$를 구하기 위해 다시 $v$로 나눈 과정에서 생긴다. 뺄셈은 $q'v+qv'=u'$에서 $qv'$를 오른쪽으로 옮긴 결과다. 분모가 변하는 기여를 빼야 두 함수의 곱 $qv$가 분자 $u$와 같은 변화율을 갖는다.
+
 분자의 순서는 `분자의 도함수 곱하기 분모, 빼기 분자 곱하기 분모의 도함수`다. 순서를 바꾸면 전체 부호가 달라진다. 원래 함수와 도함수 모두 $v(x)=0$인 점에서는 이 식으로 값을 정할 수 없다.
+
+아래 그림에서는 양수인 분자를 고정하고 분모만 늘린다. 같은 전체를 더 많은 몫으로 나누면 한 몫의 크기는 작아진다.
+
+<figure class="lesson-figure" markdown="1">
+
+![A fixed total of six is divided into two shares of three or three shares of two, illustrating a positive denominator increasing while the quotient decreases](../../figures/assets/M01/M01-05-denominator-effect.svg)
+
+<figcaption>분자 u=6을 고정하면 분모 v가 2에서 3으로 증가할 때 몫 q는 3에서 2로 감소한다. 분모의 변화가 몫에 반대 방향으로 작용하는 경우를 보여 준다.</figcaption>
+</figure>
 
 ## 핵심 개념 4. 양의 정수 거듭제곱의 미분
 
 $n$이 양의 정수이면 $x^n$은 $x$를 $n$번 곱한 함수다. 곱의 미분법을 반복하면 각 위치의 $x$를 한 번씩 미분한 항이 $n$개 생긴다.
+
+각 항에서 미분한 인자 $x$는 $1$이 되고 나머지 $n-1$개의 $x$는 그대로 남는다. 따라서 항 하나가 $x^{n-1}$이고, 같은 항을 $n$개 더한 결과가 $nx^{n-1}$이다. 지수가 하나 줄어드는 이유와 앞에 $n$이 붙는 이유를 이 곱의 구조에서 함께 읽을 수 있다.
 
 \[
 \frac{d}{dx}x^n
@@ -171,6 +230,15 @@ nx^{n-1}
 이다.
 
 $x^0=1$은 상수함수이므로 도함수가 $0$이다. 음의 정수 지수와 분수 지수에도 거듭제곱 법칙을 확장할 수 있지만 정의역 조건이 달라진다. 이 단원에서는 다항식과 몫으로 직접 다룰 수 있는 범위를 사용한다.
+
+아래 그림에서 세제곱의 세 인자를 하나씩 미분하면 같은 항이 세 번 생기는 과정을 확인할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Three product-rule contributions each replace one of the three x factors by one and leave x squared, producing three x squared](../../figures/assets/M01/M01-05-power-factors.svg)
+
+<figcaption>각 줄에서 보라색 1은 그 위치의 x를 미분한 결과이다. 나머지 두 인자가 x²을 만들고 세 줄의 기여를 더하면 3x²이 된다.</figcaption>
+</figure>
 
 ## 핵심 개념 5. 규칙을 적용하기 전에 식의 구조를 읽는다
 
@@ -209,7 +277,7 @@ u'v+uv'
 \sum_{i=1}^{N}\ell_i(\theta)
 \]
 
-이다. $N$은 $\theta$와 무관한 표본 수다. 상수배와 합의 미분법을 적용하면
+이다. 각 $\ell_i$가 현재 $\theta$에서 미분 가능하다고 하자. $N$은 $\theta$와 무관한 고정된 표본 수다. $\theta$를 바꿔도 합에 들어가는 표본과 $1/N$은 그대로이며 각 표본의 손실값만 변한다. 따라서 상수배와 합의 미분법을 적용하면
 
 \[
 \mathcal L'(\theta)
@@ -328,6 +396,15 @@ $N=2$이고 현재 파라미터에서
 \]
 
 이다. 평균 기울기는 $0$이지만 두 표본의 손실은 서로 반대 방향으로 변한다. 평균 하나만 보고 모든 표본이 정지했다고 해석하면 안 된다.
+
+아래 그림은 평균을 계산하기 전의 두 기여와 계산한 평균을 함께 표시한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Sample derivatives plus four and minus four appear on opposite sides of zero while their average is zero](../../figures/assets/M01/M01-05-mean-cancellation.svg)
+
+<figcaption>두 표본의 기울기는 크기가 같고 방향이 반대여서 평균에서 상쇄된다. 보라색 평균 0은 주황색 표본별 기울기가 모두 0이라는 뜻이 아니다.</figcaption>
+</figure>
 
 ## 흔한 오해
 

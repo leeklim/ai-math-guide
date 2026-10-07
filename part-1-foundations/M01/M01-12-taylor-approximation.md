@@ -14,7 +14,7 @@ estimated_time: "105~125분"
 
 ## 이 단원이 필요한 이유
 
-도함수와 그래디언트는 한 점에서의 국소 변화율을 준다. Taylor 근사는 이 변화율을 사용해 가까운 점의 함수값을 계산하기 쉬운 다항식으로 나타낸다. 접선은 일차 Taylor 근사이고, 곡률을 나타내는 이차항을 더하면 근사 범위를 넓힐 수 있다.
+도함수와 그래디언트는 한 점에서의 국소 변화율을 준다. Taylor 근사는 이 변화율을 사용해 가까운 점의 함수값을 계산하기 쉬운 다항식으로 나타낸다. 접선은 일차 Taylor 근사이고, 이차항은 기준점 근처에서 기울기가 변하는 효과를 반영한다.
 
 모델 해석에서 입력 그래디언트를 출력 변화의 근사로 사용할 때도 같은 원리가 작동한다. 근사는 기준점과 이동 크기에 의존하므로, 일차항이 실제 유한 변화와 얼마나 맞는지 오차를 따로 확인해야 한다.
 
@@ -70,6 +70,13 @@ f(a)+f'(a)(x-a)
 
 $f(a)$는 기준 높이이고 $f'(a)h$는 일차 변화 예상값이다. $h=0$에서는 근삿값과 실제값이 같고, 두 식의 $a$에서의 기울기도 같다.
 
+예제 1의 제곱함수와 접선을 겹쳐 보면, 기준점에서는 값과 기울기가 같지만 이동 후에는 간격이 생긴다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![A quadratic function around input three compared with its tangent approximation nine plus six h](../../figures/assets/M01/M01-12-tangent-and-square.svg)
+  <figcaption>기준점 h=0에서는 두 값이 9이고 기울기가 6이다. 양쪽으로 이동하면 실제 제곱함수가 접선보다 h²만큼 높다. 일차식의 직선 모양은 유지되지만 실제 함수의 기울기는 변한다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. 잔차는 근사가 버린 부분이다
 
 일차 근사를 등식으로 쓰려면 잔차 $r(h)$를 더한다.
@@ -90,7 +97,23 @@ f(a)+f'(a)h+r(h)
 
 이라는 성질을 준다. $h$가 작아질수록 잔차는 $|h|$보다 빠르게 작아진다.
 
+이를 도함수의 정의와 연결하면, $h\ne0$에서
+
+\[
+\frac{f(a+h)-f(a)}{h}-f'(a)
+=\frac{r(h)}{h}
+\]
+
+이다. 왼쪽은 차분몫과 도함수의 차이이므로 $h\to0$일 때 0으로 간다. 따라서 잔차의 절댓값을 이동량 $|h|$로 나눈 비도 0으로 간다. 잔차가 작은 숫자라는 사실보다, 이동량에 비해 무시할 수 있을 만큼 작아진다는 점이 일차 근사의 근거다. 일차항 $f'(a)h$가 0이더라도 잔차가 0이라는 뜻은 아니다. 다음의 제곱함수에서는 $a=0$일 때도 $h^2$이 남는다.
+
 이 성질은 기준점에 가까운 범위의 결과다. $h$가 크면 일차항보다 잔차가 커질 수 있다. 근사식을 사용할 때 이동 크기와 실제 오차를 함께 제시한다.
+
+제곱함수에서는 잔차와 이동량을 같은 축에 놓아 ‘이동량보다 빠르게 작아진다’는 관계를 볼 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Quadratic residual magnitude h squared compared with the displacement magnitude absolute h as both approach zero](../../figures/assets/M01/M01-12-residual-rate.svg)
+  <figcaption>입력 이동의 크기가 0에 가까워질수록 h²는 |h|보다 작아지는 비율도 커진다. 둘의 비는 |h|로 0에 수렴한다. 이 제곱함수의 잔차는 이차항을 포함하면 완전히 제거된다.</figcaption>
+</figure>
 
 ## 핵심 개념 3. 이차도함수는 기울기의 변화를 측정한다
 
@@ -102,9 +125,9 @@ f''(x)
 \frac{d}{dx}f'(x)
 \]
 
-$f''(a)>0$이면 기준점 주변에서 기울기가 증가하는 방향의 곡률을 가진다. $f''(a)<0$이면 기울기가 감소하는 방향의 곡률을 가진다.
+$f''(a)$는 입력 변화에 대한 기울기 $f'$의 순간변화율이다. $f''(a)>0$이면 $a$에서 기울기의 변화율이 양수이고, $f''(a)<0$이면 음수다. 이차도함수가 주변에서도 같은 부호를 유지하는 구간에서는 기울기가 각각 증가하거나 감소한다. 함수값의 높이와 기울기가 변하는 속도는 구분한다.
 
-필요한 도함수가 존재할 때 일변수 이차 Taylor 근사는
+기준점 주변에서 이차도함수가 연속인 함수에 대해 일변수 이차 Taylor 근사는
 
 \[
 f(a+h)
@@ -115,6 +138,8 @@ f(a)+f'(a)h
 \]
 
 이다. 이차항은 접선이 놓친 휘어짐을 반영한다.
+
+계수 $1/2$는 근사 다항식의 이차도함수를 실제값에 맞추기 위해 필요하다. 이차항의 계수를 $c$로 놓고 이동량 $h$에 대한 다항식을 $f(a)+f'(a)h+c h^2$로 쓰면, $h=0$에서 값은 $f(a)$이고 일차도함수는 $f'(a)$다. 한 번 더 미분하면 이차도함수는 $2c$이므로 $2c=f''(a)$, 즉 $c=f''(a)/2$로 정한다. 이렇게 값·기울기·기울기의 변화율을 같은 기준점에서 맞춘다. 위의 연속성 조건에서는 남는 잔차를 $h^2$로 나눈 비가 0으로 간다. 멀리 떨어진 점까지 정확하다는 보장은 아니다.
 
 ## 핵심 개념 4. 다항식에서는 Taylor 전개가 정확해질 수 있다
 
@@ -166,11 +191,13 @@ f_y(x,y)\Delta y
 
 로 펼쳐진다. 각 좌표의 작은 변화에 그 좌표의 편미분을 곱해 더한다.
 
-이 식은 한 좌표만 움직이는 편미분과 여러 좌표가 함께 움직이는 변화를 연결한다. 이차 이상의 상호작용은 잔차에 들어간다.
+이 식은 한 좌표만 움직이는 편미분과 여러 좌표가 함께 움직이는 변화를 연결한다. 두 편미분은 모두 이동 전의 같은 기준점 $(x,y)$에서 계산한다. $f_x$에는 $\Delta x$를, $f_y$에는 $\Delta y$를 곱하므로 성분별 변화 예상값을 더한 결과가 스칼라 $\Delta f$다.
+
+일차식으로 설명하지 못한 변화는 잔차에 들어간다. 예제 3의 함수에서는 $\Delta x^2+\Delta x\Delta y$가 남아 제곱항과 두 좌표의 상호작용을 확인할 수 있다. 일반적인 미분 가능성만으로 잔차가 반드시 이차식이라고 단정하지는 않는다. 미분 가능성이 보장하는 것은 이동량의 크기에 대한 잔차의 비가 0으로 간다는 성질이다.
 
 ## 핵심 개념 6. 연쇄법칙으로도 같은 일차 변화를 읽을 수 있다
 
-방향 $\mathbf v$를 따라 $\Delta\mathbf x=t\mathbf v$로 움직이면
+단위방향 $\mathbf v$를 따라 $\Delta\mathbf x=t\mathbf v$로 움직이면
 
 \[
 f(\mathbf x+t\mathbf v)
@@ -196,7 +223,7 @@ f(\mathbf x+t\mathbf v)
 f(\mathbf x)+tD_{\mathbf v}f(\mathbf x)
 \]
 
-이다. 다변수 일차 Taylor 근사는 모든 방향의 접선 정보를 그래디언트 하나로 표현한다.
+이다. 경로 함수 $g(t)=f(\mathbf x+t\mathbf v)$를 놓으면 $g(0)=f(\mathbf x)$이고 연쇄법칙으로 $g'(0)=\nabla f(\mathbf x)^\top\mathbf v$다. 따라서 마지막 식은 $g(t)\approx g(0)+g'(0)t$라는 일변수 일차 근사를 경로에 적용한 것이다. $\mathbf v$가 단위벡터이므로 이동 거리는 $|t|$다. 다변수 일차 Taylor 근사는 이런 방향별 접선 정보를 그래디언트 하나로 표현한다.
 
 ## 핵심 개념 7. 지수와 로그의 기준점 근사
 
@@ -240,6 +267,20 @@ f'(1)=1
 
 이다. 로그 정의역 때문에 $1+h>0$이어야 한다.
 
+지수함수에서 차수가 다른 근사들을 겹쳐 보면, 이차항이 기준점 근처의 휘어짐을 반영하는 것을 확인할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Exponential function near zero compared with first-order and second-order Taylor polynomials sharing value and slope at zero](../../figures/assets/M01/M01-12-exponential-orders.svg)
+  <figcaption>세 식은 0에서 값 1과 기울기 1을 공유한다. 보라색 이차식은 이차도함숫값 1도 맞추므로 초록색 지수함수의 휘어짐을 더 반영한다. 지수함수에서는 이차식도 전 구간의 정확한 등식은 아니다.</figcaption>
+</figure>
+
+로그 근사는 기준점 근처에서 비교하더라도 정의역 조건을 버릴 수 없다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Log one plus h and its tangent h near zero with the excluded domain boundary at h equals minus one](../../figures/assets/M01/M01-12-log-domain.svg)
+  <figcaption>h=0 근처에서는 log(1+h)와 h가 가깝다. 그러나 h가 −1에 접근하면 실제 로그는 급격히 감소하며, h≤−1에서는 실수 로그가 정의되지 않는다. 직선 근사에 숫자를 넣을 수 있다는 사실은 원래 함수의 정의역을 넓히지 않는다.</figcaption>
+</figure>
+
 ## 핵심 개념 8. 모델의 선형화는 선택한 점 주변의 근사다
 
 모델 점수를 $s(\mathbf x)$라고 하자. 입력 변화 $\Delta\mathbf x$에 대한 일차 근사는
@@ -255,6 +296,13 @@ s(\mathbf x+\Delta\mathbf x)-s(\mathbf x)
 오른쪽은 현재 입력에서 계산한 그래디언트가 예측하는 변화다. 이 값이 실제 유한 변화와 맞는지는 $\Delta\mathbf x$의 크기, 모델의 곡률과 비미분점 통과 여부에 달려 있다.
 
 그래디언트 성분별 곱을 기여도로 나누는 방법은 좌표와 기준점에 의존한다. 일차 근사의 정확성이 곧 인과적 설명의 정확성을 뜻하지 않는다.
+
+ReLU를 포함한 함수에서는 이동 중에 비미분점을 통과하는 것만으로 현재 영역의 선형식이 맞지 않을 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![ReLU and its linearization at a positive input diverging after a finite move crosses zero](../../figures/assets/M01/M01-12-relu-boundary.svg)
+  <figcaption>x=0.5의 기울기 1로 만든 직선은 양의 입력 영역에서는 정확하다. x=−0.5까지 이동하면 직선은 −0.5를 예측하지만 실제 ReLU 출력은 0이다. 파란 세로선은 이 이동에서의 오차를 나타낸다.</figcaption>
+</figure>
 
 ## 예제 1. 제곱함수의 일차 근사
 
@@ -341,6 +389,13 @@ f(1.1,1.8)=1.21+1.98=3.19
 \]
 
 이므로 `실제값-근삿값`으로 정의한 오차는 $-0.01$이다.
+
+같은 두 좌표 이동을 배수 t로 늘리면, 일차 변화 예상값과 남는 잔차를 별도로 비교할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Actual and linearized output along a two-coordinate displacement above the negative quadratic interaction residual](../../figures/assets/M01/M01-12-multivariable-path-residual.svg)
+  <figcaption>t=1이 예제의 이동 (0.1,−0.2)이다. 위의 예상값 3.20과 실제값 3.19의 작은 차이를 아래에서는 잔차 −0.01로 분리해 표시했다. 이 경로에서는 Δx²+ΔxΔy=−0.01t²이며, 같은 방향의 이동 크기를 늘리면 오차의 크기도 커진다.</figcaption>
+</figure>
 
 ## 예제 4. 손실 변화 예측
 

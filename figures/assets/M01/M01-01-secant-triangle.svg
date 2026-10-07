@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 660" role="img" aria-labelledby="title desc">
+  <title id="title">The secant slope is rise divided by run</title>
+  <desc id="desc">For x squared, a secant joins P at one comma one to Q at three comma nine. Its horizontal change is two, vertical change eight, and slope four. At x two the secant value five differs from the curve value four.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="640" height="660" rx="18" fill="#F8FAFC"/>
+  <g transform="translate(0 20)" font-family="sans-serif" font-size="22" fill="#0F172A">
+    <text x="320" y="44" text-anchor="middle" font-size="26" font-weight="700">Average rate = secant slope</text>
+    <g stroke="#E2E8F0" stroke-width="1"><path d="M90 80V480M240 80V480M390 80V480M540 80V480"/><path d="M90 80H570M90 160H570M90 240H570M90 320H570M90 400H570M90 480H570"/></g>
+    <path d="M90 480H580M90 490V70" stroke="#94A3B8" stroke-width="2"/>
+    <text x="582" y="510">x</text><text x="108" y="82">f(x)</text>
+    <text x="240" y="510" text-anchor="middle">1</text><text x="390" y="510" text-anchor="middle">2</text><text x="540" y="510" text-anchor="middle">3</text>
+    <text x="72" y="488" text-anchor="end">0</text><text x="72" y="408" text-anchor="end">2</text><text x="72" y="328" text-anchor="end">4</text><text x="72" y="248" text-anchor="end">6</text><text x="72" y="168" text-anchor="end">8</text><text x="72" y="88" text-anchor="end">10</text>
+    <path d="M90 480Q330 480 570 70.4" fill="none" stroke="#059669" stroke-width="4"/>
+    <path d="M210 472L570 88" stroke="#7C3AED" stroke-width="3" stroke-dasharray="10 8"/>
+    <path d="M240 440H540" stroke="#2563EB" stroke-width="3" marker-end="url(#arrow)"/>
+    <path d="M540 440V120" stroke="#D97706" stroke-width="3" marker-end="url(#arrow)"/>
+    <path d="M526 440V426H540" stroke="#94A3B8" stroke-width="2" fill="none"/>
+    <circle cx="240" cy="440" r="6" fill="#2563EB"/><circle cx="540" cy="120" r="6" fill="#2563EB"/>
+    <circle cx="390" cy="280" r="5" fill="#7C3AED"/><circle cx="390" cy="320" r="5" fill="#059669"/>
+    <text x="150" y="418" fill="#1E3A8A">P = (1, 1)</text><text x="430" y="98" fill="#1E3A8A">Q = (3, 9)</text>
+    <text x="340" y="471" fill="#1E3A8A">Δx = 2</text>
+    <text x="582" y="300" text-anchor="middle" fill="#92400E" transform="rotate(-90 582 300)">Δy = 8</text>
+    <text x="180" y="271" fill="#5B21B6">secant: 5</text><text x="180" y="332" fill="#065F46">curve: 4</text>
+    <path d="M301 266L382 280M280 328L382 320" stroke="#64748B" stroke-width="1.5" fill="none"/>
+    <text x="320" y="554" text-anchor="middle" font-size="26" font-weight="700" fill="#5B21B6">Δy / Δx = 8 / 2 = 4</text>
+    <text x="320" y="586" text-anchor="middle">The curve and secant differ inside the interval.</text>
+  </g>
+</svg>

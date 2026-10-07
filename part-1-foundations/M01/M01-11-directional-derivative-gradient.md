@@ -94,6 +94,13 @@ x_2+tv_2
 
 방향미분에서 단위벡터를 사용하면 방향과 이동 속도를 분리할 수 있다. 길이가 $2$인 벡터를 쓰면 같은 방향이라도 $t$ 한 단위당 두 배 멀리 움직인다.
 
+같은 방향의 화살표도 길이가 다르면 같은 t에 대한 이동 거리가 다르다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Collinear vectors of lengths one and two with the unit vector ending on a unit circle](../../figures/assets/M01/M01-11-unit-and-speed.svg)
+  <figcaption>초록색 벡터 (0.6,0.8)의 길이는 1이고 파란색 벡터 (1.2,1.6)의 길이는 2다. 방향은 같지만 t를 1만큼 늘렸을 때 파란 경로가 두 배 멀리 이동한다. 회색 점선 원은 길이 1인 벡터의 끝점들을 나타낸다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. 방향미분은 경로를 만든 뒤 일변수로 미분한다
 
 스칼라 함수 $f:\mathbb R^n\to\mathbb R$에서 점 $\mathbf x$와 방향 $\mathbf v$를 고정한다. 일변수 함수
@@ -120,6 +127,15 @@ D_{\mathbf v}f(\mathbf x)
 \]
 
 이다. 결과는 선택한 점과 방향에서의 스칼라 변화율이다.
+
+$g(0)=f(\mathbf x)$이므로 $t=0$은 출발점이고, $t$를 바꾸면 경로 위의 입력점 전체가 움직인다. $t<0$은 $\mathbf v$의 반대쪽으로 접근하는 경우다. 극한의 분모는 입력 벡터가 아니라 경로 파라미터의 변화량 $t$다. 단위방향을 쓰면 $t$의 크기가 이동 거리와 같지만, 일반 방향벡터에서는 그 길이만큼 이동 속도도 달라진다.
+
+예제 1의 입력 경로를 그린 뒤 출력만 t의 함수로 다시 그리면, 방향미분이 어느 그래프의 기울기인지 구분할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![A straight path through the two-dimensional input point one minus one above its scalar output curve with tangent slope minus three point six](../../figures/assets/M01/M01-11-input-path-and-rate.svg)
+  <figcaption>위는 입력 평면에서 x와 y가 함께 바뀌는 경로다. 아래는 그 입력들을 f에 넣은 출력 g(t)다. 출발점 t=0에서 아래 곡선의 기울기 −3.6이 방향미분이며, 위 화살표의 좌표 성분 자체와는 다른 양이다.</figcaption>
+</figure>
 
 ## 핵심 개념 3. 그래디언트는 좌표별 편도함수의 열벡터다
 
@@ -151,6 +167,13 @@ f_y(x,y)
 
 이다. 그래디언트의 각 성분은 해당 좌표축 방향의 변화율이다.
 
+두 좌표 편미분을 벡터 성분으로 놓으면 방향과 길이를 가진 하나의 화살표가 된다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![A gradient vector with horizontal component three and vertical component four and Euclidean length five](../../figures/assets/M01/M01-11-gradient-components.svg)
+  <figcaption>예제 2의 그래디언트 (3,4)를 벡터 성분 좌표에 그렸다. 점선 가로·세로 길이는 각 편미분 3과 4이고, 보라색 화살표의 길이는 5다. 이 그림의 원점은 벡터의 꼬리를 놓은 기준이며 원래 함수의 평가점을 뜻하지 않는다.</figcaption>
+</figure>
+
 ## 핵심 개념 4. 방향미분은 그래디언트와 방향의 내적이다
 
 $f$가 점 $\mathbf x$에서 미분 가능하면
@@ -172,6 +195,14 @@ f_y(x,y)v_2
 \]
 
 로 펼쳐진다.
+
+여러 변수에서 미분 가능하다는 것은 모든 작은 입력 변화에 대해 하나의 일차식으로 출력 변화를 근사할 수 있다는 뜻이다. 그 근사의 오차는 입력 변화의 크기에 비해서도 작아져야 한다. 두 변수에서는 이 일차식이
+
+\[
+\Delta f\approx f_x(x,y)\Delta x+f_y(x,y)\Delta y
+\]
+
+다. 방향 $\mathbf v$의 경로에서는 $\Delta x=tv_1$, $\Delta y=tv_2$이므로 오른쪽은 $t[f_xv_1+f_yv_2]$가 된다. $t$로 나눈 뒤 $t\to0$의 극한을 취하면 방향미분 공식을 얻는다. 좌표별 편미분이 존재한다는 사실만으로 모든 작은 변화에 이 같은 근사가 성립하는 것은 아니므로, 위 공식의 미분 가능 조건을 유지해야 한다.
 
 각 편미분에 그 좌표가 방향 안에서 차지하는 비율을 곱해 더한다. 좌표축 단위벡터
 
@@ -207,6 +238,15 @@ f_y(x,y)v_2
 
 이다.
 
+같은 점에서의 $0$이 아닌 그래디언트를 그 노름으로 나누어 길이 $1$로 만든 벡터를 $\mathbf u$라고 하자. 두 단위벡터 $\mathbf u,\mathbf v$에 대해 각 좌표 차이의 제곱을 더하면
+
+\[
+0\le\|\mathbf u-\mathbf v\|_2^2
+=2-2\mathbf u^\top\mathbf v
+\]
+
+이므로 $\mathbf u^\top\mathbf v\le1$이다. 방향미분은 $\|\nabla f\|_2\mathbf u^\top\mathbf v$이므로 최대가 $\|\nabla f\|_2$를 넘을 수 없다. $\mathbf v=\mathbf u$로 고르면 내적이 $1$이 되어 그 최댓값을 얻는다. 단위길이를 고정하기 때문에 방향을 비교할 수 있으며, 벡터 길이까지 자유롭게 늘려 얻은 큰 변화율과는 구분한다.
+
 반대 방향
 
 \[
@@ -214,6 +254,13 @@ f_y(x,y)v_2
 \]
 
 은 최급하강 방향이다. 이 결론은 선택한 좌표와 유클리드 길이 아래에서의 국소 결과다.
+
+벡터 길이를 1로 고정하고 방향만 한 바퀴 돌리면, 내적이 어떻게 양수·0·음수로 바뀌는지 볼 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Directional derivative versus unit-vector angle for gradient three four with maximum five and minimum minus five](../../figures/assets/M01/M01-11-direction-angle.svg)
+  <figcaption>그래디언트가 (3,4)일 때 같은 방향의 단위벡터는 변화율 5, 반대 방향은 −5를 얻는다. 그 사이의 수직 방향에서는 0이다. 가로축은 이동 거리가 아니라 단위방향의 각도다.</figcaption>
+</figure>
 
 ## 핵심 개념 6. 그래디언트 하강은 반대 방향으로 이동한다
 
@@ -230,11 +277,29 @@ f_y(x,y)v_2
 
 이다. $\eta$는 학습률이다.
 
+현재 그래디언트를 $\mathbf g=\nabla\mathcal L(\boldsymbol\theta)$라고 쓰면 이동량은 $\Delta\boldsymbol\theta=-\eta\mathbf g$다. 앞의 일차 변화식을 적용하면
+
+\[
+\Delta\mathcal L
+\approx\mathbf g^\top\Delta\boldsymbol\theta
+=-\eta\mathbf g^\top\mathbf g
+=-\eta\|\mathbf g\|_2^2
+\]
+
+이다. $\eta>0$이고 $\mathbf g\ne\mathbf0$이면 이 일차 변화는 음수다. 각 좌표에서는 해당 편미분의 반대 부호로 움직이고, 전체 이동량의 길이는 $\eta\|\mathbf g\|_2$다. 최급하강 단위벡터 자체를 빼는 것이 아니라 그래디언트의 크기도 이동량에 반영한다.
+
 이 갱신은 현재 점에서 손실이 가장 빠르게 감소하는 유클리드 방향을 사용한다. 학습률이 크면 국소 정보가 유효한 범위를 벗어날 수 있고, 그래디언트가 0인 점이 최솟값이라는 보장도 없다.
+
+같은 하강 방향으로 움직여도 학습률이 달라지면 도착점의 손실은 다를 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![A quadratic single-parameter loss with small and large gradient steps producing lower and higher losses respectively](../../figures/assets/M01/M01-11-step-size-risk.svg)
+  <figcaption>설명용 손실 θ²에서 θ=1의 그래디언트는 2다. 학습률 0.2는 θ=0.6으로 이동해 손실을 0.36으로 줄이지만, 1.2는 θ=−1.4로 지나쳐 손실이 1.96이 된다. 두 이동은 모두 처음에는 음의 그래디언트 방향이다.</figcaption>
+</figure>
 
 ## 핵심 개념 7. 그래디언트 크기는 좌표 단위에 의존한다
 
-입력 좌표 $x_i$를 새 좌표 $z_i=cx_i$로 바꾸면 같은 물리적 변화를 다른 숫자로 표현한다. 연쇄법칙에 따라
+입력 좌표 $x_i$를 새 좌표 $z_i=cx_i$로 바꾸면 같은 물리적 변화를 다른 숫자로 표현한다. $c$는 $0$이 아닌 고정된 상수다. 같은 함수를 새 좌표로 쓰려면 원래 식의 $x_i$ 자리에 $z_i/c$를 넣는다. 이 안쪽 함수의 $z_i$에 대한 도함수가 $1/c$이므로 연쇄법칙에 따라
 
 \[
 \frac{\partial f}{\partial z_i}
@@ -354,6 +419,13 @@ f(x,y)=x^2-y^2
 
 이다. 원점에서는 그래디언트가 0이다. 그러나 $x$축에서는 $f(x,0)=x^2\ge0$이고 $y$축에서는 $f(0,y)=-y^2\le0$이다. 원점은 국소 최솟값도 최댓값도 아니다. 이런 점을 안장점(saddle point)이라고 한다.
 
+원점의 수평 접선들만 보지 않고 두 좌표 단면을 함께 보면, 안장점이 극값이 아닌 이유가 드러난다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![Upward and downward quadratic coordinate slices of a saddle function sharing zero tangent slopes at the origin](../../figures/assets/M01/M01-11-saddle-slices.svg)
+  <figcaption>x축 단면은 원점보다 큰 값으로 올라가고 y축 단면은 작은 값으로 내려간다. 두 단면의 원점 기울기는 모두 0이다. 따라서 그래디언트 0이라는 정보만으로 최솟값이나 최댓값을 정할 수 없다.</figcaption>
+</figure>
+
 ## 예제 4. 두 파라미터의 손실 갱신
 
 현재 파라미터와 손실 그래디언트가
@@ -380,6 +452,13 @@ f(x,y)=x^2-y^2
 \]
 
 이다. 이 계산은 갱신 방향을 정한다. 새 점의 손실이 줄었는지는 손실을 평가해 확인해야 한다.
+
+각 좌표의 갱신 부호와 최종 이동은 파라미터 평면에서 함께 확인할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+  ![A parameter-plane step from one minus two to zero point six minus one point nine with displacement minus zero point four plus zero point one](../../figures/assets/M01/M01-11-parameter-update.svg)
+  <figcaption>첫 좌표는 0.4 감소하고 둘째 좌표는 0.1 증가한다. 화살표는 두 좌표를 함께 갱신한 이동이다. 이 그림에는 손실 곡면을 그리지 않았으므로 이동 전후 손실값의 감소를 보여 주는 것은 아니다.</figcaption>
+</figure>
 
 ## 흔한 오해
 

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 570" role="img" aria-labelledby="title desc">
+  <title id="title">Zero average change can hide change inside the interval</title>
+  <desc id="desc">The parabola x squared has equal endpoint values one at x minus one and x one. Its horizontal secant has slope zero, while the midpoint value at x zero is zero.</desc>
+  <rect width="640" height="570" rx="18" fill="#F8FAFC"/>
+  <g transform="translate(0 20)" font-family="sans-serif" font-size="22" fill="#0F172A">
+    <text x="320" y="44" text-anchor="middle" font-size="26" font-weight="700">Same endpoints, changing interior</text>
+    <g stroke="#E2E8F0" stroke-width="1"><path d="M120 104V390M220 104V390M320 104V390M420 104V390M520 104V390"/><path d="M100 150H540M100 250H540M100 350H540"/></g>
+    <path d="M100 350H550M320 390V100" stroke="#94A3B8" stroke-width="2"/>
+    <text x="553" y="375">x</text><text x="339" y="101">f(x)</text>
+    <text x="120" y="389" text-anchor="middle">−1</text><text x="320" y="389" text-anchor="middle">0</text><text x="520" y="389" text-anchor="middle">1</text>
+    <text x="299" y="157" text-anchor="end">1</text>
+    <path d="M120 150Q320 550 520 150" fill="none" stroke="#059669" stroke-width="4"/>
+    <path d="M100 150H540" stroke="#7C3AED" stroke-width="3" stroke-dasharray="10 8"/>
+    <circle cx="120" cy="150" r="6" fill="#2563EB"/><circle cx="520" cy="150" r="6" fill="#2563EB"/>
+    <circle cx="320" cy="350" r="6" fill="#D97706"/>
+    <text x="120" y="126" text-anchor="middle" fill="#1E3A8A">(−1, 1)</text><text x="520" y="126" text-anchor="middle" fill="#1E3A8A">(1, 1)</text>
+    <text x="420" y="402" fill="#92400E">(0, 0)</text>
+    <path d="M328 356L400 388" stroke="#64748B" stroke-width="1.5" fill="none"/>
+    <text x="380" y="227" fill="#065F46">f(x) = x²</text>
+    <text x="320" y="435" text-anchor="middle" fill="#5B21B6">Secant: Δy / Δx = 0 / 2 = 0</text>
+    <text x="320" y="477" text-anchor="middle">f(0) = 0, but f(−1) = f(1) = 1</text>
+  </g>
+</svg>

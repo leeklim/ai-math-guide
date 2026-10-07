@@ -2,7 +2,7 @@
 
 ## 방문 통계 (GA4)
 
-GA4 측정 ID는 `G-VXDGRXQFT3`이며 `mkdocs.base.yml`에서 관리한다. 측정 ID는 공개 페이지의 태그에 포함되는 식별자이며 비밀번호나 API secret이 아니다. 현재는 연결 설정만 준비했으며 GitHub Pages 배포와 공개 사이트의 실제 데이터 수신은 아직 확인하지 않았다.
+GA4 측정 ID는 `G-VXDGRXQFT3`이며 `mkdocs.base.yml`에서 관리한다. 측정 ID는 공개 페이지의 태그에 포함되는 식별자이며 비밀번호나 API secret이 아니다. 2026-10-07 [한국어판 홈페이지](https://leeklim.github.io/ai-math-guide/) 공개 배포와 GA4 실시간 수신 확인을 완료했다. 아래 완료 기록에 배포 commit과 검수 범위를 남긴다.
 
 공개 주소 `https://leeklim.github.io/ai-math-guide/` 아래에서 방문자가 통계 항목을 체크하고 동의한 뒤에만 Google 태그를 불러온다. 로컬 preview, HTTP, 다른 호스트와 다른 저장소 경로에서는 통계를 보내지 않는다. 방문자는 하단의 `통계 쿠키 설정`에서 동의를 바꾸거나 거부할 수 있다. 거부 뒤에는 추가 수집을 시작하지 않으며 기존 Google 쿠키와 이미 수집한 데이터를 자동 삭제하지는 않는다.
 
@@ -20,7 +20,7 @@ GA4 측정 ID는 `G-VXDGRXQFT3`이며 `mkdocs.base.yml`에서 관리한다. 측�
 - 수정 뒤 production HTML과 실제 preview HTML 각각에 모의 런타임 검사 14개를 적용해 통과했다. 실제 로컬 페이지에서도 동의 뒤 GA 태그 0개, 거부 및 동의창 재열기 동작을 확인했다. preview의 주소 재작성에 대한 Python 회귀검사를 추가했다.
 - Python unittest 137개 중 136개 통과, 1개 skip. source audit와 English-reading lint, strict HTML build 및 생성물 검증 통과. 단원 199개, 해설 1,154개, 깨진 링크·자산 0건을 확인했다.
 - 동의창을 1440×900과 390×844에서 밝은·어두운 테마로 확인했다. 검수 화면은 `.build/ga4-consent-desktop.jpg`, `.build/ga4-consent-desktop-dark.jpg`, `.build/ga4-consent-mobile.jpg`, `.build/ga4-consent-mobile-dark.jpg`에 저장했다. 운영 안내는 공개 교재 본문에 추가하지 않았다.
-- GitHub 업로드, 저장소 공개 설정과 Pages 배포는 수행하지 않았다. 다음 작업은 공개 배포와 GA4 실시간 수신 확인이다.
+- 이 연결 검증 단계에서는 GitHub 업로드, 저장소 공개 설정과 Pages 배포를 수행하지 않았다. 이후 공개 배포와 실제 수신 결과는 아래 완료 기록에 남긴다.
 
 ## 한국어판 초판 공개 준비 (2026-10-07)
 
@@ -36,3 +36,15 @@ GA4 측정 ID는 `G-VXDGRXQFT3`이며 `mkdocs.base.yml`에서 관리한다. 측�
 - 개정 내용을 17개 작업 단위와 공통 배포 설정 commit으로 정리했다. 배포 준비 commit은 `8abcac7`이며 원격 `main`보다 25개 commit 앞선 상태이다. GitHub push는 자동 보안 검토가 사용자 본인의 별도 재승인을 요구하여 실행되지 않았다. 원격 업로드·Public 전환·Pages 활성화는 아직 수행하지 않았다.
 - GA4의 `AI Math Guide` 속성 보고서 접근을 확인했다. 첫 진입의 선택 이메일 알림 설정창은 사용자의 선택을 기다리며 저장하지 않았다. 실제 수신 검사는 공개 배포 뒤 수행한다.
 - 사용자가 `leeklim/ai-math-guide`의 `main` push, Public 전환과 GitHub Pages 공개 배포를 별도로 명시 재승인했다. 최종 생성 HTML의 운영 안내 제외를 확인했고, 최신 로컬 검수 서버는 `http://127.0.0.1:8002/ai-math-guide/`이다. 이전 8001 서버와 재시작 시도 프로세스는 이 작업의 실행 명령·부모 관계를 확인한 뒤 정리했다.
+
+## 공개 배포·실시간 수신 완료 (2026-10-07 13:36 KST)
+
+- 검증한 한국어판을 `leeklim/ai-math-guide`의 `main`에 정상 push했다. 교재 배포 commit은 `fcaef3a4350b1da3a32609bb68aad1affb3111dd`이다. 저장소를 Public으로 전환하고 Pages의 GitHub Actions 배포를 활성화했다. 강제 push나 Git 이력 재작성은 하지 않았다.
+- [Actions 실행 37571172622](https://github.com/leeklim/ai-math-guide/actions/runs/37571172622)의 clean Linux build와 Pages deploy가 모두 성공했다. 공개 홈페이지는 HTTP 200이며, 검증한 `.build/site`만 배포했다. 원본·대장·생성 코드의 Git 보관과 웹 자산을 구분했고 로컬 GPU 결과는 배포하지 않았다.
+- 공개 홈페이지·목차·M03-11·N05-15·I07-07·A09-GEO-02와 대표 SVG·CSS·MathJax 설정·검색 색인을 확인했다. 단원 직접 진입과 새로고침, 수식 렌더링, SVG 로드, `자코비안` 검색 결과에서 M03-11 이동과 해설 펼치기가 정상 동작했다. 대표 수식의 렌더 오류와 깨진 그림은 0건이며 내부 작업 기록·집필자 점검표도 노출되지 않았다.
+- 데스크톱 1440×900과 모바일 390×844에서 대표 화면을 밝은·어두운 테마로 확인했다. 모바일의 넓은 그림은 전용 영역의 가로 스크롤로 탐색할 수 있다. 검수 화면은 `.build/release-public-*`에만 저장하고 Git에는 올리지 않는다. 199개 단원·해설 1,154개·SVG 1,355개 보존과 최종 자동검사 근거는 위 공개 준비 기록을 따른다.
+- 공개 페이지의 동의 전·거부 상태에서 GA 태그 0개, 통계 항목을 체크하고 동의한 뒤 `G-VXDGRXQFT3` 태그 1개를 확인했다. 최신 로컬 preview는 동의 뒤에도 태그 0개였다. 화면 검수 동안은 통계를 거부하고, 실제 수신 확인을 위해 공개 홈에서 최소 테스트 방문만 수행했다.
+- GA4 `AI Math Guide` 속성의 `Reports → Realtime overview`에서 홈페이지 제목과 `page_view`·`first_visit`·`session_start` 각 1건을 확인했다. `Realtime pages`에서도 `/ai-math-guide/`의 활성 사용자 1명·조회 1회를 확인했다. 증거는 `.build/release-ga4-realtime.png`에 저장했다. 태그 존재만으로 수신 완료를 판단하지 않았다. 첫 연결 검수의 로컬 방문 수집 가능성 기록은 유지한다.
+- GA 보고서의 선택 이메일 설정은 변경하지 않았다. 이후 보고서에 접근할 수 있어 수신 검사를 완료했다. 이 문서는 웹 자산에서 제외되는 운영 기록이므로 기록 전용 commit에는 `[skip ci]`를 사용해 같은 교재를 다시 빌드·배포하지 않는다. 동작 근거는 [GitHub workflow 실행 생략 안내](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/skip-workflow-runs)를 따른다.
+
+남은 공개 배포 작업은 없다. 방문 현황은 GA4의 실시간 보고서와 사용자·세션·페이지별 조회 보고서에서 확인한다.

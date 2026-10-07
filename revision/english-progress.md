@@ -185,6 +185,17 @@
 ## 2026-10-07 — A09-CAU 진행 중
 
 - RMT 병합 snapshot 성공 후 마지막8개 영문 집필을 시작했다. 두 작성자가01~03/04~08을 나누고 별도 검토자는01~06, 작성하지 않은 메인은07~08의 원문·영문 전문을 대조한다. 모든 담당자는 한국어 원문·필요 인접 문맥·확정 용어를 끝까지 읽어 준비했다. natural-effect의 소거 identity와 개별 node additivity, paired execution과 population 식별, conditional transport와 support, 서로 다른 necessity/sufficiency estimand를 원문대로 구분한다. 새 개입이나 모델 실험은 실행하지 않는다.
+- RMT 완료본을 로컬 commit `c8b7492`로 저장했다. CAU01의 독립 전문 대조·국소 보존 검사/lint는 교정 없이 통과해 reviewed로 기록했다. 메인은07~08 원문을 다시 끝까지 읽었으며03의 positivity 문제도 전문 문맥 안에서 확인했다. 단위 HTML 완료 표시는 아직 하지 않는다.
+- CAU01~03을 별도 검토자가 끝까지 대조해 교정 없이 reviewed로 기록했다. 메인은 최종 한영 빌드·정적 preview·Pages 산출물 연결과 검색 검증을 최소 보정했다. 지정 단원 검색 hit·언어 경계·prefix routing·검토 gate 회귀를 기존 테스트에 추가했으며 관련50개 검사가 통과했다. 공통 코드 변경을 별도 작성자가 읽기 전용 검토한다. 최종 전체 source audit·dual strict build·원격 실행을 아직 수행한 것으로 기록하지 않는다.
+- CAU04~06을 별도 검토자가,07~08을 작성하지 않은 메인이 KO/EN 전문·캡션·문제/해설로 대조했다. 영어 교정0건이며 마지막8개 모두 reviewed다. 메인07~08의 실제 국소 수식36/9·그림10/9·reading4씩·구조/metadata/link/backtick/수치·각4쌍과 lint2표8셀 오류0건이다. 08의 독자용 상태 `미측정` 두 곳만 `unmeasured`로 옮겼다. 압축된 문제2/3은 앞 본문의 necessity/sufficiency 범위와 natural identity/node additivity 구분을 보존하며 임의로 해석을 추가하지 않았다.
+- 공통5파일 변경을 다른 작성자가 코드와 주변 경로·gate·결과 재사용 처리까지 읽기 전용 검토했다. 수정이 필요한 결함은 발견하지 못했다. 실제 전체 검토205건은 완료됐지만 최종8개 HTML 완료 표시와 전체 통합 검증은 아직 남아 있다.
+
+## 2026-10-07 — A09-CAU 완료
+
+- 최초 부분 병합은 새 검색 검증에서 `상호정보량→M04-14`가 없어 실패했다. 원문 M04-14는 `mutual information`만 쓰고 `상호정보량`은 용어집에 있으므로, 한국어 원문은 유지하며 기존 한글 검색어의 용어집 실제 hit와 영어 용어의 M04-14 실제 hit를 함께 검사하도록 최소 보정했다. 다른 작성자의 읽기 전용 확인과 관련50개 회귀 재검사를 통과했다. 새 staging·양언어 strict build·부분 병합이 실제 재통과했다.
+- CAU8개는32문제/해설·72figure 참조·33읽기 셀을 보존한다. KO199/1154와 EN199/1154·각읽기1122의 prepare·source audit·English-reading lint·strict build·validate/부분 병합을 통과했다. 실제8페이지 수식 wrapper/MathJax433개씩·그림72개·해설32개, 수식 오류·중복 assistive 렌더링·그림 로딩 실패0건을 확인했다. CPU runner·GPU·모델·그림 재생성은 실행하지 않았다.
+- 대표08을1440×900·390×844 및 두 테마에서 읽기 표·interaction 본문/수식·natural identity 그림/긴 캡션·열린 mediation 해설로 검수했다. 모바일 문서375/375px, 읽기 표375/719·결과 표375/399·넓은 그림320/1080의 내부 이동을 유지하며 그림 ArrowRight 이동40px를 확인했다. 양방향 같은 단원 언어 전환은 상단으로 이동하고 Causal abstraction 검색은 실제 EN06을 열었다. 새 preview wrapper를 `-SkipBuild -Port 8004`로 실행해 공개 prefix를 포함한 한영 경로를 실제 제공했다. 화면은 `.build/qa/english-cau-desktop.jpg`에 보관했다.
+- 양언어 GA4 mock19개씩이 통과했다. 실제 새 localhost origin의 동의 전·거부 후 Google script0건이며 거부 상태가 언어 전환 후에도 유지됐다. 새8개를 verified로 기록하여205개(199단원+6부속 문서) 전체의 누락·미검토·stale0이다. 최종 wrapper 전체 통합 검증은 이어서 수행하며 원격 작업은 없다.
 
 ## 작업 단위
 
@@ -217,9 +228,10 @@ M00, M01, M02, M03, M04, N05-01~14, N05-15~28, I06, I07, I08, A09-GEO, A09-DYN, 
 - I08-09 문제5는 두 checkpoint 사이 score 상승만 주고 해설은 관찰상 첫 crossing이라고 표현한다. 본문 §3는 threshold 도달과 이전 관찰값이 모두 기준 아래라는 조건을 명시한다. 메인이 문제/해설과 본문 조건을 확인했다. 압축된 문제 조건을 영문에서 임의로 보충하지 않으며 별도 확인 후보로 남긴다.
 - I08-07 문제1의 제목은 중점이지만 질문과 계산은 α=0.25 지점이다. 메인이 해당 제목·질문·해설을 확인했다. 영문도 제목 Midpoint와 원래 수치·풀이를 유지하며 제목 정정은 별도 확인 후보로 남긴다.
 - A09-SYM-05 scaling orbit 그림의 캡션은 ‘거리와 squared norm은 각각13과64.5625’라고 쓰지만 두 수치는 (2,3)과(8,0.75)의 squared norm이다. 메인과 독립 검토자가 원문 캡션·인접 정의·문제2를 확인했다. 문제4의 Hessian 설명은 본문에 명시된 smooth objective symmetry·stationary 조건을 짧게 압축한다. 영문에서 캡션 수치의 의미나 해설 조건을 몰래 정정하지 않으며 양언어 문구 정정은 별도 확인 후보로 남긴다.
+- A09-CAU-03 문제3은 모든 unit에서 X=1만 ‘관찰’됐다고 주고 해설은 P(X=0|Z=1)=0이라고 결론낸다. 유한 관측 표본을 뜻한다면 population positivity 부재를 바로 도출할 수 없지만, 본문·그림은 구조적으로 X=0을 허용하지 않는 stratum을 의도한다. 메인과 독립 검토자가 전문 문맥을 확인했다. 확정 오류가 아니라 표본·구조 범위가 압축된 모호성으로 남기며 양언어에서 임의 조건 추가나 정정은 하지 않았다.
 
 ## 사이트 구현의 알려진 제한
 
-- 공개용 PowerShell wrapper와 Pages workflow는 아직 기존 한국어 출력 경로를 유지한다. 전권 영문 완료 뒤 최종 공개 준비 단계에서 검증된 한영 병합 산출물과 완료 대장 gate를 연결해야 한다. 현재 수동 locale CLI와 로컬 병합 preview는 작동하며, 원격 실행·업로드는 하지 않았다.
-- 읽기 전용 공통 검증 검토에서 search term의 expected lesson ID가 hit 필터에 쓰이지 않고, 병합 search location에는 locale 경계 검사가 명시적으로 없다는 보완 후보를 발견했다. 최종 통합 단계에서 메인이 해당 코드를 직접 확인하고 기존 검사만 최소 보정한다. 정상 prepare의 en_pages coverage는 현재 모두 생성되며 현 hreflang 결함으로 단정하지 않는다. 아직 관련 공통 코드를 수정하거나 검사를 수행하지 않았다.
+- PowerShell wrapper와 Pages workflow는 검토205건 gate와 한영 병합 산출물 경로로 최소 보정했다. 로컬 기본 빌드는 source-bound CPU 결과를 재사용하고 명시적 `-RunExamples`에서만 네 runner를 재실행한다. clean CI는 결과를 한 번 생성해 양언어가 공유한다. 정적 preview CLI도 병합 경로만 제공하도록 연결했다. 관련50개 회귀는 통과했으나 전권 완료 뒤 실제 최종 wrapper·서버·dual build 검증과 원격 승인 후 실행은 아직 남아 있다.
+- 검색어의 expected lesson page 실제 hit와 병합 search location의 locale 경계를 확인하도록 보정하고, glossary-only hit·다른 언어·인코딩된 상위 경로·외부 주소를 거부하는 회귀를 추가했다. full EN validate에는 en_pages 누락 검사도 추가했다. 정상 산출물에서 발견된 hreflang 결함으로 기록하지 않는다. 관련 회귀는 통과했으며 새 코드의 최종 생성물 검증은 아직 남아 있다.
 - 설치된 Material 9.7.7은 페이지별 `rel=alternate` 주소 아래의 sitemap을 자동 요청한다. 깊은 단원 경로의 실패는 빈 sitemap으로 처리한다. 정적 언어 링크는 `target="_self"`로 이 테마의 URL 재작성에서 제외되며 필수 same-page hreflang은 유지한다. 개발자 도구에는 불필요한 sitemap 요청 오류가 나타날 수 있다. 실제 전환 기능은 별도 화면 검수로 확인한다.

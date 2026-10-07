@@ -41,17 +41,70 @@ grokking은 training 성능이 이미 포화된 뒤 test 성능이 늦게 상승
 threshold $\tau_{fit},\tau_{gen}$을 정하고
 
 $$
-t_{fit}=\min\{t:A_{train}(t)\ge\tau_{fit}\},\qquad
-t_{gen}=\min\{t:A_{test}(t)\ge\tau_{gen}\}
+t_{fit}=\min\{t\in C:A_{train}(t)\ge\tau_{fit}\},\qquad
+t_{gen}=\min\{t\in C:A_{test}(t)\ge\tau_{gen}\}
 $$
 
 로 정의한다. $t_{gen}\gg t_{fit}$이면 training fit 뒤 generalization이 지연됐다고 기술할 수 있다. threshold는 사전에 정하거나 sensitivity analysis를 한다.
+
+$C$는 평가한 checkpoint 집합이고 두 시점은 각각의 accuracy가 기준에 처음 도달한 관찰 step이다. 어느 곡선이 기준에 도달하지 않으면 해당 시점과 둘의 차이는 정의할 수 없다. 두 시점의 차이를 delay로 보고하되, 그 사이에도 training 성능이 높은 상태를 유지하는지 함께 확인한다. 한 번 기준을 넘었다가 다시 떨어진 곡선의 두 첫 도달값만으로 training fit 이후의 지연된 일반화를 판정하지 않는다.
+
+CPU 실습에서는 training accuracy가 step 200에서 0.99에 도달하고 이후 높은 값을 유지한다. Test accuracy는 step 1,600에서 0.9에 처음 도달하므로 관찰 delay는 $1600-200=1400$ step이다. 이 차이는 정한 기준과 관찰 grid에 대한 값이며, 미관찰 시점의 정확한 도달 시간을 나타내지 않는다.
+
+train과 test의 관찰 시점 사이에서 무엇이 유지되는지 본다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The existing synthetic train trace reaches the fit criterion at step two hundred and remains high, while test first reaches its criterion at sixteen hundred, a delay of fourteen hundred.](../../figures/assets/I08/I08-10-observed-generalization-delay.svg)
+
+<figcaption>기존 synthetic CPU 값에서 train은 step 200에 0.99에 도달한 뒤 높은 상태를 유지한다. test는 0.9 기준을 step 1600에서 처음 넘으므로 관찰 delay는 1400 step이다. 이 그림은 정한 grid·기준의 결과이며 미관측 최초 도달의 정확한 시간이 아니다.</figcaption>
+</figure>
+
+첫 crossing만으로 부족한 경우를 따로 비교한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![A hypothetical training curve first reaches point nine nine, then dips before a late test improvement; first crossing times alone do not establish maintained training fit.](../../figures/assets/I08/I08-10-transient-fit-counterexample.svg)
+
+<figcaption>train이 먼저 0.99를 넘었어도 중간에 0.5로 내려가는 수학적 반례다. CPU trace의 새 결과가 아니라 첫 crossing 두 개만으로 높은 train 성능이 계속 유지됐다고 판단할 수 없음을 보이는 예시다.</figcaption>
+</figure>
 
 ## 2. 급격함을 측정한다
 
 test accuracy가 0.2에서 0.8로 오르는 step 폭, local slope와 sigmoid fit 등을 사용할 수 있다. checkpoint 간격이 transition 폭보다 넓으면 실제 급격함을 식별할 수 없다.
 
+낮은 기준과 높은 기준을 넘은 두 관찰 시점의 차이가 threshold 기반 폭이다. 그 사이 평균 기울기는 accuracy 차이를 step 차이로 나눈 값이다. 큰 변화량과 짧은 전환 폭은 별도 정보이므로 함께 보고한다. 또한 고정된 $N$개 test 문항의 accuracy는 정답 하나가 바뀔 때 $1/N$만큼 이동한다. 출력 margin의 작은 변화가 여러 문항의 정오를 동시에 바꾸면 accuracy가 급격히 움직일 수 있다. Loss나 margin의 변화와 함께 보아야 metric의 판정 경계를 내부 구조의 불연속으로 오해하지 않는다.
+
 linear 축과 log step 축은 같은 데이터를 다르게 보이게 한다. raw step 표와 평가 빈도를 함께 제공한다.
+
+지표를 미분 가능한 연속 곡선 $A(t)$로 근사하고 양의 $t$에서 가로 좌표를 $\log t$로 바꾸면, chain rule에 따라 $dA/d(\log t)=t\,dA/dt$이다. 같은 step당 변화율도 후반부의 log 축에서는 더 가파르게 보일 수 있다. 이는 곡선 근사의 좌표 변환이며, 이산 accuracy 관찰값 자체의 미분을 뜻하지 않는다. Step 0의 로그는 정의되지 않으므로 생략하거나 다른 변환을 사용했다면 그 규칙도 기록한다.
+
+큰 변화량과 짧은 전환 폭을 같은 말로 쓰지 않는다.
+
+<figure class="lesson-figure" markdown="1">
+
+![The exercise observations cross low and high test-accuracy thresholds at one thousand and fourteen hundred steps, giving a four-hundred-step width.](../../figures/assets/I08/I08-10-transition-width.svg)
+
+<figcaption>기존 문제의 0.2와 0.8 관찰 시점 차이는 400 step이고, 평균 변화율은 0.6/400=0.0015다. dotted 선은 두 점을 설명용으로 이은 것이며 실제 중간 궤적이나 정확한 연속 crossing을 측정했다는 뜻은 아니다.</figcaption>
+</figure>
+
+축만 바꿨을 때 같은 데이터가 어떻게 보이는지 비교한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The same positive-step synthetic train and test observations appear on linear and logarithmic horizontal axes; step zero is omitted from both.](../../figures/assets/I08/I08-10-raw-and-log-step.svg)
+
+<figcaption>같은 양의 step 관찰값만 사용해 선형 축과 log 축을 비교한다. log 축은 가로 거리와 시각적 기울기를 바꾸지만 값이나 raw step을 바꾸지 않는다. log 0은 정의되지 않아 양쪽에서 step 0을 생략했으며 이산 accuracy 자체를 미분한 그림이 아니다.</figcaption>
+</figure>
+
+연속 margin과 이산 정확도의 관계를 확인한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Five continuously shifting correct-class margins produce discrete one-fifth jumps in accuracy when they cross zero.](../../figures/assets/I08/I08-10-margin-and-quantized-accuracy.svg)
+
+<figcaption>정답 margin이 양수일 때 정답으로 세는 수학적 N=5 예시다. 각 margin은 연속적으로 변해도 정오 판정이 바뀔 때 accuracy는 1/5씩 움직인다. metric의 급상승만으로 내부 구조의 불연속이나 이론적 phase transition을 증명하지 않는다.</figcaption>
+</figure>
 
 ## 3. Phase transition이라는 말의 범위
 
@@ -61,7 +114,7 @@ linear 축과 log step 축은 같은 데이터를 다르게 보이게 한다. ra
 
 <!-- I08_EXAMPLE: i08_10_grokking_transition -->
 
-synthetic trace에서 training accuracy는 step 200에 0.99를 넘지만 test accuracy는 step 1600에 0.9를 넘는다. 1400-step 지연은 정의한 threshold와 grid에 대한 결과이다.
+Synthetic trace에서 training accuracy는 step 200에 0.99에 도달하고 test accuracy는 step 1600에 0.9를 넘는다. 1400-step 지연은 정의한 threshold와 grid에 대한 결과이다.
 
 ## 흔한 오해
 

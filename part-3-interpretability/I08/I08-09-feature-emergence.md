@@ -49,7 +49,7 @@ feature가 “나타났다”는 말에는 여러 사건이 섞인다. activatio
 
 한 열의 상승을 다른 열의 상승으로 대체하지 않는다.
 
-<figure class="lesson-figure" markdown="1">
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
 
 ![Formation recoverability use and behavior curves crossing a measurement threshold at different training steps](../../figures/assets/I08/I08-09-evidence-timeline.svg)
 
@@ -60,6 +60,15 @@ feature가 “나타났다”는 말에는 여러 사건이 섞인다. activatio
 
 각 열에는 별도의 측정 오차와 대조군이 있다. formation에는 null geometry, recoverability에는 label permutation과 held-out 평가, use에는 random 또는 norm-matched intervention, behavior에는 task baseline이 필요하다. 네 score를 한 축에 정규화해 그린 그림은 시점을 비교하기 위한 요약이지 서로 다른 단위의 절댓값을 직접 비교한다는 뜻이 아니다.
 
+서로 다른 지표의 관찰 crossing을 각자의 축에서 비교한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The CPU synthetic recoverability, ablation-effect, and behavior trajectories have separate scales and thresholds, with first observed crossings three, four, and four.](../../figures/assets/I08/I08-09-separate-observed-events.svg)
+
+<figcaption>기존 CPU synthetic 값은 R의 threshold 0.8을 index 3에서, ablation effect의 threshold 0.1과 behavior의 threshold 0.8을 index 4에서 처음 넘는다. 지표마다 별도 축과 기준을 사용한다. 점 사이의 dotted 선은 눈을 돕는 연결이며 측정하지 않은 checkpoint의 실제 값이 아니다.</figcaption>
+</figure>
+
 ## 2. 같은 feature를 추적하는 문제
 
 좌표별 neuron ID는 checkpoint 사이 의미를 보장하지 않는다. activation profile, direction cosine, decoder vector와 maximal examples를 이용해 matching하고, one-to-one assignment 여부와 matching score를 기록한다. 낮은 score에서는 “같은 feature” 대신 “가장 가까운 후보”라고 쓴다.
@@ -68,19 +77,66 @@ matching은 먼저 어느 공간을 비교할지 고정해야 한다. 두 checkp
 
 따라서 feature trajectory에는 score만 아니라 identity uncertainty도 함께 기록한다. 낮은 matching score 구간에서 보이는 급격한 score 변화는 실제 feature 변화가 아니라 다른 후보로 연결한 결과일 수 있다.
 
+feature의 대응을 neuron 번호와 분리해서 따라간다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Candidate feature A and B move between neuron one and two; solid high-score matches are distinguished from dashed uncertain later matches.](../../figures/assets/I08/I08-09-candidate-feature-tracks.svg)
+
+<figcaption>neuron 번호가 그대로여도 후보 feature의 대응은 바뀔 수 있다는 schematic이다. 실선은 높은 score로 선택한 대응, 점선과 물음표는 identity가 불확실한 대응을 나타낸다. 실제 측정값이나 확정된 feature trajectory가 아니며 같은 공간으로 정렬한 뒤 matching 근거를 기록해야 한다.</figcaption>
+</figure>
+
+하나씩 짝짓기 어려운 대응 구조를 확인한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Schematic split and merge candidate relationships have one-to-many and many-to-one correspondences instead of a one-to-one assignment.](../../figures/assets/I08/I08-09-split-merge-correspondence.svg)
+
+<figcaption>다음 checkpoint의 두 후보로 대응되거나 여러 후보가 하나로 대응되는 경우를 나눠 그렸다. 점선은 확인할 후보 관계이며 실제 feature의 분할·합병을 입증하지 않는다. 이런 경우에는 one-to-one matching 가정부터 점검해야 한다.</figcaption>
+</figure>
+
 ## 3. Emergence time은 규칙에 의존한다
 
 예를 들어
 
 $$
-t_R=\min\{t:R_t\ge\tau_R\}
+t_R=\min\{t\in C:R_t\ge\tau_R\}
 $$
 
-로 recoverability emergence를 정의할 수 있다. threshold, smoothing과 checkpoint grid를 바꾸면 $t_R$도 바뀐다. bootstrap interval이나 여러 seed의 crossing 분포를 함께 본다.
+로 recoverability emergence를 정의할 수 있다. $C$는 관찰한 checkpoint 집합이므로 이는 관찰값 중 처음 기준을 넘은 시점이다. 한 번도 넘지 않았다면 이 집합은 비어 있어 $t_R$을 정의할 수 없다. 마지막 checkpoint를 emergence time으로 대신 넣지 않고 관찰 구간에서 기준에 도달하지 않았다고 기록한다. Threshold, smoothing과 checkpoint grid를 바꾸면 $t_R$도 바뀐다. bootstrap interval이나 여러 seed의 crossing 분포를 함께 본다.
 
-관측 checkpoint가 $t_1<t_2$이고 $R_{t_1}<\tau_R\le R_{t_2}$라면 직접 관찰한 것은 첫 crossing이 $t_2$라는 사실이다. 실제 변화 시점은 $(t_1,t_2]$ 어딘가에 있다. `step $t_2$에서 갑자기 생겼다`고 쓰려면 그 사이를 더 촘촘히 관측해 변화 폭과 지속성을 확인해야 한다.
+연속한 관측 checkpoint가 $t_1<t_2$이고 $R_{t_1}<\tau_R\le R_{t_2}$라면 이 구간에서 기준 아래의 관찰값이 기준 이상의 값으로 바뀌었다. $t_2$가 관찰상 첫 crossing이려면 이전에 관찰한 값들도 기준 아래여야 한다. 그래도 전체 학습 중 최초 도달이 반드시 $(t_1,t_2]$에 있다는 보장은 없다. 측정하지 않은 앞 구간에서 잠깐 넘었다가 내려왔을 수 있기 때문이다. 지표가 단조롭게 증가한다는 추가 조건에서는 이 구간으로 최초 도달을 좁힐 수 있다. `step $t_2$에서 갑자기 생겼다`고 쓰려면 더 촘촘한 관찰로 변화 폭과 지속성을 확인해야 한다.
+
+Bootstrap으로 crossing의 불확실성을 구할 때는 같은 prompt의 여러 checkpoint 측정을 함께 재표집한다. 그래야 시간에 따른 대응을 보존한 새 궤적에서 crossing을 계산할 수 있다. 반복 중 기준을 넘지 않은 궤적도 남겨야 하며, 넘은 반복만 골라 평균 시점을 내면 빠른 도달 사례에 치우칠 수 있다.
 
 threshold를 분석 결과를 본 뒤 유리하게 고르면 emergence time이 선택 편향을 갖는다. threshold와 smoothing 규칙은 분석 전에 정하거나, 여러 합리적인 설정에서 결론이 얼마나 달라지는지 sensitivity analysis로 보고한다.
+
+관찰상 첫 crossing과 전체 학습 중 최초 도달을 구분한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![The same three observed points admit an earlier unmeasured threshold excursion or a monotone delayed crossing.](../../figures/assets/I08/I08-09-observed-versus-first-ever.svg)
+
+<figcaption>같은 t=0,2,4의 관찰값을 공유하는 두 수학적 경로다. 점선처럼 이전 미측정 구간에서 잠깐 threshold를 넘었을 가능성을 관찰점만으로 배제할 수 없다. 단조 증가라는 추가 조건이 있어야 t=2와 4 사이로 최초 도달을 좁힐 수 있다.</figcaption>
+</figure>
+
+같은 값에서도 threshold 규칙을 바꾸면 시점이 달라진다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The same six recoverability values first cross thresholds point seven and point eight at index three, point nine at four, and never reach point nine five.](../../figures/assets/I08/I08-09-threshold-rule-sensitivity.svg)
+
+<figcaption>기존 CPU R 배열에 threshold만 바꾼 비교다. 0.7과 0.8은 index 3, 0.9는 index 4이며 0.95에는 도달하지 않는다. 마지막 index를 미도달 사례의 crossing으로 대체하지 않고 설정별 sensitivity를 보고한다.</figcaption>
+</figure>
+
+bootstrap에서 함께 다시 뽑아야 하는 단위를 확인한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A bootstrap draw samples prompt A twice and prompt C once, preserving every selected prompt's full checkpoint sequence.](../../figures/assets/I08/I08-09-paired-trajectory-bootstrap.svg)
+
+<figcaption>한 bootstrap draw가 prompt A,A,C를 골랐다는 schematic이다. 각 prompt의 checkpoint 측정을 함께 가져와 새 trajectory를 만든다. 시간마다 서로 다른 prompt를 따로 뽑는 방법과 다르며, 새 trajectory의 미도달 사례도 버리지 않는다.</figcaption>
+</figure>
 
 ## 4. CPU 실습
 

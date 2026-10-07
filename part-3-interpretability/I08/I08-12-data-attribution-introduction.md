@@ -40,6 +40,15 @@ feature attribution은 현재 입력의 어느 부분이 출력과 관련되는�
 
 입력 token attribution은 inference graph의 현재 입력 요소를 대상으로 한다. 데이터 귀인은 training set의 example을 대상으로 하며, 학습 알고리즘을 설명의 일부로 포함한다. 같은 문장이 현재 prompt에 있다는 사실과 과거 training influence가 컸다는 사실은 다르다.
 
+training과 inference의 입력이 연결되는 위치를 구분한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Past training examples affect learned parameters through optimizer history, whereas current prompt elements enter inference in a fixed model.](../../figures/assets/I08/I08-12-training-and-inference-targets.svg)
+
+<figcaption>윗줄은 training example이 optimizer를 거쳐 parameter를 만드는 경로, 아랫줄은 현재 prompt가 고정 model로 들어가는 inference 경로다. 입력 token 귀인과 과거 data 귀인은 서로 다른 입력을 묻는다. 후보의 gradient score가 크다는 것만으로 실제 과거 학습에 사용됐다고 입증하지 않는다.</figcaption>
+</figure>
+
 ## 2. TracIn checkpoint 근사
 
 선택한 checkpoint 집합 $C$에서 단순한 score는
@@ -51,13 +60,71 @@ I_{\mathrm{TracIn}}(z,z')
 \nabla_\theta\ell(z',\theta_t)
 $$
 
-이다. training example gradient로 update하면 test loss gradient 방향과의 dot product에 따라 test loss가 1차 근사에서 줄거나 늘 수 있다. 부호 convention은 논문·코드마다 확인한다.
+이다. 두 gradient는 같은 checkpoint의 parameter를 같은 순서로 놓고 계산한다. 서로 다른 시점이나 대응하지 않는 parameter 좌표에서 구한 벡터를 내적하면 이 식의 update 해석이 성립하지 않는다.
+
+부호는 loss의 1차 근사에서 나온다. 하나의 training example로 보통 SGD update를 한다면 parameter 변화는 $-\eta_t g_t(z)$다. 이 작은 변화가 test loss에 미치는 영향은
+
+$$
+\ell(z',\theta_t-\eta_t g_t(z))-\ell(z',\theta_t)
+\approx-\eta_t g_t(z')^\top g_t(z)
+$$
+
+이다. 따라서 내적이 양수이면 training example의 update가 test loss를 줄이는 방향이고, 음수이면 늘리는 방향이다. 위 TracIn score는 loss **감소량** 쪽에 양의 부호를 붙인다. I08-08에서 양의 influence를 upweight에 따른 test loss **증가**로 정의한 것과 부호의 대상이 다르다. 값의 부호만 비교하지 말고 어느 변화량을 양수로 정의했는지 확인한다.
+
+이 유도는 보통 SGD의 작은 update에 대한 근사다. Momentum이나 Adam의 실제 update에는 누적 상태와 좌표별 크기 조정이 들어가므로, raw gradient 내적만으로 그 update의 정확한 기여를 계산했다고 볼 수 없다.
+
+gradient와 실제 SGD 이동의 부호를 함께 본다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Positive, negative, and zero train-test gradient inner products produce first-order decreases, increases, and zero changes in test loss under a negative-gradient SGD update.](../../figures/assets/I08/I08-12-sgd-dot-product-sign.svg)
+
+<figcaption>test gradient (1,0)를 고정한 수학적 예시다. update는 training gradient의 반대 방향이므로 양의 내적은 test loss 감소에 대응한다. TracIn의 양수는 이 감소량 쪽이며 upweighting의 loss 증가량에 양수를 붙인 influence convention과 구분한다.</figcaption>
+</figure>
+
+같은 checkpoint에서 짝지은 두 gradient의 방향을 확인한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Three pairs of the existing CPU training and test gradients have inner products point eight, point five, and point eight eight, each computed at one matched checkpoint.](../../figures/assets/I08/I08-12-checkpoint-gradient-pairs.svg)
+
+<figcaption>기존 CPU 실습의 gradient 두 개를 같은 checkpoint의 같은 좌표축에 그렸다. 내적은 차례로 0.8, 0.5, 0.88이다. 서로 다른 checkpoint나 대응하지 않는 parameter 좌표를 섞은 내적은 이 update 해석과 다르다.</figcaption>
+</figure>
+
+내적과 learning rate가 합에 들어가는 크기를 비교한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![The three existing learning-rate-weighted checkpoint contributions are point zero eight, point zero two five, and point zero one seven six, summing to point one two two six.](../../figures/assets/I08/I08-12-weighted-checkpoint-sum.svg)
+
+<figcaption>각 내적에 해당 learning rate 0.1,0.05,0.02를 곱한 기여는 0.08,0.025,0.0176이고 합은 0.1226이다. 모두 양수인 작은 checkpoint 근사이며 실제 제거 재학습 결과나 전체 loss 감소량의 정확한 합이라고 부르지 않는다.</figcaption>
+</figure>
 
 ## 3. Checkpoint와 layer 선택
 
 모든 step을 저장하지 않으므로 TracInCP는 일부 checkpoint만 합한다. 선택한 step, learning rate와 parameter subset이 score를 바꾼다. 마지막 layer만 쓰는 근사는 계산을 줄이지만 전체 network influence와 같지 않다.
 
-중복 example은 influence를 나눠 가질 수 있고, 큰 gradient norm이 semantic relevance보다 순위를 지배할 수 있다. cosine-normalized score와 raw dot product는 별도 estimand이다.
+checkpoint 근사는 각 example이 실제로 사용된 모든 update 시점의 loss 감소량을 그대로 더한 것이 아니다. 저장된 parameter에서 gradient를 다시 계산해 학습 중 관계를 근사하므로, 점수의 합이 실제 전체 loss 감소량과 일치한다는 보장은 없다. 같은 계산은 training set에 없던 후보에도 할 수 있다. 그런 후보의 점수가 크더라도 과거 학습에서 실제로 사용됐다는 증거는 아니다.
+
+중복 example은 influence를 나눠 가질 수 있고, 큰 gradient norm이 semantic relevance보다 순위를 지배할 수 있다. 두 gradient가 모두 0이 아닐 때 내적은 두 norm의 곱에 두 벡터 사이 각도의 cosine을 곱한 값이다. 따라서 방향이 비슷해도 gradient가 작은 example은 raw score가 작을 수 있다. cosine으로 정규화하면 이 크기 정보를 제거하므로, cosine-normalized score와 raw dot product는 별도 estimand이다.
+
+gradient의 어느 좌표를 남겼는지 확인한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Training and test gradient coordinate blocks match by layer, but selecting only the last-layer block excludes early-layer terms from their full dot product.](../../figures/assets/I08/I08-12-parameter-subset-blocks.svg)
+
+<figcaption>두 gradient의 같은 parameter block끼리 대응시켜야 한다. 주황색 p_L block만 내적하면 앞선 p₁,p₂ block의 기여가 빠진다. 마지막 layer subset에 대한 score를 계산한 것으로 보고하며 full-network influence로 확대하지 않는다.</figcaption>
+</figure>
+
+크기가 큰 후보와 방향이 더 맞는 후보의 순위가 달라질 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A large diagonal gradient candidate has a higher raw dot score, while a smaller perfectly aligned candidate has a higher cosine score.](../../figures/assets/I08/I08-12-norm-versus-cosine-ranking.svg)
+
+<figcaption>g_test=(1,0), 후보 A=(10,10), B=(1,0)인 수학적 예시다. raw 내적은 A가 10, B가 1이지만 cosine은 A가 1/√2, B가 1이라 순위가 뒤집힌다. norm을 제거한 score와 raw dot product는 같은 estimand가 아니다.</figcaption>
+</figure>
 
 ## 4. CPU 실습
 

@@ -44,7 +44,7 @@ $$
 d_\theta(s,t)=\|\theta_t-\theta_s\|_2
 $$
 
-이다. 함수 거리는 예를 들어
+이다. 이 식에서는 같은 구조의 모델 weight를 같은 순서로 펼쳐 하나의 vector로 쌓는다. 대응 좌표가 같아야 뺄셈이 정의된다. 각 좌표 차이를 제곱해 더하고 제곱근을 취하므로, 차이가 여러 파라미터에 걸쳐 누적되는 정도를 측정한다. 함수 거리는 예를 들어
 
 $$
 d_f^2(s,t;P_X)=\mathbb E_{x\sim P_X}
@@ -52,6 +52,39 @@ d_f^2(s,t;P_X)=\mathbb E_{x\sim P_X}
 $$
 
 로 정의한다. 두 번째 값에는 입력분포가 들어간다. 관측하지 않는 입력 영역의 차이는 표본 기반 추정에 나타나지 않는다.
+
+각 입력에서 출력 vector의 제곱 오차를 구한 뒤 분포에 대해 평균내고, 그 제곱근을 $d_f$로 사용한다. $n$개 입력의 표본 평균으로 추정한다면 제곱 오차 합을 $n$으로 나눈다. 출력 차이를 모두 제곱한 뒤 평균내므로 입력별 양·음 차이가 소거되지는 않는다. 이 거리가 0이면 선택한 분포에서 두 출력이 거의 확실하게 같지만, 그 분포 밖까지 같은 함수라는 결론은 나오지 않는다.
+
+
+
+실습의 파라미터를 같은 순서로 펼쳐 좌표 차이를 계산한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![The fixed toy networks flatten corresponding weights to vectors with squared distance fifty](../../figures/assets/I08/I08-02-weight-coordinate-distance.svg)
+
+<figcaption>같은 위치의 파라미터끼리 뺀다. 실습의 두 weight 벡터는 좌표별로 달라 L2 거리가 √50이지만, 이것만으로 출력 차이를 알 수는 없다.</figcaption>
+</figure>
+
+
+아래에서 같은 두 network의 출력을 입력별로 비교한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![The original and jointly permuted two-unit ReLU networks give identical output curves on the fixed input grid](../../figures/assets/I08/I08-02-same-output-grid.svg)
+
+<figcaption>겹친 실선·점선은 실습의 원래 network와 순열한 network의 출력이다. 주황색 다섯 입력에서 출력 차이가 0이므로 표본 함수 RMSE도 0이다.</figcaption>
+</figure>
+
+
+함수 거리에 입력분포가 들어가는 효과를 음영 구간으로 확인한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Two analytic functions coincide inside shaded input-distribution support but differ outside it](../../figures/assets/I08/I08-02-distribution-support.svg)
+
+<figcaption>음영 구간에만 입력분포가 있다면 두 함수의 출력 차이는 그 분포에서 0이다. 구간 밖의 차이는 이 거리 계산에 들어가지 않는다. 모델 결과가 아닌 해석용 함수 예시다.</figcaption>
+</figure>
 
 ## 2. 순열 대칭
 
@@ -67,11 +100,37 @@ $$
 W_2P^{-1}\sigma(PW_1x)=W_2\sigma(W_1x)
 $$
 
-이다. unit 순서를 바꾸면 weight 배열은 달라지지만 함수는 같다. checkpoint 사이 raw weight 거리는 이 대칭을 제거하지 않는다.
+이다. 이 등식은 $\sigma$가 각 좌표에 같은 활성함수를 적용한다는 조건에서 성립한다. 순서를 바꾼 뒤 좌표별 활성함수를 적용해도, 먼저 활성함수를 적용한 결과의 순서를 바꾼 것과 같아 $\sigma(PW_1x)=P\sigma(W_1x)$이다. 뒤의 $W_2P^{-1}$가 이 순서를 되돌리므로 $P^{-1}P$가 소거된다.
+
+$W_1$의 행은 hidden unit별 입력 weight이고 $W_2$의 열은 그 unit이 출력에 보내는 weight다. 두 배열의 대응 부분을 함께 바꿔야 같은 함수가 된다. $W_1$만 바꾸면 새 hidden 순서와 원래 readout이 맞지 않을 수 있다. Checkpoint 사이 raw weight 거리는 함께 바꾼 두 배열도 다른 좌표값으로 비교하므로 이 대칭을 제거하지 않는다.
+
+
+
+두 배열의 대응 부분을 함께 옮기는 순열을 다음 계산 경로에서 따라간다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two ReLU hidden units swap input weights one and minus two together with output weights three and minus one](../../figures/assets/I08/I08-02-paired-hidden-permutation.svg)
+
+<figcaption>왼쪽의 두 hidden unit을 바꿀 때 입력 weight와 대응 출력 weight를 함께 옮긴다. 좌표별로 같은 ReLU를 적용하면 순서 변경을 readout에서 되돌려 출력을 보존한다.</figcaption>
+</figure>
 
 ## 3. 함수 거리도 질문에 맞춰야 한다
 
 logit RMSE, KL divergence, accuracy disagreement와 생성 문자열 일치율은 서로 다른 행동을 잰다. probability의 KL은 방향과 support에 민감하며, accuracy는 logit 변화 대부분을 숨길 수 있다. 연구 질문에 앞서 metric을 고정한다.
+
+모든 vocabulary logit에 같은 상수를 더하면 logit 거리는 커질 수 있지만 softmax 확률은 그대로다. 반대로 logit 간격을 키우면 top-1 token은 같아도 확률의 집중도가 달라질 수 있다. 따라서 같은 두 checkpoint가 logit metric, 확률 metric, top-1 일치 기준에서 서로 다른 거리를 갖는 것은 모순이 아니다. 출력에서 무엇을 보존된 것으로 볼지에 따라 비교 대상이 달라진다.
+
+
+
+아래 수학적 예시에서는 공통 offset과 logit 간격을 따로 바꾼다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Softmax token probabilities preserve a common logit offset but change when the logit gap increases despite the same top one token](../../figures/assets/I08/I08-02-output-metric-invariances.svg)
+
+<figcaption>공통 offset을 더한 경우에는 확률이 같고, logit 간격을 키운 경우에는 top-1이 같아도 확률이 달라진다. 수학적 예시에서 세 metric이 비교하는 차이를 구분한다.</figcaption>
+</figure>
 
 ## 4. CPU 실습
 

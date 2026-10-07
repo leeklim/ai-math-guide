@@ -54,15 +54,77 @@ $$
 
 로 정의할 수 있다. 평가 데이터와 $\alpha$ grid를 고정해야 값이 재현된다.
 
+이 식은 경로의 가장 높은 loss가 두 endpoint 중 더 높은 loss를 얼마나 넘는지 측정한다. 경로에 양 끝이 포함되므로 연속 경로의 최대값은 endpoint 최대값보다 작을 수 없어 barrier가 음수가 되지 않는다. Barrier가 0이어도 경로의 loss가 일정하다는 뜻은 아니다. 더 낮은 loss를 지나거나 낮은 endpoint에서 높은 endpoint까지 올라갈 수 있다.
+
+실제 grid에서 구한 최대값은 그 grid의 관찰값 중 최대값이다. 연속 경로 중간의 peak를 놓치면 barrier를 과소평가한다. 같은 경로와 데이터에서 기존 점들을 유지하며 grid를 더 촘촘히 하면 관찰한 최대값은 줄지 않는다. Grid 사이의 값을 측정하지 않고 연속 경로 전체의 최대값을 정확히 구했다고 보고하지 않는다.
+
+barrier가 어느 높이 차이인지 확인한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![A loss profile with endpoint maximum point one and peak point seven; their vertical difference is the barrier point six.](../../figures/assets/I08/I08-07-barrier-reference.svg)
+
+<figcaption>기존 문제의 endpoint loss 0.1과 peak 0.7을 갖는 수학적 profile을 그렸다. barrier는 loss의 절댓값 0.7이 아니라 두 endpoint 중 높은 값 위로 솟은 높이 0.6이다.</figcaption>
+</figure>
+
+barrier 0인 경로도 중간 loss가 달라질 수 있다.
+
+<figure class="lesson-figure" markdown="1">
+
+![A curved loss profile dips below equal endpoint losses and has zero barrier despite nonconstant loss.](../../figures/assets/I08/I08-07-zero-barrier-nonconstant.svg)
+
+<figcaption>양 끝이 0.5이고 중간은 0.1인 수학적 profile이다. 경로의 최대값이 endpoint 최대값을 넘지 않으므로 B=0이지만 경로 loss는 일정하지 않다.</figcaption>
+</figure>
+
+grid의 관찰 최대값과 연속 경로의 최대값을 구분한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![A narrow loss peak lies between three coarse samples and is detected by a nested grid that retains the old sample positions.](../../figures/assets/I08/I08-07-grid-misses-peak.svg)
+
+<figcaption>연속인 수학적 profile의 α=0.25 부근 peak를 coarse grid 0,0.5,1은 놓친다. 기존 점을 유지한 finer grid는 이 peak를 포착한다. 연속곡선은 설명용 정답이며 실제 측정에서 보지 않은 중간값을 얻었다는 뜻은 아니다.</figcaption>
+</figure>
+
 ## 2. 직선 실패는 연결 실패가 아니다
 
 직선에 높은 barrier가 있어도 굽은 low-loss path가 존재할 수 있다. 반대로 선택한 곡선 하나가 낮다고 모든 점이나 모든 모델이 연결된다는 뜻은 아니다. mode connectivity는 경로 존재에 관한 주장이다.
+
+실습의 두 endpoint는 $(1,0)$과 $(-1,0)$이다. 직선 경로 $(1-2\alpha,0)$는 중점에서 원점을 지나므로 $L(0,0)=(0-1)^2=1$이고, endpoint loss는 0이다. 반원 경로 $(\cos(\pi\alpha),\sin(\pi\alpha))$에서는 두 좌표의 제곱합이 1이라 경로 전체의 loss가 0이다. 같은 두 끝점을 잇더라도 선택한 경로에 따라 barrier가 1 또는 0이 된다. 직선 하나의 실패는 모든 경로가 실패한다는 증거가 아니다.
+
+같은 endpoint를 잇는 두 경로를 parameter 공간과 loss profile에서 비교한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A straight segment through the origin and an upper semicircle connect the same points; their loss profiles have barriers one and zero.](../../figures/assets/I08/I08-07-straight-and-curved-paths.svg)
+
+<figcaption>기존 실습의 L(x,y)=(x²+y²−1)²에서 직선은 원점을 지나 barrier 1을 만들고 반원은 단위원 위에 있어 loss 0을 유지한다. 왼쪽은 parameter 경로, 오른쪽은 그 경로에서 평가한 loss다. 이 연결 경로가 optimizer의 실제 이동 경로였다는 증거는 아니다.</figcaption>
+</figure>
 
 ## 3. 대칭과 정렬
 
 hidden-unit permutation을 정렬하지 않으면 기능적으로 같은 두 모델의 직선 중간이 unit을 섞어 높은 loss를 낼 수 있다. 따라서 connectivity 비교 전에 가능한 symmetry alignment를 기록한다.
 
 loss 단면 그림도 방향 vector의 scale과 filter normalization에 따라 모양이 바뀐다. 그림은 정의한 slice의 측정 결과이다.
+
+예를 들어 참조 weight $\theta_0$와 두 방향 $u,v$를 정하면 단면은 $L(\theta_0+au+bv)$를 잰 결과다. 방향 $u$를 두 배로 키우면 그림의 같은 가로 좌표 $a$가 두 배 큰 weight 이동을 뜻한다. 방향의 크기를 맞추는 normalization도 이 좌표와 실제 이동의 대응을 바꾼다. Loss 함수가 바뀐 것은 아니지만 보이는 barrier의 폭과 기울기는 달라질 수 있다. 두 방향 밖의 이동은 이 단면에서 확인할 수 없다.
+
+unit의 대응을 바꾸면 보간 중간의 함수도 달라질 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A pair of jointly permuted ReLU networks has equal endpoint functions; unaligned straight interpolation raises loss while matching unit roles removes this example barrier.](../../figures/assets/I08/I08-07-permutation-interpolation.svg)
+
+<figcaption>수학적 두 ReLU unit의 input weight (1,−2)와 readout (3,−1)을 함께 뒤집으면 endpoint 함수는 같다. 대응 unit을 정렬하지 않은 midpoint는 다른 함수이고, 고정 입력 −2,−1,0,1,2에서 endpoint 함수 대비 MSE가 증가한다. 두 목록을 함께 원래 순서로 맞춘 뒤 보간하면 이 예시의 barrier는 사라진다.</figcaption>
+</figure>
+
+방향의 scale이 좌표와 실제 이동의 대응을 바꾼다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Contour slices of the same ring-shaped loss under x equals a and x equals twice a; doubling direction scale halves the horizontal coordinate width.](../../figures/assets/I08/I08-07-slice-axis-rescaling.svg)
+
+<figcaption>동일한 수학적 loss에서 x=a 대신 x=2a로 그리면 같은 실제 x 이동이 절반의 a 좌표로 표시된다. loss 함수를 바꾸지 않아도 contour의 가로 폭은 달라진다. 일반 고차원 모델의 이런 그림은 선택한 두 방향 밖의 지형을 보여 주지 않는다.</figcaption>
+</figure>
 
 ## 4. CPU 실습
 

@@ -46,6 +46,29 @@ $$
 
 간격은 균등하지 않다. 따라서 이 여섯 점만으로 변화가 선형이거나 특정 구간에서 갑자기 일어났다고 단정할 수 없다. 관찰된 두 checkpoint 사이에 측정하지 않은 변화가 있을 수 있다.
 
+두 시점의 지표 차이는 그 구간의 총 변화량이다. 이를 step 차이로 나누면 구간 평균 변화율을 얻지만, 구간 안의 어느 시점에서 변화했는지는 알 수 없다. 예를 들어 1,000~10,000 step의 변화량과 100,000~143,000 step의 변화량이 같아도 뒤 구간은 더 긴 학습 동안 누적된 값이다. 두 점을 선으로 연결한 것은 관찰하지 않은 시점의 측정값을 추가한 것이 아니다.
+
+
+
+그림의 전체 시간축과 초기 확대 축을 구분해 checkpoint 간격을 읽는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Six Pythia checkpoints on a proportional step axis with a separate early-step zoom](../../figures/assets/I08/I08-01-checkpoint-spacing.svg)
+
+<figcaption>전체 축에서는 후반부의 긴 간격을, 별도 확대 축에서는 0·1,000·10,000 step의 초기 간격을 확인한다. 두 축의 가로 척도는 다르다.</figcaption>
+</figure>
+
+
+두 구간의 변화량과 평균 변화율을 아래에서 따로 비교한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Equal symbolic metric changes across nine thousand and forty-three thousand steps have different average rates](../../figures/assets/I08/I08-01-interval-rate.svg)
+
+<figcaption>같은 양의 변화량 Δ를 9,000 step과 43,000 step에 나눈 평균 변화율을 비교한다. 선은 구간 평균의 차이를 보여 주며 실제 구간 내 궤적을 측정한 것이 아니다.</figcaption>
+</figure>
+
 ## 2. 같은 것을 다시 잰다
 
 checkpoint $t$의 측정값을
@@ -56,6 +79,8 @@ $$
 
 로 쓴다. $D$는 입력 집합, $\ell$은 layer, $j$는 token 위치, $s$는 seed이다. $t$만 바꾸고 나머지는 고정해야 $y_t$의 차이를 학습 시점과 연결할 수 있다.
 
+같은 prompt를 여러 시점에서 재면 각 prompt의 값들이 하나의 시간 궤적을 이룬다. Checkpoint별 평균을 비교할 때도 같은 prompt들의 차이를 먼저 구할 수 있어야 하므로 sample ID와 대응 관계를 보존한다. 여러 checkpoint는 서로 독립적으로 학습한 모델들이 아니다. 이 궤적은 지정한 학습 실행의 변화를 보여 주며, 다른 학습 seed에서도 같은 변화가 반복되는지는 별도의 실행 비교로 확인한다.
+
 최소 manifest는 다음을 포함한다.
 
 - repository와 요청 revision, resolved commit SHA
@@ -65,9 +90,63 @@ $$
 - metric 정의와 방향
 - artifact hash, 실행 시간과 자원 상한
 
+
+
+아래 행별 연결은 같은 prompt의 시간 대응을 나타낸다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Prompt A B and C each keep one row across four symbolic checkpoints](../../figures/assets/I08/I08-01-sample-time-pairing.svg)
+
+<figcaption>가로로 이어진 한 행은 같은 prompt의 반복측정이다. checkpoint 평균을 비교하기 전에 sample ID별 시간 대응을 보존한다.</figcaption>
+</figure>
+
+
+학습 실행과 그 실행의 checkpoint를 다음처럼 구분한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Several dependent snapshots belong to one training run while a second seed gives a separate run](../../figures/assets/I08/I08-01-run-versus-checkpoints.svg)
+
+<figcaption>한 실행의 여러 checkpoint는 하나의 학습 궤적에 속한다. seed 일반화는 별도의 학습 실행을 비교하는 질문이다.</figcaption>
+</figure>
+
+
+측정값을 재현하려면 revision 이름과 실제 객체, 실행 계약을 연결해야 한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A requested step revision resolves to an immutable SHA and both bind the fixed measurement contract and artifact hash](../../figures/assets/I08/I08-01-provenance-contract.svg)
+
+<figcaption>step 이름과 resolved SHA를 함께 기록하고, 같은 입력·측정 위치·지표로 만든 artifact에 연결한다.</figcaption>
+</figure>
+
 ## 3. step은 완전한 시간 좌표가 아니다
 
 서로 다른 학습 실행의 같은 step은 같은 양의 token을 보았다는 뜻이 아닐 수 있다. batch size, sequence length, gradient accumulation과 학습률 schedule이 다르면 진척률도 다르다. 서로 다른 suite를 비교할 때는 seen token, processed example 또는 전체 예산 대비 비율을 함께 기록한다.
+
+한 optimizer step에서 처리한 token 수는 누적한 micro-batch의 실제 token 수를 합한 값이다. Padding이나 가변 길이 입력이 있으면 최대 sequence length와 batch size의 곱만으로 유효 token 수를 계산할 수 없다. 또한 총 예산의 50%라는 비율은 실행별 상대 위치를 맞추지만, 총 예산 자체가 다르면 같은 양의 학습을 뜻하지 않는다. 어떤 시간 좌표를 맞췄는지와 나머지 학습 조건을 함께 남긴다.
+
+
+
+아래 계산에서 micro-batch별 유효 token을 더한 뒤 한 번의 update를 수행한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Valid token counts from accumulated micro-batches sum within one optimizer update excluding padding](../../figures/assets/I08/I08-01-microbatch-token-count.svg)
+
+<figcaption>한 optimizer step의 유효 token 수는 누적 micro-batch의 실제 token 수를 더한 값이다. padding을 포함한 최대 크기와 구분한다.</figcaption>
+</figure>
+
+
+상대 진척률을 맞춘 두 실행에서도 총 token 예산은 별도로 비교한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Two half-filled training-budget bars represent half of different total token budgets](../../figures/assets/I08/I08-01-relative-budget.svg)
+
+<figcaption>두 실행의 50% 위치를 맞춰도 총 예산이 다르면 처리한 token 수는 다르다.</figcaption>
+</figure>
 
 ## 4. CPU 실습
 

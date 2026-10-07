@@ -1,0 +1,62 @@
+{
+  "part-1-foundations/M02/M02-01-vectors-vector-operations.md": {
+    "ko": "벡터의 성분·차원을 구분하고 덧셈·뺄셈·스칼라곱을 계산한다. 이동의 합성, 방향 반전과 영벡터를 같은 연산의 기하적 의미로 읽는다.",
+    "en": "Calculate componentwise vector sums, differences, and scalar multiples. Connect them to joined displacements, direction reversal, the zero vector, and additive inverses."
+  },
+  "part-1-foundations/M02/M02-02-linear-combinations-span.md": {
+    "ko": "벡터들의 선형결합으로 span을 만들고 목표 벡터를 나타내는 계수를 구한다. 중복 생성 방향 때문에 같은 벡터의 표현이 여러 개일 수 있음을 확인한다.",
+    "en": "Build spans from linear combinations and solve for coefficients representing a target vector. Examine how redundant generating directions make representations nonunique."
+  },
+  "part-1-foundations/M02/M02-03-inner-product-length-angle.md": {
+    "ko": "Euclidean 내적으로 길이·거리·각도와 직교를 계산한다. 한 방향의 정사영과 cosine similarity를 구하고 방향 유사성과 모델 사용을 구분한다.",
+    "en": "Use Euclidean inner products to calculate lengths, distances, angles, and orthogonality. Compute projections and cosine similarity without equating similarity with model use."
+  },
+  "part-1-foundations/M02/M02-04-matrices-matrix-multiplication.md": {
+    "ko": "행렬곱을 행의 내적과 열의 선형결합으로 계산하고 안쪽 차원·출력 shape을 확인한다. 곱셈 순서와 행 단위 데이터에서 필요한 전치를 구분한다.",
+    "en": "Read matrix products as row inner products and column combinations. Check compatible shapes, multiplication order, and transposed weights for samples stored in rows."
+  },
+  "part-1-foundations/M02/M02-05-matrix-as-linear-transformation.md": {
+    "ko": "행렬의 열을 표준기저 벡터의 변환 결과로 읽는다. 확대·회전·반사·투영과 합성 순서를 계산하며 선형변환·아핀변환·비선형 연산을 구분한다.",
+    "en": "Interpret matrix columns as transformed basis vectors. Calculate scaling, rotation, reflection, projection, and composition while distinguishing linear, affine, and nonlinear operations."
+  },
+  "part-1-foundations/M02/M02-06-linear-systems-inverse.md": {
+    "ko": "행 기본변환과 pivot·자유변수로 연립방정식의 해가 하나·없음·무한히 많음을 판단한다. 정사각행렬의 역행렬 조건을 확인하고 작은 해를 검산한다.",
+    "en": "Solve small linear systems using row operations, pivots, and free variables. Distinguish unique, absent, and infinite solutions and check square-matrix invertibility."
+  },
+  "part-1-foundations/M02/M02-07-linear-independence-basis-dimension.md": {
+    "ko": "영벡터를 만드는 계수로 선형독립을 검사하고 기저·좌표·차원을 구한다. 중복 생성 벡터와 기저 선택에 따른 좌표별 해석의 차이를 살펴본다.",
+    "en": "Test linear independence through zero combinations, find bases and unique coordinates, and distinguish subspace dimension from ambient dimension and basis-dependent interpretations."
+  },
+  "part-1-foundations/M02/M02-08-kernel-image-rank.md": {
+    "ko": "영으로 가는 입력인 kernel과 가능한 출력인 image를 구하고 rank-nullity를 적용한다. 선형계 해의 존재와 유일성을 두 부분공간으로 판단한다.",
+    "en": "Find kernels and images, calculate rank and nullity, and use these subspaces to determine whether a linear system has a solution and whether it is unique."
+  },
+  "part-1-foundations/M02/M02-09-orthogonal-basis-projection.md": {
+    "ko": "정규직교기저의 내적으로 좌표와 부분공간 정사영을 구한다. Gram-Schmidt로 기저를 만들고 직교 잔차·가장 가까운 벡터·최소제곱을 연결한다.",
+    "en": "Calculate coordinates and subspace projections in orthonormal bases. Apply Gram-Schmidt and connect orthogonal residuals and closest vectors to least squares."
+  },
+  "part-1-foundations/M02/M02-10-determinant-minimum.md": {
+    "ko": "행렬식의 절댓값을 면적·부피 배율로, 부호를 방향 순서의 변화로 읽는다. 행 연산과 합성의 효과를 계산하고 가역성·수치 안정성을 구분한다.",
+    "en": "Calculate determinants as signed area or volume factors. Track row-operation and composition effects and distinguish invertibility from numerical stability."
+  },
+  "part-1-foundations/M02/M02-11-eigenvalues-eigenvectors.md": {
+    "ko": "특성방정식과 kernel로 고유값·고유공간을 계산한다. 고유방향의 반복 배율과 대각화 조건을 읽고 실수 고유기저가 없는 경우를 구분한다.",
+    "en": "Find eigenvalues and eigenspaces using characteristic equations and kernels. Follow repeated scaling in eigendirections and check when real diagonalization fails."
+  },
+  "part-1-foundations/M02/M02-12-symmetric-matrices-spectral-theorem.md": {
+    "ko": "실수 대칭행렬의 정규직교 고유기저와 스펙트럼 분해를 계산한다. 고유방향의 배율로 quadratic form을 읽고 고유값 부호로 PSD를 판단한다.",
+    "en": "Use the spectral theorem for real symmetric matrices, calculate in an orthonormal eigenbasis, and determine quadratic-form signs and positive semidefiniteness from eigenvalues."
+  },
+  "part-1-foundations/M02/M02-13-singular-value-decomposition.md": {
+    "ko": "full·compact SVD의 shape과 입력·출력 특이방향의 증폭을 읽는다. 특이값으로 rank·norm을 구하고 truncated SVD로 저랭크 근사를 만든다.",
+    "en": "Read full and compact SVD shapes and directional amplification. Obtain rank and norms from singular values and construct truncated-SVD low-rank approximations."
+  },
+  "part-1-foundations/M02/M02-14-covariance-pca.md": {
+    "ko": "행 단위 데이터를 중심화해 공분산행렬·주성분·설명분산비율을 구한다. 데이터 SVD와 PCA를 연결하고 점수·저랭크 재구성·전처리 의존성을 살펴본다.",
+    "en": "Center row-wise data, compute covariance and explained variance, and connect PCA directions to data SVD, component scores, reconstruction, and preprocessing choices."
+  },
+  "part-1-foundations/M02/M02-15-norm-condition-number.md": {
+    "ko": "벡터 norm과 Frobenius·spectral norm의 차이를 계산한다. 가역행렬의 특이값 비로 조건수를 구하고 선형계의 상대오차 증폭 경계를 읽는다.",
+    "en": "Compare vector, Frobenius, and spectral norms. Calculate condition numbers of invertible matrices from singular values and bound relative-error amplification in linear systems."
+  }
+}

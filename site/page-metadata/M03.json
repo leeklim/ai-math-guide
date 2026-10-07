@@ -1,0 +1,62 @@
+{
+  "part-1-foundations/M03/M03-01-abstract-vector-spaces.md": {
+    "ko": "벡터공간의 연산·공리와 부분공간의 닫힘을 다항식·함수·행렬에서 확인한다. 추상 벡터 자체와 선택한 기저의 좌표 열을 구분한다.",
+    "en": "Examine vector-space operations, axioms, and subspace closure in polynomials, functions, and matrices. Distinguish an abstract vector from its coordinate column."
+  },
+  "part-1-foundations/M03/M03-02-linear-maps-matrix-representation.md": {
+    "ko": "정의역·공역 기저를 골라 추상 선형사상의 행렬 표현을 만든다. 기저벡터의 출력 좌표를 열에 넣고 사상 합성과 kernel·image를 좌표 계산에 연결한다.",
+    "en": "Choose domain and codomain bases to represent a linear map by a matrix. Connect basis-vector images, coordinate calculations, composition, kernels, and images."
+  },
+  "part-1-foundations/M03/M03-03-change-of-basis-coordinate-dependence.md": {
+    "ko": "같은 벡터의 기저 좌표를 바꾸고 같은 선형연산자의 행렬을 similarity로 연결한다. 수동적 좌표변경과 능동 변환, 유지되는 양과 변하는 수치를 구분한다.",
+    "en": "Convert coordinates between bases and relate matrix representations of the same linear operator by similarity. Distinguish passive basis changes from active transformations and track coordinate-dependent quantities."
+  },
+  "part-1-foundations/M03/M03-04-invariants-equivariance.md": {
+    "ko": "입력 변환 뒤 출력이 유지되는 불변성과 대응해 변하는 equivariance를 구분한다. 직교·순열 예제로 보존되는 양과 표현 비교의 허용 변환을 확인한다.",
+    "en": "Distinguish invariance from equivariance using orthogonal and permutation transformations. State which quantities and allowed transformations a representation comparison preserves."
+  },
+  "part-1-foundations/M03/M03-05-subspaces-direct-sums-decomposition.md": {
+    "ko": "부분공간의 합·교집합·차원을 계산하고 직합의 유일한 분해 조건을 확인한다. 내적을 고정한 직교여공간과 정사영으로 성분·잔차를 나눈다.",
+    "en": "Calculate subspace sums, intersections, and dimensions. Check uniqueness in direct sums and use a specified inner product to separate orthogonal components and residuals."
+  },
+  "part-1-foundations/M03/M03-06-equivalence-relations-quotient-spaces.md": {
+    "ko": "동치관계의 세 조건과 대표원·동치류를 구분한다. 부분공간의 coset으로 몫공간 연산·차원을 계산하고 동치류를 만드는 일과 정사영을 구별한다.",
+    "en": "Check equivalence relations and distinguish classes from representatives. Calculate quotient-space operations and dimensions using cosets, keeping quotients distinct from orthogonal projections."
+  },
+  "part-1-foundations/M03/M03-07-dual-spaces-covectors.md": {
+    "ko": "벡터를 scalar로 측정하는 covector와 dual basis를 구성한다. 기저변환의 쌍대 법칙을 계산하고 내적에 따른 differential·gradient의 관계를 읽는다.",
+    "en": "Construct covectors and dual bases, preserve scalar pairings under basis changes, and connect differentials to gradient vectors through a chosen inner product."
+  },
+  "part-1-foundations/M03/M03-08-bilinear-quadratic-forms.md": {
+    "ko": "두 입력별 선형성으로 bilinear form을 확인하고 quadratic form의 대칭 부분을 계산한다. 내적의 추가 조건과 congruence를 attention·Hessian 식에 연결한다.",
+    "en": "Calculate bilinear and quadratic forms, identify inner-product conditions and symmetric contributions, and follow congruence transformations in attention and Hessian expressions."
+  },
+  "part-1-foundations/M03/M03-09-tensors-multilinear-maps.md": {
+    "ko": "다중선형사상을 기저 성분으로 표현하고 tensor product·contraction을 계산한다. tensor order·shape·rank를 구분하며 batch·token·feature 축을 추적한다.",
+    "en": "Represent multilinear maps by tensor components and calculate tensor products and contractions. Distinguish order, shape, and rank while tracking neural-network array axes."
+  },
+  "part-1-foundations/M03/M03-10-total-derivative-differential.md": {
+    "ko": "입력 변화보다 빠르게 작아지는 잔차로 total derivative의 국소 선형근사를 정의한다. 편미분·방향미분·scalar differential과 선형사상 합성을 연결한다.",
+    "en": "Define the total derivative through a local linear approximation and its remainder condition. Connect partial and directional derivatives, scalar differentials, and composition of linear maps."
+  },
+  "part-1-foundations/M03/M03-11-jacobian.md": {
+    "ko": "출력 행·입력 열 규약으로 Jacobian을 구성하고 JVP와 연쇄법칙을 계산한다. affine·ReLU 층의 예제로 rank와 특이값을 국소 민감도에 연결한다.",
+    "en": "Construct Jacobians with output rows and input columns, calculate JVPs, apply the chain rule, and relate rank and singular values to local sensitivity in affine and ReLU layers."
+  },
+  "part-1-foundations/M03/M03-12-hessian.md": {
+    "ko": "scalar 함수의 이차 편미분으로 Hessian을 만들고 대칭 조건을 확인한다. Taylor 이차항·방향 곡률·임계점 분류와 HVP를 기준점·좌표 의존성과 함께 읽는다.",
+    "en": "Construct Hessians and check symmetry conditions. Calculate quadratic Taylor terms and HVPs, classify local critical-point shapes, and track base-point and coordinate dependence."
+  },
+  "part-1-foundations/M03/M03-13-jvp-vjp.md": {
+    "ko": "JVP의 입력 tangent 전달과 VJP의 출력 cotangent pullback을 구분한다. adjoint identity를 검산하고 합성의 순·역방향 곱으로 scalar gradient를 계산한다.",
+    "en": "Distinguish forward tangent propagation in JVPs from cotangent pullback in VJPs. Check the adjoint identity, trace composition order, and compute scalar-output gradients."
+  },
+  "part-1-foundations/M03/M03-14-automatic-differentiation-backpropagation.md": {
+    "ko": "계산 그래프에서 primal·tangent·cotangent를 전달하고 분기 경로의 gradient를 합산한다. 역전파와 optimizer update를 구분하고 저장·재계산 비용을 살펴본다.",
+    "en": "Trace forward and reverse automatic differentiation and sum gradient contributions at branches. Distinguish backpropagation from optimizer updates and examine storage–recomputation tradeoffs."
+  },
+  "part-1-foundations/M03/M03-15-reparameterization-model-symmetries.md": {
+    "ko": "재매개화의 gradient 변환과 모델 함수를 보존하는 대칭성을 구분한다. 선형 기저변환·hidden 순열·ReLU 양의 scaling의 조건과 비식별성을 확인한다.",
+    "en": "Distinguish reparameterized gradients from function-preserving model symmetries. Check linear basis changes, hidden-unit permutations, positive ReLU scaling, and nonidentifiability."
+  }
+}

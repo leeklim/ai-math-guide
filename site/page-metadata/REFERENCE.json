@@ -1,0 +1,26 @@
+{
+  "README.md": {
+    "ko": "수식 읽기에서 신경망 계산·표현·인과 개입·학습 동역학까지 이어지는 모델 해석 교재다. 개념 설명, 그림, 문제·해설과 실행 가능한 실습을 네 부분으로 읽는다.",
+    "en": "Study model interpretability from mathematical notation to neural computations, representations, causal interventions, and learning dynamics, with figures, exercises, solutions, and executable labs."
+  },
+  "01-CURRICULUM.md": {
+    "ko": "기초 수학부터 Transformer 계산과 모델 해석까지 단원 순서·선수관계·핵심 결과를 확인한다. 실험·학습과정·표현기하·이론 연구의 선택 심화 경로를 고른다.",
+    "en": "Follow lesson order, prerequisites, and learning outcomes from mathematical foundations to Transformer computations and interpretability, with optional paths for experiments, learning dynamics, geometry, and theory."
+  },
+  "04-GLOSSARY.md": {
+    "ko": "기초 수학·미적분·선형대수·확률·신경망·모델 해석 용어의 권장 한영 표기와 짧은 뜻을 찾는다. 혼동하기 쉬운 표현과 개념을 처음 설명한 단원을 함께 확인한다.",
+    "en": "Look up preferred mathematical and model-interpretability terms, short definitions, distinctions from similar expressions, and the lessons that introduce each concept."
+  },
+  "05-N05-ARCHITECTURE-BASELINE.md": {
+    "ko": "Transformer의 공통 계산·교육용 기준 선택·현대적 변형·구현 최적화를 구분한다. tiny decoder와 실제 모델의 차이, 자료 우선순위와 갱신 기준을 확인한다.",
+    "en": "Distinguish shared Transformer computations, instructional choices, modern variants, and implementation optimizations. Check tiny-decoder boundaries, source priorities, and update criteria."
+  },
+  "N05-ENVIRONMENT.md": {
+    "ko": "Windows PowerShell·Python 3.12·CPU PyTorch 실습 환경을 설치하고 진단한다. 고정 패키지, 예제 실행·HTML 결과 반영과 계산 자원 상한을 확인한다.",
+    "en": "Set up and diagnose the Windows PowerShell, Python 3.12, and CPU-only PyTorch labs. Check pinned dependencies, example execution, HTML results, and resource limits."
+  },
+  "GPU-ENVIRONMENT.md": {
+    "ko": "CPU 사이트와 분리된 로컬 GPU 환경에서 Pythia 70M·160M·410M cache와 실험을 준비한다. activation·patching·checkpoint 실행 순서와 VRAM·시간 상한을 확인한다.",
+    "en": "Prepare a separate local GPU environment and pinned Pythia 70M, 160M, and 410M caches. Follow activation, patching, and checkpoint experiments with memory and time limits."
+  }
+}

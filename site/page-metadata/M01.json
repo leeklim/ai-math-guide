@@ -1,0 +1,54 @@
+{
+  "part-1-foundations/M01/M01-01-change-average-rate.md": {
+    "ko": "끝값과 시작값의 차이로 변화량을 구하고 평균변화율의 부호·단위를 계산한다. 그래프의 할선 기울기를 한 점의 순간변화율과 구분한다.",
+    "en": "Calculate signed changes and average rates with their units. Relate an interval's average rate to a secant slope and distinguish it from an instantaneous rate."
+  },
+  "part-1-foundations/M01/M01-02-limits-intuition.md": {
+    "ko": "극한값과 한 점의 함수값을 구분하고 좌극한·우극한을 비교한다. 표와 작은 식으로 극한을 읽으며 연속성과 순간변화율의 정의로 이어 간다.",
+    "en": "Distinguish a limit from a function value, compare one-sided limits, and connect limits in tables and formulas to continuity and instantaneous rates."
+  },
+  "part-1-foundations/M01/M01-03-derivative-instantaneous-rate.md": {
+    "ko": "평균변화율의 극한에서 미분계수를 정의하고 상수·일차·제곱 함수를 직접 미분한다. 접선 기울기, 미분 가능성과 연속성의 관계를 살펴본다.",
+    "en": "Derive rates at a point from limits of average rates. Differentiate constant, linear, and square functions and compare tangent slopes, continuity, and differentiability."
+  },
+  "part-1-foundations/M01/M01-04-derivative-and-graphs.md": {
+    "ko": "한 점의 미분계수와 도함수를 구분해 함수·도함수 그래프를 대응시킨다. 도함수의 부호 변화로 증가·감소와 국소 극값을 판단한다.",
+    "en": "Relate function and derivative graphs, distinguish critical and stationary points, and use derivative signs to identify increasing intervals and local extrema."
+  },
+  "part-1-foundations/M01/M01-05-sum-product-quotient-rules.md": {
+    "ko": "상수배·합·곱·몫과 양의 정수 거듭제곱의 미분 규칙을 적용한다. 분모 조건과 곱의 두 변화항을 확인하고 표본별 손실의 평균을 미분한다.",
+    "en": "Apply sum, product, quotient, and positive-integer-power derivative rules. Check denominator conditions and differentiate a mean of sample losses with respect to a scalar parameter."
+  },
+  "part-1-foundations/M01/M01-06-composition-chain-rule.md": {
+    "ko": "합성함수의 안쪽·바깥쪽 계산을 분리하고 단계별 도함수를 곱한다. 두 단계·세 단계 예제로 계산 그래프의 연쇄법칙과 곱의 미분법을 구분한다.",
+    "en": "Differentiate two-stage and three-stage compositions by multiplying local derivatives along a computation path, keeping the chain rule distinct from the product rule."
+  },
+  "part-1-foundations/M01/M01-07-exponential-log-derivatives.md": {
+    "ko": "지수·자연로그와 합성된 지수·로그를 정의역에 맞춰 미분한다. 음의 로그 손실의 변화율과 로그합지수의 도함수에 나타나는 softmax 비율을 계산한다.",
+    "en": "Differentiate exponentials, logarithms, and their compositions. Calculate negative-log-loss rates and identify softmax ratios in log-sum-exp derivatives."
+  },
+  "part-1-foundations/M01/M01-08-integration-accumulation.md": {
+    "ko": "작은 구간의 기여를 더하는 리만 합에서 정적분을 정의한다. 부호 있는 누적과 도형의 넓이를 구분하고 구간 방향·단위·적분의 선형성을 확인한다.",
+    "en": "Build Riemann sums and read definite integrals as signed accumulation. Check interval direction, units, linearity, and the distinction from geometric area."
+  },
+  "part-1-foundations/M01/M01-09-fundamental-theorem-calculus.md": {
+    "ko": "연속함수의 누적을 미분하는 방향과 원시함수의 끝점 차이로 적분하는 방향을 연결한다. 적분상수를 쓰고 변화율의 적분을 전체 변화량으로 읽는다.",
+    "en": "For continuous functions, connect derivatives of accumulation functions to endpoint evaluation of definite integrals. Use antiderivatives, integration constants, and integrated rates to calculate net changes."
+  },
+  "part-1-foundations/M01/M01-10-multivariable-partial-derivatives.md": {
+    "ko": "다른 입력 변수를 고정해 편미분을 계산하고 한 점에서 평가한다. 선택한 좌표 방향의 변화율을 부호·단위·척도와 함께 해석한다.",
+    "en": "Calculate partial derivatives by holding other inputs fixed, then evaluate them at a point and interpret coordinate-specific signs, units, and scales."
+  },
+  "part-1-foundations/M01/M01-11-directional-derivative-gradient.md": {
+    "ko": "입력점에서 방향 경로를 만들어 방향미분을 계산한다. 미분 가능한 함수의 그래디언트 내적과 Euclidean 최급상승·하강 방향을 연결한다.",
+    "en": "Define a directional derivative along an input path. For differentiable functions, use gradient inner products and identify Euclidean steepest-ascent and descent directions."
+  },
+  "part-1-foundations/M01/M01-12-taylor-approximation.md": {
+    "ko": "접선의 일차 근사와 일변수 이차 Taylor 항으로 가까운 함수값을 예상한다. 다변수 그래디언트 근사를 계산하고 실제 값과의 잔차를 비교한다.",
+    "en": "Approximate nearby values with first-order and single-variable second-order Taylor terms. Calculate multivariable gradient approximations and compare their remainders with actual values."
+  },
+  "part-1-foundations/M01/M01-13-numerical-differentiation-error.md": {
+    "ko": "전진·후진·중앙차분으로 도함수를 근사한다. 간격 크기에 따른 절단·반올림오차를 구분하고 좌표별 수치 그래디언트와 비미분점의 영향을 점검한다.",
+    "en": "Approximate derivatives with forward, backward, and central differences. Balance step-size errors and check coordinatewise gradients, nondifferentiable points, and noise."
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "part-1-foundations/M04/M04-01-events-probability.md": {
+    "ko": "표본공간·결과·사건을 구분하고 확률 공리와 여사건·포함배제 공식을 적용한다. 결과 수로 확률을 셀 때의 등확률 가정과 경험적 빈도를 확인한다.",
+    "en": "Distinguish outcomes and events, apply probability axioms and inclusion-exclusion, and check equal-probability assumptions when comparing counts with empirical frequencies."
+  },
+  "part-1-foundations/M04/M04-02-conditional-probability-bayes-rule.md": {
+    "ko": "조건 사건 안의 비율로 조건부확률을 계산하고 전체확률·Bayes 규칙을 적용한다. likelihood·posterior의 방향과 독립·상호배반·조건부독립을 구분한다.",
+    "en": "Calculate conditional probabilities, total probabilities, and Bayes updates. Keep likelihood and posterior directions distinct and compare independence, exclusivity, and conditional independence."
+  },
+  "part-1-foundations/M04/M04-03-random-variables-distributions.md": {
+    "ko": "확률변수를 결과에서 값을 읽는 함수로 정의하고 관측값과 구분한다. PMF·CDF·PDF와 점확률을 읽으며 결합분포에서 주변·조건부분포를 계산한다.",
+    "en": "Read random variables as functions of outcomes, distinguish them from observations, and calculate PMFs, CDFs, marginal and conditional distributions while separating density from point probability."
+  },
+  "part-1-foundations/M04/M04-04-expectation-variance-covariance.md": {
+    "ko": "분포에서 기댓값·분산·공분산을 계산하고 기댓값의 선형성에 독립 가정이 필요하지 않음을 확인한다. 상관과 독립을 구분하며 공분산행렬의 이차 구조를 읽는다.",
+    "en": "Calculate expectations, variances, and covariances. Apply linearity without assuming independence and distinguish correlation, independence, and covariance-matrix structure."
+  },
+  "part-1-foundations/M04/M04-05-common-distributions.md": {
+    "ko": "Bernoulli·categorical·binomial·Gaussian의 support·파라미터·확률을 비교한다. 독립 시행의 성공 횟수와 Gaussian 표준화를 계산하며 분포 선택 가정을 확인한다.",
+    "en": "Compare Bernoulli, categorical, binomial, and Gaussian supports and parameters. Calculate success-count probabilities and Gaussian standardization while checking distributional assumptions."
+  },
+  "part-1-foundations/M04/M04-06-samples-populations-sampling-distributions.md": {
+    "ko": "모집단·표본·모수·통계량과 원자료·표집분포를 구분한다. iid 표본평균의 분산·표준오차를 계산하고 의존 관측을 독립 단위로 세는 문제를 점검한다.",
+    "en": "Distinguish populations, samples, parameters, statistics, and sampling distributions. Calculate iid sample-mean uncertainty and examine dependence between experimental units."
+  },
+  "part-1-foundations/M04/M04-07-estimation-bias-variance.md": {
+    "ko": "추정량과 추정값을 나누고 MSE를 분산·편향 제곱으로 분해한다. iid 표본분산의 분모, shrinkage의 tradeoff와 결과 선택 편향을 살펴본다.",
+    "en": "Separate estimators from estimates and decompose MSE into variance and squared bias. Compare iid variance estimators, shrinkage tradeoffs, and selection bias."
+  },
+  "part-1-foundations/M04/M04-08-regression-classification.md": {
+    "ko": "target·loss·risk로 회귀와 분류를 구분하고 조건부평균·Bayes classifier를 연결한다. 작은 예측과 metric을 계산하며 probe의 정보 복원과 실제 사용을 구별한다.",
+    "en": "Compare regression and classification targets, losses, and risks. Calculate predictions and metrics and distinguish probe-based information recovery from functional model use."
+  },
+  "part-1-foundations/M04/M04-09-confidence-intervals-bootstrap.md": {
+    "ko": "신뢰수준을 반복 표집의 coverage로 읽고 평균의 z·t 구간 조건을 확인한다. bootstrap 오차·분위수 구간을 만들며 paired·clustered 재표집 단위를 정한다.",
+    "en": "Interpret confidence levels as repeated-sampling coverage, check mean z and t interval conditions, and construct bootstrap intervals with dependence-preserving resampling units."
+  },
+  "part-1-foundations/M04/M04-10-hypothesis-testing-multiple-comparisons.md": {
+    "ko": "귀무분포의 tail probability로 p-value를 읽고 유의수준·효과 크기·power를 구분한다. Bonferroni·BH 절차와 오류 통제 조건으로 다중 탐색 결과를 점검한다.",
+    "en": "Read p-values under null distributions and distinguish significance, effect size, and power. Apply Bonferroni and BH procedures with their error-control conditions."
+  },
+  "part-1-foundations/M04/M04-11-likelihood-maximum-likelihood.md": {
+    "ko": "관측 데이터를 고정해 likelihood를 파라미터의 함수로 읽고 iid 로그항을 더한다. Bernoulli·Gaussian MLE를 계산하며 고정분산 Gaussian NLL과 제곱오차를 연결한다.",
+    "en": "Hold observed data fixed to read likelihood, sum iid log terms, and derive Bernoulli and Gaussian MLEs. Connect fixed-variance Gaussian NLL to squared error."
+  },
+  "part-1-foundations/M04/M04-12-entropy-cross-entropy.md": {
+    "ko": "surprisal의 평균으로 entropy를 계산하고 cross entropy의 target·model 역할을 나눈다. one-hot·soft target 손실과 token NLL의 perplexity를 계산한다.",
+    "en": "Calculate entropy as mean surprisal and distinguish target and model roles in cross entropy. Work with one-hot and soft targets and token-level perplexity."
+  },
+  "part-1-foundations/M04/M04-13-kl-divergence.md": {
+    "ko": "평균분포와 평가분포를 나눠 KL을 계산한다. 비대칭·support mismatch·entropy 관계를 확인하고 출력 분포의 가까움과 내부 메커니즘 동일성을 구분한다.",
+    "en": "Calculate directed KL divergence, check asymmetry and support mismatch, and connect it to entropy and cross entropy without equating similar outputs with identical internals."
+  },
+  "part-1-foundations/M04/M04-14-mutual-information.md": {
+    "ko": "결합분포와 주변분포 곱의 KL로 mutual information을 읽는다. 이산 복사 예제의 entropy 감소와 data processing을 계산하고 고차원 MI 추정의 한계를 살펴본다.",
+    "en": "Express mutual information through joint and marginal distributions. Calculate discrete copy examples, apply data processing, and examine high-dimensional estimation limits."
+  },
+  "part-1-foundations/M04/M04-15-calibration-scoring-rules.md": {
+    "ko": "예측확률과 빈도의 일치인 calibration을 accuracy와 구분한다. reliability diagram·ECE·log score·Brier score를 계산하고 binning·평가 모집단의 영향을 확인한다.",
+    "en": "Distinguish calibration from accuracy, calculate reliability-bin gaps and proper scores, and examine how binning and evaluation populations affect ECE and calibration claims."
+  },
+  "part-1-foundations/M04/M04-16-correlation-causation.md": {
+    "ko": "관찰 조건과 do 개입을 구분하고 causal graph의 confounder·mediator·collider를 찾는다. potential outcome·무작위 배정으로 인과효과의 비교 조건을 읽는다.",
+    "en": "Separate observational conditioning from interventions, identify confounders, mediators, and colliders, and read causal-effect comparisons through potential outcomes and random assignment."
+  },
+  "part-1-foundations/M04/M04-17-experimental-design-reproducibility.md": {
+    "ko": "연구 주장을 estimand·측정·실험 단위로 구체화한다. 대조군·split·seed·paired design과 탐색·확인의 분리를 설계하고 재현에 필요한 상태를 기록한다.",
+    "en": "Turn research claims into estimands, measurements, and experimental units. Design controls, splits, paired comparisons, and confirmatory tests, and record reproducibility artifacts."
+  }
+}

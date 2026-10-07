@@ -93,12 +93,12 @@ html[lang="en"] .md-typeset {
   padding: 0.55rem 0;
 }
 
-.md-typeset details span.arithmatex {
+.md-typeset span.arithmatex {
   display: inline-block;
   vertical-align: middle;
 }
 
-.md-typeset details span.arithmatex mjx-assistive-mml {
+.md-typeset span.arithmatex mjx-assistive-mml {
   width: 1px !important;
 }
 

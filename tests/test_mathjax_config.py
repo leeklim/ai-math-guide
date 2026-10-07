@@ -21,11 +21,11 @@ class MathJaxConfigTests(unittest.TestCase):
         self.assertIn("document$.subscribe", config)
         self.assertEqual(config.count("MathJax.typesetPromise()"), 1)
 
-    def test_inline_solution_math_can_scroll_inside_its_wrapper(self) -> None:
+    def test_inline_body_and_solution_math_can_scroll_inside_its_wrapper(self) -> None:
         styles = read_text(ROOT / "site" / "assets" / "stylesheets" / "extra.css")
         self.assertRegex(
             styles,
-            r"\.md-typeset details span\.arithmatex\s*\{[^}]*display:\s*inline-block;",
+            r"\.md-typeset span\.arithmatex\s*\{[^}]*display:\s*inline-block;",
         )
         self.assertRegex(
             styles,
@@ -33,7 +33,7 @@ class MathJaxConfigTests(unittest.TestCase):
         )
         self.assertRegex(
             styles,
-            r"details span\.arithmatex mjx-assistive-mml\s*\{[^}]*width:\s*1px\s*!important;",
+            r"\.md-typeset span\.arithmatex mjx-assistive-mml\s*\{[^}]*width:\s*1px\s*!important;",
         )
 
 

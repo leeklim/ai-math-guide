@@ -1,0 +1,34 @@
+{
+  "part-4-advanced/A09-GEO/A09-GEO-01-manifold-local-coordinate.md": {
+    "ko": "manifold의 국소 Euclidean 조건과 chart·좌표를 설명한다. sphere의 global chart 한계와 intrinsic·ambient dimension을 구분하고 activation cloud에 manifold 가설을 적용할 조건을 검토한다.",
+    "en": "Examine local Euclidean structure, charts, and coordinates on manifolds. Distinguish intrinsic from ambient dimension, consider global-chart limits on spheres, and state assumptions behind activation-manifold hypotheses."
+  },
+  "part-4-advanced/A09-GEO/A09-GEO-02-tangent-cotangent.md": {
+    "ko": "curve의 순간 속도로 tangent vector를 정의하고 cotangent vector와의 pairing을 계산한다. differential과 metric에 의존하는 gradient를 구분하며 decoder Jacobian이 latent 속도를 출력 속도로 보내는 과정을 설명한다.",
+    "en": "Define tangent vectors as curve velocities and calculate their pairing with covectors. Distinguish a differential from its metric-dependent gradient, and use a decoder Jacobian to map latent velocities to output velocities."
+  },
+  "part-4-advanced/A09-GEO/A09-GEO-03-metric-length.md": {
+    "ko": "positive-definite bilinear metric으로 tangent norm과 curve length를 계산한다. 재매개화 불변성과 metric 선택에 따라 달라지는 activation 거리의 의미를 설명한다.",
+    "en": "Calculate tangent norms and curve lengths with a positive-definite bilinear metric. Examine reparameterization invariance and how metric choices change interpretations of activation distances."
+  },
+  "part-4-advanced/A09-GEO/A09-GEO-04-pullback-metric.md": {
+    "ko": "Jacobian으로 출력 metric을 latent 입력에 옮기는 pullback metric을 계산한다. singular value를 국소 길이 왜곡과 연결하고 rank 손실로 생기는 퇴화를 확인한다.",
+    "en": "Calculate pullback metrics by transferring an output metric through a Jacobian. Relate singular values to local length distortion and examine degeneracy caused by rank loss."
+  },
+  "part-4-advanced/A09-GEO/A09-GEO-05-geodesic-connection.md": {
+    "ko": "서로 다른 점의 tangent vector를 비교하는 connection·covariant derivative·parallel transport를 다룬다. geodesic equation의 항을 읽고 좌표 직선과 intrinsic geodesic을 구분한다.",
+    "en": "Study connections, covariant derivatives, and parallel transport for comparing tangent vectors at different points. Read the geodesic equation and distinguish coordinate straight lines from intrinsic geodesics."
+  },
+  "part-4-advanced/A09-GEO/A09-GEO-06-intrinsic-extrinsic-curvature.md": {
+    "ko": "metric으로 정하는 intrinsic curvature와 ambient embedding에 의존하는 extrinsic curvature를 구분한다. plane·cylinder 예로 차이를 확인하고 representation 그림의 굽음을 해석하는 한계를 살펴본다.",
+    "en": "Distinguish intrinsic curvature determined by a metric from extrinsic curvature dependent on an ambient embedding. Compare planes and cylinders and examine limits on interpreting bending in representation plots."
+  },
+  "part-4-advanced/A09-GEO/A09-GEO-07-activation-manifold-pitfalls.md": {
+    "ko": "유한 activation 표본과 manifold 가설을 구분하고 neighborhood·noise·projection이 기하 추정에 미치는 영향을 진단한다. scale sweep·bootstrap·null control·held-out 검증을 설계한다.",
+    "en": "Separate finite activation samples from manifold hypotheses and diagnose neighborhood, noise, and projection effects on geometric estimates. Design scale sweeps, bootstrap checks, null controls, and held-out validation."
+  },
+  "part-4-advanced/A09-GEO/A09-GEO-08-capstone-local-geometry.md": {
+    "ko": "dataset·layer·token·metric·neighborhood를 고정해 local PCA·Jacobian·pullback metric·경로 길이를 분석한다. experimental unit과 bootstrap·null control을 포함한 국소 표현 기하 보고서를 구성한다.",
+    "en": "Fix dataset, layer, token, metric, and neighborhood choices to analyze local PCA, Jacobians, pullback metrics, and path lengths. Build a local-geometry report with explicit experimental units, bootstrap checks, and null controls."
+  }
+}

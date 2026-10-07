@@ -1,0 +1,54 @@
+{
+  "part-3-interpretability/I08/I08-01-checkpoint-study-design.md": {
+    "ko": "학습 동역학 연구에서 checkpoint·입력·측정 위치·행동 metric을 고정한다. 분석 단위와 절대 step·학습 진척률을 구분하고 revision·data·seed를 manifest에 기록한다.",
+    "en": "Fix checkpoints, inputs, measurement locations, and behavioral metrics for a training-dynamics study. Specify analysis units, distinguish absolute steps from training progress, and record revisions, data, and seeds in a manifest."
+  },
+  "part-3-interpretability/I08/I08-02-parameter-function-distance.md": {
+    "ko": "checkpoint 사이 parameter 거리와 입력분포에 따른 함수 거리를 별도 estimand로 계산한다. hidden-unit 순열·scale 대칭에서 weight 이동과 출력 변화가 다를 수 있음을 설명한다.",
+    "en": "Treat parameter distance and input-distribution-dependent function distance as separate checkpoint estimands. Examine how hidden-unit permutations and scaling symmetries separate weight movement from output changes."
+  },
+  "part-3-interpretability/I08/I08-03-representation-alignment.md": {
+    "ko": "같은 입력 row를 대응시킨 뒤 orthogonal Procrustes로 feature axis를 정렬한다. 정렬 전후 오차와 CKA를 비교하고 정렬 성공을 feature 의미·기능의 동일성 주장과 구분한다.",
+    "en": "Match input rows before aligning feature axes with orthogonal Procrustes. Compare pre/post-alignment errors and CKA, separating successful alignment from claims of identical feature meaning or function."
+  },
+  "part-3-interpretability/I08/I08-04-sgd-as-dynamics.md": {
+    "ko": "gradient descent update를 parameter 공간의 이산 상태 전이로 표현하고 gradient flow 근사와 연결한다. quadratic loss의 안정 학습률을 구하고 곡률·step·checkpoint 간격의 한계를 확인한다.",
+    "en": "Express gradient descent as discrete state transitions and relate it to gradient-flow approximations. Calculate stable learning rates for quadratic loss and examine limits from curvature, step size, and checkpoint spacing."
+  },
+  "part-3-interpretability/I08/I08-05-minibatch-noise-optimizer-state.md": {
+    "ko": "mini-batch gradient를 full gradient와 noise로 나누고 momentum state의 경로 의존성을 계산한다. weight snapshot과 재시작 상태를 구분해 seed·data order·RNG 기록을 점검한다.",
+    "en": "Decompose mini-batch gradients into full gradients and noise, then calculate momentum-state path dependence. Distinguish weight snapshots from resumable state and check seed, data-order, and RNG records."
+  },
+  "part-3-interpretability/I08/I08-06-hessian-spectrum.md": {
+    "ko": "Hessian의 방향 이차미분과 eigenvalue 부호·크기를 국소 곡률로 해석한다. 전체 Hessian 대신 HVP로 spectrum을 근사하는 계산과 sharpness·일반화 주장의 차이를 다룬다.",
+    "en": "Interpret Hessian directional second derivatives and eigenvalue signs and magnitudes as local curvature. Examine spectral approximation with HVPs and distinguish sharpness measurements from generalization claims."
+  },
+  "part-3-interpretability/I08/I08-07-loss-landscape-mode-connectivity.md": {
+    "ko": "parameter 경로의 loss profile에서 직선 보간 barrier를 계산한다. low-loss 곡선과 실제 optimizer 궤적을 구분하고 좌표·normalization·grid 해상도가 landscape 단면에 미치는 영향을 검토한다.",
+    "en": "Calculate straight-interpolation barriers in parameter-path loss profiles. Distinguish low-loss curves from optimizer trajectories and examine how coordinates, normalization, and grid resolution affect landscape slices."
+  },
+  "part-3-interpretability/I08/I08-08-influence-function.md": {
+    "ko": "최적점 근처에서 training example의 미소 upweighting에 따른 parameter·test loss 변화를 유도한다. inverse Hessian 근사의 조건과 damping을 확인하고 leave-one-out retraining 대조를 설계한다.",
+    "en": "Derive parameter and test-loss changes from infinitesimal training-example upweighting near an optimum. Check inverse-Hessian approximation conditions and damping, and design comparisons with leave-one-out retraining."
+  },
+  "part-3-interpretability/I08/I08-09-feature-emergence.md": {
+    "ko": "feature의 formation·recoverability·use·behavior를 별도 시간 지표로 정의한다. checkpoint feature matching과 threshold crossing을 확인하고 관측 간격·불확실성이 emergence 시점에 미치는 영향을 설명한다.",
+    "en": "Define feature formation, recoverability, use, and behavior as separate temporal measures. Examine checkpoint matching and threshold crossings, including how sampling intervals and uncertainty limit emergence-time claims."
+  },
+  "part-3-interpretability/I08/I08-10-grokking-phase-transition.md": {
+    "ko": "train fit 뒤 지연된 test 일반화를 grokking 곡선으로 측정한다. transition 위치·폭과 checkpoint 간격·threshold에 따른 겉보기 급격함을 구분하고 toy task의 주장 범위를 한정한다.",
+    "en": "Measure grokking as delayed test generalization after training fit. Distinguish transition locations and widths from apparent abruptness caused by checkpoint spacing and thresholds, limiting conclusions from toy tasks."
+  },
+  "part-3-interpretability/I08/I08-11-seed-data-order.md": {
+    "ko": "initialization·shuffle·dropout 등 학습 난수원을 구분해 기록하고 paired seed design을 구성한다. seed별 궤적을 평균 전에 확인하며 bitwise 재생과 결론 재현성을 나눠 평가한다.",
+    "en": "Record training randomness from initialization, shuffling, and dropout, and construct paired seed designs. Inspect individual trajectories before averaging and distinguish bitwise replay from reproducibility of conclusions."
+  },
+  "part-3-interpretability/I08/I08-12-data-attribution-introduction.md": {
+    "ko": "현재 입력의 feature 귀인과 training example의 데이터 귀인을 구분한다. checkpoint별 training·test gradient 내적을 learning rate와 합산하는 TracIn 점수를 계산하고 retraining 효과와 비교한다.",
+    "en": "Distinguish attribution to current-input features from attribution to training examples. Calculate TracIn scores by summing checkpoint gradient dot products with learning rates and distinguish them from retraining effects."
+  },
+  "part-3-interpretability/I08/I08-13-capstone-feature-lifecycle.md": {
+    "ko": "여섯 checkpoint의 provenance를 감사하고 feature 형성·복원·사용·행동 증거를 시간축 보고서로 묶는다. synthetic CPU와 실제 모델 측정을 구분하고 sparse checkpoint·single seed의 한계를 기록한다.",
+    "en": "Audit six checkpoints and assemble temporal evidence for feature formation, recoverability, use, and behavior. Separate synthetic CPU results from actual-model measurements and report sparse-checkpoint and single-seed limitations."
+  }
+}

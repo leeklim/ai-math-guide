@@ -1,0 +1,114 @@
+{
+  "part-2-neural-computation/N05/N05-01-tensors-computation-graphs.md": {
+    "ko": "tensor의 axis·shape·dtype·device를 구분하고 계산 그래프의 중간값과 연산 의존경로를 추적한다. 작은 곱셈과 합의 손계산을 PyTorch 출력과 대조한다.",
+    "en": "Distinguish tensor axes, shapes, dtypes, and devices while tracing intermediate values and dependencies in a computation graph. Compare small products and sums calculated by hand with PyTorch outputs."
+  },
+  "part-2-neural-computation/N05/N05-02-single-neuron.md": {
+    "ko": "입력의 가중합과 bias에서 pre-activation을 구하고 ReLU를 적용한다. 하나의 neuron에서 affine 변환, activation 전후 값과 연쇄법칙으로 계산한 gradient를 연결한다.",
+    "en": "Calculate a neuron's pre-activation from a weighted sum and bias, then apply ReLU. Connect affine transformations, values before and after activation, and gradients calculated with the chain rule."
+  },
+  "part-2-neural-computation/N05/N05-03-mlp-forward-pass.md": {
+    "ko": "두 층 MLP의 forward pass를 직접 tensor 연산으로 계산한다. 행 단위 batch와 neuron별 weight를 배열하고 입력·hidden·출력 axis와 각 단계의 shape를 검산한다.",
+    "en": "Calculate a two-layer MLP's forward pass with direct tensor operations. Arrange row-batched samples and neuron weights, then check input, hidden, and output axes and the shapes at each stage."
+  },
+  "part-2-neural-computation/N05/N05-04-activation-functions-gating.md": {
+    "ko": "같은 입력에서 ReLU·sigmoid·GELU·SiLU의 함수값과 국소 미분을 비교한다. GLU와 SwiGLU에서 gate가 content 경로를 원소별 곱으로 조절하는 계산을 살펴본다.",
+    "en": "Compare ReLU, sigmoid, GELU, and SiLU values and local derivatives at the same inputs. Calculate how GLU and SwiGLU gates modulate the content path through elementwise multiplication."
+  },
+  "part-2-neural-computation/N05/N05-05-logits-softmax-cross-entropy.md": {
+    "ko": "logit vector에서 max subtraction을 적용한 softmax, target의 cross entropy와 logit gradient를 계산한다. 정규화 전 점수·확률·loss를 구분한다.",
+    "en": "Calculate stable softmax with max subtraction, target cross entropy, and logit gradients from a logit vector. Distinguish unnormalized scores, probabilities, and loss."
+  },
+  "part-2-neural-computation/N05/N05-06-backpropagation.md": {
+    "ko": "scalar 계산 그래프를 역순으로 따라 upstream gradient와 국소 미분을 곱하고 분기에서 돌아오는 gradient를 더한다. 손계산을 autograd와 대조하며 backward와 parameter update를 구분한다.",
+    "en": "Trace a scalar computation graph backward, multiply upstream gradients by local derivatives, and add gradients from branches. Compare hand calculations with autograd and separate backward computation from parameter updates."
+  },
+  "part-2-neural-computation/N05/N05-07-gradient-descent-mini-batch.md": {
+    "ko": "sample별 gradient의 평균으로 mini-batch gradient를 구하고 learning rate를 적용해 한 step을 갱신한다. sum·mean reduction의 scale 차이와 batch sampling·data order의 재현성을 확인한다.",
+    "en": "Average per-sample gradients to obtain a mini-batch gradient and apply one learning-rate update. Check how sum and mean reduction change gradient scale and how sampling and data order affect reproducibility."
+  },
+  "part-2-neural-computation/N05/N05-08-momentum-adamw-optimizer-state.md": {
+    "ko": "momentum buffer와 Adam의 moment·bias correction을 계산하고 AdamW의 adaptive update와 weight decay를 구분한다. 학습 재개에 weight뿐 아니라 optimizer state와 step이 필요한 이유를 설명한다.",
+    "en": "Calculate momentum buffers, Adam moments, and bias correction, then distinguish AdamW's adaptive update from weight decay. Examine why training resumption requires optimizer state and steps as well as weights."
+  },
+  "part-2-neural-computation/N05/N05-09-pytorch-tensor-shape-dtype.md": {
+    "ko": "PyTorch의 matmul·transpose·broadcasting을 수식의 axis와 대응시킨다. unsqueeze와 reshape의 역할을 구분하고 float32·float64에서 cancellation과 반올림 차이를 확인한다.",
+    "en": "Match PyTorch matmul, transpose, and broadcasting to equation axes. Distinguish unsqueeze from reshape and compare cancellation and rounding in float32 and float64."
+  },
+  "part-2-neural-computation/N05/N05-10-autograd-jvp-vjp.md": {
+    "ko": "작은 함수의 Jacobian·JVP·VJP를 손으로 구해 torch.func와 대조한다. 입력 tangent와 출력 cotangent의 전달, forward·reverse mode 선택, scalar loss의 역전파를 연결한다.",
+    "en": "Calculate a small function's Jacobian, JVP, and VJP by hand and compare them with torch.func. Connect input tangents, output cotangents, mode selection, and backpropagation of a scalar loss."
+  },
+  "part-2-neural-computation/N05/N05-11-token-tokenizer.md": {
+    "ko": "고정 toy vocabulary로 문자열을 token과 ID sequence로 바꾼다. token 경계, special·unknown token과 decode의 범위를 구분하고 token 수준 분석을 text span과 대응시킨다.",
+    "en": "Encode text into tokens and ID sequences with a fixed toy vocabulary. Distinguish token boundaries, special and unknown tokens, and decoding limits while mapping token-level analysis to text spans."
+  },
+  "part-2-neural-computation/N05/N05-12-embedding-unembedding.md": {
+    "ko": "token ID의 embedding row lookup부터 hidden state의 vocabulary logit 계산까지 shape를 추적한다. weight tying과 선택된 row에 모이는 lookup gradient를 설명한다.",
+    "en": "Trace shapes from embedding-row lookup by token ID to vocabulary logits from hidden states. Examine weight tying and the lookup gradients that accumulate in selected rows."
+  },
+  "part-2-neural-computation/N05/N05-13-position-information-rope.md": {
+    "ko": "RoPE가 query·key의 feature pair를 위치별로 회전하는 계산을 다룬다. norm과 같은 위치의 내적 보존, 상대 위치에 따른 score 변화와 config의 rotary fraction을 구분한다.",
+    "en": "Calculate RoPE rotations of query and key feature pairs by position. Check norm and same-position dot-product preservation, relative-position effects on scores, and the rotary fraction in model configuration."
+  },
+  "part-2-neural-computation/N05/N05-14-query-key-value.md": {
+    "ko": "같은 hidden state에서 query·key·value projection을 계산하고 QK score 행렬의 행·열 의미를 추적한다. score를 만드는 Q·K와 output에서 섞는 V의 역할을 구분한다.",
+    "en": "Calculate query, key, and value projections from the same hidden state and trace the rows and columns of the QK score matrix. Distinguish the scoring roles of Q and K from the content supplied by V."
+  },
+  "part-2-neural-computation/N05/N05-15-causal-scaled-dot-product-attention.md": {
+    "ko": "QK score의 크기 조절, causal mask, 행별 softmax, value 가중합을 순서대로 계산한다. mask 적용 순서와 output shape를 검산하고 attention weight와 최종 예측의 인과 기여를 구분한다.",
+    "en": "Calculate causal scaled dot-product attention through score scaling, masking, row-wise softmax, and value mixing. Check mask order and output shapes, and distinguish attention weights from causal contributions to a prediction."
+  },
+  "part-2-neural-computation/N05/N05-16-mha-mqa-gqa.md": {
+    "ko": "MHA·MQA·GQA에서 query head와 key-value head의 수·배정·shape를 비교한다. K·V 공유에 따른 KV cache 크기를 계산하고 공유 경로에 개입하는 범위를 구분한다.",
+    "en": "Compare query and key-value head counts, assignments, and shapes in MHA, MQA, and GQA. Calculate KV cache sizes under K/V sharing and distinguish the scope of interventions on shared paths."
+  },
+  "part-2-neural-computation/N05/N05-17-residual-stream.md": {
+    "ko": "attention·MLP update가 residual stream에 더해지는 순서를 추적한다. sublayer output과 덧셈 뒤 상태를 구분하고 residual Jacobian의 identity 경로를 확인한다.",
+    "en": "Trace how attention and MLP updates enter the residual stream. Distinguish sublayer outputs from post-addition states and identify the identity path in the residual Jacobian."
+  },
+  "part-2-neural-computation/N05/N05-18-layernorm-rmsnorm-residual-order.md": {
+    "ko": "작은 vector에 LayerNorm과 RMSNorm을 적용해 centering·rescaling·학습 parameter를 비교한다. pre-norm과 post-norm의 계산 순서를 따라 activation과 hook 위치를 구분한다.",
+    "en": "Apply LayerNorm and RMSNorm to small vectors and compare centering, rescaling, and learned parameters. Follow pre-norm and post-norm computation order to distinguish activations and hook locations."
+  },
+  "part-2-neural-computation/N05/N05-19-dense-mlp-swiglu-expert-routing.md": {
+    "ko": "dense MLP와 SwiGLU의 forward 식·shape를 계산하고 top-1 MoE routing을 비교한다. content를 조절하는 gate와 expert 선택을 구분하며 전체 parameter와 token당 활성 parameter를 나눠 센다.",
+    "en": "Calculate dense MLP and SwiGLU expressions and shapes, then compare top-1 MoE routing. Distinguish content gating from expert selection and count total versus per-token active parameters."
+  },
+  "part-2-neural-computation/N05/N05-20-decoder-block-architecture-diff.md": {
+    "ko": "tiny decoder에서 token ID부터 logit까지 embedding·attention·normalization·MLP·residual 계산을 연결한다. 공개 모델 config와의 component·순서·공유 차이를 구분해 hook 대응을 확인한다.",
+    "en": "Connect embeddings, attention, normalization, MLPs, and residual updates from token IDs to logits in a tiny decoder. Compare components, ordering, and sharing with public model configurations before matching hooks."
+  },
+  "part-2-neural-computation/N05/N05-21-language-model-objective.md": {
+    "ko": "sequence 확률을 prefix 조건부 확률의 곱으로 나타내고 next-token logit·label의 shift를 표시한다. 유효 token의 NLL과 mean loss를 계산하며 teacher forcing과 autoregressive 생성을 구분한다.",
+    "en": "Factor sequence probabilities into prefix-conditioned terms and align next-token logits with shifted labels. Calculate NLL and mean loss over valid tokens, distinguishing teacher forcing from autoregressive generation."
+  },
+  "part-2-neural-computation/N05/N05-22-causal-inference-kv-cache.md": {
+    "ko": "causal 언어모델 생성에서 과거 K·V를 저장하고 새 token의 projection을 추가하는 KV cache 계산을 다룬다. layer별 cache shape·memory를 구하고 cached logit을 전체 forward와 대조한다.",
+    "en": "Run causal language-model generation by caching past keys and values and appending new token projections. Calculate per-layer cache shapes and memory, then compare cached logits with a full forward pass."
+  },
+  "part-2-neural-computation/N05/N05-23-decoding-generation.md": {
+    "ko": "greedy와 categorical sampling을 비교하고 temperature·top-k·top-p에 따른 후보 분포를 계산한다. 절단 뒤 재정규화와 seed·prompt 조건을 확인해 생성 차이의 원인을 구분한다.",
+    "en": "Compare greedy decoding and categorical sampling, and calculate candidate distributions under temperature, top-k, and top-p. Check renormalization and seed/prompt conditions when interpreting differences in generated text."
+  },
+  "part-2-neural-computation/N05/N05-24-chain-of-thought-observation-status.md": {
+    "ko": "생성된 chain-of-thought를 output token에 관한 행동 관찰로 다룬다. legibility·correctness·faithfulness와 CoT·activation 개입의 차이를 구분해 내부 계산에 관한 주장 범위를 검토한다.",
+    "en": "Treat generated chain-of-thought as behavioral evidence about output tokens. Distinguish legibility, correctness, and faithfulness, and compare CoT and activation interventions when assessing claims about internal computation."
+  },
+  "part-2-neural-computation/N05/N05-25-hook-activation-collection.md": {
+    "ko": "module·layer·token 위치를 지정해 forward hook으로 activation을 수집한다. detach·clone·device 이동과 handle 제거를 구분하고 호출 횟수·shape·dtype·저장량·provenance를 확인한다.",
+    "en": "Collect activations with forward hooks at specified modules, layers, and token positions. Distinguish detach, clone, device transfer, and handle removal while checking calls, shapes, dtypes, storage, and provenance."
+  },
+  "part-2-neural-computation/N05/N05-26-gradient-collection-intervention-preparation.md": {
+    "ko": "scalar 분석 target을 정해 non-leaf activation의 gradient를 수집한다. perturbation과의 내적으로 일차 변화를 근사하고 실제 개입 forward와 대조해 국소 민감도와 인과 효과를 구분한다.",
+    "en": "Define a scalar analysis target and collect gradients of non-leaf activations. Approximate first-order changes through gradient–perturbation inner products and compare intervention forwards to distinguish local sensitivity from causal effects."
+  },
+  "part-2-neural-computation/N05/N05-27-checkpoint-model-state.md": {
+    "ko": "parameter·persistent buffer·optimizer state를 구분하고 inference와 학습 재개 checkpoint의 요구 항목을 정리한다. strict key 검사와 forward 일치로 load를 검증하며 revision·step·seed를 기록한다.",
+    "en": "Distinguish parameters, persistent buffers, and optimizer state in inference and resumable-training checkpoints. Validate loading through strict key checks and forward equivalence, recording revisions, steps, and seeds."
+  },
+  "part-2-neural-computation/N05/N05-28-one-token-path.md": {
+    "ko": "한 token의 ID부터 vocabulary logit까지 tensor 경로를 종합 실습으로 추적한다. shape·residual 등식·선택 logit의 embedding gradient를 확인하고 full forward와 cached inference를 대조한다.",
+    "en": "Trace one token from its ID to vocabulary logits in an integrated lab. Check shapes, residual equalities, and the embedding gradient of a selected logit, then compare full forward computation with cached inference."
+  }
+}

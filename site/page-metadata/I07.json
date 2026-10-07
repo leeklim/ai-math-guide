@@ -1,0 +1,70 @@
+{
+  "part-3-interpretability/I07/I07-01-sensitivity-attribution.md": {
+    "ko": "한 점의 국소 민감도와 기준점·대상 출력·배분 규칙을 정하는 귀인 문제를 구분한다. 작은 함수의 gradient와 유한 feature 제거 효과를 비교해 설명 범위를 확인한다.",
+    "en": "Distinguish local sensitivity at a point from attribution with a baseline, target output, and allocation rule. Compare gradients and finite feature-removal effects in a small function to establish claim boundaries."
+  },
+  "part-3-interpretability/I07/I07-02-gradient-attribution.md": {
+    "ko": "raw gradient·saliency·gradient×input을 손계산과 autograd로 비교한다. 부호·절댓값·입력 단위·saturation이 국소 민감도 해석에 미치는 영향을 살펴본다.",
+    "en": "Compare raw gradients, saliency, and gradient×input through hand calculations and autograd. Examine how signs, absolute values, input units, and saturation affect interpretations of local sensitivity."
+  },
+  "part-3-interpretability/I07/I07-03-integrated-gradients-baseline.md": {
+    "ko": "baseline에서 입력까지 직선 경로를 따라 gradient를 적분해 feature별 integrated gradients를 구한다. completeness와 수치 적분 오차를 확인하고 baseline·경로 선택에 따른 귀인 차이를 해석한다.",
+    "en": "Calculate featurewise integrated gradients along a straight path from a baseline to an input. Check completeness and numerical integration error, and interpret attribution differences caused by baseline and path choices."
+  },
+  "part-3-interpretability/I07/I07-04-perturbation-attribution.md": {
+    "ko": "feature를 zero·mean·resampled 값으로 대체한 뒤 출력 차이를 계산한다. 상호작용으로 개별 효과의 합이 달라지는 경우와 입력 분포 이동·matched control을 검토한다.",
+    "en": "Calculate output differences after replacing features with zero, mean, or resampled values. Examine nonadditive interaction effects, distribution shifts, and matched controls for perturbation attribution."
+  },
+  "part-3-interpretability/I07/I07-05-observation-intervention.md": {
+    "ko": "조건부 관찰과 do 개입을 계산 그래프에서 비교한다. node의 들어오는 계산을 대체하는 의미와 paired 실행의 total effect를 정의하고 모델 내부 인과의 범위를 한정한다.",
+    "en": "Compare conditional observation with do interventions in computation graphs. Define overwriting the incoming computation at a node and total effects from paired runs, keeping causal claims within the model intervention's scope."
+  },
+  "part-3-interpretability/I07/I07-06-ablation.md": {
+    "ko": "zero·mean·resample ablation의 single·joint effect를 계산한다. redundancy와 compensation이 necessity 판정에 미치는 영향을 살펴보고 random·magnitude-matched control을 설계한다.",
+    "en": "Calculate single and joint effects of zero, mean, and resample ablations. Examine redundancy and compensation when assessing necessity, and design random-component and magnitude-matched controls."
+  },
+  "part-3-interpretability/I07/I07-07-activation-patching.md": {
+    "ko": "clean·corrupt·patched 실행을 비교해 activation patching의 원시 효과와 normalized recovery를 계산한다. patch 위치와 token 정렬을 지정하고 입력 쌍·metric에 한정된 인과 주장을 검토한다.",
+    "en": "Compare clean, corrupt, and patched runs to calculate raw patch effects and normalized recovery. Specify patch locations and token alignment, and assess causal claims within the chosen input pair and metric."
+  },
+  "part-3-interpretability/I07/I07-08-causal-tracing.md": {
+    "ko": "corruption 뒤 layer·token별 clean activation을 복원해 recovery map을 만든다. localization을 mechanism·editing 주장과 구분하고 위치 탐색의 다중비교·선택 편향과 held-out 검증을 살펴본다.",
+    "en": "Restore clean activations by layer and token after corruption to build a recovery map. Separate localization from mechanism and editing claims, examining multiple comparisons, selection bias, and held-out validation."
+  },
+  "part-3-interpretability/I07/I07-09-path-patching.md": {
+    "ko": "node patching과 선택 edge·경로만 바꾸는 path patching을 비교한다. sender·receiver·source·base 조건을 명시하고 작은 DAG에서 total effect와 path effect를 계산한다.",
+    "en": "Compare node patching with interventions on selected edges or paths. Specify sender, receiver, source, and base conditions, then calculate total and path effects in a small DAG."
+  },
+  "part-3-interpretability/I07/I07-10-residual-logit-attribution.md": {
+    "ko": "선형 readout에서 residual 성분과 logit direction의 내적으로 직접 기여를 분해한다. normalization이 단순 가산 분해를 깨뜨리는 위치와 direct attribution·개입 효과의 차이를 설명한다.",
+    "en": "Decompose direct logit contributions through inner products of residual components and logit directions at a linear readout. Examine normalization limits on additive decomposition and distinguish attribution from intervention effects."
+  },
+  "part-3-interpretability/I07/I07-11-circuit-graph.md": {
+    "ko": "행동 metric과 입력 분포를 정하고 node·edge·message를 명시한 sparse circuit graph를 구성한다. 위상 순서·경로와 faithfulness·completeness·minimality 검증의 역할을 구분한다.",
+    "en": "Define a behavioral metric and input distribution, then construct a sparse circuit graph with explicit nodes, edges, and messages. Distinguish topological and path checks from faithfulness, completeness, and minimality tests."
+  },
+  "part-3-interpretability/I07/I07-12-necessity-sufficiency.md": {
+    "ko": "intact baseline에서 제거하는 necessity와 약화 baseline에 복원하는 sufficiency를 나눠 검사한다. redundancy·synergy 반례를 계산하고 각 주장에 맞는 대조군을 설계한다.",
+    "en": "Test necessity by removal from an intact baseline and sufficiency by restoration to a weakened baseline. Calculate redundancy and synergy counterexamples and design controls for each claim."
+  },
+  "part-3-interpretability/I07/I07-13-mediation-counterfactual.md": {
+    "ko": "treatment·mediator·outcome을 구조방정식에 놓고 total·direct·mediated effect를 계산한다. natural·controlled 개입과 counterfactual 조합에 따라 달라지는 분해·주장 범위를 검토한다.",
+    "en": "Calculate total, direct, and mediated effects using structural equations for treatment, mediator, and outcome. Examine how natural and controlled interventions and counterfactual combinations change decompositions and claim scope."
+  },
+  "part-3-interpretability/I07/I07-14-off-manifold-intervention.md": {
+    "ko": "좌표 교체가 activation 분포의 관계를 깨뜨리는 off-manifold 상태를 다룬다. 작은 manifold distance를 계산하고 resampling·projection·subspace 개입에서 효과와 타당성을 따로 평가한다.",
+    "en": "Study off-manifold states created when coordinate replacements break activation-distribution relationships. Calculate small manifold distances and evaluate effects separately from validity for resampling, projection, and subspace interventions."
+  },
+  "part-3-interpretability/I07/I07-15-controls-statistical-validation.md": {
+    "ko": "개입 실험의 experimental unit을 정해 random·matched·resampled control을 설계한다. unit별 paired effect에 bootstrap·sign-flip 검정을 적용하고 탐색과 confirmatory holdout을 분리한다.",
+    "en": "Define intervention experimental units and design random, matched, and resampled controls. Apply bootstrap and sign-flip tests to unit-level paired effects, separating exploration from confirmatory holdouts."
+  },
+  "part-3-interpretability/I07/I07-16-cot-faithfulness.md": {
+    "ko": "CoT의 그럴듯함과 faithfulness를 구분하고 rationale 제거·절단·paraphrase·오류 삽입에 대한 답의 의존성을 평가한다. 행동 검사가 내부 activation 증거와 같은지 검토한다.",
+    "en": "Distinguish CoT plausibility from faithfulness and assess answer dependence under rationale removal, truncation, paraphrase, and error insertion. Examine the limits of relating behavioral tests to internal activation evidence."
+  },
+  "part-3-interpretability/I07/I07-17-capstone-small-circuit.md": {
+    "ko": "하나의 행동·입력 모집단·outcome에 node·edge 가설과 개입 estimand를 연결한다. held-out necessity·sufficiency·faithfulness, off-manifold 진단과 대조군을 작은 circuit 보고서로 정리한다.",
+    "en": "Connect a behavior, input population, and outcome to node/edge hypotheses and intervention estimands. Assemble held-out necessity, sufficiency, and faithfulness tests, off-manifold diagnostics, and controls in a small circuit report."
+  }
+}

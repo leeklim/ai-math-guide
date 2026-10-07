@@ -1,0 +1,34 @@
+{
+  "part-4-advanced/A09-KER/A09-KER-01-function-spaces-operators.md": {
+    "ko": "함수의 pointwise 합·scalar 곱이 만드는 vector space를 살펴보고 linear·nonlinear operator를 구분한다. evaluation·integral operator의 타입과 parameter·function-space 변화의 차이를 설명한다.",
+    "en": "Examine function vector spaces under pointwise addition and scalar multiplication and distinguish linear from nonlinear operators. Specify evaluation/integral operator types and separate parameter-space changes from function-space changes."
+  },
+  "part-4-advanced/A09-KER/A09-KER-02-positive-definite-kernel.md": {
+    "ko": "sample 쌍의 kernel로 Gram matrix를 만들고 quadratic form의 positive semidefinite 조건을 검사한다. linear·polynomial·Gaussian kernel의 geometry와 의미·인과 유사도 주장을 구분한다.",
+    "en": "Construct Gram matrices from sample-pair kernels and test positive semidefiniteness with quadratic forms. Compare linear, polynomial, and Gaussian kernel geometry while separating similarity values from semantic or causal claims."
+  },
+  "part-4-advanced/A09-KER/A09-KER-03-feature-map-kernel-trick.md": {
+    "ko": "explicit feature map의 내적에서 kernel을 계산하고 좌표를 만들지 않는 Gram 계산으로 바꾼다. feature map 비유일성과 sample 수에 따른 kernel method의 비용을 확인한다.",
+    "en": "Calculate kernels from explicit feature-map inner products and replace coordinate construction with Gram-matrix calculations. Examine feature-map nonuniqueness and kernel-method costs as sample counts grow."
+  },
+  "part-4-advanced/A09-KER/A09-KER-04-rkhs-introduction.md": {
+    "ko": "RKHS의 reproducing property로 point evaluation을 kernel section과의 내적으로 표현한다. kernel-dependent norm과 representer theorem의 training sample 기반 finite expansion을 설명한다.",
+    "en": "Express point evaluation through the RKHS reproducing property and kernel-section inner products. Examine kernel-dependent norms and the representer theorem's finite expansion over training samples."
+  },
+  "part-4-advanced/A09-KER/A09-KER-05-spectrum-compact-operators.md": {
+    "ko": "population 분포에 대한 kernel integral operator를 정의하고 eigenfunction과 finite Gram eigenvector를 구분한다. kernel expansion·정규화·sample measure와 regularization별 effective dimension을 살펴본다.",
+    "en": "Define kernel integral operators over population distributions and distinguish eigenfunctions from finite Gram eigenvectors. Examine expansions, normalization, sample measures, and regularization-dependent effective dimensions."
+  },
+  "part-4-advanced/A09-KER/A09-KER-06-neural-tangent-kernel.md": {
+    "ko": "model의 parameter gradient 내적으로 empirical NTK를 만들고 squared-loss output dynamics를 계산한다. fixed-kernel 근사와 mode별 학습 속도·training 중 kernel 변화의 범위를 구분한다.",
+    "en": "Build empirical NTKs from parameter-gradient inner products and calculate squared-loss output dynamics. Distinguish fixed-kernel approximations, modewise learning speeds, and kernel changes during finite-network training."
+  },
+  "part-4-advanced/A09-KER/A09-KER-07-parameter-function-space.md": {
+    "ko": "Jacobian으로 local parameter 변위를 output 변화에 대응시킨다. parameter·function 거리와 JJᵀ·JᵀJ의 index를 구분하고 재매개화에 따른 metric·NTK 변화를 설명한다.",
+    "en": "Map local parameter displacements to output changes with Jacobians. Distinguish parameter/function distances and the indices of JJᵀ and JᵀJ, examining metric and NTK changes under reparameterization."
+  },
+  "part-4-advanced/A09-KER/A09-KER-08-capstone-kernel-learning.md": {
+    "ko": "input unit·parameterization·target·checkpoint를 고정해 empirical NTK spectrum·target alignment·kernel drift를 계산한다. 선형화 예측을 실제 output 궤적과 대조하고 null label·symmetry control을 적용한다.",
+    "en": "Fix input units, parameterization, targets, and checkpoints to calculate NTK spectra, target alignment, and kernel drift. Compare linearized predictions with output trajectories using null-label and symmetry controls."
+  }
+}

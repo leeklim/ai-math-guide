@@ -1,0 +1,34 @@
+{
+  "part-4-advanced/A09-SYM/A09-SYM-01-groups-actions.md": {
+    "ko": "합성 가능한 대칭변환의 group 조건과 parameter·activation·input에 작용하는 action을 구분한다. permutation·rotation 예에서 작용 대상과 보존되는 함수를 명시한다.",
+    "en": "Distinguish group conditions for composable symmetries from actions on parameters, activations, and inputs. Use permutation and rotation examples to specify the objects acted on and functions preserved."
+  },
+  "part-4-advanced/A09-SYM/A09-SYM-02-orbits-stabilizers.md": {
+    "ko": "대칭 복사본의 orbit와 대상을 고정하는 stabilizer를 계산하고 finite orbit–stabilizer 관계를 적용한다. quotient 동치류와 raw parameter 거리의 기능 해석을 구분한다.",
+    "en": "Calculate symmetry orbits and stabilizers and apply the finite orbit–stabilizer relation. Examine quotient equivalence classes and distinguish raw parameter distances from functional differences."
+  },
+  "part-4-advanced/A09-SYM/A09-SYM-03-invariant-equivariant.md": {
+    "ko": "input·output action을 명시해 invariant와 equivariant map의 식을 비교한다. group averaging으로 불변량을 만드는 원리와 경험적 robustness·정확한 구조 보장의 차이를 설명한다.",
+    "en": "Specify input and output actions to compare invariant and equivariant maps. Examine group averaging and distinguish empirical robustness from exact architectural symmetry guarantees."
+  },
+  "part-4-advanced/A09-SYM/A09-SYM-04-permutation-symmetry.md": {
+    "ko": "두 층 network에서 hidden 순열을 다음 layer·bias·output projection으로 보상하는 식을 추적한다. head permutation의 허용 조건과 neuron matching·기능 동치의 차이를 확인한다.",
+    "en": "Trace compensated hidden-unit permutations through adjacent weights, biases, and output projections. Examine conditions for head permutations and distinguish neuron matching scores from functional equivalence."
+  },
+  "part-4-advanced/A09-SYM/A09-SYM-05-scaling-rotation-gauge.md": {
+    "ko": "positive-homogeneous network의 scale 교환과 선형 hidden interface의 basis rotation 보상변환을 계산한다. norm·Hessian 등 gauge-dependent 양과 불변량을 구분하고 gauge fixing의 임의성을 검토한다.",
+    "en": "Calculate scale exchanges in positive-homogeneous networks and compensating basis rotations at linear hidden interfaces. Distinguish gauge-dependent norms and Hessians from invariants and examine the choices involved in gauge fixing."
+  },
+  "part-4-advanced/A09-SYM/A09-SYM-06-representation-theory.md": {
+    "ko": "group의 linear representation과 homomorphism 조건을 설명하고 permutation 예를 invariant subspace·irreducible component로 분해한다. learned activation의 irrep 주장에 필요한 transformation 검사를 살펴본다.",
+    "en": "Examine linear representations and homomorphism conditions, decomposing a permutation example into invariant subspaces and irreducible components. Specify transformation checks for irrep claims about learned activations."
+  },
+  "part-4-advanced/A09-SYM/A09-SYM-07-model-alignment-equivalence-classes.md": {
+    "ko": "permutation·orthogonal·general linear alignment의 허용 변환과 목적함수를 비교한다. train 정렬과 held-out 평가를 분리하고 남은 mismatch·비유일성에 맞춰 기능·feature 주장을 제한한다.",
+    "en": "Compare allowed transformations and objectives for permutation, orthogonal, and general linear alignment. Separate fitting from held-out evaluation and bound functional and feature claims under residual mismatch and nonuniqueness."
+  },
+  "part-4-advanced/A09-SYM/A09-SYM-08-capstone-seed-alignment.md": {
+    "ko": "paired 입력·checkpoint·alignment split을 고정해 seed 간 raw·대칭 정렬·기능 차이를 나눠 비교한다. bootstrap 안정성과 intervention transfer로 기하 유사도·기능 보존을 평가한다.",
+    "en": "Fix paired inputs, checkpoints, and alignment splits to compare raw, symmetry-aligned, and functional differences across seeds. Assess stability with bootstrap checks and function preservation through intervention transfer."
+  }
+}

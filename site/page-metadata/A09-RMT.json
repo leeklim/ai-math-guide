@@ -1,0 +1,34 @@
+{
+  "part-4-advanced/A09-RMT/A09-RMT-01-high-dimensional-concentration.md": {
+    "ko": "고차원 isotropic Gaussian의 squared norm 평균·분산과 독립 direction의 내적 scale을 계산한다. 집중현상을 clustering과 구분하고 dimension·covariance를 맞춘 activation null model을 정한다.",
+    "en": "Calculate high-dimensional isotropic-Gaussian squared-norm moments and independent-direction inner-product scales. Distinguish concentration from clustering and specify activation null models matched for dimension and covariance."
+  },
+  "part-4-advanced/A09-RMT/A09-RMT-02-random-projection.md": {
+    "ko": "Gaussian random projection의 scale과 finite point set에 대한 Johnson–Lindenstrauss 거리 보존을 설명한다. point 수·distortion별 target dimension과 learned projection의 대조군을 설계한다.",
+    "en": "Examine Gaussian projection scaling and Johnson–Lindenstrauss distance preservation for finite point sets. Relate target dimension to point count and distortion and design controls for learned projections."
+  },
+  "part-4-advanced/A09-RMT/A09-RMT-03-sample-covariance-spectrum.md": {
+    "ko": "중심화한 activation에서 sample covariance와 rank 제한을 계산한다. dimension·sample 수의 aspect ratio가 spectrum noise에 미치는 영향과 행 수·독립 분석 단위의 차이를 설명한다.",
+    "en": "Calculate sample covariance and rank limits from centered activations. Examine aspect-ratio effects on spectral noise and distinguish matrix-row counts from independent units of analysis."
+  },
+  "part-4-advanced/A09-RMT/A09-RMT-04-marchenko-pastur-intuition.md": {
+    "ko": "noise variance·aspect ratio로 Marchenko–Pastur bulk edge를 구하고 rank 부족의 zero mass를 설명한다. iid·isotropy·finite variance 가정과 activation spectrum의 fitted null 비교 한계를 점검한다.",
+    "en": "Calculate Marchenko–Pastur bulk edges from noise variance and aspect ratio and explain zero mass from rank deficiency. Check iid, isotropy, and finite-variance assumptions when comparing activation spectra with fitted nulls."
+  },
+  "part-4-advanced/A09-RMT/A09-RMT-05-spiked-covariance-model.md": {
+    "ko": "rank-one spike의 population eigenvalue와 signal strength·aspect ratio에 따른 spectral separation을 분석한다. outlier 탐지와 eigenvector 회복을 구분해 약한 PCA component의 주장 범위를 정한다.",
+    "en": "Analyze rank-one spike eigenvalues and spectral separation under signal strength and aspect ratio. Distinguish outlier detection from eigenvector recovery when interpreting weak PCA components."
+  },
+  "part-4-advanced/A09-RMT/A09-RMT-06-signal-noise-eigenvalues.md": {
+    "ko": "parallel analysis의 null 초과와 eigenvector·subspace 안정성을 나눠 평가한다. split-half·bootstrap·held-out association·개입을 통해 variance signal과 task·기능 증거를 단계별로 보고한다.",
+    "en": "Evaluate parallel-analysis null exceedance separately from eigenvector and subspace stability. Use split-half, bootstrap, held-out association, and intervention evidence to report variance, task, and functional claims in stages."
+  },
+  "part-4-advanced/A09-RMT/A09-RMT-07-weight-activation-hessian-spectra.md": {
+    "ko": "weight singular value와 activation covariance·Hessian eigenvalue의 index·단위·정규화를 비교한다. 구조·입력 분포·loss 곡률에 맞는 null model과 spectral 주장을 구분한다.",
+    "en": "Compare indices, units, and normalization for weight singular values and activation-covariance and Hessian eigenvalues. Match null models and spectral claims to structure, input distributions, and loss curvature."
+  },
+  "part-4-advanced/A09-RMT/A09-RMT-08-capstone-spectrum-null-model.md": {
+    "ko": "activation covariance에 analytic MP edge와 matched simulation null을 적용한다. threshold 선택·held-out task 평가를 분리하고 outlier subspace의 split·seed 안정성과 기능 증거를 따로 보고한다.",
+    "en": "Apply analytic MP edges and matched simulation nulls to activation covariance. Separate threshold selection from held-out task evaluation and report outlier-subspace split/seed stability apart from functional evidence."
+  }
+}

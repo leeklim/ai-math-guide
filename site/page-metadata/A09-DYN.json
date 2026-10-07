@@ -1,0 +1,34 @@
+{
+  "part-4-advanced/A09-DYN/A09-DYN-01-odes-flows.md": {
+    "ko": "autonomous ODE의 state·vector field와 한 초기값의 trajectory·전체 flow map을 구분한다. Euler 이산화를 gradient descent와 연결하고 해의 존재·유일성 조건을 설명한다.",
+    "en": "Distinguish autonomous-ODE states and vector fields, individual trajectories, and flow maps. Relate Euler discretization to gradient descent and examine solution existence and uniqueness conditions."
+  },
+  "part-4-advanced/A09-DYN/A09-DYN-02-fixed-points-linear-stability.md": {
+    "ko": "continuous·discrete fixed point를 구하고 Jacobian eigenvalue로 hyperbolic 지점의 국소 안정성을 판정한다. 실수부·크기 기준과 경계 eigenvalue에서 선형화의 한계를 구분한다.",
+    "en": "Find continuous and discrete fixed points and assess hyperbolic local stability with Jacobian eigenvalues. Distinguish real-part and magnitude criteria and the limits of linearization at boundary eigenvalues."
+  },
+  "part-4-advanced/A09-DYN/A09-DYN-03-phase-portrait-bifurcation.md": {
+    "ko": "phase line·portrait와 basin을 통해 초기조건별 흐름을 비교한다. saddle-node·pitchfork normal form의 bifurcation을 분석하고 sparse checkpoint 변화와 질적 전이 주장을 구분한다.",
+    "en": "Compare flows across initial conditions through phase lines, portraits, and basins. Analyze saddle-node and pitchfork normal forms, distinguishing sparse checkpoint changes from evidence of qualitative transitions."
+  },
+  "part-4-advanced/A09-DYN/A09-DYN-04-markov-process.md": {
+    "ko": "Markov property를 조건부확률로 쓰고 transition matrix로 state 분포를 전파한다. stationary distribution·detailed balance의 차이와 optimizer state 정의에 따른 가정의 타당성을 검토한다.",
+    "en": "Express the Markov property through conditional probabilities and propagate state distributions with transition matrices. Distinguish stationarity from detailed balance and assess assumptions behind optimizer-state definitions."
+  },
+  "part-4-advanced/A09-DYN/A09-DYN-05-langevin-dynamics.md": {
+    "ko": "overdamped Langevin의 gradient drift·Brownian diffusion과 temperature를 설명하고 Euler–Maruyama update를 계산한다. SGD noise와 isotropic Langevin noise를 동일시할 조건을 구분한다.",
+    "en": "Examine gradient drift, Brownian diffusion, and temperature in overdamped Langevin dynamics, then calculate Euler–Maruyama updates. Distinguish SGD noise from isotropic Langevin noise and the assumptions needed to relate them."
+  },
+  "part-4-advanced/A09-DYN/A09-DYN-06-stochastic-differential-equations.md": {
+    "ko": "Itô SDE의 drift·diffusion coefficient와 Brownian increment scale을 읽는다. quadratic variation에 따른 Itô correction을 계산하고 finite-step simulation과 연속 과정의 차이를 설명한다.",
+    "en": "Read drift and diffusion coefficients in Itô SDEs and examine Brownian-increment scaling. Calculate quadratic-variation corrections and distinguish finite-step simulations from continuous processes."
+  },
+  "part-4-advanced/A09-DYN/A09-DYN-07-continuous-time-sgd.md": {
+    "ko": "SGD를 mean gradient와 sampling noise로 나눠 gradient flow·diffusion 근사를 비교한다. learning rate·batch size·noise covariance와 finite step·optimizer state가 근사에 미치는 영향을 검토한다.",
+    "en": "Decompose SGD into mean gradients and sampling noise to compare gradient-flow and diffusion approximations. Examine learning rate, batch size, noise covariance, finite steps, and optimizer state when assessing validity."
+  },
+  "part-4-advanced/A09-DYN/A09-DYN-08-capstone-learning-trajectories.md": {
+    "ko": "state·time·distance를 고정해 학습 궤적의 drift·noise·국소 안정성을 따로 측정한다. paired seed·checkpoint 해상도·보간 오차를 포함한 control로 trajectory 주장의 범위를 정한다.",
+    "en": "Fix state, time, and distance choices to measure learning-trajectory drift, noise, and local stability separately. Use controls for paired seeds, checkpoint resolution, and interpolation error to bound trajectory claims."
+  }
+}

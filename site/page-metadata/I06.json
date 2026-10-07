@@ -1,0 +1,62 @@
+{
+  "part-3-interpretability/I06/I06-01-behavior-representation-question-design.md": {
+    "ko": "모델 해석 질문을 행동 대상·내부 대상·비교·주장으로 나누고 claim·estimand·measurement를 연결한다. 관찰 단위와 반복 측정을 구분해 관찰·복원·사용·인과의 증거 범위를 정한다.",
+    "en": "Design an interpretability question around behavioral and internal targets, comparisons, and claims. Connect claims, estimands, and measurements while separating observation units from repeated measurements and levels of evidence."
+  },
+  "part-3-interpretability/I06/I06-02-activation-dataset.md": {
+    "ko": "입력 하나를 관찰 단위로 삼아 선택 activation과 model·layer·token·조건 metadata를 묶는다. 수집 전 split을 정하고 token 선택·저장 크기·hash를 확인하는 dataset schema를 구성한다.",
+    "en": "Build an activation dataset linking selected vectors to input, model, layer, token, and condition metadata. Define splits before collection and check token selection, storage size, and hashes."
+  },
+  "part-3-interpretability/I06/I06-03-distributions-basic-statistics.md": {
+    "ko": "activation의 좌표별 평균·표본분산과 vector norm 분포를 구분해 계산한다. 이상치 후보와 조건 차이를 effect size·불확실성·분석 단위에 연결하고 다중비교와 scale 차이를 점검한다.",
+    "en": "Calculate coordinatewise activation means and sample variances separately from vector-norm distributions. Assess outlier candidates and condition differences with effect sizes, uncertainty, analysis units, and checks for multiple comparisons and scale differences."
+  },
+  "part-3-interpretability/I06/I06-04-neuron-level-analysis.md": {
+    "ko": "layer·token·coordinate로 neuron을 지정해 top activating example과 조건별 분포를 분석한다. 직교 기저변환이 좌표 반응과 표현 기하에 미치는 영향을 구분하고 polysemantic 반응의 검증 항목을 살펴본다.",
+    "en": "Specify neurons by layer, token, and coordinate to analyze top-activating examples and condition distributions. Examine basis-dependent responses, preserved geometry under orthogonal rotations, and checks for polysemantic responses."
+  },
+  "part-3-interpretability/I06/I06-05-pca-svd-analysis.md": {
+    "ko": "activation 행렬을 중심화한 뒤 SVD로 principal direction·score·explained variance와 저차원 복원 오차를 구한다. PCA가 요약하는 분산과 feature의 의미·모델 사용을 구분한다.",
+    "en": "Center activation matrices and use SVD to calculate principal directions, scores, explained variance, and low-rank reconstruction error. Distinguish the variance summarized by PCA from feature meaning or model use."
+  },
+  "part-3-interpretability/I06/I06-06-linear-probe.md": {
+    "ko": "고정 activation에서 label을 선형 복원하는 regularized probe를 학습·평가한다. 독립 split과 majority·input-only baseline을 확인하고 held-out 정확도를 기능적 사용의 증거와 구분한다.",
+    "en": "Train and evaluate regularized linear probes on fixed activations. Use independent splits and majority/input-only baselines, and distinguish held-out label recoverability from evidence of functional use."
+  },
+  "part-3-interpretability/I06/I06-07-probe-controls-selectivity.md": {
+    "ko": "label·representation control로 probe 자체의 학습 능력을 점검한다. task와 control의 용량·split·tuning budget을 맞춰 selectivity를 계산하고 seed별 변동과 함께 해석한다.",
+    "en": "Use label and representation controls to examine a probe's own learning capacity. Match task and control capacity, splits, and tuning budgets, then interpret selectivity alongside variation across seeds."
+  },
+  "part-3-interpretability/I06/I06-08-cca-cka-rsa.md": {
+    "ko": "같은 입력 순서로 정렬한 activation에서 CCA·linear CKA·RSA가 비교하는 관계를 구분한다. 작은 행렬의 유사도를 계산하고 각 지표의 불변성과 작은 표본에서의 한계를 검토한다.",
+    "en": "Compare CCA, linear CKA, and RSA using activations aligned to the same input order. Calculate similarities on small matrices and examine each measure's invariances and small-sample limitations."
+  },
+  "part-3-interpretability/I06/I06-09-feature-visualization.md": {
+    "ko": "neuron·direction의 activation objective를 정해 top·bottom·random example과 최적화 입력을 비교한다. regularization의 영향을 확인하고 시각화에서 만든 feature 설명을 독립 입력으로 검증한다.",
+    "en": "Define activation objectives for neurons and directions, comparing top, bottom, and random examples with optimized inputs. Examine regularization effects and test visualization-based feature descriptions on independent inputs."
+  },
+  "part-3-interpretability/I06/I06-10-superposition.md": {
+    "ko": "차원보다 많은 feature direction과 sparse coefficient를 같은 표현 공간에 놓는 superposition을 다룬다. Gram matrix로 비직교 간섭을 계산하고 toy model 결과의 해석 범위를 제한한다.",
+    "en": "Study superposition with more feature directions than dimensions and sparse coefficients in a shared representation space. Calculate nonorthogonal interference through a Gram matrix and limit claims drawn from toy models."
+  },
+  "part-3-interpretability/I06/I06-11-sparse-coding.md": {
+    "ko": "reconstruction error와 sparsity penalty를 결합한 목적함수에서 고정 dictionary의 code를 갱신한다. ISTA의 soft thresholding, active fraction·coherence와 scale·비유일성 문제를 살펴본다.",
+    "en": "Update codes for a fixed dictionary under a reconstruction-plus-sparsity objective. Examine ISTA soft thresholding, active fractions, dictionary coherence, and ambiguities of scale and nonuniqueness."
+  },
+  "part-3-interpretability/I06/I06-12-sparse-autoencoder.md": {
+    "ko": "SAE encoder·decoder의 shape와 목적함수를 따라 L1·TopK sparsity 통제를 비교한다. reconstruction·L0·dead feature·downstream fidelity를 함께 평가하고 latent의 의미는 별도로 검증한다.",
+    "en": "Follow SAE encoder/decoder shapes and objectives to compare L1 and TopK sparsity control. Evaluate reconstruction, L0, dead features, and downstream fidelity while testing latent meanings separately."
+  },
+  "part-3-interpretability/I06/I06-13-feature-stability-identifiability.md": {
+    "ko": "dictionary의 permutation·sign·scale 모호성을 정렬하고 cosine matching과 일대일 assignment를 비교한다. 개별 feature와 subspace 안정성을 나눠 평가하며 경험적 안정성과 identifiability를 구분한다.",
+    "en": "Align dictionary permutation, sign, and scale ambiguities, then compare cosine matching with one-to-one assignment. Evaluate feature and subspace stability separately and distinguish empirical stability from identifiability."
+  },
+  "part-3-interpretability/I06/I06-14-writing-representation-claims.md": {
+    "ko": "activation·probe·SAE·개입 결과가 허용하는 주장 강도를 evidence ledger로 정한다. 대상·측정·대조·불확실성·범위를 포함해 표현 결과 문장을 쓰고 과도한 인과·의인화 표현을 고친다.",
+    "en": "Use an evidence ledger to set claim strength for activation, probe, SAE, and intervention results. Write representation statements with targets, measurements, comparisons, uncertainty, and scope, correcting unsupported causal or anthropomorphic language."
+  },
+  "part-3-interpretability/I06/I06-15-capstone-representation-report.md": {
+    "ko": "표현 분석 질문부터 dataset provenance·기술통계·probe control·안정성·주장 범위까지 하나의 재현 보고서로 연결한다. primary estimand와 보조 분석을 구분하고 manifest·hash로 계산을 확인한다.",
+    "en": "Connect a representation question, dataset provenance, descriptive statistics, probe controls, stability, and claim boundaries in a reproducible report. Separate the primary estimand from auxiliary analyses and verify computations with manifests and hashes."
+  }
+}

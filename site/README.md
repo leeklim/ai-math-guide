@@ -1,5 +1,22 @@
 # 사이트 운영 설정
 
+## 한영 로컬 빌드와 검수
+
+영문판 작업은 별도 최종 공개 승인 전까지 로컬에만 보관한다. 아래 명령은 원격 push·PR·preview 업로드·Pages 배포를 실행하지 않는다. 기존 한국어판의 공개 기록과 승인은 영문판 공개 승인으로 확대하지 않는다.
+
+```powershell
+.\scripts\build_site.ps1
+.\scripts\preview_site.ps1 -SkipBuild -Port 8003
+```
+
+빌드는 먼저 `check-translations --require-verified`로 199개 단원과6개 부속 문서의 실제 검토 상태·원문/영문 hash를 확인한다. 빠진 원고·미검토·stale가 있으면 중단한다. 한국어 `.build/ko/site`와 영어 `.build/en/site`를 별도 strict build하고 검사한 뒤 `.build/bilingual/site`로 병합한다. 기존 `.build/site`는 덮어쓰지 않는다. 최종 Pages workflow도 한영 병합 경로만 업로드하도록 준비하며, 실제 원격 실행은 최종 승인 뒤에만 수행한다.
+
+로컬 기본 빌드는 `.build`의 기존 필수 CPU 결과를 재사용한다. staging은 각 예제 코드의 source hash와 결과 필드를 검사하고, 환경 진단은 고정된 Python·NumPy·CPU PyTorch를 확인한다. 예제·공통 계산 코드나 환경을 변경했거나 결과가 없다면 `build_site.ps1 -RunExamples`로 N05·I06·I07·I08 결과를 각1회 생성한다. 공통 코드·환경 변경까지 자동으로 추적하는 별도 결과 캐시는 없으므로 이 경우 재실행이 필요하다. clean CI에서는 기존 네 CPU runner를 각1회 실행하고 양언어가 결과를 공유한다. 테스트 안의 작은 계산과 결과 생성 runner는 구분한다. GPU 결과·모델 가중치는 공개 빌드에 포함하지 않는다.
+
+preview는 병합 HTML만127.0.0.1에서 정적으로 제공한다. 한국어는 `http://127.0.0.1:8003/ai-math-guide/`, 영어는 `http://127.0.0.1:8003/ai-math-guide/en/`이다. `-SkipBuild`는 이미 생성된 HTML을 읽는 옵션이므로 Markdown 수정은 자동 반영되지 않는다. 원문 수정 뒤에는 대응 영문을 대조 검토해 stale를 해소하고 다시 빌드한 후 페이지를 새로고침한다. 이미8003 포트가 사용 중이면 다른 포트를 지정한다.
+
+한영 GA4 동의 scope는 같으며 로컬 수집은 차단된다. Node.js의 `node tests/analytics_runtime.cjs .build/ko/site/index.html`과 대응 영어 경로 검사로 양언어를 각각 확인한다. 실제 Google 수신은 영문판 공개 승인·배포 뒤에 확인하며 모의 검사 통과와 구분한다.
+
 ## 방문 통계 (GA4)
 
 GA4 측정 ID는 `G-VXDGRXQFT3`이며 `mkdocs.base.yml`에서 관리한다. 측정 ID는 공개 페이지의 태그에 포함되는 식별자이며 비밀번호나 API secret이 아니다. 2026-10-07 [한국어판 홈페이지](https://leeklim.github.io/ai-math-guide/) 공개 배포와 GA4 실시간 수신 확인을 완료했다. 아래 완료 기록에 배포 commit과 검수 범위를 남긴다.
@@ -54,3 +71,15 @@ GA4 측정 ID는 `G-VXDGRXQFT3`이며 `mkdocs.base.yml`에서 관리한다. 측�
 사용자가 전체 199개 단원의 원문 기반 영문 재서술과 한영 선택 로컬 사이트 Goal을 승인했다. 이 단계는 한국어 원본·공개 URL·SVG·실습 코드를 보존한다. 영문 원본은 `translations/en/`, 대응과 검토 기록은 `revision/translation-audit.csv`에 둔다. 단원별 국소 검사, 17개 작업 단위 끝의 HTML 반영, 최종 통합 검증을 수행한다.
 
 별도 최종 승인 전 모든 원격 브랜치 push·PR·공개 preview·배포를 금지한다. 한국어판 공개 승인은 영문 초안 공개 승인으로 확대하지 않는다. 기반 구현과 표본 M00-03·M03-11·N05-15·I07-07·A09-GEO-02의 작성·대조 검토부터 시작하며, 아직 영문판 검증이나 공개 준비 완료를 주장하지 않는다.
+
+## 영문판 로컬 완성·공개 준비 완료 (2026-10-07)
+
+위 시작 기록은 당시 상태다. 영문199개 단원과 독자용 부속 문서6개를 작성·독립 대조·HTML 확인했으며 검토205건 모두 verified, 누락·미검토·stale0건이다. 한국어199개 단원·문제/해설1,154쌍·SVG1,355개와 공유 생성/실습 원본을 보존했고 영어도 단원별1,154쌍이 대응한다. 원문에서 이어진 오류·모호성 후보는 `revision/english-progress.md`에 별도로 기록했으며 영문화 과정에서 몰래 정정하지 않았다.
+
+실제 기본 `build_site.ps1` 전체 실행을 완료했다. Python unittest177개 중176개 통과·선택 GPU 검사1개 skip, 저장 그림/개념 감사, 양언어 source audit·English-reading lint·분리 strict build·완성 병합·GA4 mock각19개가 통과했다. 양언어 깨진 링크·자산·점검표 노출0건이다. 기존 CPU 결과를 신선도 확인 후 재사용했으며 네 예제 runner·GPU/모델·그림 재생성은 실행하지 않았다.
+
+17작업 단위 대표와 표본5개를 데스크톱/모바일·양테마에서 실제 검수했다. 최종 완성 build에서는 표본5개·긴 수식 해설2페이지·영문 홈/용어집을 다시4조건으로 확인했다. 언어 전환과 새로고침 뒤 동의·거부 공유를 실제 확인했고, 로컬 Google script는 동의 뒤에도0개다. 검수 후 거부 상태와 기본 viewport를 복원했다. 접근성 MathML은 유지하지만 실제 스크린리더 음성 검사는 하지 않았다. Material의 불필요한 깊은 경로 sitemap 요청 오류와 기타 제한은 진행 기록을 따른다.
+
+현재 검수 서버는 `preview_site.ps1 -SkipBuild -Port 8004`로 실행했다. [한국어 로컬 홈](http://127.0.0.1:8004/ai-math-guide/)과 [English local home](http://127.0.0.1:8004/ai-math-guide/en/)에서 상단 언어 선택을 사용할 수 있다. 산출물은 `.build/bilingual/site`이며 정적 서버라 Markdown 수정이 자동 반영되지 않는다. 대응 영어를 재검토하고 다시 빌드해야 한다.
+
+로컬 완성본의 사용자 검수와 별도 최종 공개 승인만 후속 단계로 남는다. 이번 영문판 Goal에서는 원격 push·PR·공개 preview 업로드·Pages 배포를 하지 않았다. 기존 한국어 공개 홈페이지를 변경하지 않았으며 영어 공개 주소와 GA4 실제 수신 확인은 승인 후 배포 때 검증한다. 상세 근거와 원문 주의 항목은 `revision/english-progress.md`, 개별 검토 hash는 `revision/translation-audit.csv`에 있다.

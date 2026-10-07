@@ -366,6 +366,21 @@ class BilingualSiteTests(unittest.TestCase):
             validate.assert_not_called()
             remove.assert_not_called()
 
+    def test_search_terms_must_occur_on_the_expected_lesson_page(self) -> None:
+        relative = "part-1-foundations/M03/M03-11-jacobian.md"
+        location = site.page_url(relative)
+        for term in ("Jacobian", "자코비안"):
+            with self.subTest(term=term):
+                glossary = {"location": "glossary/#jacobian", "text": term}
+                self.assertEqual(site.search_page_hits([glossary], term, relative), [])
+                expected = {"location": location + "#definition", "title": term}
+                self.assertEqual(site.search_page_hits([glossary, expected], term, relative), [expected["location"]])
+                self.assertEqual(site.search_page_hits([{"location": location, "text": "unrelated"}], term, relative), [])
+        self.assertEqual(site.SEARCH_TERMS["mutual information"], "M04-14")
+        self.assertEqual(site.SEARCH_TERMS["상호정보량"], "04-GLOSSARY.md")
+        glossary = {"location": "glossary/#mutual-information", "text": "상호정보량"}
+        self.assertEqual(site.search_page_hits([glossary], "상호정보량", site.PUBLIC_DOCUMENTS["04-GLOSSARY.md"]), [glossary["location"]])
+
     def test_partial_merge_checks_both_search_indexes_and_language_targets(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -386,6 +401,20 @@ class BilingualSiteTests(unittest.TestCase):
                 summary = json.loads(site.read_text(build_root / "bilingual/validation.json"))
                 self.assertEqual(summary["broken_links_or_assets"], 0)
                 self.assertTrue(summary["partial_preview"])
+                for locale, location in (
+                    ("en", "../index.html#definition"),
+                    ("en", "%2e%2e/index.html"),
+                    ("en", "https://example.com/"),
+                    ("en", "/ai-math-guide/"),
+                    ("ko", "en/"),
+                    ("ko", "./en/"),
+                ):
+                    with self.subTest(locale=locale, location=location):
+                        search = build_root / locale / "site/search/search_index.json"
+                        site.write_text(search, json.dumps({"docs": [{"location": location}]}))
+                        with self.assertRaisesRegex(site.SiteError, "outside locale search target"):
+                            site.merge_sites(allow_partial=True)
+                        site.write_text(search, json.dumps({"docs": [{"location": ""}]}))
                 site.write_text(build_root / "en/site/index.html", '<a href="/ai-math-guide/en/missing/">Missing translation</a>')
                 with self.assertRaisesRegex(site.SiteError, "missing/"):
                     site.merge_sites(allow_partial=True)
@@ -395,6 +424,59 @@ class BilingualSiteTests(unittest.TestCase):
             self.assertEqual(site.main(), 0)
             merge.assert_called_once_with(allow_partial=True)
             validate.assert_not_called()
+
+    def test_preview_handler_maps_public_prefix_to_merged_artifact(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            handler = site.BilingualPreviewHandler.__new__(site.BilingualPreviewHandler)
+            handler.directory = directory
+            for url, expected in (
+                ("/ai-math-guide/", ""),
+                ("/ai-math-guide", ""),
+                ("/ai-math-guide/en/?q=example", "en"),
+                ("/ai-math-guide/en/assets/stylesheets/extra.css", "en/assets/stylesheets/extra.css"),
+            ):
+                with self.subTest(url=url):
+                    self.assertEqual(Path(handler.translate_path(url)), Path(directory) / expected)
+            target = Path(handler.translate_path("/ai-math-guide/%2e%2e/secret.txt"))
+            self.assertTrue(target.is_relative_to(Path(directory)))
+
+    def test_preview_requires_both_locales_and_binds_only_localhost(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            build_root = Path(directory) / ".build"
+            with patch.object(site, "BUILD_ROOT", build_root), patch.object(site, "ThreadingHTTPServer") as server:
+                with self.assertRaisesRegex(site.SiteError, "both locales"):
+                    site.serve_bilingual(8009)
+                server.assert_not_called()
+                for prefix in ("", "en"):
+                    site.write_text(build_root / "bilingual/site" / prefix / "index.html", "preview")
+                with contextlib.redirect_stdout(io.StringIO()):
+                    site.serve_bilingual(8009)
+                self.assertEqual(server.call_args.args[0], ("127.0.0.1", 8009))
+                self.assertEqual(server.call_args.args[1].keywords["directory"], str(build_root / "bilingual/site"))
+                server.return_value.__enter__.return_value.serve_forever.assert_called_once()
+
+    def test_build_and_deploy_use_verified_bilingual_artifact(self) -> None:
+        import yaml
+
+        wrapper = site.read_text(site.ROOT / "scripts/build_site.ps1")
+        gate = wrapper.index("check-translations --require-verified")
+        self.assertLess(gate, wrapper.index("unittest discover"))
+        self.assertLess(gate, wrapper.index("if ($RunExamples)"))
+        self.assertIn('param([switch]$RunExamples)', wrapper)
+        self.assertIn('".build/$Language/mkdocs.yml"', wrapper)
+        self.assertIn('"scripts/site.py" merge', wrapper)
+        preview = site.read_text(site.ROOT / "scripts/preview_site.ps1")
+        self.assertIn('"scripts/site.py" serve --port $Port', preview)
+        self.assertNotIn("mkdocs serve", preview)
+        workflow = yaml.safe_load(site.read_text(site.ROOT / ".github/workflows/site-check.yml"))
+        steps = workflow["jobs"]["build"]["steps"]
+        names = [step["name"] for step in steps]
+        self.assertLess(names.index("Require reviewed and verified full English edition"), names.index("Run required N05 examples"))
+        upload = next(step for step in steps if step["name"] == "Upload GitHub Pages artifact")
+        self.assertEqual(upload["with"]["path"], ".build/bilingual/site")
+        self.assertIn("github.ref == 'refs/heads/main'", upload["if"])
+        self.assertIn("github.event_name == 'push'", upload["if"])
+        self.assertNotIn("pull_request", upload["if"])
 
 
 if __name__ == "__main__":

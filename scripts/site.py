@@ -13,6 +13,7 @@ import subprocess
 import sys
 from collections import Counter
 from html.parser import HTMLParser
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
@@ -120,7 +121,8 @@ INTERNAL_DOCS = {
 SEARCH_TERMS = {
     "자코비안": "M03-11",
     "특이값분해": "M02-13",
-    "상호정보량": "M04-14",
+    "상호정보량": "04-GLOSSARY.md",
+    "mutual information": "M04-14",
     "연쇄법칙": "M01-06",
     "calibration": "M04-15",
 }
@@ -1496,6 +1498,17 @@ def resolve_generated_url(page: Path, url: str) -> Path | None:
     return target
 
 
+def search_page_hits(documents: list[dict], term: str, relative: str) -> list[str]:
+    expected = page_url(relative)
+    return [
+        str(document.get("location", ""))
+        for document in documents
+        if unquote(urlsplit(str(document.get("location", ""))).path) == expected
+        and term.casefold()
+        in f"{document.get('title', '')} {document.get('text', '')}".casefold()
+    ]
+
+
 def validate() -> None:
     foundation_lessons = discover_lessons()
     n05_lessons = discover_n05_lessons()
@@ -1678,7 +1691,12 @@ def validate() -> None:
             issues.append(f"spoken reading missing from HTML: {spoken_reading}")
     if "집필자 점검표" in combined_html or "Author checklist" in combined_html:
         issues.append("generated HTML에 집필자 점검표가 남았다")
-    for relative in [str(lesson["relative_path"]) for lesson in lessons] + list(PUBLIC_DOCUMENTS.values()):
+    public_pages = [str(lesson["relative_path"]) for lesson in lessons] + list(PUBLIC_DOCUMENTS.values())
+    if LANGUAGE == "en" and not ALLOW_PARTIAL:
+        missing_alternates = {page_url(relative) for relative in public_pages} - set(config["extra"]["bilingual"]["en_pages"])
+        if missing_alternates:
+            issues.append(f"missing English language-switch coverage: {sorted(missing_alternates)}")
+    for relative in public_pages:
         page = output_html_for(relative)
         if not page.exists():
             continue
@@ -1760,16 +1778,11 @@ def validate() -> None:
             "Jacobian": "M03-11", "singular value decomposition": "M02-13",
             "mutual information": "M04-14", "chain rule": "M01-06", "calibration": "M04-15",
         }
-        available_ids = {str(lesson["id"]) for lesson in lessons}
+        available_pages = {str(lesson["id"]): str(lesson["relative_path"]) for lesson in lessons} | PUBLIC_DOCUMENTS
         for term, expected_id in search_terms.items():
-            if ALLOW_PARTIAL and expected_id not in available_ids:
+            if ALLOW_PARTIAL and expected_id not in available_pages:
                 continue
-            hits = [
-                str(document.get("location", ""))
-                for document in documents
-                if term.casefold()
-                in f"{document.get('title', '')} {document.get('text', '')}".casefold()
-            ]
+            hits = search_page_hits(documents, term, available_pages[expected_id])
             search_hits[term] = hits
             if not hits:
                 issues.append(f"search term missing: {term} -> {expected_id}")
@@ -1875,8 +1888,17 @@ def merge_sites(*, allow_partial: bool = False) -> None:
             continue
         search = json.loads(read_text(output / "search" / "search_index.json"))
         for item in search.get("docs", []):
-            path = urlsplit(str(item["location"])).path
-            target = output / unquote(path)
+            parsed = urlsplit(str(item["location"]))
+            path = unquote(parsed.path)
+            target = (output / path).resolve()
+            if (
+                parsed.scheme or parsed.netloc or path.startswith("/")
+                or ".." in Path(path).parts
+                or not target.is_relative_to(output.resolve())
+                or (not prefix and target.is_relative_to((destination / "en").resolve()))
+            ):
+                broken.append(f"outside locale search target: {prefix or 'ko'}/{item['location']}")
+                continue
             if path.endswith("/") or target.is_dir():
                 target /= "index.html"
             if not target.exists():
@@ -1889,14 +1911,43 @@ def merge_sites(*, allow_partial: bool = False) -> None:
     print(json.dumps(summary, ensure_ascii=False, indent=2))
 
 
+class BilingualPreviewHandler(SimpleHTTPRequestHandler):
+    def translate_path(self, path: str) -> str:
+        if path.startswith(PUBLIC_PATH):
+            path = "/" + path.removeprefix(PUBLIC_PATH)
+        elif urlsplit(path).path == PUBLIC_PATH.rstrip("/"):
+            path = "/"
+        return super().translate_path(path)
+
+
+def serve_bilingual(port: int) -> None:
+    output = BUILD_ROOT / "bilingual" / "site"
+    if not all((output / prefix / "index.html").is_file() for prefix in ("", "en")):
+        raise SiteError("build and merge both locales before previewing")
+    from functools import partial
+
+    handler = partial(BilingualPreviewHandler, directory=str(output))
+    with ThreadingHTTPServer(("127.0.0.1", port), handler) as server:
+        print(f"Korean: http://127.0.0.1:{port}{PUBLIC_PATH}", flush=True)
+        print(f"English: http://127.0.0.1:{port}{PUBLIC_PATH}en/", flush=True)
+        try:
+            server.serve_forever()
+        except KeyboardInterrupt:
+            pass
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("command", choices=("audit", "prepare", "validate", "merge"))
+    parser.add_argument("command", choices=("audit", "prepare", "validate", "merge", "serve"))
+    parser.add_argument("--port", type=int, default=8000)
     parser.add_argument("--lang", choices=("ko", "en"), default="ko")
     parser.add_argument("--allow-partial", action="store_true", help="Local English preview only; final checks require every translation")
     parser.add_argument("--isolated", action="store_true", help="Keep the legacy Korean preview; write under .build/ko instead")
     args = parser.parse_args()
     try:
+        if args.command == "serve":
+            serve_bilingual(args.port)
+            return 0
         if args.command == "merge":
             merge_sites(allow_partial=args.allow_partial)
             return 0

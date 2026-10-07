@@ -18,7 +18,8 @@ try {
         if ($LASTEXITCODE -ne 0) { throw "preview 전 build가 실패했습니다." }
     }
 
-    & $Python -m mkdocs serve --config-file ".build/mkdocs.yml" --dev-addr "127.0.0.1:$Port"
+    & $Python "scripts/site.py" serve --port $Port
+    if ($LASTEXITCODE -ne 0) { throw "한영 로컬 preview가 실패했습니다." }
 }
 finally {
     Pop-Location

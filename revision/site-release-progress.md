@@ -10,10 +10,10 @@
 
 ## 현재 단계
 
-- Goal 활성화 및 전체 지시 보관 완료. 프로젝트 명세·문체·단원 템플릿 확인.
+- 전체 지시 보관·프로젝트 명세·문체·단원 템플릿 확인 후 한영 탐색/공유 정보 개정과 공개 배포 완료.
 - 표본 설명 5개를 원문과 대조 검토하고 국소 문구 보완 완료. 공통 공개 표시 변환·4부 탐색 구조·앵커 보존·학습 순서 footer·검색/공유 metadata 구현.
 - 대표 화면 검수 통과 후 전권 적용 완료. 17개 단위·205개 경로의 한영 설명을 두 작성자가 작성하고 별도 검토자가 원문과 대조했다. 205/205 검토 통과, 조건·용어의 국소 수정 반영, 현재 차단 결함 0. 원고 재작성 없음.
-- 기존 로그인에서 GA4 속성 접근 확인(실제 수신 검증 전). Search Console의 승인된 URL-prefix 속성을 생성하고 HTML meta 인증값을 읽어 설정·template에 반영. 인증 실행과 sitemap 제출은 공개 배포 후 수행한다.
+- 실제 GA4 실시간 수신, 승인된 Search Console URL-prefix 소유권 인증 및 한영 sitemap 제출 완료. 공개 XML과 Google Live Test 접근도 확인했다. sitemap 보고서의 `Couldn't fetch`와 색인 여부는 별도 외부 상태이며 처리 완료로 주장하지 않는다.
 
 ## 실제 수행한 검사
 
@@ -42,7 +42,13 @@
 - 홈 공유 제목 수정 후 `scripts/build_site.ps1` 재검증 exit0: 187검사 중186통과·선택GPU1skip, figure/concept/source/reading audit 및 한영 strict build·병합 통과(KO6.53초, EN8.19초). 링크/자산/fragment 오류0, translation205 verified·0stale, 각 언어199단원·1,154해설 유지. GA4 모의검사 각19개 통과. 기존 신선한 실습 결과 재사용.
 - 실제 GA4 Realtime pages 보고서 수신 확인: 공개 `/en/`와 `/en/part-1-foundations/M00/M00-01-numbers-variables/` 시험 방문이 사용자1명·조회2건으로 표시됐다. 로컬 모의검사와 구분하며 시험 트래픽은 실제 방문자 성장 지표가 아니다. 증거 화면은 `.build/release-proof/ga4-public-receipt.jpg`에 저장.
 - Search Console 한국어 `sitemap.xml` 제출 성공 알림 확인. 제출 직후 상태는 `Couldn't fetch`, 상세 주소는 올바른 프로젝트 경로. 가져오기 완료로 기록하지 않으며 영문 제출과 공개 XML 응답 확인을 이어간다.
+- `09f9eae163b50f9b08985ae4ed7251cf1ca8c6ba` 정상 push와 로컬 main fast-forward 완료. GitHub Actions #23 `https://github.com/leeklim/ai-math-guide/actions/runs/37623250076` build4분53초·deploy12초·총5분15초 Success 확인. 실제 공개 홈 재로드 후 KO/EN OG·Twitter 제목이 각 교재명, canonical/한영 alternate 정상임을 확인. 독립 검토자도 해당 국소 diff와 병합 HTML의 회귀 없음 확인.
+- Search Console 영문 `en/sitemap.xml`도 실제 `Sitemap submitted successfully` 확인. 두 제출 행의 상태는 마지막 관찰에서 `Couldn't fetch`, 발견 페이지0. 별도 실제 HTTP GET에서 두 XML 모두200·application/xml·205개 고유loc, 로컬 병합 XML과 완전히 동일, URL 차이0·X-Robots-Tag 없음. Google URL Inspection의 Live Test도 두 sitemap 모두 `URL is available to Google` 확인. 제출·접근 검증은 완료했으나 Google 사이트맵 처리/색인은 완료로 주장하지 않는다. 제출과 Live Test 증거는 `.build/release-proof/search-console-*.jpg`.
+- 실제 공개 KO/EN 기초 M00-03·해석 I07-07·심화 A09-GEO-02, EN M03-11, KO/EN N05-15 확인. 관찰 단원의 수식 오류요소·로드 완료 후 깨진 그림·가로 넘침0, canonical/lang/noindex 검사 정상. N05-15 그림9개·수식57개·표2개·코드3개와 본문/캡션 표시 확인. 대표 공개 화면은 `.build/release-proof/public-*.jpg`.
+- 실제 공개 모바일390×844에서 KO N05-15 밝은 화면, EN curriculum 어두운 화면, EN Jacobian 밝은/어두운 화면과 줄바꿈 breadcrumb 확인. 모바일 메뉴→학습경로, 같은 페이지 언어 전환, EN 검색 Jacobian29문서→단원 진입·현재 위치, 선수 total derivative→Jacobian 복귀, next→Hessian 이동 확인. 긴 줄바꿈 링크는 자동 클릭 중심이 빈 영역에 놓여 키보드 Enter로 목적지 이동을 확인했다. 페이지 코드 수정 없이 실제 링크 주소와 교육순서 확인.
+- 공개 분석 동의를 시험 후 Reject로 원복하고 새 로드에서 Google tag script 없음 확인. GA4 실제 수신은 `Realtime pages`의 `Last 30 min`에서 확인했으며 일반 보고서의 사용자 지정 날짜를 변경한 검사가 아니다. 추가 검수 방문으로 이후1사용자·11조회가 표시됐으며 초기1사용자·2조회 기록과 구분한다.
+- 한국어 `자코비안` 검색은 실제1문서·Jacobian 단원 주소로 표시됨을 확인. 공개 한영 홈 모바일390×844·어두운 테마의 제목/표/가로 넘침0 확인 후 밝은 테마로 원복하고 임시 viewport override를 해제했다. 검수용 검색 입력을 비웠고 시험 동의는 거부 상태 유지. 공개 EN 페이지·GA4·Search Console만 결과 탭으로 보존하고 생성한 임시 로컬/robots/Actions 탭을 닫았다. 사용자 원래 탭은 닫지 않았다.
 
 ## 다음 작업
 
-홈 공유 제목 수정본 main push·Pages 재배포 → 실제 공개 탐색/수식/모바일·한영 sitemap 응답 및 Search Console 제출 확인. 실제 GA4 수신과 Search Console 소유권 인증은 완료했다.
+필수 구현·보존·통합검사·공개배포·실제 사후검증·GA4 수신·Search Console 인증/제출 작업은 완료했다. 사이트 산출물을 바꾸지 않는 최종 기록만 `[skip ci]` 커밋으로 main에 정상 push한다. Google sitemap 보고서의 `Couldn't fetch` 상태는 남아 있으며 원인을 확정하지 않았다. 두 XML의200응답과 Google Live Test 접근은 통과했으므로 가져오기/색인 완료나 향후 처리 시점을 약속하지 않는다. 검색 순위·방문자 증가·색인 날짜는 이 Goal의 완료 조건이 아니다.

@@ -140,10 +140,18 @@
 - 8개 모두 독립 전문 대조를 완료했다. 별도 검토자는01~06, 작성하지 않은 메인은07~08을 대조했으며 교정은 없었다. 메인의07~08 국소 수식63/22·figure7/8·읽기6/4·metadata/제목/링크/코드/숫자·각4문제/해설/check 보존 검사와 lint2표10셀 오류0건을 확인했다. 연속시간과 이산 안정성, 고정 state의 반복과 이동 경로, 실제 조밀 관측과 보간을 원문대로 구분한다. 8개는 reviewed이며 단위 HTML 검증은 아직 미완료다.
 - DYN 전체8개는32문제/해설·59figure 참조·34읽기 셀을 보존한다. KO199/1154와 EN159/994·읽기949의 prepare·source audit·English-reading lint·strict build·validate/부분 병합이 통과했다. 실제8페이지 수식 wrapper/MathJax445개씩·그림59개·해설32개, 수식 오류·중복 assistive 렌더링·그림 로딩 실패0건을 확인했다. 실습 marker가 없는 모듈이며 CPU·GPU·모델·그림 재생성을 실행하지 않았다.
 - 대표06을1440×900·390×844 및 밝은·어두운 테마에서 본문·정의/적분 수식·읽기 표·그림·영문 캡션·열린 Itô 해설로 검수했다. 모바일 문서 폭375/375px, 표375/767은 내부 가로 이동 정책을 유지한다. 동일 단원 한영 전환은 양방향 상단으로 이동하고 Langevin 검색으로 실제 EN05에 연결됐다. 화면은 `.build/qa/english-dyn-desktop.jpg`에 보관했다. 최신 양언어 HTML GA4 mock19개씩이 통과하고 Google 요청·공통 코드 변경·원격 작업은 없다. 새8개를 verified로 기록해 총165개(159단원+6부속 문서) 완료다.
+- DYN 완료본을 로컬 commit `d7911bb`로 저장했다. 진행 중인 SYM 원고와 무관한 사용자 파일은 제외했다.
 
-## 2026-10-07 — A09-SYM 진행 중
+## 2026-10-07 — A09-SYM 완료
 
 - DYN 병합 snapshot 성공 후8개 영문 집필을 시작했다. SYM02도 신규 작성 대상이며 기존 영문 표본은 GEO02이다. 작성자들은 소유 한국어 원문·필요 인접 문맥·확정 용어를 끝까지 읽었고, 별도 검토자는01~06 전체6개, 작성하지 않은 메인은07~08을 대조한다. 확인된05 원문 표현은 별도 주의로 기록하고 몰래 정정하지 않는다.
+- 8개 모두 독립 전문 대조를 교정 없이 통과했다. 메인은07~08 KO/EN 전문과 캡션·4문제/해설을 직접 대조했고 수식31/18·figure8/9·읽기5개씩·metadata/제목/링크/코드/숫자·각4쌍/check 보존 검사와 lint2표10셀 오류0건을 확인했다. min과 미달성 infimum, 반복 singular-value 기저와 실제 최적해의 자유도, held-out 고정, row 정렬에서 column 개입 방향으로 옮기는 transpose·raw scaling·seed별 baseline을 원문대로 유지한다. 8개는 reviewed이며 단위 HTML 검증은 아직 미완료다.
+- SYM 전체8개는32문제/해설·60figure 참조·38읽기 셀을 보존한다. KO199/1154와 EN167/1026·읽기987의 prepare·source audit·English-reading lint·strict build·validate/부분 병합이 통과했다. 실제8페이지 수식 wrapper/MathJax424개씩·그림60개·해설32개, 수식 오류·중복 assistive 렌더링·그림 로딩 실패0건을 확인했다. CPU·GPU·모델·그림 재생성을 실행하지 않았다.
+- 대표07을1440×900·390×844 및 밝은·어두운 테마에서 본문·최소화식·읽기 표·그림·영문 캡션·열린 held-out 해설로 검수했다. 모바일 문서 폭375/375px, 표375/746·넓은 그림320/1080은 내부 가로 이동을 유지하고 그림 ArrowRight 이동40px를 확인했다. 동일 단원 한영 전환은 양방향 상단으로 이동하며 Model alignment 검색으로 실제 EN07에 연결됐다. 화면은 `.build/qa/english-sym-desktop.jpg`에 보관했다. 최신 양언어 HTML GA4 mock19개씩이 통과하고 Google 요청·공통 코드 변경·원격 작업은 없다. 새8개를 verified로 기록해 총173개(167단원+6부속 문서) 완료다.
+
+## 2026-10-07 — A09-LRN 진행 중
+
+- SYM 병합 snapshot 성공 후8개 영문 집필을 시작했다. 두 작성자와 독립 검토자는 소유 한국어 원문·인접 문맥·확정 용어를 끝까지 읽어 준비했다. 별도 검토자는01~06, 작성하지 않은 메인은07~08을 대조한다. class와 algorithm, 고정 predictor와 data-selected predictor, 조건부 test 불확실성과 재학습, complexity 측정과 risk bound를 원문의 조건에 맞춰 구분한다.
 
 ## 작업 단위
 
@@ -180,4 +188,5 @@ M00, M01, M02, M03, M04, N05-01~14, N05-15~28, I06, I07, I08, A09-GEO, A09-DYN, 
 ## 사이트 구현의 알려진 제한
 
 - 공개용 PowerShell wrapper와 Pages workflow는 아직 기존 한국어 출력 경로를 유지한다. 전권 영문 완료 뒤 최종 공개 준비 단계에서 검증된 한영 병합 산출물과 완료 대장 gate를 연결해야 한다. 현재 수동 locale CLI와 로컬 병합 preview는 작동하며, 원격 실행·업로드는 하지 않았다.
+- 읽기 전용 공통 검증 검토에서 search term의 expected lesson ID가 hit 필터에 쓰이지 않고, 병합 search location에는 locale 경계 검사가 명시적으로 없다는 보완 후보를 발견했다. 최종 통합 단계에서 메인이 해당 코드를 직접 확인하고 기존 검사만 최소 보정한다. 정상 prepare의 en_pages coverage는 현재 모두 생성되며 현 hreflang 결함으로 단정하지 않는다. 아직 관련 공통 코드를 수정하거나 검사를 수행하지 않았다.
 - 설치된 Material 9.7.7은 페이지별 `rel=alternate` 주소 아래의 sitemap을 자동 요청한다. 깊은 단원 경로의 실패는 빈 sitemap으로 처리한다. 정적 언어 링크는 `target="_self"`로 이 테마의 URL 재작성에서 제외되며 필수 same-page hreflang은 유지한다. 개발자 도구에는 불필요한 sitemap 요청 오류가 나타날 수 있다. 실제 전환 기능은 별도 화면 검수로 확인한다.

@@ -31,6 +31,10 @@ class MathJaxConfigTests(unittest.TestCase):
             styles,
             r"\.md-typeset \.arithmatex\s*\{[^}]*max-width:\s*100%;[^}]*overflow-x:\s*auto;",
         )
+        self.assertRegex(
+            styles,
+            r"details span\.arithmatex mjx-assistive-mml\s*\{[^}]*width:\s*1px\s*!important;",
+        )
 
 
 if __name__ == "__main__":

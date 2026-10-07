@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 620" role="img" aria-labelledby="title desc">
+  <title id="title">Apply the same reversible operation to both sides of an equation</title>
+  <desc id="desc">Two columns begin with two x plus one and seven. Both sides subtract one to obtain two x and six, then both sides divide by two to obtain x and three. Each row retains equality and the same solution.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="620" height="620" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" text-anchor="middle">
+    <text x="310" y="54" font-size="24" font-weight="700" fill="#0F172A">Preserve equality on both sides</text>
+    <text x="174" y="110" font-size="20" fill="#475569">Left-hand side</text><text x="446" y="110" font-size="20" fill="#475569">Right-hand side</text>
+    <g font-size="32" font-weight="700" fill="#334155"><text x="174" y="172">2x + 1</text><text x="310" y="172">=</text><text x="446" y="172">7</text></g>
+    <path d="M174 204V246" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+    <path d="M446 204V246" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="174" y="286" font-size="22" fill="#5B21B6">subtract 1</text><text x="446" y="286" font-size="22" fill="#5B21B6">subtract 1</text>
+    <g font-size="32" font-weight="700" fill="#334155"><text x="174" y="350">2x</text><text x="310" y="350">=</text><text x="446" y="350">6</text></g>
+    <path d="M174 382V424" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+    <path d="M446 382V424" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="174" y="464" font-size="22" fill="#5B21B6">divide by 2</text><text x="446" y="464" font-size="22" fill="#5B21B6">divide by 2</text>
+    <g font-size="32" font-weight="700" fill="#065F46"><text x="174" y="528">x</text><text x="310" y="528">=</text><text x="446" y="528">3</text></g>
+    <text x="310" y="582" font-size="20" fill="#475569">Same operation, same solution.</text>
+  </g>
+</svg>

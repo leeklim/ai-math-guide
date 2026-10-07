@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" role="img" aria-labelledby="title desc">
+<title id="title">Membership relates a value to a set while inclusion relates two sets</title><desc id="desc">The left context shows values one two three in A and five outside it. A separate right context nests A containing one two inside B containing one two three.</desc>
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+<rect width="800" height="480" rx="18" fill="#F8FAFC"/>
+<text x="400" y="54" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#0F172A">Element membership and set inclusion</text>
+<text x="180" y="120" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#1E3A8A">A = {1, 2, 3}</text>
+<text x="610" y="104" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#1E3A8A">B = {1, 2, 3}</text>
+<ellipse cx="180" cy="260" rx="110" ry="110" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+<ellipse cx="610" cy="260" rx="140" ry="120" fill="#FFFFFF" stroke="#2563EB" stroke-width="2"/>
+<ellipse cx="610" cy="260" rx="82" ry="80" fill="#D1FAE5" stroke="#059669" stroke-width="2"/>
+<text x="120" y="250" text-anchor="middle" font-family="sans-serif" font-size="26" font-weight="700" fill="#1E3A8A">1</text>
+<text x="150" y="314" text-anchor="middle" font-family="sans-serif" font-size="26" font-weight="700" fill="#1E3A8A">2</text>
+<text x="230" y="250" text-anchor="middle" font-family="sans-serif" font-size="26" font-weight="700" fill="#1E3A8A">3</text>
+<text x="330" y="318" text-anchor="middle" font-family="sans-serif" font-size="26" font-weight="700" fill="#475569">5</text>
+<text x="610" y="216" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#065F46">A</text>
+<text x="585" y="254" text-anchor="middle" font-family="sans-serif" font-size="26" font-weight="700" fill="#065F46">1</text>
+<text x="635" y="302" text-anchor="middle" font-family="sans-serif" font-size="26" font-weight="700" fill="#065F46">2</text>
+<text x="710" y="306" text-anchor="middle" font-family="sans-serif" font-size="26" font-weight="700" fill="#1E3A8A">3</text>
+<text x="180" y="426" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#334155">2 ∈ A; 5 ∉ A</text>
+<text x="610" y="426" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#334155">A = {1, 2} ⊆ B</text>
+</svg>

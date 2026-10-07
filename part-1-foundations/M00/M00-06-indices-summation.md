@@ -101,6 +101,15 @@ x_i,\qquad xi,\qquad x^i
 
 인덱스가 $0$부터 시작한다고 가정하거나 $1$부터 시작한다고 가정하지 않는다. 합의 경계나 저자의 정의를 읽는다.
 
+다음 그림은 같은 세 값을 수식의 인덱스와 Python의 위치 번호로 나누어 표시한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Mathematical indices one two three label values four seven five, while Python positions zero one two identify the same ordered values](../../figures/assets/M00/M00-06-index-selects-value.svg)
+
+<figcaption>수식에서 x₂는 가운데 값 7이다. 같은 값들을 순서대로 저장한 Python 배열에서는 위치 1에 해당한다. 번호를 읽을 때 시작값과 대상의 순서를 함께 확인한다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. 합 기호는 반복 덧셈을 압축한다
 
 \[
@@ -131,13 +140,26 @@ x_1+x_2+x_3+x_4
 b-a+1
 \]
 
-개다. 예를 들어
+개다.
+
+$b-a$는 시작값에서 끝값까지 인덱스를 몇 번 증가시키는지 센다. 항의 개수에는 증가하기 전의 첫 항도 포함해야 하므로 1을 더한다. 합을 펼칠 때는 양 끝을 포함한 인덱스 목록을 먼저 정하고, 각 인덱스를 합의 항에 넣는다.
+
+예를 들어
 
 \[
 \sum_{i=3}^{7}x_i
 \]
 
 에는 $i=3,4,5,6,7$이 들어가므로 항이 $5$개다.
+
+다음 그림에서 각 인덱스가 선택하는 항을 하나씩 세면, 인덱스를 늘린 횟수와 항의 개수를 구분할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Inclusive indices three through seven each select one term, giving five terms despite four transitions between indices](../../figures/assets/M00/M00-06-inclusive-sum-range.svg)
+
+<figcaption>3에서 7까지 이동은 네 번이지만, 시작 항 x₃도 포함하므로 더하는 항은 다섯 개다.</figcaption>
+</figure>
 
 ### 합의 항이 식일 때
 
@@ -154,6 +176,17 @@ b-a+1
 \]
 
 이다. 괄호 전체가 인덱스마다 반복되는 한 항이다.
+
+인덱스가 없는 상수 1도 각 괄호 안에 들어 있으므로 세 번 더한다. 같은 종류의 항을 모으면 $2(x_1+x_2+x_3)+3$이다. 합의 경계는 인덱스의 범위를 정하고, 괄호는 매번 계산할 식의 범위를 정한다.
+
+다음 그림에서는 앞에서 정한 값 4, 7, 5로 괄호 전체를 세 번 계산한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The full summand two x sub i plus one is evaluated for values four seven five, producing nine fifteen eleven with the constant one repeated three times](../../figures/assets/M00/M00-06-summand-scope.svg)
+
+<figcaption>각 행에서 xᵢ만 교체하고 2xᵢ+1 전체를 계산한다. 상수 1도 각 행에 있으므로 합에서 세 번 포함한다.</figcaption>
+</figure>
 
 ## 핵심 개념 3. 합 안의 인덱스 이름은 바꿀 수 있다
 
@@ -177,6 +210,8 @@ x_1+x_2+\cdots+x_N
 
 을 뜻한다. 이런 인덱스를 더미 인덱스(dummy index)라고 한다.
 
+이름을 바꿀 때는 합의 아래 경계에 있는 글자와 합의 항에서 그 인덱스를 나타내는 글자를 함께 바꾼다. $i$를 $j$로 바꿔도 실제로 선택하는 값은 첫째 값부터 $N$번째 값까지 그대로다. 합을 끝내면 하나의 값을 얻으므로 결과가 어느 더미 인덱스 이름을 썼는지에 의존하지 않는다.
+
 다만 식 바깥에서 이미 $i$나 $j$에 별도 의미를 부여했다면 이름을 바꿀 때 충돌을 확인해야 한다.
 
 ## 핵심 개념 4. 평균은 합을 항의 개수로 나눈다
@@ -195,6 +230,8 @@ $N$개 값 $x_1,\ldots,x_N$의 산술평균은
 
 1. $i=1$부터 $N$까지 $x_i$를 더한다.
 2. 합을 항의 개수 $N$으로 나눈다.
+
+평균은 전체 합을 $N$개의 같은 크기 값으로 나누어 나타낼 때의 한 값이다. 원래 값들의 합과 $\bar x$를 $N$번 더한 값이 같아야 하므로 $N\bar x=x_1+\cdots+x_N$이고, 양쪽을 $N$으로 나누어 위 식을 얻는다. 따라서 평균을 계산할 때는 값의 합과 실제 항의 개수를 함께 확인해야 한다.
 
 $x_1=2$, $x_2=5$, $x_3=8$이면
 
@@ -216,6 +253,15 @@ $x_1=2$, $x_2=5$, $x_3=8$이면
 \]
 
 이다.
+
+다음 그림에서 원래 세 값의 합과 모두 평균으로 바꾼 세 값의 합을 비교한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Columns of heights two five eight are replaced by three columns of height five, preserving the total fifteen](../../figures/assets/M00/M00-06-mean-equal-shares.svg)
+
+<figcaption>단위 칸을 세면 양쪽의 합이 모두 15다. 이를 같은 크기의 세 몫으로 나눈 한 몫 5가 산술평균이다.</figcaption>
+</figure>
 
 ### 평균에서 분모 확인하기
 
@@ -255,6 +301,8 @@ w_1x_1+w_2x_2+w_3x_3
 
 을 만족하고 $w_i\ge0$이면 가중합을 가중평균으로 해석할 수 있다.
 
+각 $w_i$는 같은 인덱스의 $x_i$에 곱해진다. 가중평균에서는 음이 아닌 가중치로 각 값의 비중을 정하고, 그 비중의 총합을 1로 맞춘다. 산술평균도 모든 가중치를 $w_i=1/N$으로 정한 가중평균이다. 이때 $N$개 가중치의 합은 1이고, 각 값에 똑같은 비중을 준다. 일반적인 가중합에서는 가중치 합이 1일 필요가 없으므로 가중합과 가중평균을 구분한다.
+
 예를 들어 $x_1=10$, $x_2=20$, $w_1=0.25$, $w_2=0.75$이면
 
 \[
@@ -265,6 +313,15 @@ w_1x_1+w_2x_2+w_3x_3
 \]
 
 이다. 두 번째 값에 더 큰 가중치를 주었으므로 결과가 $20$에 더 가깝다.
+
+다음 그림은 각 값의 기여량을 계산한 뒤 가중평균의 위치를 두 입력값과 비교한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Weights one quarter and three quarters applied to ten and twenty yield seventeen point five, marked nearer twenty on a number line](../../figures/assets/M00/M00-06-weighted-mean-position.svg)
+
+<figcaption>두 기여량 2.5와 15를 더하면 17.5다. 음이 아닌 가중치의 합이 1인 이 예에서는 결과가 10과 20 사이에 놓이고, 더 큰 비중을 준 20에 가깝다.</figcaption>
+</figure>
 
 ## 핵심 개념 6. 여러 인덱스는 서로 다른 축을 구분한다
 
@@ -303,6 +360,17 @@ $N=2$, $d=3$이면
 이다.
 
 이 단원에서는 합 기호가 적힌 인덱스만 더한다고 해석한다. 뒤의 선형대수 단원에서 행렬 곱의 인덱스 표기를 다룰 때도 합의 범위를 명시한다.
+
+안쪽 합만 계산하면 표본마다 feature의 합 하나를 얻고, 표본을 구분하는 $n$은 아직 남아 있다. 바깥 합까지 계산해야 그 표본별 합들을 하나의 값으로 모은다. 위 예에서는 표본마다 세 항을 더하는 계산을 두 번 수행하므로 전체 항은 $2\cdot3=6$개다. 어느 합이 어느 인덱스를 변화시키는지 구분하면 두 합을 한꺼번에 읽어도 계산 대상을 놓치지 않는다.
+
+다음 그림에서는 여섯 칸에 1부터 6을 넣고, feature 합과 표본 합을 차례로 계산한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A two-sample three-feature table first sums each row to six and fifteen, then sums those sample totals to twenty one](../../figures/assets/M00/M00-06-two-index-reduction.svg)
+
+<figcaption>안쪽 합에서 각 표본의 feature 세 개를 더해 6과 15를 얻는다. 바깥 합에서 두 표본의 합을 더해 하나의 값 21을 얻는다.</figcaption>
+</figure>
 
 ## 예제 1. 합 기호 펼치기
 

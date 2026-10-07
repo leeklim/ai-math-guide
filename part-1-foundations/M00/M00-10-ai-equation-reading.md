@@ -135,7 +135,7 @@ p_\theta(c\mid\mathbf x_n)
 {\sum_{j=1}^{C}\exp(z_{n,j})}
 \]
 
-는 로짓 벡터의 한 성분을 class 확률로 바꾼다.
+는 로짓 벡터의 모든 성분을 사용해 관심 class 하나의 확률을 계산한다. 분자에서는 한 class의 점수를 고르지만, 분모에서는 같은 표본의 모든 class 점수를 사용한다.
 
 \[
 \mathcal L(\theta)
@@ -217,6 +217,8 @@ p_\theta(2\mid\mathbf x_n)
 
 분자는 관심 class의 지수화된 점수다. 분모는 모든 class의 지수화된 점수를 더한다. 지수함수의 출력은 양수이므로 각 확률도 양수다.
 
+표본 $n$을 고정하면 어느 class의 확률을 구하든 분모는 같다. 각 양수 점수를 같은 전체 합으로 나누므로, class별 값은 전체에서 차지하는 비중이 된다. 이 공통 분모를 사용해야 모든 class의 비중을 더했을 때 1이 된다.
+
 모든 class 확률을 더하면
 
 \[
@@ -254,6 +256,15 @@ p_\theta(c\mid\mathbf x_n)
 
 이 성질은 로짓의 절대 위치보다 class 사이의 차이가 확률을 정한다는 뜻이다.
 
+다음 그림은 모든 logit에 log 3을 더해 지수화된 점수가 모두 3배가 되는 경우다. 막대의 세 구간은 같은 class 순서를 유지한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Three class scores two one one become six three three under common scaling, but dividing by their own totals preserves probabilities one half one quarter one quarter](../../figures/assets/M00/M00-10-softmax-common-scaling.svg)
+
+<figcaption>분모도 4에서 12로 같은 비율만큼 늘어난다. 위 두 막대는 원점수의 크기, 아래 막대는 합이 1인 확률 비중을 나타낸다. 관심 class를 어느 것으로 골라도 각 막대의 전체 합이 공통 분모다.</figcaption>
+</figure>
+
 ## 해독 절차 5. 표본별 loss를 읽는다
 
 $n$번째 표본의 loss를
@@ -271,6 +282,8 @@ p_\theta(y_n\mid\mathbf x_n)
 \]
 
 는 모델이 정답 class에 부여한 확률이다.
+
+$y_n$을 넣는 자리는 확률식의 class 인덱스 $c$ 자리다. 먼저 표본 $n$의 모든 class 확률을 계산하고, 정답 번호에 해당하는 성분 하나를 골라 로그에 넣는다. 정답이 달라지면 같은 로짓 벡터에서도 선택하는 확률과 loss가 달라진다.
 
 정답 확률이 $1$에 가까우면 $\ell_n$은 $0$에 가까워진다. 정답 확률이 $0$에 가까우면 음의 로그 값이 커진다.
 
@@ -294,6 +307,15 @@ p_\theta(y_n\mid\mathbf x_n)>0
 
 을 만족한다.
 
+다음 그래프에서 정답 확률 p를 로그의 입력으로 놓고 표본 loss를 세로축에서 읽는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Negative log loss falls toward zero as correct-class probability approaches one, with probabilities point one and point nine giving losses about two point three zero three and point one zero five](../../figures/assets/M00/M00-10-negative-log-loss.svg)
+
+<figcaption>같은 확률 차이라도 0에 가까운 구간에서는 loss 차이가 더 크다. p=0은 로그의 허용 입력이 아니며, 그래프는 양수 확률만 그린다.</figcaption>
+</figure>
+
 ## 해독 절차 6. 평균의 범위를 읽는다
 
 전체 loss는
@@ -308,7 +330,18 @@ p_\theta(y_n\mid\mathbf x_n)>0
 
 평균이 감소해도 각 $\ell_n$이 모두 감소했다고 결론 내릴 수는 없다. 일부 표본의 loss가 증가하고 다른 표본의 loss가 더 크게 감소할 수 있다. 평균은 표본별 분포를 스칼라 하나로 요약한다.
 
+$\mathcal L(\theta)$라는 표기에서는 이 평균을 계산할 입력과 정답 데이터셋을 고정하고 파라미터를 함수의 입력으로 드러낸다. $\theta$를 바꾸면 각 표본의 예측 확률이 바뀌어 평균 loss도 바뀔 수 있다. 표본 인덱스 $n$을 합하는 일과 파라미터 $\theta$를 바꾸는 일은 서로 다른 역할이다.
+
 데이터셋을 바꾸면 같은 $\theta$에서도 평균 loss가 달라질 수 있다. 논문을 읽을 때 훈련, 검증과 시험 데이터 중 어느 집합에서 계산했는지 확인해야 한다.
+
+다음 그래프는 평균 감소와 모든 표본의 개선이 같지 않음을 보여 주는 설명용 예다. 모델 실험 결과가 아니다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two losses change from two and two to three and point five, so the first sample worsens even though their mean decreases from two to one point seven five](../../figures/assets/M00/M00-10-mean-loss-tradeoff.svg)
+
+<figcaption>초록색 파선은 표본 평균이다. 표본 1의 loss는 2에서 3으로 증가하지만 표본 2의 감소가 더 커서 평균은 2에서 1.75로 낮아진다.</figcaption>
+</figure>
 
 ## 전체 계산 예제
 
@@ -425,6 +458,15 @@ p_\theta(2\mid\mathbf x_2)
 
 두 표본이 같은 로짓을 받았지만 정답 class가 달라서 정답 확률과 표본별 loss가 달라졌다.
 
+다음 그림은 class 방향에서 성분을 고르는 단계와 표본 방향에서 평균내는 단계를 나눈다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two identical class-probability rows select different entries according to targets one and two, producing losses about point two eight eight and one point three eight six and mean about point eight three seven](../../figures/assets/M00/M00-10-class-selection-sample-mean.svg)
+
+<figcaption>각 행에서 정답 번호에 해당하는 확률 하나를 골라 스칼라 loss를 만든다. 그다음 두 행의 loss를 평균내어 스칼라 하나로 모은다. 정답 class 선택과 표본 합산의 축이 다르다.</figcaption>
+</figure>
+
 ## batch 표기로 같은 계산 읽기
 
 입력들을 행으로 쌓으면
@@ -500,6 +542,17 @@ p_T(c\mid\mathbf x_n)
 4. class 전체를 더하고 부호를 바꿔 표본 loss를 만든다.
 5. 표본 전체에서 평균낸다.
 
+안쪽 합은 class별 학생 loss $-\log p_S(c\mid\mathbf x_n)$를 교사 확률로 가중평균한 것이다. 교사 확률은 음이 아니고 class 전체에서 합이 1이다. 정답 번호 하나로 loss를 계산할 때는 해당 class의 항 하나를 고르지만, 이 식에서는 교사가 준 비중에 따라 여러 class의 항을 함께 평가한다. 교사가 한 class에 확률 1을 주고 나머지에 0을 주면 그 class의 음의 로그 loss만 남는다.
+
+다음 그림은 표본 하나에서 교사 확률이 (3/4, 1/4), 학생 확률이 (1/4, 3/4)인 설명용 예다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Teacher probabilities three quarters and one quarter weight the student's class losses negative log one quarter and negative log three quarters, and the two contributions sum to about one point one one two](../../figures/assets/M00/M00-10-kd-class-weighting.svg)
+
+<figcaption>같은 class의 교사 가중치와 학생 loss를 짝지어 곱한다. 교사가 비중을 준 두 class의 항을 함께 더한 값이며, 전체 증류 loss에서는 이런 표본별 값을 다시 평균낸다.</figcaption>
+</figure>
+
 이 식은 교사와 학생의 출력 분포만 사용하므로 교사 내부 activation에 접근하지 않아도 계산할 수 있다. 교사의 class별 확률을 받을 수 있는 설정에서는 블랙박스(black-box) 증류로 구현할 수 있다. API가 최종 class 번호만 제공하면 이 식을 그대로 계산할 수 없다.
 
 화이트박스(white-box) 증류는 교사와 학생의 중간 표현이나 attention을 맞추는 항을 추가할 수 있다. 예를 들어
@@ -515,6 +568,15 @@ p_T(c\mid\mathbf x_n)
 처럼 출력 loss와 표현 loss를 결합한다. $\lambda$는 두 항의 상대적 비중을 정하는 하이퍼파라미터다.
 
 표현 loss가 작다는 관찰은 선택한 표현과 정렬 방식에서 두 중간값이 가깝다는 뜻이다. 학생이 교사와 같은 내부 알고리즘을 사용한다는 결론에는 추가 개입과 기능 검증이 필요하다.
+
+다음 그림에서 실선은 출력 분포 비교, 파선은 중간 표현을 추가로 비교하는 경로다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The same input passes through teacher and student hidden representations to output distributions, solid links compare outputs and optional dashed links compare hidden representations in a separate loss](../../figures/assets/M00/M00-10-distillation-access-paths.svg)
+
+<figcaption>교사 확률 p_T를 얻을 수 있으면 오른쪽 출력 loss를 계산한다. 왼쪽 표현 loss는 교사 내부 h_T에 대한 접근과 적절한 정렬이 필요하다. 두 loss는 서로 다른 관찰 대상을 비교한다.</figcaption>
+</figure>
 
 지식증류의 온도, KL 발산과 표현 정렬은 M04 이후의 선수지식을 갖춘 뒤 별도 단원에서 다룬다.
 

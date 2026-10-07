@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 475" role="img" aria-labelledby="title desc">
+<title id="title">The empty set has zero elements but a set containing it has one</title><desc id="desc">The left outer boundary encloses no objects. The right outer boundary encloses one smaller empty-set boundary, which counts as one element.</desc>
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+<rect width="760" height="475" rx="18" fill="#F8FAFC"/>
+<text x="380" y="54" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#0F172A">An empty set is different from a set containing it</text>
+<text x="200" y="118" text-anchor="middle" font-family="sans-serif" font-size="32" font-weight="700" fill="#1E3A8A">∅</text>
+<text x="560" y="118" text-anchor="middle" font-family="sans-serif" font-size="32" font-weight="700" fill="#065F46">{∅}</text>
+<ellipse cx="200" cy="240" rx="120" ry="82" fill="#FFFFFF" stroke="#2563EB" stroke-width="2"/>
+<ellipse cx="560" cy="240" rx="120" ry="82" fill="#FFFFFF" stroke="#2563EB" stroke-width="2"/>
+<ellipse cx="560" cy="240" rx="50" ry="32" fill="#D1FAE5" stroke="#059669" stroke-width="3"/>
+<text x="200" y="374" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#334155">0 elements</text>
+<text x="560" y="374" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#334155">1 element: the empty set</text>
+<text x="380" y="432" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="400" fill="#475569">Count the objects in the outer boundary.</text>
+</svg>

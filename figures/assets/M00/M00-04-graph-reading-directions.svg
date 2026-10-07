@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 650" role="img" aria-labelledby="title desc">
+<title id="title">Input fixes one vertical slice while output can intersect twice</title>
+<desc id="desc">The parabola y equals x squared has points negative two comma four and two comma four. A vertical guide at x two gives one output four, while horizontal output four intersects twice. The coordinate axes remain straight.</desc>
+<defs>
+<marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto">
+<path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/>
+</marker>
+</defs>
+<rect width="620" height="650" rx="18" fill="#F8FAFC"/>
+<text x="310" y="54" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#0F172A">Read a value or find its inputs</text>
+<path d="M170 110V530" fill="none" stroke="#E2E8F0" stroke-width="1" />
+<text x="170" y="564" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="400" fill="#475569">-2</text>
+<path d="M240 110V530" fill="none" stroke="#E2E8F0" stroke-width="1" />
+<text x="240" y="564" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="400" fill="#475569">-1</text>
+<path d="M310 110V530" fill="none" stroke="#E2E8F0" stroke-width="1" />
+<text x="310" y="564" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="400" fill="#475569">0</text>
+<path d="M380 110V530" fill="none" stroke="#E2E8F0" stroke-width="1" />
+<text x="380" y="564" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="400" fill="#475569">1</text>
+<path d="M450 110V530" fill="none" stroke="#E2E8F0" stroke-width="1" />
+<text x="450" y="564" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="400" fill="#475569">2</text>
+<path d="M135 460H485" fill="none" stroke="#E2E8F0" stroke-width="1" />
+<text x="290" y="466" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="400" fill="#475569">1</text>
+<path d="M135 390H485" fill="none" stroke="#E2E8F0" stroke-width="1" />
+<text x="290" y="396" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="400" fill="#475569">2</text>
+<path d="M135 320H485" fill="none" stroke="#E2E8F0" stroke-width="1" />
+<text x="290" y="326" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="400" fill="#475569">3</text>
+<path d="M135 250H485" fill="none" stroke="#E2E8F0" stroke-width="1" />
+<text x="290" y="256" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="400" fill="#475569">4</text>
+<path d="M135 180H485" fill="none" stroke="#E2E8F0" stroke-width="1" />
+<text x="290" y="186" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="400" fill="#475569">5</text>
+<path d="M135 110H485" fill="none" stroke="#E2E8F0" stroke-width="1" />
+<text x="290" y="116" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="400" fill="#475569">6</text>
+<path d="M112 530H520" fill="none" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M310 552V88" fill="none" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="536" y="536" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="400" fill="#475569">x</text>
+<text x="310" y="80" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="400" fill="#475569">y</text>
+<path d="M135 92.5Q310 967.5 485 92.5" fill="none" stroke="#059669" stroke-width="4" />
+<path d="M135 250H485" fill="none" stroke="#D97706" stroke-width="2.5" stroke-dasharray="7 5"/>
+<path d="M450 530V250" fill="none" stroke="#2563EB" stroke-width="2.5" stroke-dasharray="5 4"/>
+<circle cx="170" cy="250" r="7" fill="#7C3AED" stroke="#FFFFFF" stroke-width="2"/>
+<circle cx="450" cy="250" r="7" fill="#7C3AED" stroke="#FFFFFF" stroke-width="2"/>
+<text x="96" y="245" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#5B21B6">(−2, 4)</text>
+<text x="536" y="245" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#5B21B6">(2, 4)</text>
+<text x="402" y="132" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#065F46">y = x²</text>
+<text x="310" y="606" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="400" fill="#475569">One input x = 2; two inputs for output 4.</text>
+</svg>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 530" role="img" aria-labelledby="title desc">
+  <title id="title">Prediction changes the input while training can change model parameters</title>
+  <desc id="desc">Two numerical tables use s equals w x plus b. Prediction fixes w at zero point eight and b at zero point one while x varies. A separate illustrative parameter comparison fixes x at two while w and b take different values; it is not an actual training result.</desc>
+  <rect width="880" height="530" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" text-anchor="middle">
+    <text x="440" y="54" font-size="26" font-weight="700" fill="#0F172A">Which values vary in s = wx + b?</text>
+    <rect x="40" y="90" width="376" height="326" rx="16" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
+    <rect x="464" y="90" width="376" height="326" rx="16" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
+    <text x="228" y="134" font-size="24" font-weight="700" fill="#1E3A8A">Prediction</text>
+    <text x="652" y="134" font-size="24" font-weight="700" fill="#5B21B6">Parameter comparison</text>
+    <text x="228" y="176" font-size="20" fill="#475569">Fix w = 0.8 and b = 0.1</text>
+    <text x="652" y="176" font-size="20" fill="#475569">Fix x = 2; vary w and b</text>
+    <g font-size="20" font-weight="700" fill="#475569">
+      <text x="112" y="228">x</text><text x="228" y="228">w, b</text><text x="344" y="228">s</text>
+      <text x="536" y="228">x</text><text x="652" y="228">w, b</text><text x="768" y="228">s</text>
+    </g>
+    <path d="M64 244H392M488 244H816" stroke="#CBD5E1" stroke-width="2"/>
+    <g font-size="22" font-weight="700">
+      <text x="112" y="286" fill="#1E3A8A">1</text><text x="228" y="286" fill="#475569">0.8, 0.1</text><text x="344" y="286" fill="#065F46">0.9</text>
+      <text x="112" y="338" fill="#1E3A8A">2</text><text x="228" y="338" fill="#475569">0.8, 0.1</text><text x="344" y="338" fill="#065F46">1.7</text>
+      <text x="112" y="390" fill="#1E3A8A">3</text><text x="228" y="390" fill="#475569">0.8, 0.1</text><text x="344" y="390" fill="#065F46">2.5</text>
+      <text x="536" y="286" fill="#475569">2</text><text x="652" y="286" fill="#1E3A8A">0.8, 0.1</text><text x="768" y="286" fill="#065F46">1.7</text>
+      <text x="536" y="338" fill="#475569">2</text><text x="652" y="338" fill="#1E3A8A">0.9, 0.2</text><text x="768" y="338" fill="#065F46">2.0</text>
+      <text x="536" y="390" fill="#475569">2</text><text x="652" y="390" fill="#1E3A8A">1.0, 0.3</text><text x="768" y="390" fill="#065F46">2.3</text>
+    </g>
+    <text x="440" y="464" font-size="20" fill="#334155">Training may update parameters that prediction holds fixed.</text>
+    <text x="440" y="498" font-size="18" fill="#475569">Right panel: illustrative values, not measured training steps.</text>
+  </g>
+</svg>

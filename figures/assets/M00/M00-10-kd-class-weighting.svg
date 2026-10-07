@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 550" width="800" height="550" role="img" aria-labelledby="title desc">
+<title id="title">Teacher probabilities weight the student losses</title>
+<desc id="desc">Teacher class weights three quarters one quarter multiply student class losses minus log one quarter and minus log three quarters. Summing two weighted contributions yields sample distillation loss about one point one one two.</desc>
+<defs>
+<marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto">
+<path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/>
+</marker>
+</defs>
+<rect width="800" height="550" rx="16" fill="#F8FAFC"/>
+<g font-family="sans-serif">
+<text x="400" y="54" text-anchor="middle" fill="#0F172A" font-size="24" font-weight="bold">Teacher probabilities weight the student losses</text>
+<text x="140" y="119" text-anchor="middle" fill="#1E3A8A" font-size="22" font-weight="bold">Teacher</text>
+<text x="140" y="157" text-anchor="middle" fill="#1E3A8A" font-size="20" font-weight="normal">p_T(c)</text>
+<text x="357" y="119" text-anchor="middle" fill="#5B21B6" font-size="22" font-weight="bold">Student loss</text>
+<text x="357" y="157" text-anchor="middle" fill="#5B21B6" font-size="20" font-weight="normal">−log p_S(c)</text>
+<text x="660" y="119" text-anchor="middle" fill="#065F46" font-size="22" font-weight="bold">Contribution</text>
+<text x="660" y="157" text-anchor="middle" fill="#065F46" font-size="20" font-weight="normal">p_T × loss</text>
+<rect x="105" y="190" width="70" height="80" fill="#DBEAFE" stroke="#94A3B8" stroke-width="1.5"/>
+<rect x="275" y="190" width="165" height="80" fill="#F3E8FF" stroke="#94A3B8" stroke-width="1.5"/>
+<rect x="560" y="190" width="200" height="80" fill="#D1FAE5" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="62" y="238" text-anchor="middle" fill="#475569" font-size="18" font-weight="normal">c=1</text>
+<text x="140" y="238" text-anchor="middle" fill="#1E3A8A" font-size="24" font-weight="bold">3/4</text>
+<text x="357" y="238" text-anchor="middle" fill="#5B21B6" font-size="22" font-weight="normal">−log(1/4)</text>
+<text x="660" y="238" text-anchor="middle" fill="#065F46" font-size="18" font-weight="normal">(3/4) × −log(1/4)</text>
+<text x="225" y="238" text-anchor="middle" fill="#334155" font-size="28" font-weight="normal">×</text>
+<text x="500" y="238" text-anchor="middle" fill="#334155" font-size="28" font-weight="normal">=</text>
+<rect x="105" y="270" width="70" height="80" fill="#DBEAFE" stroke="#94A3B8" stroke-width="1.5"/>
+<rect x="275" y="270" width="165" height="80" fill="#F3E8FF" stroke="#94A3B8" stroke-width="1.5"/>
+<rect x="560" y="270" width="200" height="80" fill="#D1FAE5" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="62" y="318" text-anchor="middle" fill="#475569" font-size="18" font-weight="normal">c=2</text>
+<text x="140" y="318" text-anchor="middle" fill="#1E3A8A" font-size="24" font-weight="bold">1/4</text>
+<text x="357" y="318" text-anchor="middle" fill="#5B21B6" font-size="22" font-weight="normal">−log(3/4)</text>
+<text x="660" y="318" text-anchor="middle" fill="#065F46" font-size="18" font-weight="normal">(1/4) × −log(3/4)</text>
+<text x="225" y="318" text-anchor="middle" fill="#334155" font-size="28" font-weight="normal">×</text>
+<text x="500" y="318" text-anchor="middle" fill="#334155" font-size="28" font-weight="normal">=</text>
+<path d="M660 374V406" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="538" y="395" text-anchor="middle" fill="#065F46" font-size="20" font-weight="normal">Sum over c</text>
+<rect x="130" y="431" width="600" height="70" rx="12" fill="#D1FAE5" stroke="#059669" stroke-width="2"/>
+<text x="430" y="474" text-anchor="middle" fill="#065F46" font-size="24" font-weight="bold">KD loss for this sample ≈ 1.112</text>
+</g>
+</svg>

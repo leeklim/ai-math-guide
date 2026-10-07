@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" width="720" height="430" role="img" aria-labelledby="title desc">
+<title id="title">Reversing a function is not taking a reciprocal</title>
+<desc id="desc">For f of x equal two x plus one, output seven returns input three through the inverse, while reciprocal of seven is one seventh.</desc>
+<defs>
+<marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto">
+<path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/>
+</marker>
+</defs>
+<rect width="720" height="430" rx="16" fill="#F8FAFC"/>
+<g font-family="sans-serif">
+<text x="360" y="54" text-anchor="middle" fill="#0F172A" font-size="24" font-weight="bold">Reversing a function is not taking a reciprocal</text>
+<text x="360" y="122" text-anchor="middle" fill="#334155" font-size="24" font-weight="normal">f(x) = 2x + 1; f(3) = 7</text>
+<circle cx="360" cy="192" r="32" fill="#D1FAE5" stroke="#059669" stroke-width="2"/>
+<text x="360" y="200" text-anchor="middle" fill="#059669" font-size="24" font-weight="bold">7</text>
+<path d="M325 216L199 296" fill="none" stroke="#D97706" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M395 216L521 296" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="183" y="269" text-anchor="middle" fill="#9A3412" font-size="22" font-weight="normal">f⁻¹</text>
+<text x="570" y="269" text-anchor="middle" fill="#5B21B6" font-size="22" font-weight="normal">1 / value</text>
+<circle cx="180" cy="339" r="32" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+<text x="180" y="347" text-anchor="middle" fill="#2563EB" font-size="24" font-weight="bold">3</text>
+<circle cx="540" cy="339" r="40" fill="#F3E8FF" stroke="#7C3AED" stroke-width="2"/>
+<text x="540" y="347" text-anchor="middle" fill="#7C3AED" font-size="24" font-weight="bold">1/7</text>
+<text x="180" y="403" text-anchor="middle" fill="#1E3A8A" font-size="20" font-weight="normal">Recover the input</text>
+<text x="540" y="403" text-anchor="middle" fill="#5B21B6" font-size="20" font-weight="normal">Reciprocal of 7</text>
+</g>
+</svg>

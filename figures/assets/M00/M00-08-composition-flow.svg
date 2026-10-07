@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 425" width="800" height="425" role="img" aria-labelledby="title desc">
+<title id="title">The inner function supplies the next input</title>
+<desc id="desc">Input three passes through g adding one to produce four, then through f multiplying by two to produce eight.</desc>
+<defs>
+<marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto">
+<path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/>
+</marker>
+</defs>
+<rect width="800" height="425" rx="16" fill="#F8FAFC"/>
+<g font-family="sans-serif">
+<text x="400" y="54" text-anchor="middle" fill="#0F172A" font-size="24" font-weight="bold">The inner function supplies the next input</text>
+<text x="130" y="128" text-anchor="middle" fill=" #1E3A8A" font-size="22" font-weight="normal">Input</text>
+<text x="400" y="128" text-anchor="middle" fill=" #334155" font-size="22" font-weight="normal">Intermediate</text>
+<text x="670" y="128" text-anchor="middle" fill="#065F46" font-size="22" font-weight="normal">Output</text>
+<circle cx="130" cy="235" r="32" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+<text x="130" y="243" text-anchor="middle" fill="#2563EB" font-size="24" font-weight="bold">3</text>
+<rect x="223" y="193" width="92" height="84" rx="12" fill="#F3E8FF" stroke="#7C3AED" stroke-width="2"/>
+<text x="269" y="227" text-anchor="middle" fill="#5B21B6" font-size="24" font-weight="bold">g</text>
+<text x="269" y="258" text-anchor="middle" fill="#5B21B6" font-size="22" font-weight="normal">+ 1</text>
+<path d="M168 235H212" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M326 235H360" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+<circle cx="400" cy="235" r="32" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+<text x="400" y="243" text-anchor="middle" fill="#7C3AED" font-size="24" font-weight="bold">4</text>
+<rect x="487" y="193" width="92" height="84" rx="12" fill="#F3E8FF" stroke="#7C3AED" stroke-width="2"/>
+<text x="533" y="227" text-anchor="middle" fill="#5B21B6" font-size="24" font-weight="bold">f</text>
+<text x="533" y="258" text-anchor="middle" fill="#5B21B6" font-size="22" font-weight="normal">× 2</text>
+<path d="M442 235H476" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M590 235H630" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+<circle cx="670" cy="235" r="32" fill="#D1FAE5" stroke="#059669" stroke-width="2"/>
+<text x="670" y="243" text-anchor="middle" fill="#059669" font-size="24" font-weight="bold">8</text>
+<text x="400" y="345" text-anchor="middle" fill="#334155" font-size="24" font-weight="normal">(f ∘ g)(3) = f(g(3)) = f(4) = 8</text>
+<text x="400" y="389" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">Apply g first, even though f is written first.</text>
+</g>
+</svg>

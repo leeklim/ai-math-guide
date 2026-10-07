@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 720" role="img" aria-labelledby="title desc">
+  <title id="title">Substitution and arithmetic in two x plus one</title>
+  <desc id="desc">A vertical sequence replaces x by three, multiplies two by three to obtain six, and then adds one to obtain seven. The fixed numbers two and one keep their positions during substitution.</desc>
+  <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+  <rect width="520" height="720" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" text-anchor="middle">
+    <text x="260" y="54" font-size="24" font-weight="700" fill="#0F172A">Put x = 3 into 2x + 1</text>
+    <text x="260" y="102" font-size="22" fill="#475569">Start with the expression</text>
+    <text x="260" y="156" font-size="34" font-weight="700" fill="#334155">2 × <tspan fill="#1E3A8A">x</tspan> + 1</text>
+    <path d="M260 180V224" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="260" y="272" font-size="22" fill="#5B21B6">Replace x with 3</text>
+    <text x="260" y="326" font-size="34" font-weight="700" fill="#334155">2 × <tspan fill="#1E3A8A">3</tspan> + 1</text>
+    <path d="M260 350V394" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="260" y="442" font-size="22" fill="#5B21B6">Multiply first: 2 × 3 = 6</text>
+    <text x="260" y="496" font-size="34" font-weight="700" fill="#334155">6 + 1</text>
+    <path d="M260 520V564" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="260" y="612" font-size="22" fill="#5B21B6">Then add 1</text>
+    <text x="260" y="670" font-size="40" font-weight="700" fill="#065F46">7</text>
+  </g>
+</svg>

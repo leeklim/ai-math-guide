@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-labelledby="title desc">
+  <title id="title">A learning rate can be fixed within a run and changed across runs</title>
+  <desc id="desc">Two experiment rows show eta equal to zero point zero one repeated at the start, middle, and end of run A, and eta equal to zero point zero two repeated at the same stages of run B. Values are fixed within each illustrated run but differ across runs.</desc>
+  <rect width="720" height="480" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif" text-anchor="middle">
+    <text x="360" y="54" font-size="26" font-weight="700" fill="#0F172A">Fixed within a run, chosen across runs</text>
+    <g font-size="20" font-weight="700" fill="#475569">
+      <text x="252" y="122">Start</text><text x="428" y="122">Middle</text><text x="604" y="122">End</text>
+      <text x="252" y="154" font-size="18">η</text><text x="428" y="154" font-size="18">η</text><text x="604" y="154" font-size="18">η</text>
+    </g>
+    <path d="M188 178H668M188 276H668" stroke="#CBD5E1" stroke-width="2"/>
+    <g font-size="24" font-weight="700">
+      <text x="104" y="230" fill="#475569">Run A</text>
+      <text x="252" y="230" fill="#5B21B6">0.01</text><text x="428" y="230" fill="#5B21B6">0.01</text><text x="604" y="230" fill="#5B21B6">0.01</text>
+      <text x="104" y="328" fill="#475569">Run B</text>
+      <text x="252" y="328" fill="#5B21B6">0.02</text><text x="428" y="328" fill="#5B21B6">0.02</text><text x="604" y="328" fill="#5B21B6">0.02</text>
+    </g>
+    <path d="M188 356H668" stroke="#CBD5E1" stroke-width="2"/>
+    <text x="360" y="410" font-size="22" fill="#334155">Read a row: η is fixed for that run.</text>
+    <text x="360" y="448" font-size="22" fill="#334155">Compare rows: η differs between experiments.</text>
+  </g>
+</svg>

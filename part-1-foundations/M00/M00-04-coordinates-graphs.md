@@ -59,6 +59,8 @@ estimated_time: "75~90분"
 
 점 $(3,2)$를 표시할 때는 원점에서 가로로 $3$, 세로로 $2$만큼 이동한다. 첫 번째 수가 가로 위치, 두 번째 수가 세로 위치를 정한다.
 
+각 좌표는 해당 축의 $0$을 기준으로 읽는다. 가로 좌표 $3$은 $y$축에서 오른쪽으로 $3$만큼 떨어졌다는 뜻이고, 세로 좌표 $2$는 $x$축에서 위로 $2$만큼 떨어졌다는 뜻이다. 좌표는 점의 위치를 정하므로 세로로 먼저 이동한 뒤 가로로 이동해도 같은 점에 도착한다. 순서쌍의 순서는 이동 순서가 아니라 각 수가 맡는 축을 구분한다.
+
 \[
 (3,2)\ne(2,3)
 \]
@@ -70,6 +72,24 @@ estimated_time: "75~90분"
 - $(-2,3)$: 원점에서 왼쪽으로 $2$, 위로 $3$
 - $(2,-3)$: 원점에서 오른쪽으로 $2$, 아래로 $3$
 - $(-2,-3)$: 원점에서 왼쪽으로 $2$, 아래로 $3$
+
+순서쌍을 읽을 때는 첫 번째 값을 따라 가로로 이동한 뒤, 두 번째 값을 따라 세로로 이동한다고 생각할 수 있다. 아래 그림에서 $(3,2)$와 $(2,3)$은 같은 두 숫자를 사용하지만 가로 이동량과 세로 이동량을 서로 바꾸므로 다른 점에 도착한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two coordinate planes trace different horizontal and vertical moves for the ordered pairs three comma two and two comma three](../../figures/assets/M00/M00-04-c01-visual.svg)
+
+<figcaption>왼쪽은 가로로 3, 세로로 2 이동해 (3,2)에 도착한다. 오른쪽은 가로로 2, 세로로 3 이동해 (2,3)에 도착한다. 좌표의 순서는 각 수가 맡는 축을 결정한다.</figcaption>
+</figure>
+
+음수 좌표는 다음 그림처럼 축의 0을 기준으로 왼쪽이나 아래쪽에 놓인다. 점선은 각 점의 가로·세로 위치를 축과 연결한다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Three points with negative coordinate components lie to the left of the y-axis or below the x-axis on a labeled grid](../../figures/assets/M00/M00-04-signed-coordinates.svg)
+
+<figcaption>첫 좌표의 부호는 좌우를, 둘째 좌표의 부호는 위아래를 정한다. (-2,3)과 (2,-3)은 두 축에서 읽는 위치가 모두 다르다.</figcaption>
+</figure>
 
 ## 핵심 개념 2. 함수 그래프는 $(x,f(x))$인 점들의 모임이다
 
@@ -98,6 +118,15 @@ f(x)=2x+1
 
 표의 한 행은 그래프의 점 하나에 대응한다. 입력은 가로 위치를 정하고 출력은 세로 위치를 정한다.
 
+표에서 그래프로 옮길 때는 입력과 출력을 따로 흩어 놓지 않는다. 같은 행에 있는 $x$와 $f(x)$를 순서쌍 $(x,f(x))$로 묶은 뒤, 가로축에서 $x$, 세로축에서 $f(x)$를 찾아 점을 찍는다. 아래 그림의 A부터 D까지는 표의 네 행과 그래프의 네 점을 각각 연결한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A value table for two x plus one maps labeled input-output pairs to four points on the matching line graph](../../figures/assets/M00/M00-04-c02-visual.svg)
+
+<figcaption>표의 각 행은 (x,f(x))라는 순서쌍 하나를 만든다. A, B, C, D 표시는 같은 순서쌍이 그래프에서 어느 점이 되는지 추적하게 한다.</figcaption>
+</figure>
+
 ### 그래프에서 함수값 읽기
 
 $f(2)$를 그래프에서 읽는 과정은 다음과 같다.
@@ -114,7 +143,20 @@ f(2)=5
 
 이다.
 
+입력 $2$를 고정하면 가로 좌표가 $2$인 위치에서 위아래로 점을 찾게 된다. 함수는 이 입력에 출력 하나를 정하므로, 같은 가로 좌표에 서로 다른 높이의 점 두 개가 놓일 수 없다. 다만 해당 입력이 정의역에 속해야 점을 찾을 수 있다.
+
 반대로 $f(x)=3$을 만족하는 $x$를 찾을 때는 $y=3$인 높이에서 그래프와 만나는 점의 $x$좌표를 읽는다. 위 함수에서는 $x=1$이다.
+
+출력을 고정해 입력을 찾을 때는 같은 높이에서 여러 점을 만날 수 있다. 예를 들어 $f(x)=x^2$의 그래프에는 $(-2,4)$와 $(2,4)$가 함께 있다. 두 점의 입력은 다르므로 함수의 조건을 만족하며, 출력 $4$를 만드는 입력은 두 개다. 그래프에서 함수값을 읽는 일과 주어진 함수값을 만드는 입력을 찾는 일은 이렇게 구분된다.
+
+다음 그림의 세로 점선은 입력 2를 고정하고, 가로 점선은 출력 4를 고정한다. 두 선이 그래프를 만나는 점의 개수가 다르다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A vertical guide at input two intersects the parabola once, while a horizontal guide at output four intersects at inputs negative two and two](../../figures/assets/M00/M00-04-graph-reading-directions.svg)
+
+<figcaption>x=2에서 함수값은 4 하나다. 반대로 출력 4를 만드는 입력은 -2와 2다. 곡선은 입력·출력의 관계이고 좌표축은 직선으로 유지된다.</figcaption>
+</figure>
 
 ## 핵심 개념 3. 선을 연결하려면 정의역을 확인해야 한다
 
@@ -126,15 +168,28 @@ f(0.5)=2
 
 가 정해진다. 이런 경우 계산한 점들을 직선으로 연결해 전체 그래프를 나타낼 수 있다.
 
+여기서 직선을 그릴 수 있는 이유는 $2x+1$이라는 규칙이 그 사이의 입력에도 적용되기 때문이다. $x=0$과 $x=1$ 사이의 입력 $0.5$를 넣으면 출력도 $1$과 $3$ 사이의 $2$가 된다. 같은 규칙으로 중간 입력들을 계산하면 모두 그 직선 위에 놓인다. 몇 개의 점이 보인다는 이유만으로 직선을 그리는 것은 아니다. 일반적인 함수에서는 두 점 사이의 그래프가 휘거나 끊어질 수도 있다.
+
 정의역이 $\{-1,0,1,2\}$처럼 몇 개의 값으로만 이루어졌다면 네 점 사이의 입력은 허용되지 않는다. 점들을 선으로 연결하면 정의하지 않은 입력에도 출력이 있는 것처럼 보일 수 있다.
 
 실험 그래프에서도 같은 문제가 생긴다. 연구자가 epoch $1,2,3$에서만 값을 측정했다면 선분은 측정 사이의 경향을 보기 위한 표시다. 선 위의 모든 점을 직접 관측한 것은 아니다.
+
+다음 그림은 같은 계산 규칙을 써도 정의역에 따라 점 사이를 포함하는지가 달라짐을 보여 준다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Four discrete points for two x plus one are contrasted with the continuous line that also contains input zero point five and output two](../../figures/assets/M00/M00-04-discrete-continuous-domain.svg)
+
+<figcaption>왼쪽은 네 입력만 허용하므로 점 사이를 연결하지 않는다. 오른쪽은 실수 입력을 허용하므로 중간의 (0.5,2)도 그래프에 속한다.</figcaption>
+</figure>
 
 ## 핵심 개념 4. 절편과 증가·감소를 읽는다
 
 ### $y$절편
 
 $y$절편은 그래프가 $y$축과 만나는 점의 $y$좌표다. $y$축 위에서는 $x=0$이므로 함수의 $y$절편은 $f(0)$에서 구한다.
+
+세로축 위의 점은 원점에서 가로로 이동하지 않은 위치이므로 가로 좌표가 $0$이다. 따라서 $y$절편을 구할 때 $x=0$을 넣는다. 반대로 가로축 위의 점은 세로 좌표가 $0$이므로 $x$절편을 구할 때는 출력 $y=f(x)$를 $0$으로 둔다. 이름이 $y$절편이라고 해서 $y=0$을 넣는 것은 아니다.
 
 \[
 f(x)=2x+1
@@ -176,11 +231,31 @@ x=-\frac12
 
 이다. 따라서 $x$절편은 $-\frac12$이고 만나는 점은 $\left(-\frac12,0\right)$이다.
 
+다음 그림에서 어느 축과 만나는지 확인하면, 0으로 두어야 하는 좌표를 구분할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The line two x plus one crosses the x-axis at negative zero point five comma zero and the y-axis at zero comma one](../../figures/assets/M00/M00-04-axis-intercepts.svg)
+
+<figcaption>x축과 만날 때 세로 좌표 y가 0이다. y축과 만날 때 가로 좌표 x가 0이다. 절편의 이름과 0으로 두는 좌표를 구분한다.</figcaption>
+</figure>
+
 ### 증가와 감소
 
 $x$가 커질 때 $f(x)$도 커지는 구간에서는 그래프가 오른쪽으로 갈수록 올라간다. $x$가 커질 때 $f(x)$가 작아지는 구간에서는 오른쪽으로 갈수록 내려간다.
 
+증가와 감소는 출력이 양수인지 음수인지와 구분한다. 위 표에서 입력이 $-1$에서 $0$으로 커질 때 출력은 $-1$에서 $1$로 커진다. 출발점의 출력이 음수여도 이 변화는 증가다. 판단할 때는 두 점의 높이를 비교하며, 그래프가 어느 축 위에 있는지만 보지 않는다.
+
 이 표현은 두 입력 사이의 변화를 비교한다. 뒤의 미적분 단원에서는 한 점 주변의 변화율을 도함수로 측정한다.
+
+다음 그림에서는 오른쪽으로 움직일 때 점의 높이가 커지는지 작아지는지를 비교한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![An increasing segment rises from output negative one to one, whereas a decreasing segment falls from one to negative one](../../figures/assets/M00/M00-04-increase-decrease.svg)
+
+<figcaption>왼쪽의 출력은 음수 -1에서 출발하지만 1로 커진다. 오른쪽은 양수 1에서 출발하지만 -1로 작아진다. 증가·감소는 출력의 부호가 아니라 두 값의 차이로 판단한다.</figcaption>
+</figure>
 
 ## 핵심 개념 5. 그래프 모양과 공간의 기하는 다른 주장이다
 
@@ -189,6 +264,10 @@ f(x)=x^2
 \]
 
 의 그래프는 곡선이다. 이 곡선은 실수 입력 $x$와 출력 $f(x)$의 관계를 평면에 그린 것이다.
+
+입력 $x$ 자체는 실수선 위의 위치이고, 출력 $x^2$도 실수선 위의 값이다. 그래프를 그릴 때는 이 두 값을 $(x,x^2)$로 묶어 평면의 점 하나로 표시한다. 따라서 곡선 모양은 입력과 출력을 함께 기록한 점들의 배치에서 나타난다. 입력을 표시하는 가로축과 출력을 표시하는 세로축은 여전히 직선이다.
+
+앞의 함수값 읽기 그림에서도 포물선은 휘어 있지만, 입력을 읽는 x축과 출력을 읽는 y축은 직선이다. 그림에서 관찰한 곡선과 축의 모양을 구분한다.
 
 그래프가 휘었다는 관찰만으로 입력이 놓인 실수선 자체가 휘었다고 말할 수 없다. 신경망의 비선형 함수가 휘어진 그래프를 만들었다는 사실도 표현 공간의 곡률을 곧바로 정의하지 않는다.
 

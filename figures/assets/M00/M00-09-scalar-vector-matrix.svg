@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 495" width="800" height="495" role="img" aria-labelledby="title desc">
+<title id="title">Shape counts positions along each axis</title>
+<desc id="desc">A scalar is one value with no axis, a column vector has three ordered components, and a two by three matrix has two rows and three columns, with row two column three highlighted.</desc>
+<defs>
+<marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto">
+<path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/>
+</marker>
+</defs>
+<rect width="800" height="495" rx="16" fill="#F8FAFC"/>
+<g font-family="sans-serif">
+<text x="400" y="54" text-anchor="middle" fill="#0F172A" font-size="24" font-weight="bold">Shape counts positions along each axis</text>
+<text x="130" y="121" text-anchor="middle" fill="#1E3A8A" font-size="24" font-weight="bold">Scalar</text>
+<rect x="97" y="216" width="66" height="64" fill="#DBEAFE" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="130" y="256" text-anchor="middle" fill="#2563EB" font-size="22" font-weight="bold">2</text>
+<text x="130" y="402" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">No axis</text>
+<text x="360" y="121" text-anchor="middle" fill="#1E3A8A" font-size="24" font-weight="bold">Column vector</text>
+<rect x="327" y="166" width="66" height="64" fill="#DBEAFE" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="360" y="206" text-anchor="middle" fill="#2563EB" font-size="22" font-weight="bold">1</text>
+<rect x="327" y="230" width="66" height="64" fill="#DBEAFE" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="360" y="270" text-anchor="middle" fill="#2563EB" font-size="22" font-weight="bold">0</text>
+<rect x="327" y="294" width="66" height="64" fill="#DBEAFE" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="360" y="334" text-anchor="middle" fill="#2563EB" font-size="22" font-weight="bold">−1</text>
+<text x="360" y="402" text-anchor="middle" fill="#1E3A8A" font-size="22" font-weight="normal">3 × 1</text>
+<text x="630" y="121" text-anchor="middle" fill="#1E3A8A" font-size="24" font-weight="bold">Matrix</text>
+<rect x="532" y="200" width="66" height="64" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="565" y="240" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">1</text>
+<rect x="598" y="200" width="66" height="64" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="631" y="240" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">2</text>
+<rect x="664" y="200" width="66" height="64" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="697" y="240" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">3</text>
+<rect x="532" y="264" width="66" height="64" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="565" y="304" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">4</text>
+<rect x="598" y="264" width="66" height="64" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="631" y="304" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">5</text>
+<rect x="664" y="264" width="66" height="64" fill="#D1FAE5" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="697" y="304" text-anchor="middle" fill="#059669" font-size="22" font-weight="bold">6</text>
+<text x="565" y="174" text-anchor="middle" fill="#64748B" font-size="18" font-weight="normal">1</text>
+<text x="631" y="174" text-anchor="middle" fill="#64748B" font-size="18" font-weight="normal">2</text>
+<text x="697" y="174" text-anchor="middle" fill="#64748B" font-size="18" font-weight="normal">3</text>
+<text x="505" y="240" text-anchor="middle" fill="#64748B" font-size="18" font-weight="normal">1</text>
+<text x="505" y="304" text-anchor="middle" fill="#64748B" font-size="18" font-weight="normal">2</text>
+<text x="630" y="402" text-anchor="middle" fill="#1E3A8A" font-size="20" font-weight="normal">2 rows × 3 columns</text>
+<text x="630" y="455" text-anchor="middle" fill="#065F46" font-size="22" font-weight="bold">a₂₃ = 6</text>
+</g>
+</svg>

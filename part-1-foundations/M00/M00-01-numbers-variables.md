@@ -74,6 +74,15 @@ s=wx+b
 
 기호와 값은 같은 것이 아니다. 기호 $x$는 그대로 두고 값만 3, 4, -1처럼 바꿀 수 있다.
 
+다음 그림의 위쪽은 같은 값의 여러 표현이고, 아래쪽은 별개의 계산에서 같은 기호에 넣은 서로 다른 값이다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Three expressions share the value three, while the symbol x takes three different values in separate calculations](../../figures/assets/M00/M00-01-symbol-value.svg)
+
+<figcaption>3, 3.0, 6÷2는 같은 값이다. 아래의 세 줄에서는 기호 x를 유지하고 그 기호가 나타내는 값을 바꾼다.</figcaption>
+</figure>
+
 ### 변수
 
 변수(variable)는 허용된 여러 값 중 하나를 나타낼 수 있는 기호다. 변수는 상황에 따라 여러 역할을 한다.
@@ -109,6 +118,15 @@ cx+1
 
 > 지금 설명하는 계산에서 이 값이 달라질 수 있는가, 아니면 고정돼 있는가?
 
+다음 그림에서는 같은 식 $cx+1$을 두 문맥에서 비교한다. 왼쪽은 $c$를 고정하고, 오른쪽은 $c$를 바꾼다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The expression c x plus one fixes c at two while x varies on the left, and fixes x at three while c varies on the right](../../figures/assets/M00/M00-01-variable-constant-context.svg)
+
+<figcaption>왼쪽에서 c는 2로 고정한 상수다. 오른쪽에서 c는 1, 2, 3을 넣어 조사하는 변수다. 문자 c의 역할은 각 비교에서 무엇을 고정하는지에 따라 달라진다.</figcaption>
+</figure>
+
 ### 변수에 값을 넣기
 
 변수에 특정 값을 정해 계산하는 것을 이 단원에서는 “값을 넣는다”고 표현한다. 다음 식에 $x=3$을 넣어보자.
@@ -140,6 +158,15 @@ $x$가 있던 자리를 3으로 바꾼다.
 
 이 표에서 식 $2x+1$의 구조는 그대로이고 $x$의 값만 바뀐다.
 
+다음 그림에서 $x$ 자리에 3을 넣는 단계와 연산을 수행하는 단계를 구분해 따라가면 된다.
+
+<figure class="lesson-figure" markdown="1">
+
+![Replacing x by three in two x plus one is followed by multiplying two by three and adding one to obtain seven](../../figures/assets/M00/M00-01-substitution-steps.svg)
+
+<figcaption>x를 3으로 바꿀 때 상수 2와 1은 유지한다. 그다음 곱셈 결과 6에 1을 더해 전체 식의 값 7을 구한다.</figcaption>
+</figure>
+
 ### 문맥이 바뀌면 역할도 바뀐다
 
 다시 간단한 모델 식을 보자.
@@ -164,6 +191,15 @@ s=wx+b
 > 한 번의 예측에서는 파라미터를 고정하고 입력에 따른 출력을 계산한다. 모델을 학습할 때는 파라미터를 바꾸면서 손실을 줄인다.
 
 이 차이는 나중에 모델의 학습과정을 해석할 때 반복해서 사용한다.
+
+다음 그림의 왼쪽은 같은 파라미터에 입력을 바꾸는 비교이고, 오른쪽은 같은 입력에 파라미터를 바꾸는 비교다. 오른쪽의 수치는 역할 구분을 위해 정한 예시이며 실제 학습 결과가 아니다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Prediction varies the input with fixed model parameters, while a separate parameter comparison varies w and b with the same input](../../figures/assets/M00/M00-01-prediction-training.svg)
+
+<figcaption>한 번의 예측에서는 현재 w와 b를 고정한다. 학습과정을 분석할 때는 그 파라미터가 갱신 대상이다. 두 표의 출력은 각각 s=wx+b에 적힌 값을 넣어 계산했다.</figcaption>
+</figure>
 
 ## 예제 1. 변수에 값을 넣어 계산하기
 
@@ -265,6 +301,15 @@ s=1.6+0.1=1.7
 하이퍼파라미터(hyperparameter)는 보통 학습 알고리즘을 실행하기 전에 사람이 정하거나 별도의 탐색으로 선택하는 값이다. 학습률 $\eta$가 대표적인 예다.
 
 한 학습 실행에서 $\eta$를 고정할 수 있지만, 서로 다른 실험에서는 $\eta$를 바꾸어 결과를 비교할 수 있다. 따라서 하이퍼파라미터도 모든 상황에서 절대적인 상수인 것은 아니다.
+
+다음 그림에서 한 행을 따라 읽으면 실행 안의 고정값을, 두 행을 비교하면 실험 사이의 선택을 확인할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Learning rate eta stays at zero point zero one throughout run A and at zero point zero two throughout run B, differing across the two experiments](../../figures/assets/M00/M00-01-hyperparameter-context.svg)
+
+<figcaption>이 예시에서는 각 실행의 시작부터 끝까지 학습률을 고정했다. 실행 A의 0.01과 실행 B의 0.02를 비교하면, 실행 안에서 고정한 값도 다른 실험에서는 바꿀 수 있음을 확인한다.</figcaption>
+</figure>
 
 ## 흔한 오해
 

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 465" width="800" height="465" role="img" aria-labelledby="title desc">
+<title id="title">Every sample row uses the same weights</title>
+<desc id="desc">Two rows with three input features pass through the shared three by two weight transpose. Each sample gets two output features without mixing sample rows.</desc>
+<defs>
+<marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto">
+<path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/>
+</marker>
+</defs>
+<rect width="800" height="465" rx="16" fill="#F8FAFC"/>
+<g font-family="sans-serif">
+<text x="400" y="54" text-anchor="middle" fill="#0F172A" font-size="24" font-weight="bold">Every sample row uses the same weights</text>
+<text x="178" y="126" text-anchor="middle" fill="#1E3A8A" font-size="24" font-weight="bold">X: 2 × 3</text>
+<text x="670" y="126" text-anchor="middle" fill="#065F46" font-size="24" font-weight="bold">XWᵀ: 2 × 2</text>
+<rect x="70" y="185" width="72" height="72" fill="#DBEAFE" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="106" y="229" text-anchor="middle" fill="#2563EB" font-size="22" font-weight="bold">3</text>
+<rect x="142" y="185" width="72" height="72" fill="#DBEAFE" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="178" y="229" text-anchor="middle" fill="#2563EB" font-size="22" font-weight="bold">4</text>
+<rect x="214" y="185" width="72" height="72" fill="#DBEAFE" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="250" y="229" text-anchor="middle" fill="#2563EB" font-size="22" font-weight="bold">5</text>
+<rect x="70" y="257" width="72" height="72" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="106" y="301" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">1</text>
+<rect x="142" y="257" width="72" height="72" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="178" y="301" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">2</text>
+<rect x="214" y="257" width="72" height="72" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="250" y="301" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">3</text>
+<rect x="370" y="198" width="135" height="118" rx="12" fill="#F3E8FF" stroke="#7C3AED" stroke-width="2"/>
+<text x="437" y="243" text-anchor="middle" fill="#5B21B6" font-size="24" font-weight="bold">Wᵀ</text>
+<text x="437" y="283" text-anchor="middle" fill="#5B21B6" font-size="22" font-weight="normal">3 × 2</text>
+<rect x="595" y="185" width="72" height="72" fill="#D1FAE5" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="631" y="229" text-anchor="middle" fill="#059669" font-size="22" font-weight="bold">−2</text>
+<rect x="667" y="185" width="72" height="72" fill="#D1FAE5" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="703" y="229" text-anchor="middle" fill="#059669" font-size="22" font-weight="bold">10</text>
+<rect x="595" y="257" width="72" height="72" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="631" y="301" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">−2</text>
+<rect x="667" y="257" width="72" height="72" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="703" y="301" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">4</text>
+<path d="M298 221H352" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M298 293H352" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M523 221H577" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M523 293H577" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="48" y="230" text-anchor="middle" fill="#64748B" font-size="18" font-weight="normal">1</text>
+<text x="48" y="302" text-anchor="middle" fill="#64748B" font-size="18" font-weight="normal">2</text>
+<text x="178" y="398" text-anchor="middle" fill="#1E3A8A" font-size="20" font-weight="normal">Sample rows stay separate</text>
+<text x="670" y="398" text-anchor="middle" fill="#065F46" font-size="20" font-weight="normal">Two outputs per row</text>
+</g>
+</svg>

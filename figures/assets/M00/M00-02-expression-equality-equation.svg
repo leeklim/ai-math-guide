@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 500" role="img" aria-labelledby="title desc">
+  <title id="title">An expression computes a value, an equality compares values, and an equation asks for a solution</title>
+  <desc id="desc">Three rows contrast two x plus one, two plus three equals five, and solving two x plus one equals seven. The equality compares five with five, while the equation is checked at x equal to three.</desc>
+  <rect width="640" height="500" rx="18" fill="#F8FAFC"/>
+  <g font-family="sans-serif">
+    <text x="320" y="54" text-anchor="middle" font-size="24" font-weight="700" fill="#0F172A">What does the notation ask?</text>
+    <text x="48" y="114" font-size="22" font-weight="700" fill="#1E3A8A">Expression</text>
+    <text x="330" y="114" font-size="28" font-weight="700" fill="#334155">2x + 1</text>
+    <text x="48" y="158" font-size="20" fill="#475569">Give x a value, then calculate.</text>
+    <path d="M48 186H592" stroke="#CBD5E1" stroke-width="2"/>
+    <text x="48" y="230" font-size="22" font-weight="700" fill="#5B21B6">Equality</text>
+    <text x="330" y="230" font-size="28" font-weight="700" fill="#334155">2 + 3 = 5</text>
+    <text x="48" y="274" font-size="20" fill="#475569">Compare both sides: 5 = 5.</text>
+    <path d="M48 302H592" stroke="#CBD5E1" stroke-width="2"/>
+    <text x="48" y="346" font-size="22" font-weight="700" fill="#065F46">Equation</text>
+    <text x="330" y="346" font-size="28" font-weight="700" fill="#334155">2x + 1 = 7</text>
+    <text x="48" y="390" font-size="20" fill="#475569">Find x that makes both sides equal.</text>
+    <text x="48" y="444" font-size="22" font-weight="700" fill="#065F46">x = 3:  2 × 3 + 1 = 7</text>
+  </g>
+</svg>

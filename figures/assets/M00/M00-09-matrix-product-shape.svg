@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 565" width="800" height="565" role="img" aria-labelledby="title desc">
+<title id="title">The shared dimension is summed; outer axes remain</title>
+<desc id="desc">A two by three matrix takes each length-three column of a three by two matrix to a length-two output column, producing a two by two matrix.</desc>
+<defs>
+<marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto">
+<path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/>
+</marker>
+</defs>
+<rect width="800" height="565" rx="16" fill="#F8FAFC"/>
+<g font-family="sans-serif">
+<text x="400" y="54" text-anchor="middle" fill="#0F172A" font-size="24" font-weight="bold">The shared dimension is summed; outer axes remain</text>
+<text x="152" y="126" text-anchor="middle" fill="#5B21B6" font-size="24" font-weight="bold">A: 2 × 3</text>
+<text x="428" y="126" text-anchor="middle" fill="#1E3A8A" font-size="24" font-weight="bold">B: 3 × 2</text>
+<text x="683" y="126" text-anchor="middle" fill="#065F46" font-size="24" font-weight="bold">AB: 2 × 2</text>
+<rect x="50" y="174" width="68" height="66" fill="#F3E8FF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="84" y="215" text-anchor="middle" fill="#7C3AED" font-size="22" font-weight="bold">a₁₁</text>
+<rect x="118" y="174" width="68" height="66" fill="#F3E8FF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="152" y="215" text-anchor="middle" fill="#7C3AED" font-size="22" font-weight="bold">a₁₂</text>
+<rect x="186" y="174" width="68" height="66" fill="#F3E8FF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="220" y="215" text-anchor="middle" fill="#7C3AED" font-size="22" font-weight="bold">a₁₃</text>
+<rect x="50" y="240" width="68" height="66" fill="#F3E8FF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="84" y="281" text-anchor="middle" fill="#7C3AED" font-size="22" font-weight="bold">a₂₁</text>
+<rect x="118" y="240" width="68" height="66" fill="#F3E8FF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="152" y="281" text-anchor="middle" fill="#7C3AED" font-size="22" font-weight="bold">a₂₂</text>
+<rect x="186" y="240" width="68" height="66" fill="#F3E8FF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="220" y="281" text-anchor="middle" fill="#7C3AED" font-size="22" font-weight="bold">a₂₃</text>
+<rect x="360" y="174" width="68" height="66" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="394" y="215" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">b₁₁</text>
+<rect x="428" y="174" width="68" height="66" fill="#DBEAFE" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="462" y="215" text-anchor="middle" fill="#2563EB" font-size="22" font-weight="bold">b₁₂</text>
+<rect x="360" y="240" width="68" height="66" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="394" y="281" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">b₂₁</text>
+<rect x="428" y="240" width="68" height="66" fill="#DBEAFE" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="462" y="281" text-anchor="middle" fill="#2563EB" font-size="22" font-weight="bold">b₂₂</text>
+<rect x="360" y="306" width="68" height="66" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="394" y="347" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">b₃₁</text>
+<rect x="428" y="306" width="68" height="66" fill="#DBEAFE" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="462" y="347" text-anchor="middle" fill="#2563EB" font-size="22" font-weight="bold">b₃₂</text>
+<rect x="615" y="174" width="68" height="66" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="649" y="215" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">c₁₁</text>
+<rect x="683" y="174" width="68" height="66" fill="#D1FAE5" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="717" y="215" text-anchor="middle" fill="#059669" font-size="22" font-weight="bold">c₁₂</text>
+<rect x="615" y="240" width="68" height="66" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="649" y="281" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">c₂₁</text>
+<rect x="683" y="240" width="68" height="66" fill="#D1FAE5" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="717" y="281" text-anchor="middle" fill="#059669" font-size="22" font-weight="bold">c₂₂</text>
+<text x="309" y="254" text-anchor="middle" fill="#334155" font-size="28" font-weight="normal">×</text>
+<text x="555" y="254" text-anchor="middle" fill="#334155" font-size="28" font-weight="normal">=</text>
+<text x="152" y="352" text-anchor="middle" fill="#5B21B6" font-size="20" font-weight="normal">3 columns</text>
+<text x="428" y="416" text-anchor="middle" fill="#1E3A8A" font-size="20" font-weight="normal">3 rows</text>
+<text x="683" y="352" text-anchor="middle" fill="#065F46" font-size="20" font-weight="normal">2 rows</text>
+<text x="683" y="397" text-anchor="middle" fill="#065F46" font-size="20" font-weight="normal">2 columns</text>
+<text x="400" y="478" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">Each of B's two columns goes through the same A.</text>
+<text x="400" y="526" text-anchor="middle" fill="#334155" font-size="24" font-weight="normal">(2 × 3)(3 × 2) → (2 × 2)</text>
+</g>
+</svg>

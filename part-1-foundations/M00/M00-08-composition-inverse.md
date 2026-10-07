@@ -112,6 +112,15 @@ f(g(3))=f(4)=8
 
 이다.
 
+다음 그림에서는 중간값 4가 다음 함수 f의 입력으로 들어간다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Input three goes through g adding one to become four, then through f multiplying by two to become eight](../../figures/assets/M00/M00-08-composition-flow.svg)
+
+<figcaption>왼쪽에서 오른쪽으로 g를 먼저 계산하고 f를 계산한다. 합성식에서 먼저 적힌 f가 실제로는 마지막 단계다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. 합성에는 범위 호환성이 필요하다
 
 $g:A\to B$의 출력을 $f:C\to D$에 넣으려면 $g(x)$가 $f$의 정의역 $C$에 속해야 한다. 보통
@@ -121,6 +130,8 @@ B\subseteq C
 \]
 
 이면 모든 $x\in A$에서 $f(g(x))$를 계산할 수 있다.
+
+이 조건은 $g$가 어느 값을 출력해도 $f$가 받을 수 있게 하는 충분조건이다. 필요한 것은 $g$의 실제 출력인 치역이 $C$에 들어가는 것이다. 선언한 공역 $B$ 전체가 $C$에 포함되지 않아도 $g$의 실제 출력이 모두 $C$에 속하면 합성할 수 있다. 일부 출력만 $C$에 속한다면 그 출력을 만드는 입력으로 합성의 정의역을 제한한다.
 
 예를 들어
 
@@ -148,6 +159,15 @@ x>2
 
 함수식만 이어 붙이지 않고 중간 출력이 다음 함수의 허용 입력인지 확인해야 한다.
 
+다음 그림은 x에서 2를 뺀 중간값 u를 같은 위치의 아래 수직선에 대응시킨다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Subtracting two aligns the boundary x equal two with u equal zero, and only x greater than two produces positive inputs allowed by log](../../figures/assets/M00/M00-08-composition-compatible-range.svg)
+
+<figcaption>log의 허용 입력 u&gt;0을 거슬러 확인하면 원래 입력의 범위 x&gt;2가 나온다. 경계 x=2는 u=0을 만들므로 포함하지 않는다.</figcaption>
+</figure>
+
 ## 핵심 개념 3. 합성 순서를 바꾸면 다른 함수가 된다
 
 \[
@@ -174,6 +194,15 @@ f\circ g\ne g\circ f
 
 가 이 예에서 성립한다. 함수 합성은 일반적으로 교환할 수 없다.
 
+다음 그림은 같은 입력 3을 두 계산 순서로 보내 중간값과 결과를 비교한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Adding one then multiplying by two sends three through four to eight, but multiplying by two then adding one sends three through six to seven](../../figures/assets/M00/M00-08-composition-order-comparison.svg)
+
+<figcaption>순서를 바꾸면 중간값부터 달라진다. 왼쪽은 4에 2를 곱하고, 오른쪽은 6에 1을 더하므로 결과가 각각 8과 7이다.</figcaption>
+</figure>
+
 세 함수의 합성에서는 괄호를 묶는 위치를 바꿔도 적용 순서를 유지하면 결과가 같다.
 
 \[
@@ -181,6 +210,8 @@ h\circ(f\circ g)=(h\circ f)\circ g
 \]
 
 이 성질을 결합법칙이라고 한다. 어느 쪽도 $g$, $f$, $h$ 순서로 적용한다.
+
+두 식에 입력 $x$를 넣어 펼치면 모두 $h(f(g(x)))$가 된다. 괄호를 옮기는 것은 어느 두 함수를 먼저 하나의 함수로 묶어 부를지 바꾸는 것이며, 각 입력에 함수를 적용하는 순서는 바꾸지 않는다.
 
 ## 핵심 개념 4. 항등함수는 입력을 그대로 돌려준다
 
@@ -207,6 +238,17 @@ f\circ\operatorname{id}_A=f
 \]
 
 가 성립한다. 항등함수는 합성에서 함수의 작동을 바꾸지 않는다.
+
+첫 식에서는 $f$의 출력이 $B$에 있으므로 $\operatorname{id}_B$가 그 출력을 그대로 돌려준다. 둘째 식에서는 $\operatorname{id}_A$가 입력 $x$를 바꾸지 않고 $f$에 전달한다. 항등함수의 아래첨자는 그대로 돌려줄 값이 어느 집합에 속하는지 나타낸다.
+
+다음 그림에서 항등함수가 f 앞에 있는지 뒤에 있는지에 따라 받는 값의 소속 집합을 확인한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Identity on A preserves x before applying f, and identity on B preserves f of x after applying f](../../figures/assets/M00/M00-08-identity-placement.svg)
+
+<figcaption>위 경로의 항등함수는 A의 입력을 그대로 넘기고, 아래 경로의 항등함수는 B의 출력을 그대로 넘긴다. 두 경로 모두 원래 f와 같은 값을 출력한다.</figcaption>
+</figure>
 
 ## 핵심 개념 5. 역함수는 입력과 출력을 되돌린다
 
@@ -240,6 +282,15 @@ f(f^{-1}(y))=y
 
 두 방향을 모두 확인해야 지정한 정의역과 공역에서 역함수라고 부를 수 있다.
 
+다음 그림은 뒤의 선형식 예제 f(x)=3x−2에서 계산을 되돌리는 순서를 보여 준다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The forward path multiplies input two by three then subtracts two to produce four, while the inverse adds two to four then divides by three to recover two](../../figures/assets/M00/M00-08-inverse-reversed-operations.svg)
+
+<figcaption>정방향의 마지막 연산 ‘2 빼기’를 먼저 되돌리고, 첫 연산 ‘3 곱하기’를 나중에 되돌린다. 출발점과 도착점도 원래 출력과 입력으로 바뀐다.</figcaption>
+</figure>
+
 ### $f^{-1}(x)$는 역수가 아니다
 
 \[
@@ -253,6 +304,15 @@ f^{-1}(x)
 \]
 
 는 함수값의 역수다. 같은 위첨자 $-1$이 보이지만 대상과 연산이 다르다.
+
+다음 그림에서 출력 7을 원래 입력으로 되돌리는 일과 7의 역수를 구하는 일을 나눈다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![For f of x equal two x plus one, inverse maps output seven back to input three whereas taking the reciprocal gives one seventh](../../figures/assets/M00/M00-08-inverse-vs-reciprocal.svg)
+
+<figcaption>f(x)=2x+1에서 f⁻¹(7)=3은 입력 복원이다. 1/f(3)=1/7은 출력값을 수로 취급해 역수를 구한 결과다.</figcaption>
+</figure>
 
 ## 핵심 개념 6. 역함수에는 전단사가 필요하다
 
@@ -283,7 +343,18 @@ $f:A\to B$가 전사(surjective)라는 말은 공역 $B$의 각 원소가 실제
 
 일대일이면서 전사인 함수를 전단사(bijective)라고 한다. $f:A\to B$가 전단사일 때 $B$ 전체에서 $A$로 가는 역함수가 존재한다.
 
+일대일 조건은 출력 하나에 대응하는 입력이 둘 이상 없도록 하고, 전사 조건은 공역의 출력마다 대응하는 입력이 적어도 하나 있도록 한다. 두 조건을 함께 만족하면 $B$의 각 값에서 원래 입력을 정확히 하나 정할 수 있다. 이를 역함수의 출력으로 삼으면 M00-03에서 배운 함수의 조건, 즉 모든 허용 입력에 출력이 하나씩 정해져야 한다는 조건도 만족한다.
+
 일대일 함수는 공역을 치역으로 줄이면 역함수를 정의할 수 있다. 따라서 역함수의 존재를 말할 때 정의역과 공역을 함께 적어야 한다.
+
+다음 그림은 역방향에서 입력 하나의 원래 출처를 찾을 때 생기는 두 문제를 구분한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A merged output has two possible sources, an unreached codomain value has no source, and a bijection gives every output exactly one source so all arrows can be reversed](../../figures/assets/M00/M00-08-bijection-inverse-conditions.svg)
+
+<figcaption>위에서는 출력 4의 출처가 두 개라 유일성이 깨진다. 가운데에서는 공역의 c에 출처가 없다. 아래에서는 모든 출력의 출처가 정확히 하나여서 역방향도 함수가 된다.</figcaption>
+</figure>
 
 ## 예제 1. 합성함수 식 구하기
 
@@ -361,6 +432,8 @@ f^{-1}(x)=\frac{x+2}{3}
 \]
 
 이다.
+
+마지막 식의 $x$는 역함수에 넣는 값의 이름이며, 원래 함수에서는 출력 $y$가 맡았던 자리다. $f^{-1}(y)=(y+2)/3$으로 적어도 같은 역함수다. 입력 문자의 이름을 바꾼 뒤에도 원래 출력에서 원래 입력으로 되돌린다는 역할은 유지한다.
 
 첫 방향을 검산한다.
 

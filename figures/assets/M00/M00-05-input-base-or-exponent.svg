@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 510" role="img" aria-labelledby="title desc">
+<title id="title">Input three enters the base position or exponent position</title><desc id="desc">One input x equal to three follows two arrows. In x squared it replaces the base, giving three squared equal to nine. In two to the x it replaces the exponent, giving two cubed equal to eight.</desc>
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+<rect width="760" height="510" rx="18" fill="#F8FAFC"/>
+<g font-family="sans-serif" text-anchor="middle">
+<text x="380" y="54" font-size="24" font-weight="700" fill="#0F172A">Put the same input in different positions</text>
+<text x="380" y="116" font-size="30" font-weight="700" fill="#1E3A8A">x = 3</text>
+<path d="M332 140L210 204" fill="none" stroke="#2563EB" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M428 140L550 204" fill="none" stroke="#2563EB" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="210" y="252" font-size="36" font-weight="700" fill="#334155"><tspan fill="#1E3A8A">x</tspan><tspan dy="-16" font-size="24">2</tspan></text>
+<text x="550" y="252" font-size="36" font-weight="700" fill="#334155">2<tspan dy="-16" font-size="24" fill="#1E3A8A">x</tspan></text>
+<text x="210" y="302" font-size="22" fill="#475569">Replace the base</text>
+<text x="550" y="302" font-size="22" fill="#475569">Replace the exponent</text>
+<text x="210" y="374" font-size="36" font-weight="700" fill="#334155"><tspan fill="#1E3A8A">3</tspan>² = <tspan fill="#065F46">9</tspan></text>
+<text x="550" y="374" font-size="36" font-weight="700" fill="#334155">2<tspan dy="-16" font-size="24" fill="#1E3A8A">3</tspan><tspan dy="16"> = </tspan><tspan fill="#065F46">8</tspan></text>
+<text x="380" y="456" font-size="22" fill="#475569">Blue marks the input; the fixed number 2 keeps its position.</text>
+</g></svg>

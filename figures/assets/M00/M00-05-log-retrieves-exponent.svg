@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 470" role="img" aria-labelledby="title desc">
+<title id="title">Exponentiation and logarithm exchange exponent and positive value</title><desc id="desc">For fixed base two, exponent three produces eight. Reading eight through log base two returns exponent three.</desc>
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+<rect width="600" height="470" rx="18" fill="#F8FAFC"/>
+<text x="300" y="54" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#0F172A">Logarithm recovers the exponent</text>
+<text x="300" y="112" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="400" fill="#475569">Base a = 2</text>
+<text x="120" y="180" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#1E3A8A">Exponent 3</text>
+<text x="480" y="180" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#065F46">Value 8</text>
+<path d="M220 174H380" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="300" y="148" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#5B21B6">2³</text>
+<text x="120" y="296" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#065F46">Exponent 3</text>
+<text x="480" y="296" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#1E3A8A">Value 8</text>
+<path d="M380 290H220" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="300" y="266" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#5B21B6">log₂ 8</text>
+<text x="300" y="370" text-anchor="middle" font-family="sans-serif" font-size="26" font-weight="700" fill="#334155">2³ = 8  ⇔  log₂ 8 = 3</text>
+<text x="300" y="424" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="400" fill="#475569">The log input 8 is positive.</text>
+</svg>

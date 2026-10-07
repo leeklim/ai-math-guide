@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 495" width="800" height="495" role="img" aria-labelledby="title desc">
+<title id="title">Transpose turns a row into a column</title>
+<desc id="desc">The first row one two three of a two by three matrix becomes the first column of the three by two transpose without changing values.</desc>
+<defs>
+<marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto">
+<path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/>
+</marker>
+</defs>
+<rect width="800" height="495" rx="16" fill="#F8FAFC"/>
+<g font-family="sans-serif">
+<text x="400" y="54" text-anchor="middle" fill="#0F172A" font-size="24" font-weight="bold">Transpose turns a row into a column</text>
+<text x="235" y="125" text-anchor="middle" fill="#1E3A8A" font-size="24" font-weight="bold">A: 2 × 3</text>
+<text x="630" y="125" text-anchor="middle" fill="#065F46" font-size="24" font-weight="bold">Aᵀ: 3 × 2</text>
+<rect x="133" y="182" width="68" height="64" fill="#DBEAFE" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="167" y="222" text-anchor="middle" fill="#2563EB" font-size="22" font-weight="bold">1</text>
+<rect x="201" y="182" width="68" height="64" fill="#DBEAFE" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="235" y="222" text-anchor="middle" fill="#2563EB" font-size="22" font-weight="bold">2</text>
+<rect x="269" y="182" width="68" height="64" fill="#DBEAFE" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="303" y="222" text-anchor="middle" fill="#2563EB" font-size="22" font-weight="bold">3</text>
+<rect x="133" y="246" width="68" height="64" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="167" y="286" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">4</text>
+<rect x="201" y="246" width="68" height="64" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="235" y="286" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">5</text>
+<rect x="269" y="246" width="68" height="64" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="303" y="286" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">6</text>
+<rect x="562" y="150" width="68" height="64" fill="#D1FAE5" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="596" y="190" text-anchor="middle" fill="#059669" font-size="22" font-weight="bold">1</text>
+<rect x="630" y="150" width="68" height="64" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="664" y="190" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">4</text>
+<rect x="562" y="214" width="68" height="64" fill="#D1FAE5" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="596" y="254" text-anchor="middle" fill="#059669" font-size="22" font-weight="bold">2</text>
+<rect x="630" y="214" width="68" height="64" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="664" y="254" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">5</text>
+<rect x="562" y="278" width="68" height="64" fill="#D1FAE5" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="596" y="318" text-anchor="middle" fill="#059669" font-size="22" font-weight="bold">3</text>
+<rect x="630" y="278" width="68" height="64" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="664" y="318" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">6</text>
+<path d="M365 246H528" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="446" y="211" text-anchor="middle" fill="#5B21B6" font-size="20" font-weight="normal">transpose</text>
+<text x="235" y="396" text-anchor="middle" fill="#1E3A8A" font-size="20" font-weight="normal">First row: 1, 2, 3</text>
+<text x="630" y="396" text-anchor="middle" fill="#065F46" font-size="20" font-weight="normal">First column: 1, 2, 3</text>
+<text x="400" y="454" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">The position (i, j) becomes (j, i); the value is unchanged.</text>
+</g>
+</svg>

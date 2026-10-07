@@ -139,9 +139,20 @@ $x=3$을 넣으면
 
 실제로 왼쪽을 계산하면 7이므로 확인할 수 있다.
 
+다음 그림에서 계산할 표현, 두 값의 비교, 미지수를 찾는 질문을 나누어 보면 같은 기호의 역할을 구분할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![An expression computes a value, an equality compares five with five, and an equation asks for x that makes two x plus one equal seven](../../figures/assets/M00/M00-02-expression-equality-equation.svg)
+
+<figcaption>식에는 아직 두 값을 비교하는 등호가 없다. 등식은 양쪽 값을 비교하고, 방정식은 그 비교가 참이 되게 하는 미지수를 찾는다.</figcaption>
+</figure>
+
 ### 양쪽에 같은 연산 적용하기
 
 방정식을 풀 때는 등식의 양쪽에 같은 연산을 적용해 같은 관계를 유지한다.
+
+목표는 $x$에 더하거나 곱한 수를 제거해 $x$만 남기는 것이다. $2x+1$에서는 곱셈 뒤에 1을 더했으므로, 먼저 1을 빼고 그다음 2로 나눈다. 한쪽 식만 바꾸면 양쪽 값이 같다는 관계를 잃을 수 있어 오른쪽에도 같은 연산을 적용한다.
 
 \[
 2x+1=7
@@ -173,7 +184,16 @@ x=3
 
 이다.
 
-저울의 양쪽에 같은 물건을 더하거나 빼면 균형이 유지된다고 생각할 수 있다. 이 비유는 등식 보존을 설명하지만, 방정식의 정확한 근거는 양쪽에 같은 연산을 적용하면 동등한 등식을 얻는다는 성질이다.
+저울의 양쪽에 같은 물건을 더하거나 빼면 균형이 유지된다고 생각할 수 있다. 여기서 쓴 덧셈·뺄셈과 0이 아닌 수로 나누기는 반대 연산으로 되돌릴 수 있다. 따라서 원래 방정식을 만족하는 값이 바뀐 방정식도 만족하고, 바뀐 방정식의 해도 원래 식을 만족한다. 이 때문에 풀이의 각 단계에서 같은 해를 유지한다. 0으로 나누기는 정의되지 않으므로 이 과정에 사용할 수 없다.
+
+다음 그림의 두 열에는 같은 연산을 적용한다. 가운데 등호를 유지하면서 아래로 내려가면 $x$만 남는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Both sides of two x plus one equals seven subtract one and divide by two, preserving equality until x equals three](../../figures/assets/M00/M00-02-balanced-operations.svg)
+
+<figcaption>좌변에서 1을 뺄 때 우변에서도 1을 빼고, 좌변을 2로 나눌 때 우변도 2로 나눈다. 각 행은 같은 해 x=3을 갖는 등식이다.</figcaption>
+</figure>
 
 ### 모든 값에서 성립하는 등식
 
@@ -299,6 +319,15 @@ wx+b=7
 \]
 
 을 $x$에 관한 방정식으로 사용할 수 있다. 같은 형태의 등식도 질문에 따라 역할이 달라진다.
+
+다음 그림은 입력을 알고 출력을 계산하는 경우와, 출력을 지정하고 입력을 찾는 경우를 비교한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Defining s as two x plus one computes a score from input three, whereas requiring score seven asks for the input that satisfies the equation](../../figures/assets/M00/M00-02-definition-vs-condition.svg)
+
+<figcaption>왼쪽은 s의 계산 규칙을 정의하고 주어진 x로 s를 구한다. 오른쪽은 목표 점수 7을 만족하는 x를 찾는다. 주변의 질문을 읽어 무엇이 주어졌고 무엇을 구하는지 확인한다.</figcaption>
+</figure>
 
 ## 흔한 오해
 

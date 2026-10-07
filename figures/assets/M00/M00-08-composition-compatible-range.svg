@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 535" width="760" height="535" role="img" aria-labelledby="title desc">
+<title id="title">The intermediate value must be allowed</title>
+<desc id="desc">Two aligned number lines show that subtracting two maps allowed x greater than two to allowed u greater than zero for the logarithm.</desc>
+<defs>
+<marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto">
+<path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/>
+</marker>
+</defs>
+<rect width="760" height="535" rx="16" fill="#F8FAFC"/>
+<g font-family="sans-serif">
+<text x="380" y="54" text-anchor="middle" fill="#0F172A" font-size="24" font-weight="bold">The intermediate value must be allowed</text>
+<text x="380" y="119" text-anchor="middle" fill="#065F46" font-size="22" font-weight="normal">x must be greater than 2</text>
+<path d="M100 190H660M100 346H660" fill="none" stroke="#CBD5E1" stroke-width="2"/>
+<path d="M298 190H660" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M298 346H660" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="64" y="197" text-anchor="middle" fill="#1E3A8A" font-size="22" font-weight="normal">x</text>
+<text x="64" y="353" text-anchor="middle" fill="#5B21B6" font-size="22" font-weight="normal">u</text>
+<path d="M150 182V198M150 338V354" fill="none" stroke="#94A3B8" stroke-width="2"/>
+<text x="150" y="163" text-anchor="middle" fill="#334155" font-size="22" font-weight="normal">1</text>
+<text x="150" y="389" text-anchor="middle" fill="#334155" font-size="22" font-weight="normal">-1</text>
+<path d="M150 216V318" fill="none" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M290 182V198M290 338V354" fill="none" stroke="#94A3B8" stroke-width="2"/>
+<text x="290" y="163" text-anchor="middle" fill="#334155" font-size="22" font-weight="normal">2</text>
+<text x="290" y="389" text-anchor="middle" fill="#334155" font-size="22" font-weight="normal">0</text>
+<path d="M290 216V318" fill="none" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M430 182V198M430 338V354" fill="none" stroke="#94A3B8" stroke-width="2"/>
+<text x="430" y="163" text-anchor="middle" fill="#334155" font-size="22" font-weight="normal">3</text>
+<text x="430" y="389" text-anchor="middle" fill="#334155" font-size="22" font-weight="normal">1</text>
+<path d="M430 216V318" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M570 182V198M570 338V354" fill="none" stroke="#94A3B8" stroke-width="2"/>
+<text x="570" y="163" text-anchor="middle" fill="#334155" font-size="22" font-weight="normal">4</text>
+<text x="570" y="389" text-anchor="middle" fill="#334155" font-size="22" font-weight="normal">2</text>
+<path d="M570 216V318" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+<circle cx="290" cy="190" r="7" fill="#F8FAFC" stroke="#059669" stroke-width="3"/>
+<circle cx="290" cy="346" r="7" fill="#F8FAFC" stroke="#059669" stroke-width="3"/>
+<text x="360" y="270" text-anchor="middle" fill="#5B21B6" font-size="18" font-weight="normal">u = x − 2</text>
+<text x="380" y="441" text-anchor="middle" fill="#065F46" font-size="22" font-weight="normal">log(u) requires u > 0</text>
+<text x="380" y="493" text-anchor="middle" fill="#9A3412" font-size="22" font-weight="normal">The boundary x = 2 produces u = 0: not allowed.</text>
+</g>
+</svg>

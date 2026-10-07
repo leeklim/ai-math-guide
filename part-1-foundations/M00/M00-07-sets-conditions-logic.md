@@ -106,6 +106,8 @@ A=\{x\in\mathbb R\mid x>0\}
 
 라고 써도 같은 뜻이다.
 
+$x\in\mathbb R$는 원소를 고를 전체 범위를 정하고, $x>0$은 그 범위에서 남길 원소의 조건을 정한다. 여기서 $x$ 하나를 특정 값으로 고정하는 것이 아니라, 조건을 만족하는 값을 모두 모아 집합 $A$를 만든다. 함수의 정의역을 조건으로 제한할 때도 같은 표기를 사용한다.
+
 ## 핵심 개념 2. 부분집합은 집합 사이의 포함 관계다
 
 \[
@@ -140,6 +142,15 @@ A\subseteq B
 
 는 집합 $\{1\}$과 집합 $A$의 관계다. $1\subseteq A$나 $\{1\}\in A$는 위 예의 의도와 맞지 않는다.
 
+다음 그림의 왼쪽은 수와 집합의 관계이고, 오른쪽은 집합 전체를 다른 집합 안에 포함하는 관계다. 두 패널에서 정의한 A는 서로 다르다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A value two belongs to set A while five lies outside, and in a separate context set A containing one two is included inside set B containing one two three](../../figures/assets/M00/M00-07-membership-subset.svg)
+
+<figcaption>왼쪽에서 원소 2의 위치로 2∈A를 확인한다. 오른쪽에서 A의 두 원소가 모두 B 안에 있으므로 A⊆B다. 원소와 집합 전체를 구분한다.</figcaption>
+</figure>
+
 ### 공집합
 
 원소가 없는 집합을 공집합(empty set)이라고 하고
@@ -154,6 +165,8 @@ A\subseteq B
 \varnothing\subseteq A
 \]
 
+부분집합인지 확인할 때는 왼쪽 집합의 원소 중 오른쪽 집합에 없는 것이 있는지 찾는다. 공집합에는 검사할 원소가 없으므로 포함 관계를 깨는 원소도 없다. 따라서 공집합이 어떤 집합의 부분집합이라는 조건을 만족한다.
+
 공집합 자체와 공집합을 원소로 가진 집합은 다르다.
 
 \[
@@ -161,6 +174,17 @@ A\subseteq B
 \]
 
 왼쪽에는 원소가 없고, 오른쪽에는 공집합이라는 원소 하나가 있다.
+
+집합 자체도 다른 집합의 원소가 될 수 있다. 원소가 집합인 경우에는 그 집합을 하나의 대상으로 센다. 따라서 $\{\varnothing\}$의 원소가 비어 있다는 사실과 $\{\varnothing\}$ 자체에 원소가 없다는 말은 구분해야 한다.
+
+다음 그림에서는 바깥 경계 안에 들어 있는 대상을 센다. 오른쪽의 작은 빈 집합도 대상 하나다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![An empty outer set contains zero elements, while a second outer set contains one smaller empty set as an element](../../figures/assets/M00/M00-07-empty-set-element.svg)
+
+<figcaption>왼쪽에는 원소가 없다. 오른쪽에는 빈 집합을 나타낸 작은 경계 하나가 들어 있으므로 원소가 하나다.</figcaption>
+</figure>
 
 ## 핵심 개념 3. 합집합과 교집합
 
@@ -187,6 +211,15 @@ A\cap B=\{3\}
 \]
 
 데이터를 조건별로 나누거나 여러 특성을 동시에 만족하는 표본을 고를 때 같은 구조를 사용한다.
+
+다음 그림은 같은 두 집합에서 선택하는 영역만 바꾼다. 가운데 원소 3은 두 집합에 모두 속한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Union selects all elements one two three four from two overlapping sets, while intersection selects only the shared element three](../../figures/assets/M00/M00-07-union-intersection.svg)
+
+<figcaption>합집합은 어느 한 집합에 속한 원소도 포함하고 3을 한 번만 센다. 교집합은 두 집합의 경계 안에 함께 놓인 3만 고른다.</figcaption>
+</figure>
 
 ## 핵심 개념 4. 명제와 논리연산
 
@@ -234,6 +267,17 @@ P\lor Q
 
 는 둘 중 하나 이상이 참이면 참이다. 수학에서 “또는”은 두 조건이 모두 참인 경우도 포함한다.
 
+두 조건을 “그리고”로 연결한 문장을 부정하려면 둘 중 적어도 하나가 거짓인 경우를 고른다. 위의 $0<x<10$은 $x>0$과 $x<10$이 모두 참이라는 뜻이므로, 그 부정은 $x\le0$ 또는 $x\ge10$이다. 두 경계값도 원래 조건을 만족하지 않으므로 부정한 범위에 포함한다.
+
+다음 그림에서 열린 끝점과 채운 끝점은 경계값의 제외·포함을 구분한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The open interval between zero and ten excludes both endpoints, whereas its negation includes both outer ranges and the endpoints](../../figures/assets/M00/M00-07-logic-interval-negation.svg)
+
+<figcaption>원래 조건은 0과 10 사이만 고른다. 부정은 그 밖의 두 범위를 ‘또는’으로 합치며 경계값 0과 10도 포함한다.</figcaption>
+</figure>
+
 ## 핵심 개념 5. 조건문의 방향
 
 \[
@@ -264,6 +308,8 @@ Q\Rightarrow P
 
 원래 조건문이 참이어도 그 역이 참일 이유는 없다.
 
+$P\Rightarrow Q$를 깨는 경우는 $P$가 참인데 $Q$가 거짓인 경우다. $P$가 거짓인 대상에서 $Q$가 참인지 거짓인지는 원래 조건문이 제한하지 않는다. 위의 $n=2$는 짝수이지만 $4$의 배수가 아니므로 역의 반례다. 원래 조건문에서는 가정인 “$4$의 배수”를 만족하지 않으므로 반례가 되지 않는다.
+
 ### 대우
 
 \[
@@ -277,6 +323,8 @@ P\Rightarrow Q
 \]
 
 이다. 원래 명제와 대우는 참·거짓이 같다.
+
+대우를 깨려면 $\neg Q$가 참이고 $\neg P$가 거짓이어야 한다. 이는 $Q$가 거짓이고 $P$가 참인 경우로, 원래 조건문을 깨는 경우와 같다. 같은 경우에 거짓이 되므로 두 조건문의 참·거짓이 일치한다.
 
 위 예의 대우는 “짝수가 아니면 $4$의 배수가 아니다”이다. 홀수는 $4$의 배수가 될 수 없으므로 참이다.
 
@@ -308,6 +356,15 @@ n=2k\text{인 정수 }k\text{가 존재한다}
 \]
 
 이는 짝수의 정의이므로 두 방향이 성립한다.
+
+다음 그림에서 P의 영역이 Q 안에 포함되는 방향과, Q에만 속하는 원소 2를 확인한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Multiples of four form a nested subset of even integers, but the even integer two lies outside the multiples of four and disproves the converse](../../figures/assets/M00/M00-07-implication-inclusion.svg)
+
+<figcaption>P에 속하면 Q에도 속하므로 P는 Q의 충분조건이다. Q는 P가 성립할 때 필요한 조건이지만, 짝수 2처럼 Q만으로 P를 보장할 수는 없다.</figcaption>
+</figure>
 
 ### 제거와 복원의 논리
 
@@ -353,6 +410,15 @@ n=2k\text{인 정수 }k\text{가 존재한다}
 는 참이다. $x=2$ 또는 $x=-2$가 조건을 만족한다.
 
 조건을 만족하는 예 하나는 존재명제를 지지하지만 전칭명제를 증명하지 않는다.
+
+다음 그림은 수치 하나가 전칭명제의 반례로 쓰이는 경우와 존재명제의 예로 쓰이는 경우를 나눈다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Among a few real inputs shown, highlighted zero refutes the universal claim x squared greater than x and highlighted two witnesses the existence of a real number whose square is four](../../figures/assets/M00/M00-07-quantifier-counterexample-witness.svg)
+
+<figcaption>x=0의 실패 하나로 ‘모든 실수’에 대한 왼쪽 주장을 반박한다. x=2의 성공 하나로 오른쪽의 존재를 확인하지만 모든 x가 같은 조건을 만족한다는 뜻은 아니다.</figcaption>
+</figure>
 
 ## 예제 1. 집합 연산
 

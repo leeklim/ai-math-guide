@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 490" role="img" aria-labelledby="title desc">
+<title id="title">An index identifies one element and need not match a code position</title><desc id="desc">The mathematical indices one two three identify values four seven five. Python positions zero one two refer to the same ordered values. Mathematical index two selects value seven.</desc>
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto"><path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/></marker></defs>
+<rect width="720" height="490" rx="18" fill="#F8FAFC"/>
+<text x="360" y="54" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#0F172A">An index selects one value</text>
+<text x="180" y="120" text-anchor="middle" font-family="sans-serif" font-size="28" font-weight="700" fill="#1E3A8A">x₁</text>
+<rect x="120" y="158" width="120" height="64" rx="10" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+<text x="180" y="201" text-anchor="middle" font-family="sans-serif" font-size="28" font-weight="700" fill="#1E3A8A">4</text>
+<text x="180" y="278" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#475569">0</text>
+<text x="360" y="120" text-anchor="middle" font-family="sans-serif" font-size="28" font-weight="700" fill="#1E3A8A">x₂</text>
+<rect x="300" y="158" width="120" height="64" rx="10" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+<text x="360" y="201" text-anchor="middle" font-family="sans-serif" font-size="28" font-weight="700" fill="#1E3A8A">7</text>
+<text x="360" y="278" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#475569">1</text>
+<text x="540" y="120" text-anchor="middle" font-family="sans-serif" font-size="28" font-weight="700" fill="#1E3A8A">x₃</text>
+<rect x="480" y="158" width="120" height="64" rx="10" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+<text x="540" y="201" text-anchor="middle" font-family="sans-serif" font-size="28" font-weight="700" fill="#1E3A8A">5</text>
+<text x="540" y="278" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#475569">2</text>
+<text x="360" y="322" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="400" fill="#475569">Python positions for the same three values</text>
+<text x="360" y="438" text-anchor="middle" font-family="sans-serif" font-size="28" font-weight="700" fill="#065F46">Math index i = 2: x₂ = 7</text>
+</svg>

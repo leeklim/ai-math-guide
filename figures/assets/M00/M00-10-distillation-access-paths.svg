@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 595" width="800" height="595" role="img" aria-labelledby="title desc">
+<title id="title">Output matching and representation matching differ</title>
+<desc id="desc">The same input goes to teacher and student hidden states and class distributions. Solid links connect probabilities to output loss, while optional dashed links connect hidden representations to a separate loss.</desc>
+<defs>
+<marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto">
+<path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/>
+</marker>
+</defs>
+<rect width="800" height="595" rx="16" fill="#F8FAFC"/>
+<g font-family="sans-serif">
+<text x="400" y="54" text-anchor="middle" fill="#0F172A" font-size="24" font-weight="bold">Output matching and representation matching differ</text>
+<circle cx="80" cy="315" r="28" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+<text x="80" y="323" text-anchor="middle" fill="#1E3A8A" font-size="24" font-weight="bold">x</text>
+<path d="M121 315H180V170H244" fill="none" stroke="#2563EB" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M121 315H180V460H244" fill="none" stroke="#2563EB" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="260" y="130" width="170" height="80" rx="12" fill="#F3E8FF" stroke="#7C3AED" stroke-width="2"/>
+<text x="345" y="163" text-anchor="middle" fill="#5B21B6" font-size="22" font-weight="normal">Teacher</text>
+<text x="345" y="193" text-anchor="middle" fill="#5B21B6" font-size="22" font-weight="bold">h_T</text>
+<rect x="260" y="420" width="170" height="80" rx="12" fill="#F3E8FF" stroke="#7C3AED" stroke-width="2"/>
+<text x="345" y="453" text-anchor="middle" fill="#5B21B6" font-size="22" font-weight="normal">Student</text>
+<text x="345" y="483" text-anchor="middle" fill="#5B21B6" font-size="22" font-weight="bold">h_S</text>
+<rect x="580" y="130" width="140" height="80" rx="12" fill="#D1FAE5" stroke="#059669" stroke-width="2"/>
+<text x="650" y="178" text-anchor="middle" fill="#065F46" font-size="24" font-weight="bold">p_T</text>
+<rect x="580" y="420" width="140" height="80" rx="12" fill="#D1FAE5" stroke="#059669" stroke-width="2"/>
+<text x="650" y="468" text-anchor="middle" fill="#065F46" font-size="24" font-weight="bold">p_S</text>
+<path d="M446 170H562" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M446 460H562" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="260" y="275" width="170" height="80" rx="12" fill="#F1F5F9" stroke="#64748B" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="345" y="309" text-anchor="middle" fill="#334155" font-size="18" font-weight="normal">Representation</text>
+<text x="345" y="339" text-anchor="middle" fill="#334155" font-size="22" font-weight="bold">L_rep</text>
+<rect x="560" y="275" width="180" height="80" rx="12" fill="#F1F5F9" stroke="#64748B" stroke-width="2"/>
+<text x="650" y="309" text-anchor="middle" fill="#334155" font-size="22" font-weight="normal">Output loss</text>
+<text x="650" y="339" text-anchor="middle" fill="#334155" font-size="22" font-weight="bold">L_KD</text>
+<path d="M345 226V259" fill="none" stroke="#7C3AED" stroke-width="3" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<path d="M345 403V371" fill="none" stroke="#7C3AED" stroke-width="3" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<path d="M650 226V259" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M650 403V371" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="400" y="553" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">Dashed links need access to the hidden representations.</text>
+</g>
+</svg>

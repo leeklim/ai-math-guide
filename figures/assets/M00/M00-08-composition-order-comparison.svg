@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 555" width="720" height="555" role="img" aria-labelledby="title desc">
+<title id="title">Changing the order changes the result</title>
+<desc id="desc">The same input three follows add one then multiply two to reach eight, or multiply two then add one to reach seven.</desc>
+<defs>
+<marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto">
+<path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/>
+</marker>
+</defs>
+<rect width="720" height="555" rx="16" fill="#F8FAFC"/>
+<g font-family="sans-serif">
+<text x="360" y="54" text-anchor="middle" fill="#0F172A" font-size="24" font-weight="bold">Changing the order changes the result</text>
+<text x="180" y="117" text-anchor="middle" fill="#5B21B6" font-size="24" font-weight="bold">f ∘ g</text>
+<text x="540" y="117" text-anchor="middle" fill="#5B21B6" font-size="24" font-weight="bold">g ∘ f</text>
+<circle cx="180" cy="179" r="32" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+<text x="180" y="187" text-anchor="middle" fill="#2563EB" font-size="24" font-weight="bold">3</text>
+<circle cx="540" cy="179" r="32" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+<text x="540" y="187" text-anchor="middle" fill="#2563EB" font-size="24" font-weight="bold">3</text>
+<path d="M180 219V267" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M540 219V267" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="260" y="251" text-anchor="middle" fill="#5B21B6" font-size="22" font-weight="normal">g: + 1</text>
+<text x="460" y="251" text-anchor="middle" fill="#5B21B6" font-size="22" font-weight="normal">f: × 2</text>
+<circle cx="180" cy="311" r="32" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+<text x="180" y="319" text-anchor="middle" fill="#7C3AED" font-size="24" font-weight="bold">4</text>
+<circle cx="540" cy="311" r="32" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+<text x="540" y="319" text-anchor="middle" fill="#7C3AED" font-size="24" font-weight="bold">6</text>
+<path d="M180 351V399" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M540 351V399" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="260" y="383" text-anchor="middle" fill="#5B21B6" font-size="22" font-weight="normal">f: × 2</text>
+<text x="460" y="383" text-anchor="middle" fill="#5B21B6" font-size="22" font-weight="normal">g: + 1</text>
+<circle cx="180" cy="443" r="32" fill="#D1FAE5" stroke="#059669" stroke-width="2"/>
+<text x="180" y="451" text-anchor="middle" fill="#059669" font-size="24" font-weight="bold">8</text>
+<circle cx="540" cy="443" r="32" fill="#FFEDD5" stroke="#D97706" stroke-width="2"/>
+<text x="540" y="451" text-anchor="middle" fill="#D97706" font-size="24" font-weight="bold">7</text>
+<text x="360" y="514" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">Same functions, different intermediate values.</text>
+</g>
+</svg>

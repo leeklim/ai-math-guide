@@ -114,6 +114,15 @@ m\times n
 
 이라고 한다. 원소 $a_{ij}$에서 $i$는 행, $j$는 열을 가리킨다.
 
+다음 그림에서는 배열의 값뿐 아니라 위치를 세는 축도 확인한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A scalar has one value without axes, a column vector has three component positions, and a two by three matrix has two rows and three columns with element a sub two three equal six highlighted](../../figures/assets/M00/M00-09-scalar-vector-matrix.svg)
+
+<figcaption>값 하나에는 행·열 축이 없다. 열벡터는 성분 세 개를 한 열에 놓고, 행렬은 두 축으로 위치를 정한다. 오른쪽의 6은 2행 3열 원소다.</figcaption>
+</figure>
+
 ## 핵심 개념 2. shape은 연산 가능 여부를 제한한다
 
 ### 덧셈
@@ -135,6 +144,17 @@ m\times n
 \]
 
 $2\times3$ 행렬과 $3\times2$ 행렬은 원소 수가 같아도 위치 구조가 다르므로 그대로 더할 수 없다.
+
+덧셈은 같은 위치의 성분끼리 짝을 지어 수행한다. 벡터에서는 $i$번째 결과가 $x_i+y_i$이고, 행렬에서는 같은 행·열 위치의 두 값을 더한다. 대응하는 위치가 같아야 각 결과를 정할 수 있으므로 전체 원소 수뿐 아니라 축별 크기도 맞아야 한다.
+
+다음 그림에서 두 배열의 원소 수는 같지만 왼쪽의 1행 3열 위치는 오른쪽에 없다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A two by three array and a three by two array contain six values each, but position row one column three exists only in the first array](../../figures/assets/M00/M00-09-addition-position-match.svg)
+
+<figcaption>그대로 더하려면 같은 행·열 위치의 값을 짝지어야 한다. 두 배열을 임의로 펼쳐 원소 여섯 개를 맞추는 일은 원래 행렬 덧셈과 다르다.</figcaption>
+</figure>
 
 ### 스칼라곱
 
@@ -160,6 +180,8 @@ $2\times3$ 행렬과 $3\times2$ 행렬은 원소 수가 같아도 위치 구조�
 
 이며 결과는 스칼라다.
 
+같은 인덱스의 성분끼리 곱하면 $n$개의 항을 얻고, 그 항들을 모두 더하면 값 하나만 남는다. 스칼라곱은 성분 목록을 유지하지만 내적은 두 목록을 하나의 값으로 모은다는 차이가 있다.
+
 \[
 \mathbf x^\top\mathbf y\in\mathbb R
 \]
@@ -171,6 +193,15 @@ shape으로 보면
 \]
 
 이고, 결과를 스칼라로 해석한다.
+
+다음 그림은 성분을 유지하는 스칼라곱과 성분별 곱을 합치는 내적을 비교한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Scaling vector one two three by two keeps three components, but pairing it with vector four minus one two and summing products gives the scalar eight](../../figures/assets/M00/M00-09-scalar-multiply-vs-inner-product.svg)
+
+<figcaption>왼쪽은 각 위치의 값만 바꾸어 성분 세 개를 남긴다. 오른쪽은 대응 성분들의 곱 4, −2, 6을 더하므로 스칼라 하나가 남는다.</figcaption>
+</figure>
 
 ## 핵심 개념 3. 행렬·벡터 곱에서는 안쪽 차원이 맞아야 한다
 
@@ -214,6 +245,8 @@ y_i
 
 이다. 행렬의 $i$번째 행과 입력 벡터의 모든 성분을 곱해 더한다.
 
+한 행의 계수 $n$개를 입력 성분 $n$개와 짝지어야 하므로 행렬의 열 수와 입력 길이가 같아야 한다. $j$에 대한 합을 끝내면 그 행의 출력 $y_i$ 하나를 얻는다. 행이 $m$개이면 이런 출력도 $m$개다. 따라서 안쪽 차원의 일치와 출력 dimension은 성분별 계산에서 나온다.
+
 ### 작은 계산
 
 \[
@@ -248,6 +281,15 @@ y_i
 
 이다.
 
+다음 그림에서 행 하나의 계수 두 개를 입력 성분 두 개와 짝지어 출력 하나를 만든다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two columns of matrix A match the two input vector entries five and six, and each of its two rows produces one output entry seventeen or thirty-nine](../../figures/assets/M00/M00-09-matrix-vector-row-output.svg)
+
+<figcaption>강조한 첫 행은 17을 만든다. 같은 입력을 둘째 행의 계수와 곱해 더하면 39를 얻는다. 행이 두 개이므로 출력 성분도 두 개다.</figcaption>
+</figure>
+
 ## 핵심 개념 4. 행렬곱의 출력 shape
 
 \[
@@ -274,6 +316,8 @@ shape 계산은
 
 로 읽는다. 첫 행렬의 열 수와 둘째 행렬의 행 수가 같아야 한다.
 
+$\mathbf B$의 각 열을 길이 $n$인 입력 벡터로 보면, $\mathbf A$를 곱한 결과는 길이 $m$인 벡터다. $\mathbf B$에 열이 $p$개 있으므로 이런 출력 벡터도 $p$개를 얻고, 이들을 열로 모으면 $m\times p$ 행렬이 된다. 행렬곱의 출력 shape은 하나의 행렬·벡터 곱을 각 열에 적용한 결과다.
+
 순서를 바꾸면
 
 \[
@@ -283,6 +327,15 @@ shape 계산은
 의 안쪽 차원은 $p$와 $m$이다. $p=m$이 아닐 경우 곱 자체가 정의되지 않는다. 두 곱이 모두 정의되더라도 출력 shape과 값이 다를 수 있다.
 
 행렬곱의 계산법과 선형변환 해석은 M02에서 자세히 다룬다. 이 단원에서는 연산 가능 여부와 출력 shape을 먼저 판단한다.
+
+다음 그림에서 둘째 행렬의 강조한 열은 입력 성분 세 개를 담고, 곱의 같은 열에는 출력 성분 두 개가 남는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A two by three matrix acts on each length-three column of a three by two matrix and produces two length-two columns, so the output shape is two by two](../../figures/assets/M00/M00-09-matrix-product-shape.svg)
+
+<figcaption>B의 각 열에 A를 적용한다. 열 하나의 길이는 3에서 2로 바뀌고, 입력 열의 수 2는 유지된다. 가운데의 3은 각 열의 합산에 쓰인다.</figcaption>
+</figure>
 
 ## 핵심 개념 5. 전치는 행과 열을 바꾼다
 
@@ -328,6 +381,15 @@ shape 계산은
 이다. $\mathbf A$의 shape은 $2\times3$, $\mathbf A^\top$의 shape은 $3\times2$다.
 
 열벡터 $\mathbf x\in\mathbb R^n$의 전치 $\mathbf x^\top$는 $1\times n$인 행벡터다.
+
+다음 그림은 첫 행의 세 값을 전치한 행렬의 첫 열로 추적한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The first row one two three of a two by three matrix becomes the first column of its three by two transpose while all six values remain unchanged](../../figures/assets/M00/M00-09-transpose-row-column.svg)
+
+<figcaption>1, 2, 3의 값과 순서는 유지되지만 가로 행이 세로 열로 바뀐다. 원래 2행 3열의 6은 전치 뒤 3행 2열에 놓인다.</figcaption>
+</figure>
 
 ## 핵심 개념 6. 아핀 층의 shape
 
@@ -421,6 +483,15 @@ $\mathbf W\mathbf x$에서 안쪽 차원 $d_{\mathrm{in}}$이 맞고, 결과는 
 
 이다.
 
+다음 그림에서는 입력의 길이 3이 아니라 행렬곱 출력의 길이 2에 bias를 맞춘다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![A two by three weight matrix produces two values minus two and ten, and a two-entry bias one minus two adds at matching positions to give minus one and eight](../../figures/assets/M00/M00-09-affine-bias-matching.svg)
+
+<figcaption>Wx와 b의 첫 성분끼리, 둘째 성분끼리 더한다. bias의 길이가 출력과 같은 2이므로 두 위치의 값을 모두 정할 수 있다.</figcaption>
+</figure>
+
 ## 핵심 개념 7. batch에서는 표본을 행으로 쌓기도 한다
 
 이론에서 개별 벡터는 열벡터로 두었다. 코드와 데이터 행렬에서는 표본 하나를 행으로 쌓는 관례를 많이 사용한다.
@@ -430,6 +501,8 @@ $\mathbf W\mathbf x$에서 안쪽 차원 $d_{\mathrm{in}}$이 맞고, 결과는 
 \]
 
 $B$는 batch size이고, 각 행이 한 표본의 전치 $\mathbf x_b^\top$다.
+
+개별 출력 성분을 계산할 때 쓰던 $\mathbf W$의 한 행은 입력 feature마다 곱할 계수를 담는다. 표본을 행으로 쌓으면 그 표본의 행과 계수들을 곱해 더해야 한다. 오른쪽에 곱할 행렬의 열에 이 계수들을 놓기 위해 $\mathbf W$를 전치한다. 표본과 feature의 역할은 그대로이고 배열을 놓는 방향이 달라진 것이다.
 
 같은 가중치 행렬을 모든 행에 적용하면
 
@@ -464,6 +537,24 @@ $\mathbf 1\in\mathbb R^B$는 모든 성분이 $1$인 벡터다. $\mathbf 1\mathb
 
 딥러닝 라이브러리는 브로드캐스팅(broadcasting)으로 같은 계산을 간단히 적는다. 수학식에서는 어떤 축으로 값을 반복하는지 shape으로 명시한다.
 
+다음 첫 그림은 위 수치 예제의 W를 서로 다른 두 표본 행에 공통으로 적용한다. 아직 bias를 더하기 전의 결과다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two sample rows with three features each pass independently through the same three by two weight transpose to produce two output features per sample](../../figures/assets/M00/M00-09-batch-shared-weight.svg)
+
+<figcaption>행렬의 두 행은 서로 다른 표본이다. 같은 Wᵀ를 사용하되 행끼리 섞지 않으므로 표본 수 2는 유지되고 feature 수만 3에서 2로 바뀐다.</figcaption>
+</figure>
+
+두 번째 그림은 bias를 각 표본의 행에 반복해 덧셈 가능한 배열을 만든다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![The column bias one minus two is transposed to a row and repeated twice across the sample axis to form a two by two bias array](../../figures/assets/M00/M00-09-batch-bias-repetition.svg)
+
+<figcaption>B=2이면 bᵀ를 두 행에 같은 순서로 놓는다. feature를 새로 늘리는 것이 아니라 표본마다 같은 두 편향값을 적용한다.</figcaption>
+</figure>
+
 ## 핵심 개념 8. activation은 축이 셋 이상일 수 있다
 
 Transformer의 한 layer activation을
@@ -489,7 +580,9 @@ h^{(\ell)}_{b,t,i}
 
 는 $\ell$번째 layer에서 batch 항목 $b$, token 위치 $t$, feature $i$의 스칼라 activation이다.
 
-구현에서는 축이 셋 이상인 배열을 텐서(tensor)라고 부른다. 추상적인 텐서의 정의는 M03에서 다룬다. 지금은 각 축이 무엇을 세는지와 축의 순서를 확인한다.
+$b$와 $t$를 정하고 feature 인덱스 $i$만 변화시키면 token 하나의 $d_{\mathrm{model}}$개 성분을 읽는다. $i$까지 지정하면 그중 값 하나를 고른다. 위첨자 $(\ell)$은 어느 layer의 배열인지 구분하는 이름이며, 이 식의 shape에 layer 축을 하나 더 붙이는 표기는 아니다.
+
+이런 다차원 배열을 구현에서는 텐서(tensor)로 다룬다. 텐서라는 명칭이 축을 세 개 이상으로 제한하는 것은 아니며, 스칼라·벡터·행렬도 텐서로 표현할 수 있다. 추상적인 텐서의 정의는 M03에서 다룬다. 지금은 각 축이 무엇을 세는지와 축의 순서를 확인한다.
 
 예를 들어
 
@@ -504,6 +597,15 @@ B=2,\qquad T=4,\qquad d_{\mathrm{model}}=3
 \]
 
 개다.
+
+다음 그림은 같은 shape의 배열에 설명용 숫자를 채운 예다. 먼저 batch를 골라 표 하나를 선택하고, token과 feature로 위치를 좁힌다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Two batch tables each have four token rows and three feature columns, the second batch third token row contains nineteen twenty twenty-one, and selecting its second feature gives scalar twenty](../../figures/assets/M00/M00-09-activation-three-axes.svg)
+
+<figcaption>b=2, t=3을 고르면 19, 20, 21의 feature 벡터가 남는다. i=2까지 고르면 값 20 하나다. 두 표를 합친 원소 수는 24이고 layer ℓ은 배열의 이름을 구분한다.</figcaption>
+</figure>
 
 ## 예제 1. 객체 종류와 shape 구분
 

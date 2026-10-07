@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 530" width="760" height="530" role="img" aria-labelledby="title desc">
+<title id="title">Bias matches the output positions</title>
+<desc id="desc">Input has three features and weight matrix is two by three, so the product has two entries. Bias one minus two is added at the same two positions to give minus one eight.</desc>
+<defs>
+<marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto">
+<path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/>
+</marker>
+</defs>
+<rect width="760" height="530" rx="16" fill="#F8FAFC"/>
+<g font-family="sans-serif">
+<text x="380" y="54" text-anchor="middle" fill="#0F172A" font-size="24" font-weight="bold">Bias matches the output positions</text>
+<text x="380" y="122" text-anchor="middle" fill="#5B21B6" font-size="22" font-weight="bold">3 input features → W: 2 × 3 → 2 outputs</text>
+<text x="135" y="202" text-anchor="middle" fill="#5B21B6" font-size="24" font-weight="bold">Wx</text>
+<text x="385" y="202" text-anchor="middle" fill="#1E3A8A" font-size="24" font-weight="bold">b</text>
+<text x="635" y="202" text-anchor="middle" fill="#065F46" font-size="24" font-weight="bold">y</text>
+<rect x="102" y="235" width="66" height="64" fill="#F3E8FF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="135" y="275" text-anchor="middle" fill="#7C3AED" font-size="22" font-weight="bold">−2</text>
+<rect x="102" y="299" width="66" height="64" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="135" y="339" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">10</text>
+<rect x="352" y="235" width="66" height="64" fill="#DBEAFE" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="385" y="275" text-anchor="middle" fill="#2563EB" font-size="22" font-weight="bold">1</text>
+<rect x="352" y="299" width="66" height="64" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="385" y="339" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">−2</text>
+<rect x="602" y="235" width="66" height="64" fill="#D1FAE5" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="635" y="275" text-anchor="middle" fill="#059669" font-size="22" font-weight="bold">−1</text>
+<rect x="602" y="299" width="66" height="64" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="635" y="339" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">8</text>
+<text x="260" y="308" text-anchor="middle" fill="#334155" font-size="28" font-weight="normal">+</text>
+<text x="510" y="308" text-anchor="middle" fill="#334155" font-size="28" font-weight="normal">=</text>
+<text x="380" y="426" text-anchor="middle" fill="#334155" font-size="24" font-weight="normal">−2 + 1 = −1; 10 + (−2) = 8</text>
+<text x="380" y="481" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">Each vector has two entries in the same order.</text>
+</g>
+</svg>

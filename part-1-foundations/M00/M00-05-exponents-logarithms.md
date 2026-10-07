@@ -117,6 +117,17 @@ a^{-n}=\frac{1}{a^n}
 
 이다.
 
+지수를 하나씩 줄이면 $2^3=8$, $2^2=4$, $2^1=2$, $2^0=1$처럼 값이 매번 $2$로 나누어진다. 같은 규칙을 계속 적용하면 $2^{-1}=1/2$, $2^{-2}=1/4$가 된다. 음의 지수는 밑의 부호를 바꾸는 표시가 아니라, 지수를 줄일 때 나눗셈을 이어가는 표시다.
+
+다음 그림에서 지수를 한 칸 줄일 때마다 오른쪽 값을 2로 나눈다. 지수 0을 지난 뒤에도 같은 규칙을 적용한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Exponents descend from three through zero to negative three while values halve from eight to one eighth and remain positive](../../figures/assets/M00/M00-05-negative-exponent-chain.svg)
+
+<figcaption>지수 0에서 값은 1이다. 나눗셈을 계속하면 1/2, 1/4, 1/8이 되므로 음의 지수에서도 값은 양수다.</figcaption>
+</figure>
+
 ### 주요 지수법칙
 
 $a>0$이고 $x,y$가 허용된 지수일 때 다음이 성립한다.
@@ -133,7 +144,18 @@ a^x a^y=a^{x+y}
 \left(a^x\right)^y=a^{xy}
 \]
 
-첫 번째 법칙은 같은 밑의 곱에서 지수를 더한다. 밑이 다른 $a^x b^y$에는 그대로 적용할 수 없다.
+양의 정수 지수에서는 곱하는 밑의 개수를 세어 이 법칙들을 확인할 수 있다. $a^3a^2$에는 $a$가 세 개와 두 개, 모두 다섯 개 있으므로 $a^{3+2}$가 된다. $(a^3)^2$는 $a$ 세 개를 곱한 묶음을 두 번 곱하므로 $a$가 모두 여섯 개 있다. 그래서 이 경우에는 지수를 곱해 $a^{3\cdot2}$로 쓴다. 같은 밑의 나눗셈에서는 위아래의 밑을 약분하면서 지수 차이가 남는다.
+
+정수 밖으로 지수를 확장할 때도 같은 법칙을 유지한다. 첫 번째 법칙은 같은 밑을 곱하는 경우에 적용하며, 밑이 다른 $a^x b^y$에는 그대로 적용할 수 없다.
+
+다음 그림에서 밑 2의 개수를 세면, 지수를 더하는 경우와 곱하는 경우를 구분할 수 있다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Multiplying two cubed by two squared joins groups of three and two factors, while squaring two cubed repeats a three-factor group twice](../../figures/assets/M00/M00-05-exponent-factor-groups.svg)
+
+<figcaption>위쪽은 3개와 2개를 합쳐 5개다. 아래쪽은 3개짜리 묶음을 두 번 곱해 6개다. 지수를 더하거나 곱하는 규칙은 서로 다른 묶음 구조에서 나온다.</figcaption>
+</figure>
 
 ## 핵심 개념 2. 지수함수는 지수를 입력으로 받는다
 
@@ -144,6 +166,25 @@ f(x)=a^x
 \]
 
 는 함수다. $a>0$이고 $a\ne1$인 경우를 지수함수라고 한다.
+
+이때 바뀌는 것은 밑이 아니라 지수다. $f(x)=2^x$에서 $x=3$을 넣으면 $2^3$을 계산하며, $3$을 두 번 곱한 $3^2$를 계산하는 것이 아니다. $x^2$에서는 입력을 두 번 곱하지만, $2^x$에서는 고정된 밑 $2$의 지수를 입력으로 바꾼다.
+
+다음 그림에서는 입력이 놓이는 자리를 바꾸고 두 계산의 값을 비교한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Input three follows arrows into the base position of x squared or the exponent position of two to the x, producing nine and eight](../../figures/assets/M00/M00-05-input-base-or-exponent.svg)
+
+<figcaption>x=3이면 x²는 9, 2ˣ는 8이다. 일부 입력에서 값이 같더라도 입력이 밑인지 지수인지에 따라 계산 규칙이 다르다.</figcaption>
+</figure>
+
+정수 이외의 입력에서는 반복 곱셈의 횟수만으로 뜻을 정할 수 없으므로 지수법칙과 맞도록 값을 확장한다. 예를 들어 입력이 $1/2$이면
+
+\[
+\left(2^{1/2}\right)^2=2^{(1/2)\cdot2}=2
+\]
+
+가 되어야 한다. 따라서 $2^{1/2}$은 제곱하면 $2$가 되는 양수이며, 약 $1.414$이다. 실수 지수의 값도 양수가 되도록 정한다. 이 단원에서는 실수 지수를 엄밀하게 구성하는 과정까지 다루지는 않는다.
 
 $a>1$이면 $x$가 커질수록 $a^x$가 커진다. $0<a<1$이면 $x$가 커질수록 $a^x$가 작아진다.
 
@@ -160,6 +201,15 @@ a^0=1
 \]
 
 이므로 점 $(0,1)$을 지난다.
+
+다음 그림의 두 곡선은 밑이 1보다 큰 경우와 작은 경우를 비교한다. 어느 곡선도 x축에 닿지 않는다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Increasing and decreasing exponential curves share point zero comma one and stay above the horizontal axis on a labeled coordinate grid](../../figures/assets/M00/M00-05-base-growth-comparison.svg)
+
+<figcaption>밑 2에서는 입력을 늘릴수록 값이 커지고, 밑 1/2에서는 작아진다. 두 함수 모두 입력 0에서 값 1을 갖는다.</figcaption>
+</figure>
 
 ### 자연상수 $e$와 $\exp$
 
@@ -201,6 +251,8 @@ a^x=y
 
 즉, $\log_a y$는 “$a$를 몇 제곱해야 $y$가 되는가”에 대한 답이다.
 
+지수식 $a^x=y$에서 밑 $a$와 결과 $y$를 알고 지수 $x$를 구하려 할 때, 그 답을 $\log_a y$라고 쓴다. 지수함수에서는 $x$를 넣어 $y$를 얻었고, 로그함수에서는 $y$를 넣어 $x$를 얻는다. $\log_a y$ 전체가 하나의 값이며, 아래첨자 $a$는 어떤 밑의 지수를 찾는지 지정한다.
+
 예를 들어
 
 \[
@@ -226,6 +278,17 @@ a^x=y
 \]
 
 이다.
+
+$a\ne1$이라는 조건은 지수를 하나로 되찾기 위해 필요하다. 밑이 $1$이면 지수가 달라도 $1^x=1$이므로 결과 $1$에서 지수를 정할 수 없다. $a>1$일 때 지수함수는 계속 증가하고, $0<a<1$일 때는 계속 감소하므로 서로 다른 지수는 서로 다른 양수 값을 만든다. 이 두 경우에는 각 양수 출력에 대응하는 지수를 하나로 정할 수 있다.
+
+다음 그림은 같은 밑 2를 유지하면서 지수와 결과를 서로 되찾는 방향을 보여 준다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![With base two fixed, exponent three gives value eight and log base two of eight recovers exponent three](../../figures/assets/M00/M00-05-log-retrieves-exponent.svg)
+
+<figcaption>지수 계산은 3에서 8로 가고, 로그 계산은 양수 8에서 그 값을 만든 지수 3을 되찾는다.</figcaption>
+</figure>
 
 ### 자연로그
 
@@ -273,7 +336,18 @@ a^{\log_a y}=y
 
 가 성립한다.
 
+첫 번째 식에서는 지수 $x$를 양수 값으로 바꾼 뒤 그 값의 지수를 되찾으므로 실수 $x$를 그대로 얻는다. 두 번째 식에서는 양수 $y$를 만드는 지수를 먼저 찾고, 그 지수로 다시 계산해 $y$를 얻는다. 출발점이 다르므로 조건도 구분해야 한다. $\log(\exp(x))$에서는 $\exp(x)$가 이미 양수라 로그에 넣을 수 있지만, $\exp(\log y)$에서는 처음부터 $y>0$이어야 $\log y$를 계산할 수 있다.
+
 그래프에서 $y=a^x$와 $y=\log_a x$는 직선 $y=x$를 기준으로 서로 뒤집은 모양이다. 두 함수가 입력과 출력의 역할을 교환하는 역함수이기 때문이다.
+
+자연지수함수와 자연로그도 같은 관계를 가진다. 지수 그래프의 점 $(0,1)$은 로그 그래프의 점 $(1,0)$과 짝을 이루고, $(1,e)$는 $(e,1)$과 짝을 이룬다. 각 짝은 가로 좌표와 세로 좌표를 서로 바꾼 것이다. 이 좌표 교환이 $y=x$에 대한 대칭으로 보인다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Exponential and logarithm curves reflected across y equals x with two pairs of swapped coordinates](../../figures/assets/M00/M00-05-c04-visual.svg)
+
+<figcaption>y=exp(x)의 입력과 출력을 바꾸면 y=log(x)의 점이 된다. 점선으로 연결한 (0,1)과 (1,0), (1,e)와 (e,1)은 역함수가 좌표를 교환한다는 사실을 보여 준다.</figcaption>
+</figure>
 
 ## 핵심 개념 5. 로그는 곱을 합으로 바꾼다
 
@@ -291,7 +365,7 @@ $u>0$, $v>0$일 때 로그법칙은 다음과 같다.
 \log(u^r)=r\log u
 \]
 
-첫 번째 법칙을 지수의 관점에서 확인해보자. $u=e^p$, $v=e^q$라고 두면
+여기서 $r$은 실수 지수다. 첫 번째 법칙을 지수의 관점에서 확인해보자. 양수 $u,v$의 로그를 각각 $p=\log u$, $q=\log v$라고 두면 역관계에 따라 $u=e^p$, $v=e^q$이다. 따라서
 
 \[
 uv=e^p e^q=e^{p+q}
@@ -305,6 +379,14 @@ uv=e^p e^q=e^{p+q}
 
 를 얻는다.
 
+곱셈에서는 지수를 더하고, 로그는 그 지수를 되찾기 때문에 곱의 로그를 로그의 합으로 쓸 수 있다. 나눗셈도 같은 방식으로 확인한다.
+
+\[
+\frac{u}{v}=\frac{e^p}{e^q}=e^{p-q}
+\]
+
+따라서 $\log(u/v)=p-q=\log u-\log v$이다. 거듭제곱에서는 $u^r=(e^p)^r=e^{pr}$이므로 $\log(u^r)=pr=r\log u$를 얻는다. 세 로그법칙은 앞에서 배운 지수법칙을 로그로 읽은 결과다.
+
 로그는 곱을 합으로 바꾸지만 덧셈을 분리하지 않는다.
 
 \[
@@ -312,6 +394,15 @@ uv=e^p e^q=e^{p+q}
 \]
 
 일반적으로 위 부등식이 성립한다. 예를 들어 $u=v=1$이면 왼쪽은 $\log2$, 오른쪽은 $0$이다.
+
+다음 그림은 밑 2의 로그로 같은 곱셈 법칙을 확인한다. 값 4와 8의 지수 2와 3을 더하면 곱 32의 지수 5가 된다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Four and eight equal powers of two with exponents two and three, so their product has log base two equal to five and to the sum of the separate logs](../../figures/assets/M00/M00-05-log-product-sum.svg)
+
+<figcaption>곱의 로그와 각각의 로그를 더한 값은 모두 5다. 이 그림은 밑 2를 명시한 예시이며, 본문에서 밑을 생략한 log는 자연로그다.</figcaption>
+</figure>
 
 ## 예제 1. 지수 계산하기
 
@@ -445,6 +536,15 @@ p_2=\frac{1}{3+1}=\frac14
 \]
 
 이다. softmax는 여러 점수로 이 구조를 확장한다.
+
+다음 그림에서 두 항은 같은 분모 4로 나눈다. 마지막 막대는 전체 1을 네 몫으로 나눠 확률을 표시한다.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+
+![Softmax scores log three and zero exponentiate to weights three and one, then divide by total four to produce probabilities three quarters and one quarter](../../figures/assets/M00/M00-05-softmax-normalization.svg)
+
+<figcaption>양수 가중치 3과 1의 합은 4다. p₁은 네 몫 중 세 몫, p₂는 한 몫을 차지하므로 두 확률의 합은 1이다.</figcaption>
+</figure>
 
 ## 예제 5. 음의 로그 손실 읽기
 

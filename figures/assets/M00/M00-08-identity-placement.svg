@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 470" width="800" height="470" role="img" aria-labelledby="title desc">
+<title id="title">Identity preserves the value in its own set</title>
+<desc id="desc">Identity on A leaves the input x unchanged before f, while identity on B leaves f of x unchanged after f.</desc>
+<defs>
+<marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="12" refX="8.5" refY="6" orient="auto">
+<path d="M0.5 0.8L8.5 6L0.5 11.2L3 6Z" fill="context-stroke"/>
+</marker>
+</defs>
+<rect width="800" height="470" rx="16" fill="#F8FAFC"/>
+<g font-family="sans-serif">
+<text x="400" y="54" text-anchor="middle" fill="#0F172A" font-size="24" font-weight="bold">Identity preserves the value in its own set</text>
+<text x="400" y="116" text-anchor="middle" fill="#1E3A8A" font-size="22" font-weight="bold">Before f: identity on A</text>
+<text x="83" y="200" text-anchor="middle" fill="#1E3A8A" font-size="26" font-weight="normal">x</text>
+<rect x="163" y="157" width="142" height="66" rx="12" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+<text x="234" y="197" text-anchor="middle" fill="#1E3A8A" font-size="20" font-weight="normal">id_A: x → x</text>
+<rect x="389" y="157" width="100" height="66" rx="12" fill="#F3E8FF" stroke="#7C3AED" stroke-width="2"/>
+<text x="439" y="198" text-anchor="middle" fill="#5B21B6" font-size="24" font-weight="bold">f</text>
+<text x="654" y="198" text-anchor="middle" fill="#065F46" font-size="26" font-weight="normal">f(x)</text>
+<path d="M112 190H151" fill="none" stroke="#2563EB" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M317 190H377" fill="none" stroke="#2563EB" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M501 190H600" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="400" y="291" text-anchor="middle" fill="#065F46" font-size="22" font-weight="bold">After f: identity on B</text>
+<text x="83" y="375" text-anchor="middle" fill="#1E3A8A" font-size="26" font-weight="normal">x</text>
+<rect x="163" y="332" width="100" height="66" rx="12" fill="#F3E8FF" stroke="#7C3AED" stroke-width="2"/>
+<text x="213" y="373" text-anchor="middle" fill="#5B21B6" font-size="24" font-weight="bold">f</text>
+<rect x="347" y="332" width="198" height="66" rx="12" fill="#D1FAE5" stroke="#059669" stroke-width="2"/>
+<text x="446" y="372" text-anchor="middle" fill="#065F46" font-size="20" font-weight="normal">id_B: f(x) → f(x)</text>
+<text x="654" y="373" text-anchor="middle" fill="#065F46" font-size="26" font-weight="normal">f(x)</text>
+<path d="M112 365H151" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M275 365H335" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M557 365H600" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="400" y="434" text-anchor="middle" fill="#475569" font-size="22" font-weight="normal">Both compositions have the same input and output as f.</text>
+</g>
+</svg>

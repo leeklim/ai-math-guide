@@ -93,6 +93,11 @@ html[lang="en"] .md-typeset {
   padding: 0.55rem 0;
 }
 
+.md-typeset details span.arithmatex {
+  display: inline-block;
+  vertical-align: middle;
+}
+
 .md-typeset .lesson-figure {
   margin: 1.5rem auto 1.8rem;
   padding: 1rem 1rem 0.75rem;

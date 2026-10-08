@@ -38,6 +38,7 @@ class HomepageTests(unittest.TestCase):
                 homepage = prepare_homepage()
                 self.assertEqual(homepage.count('class="home-path"'), 3)
                 self.assertEqual(homepage.count('<figure class="lesson-figure'), 3)
+                self.assertEqual(homepage.count('markdown="1">\n\n!['), 3)
                 self.assertLess(homepage.index('class="home-paths"'), homepage.index('<figure'))
                 self.assertIn("M02-13-svd-three-stage.svg", homepage)
                 self.assertIn("N05-15-causal-mask-matrices.svg", homepage)

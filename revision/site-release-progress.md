@@ -87,3 +87,4 @@
 - 실제 한영 홈페이지를1440×900/390×844·밝은/어두운 테마에서 확인했다. 대표 그림3개 로드·대체 텍스트, 가로 넘침0, N05 시작 링크 실제 이동을 확인했다. 어두운 테마의 outline 버튼 대비 문제는 홈페이지 카드에 한정한 CSS로 보완하고 최신 빌드에서 재확인했다. 화면 자료는 `.build/release-proof/home-growth-*`에 저장했다.
 - 원격 main과 로컬 준비 기준은 `ea3c4a9`로 같고 안전한 일반 push의 ancestry 확인을 통과했다. 무관한 미추적 `programming-assignment-1/`, `tmp/`는 보존한다. 최종 최신 한영 병합 검증·승인된 배포·공개 사후 확인은 이어서 수행한다.
 - 최신 `scripts/site.py merge` exit0: 양언어199단원·reading table199개·문제/해설1,154쌍 유지, locale 및 최종 병합 링크/자산 오류0건, translation audit206건 verified·missing/unreviewed/stale0건을 확인했다. 로컬 검증은 완료했으며 GitHub 빌드·공개 배포·공개 화면 검증은 다음 단계다.
+- 승인된 `c50c81f` 일반 main push 성공, Actions #25 시작. 공개 저장소의 실제 README에서 Markdown figure 내부 이미지 구문이 텍스트로 나오는 표시 문제를 추가 확인했다. GitHub 공식 Markdown 렌더링 API에서 빈 줄을 넣으면 img로 처리됨을 검증했고 한영 README의 figure 블록6곳에 빈 줄만 보완했다. 본문·그림·캡션은 동일하다. 홈페이지 회귀4개와 최신 strict build KO8.28초/EN8.33초 통과, 실제 최신 EN HTML의 그림·캡션3개·literal 구문0·가로 넘침0을 확인했다. 최종 GitHub 통합 검사를 선행 조건으로 보완 커밋도 정상 push한다.

@@ -61,7 +61,9 @@ These figures appear in the lessons. Follow each link for definitions, worked ca
 Read the three SVD factors as an input coordinate change, axis-wise scaling, and an output coordinate change. Compare the same vector and unit circle at each stage.
 
 <figure class="lesson-figure lesson-figure--wide" markdown="1">
+
 ![A unit circle and a vector passing through the three stages of singular value decomposition](../../figures/assets/M02/M02-13-svd-three-stage.svg)
+
 <figcaption>Distinguish coordinate changes from changes in length to understand the action of the matrix.</figcaption>
 </figure>
 
@@ -72,7 +74,9 @@ Read the three SVD factors as an input coordinate change, axis-wise scaling, and
 Add the causal mask to the scores to block future tokens, then compute attention weights with row-wise softmax. Follow a blocked score through to its final weight of zero.
 
 <figure class="lesson-figure lesson-figure--wide" markdown="1">
+
 ![Raw attention scores, causally masked scores, and row-wise softmax weights for four tokens](../../figures/assets/N05/N05-15-causal-mask-matrices.svg)
+
 <figcaption>Follow the same token row through scores, masking, and weight calculation.</figcaption>
 </figure>
 
@@ -83,7 +87,9 @@ Add the causal mask to the scores to block future tokens, then compute attention
 Insert an activation from a clean run at a specified position in a corrupted run, then execute the downstream computation. Distinguish baseline runs from the intervention run and examine the claims you can support with the measured effect.
 
 <figure class="lesson-figure lesson-figure--wide" markdown="1">
+
 ![Clean, corrupted, and patched model runs with a clean activation inserted at a specified node](../../figures/assets/I07/I07-07-three-runs.svg)
+
 <figcaption>Distinguish the inputs and intervention site across the three runs before interpreting output differences.</figcaption>
 </figure>
 

@@ -61,7 +61,9 @@
 SVD의 세 행렬을 입력 좌표변환, 축별 배율, 출력 좌표변환으로 나누어 설명합니다. 같은 벡터와 단위원의 변화를 단계마다 비교하세요.
 
 <figure class="lesson-figure lesson-figure--wide" markdown="1">
+
 ![A unit circle and a vector passing through the three stages of singular value decomposition](figures/assets/M02/M02-13-svd-three-stage.svg)
+
 <figcaption>좌표를 바꾸는 단계와 길이를 바꾸는 단계를 구분해 행렬의 작용을 읽습니다.</figcaption>
 </figure>
 
@@ -72,7 +74,9 @@ SVD의 세 행렬을 입력 좌표변환, 축별 배율, 출력 좌표변환으�
 미래 토큰을 막는 causal mask를 score에 더한 뒤, 행별 softmax로 attention weight를 계산합니다. 차단한 score가 최종 가중치 0으로 이어지는 과정을 확인하세요.
 
 <figure class="lesson-figure lesson-figure--wide" markdown="1">
+
 ![Raw attention scores, causally masked scores, and row-wise softmax weights for four tokens](figures/assets/N05/N05-15-causal-mask-matrices.svg)
+
 <figcaption>같은 토큰 행을 따라 score, 마스크 적용, 가중치 계산을 비교합니다.</figcaption>
 </figure>
 
@@ -83,7 +87,9 @@ SVD의 세 행렬을 입력 좌표변환, 축별 배율, 출력 좌표변환으�
 Clean run에서 얻은 activation을 corrupted run의 지정한 위치에 넣고, 이후 계산을 실행합니다. 기준 실행과 개입 실행을 구분하고, 측정한 효과로 어떤 주장을 할 수 있는지 살펴보세요.
 
 <figure class="lesson-figure lesson-figure--wide" markdown="1">
+
 ![Clean, corrupted, and patched model runs with a clean activation inserted at a specified node](figures/assets/I07/I07-07-three-runs.svg)
+
 <figcaption>세 실행의 입력과 개입 위치를 구분한 뒤 출력 차이를 해석합니다.</figcaption>
 </figure>
 

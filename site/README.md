@@ -9,7 +9,7 @@
 .\scripts\preview_site.ps1 -SkipBuild -Port 8003
 ```
 
-빌드는 먼저 `check-translations --require-verified`로 199개 단원과6개 부속 문서의 실제 검토 상태·원문/영문 hash를 확인한다. 빠진 원고·미검토·stale가 있으면 중단한다. 한국어 `.build/ko/site`와 영어 `.build/en/site`를 별도 strict build하고 검사한 뒤 `.build/bilingual/site`로 병합한다. 기존 `.build/site`는 덮어쓰지 않는다. 최종 Pages workflow도 한영 병합 경로만 업로드하도록 준비하며, 실제 원격 실행은 최종 승인 뒤에만 수행한다.
+빌드는 먼저 `check-translations --require-verified`로 199개 단원과7개 부속 문서(개인정보·통계 안내 포함)의 실제 검토 상태·원문/영문 hash를 확인한다. 빠진 원고·미검토·stale가 있으면 중단한다. 한국어 `.build/ko/site`와 영어 `.build/en/site`를 별도 strict build하고 검사한 뒤 `.build/bilingual/site`로 병합한다. 기존 `.build/site`는 덮어쓰지 않는다. 최종 Pages workflow도 한영 병합 경로만 업로드하도록 준비하며, 실제 원격 실행은 최종 승인 뒤에만 수행한다.
 
 로컬 기본 빌드는 `.build`의 기존 필수 CPU 결과를 재사용한다. staging은 각 예제 코드의 source hash와 결과 필드를 검사하고, 환경 진단은 고정된 Python·NumPy·CPU PyTorch를 확인한다. 예제·공통 계산 코드나 환경을 변경했거나 결과가 없다면 `build_site.ps1 -RunExamples`로 N05·I06·I07·I08 결과를 각1회 생성한다. 공통 코드·환경 변경까지 자동으로 추적하는 별도 결과 캐시는 없으므로 이 경우 재실행이 필요하다. clean CI에서는 기존 네 CPU runner를 각1회 실행하고 양언어가 결과를 공유한다. 테스트 안의 작은 계산과 결과 생성 runner는 구분한다. GPU 결과·모델 가중치는 공개 빌드에 포함하지 않는다.
 
@@ -19,9 +19,9 @@ Node.js의 `node tests/analytics_runtime.cjs .build/ko/site/index.html`과 대�
 
 ## 방문 통계 및 첫 방문 화면 (2026-10-08)
 
-사용자는 첫 방문 동의창을 제거하고 접속 횟수만 확인하는 방식을 요청했다. `mkdocs.base.yml`의 GA4·동의 설정, Google 태그를 불러오는 사용자 템플릿과 한영 하단 설정 링크를 제거했다. 변경한 로컬 사이트는 방문 통계 동의를 묻지 않으며 Google Analytics 요청을 시작하지 않는다.
+사용자는 첫 방문 동의창을 제거하고 접속 횟수만 확인하는 방식을 요청했다. `mkdocs.base.yml`의 GA4·동의 설정, Google 태그를 불러오는 사용자 템플릿과 한영 하단 설정 링크를 제거했다. 변경한 공개 사이트는 방문 통계 동의를 묻지 않으며 Google Analytics 요청을 시작하지 않는다.
 
-Cloudflare Web Analytics의 `leeklim.github.io` 사이트를 등록하고 로컬 소스에 공개 beacon token을 연결했다. loader는 고정 공개 origin과 `/ai-math-guide/` 경로에서만 실행하므로 localhost 검수와 다른 저장소 페이지를 집계하지 않는다. 양언어 `PRIVACY.md`와 페이지 하단 링크에서 Visits·조회·성능 지표와 외부 서비스 이용을 설명한다. 사용자 경험을 막는 동의창은 추가하지 않는다. 공개 배포와 실제 데이터 수신은 별도 검증 전까지 완료로 기록하지 않는다.
+Cloudflare Web Analytics의 `leeklim.github.io` 사이트를 등록하고 공개 beacon token을 연결했다. loader는 고정 공개 origin과 `/ai-math-guide/` 경로에서만 실행하므로 localhost 검수와 다른 저장소 페이지를 집계하지 않는다. 양언어 `PRIVACY.md`와 페이지 하단 링크에서 Visits·조회·성능 지표와 외부 서비스 이용을 설명한다. 사용자 경험을 막는 동의창은 추가하지 않는다. 승인된 main push 뒤 [Actions #24](https://github.com/leeklim/ai-math-guide/actions/runs/37760310996)의 전체 검사와 공개 배포가 성공했고, 실제 한영 공개 화면과 Cloudflare의 테스트 조회 수신을 확인했다. 검사·배포·수신 근거는 `revision/site-release-progress.md`를 따른다.
 
 Cloudflare는 Web Analytics에 쿠키·localStorage·개인 지문을 사용하지 않는다고 설명한다. 이 기술 확인을 모든 지역의 법적 준수 보장으로 해석하지 않는다. 사이트에 개인 식별·광고 기능을 추가하면 수집 범위와 고지·동의 기준을 다시 확인한다. GA4 계정의 과거 통계와 방문자 브라우저에 남은 기존 Google 쿠키는 삭제하지 않는다. 언어 선택·검색·테마 설정과 Search Console 인증은 유지한다.
 

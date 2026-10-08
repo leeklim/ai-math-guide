@@ -1,6 +1,110 @@
 # 모델 해석을 위한 수학과 방법론
 
-수학 기호를 읽는 단계에서 시작해 신경망 내부 표현, 인과적 개입, 학습 동역학과 고급 이론까지 공부하는 교육과정이다.
+[한국어로 읽기](https://leeklim.github.io/ai-math-guide/) · [Read in English](https://leeklim.github.io/ai-math-guide/en/)
+
+<div class="home-intro" markdown="1">
+
+**AI 논문을 읽다가 수식에서 막힐 때, 필요한 개념부터 공부하세요.**
+
+미분 기호와 행렬부터 Transformer 계산, 모델 내부 표현과 인과적 개입까지 설명합니다. 그림으로 관계를 확인하고, 예제와 문제·해설로 이해를 점검할 수 있습니다. 제2부부터는 Python·PyTorch 코드와 실행 결과를 함께 읽습니다.
+
+한국어·영어 전권 무료 공개 · 로그인 없이 웹에서 읽기 · 199개 단원
+
+</div>
+
+## 읽기 시작 { #_4 }
+
+관심 있는 경로에서 시작하세요. 각 단원에서 선수지식을 확인하고 필요한 기초로 돌아갈 수 있습니다.
+
+<div class="home-paths" markdown="1">
+
+<div class="home-path" markdown="1">
+
+### 수학 기호부터
+
+변수와 함수, 합 기호, 미분·적분을 읽는 단계에서 시작합니다. 벡터·행렬과 확률로 이어집니다.
+
+[첫 단원 읽기](part-1-foundations/M00/M00-01-numbers-variables.md){ .md-button .md-button--primary }
+
+</div>
+
+<div class="home-path" markdown="1">
+
+### Transformer 계산부터
+
+텐서와 계산 그래프에서 attention, residual stream과 역전파까지 계산 순서를 따라갑니다. 기초 미적분과 행렬 연산을 알고 있다면 이 경로를 고르세요.
+
+[신경망 계산 읽기](part-2-neural-computation/N05/N05-01-tensors-computation-graphs.md){ .md-button }
+
+</div>
+
+<div class="home-path" markdown="1">
+
+### 모델 해석 실험부터
+
+표현을 관찰하는 방법과 내부 계산에 개입하는 실험을 구분합니다. 신경망 계산을 알고 있다면 activation patching 단원부터 살펴보세요.
+
+[개입 실험 읽기](part-3-interpretability/I07/I07-07-activation-patching.md){ .md-button }
+
+</div>
+
+</div>
+
+[전체 학습경로](01-CURRICULUM.md) · [용어집](04-GLOSSARY.md)
+
+## 그림과 설명 미리 보기 { #lesson-previews }
+
+아래는 본문에서 사용하는 그림입니다. 각 링크에서 정의와 계산 예제, 연습문제와 해설을 함께 읽을 수 있습니다. 모바일에서는 넓은 그림을 좌우로 스크롤하세요.
+
+### 특이값분해는 어떤 변환인가
+
+SVD의 세 행렬을 입력 좌표변환, 축별 배율, 출력 좌표변환으로 나누어 설명합니다. 같은 벡터와 단위원의 변화를 단계마다 비교하세요.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+![A unit circle and a vector passing through the three stages of singular value decomposition](figures/assets/M02/M02-13-svd-three-stage.svg)
+<figcaption>좌표를 바꾸는 단계와 길이를 바꾸는 단계를 구분해 행렬의 작용을 읽습니다.</figcaption>
+</figure>
+
+[특이값분해 단원 읽기](part-1-foundations/M02/M02-13-singular-value-decomposition.md)
+
+### Attention mask는 계산의 어디에 적용되는가
+
+미래 토큰을 막는 causal mask를 score에 더한 뒤, 행별 softmax로 attention weight를 계산합니다. 차단한 score가 최종 가중치 0으로 이어지는 과정을 확인하세요.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+![Raw attention scores, causally masked scores, and row-wise softmax weights for four tokens](figures/assets/N05/N05-15-causal-mask-matrices.svg)
+<figcaption>같은 토큰 행을 따라 score, 마스크 적용, 가중치 계산을 비교합니다.</figcaption>
+</figure>
+
+[Causal attention 단원 읽기](part-2-neural-computation/N05/N05-15-causal-scaled-dot-product-attention.md)
+
+### Activation patching에서는 무엇을 비교하는가
+
+Clean run에서 얻은 activation을 corrupted run의 지정한 위치에 넣고, 이후 계산을 실행합니다. 기준 실행과 개입 실행을 구분하고, 측정한 효과로 어떤 주장을 할 수 있는지 살펴보세요.
+
+<figure class="lesson-figure lesson-figure--wide" markdown="1">
+![Clean, corrupted, and patched model runs with a clean activation inserted at a specified node](figures/assets/I07/I07-07-three-runs.svg)
+<figcaption>세 실행의 입력과 개입 위치를 구분한 뒤 출력 차이를 해석합니다.</figcaption>
+</figure>
+
+[Activation patching 단원 읽기](part-3-interpretability/I07/I07-07-activation-patching.md)
+
+## 네 부분 { #_2 }
+
+| 부분 | 범위 | 목적 |
+|---|---|---|
+| 제1부 | 0~4단계 | 수식, 미적분, 선형대수, 확률·통계·정보이론 |
+| 제2부 | 5단계 | 신경망과 Transformer의 실제 계산 |
+| 제3부 | 6~8단계 | 표현, 인과, 기계론, 학습 동역학 해석 |
+| 제4부 | 9단계 | 기하학, 동역학, 대칭성, 학습이론 등 선택 심화 |
+
+전권을 처음부터 읽거나, [전체 학습경로](01-CURRICULUM.md)에서 필요한 단원을 찾아 읽을 수 있습니다. 본문에는 문제·해설 1,154쌍과 그림 1,355개가 있습니다. 실습을 실행하려면 별도의 환경 설정이 필요하지만 웹 교재를 읽는 데에는 설치가 필요하지 않습니다.
+
+## 자료 소개와 오류 제보 { #about-this-guide }
+
+개인 학습에서 출발해 AI의 도움으로 작성·개정한 교재입니다. 한영 원문 대조, 링크·수식 표기·그림 자산 검사와 코드 실행 결과 확인을 진행했습니다. 이 검사를 외부 전문가의 동료 심사나 모든 설명의 무오류 보증으로 해석하지는 않습니다.
+
+설명이 불분명하거나 계산·표기에 오류가 있으면 [GitHub Issues](https://github.com/leeklim/ai-math-guide/issues)에 해당 단원의 주소와 문제 구절을 남겨주세요. 문제·해설도 함께 확인할 수 있습니다.
 
 ## 기준 문서
 
@@ -16,15 +120,6 @@
 8. [GPU·Pythia 실행 환경](GPU-ENVIRONMENT.md)
 9. [단원 템플릿](templates/lesson-template.md)
 10. [N05 단원 템플릿](templates/n05-lesson-template.md)
-
-## 네 부분
-
-| 부분 | 범위 | 목적 |
-|---|---|---|
-| 제1부 | 0~4단계 | 수식, 미적분, 선형대수, 확률·통계·정보이론 |
-| 제2부 | 5단계 | 신경망과 Transformer의 실제 계산 |
-| 제3부 | 6~8단계 | 표현, 인과, 기계론, 학습 동역학 해석 |
-| 제4부 | 9단계 | 기하학, 동역학, 대칭성, 학습이론 등 선택 심화 |
 
 ## 제작 원칙
 

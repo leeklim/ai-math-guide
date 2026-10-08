@@ -972,16 +972,12 @@ def prepare_homepage() -> str:
                 "Untranslated links open the Korean edition; no Korean lesson is presented as an English translation.\n\n"
                 f"[Read the Korean edition]({PUBLIC_PATH})\n"
             )
-        return read_text(path)
+        return read_text(path).replace("](../../figures/assets/", "](figures/assets/")
     source = read_text(ROOT / "README.md")
-    source = remove_h2_sections(source, {"기준 문서", "현재 상태", "로컬 HTML 검수"}, required=True)
-    return (
-        source.rstrip()
-        + "\n\n## 읽기 시작\n\n"
-        + "- [전체 학습경로](curriculum.md)\n"
-        + "- [첫 단원: 수, 변수와 상수](part-1-foundations/M00/M00-01-numbers-variables.md)\n"
-        + "- [용어집](glossary.md)\n"
-    )
+    source = remove_h2_sections(source, {"기준 문서", "제작 원칙", "현재 상태", "로컬 HTML 검수"}, required=True)
+    for original, target in PUBLIC_DOCUMENTS.items():
+        source = source.replace(f"]({original})", f"]({target})")
+    return source
 
 
 def strip_editor_checklist(text: str, lesson_id: str) -> str:

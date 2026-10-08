@@ -50,6 +50,75 @@ html[lang="en"] .md-typeset {
   margin-bottom: 1.25rem;
 }
 
+/* Reader-facing homepage; lesson layouts retain their existing styles. */
+.md-typeset .home-intro {
+  padding: 1.1rem 1.25rem;
+  margin: 1rem 0 1.5rem;
+  border-left: 0.2rem solid var(--md-accent-fg-color);
+  border-radius: 0 0.45rem 0.45rem 0;
+  background: var(--md-accent-fg-color--transparent);
+}
+
+.md-typeset .home-intro > p:first-child {
+  margin-top: 0;
+  font-size: 1.12rem;
+  line-height: 1.5;
+}
+
+.md-typeset .home-intro > p:last-child {
+  margin-bottom: 0;
+  font-size: 0.78rem;
+}
+
+.md-typeset .home-paths {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin: 1.15rem 0;
+}
+
+.md-typeset .home-path {
+  display: flex;
+  flex-direction: column;
+  padding: 0.9rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.45rem;
+  background: var(--md-code-bg-color);
+}
+
+.md-typeset .home-path h3 {
+  margin: 0 0 0.65rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.md-typeset .home-path > p {
+  margin: 0 0 1rem;
+  font-size: 0.8rem;
+}
+
+.md-typeset .home-path > p:last-child {
+  margin: auto 0 0;
+}
+
+.md-typeset .home-path .md-button {
+  padding: 0.45rem 0.65rem;
+  font-size: 0.74rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .home-path .md-button:not(.md-button--primary) {
+  color: #c7d2fe;
+  border-color: #a5b4fc;
+}
+
+@media screen and (max-width: 60em) {
+  .md-typeset .home-paths {
+    grid-template-columns: 1fr;
+  }
+}
+
 .md-typeset table:not([class]) {
   font-size: 0.78rem;
 }

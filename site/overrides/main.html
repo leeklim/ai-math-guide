@@ -49,9 +49,18 @@
     <meta property="og:site_name" content="{{ config.site_name | e }}">
     <meta property="og:locale" content="{{ 'en_US' if config.theme.language == 'en' else 'ko_KR' }}">
     <meta property="og:locale:alternate" content="{{ 'ko_KR' if config.theme.language == 'en' else 'en_US' }}">
-    <meta name="twitter:card" content="summary">
+    {% set sharing_image = 'https://leeklim.github.io/ai-math-guide/assets/images/social/ai-math-guide-' ~ ('en' if config.theme.language == 'en' else 'ko') ~ '.png' %}
+    {% set sharing_image_alt = 'AI Math Guide: notation and mathematics, Transformer computation, and model interpretability. Free reading in Korean and English.' if config.theme.language == 'en' else 'AI Math Guide: 기호와 수학, Transformer 계산, 모델 해석을 공부하는 무료 한영 교재.' %}
+    <meta property="og:image" content="{{ sharing_image }}">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="{{ sharing_image_alt | e }}">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ sharing_title | e }}">
     <meta name="twitter:description" content="{{ description | e }}">
+    <meta name="twitter:image" content="{{ sharing_image }}">
+    <meta name="twitter:image:alt" content="{{ sharing_image_alt | e }}">
   {% endif %}
   {% if page and config.extra.bilingual and page.url in config.extra.bilingual.en_pages %}
     <link rel="alternate" hreflang="ko" href="https://leeklim.github.io{{ config.extra.bilingual.root }}{{ page.url }}">

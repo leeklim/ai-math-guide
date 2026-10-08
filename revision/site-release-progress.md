@@ -75,3 +75,15 @@
 - Cloudflare에서 실제 공개 테스트 조회 수신을 확인했다. `leeklim.github.io`·Last24hours·GMT+9·bot 제외에서 Visits1·Page views8·load time565ms를 표시했다. 이는 연결 검수 트래픽을 포함하며 실제 독자 증가로 해석하지 않는다. 최초0값은 등록/배포 직후 상태였다. 계정 식별 정보가 제외된 화면을 `.build/release-proof/cloudflare-public-receipt.jpg`에 저장했다. 시험용8007서버는 종료했고 기존8005 교재 preview는 유지한다.
 - 로컬 `site.py merge`의 최초 실행은25분 이상 CPU 계산을 이어가 중단했다. 같은 기존 명령을 호스트 실행 환경에서 다시 실행하여 exit0으로 마쳤다. 검사 코드·기준은 변경하지 않았고, 정확한 성능 원인을 프로파일링하지는 않았다. 최종 병합 링크/자산 오류0건, 번역206개 present/reviewed/verified·missing/unreviewed/stale0건을 확인했다. 갱신한 README와 이 기록은 공개 원고·산출물에 영향을 주지 않으므로 전체 검사를 재실행하지 않는다.
 - 필수 구현·공개 배포·실제 수신 검증은 완료했다. 공개 홈페이지와 Cloudflare 대시보드를 결과 탭으로 남기고 임시 Actions 탭을 닫았다. 최종 기록2파일만 `[skip ci]` 커밋으로 정상 main push하여 같은 교재를 다시 배포하지 않는다. DNS·호스팅·결제·GA4 계정/과거 데이터와 Search Console 설정은 변경하지 않았다.
+
+## 독자 진입 화면·공유 미리보기·커뮤니티 소개글 (2026-10-09)
+
+- 사용자가 홈페이지 첫 화면·대표 그림·공유 미리보기·README 독서 링크 정리를 요청하고, 검증 후 main push·공개 반영을 명시 승인했다. LinkedIn 추가 게시와 스터디 운영자 연락은 하지 않는다. 커뮤니티 가입·게시도 사용자가 직접 하며 Cloudflare 자료는 기다리기로 했다.
+- 한영 첫 화면에 배경별 시작 경로 3개와 기존 SVD·causal attention·activation patching 그림 3개를 배치했다. 설치 없이 웹 교재를 읽는 것과 별도 실습 환경 설정을 구분하고 개인·AI 보조 제작과 검토의 한계를 밝혔다. 한국어 기존 읽기/4부 앵커와 전권 탐색을 유지한다. 영문 README 그림은 GitHub 소스 위치에서 접근 가능한 상대경로를 사용하고 홈페이지 준비에서만 경로를 정규화한다.
+- 한영 1200×630 공유 카드 PNG와 선택 재생성 코드를 추가했다. 공통 head의 OG/Twitter image와 alt를 연결하고 기존 제목·description·canonical·hreflang을 유지한다. CI는 저장 PNG를 사용하며 Pillow 의존성을 추가하지 않았다. 단원 원고·문제/해설·교재 SVG·manifest·실습과 분석 설정은 변경하지 않았다.
+- `revision/community-launch-drafts.md`에 PyTorchKR·GeekNews Show GN·Reddit learnmachinelearning용 제목/본문과 별도 게시 전 안내를 저장했다. 공식 규칙을 확인했으며 외부 글 등록·추천 요청·메시지 전송은 하지 않았다. stop-slop 기준으로 과장 표현을 줄이고 write-page 지침에 따라 업로드 본문과 안내를 구분했다.
+- Python 전체 검사194개 중193개 통과·선택 GPU1개 skip. 한영 source audit/English-reading lint 통과. 마지막 영문 README 그림 경로 보완 후 관련 회귀검사41개 통과, 최신 KO/EN strict HTML build 통과(KO8.17초·EN8.06초). 샌드박스 시스템 Temp 권한 오류는 해당 검사 프로세스의 tempfile 경로를 기존 `.build/homepage-test-temp`로 지정하여 해결했으며 검사 코드나 기준을 완화하지 않았다.
+- 한영 생성 HTML 각207개에서 GA4·동의 UI 부재, 안내 링크와 Cloudflare 공개 범위·중복 로드 모의검사10조건 통과. 독립 작업자가 한영 독자 본문 의미 대응과 최종 코드 diff를 검토했다. 번역 대장206개 reviewed/verified·stale0건이다.
+- 실제 한영 홈페이지를1440×900/390×844·밝은/어두운 테마에서 확인했다. 대표 그림3개 로드·대체 텍스트, 가로 넘침0, N05 시작 링크 실제 이동을 확인했다. 어두운 테마의 outline 버튼 대비 문제는 홈페이지 카드에 한정한 CSS로 보완하고 최신 빌드에서 재확인했다. 화면 자료는 `.build/release-proof/home-growth-*`에 저장했다.
+- 원격 main과 로컬 준비 기준은 `ea3c4a9`로 같고 안전한 일반 push의 ancestry 확인을 통과했다. 무관한 미추적 `programming-assignment-1/`, `tmp/`는 보존한다. 최종 최신 한영 병합 검증·승인된 배포·공개 사후 확인은 이어서 수행한다.
+- 최신 `scripts/site.py merge` exit0: 양언어199단원·reading table199개·문제/해설1,154쌍 유지, locale 및 최종 병합 링크/자산 오류0건, translation audit206건 verified·missing/unreviewed/stale0건을 확인했다. 로컬 검증은 완료했으며 GitHub 빌드·공개 배포·공개 화면 검증은 다음 단계다.

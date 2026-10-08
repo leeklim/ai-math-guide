@@ -40,6 +40,7 @@ PUBLIC_DOCUMENTS = {
     "N05-ENVIRONMENT.md": "N05-ENVIRONMENT.md",
     "GPU-ENVIRONMENT.md": "GPU-ENVIRONMENT.md",
     "05-N05-ARCHITECTURE-BASELINE.md": "05-N05-ARCHITECTURE-BASELINE.md",
+    "PRIVACY.md": "privacy.md",
 }
 EN_STAGE_TITLES = {
     "M00": "M00 Reading mathematical notation",
@@ -205,19 +206,6 @@ def localized_config() -> dict[str, object]:
             palette["toggle"]["name"] = (
                 "Switch to dark mode" if palette["scheme"] == "default" else "Switch to light mode"
             )
-        config["extra"]["consent"].update({
-            "title": "Visitor analytics consent",
-            "description": (
-                "The site uses Google Analytics 4 to understand visits and page usage. "
-                "If you consent, visit information is sent to Google and analytics cookies are used. "
-                "Select the checkbox below and choose Accept to allow analytics. "
-                "You can reject analytics and still read every lesson. "
-                "Change your choice using Analytics cookie settings in the footer. "
-                '<a href="https://policies.google.com/privacy?hl=en" target="_blank" rel="noopener">Google Privacy Policy</a>'
-            ),
-        })
-        config["extra"]["consent"]["cookies"]["analytics"]["name"] = "Visitor analytics (Google Analytics 4)"
-        config["copyright"] = '<a href="#__consent">Analytics cookie settings</a>'
         config["plugins"] = [{"search": {"lang": "en"}}]
     return config
 
@@ -1483,6 +1471,7 @@ def build_nav(lessons: list[dict[str, object]]) -> list[dict[str, object]]:
         {"CPU execution environment" if LANGUAGE == "en" else "CPU 실행 환경": nav_path("N05-ENVIRONMENT.md")},
         {"Architecture and source baseline" if LANGUAGE == "en" else "아키텍처와 자료 기준": nav_path("05-N05-ARCHITECTURE-BASELINE.md")},
         {"GPU and Pythia environment" if LANGUAGE == "en" else "GPU·Pythia 실행 환경": nav_path("GPU-ENVIRONMENT.md")},
+        {"Privacy & Analytics" if LANGUAGE == "en" else "개인정보·통계 안내": nav_path("PRIVACY.md")},
     ]})
     return nav
 
@@ -1680,7 +1669,7 @@ def resolve_generated_url(page: Path, url: str) -> Path | None:
 
 def generated_fragment_exists(target: Path, url: str, cache: dict[Path, set[str]]) -> bool:
     fragment = unquote(urlsplit(url).fragment)
-    if not fragment or fragment == "__consent" or target.suffix != ".html":
+    if not fragment or target.suffix != ".html":
         return True
     if target not in cache:
         collector = LinkCollector()
@@ -1783,7 +1772,7 @@ def validate() -> None:
 
     config = yaml.safe_load(read_text(CONFIG_PATH))
     if config["extra"].get("scope") != PUBLIC_PATH:
-        issues.append("analytics consent storage scope is not shared")
+        issues.append("browser settings storage scope is not shared")
     nav_paths = flatten_nav_paths(config.get("nav", []))
     lesson_nav_paths = [path for path in nav_paths if re.match(r"part-1-foundations/M0[0-4]/M0[0-4]-", path)]
     if len(lesson_nav_paths) != len(foundation_lessons) or len(set(lesson_nav_paths)) != len(foundation_lessons):

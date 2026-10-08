@@ -88,7 +88,7 @@ class ReaderNavigationTests(unittest.TestCase):
             self.assertTrue(site.generated_fragment_exists(target, "#m03%2D11-jacobian", {}))
             self.assertTrue(site.generated_fragment_exists(target, "index.html#old", {}))
             self.assertFalse(site.generated_fragment_exists(target, "#missing", {}))
-            self.assertTrue(site.generated_fragment_exists(target, "#__consent", {}))
+            self.assertFalse(site.generated_fragment_exists(target, "#__consent", {}))
 
     def test_metadata_changes_invalidate_source_snapshot(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

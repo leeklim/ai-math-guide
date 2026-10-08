@@ -1,0 +1,18 @@
+{% if config.extra.cloudflare_web_analytics and config.extra.cloudflare_web_analytics.token %}
+<script id="__cloudflare_web_analytics">
+  (() => {
+    const publicUrl = new URL({{ config.extra.cloudflare_web_analytics.public_url | tojson }});
+    if (window.location.origin !== publicUrl.origin ||
+        !(window.location.pathname === publicUrl.pathname.slice(0, -1) ||
+          window.location.pathname.startsWith(publicUrl.pathname)) ||
+        document.getElementById("cloudflare-web-analytics")) return;
+    const script = document.createElement("script");
+    script.id = "cloudflare-web-analytics";
+    script.type = "module";
+    script.async = true;
+    script.src = "https://static.cloudflareinsights.com/beacon.min.js";
+    script.setAttribute("data-cf-beacon", JSON.stringify({token: {{ config.extra.cloudflare_web_analytics.token | tojson }}}));
+    document.body.appendChild(script);
+  })();
+</script>
+{% endif %}

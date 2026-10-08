@@ -6,6 +6,11 @@
   {% endif %}
 {% endblock %}
 
+{% block scripts %}
+  {{ super() }}
+  {% include "partials/cloudflare-web-analytics.html" %}
+{% endblock %}
+
 {# Page-specific language metadata; never canonicalize English to Korean. #}
 {% block site_meta %}
   {% set previous = page.meta.learning_previous if page and page.meta.learning_lesson else page.previous_page %}

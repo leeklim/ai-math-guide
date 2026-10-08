@@ -19,6 +19,10 @@
     "ko": "Windows PowerShell·Python 3.12·CPU PyTorch 실습 환경을 설치하고 진단한다. 고정 패키지, 예제 실행·HTML 결과 반영과 계산 자원 상한을 확인한다.",
     "en": "Set up and diagnose the Windows PowerShell, Python 3.12, and CPU-only PyTorch labs. Check pinned dependencies, example execution, HTML results, and resource limits."
   },
+  "PRIVACY.md": {
+    "ko": "교재 사이트의 Cloudflare 방문·조회 집계 목적과 처리 방식, 브라우저 설정 저장 및 외부 서비스 이용을 안내한다.",
+    "en": "Read how the textbook site uses Cloudflare visit and page-view statistics, stores browser preferences, and relies on external services."
+  },
   "GPU-ENVIRONMENT.md": {
     "ko": "CPU 사이트와 분리된 로컬 GPU 환경에서 Pythia 70M·160M·410M cache와 실험을 준비한다. activation·patching·checkpoint 실행 순서와 VRAM·시간 상한을 확인한다.",
     "en": "Prepare a separate local GPU environment and pinned Pythia 70M, 160M, and 410M caches. Follow activation, patching, and checkpoint experiments with memory and time limits."

@@ -55,7 +55,7 @@ try {
 
     foreach ($Language in @("ko", "en")) {
         & node "tests/analytics_runtime.cjs" ".build/$Language/site/index.html"
-        if ($LASTEXITCODE -ne 0) { throw "$Language 방문 통계 모의 검사가 실패했습니다." }
+        if ($LASTEXITCODE -ne 0) { throw "$Language GA4 제거·Cloudflare 공개 주소 제한 검사가 실패했습니다." }
     }
 }
 finally {

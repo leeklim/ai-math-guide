@@ -30,6 +30,7 @@ class AnalyticsConfigTests(unittest.TestCase):
         cls.templates = Environment(
             loader=FileSystemLoader([cls.overrides, material_templates]),
         )
+        cls.templates.filters["url"] = lambda value: value
 
     def render(self, template: str, config: dict | None = None) -> str:
         return self.templates.get_template(template).render(
@@ -37,64 +38,59 @@ class AnalyticsConfigTests(unittest.TestCase):
             lang=SimpleNamespace(t=lambda key: key),
         )
 
-    def test_public_measurement_and_override_are_configured(self) -> None:
+    def test_public_site_has_no_google_analytics_or_consent_configuration(self) -> None:
         self.assertEqual(self.config["site_url"], "https://leeklim.github.io/ai-math-guide/")
-        self.assertEqual(
-            self.config["extra"]["analytics"],
-            {
-                "provider": "google",
-                "property": "G-VXDGRXQFT3",
-                "public_url": "https://leeklim.github.io/ai-math-guide/",
-            },
-        )
+        self.assertNotIn("analytics", self.config["extra"])
+        self.assertNotIn("consent", self.config["extra"])
         self.assertEqual(self.overrides, ROOT / "site" / "overrides")
-        self.assertTrue((self.overrides / "partials/integrations/analytics/google.html").is_file())
+        self.assertFalse((self.overrides / "partials/integrations/analytics/google.html").exists())
         self.assertFalse((self.overrides / "partials/integrations/analytics.html").exists())
 
-    def test_consent_is_opt_in_and_can_be_reopened_or_rejected(self) -> None:
-        consent = TagCollector()
-        consent.feed(self.render("partials/consent.html"))
-        analytics_inputs = [
-            attrs for tag, attrs in consent.tags
-            if tag == "input" and attrs.get("name") == "analytics"
-        ]
-        self.assertEqual(len(analytics_inputs), 1)
-        self.assertNotIn("checked", analytics_inputs[0])
-        buttons = [attrs for tag, attrs in consent.tags if tag == "button"]
-        self.assertEqual(len(buttons), 2)
-        self.assertEqual(sum(attrs.get("type") == "reset" for attrs in buttons), 1)
-        self.assertEqual(sum(attrs.get("type", "submit") == "submit" for attrs in buttons), 1)
+    def test_cloudflare_uses_fixed_public_address_and_public_beacon_token(self) -> None:
+        settings = self.config["extra"]["cloudflare_web_analytics"]
+        self.assertEqual(settings["public_url"], "https://leeklim.github.io/ai-math-guide/")
+        self.assertRegex(settings["token"], r"^[0-9a-f]{32}$")
+        script = self.render("partials/cloudflare-web-analytics.html")
+        self.assertIn('id="__cloudflare_web_analytics"', script)
+        self.assertIn('https://static.cloudflareinsights.com/beacon.min.js', script)
+        self.assertIn('script.type = "module"', script)
 
+    def test_missing_cloudflare_token_disables_loader(self) -> None:
+        config = dict(self.config, extra={"cloudflare_web_analytics": {"token": ""}})
+        self.assertEqual(self.render("partials/cloudflare-web-analytics.html", config).strip(), "")
+
+    def test_preview_url_rewrite_does_not_change_cloudflare_guard(self) -> None:
+        preview = dict(self.config, site_url="http://127.0.0.1:8005/ai-math-guide/")
+        self.assertEqual(
+            self.render("partials/cloudflare-web-analytics.html", preview),
+            self.render("partials/cloudflare-web-analytics.html"),
+        )
+
+    def test_bilingual_footer_links_to_privacy_without_consent_controls(self) -> None:
+        for language, label in (("ko", "개인정보·통계 안내"), ("en", "Privacy & Analytics")):
+            with self.subTest(language=language):
+                config = dict(self.config, theme=dict(self.config["theme"], language=language))
+                html = self.templates.get_template("partials/footer.html").render(
+                    config=config, features=[], lang=SimpleNamespace(t=lambda key: key),
+                    page=SimpleNamespace(meta={}, previous_page=None, next_page=None),
+                )
+                self.assertIn('href="privacy/"', html)
+                self.assertIn(label, html)
+                self.assertNotIn("__consent", html)
+
+    def test_footer_has_no_obsolete_consent_settings_link(self) -> None:
         footer = TagCollector()
         footer.feed(self.render("partials/copyright.html"))
-        self.assertTrue(any(
+        self.assertFalse(any(
             tag == "a" and attrs.get("href") == "#__consent"
             for tag, attrs in footer.tags
         ))
 
-    def test_rendered_analytics_uses_public_id_without_search_or_manual_page_views(self) -> None:
-        rendered = self.render("partials/integrations/analytics.html")
-        self.assertIn('const canonical = new URL("https://leeklim.github.io/ai-math-guide/")', rendered)
-        self.assertIn('const measurementId = "G-VXDGRXQFT3"', rendered)
-        self.assertIn("https://www.googletagmanager.com/gtag/js?id=", rendered)
-        self.assertEqual(rendered.count('window.gtag("config",'), 1)
-        self.assertNotIn("search_term", rendered)
-        self.assertNotIn('"blur"', rendered)
-        self.assertNotIn("page_view", rendered)
-        self.assertNotIn("location$.subscribe", rendered)
-        self.assertNotIn("{{", rendered)
-
-    def test_preview_site_url_cannot_change_the_public_analytics_guard(self) -> None:
-        preview_config = dict(self.config, site_url="http://127.0.0.1:8001/ai-math-guide/")
-        rendered = self.render("partials/integrations/analytics.html", preview_config)
-        self.assertIn('const canonical = new URL("https://leeklim.github.io/ai-math-guide/")', rendered)
-        self.assertNotIn("127.0.0.1", rendered)
-
-    def test_native_outer_partial_keeps_initialization_consent_gated(self) -> None:
-        rendered = self.render("partials/integrations/analytics.html")
-        self.assertIn('var consent=__md_get("__consent")', rendered)
-        self.assertIn("consent&&consent.analytics&&__md_analytics()", rendered)
-        self.assertNotIn('<script>"undefined"!=typeof __md_analytics&&__md_analytics()', rendered)
+    def test_google_analytics_partial_renders_nothing_on_public_and_local_urls(self) -> None:
+        for url in (self.config["site_url"], "http://127.0.0.1:8001/ai-math-guide/"):
+            with self.subTest(url=url):
+                config = dict(self.config, site_url=url)
+                self.assertEqual(self.render("partials/integrations/analytics.html", config).strip(), "")
 
 
 if __name__ == "__main__":

@@ -52,3 +52,21 @@
 ## 다음 작업
 
 필수 구현·보존·통합검사·공개배포·실제 사후검증·GA4 수신·Search Console 인증/제출 작업은 완료했다. 사이트 산출물을 바꾸지 않는 최종 기록만 `[skip ci]` 커밋으로 main에 정상 push한다. Google sitemap 보고서의 `Couldn't fetch` 상태는 남아 있으며 원인을 확정하지 않았다. 두 XML의200응답과 Google Live Test 접근은 통과했으므로 가져오기/색인 완료나 향후 처리 시점을 약속하지 않는다. 검색 순위·방문자 증가·색인 날짜는 이 Goal의 완료 조건이 아니다.
+
+## GA4와 첫 방문 동의창 제거 (2026-10-08)
+
+- 사용자 요청에 따라 공통 GA4·동의 설정, Google provider override와 한영 하단 동의 설정 링크를 제거했다. 영어 설정 생성의 consent 직접 접근과 동의 fragment의 무조건 허용 예외도 제거했다. 검색·언어 전환·테마 저장 범위·Search Console 인증은 유지한다. 단원 원고·문제/해설·그림·실습 파일은 변경하지 않았다.
+- 기존 GA4 검사와 로컬/CI 호출을 비수집·동의창 부재 검사로 바꿨다. 제거 전 회귀검사의 실패를 확인했고, 수정 뒤 기본 설정/템플릿 검사는 통과했다. 최초 관련 단원 검사에서 임시 폴더 권한 오류가 발생해 프로젝트 `.build/ga4-removal-temp`를 해당 검사 프로세스의 임시 경로로 지정했다. 이후 `build_site.ps1`의 Python 검사185개 중184개 통과·선택 GPU1개 skip, 번역205건 verified·stale0, figure/concept/source/reading audit와 한영 strict build를 통과했다. 새 모델·GPU 실험·그림 재생성은 실행하지 않았다.
+- 생성한 KO/EN HTML 각206개에서 GA4 initializer·태그/ID·동의창·하단 설정 링크 부재를 확인했다. 로컬 한영 첫 화면에서도 동의 UI와 Google tag가 각각0개였고 본문이 보였다. 화면 근거는 `.build/release-proof/no-consent-ko.jpg`와 `no-consent-en.jpg`에 저장했다. 샌드박스 안의 preview 연결 오류 뒤 해당 검수 서버를 종료하고 생성 교재만127.0.0.1에서 제공하는 서버로 확인했다.
+- `build_site.ps1` 전체 실행이 exit0으로 끝났다. 양언어199개 단원·문제/해설1,154쌍을 유지했고 locale/최종 병합 링크·자산 오류0건, 동의/GA 태그 부재 검사 각206페이지 통과를 확인했다. 기록 문서 갱신은 웹 산출물에 영향을 주지 않아 검사를 다시 실행하지 않았다. 로컬 검수 주소는 `http://127.0.0.1:8005/ai-math-guide/`와 대응 `/en/`이다.
+- 공개 배포는 사용자 응답 대기이며 원격 push·배포는 실행하지 않았다. 대체 접속 집계는 연결하지 않았고 GA4 계정·과거 데이터·기존 Google 쿠키는 삭제하지 않았다. 앞선2026-10-07 기록은 당시 GA4를 사용하던 상태의 이력으로 유지한다.
+
+## Cloudflare 집계·한영 안내 연결 (2026-10-08)
+
+- 사용자가 가입한 Cloudflare 계정의 Web Analytics에 `leeklim.github.io`를 등록했다. 공개 beacon token을 공통 설정에 연결했으며 API 비밀키·DNS·호스팅·결제 설정은 변경하지 않았다. 태그는 정확한 HTTPS 공개 origin과 `/ai-math-guide/` 경로에서만 한 번 로드된다. 로컬·다른 호스트·유사 경로는 수집하지 않는다.
+- 한국어 `PRIVACY.md`와 대응 영어를 추가하고 전 페이지 하단에 해당 언어의 안내 링크를 연결했다. Visits와 고유 인원 수의 차이, 조회·성능 통계, 전송·차단에 따른 누락, 브라우저 환경설정과 외부 서비스 요청을 고지한다. 쿠키 미사용을 모든 국가의 법적 면제나 데이터 전송 부재로 설명하지 않는다. Google Fonts 요청은 GA4와 구분해 고지했다.
+- 독립 검토자가 한영 의미 대응과 실제 config/template/inventory/test diff를 검토했다. 단원 원고·문제/해설·그림·실습 변경은 없으며 무관한 미추적 두 폴더는 보존한다. 사용자는 검증 후 GA4·동의창 제거와 Cloudflare·안내 변경을 함께 main에 push하고 공개 배포하도록 명시 승인했다.
+- Python unittest189개 중188개 통과·선택 GPU1개 skip. 양언어 source audit/English-reading lint와 strict HTML build 통과(KO16.17초, EN17.08초). 저장 그림 audit1,355개와 concept audit976개 통과. 생성 HTML 검사 각207파일에서 GA4·동의 UI 부재와 언어별 안내 링크를 확인하고, 공개/로컬/유사 경로 및 중복 로드10조건을 네트워크 없는 모의검사로 확인했다.
+- 실제 로컬 KO/EN 안내 페이지의 본문·외부 링크·footer·줄바꿈을 확인했다. 동의 UI·Google tag·로컬 Cloudflare tag·가로 넘침은 각각0이었다. desktop 화면은 `.build/release-proof/cloudflare-notice-ko.jpg`와 `cloudflare-notice-en.jpg`에 저장했다. 신규 안내의 번역 대장을 verified로 기록했으며 공개 문서는 언어별206개다. 새 모델·GPU 실험·그림 재생성은 수행하지 않았다.
+- 배포 전 등록 대시보드는 GMT+9·Last24hours·bot 제외에서 Visits/Page views0을 표시했다. 이는 공개 태그 배포 전 상태이며 수신 완료를 뜻하지 않는다. 한영 통합 검증·공개 배포·실제 수신 확인을 이어간다.
+- KO/EN 각각의 전체 생성물 검증을 통과했다. 각199단원·1,154해설·reading table199개, 링크/자산 오류와 점검표 노출0건이다. 언어 간 최종 링크 검사는 로컬에서 계속하며 GitHub에서도 동일한 최종 검증이 배포 선행 조건이므로 승인된 main push와 CI를 병렬로 진행한다. 이 단계는 공개 배포 성공이나 실제 통계 수신 완료로 기록하지 않는다.

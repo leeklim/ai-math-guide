@@ -78,7 +78,7 @@ jobs:
       - name: Validate generated site
         run: python scripts/site.py merge
 
-      - name: Test analytics runtime guards
+      - name: Verify GA4 removal and production-only Cloudflare analytics
         run: |
           node tests/analytics_runtime.cjs .build/ko/site/index.html
           node tests/analytics_runtime.cjs .build/en/site/index.html

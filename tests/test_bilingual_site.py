@@ -46,15 +46,15 @@ class BilingualSiteTests(unittest.TestCase):
         with self.assertRaises(site.SiteError):
             site.select_language("ko", allow_partial=True)
 
-    def test_english_config_preserves_consent_scope_and_public_analytics_guard(self) -> None:
+    def test_english_config_preserves_settings_scope_without_analytics_or_consent(self) -> None:
         site.select_language("en", allow_partial=True)
         config = site.localized_config()
         self.assertEqual(config["theme"]["language"], "en")
         self.assertEqual(config["site_url"], site.PUBLIC_ROOT + "en/")
         self.assertEqual(config["extra"]["scope"], site.PUBLIC_PATH)
-        self.assertEqual(config["extra"]["analytics"]["public_url"], site.PUBLIC_ROOT)
-        self.assertEqual(config["extra"]["analytics"]["property"], "G-VXDGRXQFT3")
-        self.assertFalse(config["extra"]["consent"]["cookies"]["analytics"]["checked"])
+        self.assertNotIn("analytics", config["extra"])
+        self.assertNotIn("consent", config["extra"])
+        self.assertNotIn("#__consent", config.get("copyright", ""))
         self.assertTrue(config["extra"]["bilingual"]["partial_preview"])
         self.assertEqual((site.CONFIG_PATH.parent / config["theme"]["custom_dir"]).resolve(), site.ROOT / "site" / "overrides")
 

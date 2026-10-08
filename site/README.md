@@ -15,21 +15,17 @@
 
 preview는 병합 HTML만127.0.0.1에서 정적으로 제공한다. 한국어는 `http://127.0.0.1:8003/ai-math-guide/`, 영어는 `http://127.0.0.1:8003/ai-math-guide/en/`이다. `-SkipBuild`는 이미 생성된 HTML을 읽는 옵션이므로 Markdown 수정은 자동 반영되지 않는다. 원문 수정 뒤에는 대응 영문을 대조 검토해 stale를 해소하고 다시 빌드한 후 페이지를 새로고침한다. 이미8003 포트가 사용 중이면 다른 포트를 지정한다.
 
-한영 GA4 동의 scope는 같으며 로컬 수집은 차단된다. Node.js의 `node tests/analytics_runtime.cjs .build/ko/site/index.html`과 대응 영어 경로 검사로 양언어를 각각 확인한다. 실제 Google 수신은 영문판 공개 승인·배포 뒤에 확인하며 모의 검사 통과와 구분한다.
+Node.js의 `node tests/analytics_runtime.cjs .build/ko/site/index.html`과 대응 영어 경로 검사로 양언어 HTML의 GA4·동의창 부재, 개인정보 안내 링크, Cloudflare 공개 주소 제한과 중복 초기화를 확인한다. 모의검사에서는 외부 통계 요청을 보내지 않는다.
 
-## 방문 통계 (GA4)
+## 방문 통계 및 첫 방문 화면 (2026-10-08)
 
-GA4 측정 ID는 `G-VXDGRXQFT3`이며 `mkdocs.base.yml`에서 관리한다. 측정 ID는 공개 페이지의 태그에 포함되는 식별자이며 비밀번호나 API secret이 아니다. 2026-10-07 [한국어판 홈페이지](https://leeklim.github.io/ai-math-guide/) 공개 배포와 GA4 실시간 수신 확인을 완료했다. 아래 완료 기록에 배포 commit과 검수 범위를 남긴다.
+사용자는 첫 방문 동의창을 제거하고 접속 횟수만 확인하는 방식을 요청했다. `mkdocs.base.yml`의 GA4·동의 설정, Google 태그를 불러오는 사용자 템플릿과 한영 하단 설정 링크를 제거했다. 변경한 로컬 사이트는 방문 통계 동의를 묻지 않으며 Google Analytics 요청을 시작하지 않는다.
 
-공개 주소 `https://leeklim.github.io/ai-math-guide/` 아래에서 방문자가 통계 항목을 체크하고 동의한 뒤에만 Google 태그를 불러온다. 로컬 preview, HTTP, 다른 호스트와 다른 저장소 경로에서는 통계를 보내지 않는다. 방문자는 하단의 `통계 쿠키 설정`에서 동의를 바꾸거나 거부할 수 있다. 거부 뒤에는 추가 수집을 시작하지 않으며 기존 Google 쿠키와 이미 수집한 데이터를 자동 삭제하지는 않는다.
+Cloudflare Web Analytics의 `leeklim.github.io` 사이트를 등록하고 로컬 소스에 공개 beacon token을 연결했다. loader는 고정 공개 origin과 `/ai-math-guide/` 경로에서만 실행하므로 localhost 검수와 다른 저장소 페이지를 집계하지 않는다. 양언어 `PRIVACY.md`와 페이지 하단 링크에서 Visits·조회·성능 지표와 외부 서비스 이용을 설명한다. 사용자 경험을 막는 동의창은 추가하지 않는다. 공개 배포와 실제 데이터 수신은 별도 검증 전까지 완료로 기록하지 않는다.
 
-`overrides/partials/integrations/analytics/google.html`은 공개 주소·동의 여부를 확인하고 페이지마다 Google 태그를 한 번만 초기화한다. 현재의 일반 페이지 이동을 기준으로 하며 `navigation.instant`는 사용하지 않는다. 검색창 blur 이벤트를 보내지 않고 페이지 주소와 유입 주소에서 query와 hash를 제외한다. Google signals와 광고 개인 최적화 신호도 사용하지 않는다.
+Cloudflare는 Web Analytics에 쿠키·localStorage·개인 지문을 사용하지 않는다고 설명한다. 이 기술 확인을 모든 지역의 법적 준수 보장으로 해석하지 않는다. 사이트에 개인 식별·광고 기능을 추가하면 수집 범위와 고지·동의 기준을 다시 확인한다. GA4 계정의 과거 통계와 방문자 브라우저에 남은 기존 Google 쿠키는 삭제하지 않는다. 언어 선택·검색·테마 설정과 Search Console 인증은 유지한다.
 
-허용 주소는 `extra.analytics.public_url`에서 관리한다. MkDocs preview는 `site_url`을 로컬 주소로 바꾸므로 그 값을 수집 허용 기준으로 사용하지 않는다. 도메인이나 저장소 경로를 바꾸면 두 주소를 함께 확인한다.
-
-연결 설정은 기존 Python unittest로 검사한다. Node.js가 있는 환경에서는 strict HTML build 뒤 프로젝트 루트에서 `node tests/analytics_runtime.cjs`로 공개·로컬 주소, 동의 여부와 중복 초기화를 검사할 수 있다. 이 검사는 DOM을 모의하므로 Google에 요청을 보내거나 방문 통계를 늘리지 않는다.
-
-배포 뒤 공개 페이지에서 동의하고 이동한 다음 GA4의 실시간 보고서에서 수신을 확인한다. 이후 사용자·세션·페이지별 조회 보고서를 확인할 수 있다. 동의 거부, 추적 차단과 같은 이유로 수집하지 못한 방문은 통계에서 빠지므로 실제 방문자 전체를 정확히 센 값으로 해석하지 않는다. 공식 설정은 [Material의 방문 통계 안내](https://squidfunk.github.io/mkdocs-material/setup/setting-up-site-analytics/)와 [동의창 안내](https://squidfunk.github.io/mkdocs-material/setup/ensuring-data-privacy/)를 참고한다.
+아래 2026-10-07 기록은 GA4를 사용하던 당시의 검증 이력이다. 이번 제거 변경의 검사와 배포 상태는 `revision/site-release-progress.md`에 남긴다.
 
 ## 연결 검증 기록 (2026-10-07)
 

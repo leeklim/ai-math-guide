@@ -82,6 +82,7 @@ def translation_inventory() -> dict[str, str]:
         "GLOSSARY": "04-GLOSSARY.md",
         "N05-ARCHITECTURE": "05-N05-ARCHITECTURE-BASELINE.md",
         "N05-ENVIRONMENT": "N05-ENVIRONMENT.md", "GPU-ENVIRONMENT": "GPU-ENVIRONMENT.md",
+        "PRIVACY": "PRIVACY.md",
     })
     return documents
 

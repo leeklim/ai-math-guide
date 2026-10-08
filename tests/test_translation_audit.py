@@ -35,10 +35,10 @@ class TranslationAuditTests(unittest.TestCase):
             CONCEPTS.record_translation("M00-01", "reviewed", "independent-reviewer", "Conditions and examples compared.")
         return CONCEPTS.record_translation("M00-01", status, "independent-reviewer", "Conditions and examples compared.")
 
-    def test_source_inventory_has_199_lessons_and_six_reader_documents(self) -> None:
+    def test_source_inventory_has_199_lessons_and_seven_reader_documents(self) -> None:
         with patch.object(CONCEPTS, "ROOT", ROOT):
             documents = REAL_INVENTORY()
-            self.assertEqual(len(documents), 205)
+            self.assertEqual(len(documents), 206)
             self.assertEqual(sum(path.startswith("part-") for path in documents.values()), 199)
 
     def test_existing_file_is_not_automatically_reviewed(self) -> None:

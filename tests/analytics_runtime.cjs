@@ -1,64 +1,73 @@
-// Run after a strict HTML build: node tests/analytics_runtime.cjs [HTML file]
+// Verify GA4/banner removal and the production-only Cloudflare loader.
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 const vm = require("node:vm");
 
-const html = fs.readFileSync(process.argv[2] || path.join(__dirname, "../.build/site/index.html"), "utf8");
-const source = html.match(/<script id="__analytics">([\s\S]*?)<\/script>/)[1];
-let checks = 0;
-
-function check(url, consent, expected, scriptSource = source) {
-  const scripts = [];
-  const context = {
-    URL,
-    location: new URL(url),
-    window: {},
-    __md_get: () => consent,
-    document: {
-      referrer: "https://example.org/from?private=value#section",
-      querySelector: () => scripts[0] || null,
-      createElement: () => ({ dataset: {} }),
-      getElementById: () => ({ insertAdjacentElement: (_, element) => scripts.push(element) })
-    }
-  };
-  vm.runInNewContext(scriptSource + "\n__md_analytics(); __md_analytics();", context);
-  assert.equal(scripts.length, expected ? 1 : 0, url + " script count");
-  if (expected) {
-    assert.equal(scripts[0].src, "https://www.googletagmanager.com/gtag/js?id=G-VXDGRXQFT3");
-    assert.equal(scripts[0].async, true);
-    const calls = context.window.dataLayer.map((args) => Array.from(args));
-    assert.equal(calls.length, 2, "one js call and one config call, including repeated initialization");
-    assert.equal(calls[1][0], "config");
-    assert.equal(calls[1][1], "G-VXDGRXQFT3");
-    assert.equal(calls[1][2].page_location, context.location.origin + context.location.pathname);
-    assert.equal(calls[1][2].page_referrer, "https://example.org/from");
-    assert.equal(calls[1][2].allow_google_signals, false);
-    assert.equal(calls[1][2].allow_ad_personalization_signals, false);
-  } else {
-    assert.equal(context.window.dataLayer, undefined, "blocked contexts must not initialize analytics");
-  }
-  checks++;
+const root = path.dirname(process.argv[2] || path.join(__dirname, "../.build/bilingual/site/index.html"));
+function htmlFiles(directory) {
+  return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const file = path.join(directory, entry.name);
+    return entry.isDirectory() ? htmlFiles(file) : entry.name.endsWith(".html") ? [file] : [];
+  });
 }
 
-const publicUrl = "https://leeklim.github.io/ai-math-guide/";
-check(publicUrl, { analytics: true }, true);
-check(publicUrl + "part-1-foundations/M00/M00-01-symbols/?q=private#section", { analytics: true }, true);
-check(publicUrl + "en/", { analytics: true }, true);
-check(publicUrl + "en/part-2-neural-computation/N05/N05-15-causal-scaled-dot-product-attention/?q=private#section", { analytics: true }, true);
-check(publicUrl + "en/", undefined, false);
-check(publicUrl + "en/", { analytics: false }, false);
-check(publicUrl, undefined, false);
-check(publicUrl, {}, false);
-check(publicUrl, { analytics: false }, false);
-check(publicUrl, { analytics: "true" }, false);
-check("http://127.0.0.1:8001/ai-math-guide/", { analytics: true }, false);
-check("http://127.0.0.1:8003/ai-math-guide/en/", { analytics: true }, false);
-check("http://localhost:8001/ai-math-guide/", { analytics: true }, false);
-check("http://leeklim.github.io/ai-math-guide/", { analytics: true }, false);
-check("https://example.org/ai-math-guide/", { analytics: true }, false);
-check("https://leeklim.github.io/another-repo/", { analytics: true }, false);
-check("https://leeklim.github.io/ai-math-guide-copy/", { analytics: true }, false);
-check(publicUrl, { analytics: true }, false, source.replace("G-VXDGRXQFT3", ""));
-check(publicUrl, { analytics: true }, false, source.replace("G-VXDGRXQFT3", "UA-123456"));
-console.log(`GA4 runtime checks passed: ${checks} (mocked DOM; no Google requests)`);
+const pages = htmlFiles(root);
+assert.ok(pages.length > 0, "built HTML is required");
+for (const file of pages) {
+  const html = fs.readFileSync(file, "utf8");
+  assert.doesNotMatch(html, /<script\b[^>]*\bid\s*=\s*["']__analytics["']/i, file + " analytics initializer");
+  assert.doesNotMatch(html, /googletagmanager\.com|google-analytics\.com|G-VXDGRXQFT3|data-mmi-analytics/i, file + " Google analytics tag");
+  assert.doesNotMatch(html, /data-md-component\s*=\s*["']consent["']/i, file + " consent banner");
+  assert.doesNotMatch(html, /\bid\s*=\s*["']__consent["']|\bhref\s*=\s*["']#__consent["']/i, file + " consent control");
+  const privacyLink = html.match(/class="site-privacy-link"\s+href="([^"]+)"/);
+  assert.ok(privacyLink, file + " privacy footer");
+  const english = /<html lang="en"/.test(html);
+  const publicRoot = "https://leeklim.github.io/ai-math-guide/" + (english ? "en/" : "");
+  const relative = path.relative(root, file).split(path.sep).join("/");
+  const suffix = english && relative.startsWith("en/") ? relative.slice(3) : relative;
+  assert.equal(
+    new URL(privacyLink[1], publicRoot + suffix).href,
+    publicRoot + "privacy/",
+    file + " locale privacy destination",
+  );
+  assert.match(html, /id="__cloudflare_web_analytics"/, file + " Cloudflare loader");
+}
+
+const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
+const loader = html.match(/<script id="__cloudflare_web_analytics">([\s\S]*?)<\/script>/)[1];
+let runtimeChecks = 0;
+for (const [address, expected] of [
+  ["https://leeklim.github.io/ai-math-guide/", 1],
+  ["https://leeklim.github.io/ai-math-guide", 1],
+  ["https://leeklim.github.io/ai-math-guide/en/privacy/", 1],
+  ["http://127.0.0.1:8005/ai-math-guide/", 0],
+  ["http://localhost:8005/ai-math-guide/en/", 0],
+  ["http://[::1]:8005/ai-math-guide/", 0],
+  ["http://leeklim.github.io/ai-math-guide/", 0],
+  ["https://example.com/ai-math-guide/", 0],
+  ["https://leeklim.github.io/other-repo/", 0],
+  ["https://leeklim.github.io/ai-math-guide-other/", 0],
+]) {
+  const nodes = [];
+  const context = vm.createContext({
+    URL,
+    window: { location: new URL(address) },
+    document: {
+      getElementById: (id) => nodes.find((node) => node.id === id),
+      createElement: () => ({ attributes: {}, setAttribute(name, value) { this.attributes[name] = value; } }),
+      body: { appendChild: (node) => nodes.push(node) },
+    },
+  });
+  vm.runInContext(loader, context);
+  vm.runInContext(loader, context);
+  assert.equal(nodes.length, expected, address + " production scope/deduplication");
+  if (expected) {
+    assert.equal(nodes[0].src, "https://static.cloudflareinsights.com/beacon.min.js");
+    assert.equal(nodes[0].type, "module");
+    assert.equal(nodes[0].async, true);
+    assert.match(JSON.parse(nodes[0].attributes["data-cf-beacon"]).token, /^[0-9a-f]{32}$/);
+  }
+  runtimeChecks++;
+}
+console.log(`GA4/consent absence and privacy links passed: ${pages.length} HTML files; Cloudflare scope/deduplication: ${runtimeChecks} checks (no network requests)`);
